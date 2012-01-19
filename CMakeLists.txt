@@ -23,5 +23,6 @@ add_project(qt)
 add_project(numpy)
 add_project(boost)
 
-# TODO: remember to tell VTK/ParaView to use SYSTEM_* for the 
+# REMEMBER to tell VTK/ParaView to use VTK_SYSTEM_* for the
 # libraries we've built here.
+add_project(paraview)
