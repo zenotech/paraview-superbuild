@@ -9,5 +9,5 @@ ExternalProject_Add(
   CMAKE_ARGS
     -DCMAKE_INSTALL_PREFIX:PATH=${internal_install_root}
     -DPNG_TESTS:BOOL=OFF
-    -DCMAKE_PREFIX_PATH=${internal_install_root}
+    -DCMAKE_PREFIX_PATH:PATH=${internal_install_root}
   )
