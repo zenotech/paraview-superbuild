@@ -1,0 +1,19 @@
+
+ExternalProject_Add(boost
+  PREFIX boost
+  URL "http://www.vtk.org/files/support/boost-1.45.0-cmake.tar.gz"
+  URL_MD5 1e506d26d8a74fa46050ab0ce19101cd
+  DOWNLOAD_DIR ${CMAKE_CURRENT_BINARY_DIR}/downloads
+  CMAKE_ARGS
+    -DCMAKE_PREFIX_PATH:PATH=${internal_install_root}
+    -DCMAKE_INSTALL_PREFIX:PATH=${internal_install_root}
+    -DBUILD_EXAMPLES:BOOL=OFF
+    -DBUILD_TESTING:BOOL=OFF
+    -DBUILD_VERSIONED:BOOL=OFF
+    -DENABLE_STATIC:BOOL=OFF
+    -DINSTALL_VERSIONED:BOOL=OFF
+    -DPNG_TESTS:BOOL=OFF
+    -DWINMANGLE_LIBNAMES:BOOL=ON
+    -DWITH_MPI:BOOL=OFF
+    -DWITH_PYTHON:BOOL=OFF
+)

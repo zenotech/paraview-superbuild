@@ -16,3 +16,12 @@ add_project(szip)
 add_project(hdf5)
 add_project(silo)
 add_project(cgns)
+add_project(ffmpeg)
+add_project(libxml2)
+add_project(fontconfig)
+add_project(qt)
+add_project(numpy)
+add_project(boost)
+
+# TODO: remember to tell VTK/ParaView to use SYSTEM_* for the 
+# libraries we've built here.
