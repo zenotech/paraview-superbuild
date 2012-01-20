@@ -24,5 +24,9 @@ ExternalProject_Add(paraview
     -DVTK_USE_SYSTEM_LIBXML2:BOOL=ON
     -DVTK_USE_SYSTEM_PNG:BOOL=ON
     -DVTK_USE_SYSTEM_ZLIB:BOOL=ON
+    # we are doing this since VTK_USE_SYSTEM_HDF5 doesn't seem set the include
+    # paths for HDF5 correctly.
+    -DCMAKE_CXX_FLAGS:STRING=${cppflags}
+    -DCMAKE_C_FLAGS:STRING=${cppflags}
   INSTALL_COMMAND ""
 )
