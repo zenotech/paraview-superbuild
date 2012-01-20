@@ -7,20 +7,19 @@ ExternalProject_Add(
   DOWNLOAD_DIR ${CMAKE_CURRENT_BINARY_DIR}/downloads
   CONFIGURE_COMMAND <SOURCE_DIR>/configure
                     -prefix ${internal_install_root}
-                    -no-dbus
-                    -no-javascript-jit
-                    -no-openssl
-                    -no-script
-                    -no-scripttools
-                    -no-xinerama
-                    -no-phonon
-                    -no-multimedia
                     -no-audio-backend
+                    -no-dbus
+                    -nomake demos
+                    -nomake examples
+                    -no-multimedia
+                    -no-openssl
+                    -no-phonon
+                    -no-xinerama
                     -opensource
-                    -system-libpng
-                    -system-zlib
                     -qt-libjpeg
                     -qt-libtiff
+                    -system-libpng
+                    -system-zlib
                     -webkit
                     -xmlpatterns
                     -I ${internal_install_root}/include
