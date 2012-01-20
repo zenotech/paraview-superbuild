@@ -1,15 +1,10 @@
-ExternalProject_Add(numpy
-  PREFIX numpy
+add_external_project(numpy
   DEPENDS python
   URL "http://fixme/numpy-1.6.1.tar.gz"
   URL_MD5 2bce18c08fc4fce461656f0f4dd9103e
-  DOWNLOAD_DIR ${CMAKE_CURRENT_BINARY_DIR}/downloads
-  CONFIGURE_COMMAND ""
+  CONFIGURE_COMMAND "pwd"
+  INSTALL_COMMAND "pwd"
   BUILD_IN_SOURCE 1
-  BUILD_COMMAND 
-    ${CMAKE_COMMAND}
-                     -DPREFIX:PATH=${internal_install_root}
-                     -DSOURCE_DIR:PATH=<SOURCE_DIR>
-                     -P ${CMAKE_CURRENT_SOURCE_DIR}/CMake/numpy.install 
-  INSTALL_COMMAND ""
+  BUILD_COMMAND
+    <INSTALL_DIR>/bin/python setup.py install --prefix=<INSTALL_DIR>
 )

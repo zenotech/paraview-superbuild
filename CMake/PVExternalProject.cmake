@@ -29,6 +29,21 @@ function (PVExternalProject_Add name)
   # check if we have a BUILD_COMMAND or CONFIGURE_COMMAND. 
   get_property(has_build_command TARGET pv-${name}
     PROPERTY _EP_BUILD_COMMAND SET)
+  if(NOT has_build_command)
+    # if no BUILD_COMMAND was specified, then the default build cmd is going to
+    # be used, but then too we want to environment to be setup correctly. So we
+    # obtain the default build command.
+    _ep_get_build_command(pv-${name} BUILD cmd)
+    if("${cmd}" MATCHES "^\\$\\(MAKE\\)")
+      # GNU make recognizes the string "$(MAKE)" as recursive make, so
+      # ensure that it appears directly in the makefile.
+      string(REGEX REPLACE "^\\$\\(MAKE\\)" "${CMAKE_MAKE_PROGRAM}" cmd "${cmd}")
+    endif()
+
+    set_property(TARGET pv-${name} PROPERTY _EP_BUILD_COMMAND "${cmd}")
+    set (has_build_command 1)
+  endif()
+
   get_property(has_configure_command TARGET pv-${name}
     PROPERTY _EP_CONFIGURE_COMMAND SET)
 
@@ -72,7 +87,8 @@ function (PVExternalProject_Add name)
     _ep_replace_location_tags(${name} step_command)
     configure_file(${CMAKE_CURRENT_LIST_DIR}/pep_configure.cmake.in
       ${CMAKE_CURRENT_BINARY_DIR}/pv-${name}-configure.cmake
-      @ONLY)
+      @ONLY
+      )
   endif()
 
   if (has_build_command)
