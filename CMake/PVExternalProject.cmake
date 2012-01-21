@@ -21,10 +21,11 @@ function (PVExternalProject_Add name)
   get_property(has_process_environment TARGET pv-${name}
     PROPERTY _EP_PROCESS_ENVIRONMENT SET)
   if (NOT has_process_environment)
-    ExternalProject_Add(${name} ${new_argn})
+    ExternalProject_Add(${name} ${ARGN})
     return()
   endif()
 
+  set (new_argn)
 
   # check if we have a BUILD_COMMAND or CONFIGURE_COMMAND. 
   get_property(has_build_command TARGET pv-${name}
@@ -42,12 +43,23 @@ function (PVExternalProject_Add name)
 
     set_property(TARGET pv-${name} PROPERTY _EP_BUILD_COMMAND "${cmd}")
     set (has_build_command 1)
+
+    # when we customize the build command, the install command gets overridden
+    # as well and we need to explicitly specify it too.
+    get_property(has_install_command TARGET pv-${name} PROPERTY
+    _EP_INSTALL_COMMAND SET)
+
+    if (NOT has_install_command)
+      _ep_get_build_command(pv-${name} INSTALL install_cmd)
+      if (install_cmd)
+        set (new_argn ${new_argn} INSTALL_COMMAND ${install_cmd})
+      endif()
+    endif()
   endif()
 
   get_property(has_configure_command TARGET pv-${name}
     PROPERTY _EP_CONFIGURE_COMMAND SET)
 
-  set (new_argn)
   if (has_configure_command)
     set(new_argn ${new_argn}
       CONFIGURE_COMMAND
