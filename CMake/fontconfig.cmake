@@ -9,6 +9,7 @@ add_external_project(
                     --disable-docs
                     --enable-libxml2
                     --enable-static=no
+                    --with-freetype-config=<INSTALL_DIR>/bin/freetype-config
   PROCESS_ENVIRONMENT
                     LIBXML2_CFLAGS -I<INSTALL_DIR>/include/libxml2
                     LIBXML2_LIBS -lxml2
