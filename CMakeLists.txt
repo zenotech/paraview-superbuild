@@ -70,6 +70,7 @@ add_project(manta DEFAULT_OFF)
 add_project(mpich2)
 add_project(mesa DEFAULT_OFF)
 
+SET (CMAKE_INSTALL_COMPONENT runtime)
 ## When building with Mesa and generating command line tools alone, 
 ## we provide the user with an option to use OSMesa.
 #dependent_option(ENABLE_OSMESA

@@ -57,5 +57,4 @@ add_external_project(paraview
     # this needs to be set (alas!) since FindFREETYPE.cmake doesn't respect
     # CMAKE_PREFIX_PATH
     -DFREETYPE_INCLUDE_DIR_FTHEADER:PATH=<INSTALL_DIR>/include/freetype2/
-  INSTALL_COMMAND ""
 )

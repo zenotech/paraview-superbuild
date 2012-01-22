@@ -38,7 +38,7 @@ function (PVExternalProject_Add name)
     if("${cmd}" MATCHES "^\\$\\(MAKE\\)")
       # GNU make recognizes the string "$(MAKE)" as recursive make, so
       # ensure that it appears directly in the makefile.
-      string(REGEX REPLACE "^\\$\\(MAKE\\)" "${CMAKE_MAKE_PROGRAM}" cmd "${cmd}")
+      string(REGEX REPLACE "^\\$\\(MAKE\\)" "${CMAKE_MAKE_PROGRAM} -j5" cmd "${cmd}")
     endif()
 
     set_property(TARGET pv-${name} PROPERTY _EP_BUILD_COMMAND "${cmd}")
