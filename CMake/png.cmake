@@ -10,4 +10,6 @@ add_external_project(
 #  URL_MD5 944b56a84b65d94054cc73d7ff965de8
   CMAKE_ARGS
     -DPNG_TESTS:BOOL=OFF
+    # VTK uses API that gets hidden when PNG_NO_STDIO is TRUE (default).
+    -DPNG_NO_STDIO:BOOL=OFF
   )

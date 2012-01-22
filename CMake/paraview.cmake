@@ -29,5 +29,8 @@ add_external_project(paraview
     -DVTK_USE_SYSTEM_LIBXML2:BOOL=${ENABLE_LIBXML2}
     -DVTK_USE_SYSTEM_PNG:BOOL=${ENABLE_PNG}
     -DVTK_USE_SYSTEM_ZLIB:BOOL=${ENABLE_ZLIB}
+    # this needs to be set (alas!) since FindFREETYPE.cmake doesn't respect
+    # CMAKE_PREFIX_PATH
+    -DFREETYPE_INCLUDE_DIR_FTHEADER:PATH=<INSTALL_DIR>/include/freetype2/
   INSTALL_COMMAND ""
 )
