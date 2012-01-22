@@ -4,7 +4,7 @@ if (${ENABLE_QT} AND NOT ${PV_COMMAND_LINE_TOOLS_ONLY})
 endif()
 
 add_external_project(paraview
-  DEPENDS zlib png python freetype hdf5 silo cgns ffmpeg libxml2 qt numpy boost manta
+  DEPENDS zlib png python freetype hdf5 silo cgns ffmpeg libxml2 qt numpy boost manta mpich2
 
   GIT_REPOSITORY git://paraview.org/ParaView.git
   GIT_TAG master
@@ -17,6 +17,7 @@ add_external_project(paraview
     -DPARAVIEW_BUILD_PLUGIN_Manta:BOOL=${ENABLE_MANTA}
     -DPARAVIEW_BUILD_QT_GUI:BOOL=${build_qt_gui}
     -DPARAVIEW_ENABLE_PYTHON:BOOL=${ENABLE_PYTHON}
+    -DPARAVIEW_USE_MPI:BOOL=${ENABLE_MPICH2}
     -DPARAVIEW_USE_VISITBRIDGE:BOOL=ON
     -DVISIT_BUILD_READER_CGNS:BOOL=${ENABLE_CGNS}
     -DVISIT_BUILD_READER_Silo:BOOL=${ENABLE_SILO}

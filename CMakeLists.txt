@@ -42,6 +42,7 @@ add_project(python)
 add_project(numpy DEPENDS python)
 add_project(boost)
 add_project(manta)
+add_project(mpich2)
 
 # REMEMBER to tell VTK/ParaView to use VTK_SYSTEM_* for the
 # libraries we've built here.
