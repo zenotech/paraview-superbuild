@@ -5,6 +5,7 @@ add_external_project(
   URL_MD5 8ac880cc07a130c39607b65efd5e1421
   CONFIGURE_COMMAND <SOURCE_DIR>/configure
                     -prefix <INSTALL_DIR>
+                    -confirm-license
                     -no-audio-backend
                     -no-dbus
                     -nomake demos
