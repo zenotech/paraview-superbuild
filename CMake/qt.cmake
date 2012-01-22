@@ -26,3 +26,6 @@ add_external_project(
                     -I <INSTALL_DIR>/include/fontconfig
                     -L <INSTALL_DIR>/lib
 )
+
+# if qt build fails due to missing QtCLucene, then simply restart make with
+# LD_LIBRARY_PATH set to include the <BINARY_DIR>/lib.
