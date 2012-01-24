@@ -23,6 +23,8 @@ add_external_project(
                     -I <INSTALL_DIR>/include/freetype2
                     -I <INSTALL_DIR>/include/fontconfig
                     -L <INSTALL_DIR>/lib
+  PROCESS_ENVIRONMENT
+    LD_LIBRARY_PATH "<BINARY_DIR>/lib"
 )
 
 # if qt build fails due to missing QtCLucene, then simply restart make with
