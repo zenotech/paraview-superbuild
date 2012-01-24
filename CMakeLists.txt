@@ -78,4 +78,6 @@ add_project(mesa DEFAULT_OFF)
 
 # REMEMBER to tell VTK/ParaView to use VTK_SYSTEM_* for the
 # libraries we've built here.
-add_project(paraview REQUIRED)
+#add_project(paraview REQUIRED)
+#add_project(paraview.bundle REQUIRED DEPENDS paraview)
+add_project(paraview.bundle REQUIRED)

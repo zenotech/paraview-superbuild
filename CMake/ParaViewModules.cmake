@@ -40,7 +40,7 @@ function(add_project name)
 
   string(TOUPPER ${name} UNAME)
   if (arg_REQUIRED)
-    set(ENABLE_${UNAME} ON)
+    set(ENABLE_${UNAME} ON CACHE INTERNAL "Project '${name}'" FORCE)
   else()
     if (NOT arg_DEFAULT_OFF)
       option(ENABLE_${UNAME} "Enable sub-project '${name}'" ON)
