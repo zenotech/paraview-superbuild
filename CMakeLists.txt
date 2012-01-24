@@ -1,6 +1,23 @@
 cmake_minimum_required(VERSION 2.8)
 project(ParaViewSuperBuild)
-set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
+set (platform)
+if (UNIX)
+  set (platform "unix")
+elseif (APPLE)
+  set (platform "apple")
+elseif (WIN32)
+  set (platform "win32")
+endif()
+
+set (CMAKE_MODULE_PATH
+  "${CMAKE_CURRENT_SOURCE_DIR}/CMake/${platform}"
+  "${CMAKE_CURRENT_SOURCE_DIR}/CMake/common"
+  "${CMAKE_CURRENT_SOURCE_DIR}/CMake"
+  ${CMAKE_MODULE_PATH}
+  )
+
+set (ParaViewSuperBuild_CMAKE_DIR
+  "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
 
 include (ParaViewModules)
 

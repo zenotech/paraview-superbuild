@@ -65,7 +65,9 @@ function(add_project name)
   endif()
 
   if (ENABLE_${UNAME})
-    include("${name}")
+    # check for platform specific file. It none exists, try the default file.
+    include("${name}" RESULT_VARIABLE rv)
+    message(STATUS "Using configuration ${rv}")
   else ()
     # add dummy target to dependencies work even with subproject is disabled.
     add_custom_target(${name})
