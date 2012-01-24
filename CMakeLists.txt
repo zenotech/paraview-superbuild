@@ -9,6 +9,8 @@ elseif (WIN32)
   set (platform "win32")
 endif()
 
+# Setup CMAKE_MODULE_PATH so that platform specific configurations are processed
+# before the generic ones.
 set (CMAKE_MODULE_PATH
   "${CMAKE_CURRENT_SOURCE_DIR}/CMake/${platform}"
   "${CMAKE_CURRENT_SOURCE_DIR}/CMake/common"
