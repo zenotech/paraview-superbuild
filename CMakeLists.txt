@@ -23,9 +23,13 @@ string (STRIP "${cflags}"  cflags)
 # Top-level options. These must be limited to a commonly used subset with
 # default values being used for building ParaView binaries.
 option(PV_COMMAND_LINE_TOOLS_ONLY
-  "Turn this on to build command lines tools alone." OFF)
+  "Turn this ON to build command lines tools alone." OFF)
 # If one wants to build command line tools w/o python or Qt, they should simply
 # turn off the sub-project's ENABLE_* flags.
+
+dependent_option(PV_WITHOUT_QT_SUPPORT
+  "Turn ON to build command-line tools without Qt." OFF
+  "PV_COMMAND_LINE_TOOLS_ONLY" OFF)
 
 add_project(zlib)
 add_project(png)
@@ -37,12 +41,21 @@ add_project(cgns DEPENDS hdf5)
 add_project(ffmpeg)
 add_project(libxml2)
 add_project(fontconfig DEPENDS libxml2)
-add_project(qt)
+if (NOT PV_WITHOUT_QT_SUPPORT)
+  add_project(qt)
+endif()
 add_project(python)
 add_project(numpy DEPENDS python)
 add_project(boost)
-add_project(manta)
+add_project(manta DEFAULT_OFF)
 add_project(mpich2)
+add_project(mesa DEFAULT_OFF)
+
+## When building with Mesa and generating command line tools alone, 
+## we provide the user with an option to use OSMesa.
+#dependent_option(ENABLE_OSMESA
+#  "Turn ON to enable Offscreen Mesa 3D support." OFF
+#  "ENABLE_MESA;PV_COMMAND_LINE_TOOLS_ONLY" OFF)
 
 # REMEMBER to tell VTK/ParaView to use VTK_SYSTEM_* for the
 # libraries we've built here.

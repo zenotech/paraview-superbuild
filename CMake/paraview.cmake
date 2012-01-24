@@ -1,11 +1,35 @@
 set (build_qt_gui)
 if (${ENABLE_QT} AND NOT ${PV_COMMAND_LINE_TOOLS_ONLY})
   set (build_qt_gui TRUE)
+else()
+  set (build_qt_gui FALSE)
 endif()
 
+set (dependencies
+  zlib png freetype hdf5 silo cgns ffmpeg libxml2 boost)
+
+if (ENABLE_PYTHON)
+  set (dependencies ${dependencies} python)
+endif()
+
+if (ENABLE_NUMPY)
+  set (dependencies ${dependencies} numpy)
+endif ()
+
+if (ENABLE_QT)
+  set (dependencies ${dependencies} qt)
+endif()
+
+if (ENABLE_MANTA)
+  set (dependencies ${dependencies} manta)
+endif()
+
+if (ENABLE_MPICH2)
+  set (dependencies ${dependencies} mpich2)
+endif ()
+
 add_external_project(paraview
-  #DEPENDS zlib png python freetype hdf5 silo cgns ffmpeg libxml2 qt numpy boost manta mpich2
-  DEPENDS zlib png python freetype hdf5 silo cgns ffmpeg libxml2 qt numpy boost mpich2
+  DEPENDS ${dependencies}
 
   GIT_REPOSITORY git://paraview.org/ParaView.git
   GIT_TAG master

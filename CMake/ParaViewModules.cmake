@@ -1,6 +1,40 @@
 include(PVExternalProject)
 include(CMakeParseArguments)
 
+# Function to provide an option only if a set of other variables are ON.
+# Example invocation:
+#
+#  dependent_option(USE_FOO "Use Foo" ON "USE_BAR;USE_ZOT" OFF)
+#
+# If both USE_BAR and USE_ZOT are true, this provides an option called
+# USE_FOO that defaults to ON.  Otherwise, it sets USE_FOO to OFF.  If
+# the status of USE_BAR or USE_ZOT ever changes, any value for the
+# USE_FOO option is saved so that when the option is re-enabled it
+# retains its old value.
+#
+function(dependent_option option doc default depends force)
+  if (${option}_ISSET MATCHES "^${option}_ISSET$")
+    set(${option}_AVAILABLE 1)
+    foreach (d ${depends})
+      if (NOT ${d})
+        set(${option}_AVAILABLE 0)
+      endif()
+    endforeach()
+
+    if (${option}_AVAILABLE)
+      option(${option} "${doc}" "${default}")
+      set(${option} "${${option}}" CACHE BOOL "${doc}" FORCE)
+    else ()
+      if(NOT ${option} MATCHES "^${option}$")
+        set(${option} "${${option}}" CACHE INTERNAL "${doc}")
+      endif ()
+      set (${option} ${force})
+    endif()
+  else()
+    set(${option} "${${option}_ISSET}")
+  endif() 
+endfunction()
+
 function(add_project name)
   cmake_parse_arguments(arg "REQUIRED;DEFAULT_OFF" "" "DEPENDS" ${ARGN})
 
