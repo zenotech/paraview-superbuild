@@ -56,5 +56,8 @@ add_external_project(paraview
     -DVTK_USE_SYSTEM_ZLIB:BOOL=${ENABLE_ZLIB}
     # this needs to be set (alas!) since FindFREETYPE.cmake doesn't respect
     # CMAKE_PREFIX_PATH
+    # this won't be needed once the fir for BUG #12688 makes it to master.
     -DFREETYPE_INCLUDE_DIR_FTHEADER:PATH=<INSTALL_DIR>/include/freetype2/
+
+    -DMANTA_BUILD:PATH=${ParaViewSuperBuild_BINARY_DIR}/manta/src/manta-build
 )
