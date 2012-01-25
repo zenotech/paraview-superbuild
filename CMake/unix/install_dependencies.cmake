@@ -43,3 +43,8 @@ endforeach()
 file(INSTALL ${resolved_prerequisites}
      DESTINATION ${target_root}
      USE_SOURCE_PERMISSIONS)
+file(INSTALL 
+     DESTINATION ${target_root}/../../doc)
+file(DOWNLOAD "http://paraview.org/files/v3.12/ParaView%20Users%20Guide%20v3.12.pdf"
+     ${target_root}/../../doc/ParaViewUsersGuide.v3.14.pdf
+     SHOW_PROGRESS)
