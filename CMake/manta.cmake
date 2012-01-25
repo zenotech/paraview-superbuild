@@ -1,8 +1,6 @@
 add_external_project(
   manta
   DEPENDS libxml2 zlib
-  URL "http://paraview.org/files/misc/manta-r2439.tar.gz"
-  URL_MD5 fbf4107fe2f6d7e8a5ae3dda71805bdc
   CMAKE_ARGS
     -DBUILD_SHARED_LIBS:BOOL=OFF
     -DBUILD_TESTING:BOOL=OFF

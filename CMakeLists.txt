@@ -22,6 +22,7 @@ set (ParaViewSuperBuild_CMAKE_DIR
   "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
 
 include (ParaViewModules)
+include (${CMAKE_CURRENT_SOURCE_DIR}/versions.cmake)
 
 set (install_location "${CMAKE_CURRENT_BINARY_DIR}/install")
 set (download_location "${CMAKE_CURRENT_BINARY_DIR}/downloads")
@@ -79,6 +80,6 @@ SET (CMAKE_INSTALL_COMPONENT runtime)
 
 # REMEMBER to tell VTK/ParaView to use VTK_SYSTEM_* for the
 # libraries we've built here.
-#add_project(paraview REQUIRED)
-#add_project(paraview.bundle REQUIRED DEPENDS paraview)
+add_project(paraview REQUIRED)
+
 add_project(paraview.bundle REQUIRED)

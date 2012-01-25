@@ -1,8 +1,6 @@
 add_external_project(
   ffmpeg
   DEPENDS zlib
-  URL "http://ffmpeg.org/releases/ffmpeg-0.6.5.tar.gz"
-  URL_MD5 451054dae3b3d33a86c2c48bd12d56e7
   CONFIGURE_COMMAND <SOURCE_DIR>/configure
                     --prefix=<INSTALL_DIR>
                     --disable-avdevice

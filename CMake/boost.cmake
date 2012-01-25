@@ -1,8 +1,6 @@
 
 add_external_project(boost
   DEPENDS zlib
-  URL "http://www.vtk.org/files/support/boost-1.45.0-cmake.tar.gz"
-  URL_MD5 1e506d26d8a74fa46050ab0ce19101cd
   CMAKE_ARGS
     -DBUILD_EXAMPLES:BOOL=OFF
     -DBUILD_TESTING:BOOL=OFF

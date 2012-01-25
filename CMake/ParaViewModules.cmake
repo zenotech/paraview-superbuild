@@ -97,6 +97,10 @@ function(add_external_project name)
     PREFIX ${name}
     DOWNLOAD_DIR ${download_location}
     INSTALL_DIR ${install_location}
+
+    # add url/mdf/git-repo etc. specified in versions.cmake
+    ${${name}_revision}
+
     PROCESS_ENVIRONMENT
       LDFLAGS "${ldflags}"
       CPPFLAGS "${cppflags}"
@@ -112,4 +116,9 @@ function(add_external_project name)
       -DCMAKE_SHARED_LINKER_FLAGS:STRING=${ldflags}
       ${cmake_params}
     )
+endfunction()
+
+function(add_revision name)
+  set(${name}_revision "${ARGN}" CACHE INTERNAL
+      "Revision for ${name}")
 endfunction()

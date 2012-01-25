@@ -1,8 +1,6 @@
 add_external_project(
   hdf5
   DEPENDS zlib szip
-  URL "http://www.hdfgroup.org/ftp/HDF5/current/src/hdf5-1.8.8.tar.gz"
-  URL_MD5 1196e668f5592bfb50d1de162eb16cff
   CMAKE_ARGS
     -DBUILD_SHARED_LIBS:BOOL=TRUE
     -DHDF5_ENABLE_Z_LIB_SUPPORT:BOOL=TRUE

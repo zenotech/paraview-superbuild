@@ -1,8 +1,6 @@
 add_external_project(
   cgns
   DEPENDS zlib hdf5
-  URL "http://paraview.org/files/misc/cgnslib_2.5-5.tar.gz"
-  URL_MD5 ae2a2e79b99d41c63e5ed5f661f70fd9
   CONFIGURE_COMMAND <SOURCE_DIR>/configure
                     --prefix=<INSTALL_DIR>
                     --enable-shared=all

@@ -31,9 +31,6 @@ endif ()
 add_external_project(paraview
   DEPENDS ${dependencies}
 
-  GIT_REPOSITORY git://paraview.org/ParaView.git
-  GIT_TAG master
-
   CMAKE_ARGS
     -DBUILD_SHARED_LIBS:BOOL=ON
     -DBUILD_TESTING:BOOL=OFF
