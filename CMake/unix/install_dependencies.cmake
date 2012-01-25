@@ -26,7 +26,6 @@ foreach(link ${prerequisites})
   if (NOT link MATCHES ".*fontconfig.*")
     if (IS_SYMLINK ${link})
       get_filename_component(resolved_link "${link}" REALPATH)
-      list(APPEND resolved_prerequisites ${resolved_link})
       # now link may not directly point to resolved_link.
       # so we install the resolved link as the link.
       get_filename_component(resolved_name "${link}" NAME)
