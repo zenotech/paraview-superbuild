@@ -1,37 +1,31 @@
 # script to "bundle" paraview.
-#include(GetPrerequisites)
 
-# since ParaView uses shared forwarding, locate the real paraview executable.
-set (required_libraries)
-#get_prerequisites("@install_location@/lib/paraview-3.12/paraview"
-#  # prerequisites_var
-#  required_libraries
-#  # execlude_system
-#  1
-#  # recurse
-#  1
-#  # exepath -- used on mac, so ignore.
-#  "@install_location@/lib/paraview-3.12"
-#  # dirs>
-#  "@install_location@/lib"
-#  )
-
-# install all ParaView's libs
+# install all ParaView's shared libraries.
 install(DIRECTORY "@install_location@/lib/paraview-3.12"
   DESTINATION "lib"
   USE_SOURCE_PERMISSIONS
   COMPONENT superbuild)
 
-# install all libs Paraview depends on.
-#install(FILES ${required_libraries}
-#  DESTINATION "lib/paraview-3.12"
-#  PERMISSIONS OWNER_WRITE OWNER_READ GROUP_READ
-#  COMPONENT superbuild)
+# install python
+if (ENABLE_PYTHON)
+  install(DIRECTORY "@install_location@/lib/python2.7"
+    DESTINATION "lib/paraview-3.12"
+    USE_SOURCE_PERMISSIONS
+    COMPONENT superbuild)
+endif()
 
-# simply install everything in "lib".
+# install library dependencies for various executables.
+install(CODE
+  "execute_process(COMMAND
+    ${CMAKE_COMMAND}
+      -Dexecutable:PATH=${install_location}/lib/paraview-3.12/paraview
+      -Ddependencies_root:PATH=${install_location}
+      -Dtarget_root:PATH=\${CMAKE_INSTALL_PREFIX}/lib/paraview-3.12
+      -P ${CMAKE_CURRENT_LIST_DIR}/install_dependencies.cmake)"
+  COMPONENT superbuild)
+
+# simply other miscellaneous dependencies.
 install(DIRECTORY
-    # install all dependencies built
-    "@install_location@/lib/"
     # install all qt plugins (including sqllite).
     # FIXME: we can reconfigure Qt to be built with inbuilt sqllite support to 
     # avoid the need for plugins.
@@ -39,17 +33,11 @@ install(DIRECTORY
   DESTINATION "lib/paraview-3.12"
   COMPONENT superbuild
   PATTERN "*.a" EXCLUDE
-  PATTERN "*.la" EXCLUDE
   PATTERN "paraview-3.12" EXCLUDE
-  PATTERN "fontconfig" EXCLUDE)
-
-# install python
-#if (ENABLE_PYTHON)
-#  install(DIRECTORY "@install_location@/lib/python2.7"
-#    DESTINATION "lib/paraview-3.12"
-#    USE_SOURCE_PERMISSIONS
-#    COMPONENT superbuild)
-#endif()
+  PATTERN "fontconfig" EXCLUDE
+  PATTERN "*.jar" EXCLUDE
+  PATTERN "*.debug.*" EXCLUDE
+  PATTERN "libboost*" EXCLUDE)
 
 # install executables
 foreach(executable
