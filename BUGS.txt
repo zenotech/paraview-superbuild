@@ -5,4 +5,5 @@
   It cannot be set in paraview.cmake file, unfortunately.
 * MPICH2 does not build correctly when make -j<N> is used. Simply run a
   non-parallel make.
-
+* Need libXrender to ensure that Icons and fonts render smoothly.
+* If Manta fails to build with SSE, set USE_SSE flag to OFF.
