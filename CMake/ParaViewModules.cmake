@@ -88,8 +88,8 @@ function(add_external_project name)
                 CMAKE_CXX_FLAGS_MINSIZEREL
                 CMAKE_CXX_FLAGS_RELEASE
                 CMAKE_CXX_FLAGS_RELWITHDEBINFO)
-    if (${${flag}})
-      set (cmake_params ${cmake_params} -D${flag}:STRING=${${flag}})
+    if (DEFINED ${flag})
+      set (cmake_params "${cmake_params} -D${flag}:STRING=${${flag}}")
     endif()
   endforeach()
 
