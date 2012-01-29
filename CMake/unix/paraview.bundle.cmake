@@ -9,9 +9,15 @@ install(DIRECTORY "@install_location@/lib/paraview-3.12"
 # install python
 if (ENABLE_PYTHON)
   install(DIRECTORY "@install_location@/lib/python2.7"
-    DESTINATION "lib/paraview-3.12"
+    DESTINATION "lib/paraview-3.12/lib"
     USE_SOURCE_PERMISSIONS
     COMPONENT superbuild)
+  # install pyconfig.h
+  install (DIRECTORY "@install_location@/include/python2.7"
+    DESTINATION "lib/paraview-3.12/include"
+    USE_SOURCE_PERMISSIONS
+    COMPONENT superbuild
+    PATTERN "pyconfig.h")
 endif()
 
 # install library dependencies for various executables.
