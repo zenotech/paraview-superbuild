@@ -3,4 +3,6 @@
   manually edit the CMake variable HDF5_C_LIBRARY to be
   <INSTALL_DIR>/lib/libhdf5.so;<INSTALL_DIR>/lib/libhdf5_hl.so
   It cannot be set in paraview.cmake file, unfortunately.
+* MPICH2 does not build correctly when make -j<N> is used. Simply run a
+  non-parallel make.
 
