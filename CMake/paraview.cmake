@@ -51,6 +51,10 @@ add_external_project(paraview
     -DVTK_USE_SYSTEM_LIBXML2:BOOL=${ENABLE_LIBXML2}
     -DVTK_USE_SYSTEM_PNG:BOOL=${ENABLE_PNG}
     -DVTK_USE_SYSTEM_ZLIB:BOOL=${ENABLE_ZLIB}
+
+    # This ensures that VTK installs all vtk{FOO}Python.so files.
+    -DVTK_INSTALL_PYTHON_USING_CMAKE:BOOL=ON
+
     # this needs to be set (alas!) since FindFREETYPE.cmake doesn't respect
     # CMAKE_PREFIX_PATH
     # this won't be needed once the fir for BUG #12688 makes it to master.
