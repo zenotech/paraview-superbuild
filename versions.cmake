@@ -64,7 +64,7 @@ add_revision(python
   URL_MD5 "0ddfe265f1b3d0a8c2459f5bf66894c7")
 
 add_revision(numpy
-  URL "http://fixme/numpy-1.6.1.tar.gz"
+  URL "http://downloads.sourceforge.net/project/numpy/NumPy/1.6.1/numpy-1.6.1.tar.gz"
   URL_MD5 2bce18c08fc4fce461656f0f4dd9103e)
 
 add_revision(boost
