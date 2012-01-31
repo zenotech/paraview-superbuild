@@ -1,3 +1,5 @@
+set (extra_cmake_args)
+
 set (build_qt_gui)
 if (${ENABLE_QT} AND NOT ${PV_COMMAND_LINE_TOOLS_ONLY})
   set (build_qt_gui TRUE)
@@ -22,11 +24,18 @@ endif()
 
 if (ENABLE_MANTA)
   set (dependencies ${dependencies} manta)
+  list (APPEND extra_cmake_args
+    -DMANTA_BUILD:PATH=${ParaViewSuperBuild_BINARY_DIR}/manta/src/manta-build)
 endif()
 
 if (ENABLE_MPICH2)
   set (dependencies ${dependencies} mpich2)
 endif ()
+
+if (ENABLE_HDF5)
+  list (APPEND extra_cmake_args
+    -DHDF5_C_LIBRARY:PATH=<INSTALL_DIR>/lib/libhdf5.so+<INSTALL_DIR>/lib/libhdf5_hl.so)
+endif()
 
 add_external_project(paraview
   DEPENDS ${dependencies}
@@ -52,13 +61,7 @@ add_external_project(paraview
     -DVTK_USE_SYSTEM_PNG:BOOL=${ENABLE_PNG}
     -DVTK_USE_SYSTEM_ZLIB:BOOL=${ENABLE_ZLIB}
 
-    # This ensures that VTK installs all vtk{FOO}Python.so files.
-    -DVTK_INSTALL_PYTHON_USING_CMAKE:BOOL=ON
+  ${extra_cmake_args}
 
-    # this needs to be set (alas!) since FindFREETYPE.cmake doesn't respect
-    # CMAKE_PREFIX_PATH
-    # this won't be needed once the fir for BUG #12688 makes it to master.
-    -DFREETYPE_INCLUDE_DIR_FTHEADER:PATH=<INSTALL_DIR>/include/freetype2/
-
-    -DMANTA_BUILD:PATH=${ParaViewSuperBuild_BINARY_DIR}/manta/src/manta-build
+  LIST_SEPARATOR +
 )
