@@ -1,5 +1,15 @@
 cmake_minimum_required(VERSION 2.8)
 project(ParaViewSuperBuild)
+
+include(CheckTypeSize)
+check_type_size(void* VOID_PTR_SIZE BUILTIN_TYPES_ONLY)
+if (VOID_PTR_SIZE EQUAL 8)
+  set (64bit_build TRUE)
+else ()
+  set (64bit_build FALSE)
+endif()
+
+message("${VOID_PTR_SIZE}")
 set (platform)
 if (UNIX)
   set (platform "unix")

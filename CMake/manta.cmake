@@ -24,6 +24,9 @@ add_external_project(
     -DSCENE_TYLENOL:BOOL=OFF
     -DSCENE_VALUE_COLORMAP:BOOL=OFF
     -DSCENE_VORPAL:BOOL=OFF
+
+    # turn off SSE on 32-bit builds.
+    -DUSE_SSE:BOOL=${64bit_build}
   INSTALL_COMMAND
     ${CMAKE_COMMAND} -E copy_directory <BINARY_DIR>/lib <INSTALL_DIR>/lib
 )
