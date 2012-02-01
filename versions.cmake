@@ -86,9 +86,6 @@ add_revision(paraview
   GIT_REPOSITORY git://paraview.org/ParaView.git
   GIT_TAG v3.14.0)
 
-set(userguide_url http://www.paraview.org/files/v3.14/ParaViewUsersGuide.v3.14.pdf
-  CACHE INTERNAL "User's Guide")
-
 #------------------------------------------------------------------------------
 # Optional Plugins. Doesn't affect ParaView binaries at all even is missing
 # or disabled.

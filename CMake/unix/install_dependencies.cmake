@@ -45,6 +45,6 @@ file(INSTALL ${resolved_prerequisites}
      USE_SOURCE_PERMISSIONS)
 file(INSTALL 
      DESTINATION ${target_root}/../../doc)
-file(DOWNLOAD ${userguide_url}
+file(DOWNLOAD "http://www.paraview.org/files/v3.14/ParaViewUsersGuide.v3.14.pdf"
      ${target_root}/../../doc/ParaViewUsersGuide.v3.14.pdf
      SHOW_PROGRESS)
