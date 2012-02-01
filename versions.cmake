@@ -86,3 +86,11 @@ add_revision(mesa
 add_revision(paraview
   GIT_REPOSITORY git://paraview.org/ParaView.git
   GIT_TAG v3.14.0-RC2)
+
+add_revision(acusolve_plugin
+	GIT_REPOSITORY git://kwsource.kitwarein.com/paraview/acusolvereaderplugin.git
+	GIT_TAG master)
+
+add_revision(vistrails_plugin
+	GIT_REPOSITORY git://kwsource.kitwarein.com/paraview/vistrails.git
+	GIT_TAG master)

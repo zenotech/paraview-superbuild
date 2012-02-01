@@ -9,14 +9,17 @@ else ()
   set (64bit_build FALSE)
 endif()
 
-message("${VOID_PTR_SIZE}")
 set (platform)
+set (platform_label)
 if (UNIX)
   set (platform "unix")
+  set (platform_label "Linux")
 elseif (APPLE)
   set (platform "apple")
+  set (platform_label "MacOS")
 elseif (WIN32)
   set (platform "win32")
+  set (platform_label "Win")
 endif()
 
 # Setup CMAKE_MODULE_PATH so that platform specific configurations are processed
@@ -93,3 +96,8 @@ SET (CMAKE_INSTALL_COMPONENT runtime)
 add_project(paraview REQUIRED)
 
 add_project(paraview.bundle REQUIRED)
+
+# Now add optional/proprietary plugins.
+add_project(acusolve_plugin DEFAULT_OFF)
+add_project(vistrails_plugin DEFAULT_OFF)
+add_project(mili_plugin DEFAULT_OFF)
