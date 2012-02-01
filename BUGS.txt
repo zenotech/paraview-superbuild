@@ -7,3 +7,4 @@
   non-parallel make.
 * Need libXrender to ensure that Icons and fonts render smoothly.
 * If Manta fails to build with SSE, set USE_SSE flag to OFF.
+* VisTrails needs versioned boost.
