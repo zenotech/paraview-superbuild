@@ -88,9 +88,13 @@ add_revision(paraview
   GIT_TAG v3.14.0-RC2)
 
 add_revision(acusolve_plugin
-	GIT_REPOSITORY git://kwsource.kitwarein.com/paraview/acusolvereaderplugin.git
-	GIT_TAG master)
+  GIT_REPOSITORY git://kwsource.kitwarein.com/paraview/acusolvereaderplugin.git
+  GIT_TAG master)
 
 add_revision(vistrails_plugin
-	GIT_REPOSITORY git://kwsource.kitwarein.com/paraview/vistrails.git
-	GIT_TAG master)
+  GIT_REPOSITORY git://kwsource.kitwarein.com/paraview/vistrails.git
+  GIT_TAG master)
+
+add_revision(mili_plugin
+  GIT_REPOSITORY git://kwsource.kitwarein.com/paraview/mili.git
+  GIT_TAG master)
