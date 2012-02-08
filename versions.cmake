@@ -85,4 +85,4 @@ add_revision(mesa
 
 add_revision(paraview
   GIT_REPOSITORY git://paraview.org/ParaView.git
-  GIT_TAG v3.14.0-RC1)
+  GIT_TAG v3.14.0-RC2)
