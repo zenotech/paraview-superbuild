@@ -35,6 +35,16 @@ function(dependent_option option doc default depends force)
   endif() 
 endfunction()
 
+# Add a project to this "superbuild". For every enabled project, this function
+# tries to import a cmake file named ${name}.cmake which should contain the
+# build rules for the project.
+# Option arguments:
+#   REQUIRED - when present, the user is not presented with a CMake option to
+#              disable the project (defaut is not REQUIRED).
+#   DEFAULT_OFF - when present, and REQUIRED is absent, the default state for
+#                 the project is OFF, (default is ON when missing).
+#   DEPENDS ... - list projects that need to be Enabled for this project to be
+#                 ON. Warns the user if any of the required dependencies is off.
 function(add_project name)
   cmake_parse_arguments(arg "REQUIRED;DEFAULT_OFF" "" "DEPENDS" ${ARGN})
 
