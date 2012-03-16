@@ -7,29 +7,40 @@ else()
   set (build_qt_gui FALSE)
 endif()
 
-set (dependencies
-  zlib png freetype hdf5 silo cgns ffmpeg libxml2 boost)
-
-if (ENABLE_PYTHON)
-  set (dependencies ${dependencies} python)
-endif()
-
-if (ENABLE_NUMPY)
-  set (dependencies ${dependencies} numpy)
-endif ()
-
-if (ENABLE_QT)
-  set (dependencies ${dependencies} qt)
+if (ENABLE_PYTHON AND USE_SYSTEM_PYTHON)
+  # if using system Python, tell ParaView to use the user-specified Python.
+  list(APPEND extra_cmake_args
+    -DPYTHON_EXECUTABLE:FILEPATH=${PYTHON_EXECUTABLE}
+    -DPYTHON_INCLUDE_DIR:PATH=${PYTHON_INCLUDE_DIR}
+    -DPYTHON_LIBRARY:FILEPATH=${PYTHON_LIBRARY}
+  )
 endif()
 
 if (ENABLE_MANTA)
-  set (dependencies ${dependencies} manta)
   list (APPEND extra_cmake_args
     -DMANTA_BUILD:PATH=${ParaViewSuperBuild_BINARY_DIR}/manta/src/manta-build)
 endif()
 
-if (ENABLE_MPICH2)
-  set (dependencies ${dependencies} mpich2)
+if (ENABLE_MPICH2 AND USE_SYSTEM_MPI)
+  # if using system MPI, tell ParaView to use the user-specified MPI
+  list (APPEND extra_cmake_args
+    -DMPIEXEC:FILEPATH=${MPIEXEC}
+    -DMPIEXEC_MAX_NUMPROCS:STRING=${MPIEXEC_MAX_NUMPROCS}
+    -DMPIEXEC_NUMPROC_FLAG:STRING=${MPIEXEC_NUMPROC_FLAG}
+    -DMPIEXEC_POSTFLAGS:STRING=${MPIEXEC_POSTFLAGS}
+    -DMPIEXEC_PREFLAGS:STRING=${MPIEXEC_PREFLAGS}
+    -DMPI_CXX_COMPILER:FILEPATH=${MPI_CXX_COMPILER}
+    -DMPI_CXX_COMPILE_FLAGS:STRING=${MPI_CXX_COMPILE_FLAGS}
+    -DMPI_CXX_INCLUDE_PATH:STRING=${MPI_CXX_INCLUDE_PATH}
+    -DMPI_CXX_LIBRARIES:STRING=${MPI_CXX_LIBRARIES}
+    -DMPI_CXX_LINK_FLAGS:STRING=${MPI_CXX_LINK_FLAGS}
+    -DMPI_C_COMPILER:FILEPATH=${MPI_C_COMPILER}
+    -DMPI_C_COMPILE_FLAGS:STRING=${MPI_C_COMPILE_FLAGS}
+    -DMPI_C_INCLUDE_PATH:STRING=${MPI_C_INCLUDE_PATH}
+    -DMPI_C_LIBRARIES:STRING=${MPI_C_LIBRARIES}
+    -DMPI_C_LINK_FLAGS:STRING=${MPI_C_LINK_FLAGS}
+    -DMPI_EXTRA_LIBRARY:STRING=${MPI_EXTRA_LIBRARY}
+    -DMPI_LIBRARY:FILEPATH=${MPI_LIBRARY})
 endif ()
 
 if (ENABLE_HDF5)
@@ -37,8 +48,14 @@ if (ENABLE_HDF5)
     -DHDF5_C_LIBRARY:PATH=<INSTALL_DIR>/lib/libhdf5.so+<INSTALL_DIR>/lib/libhdf5_hl.so)
 endif()
 
+if (ENABLE_QT AND USE_SYSTEM_QT)
+  list (APPEND extra_cmake_args
+    -DQT_QMAKE_EXECUTABLE:FILEPATH=${QT_QMAKE_EXECUTABLE})
+endif()
+
 add_external_project(paraview
-  DEPENDS ${dependencies}
+  DEPENDS zlib png freetype hdf5 silo cgns ffmpeg libxml2 boost python numpy
+          mpich2 manta qt
 
   CMAKE_ARGS
     -DBUILD_SHARED_LIBS:BOOL=ON

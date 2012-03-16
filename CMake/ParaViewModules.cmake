@@ -147,5 +147,5 @@ function(add_revision name)
 endfunction()
 
 function(add_system_project name)
-  __create_required_targets(python)
+  __create_required_targets(${name})
 endfunction()

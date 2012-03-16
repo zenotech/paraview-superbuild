@@ -2,6 +2,7 @@
 dependent_option(USE_SYSTEM_PYTHON
   "Turn ON to use installed Python intead of building from source." OFF
   "ENABLE_PYTHON" OFF)
+
 if (USE_SYSTEM_PYTHON)
 
   find_package(PythonLibs)
