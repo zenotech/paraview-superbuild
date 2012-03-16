@@ -145,3 +145,7 @@ function(add_revision name)
   set(${name}_revision "${ARGN}" CACHE INTERNAL
       "Revision for ${name}")
 endfunction()
+
+function(add_system_project name)
+  __create_required_targets(python)
+endfunction()

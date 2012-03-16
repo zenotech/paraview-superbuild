@@ -4,5 +4,5 @@ add_external_project(numpy
   INSTALL_COMMAND "pwd"
   BUILD_IN_SOURCE 1
   BUILD_COMMAND
-    <INSTALL_DIR>/bin/python setup.py install --prefix=<INSTALL_DIR>
+    "${pv_python_executable} setup.py install --prefix=<INSTALL_DIR>"
 )
