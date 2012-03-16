@@ -1,6 +1,7 @@
 include(PVExternalProject)
 include(CMakeParseArguments)
 
+#------------------------------------------------------------------------------
 # Function to provide an option only if a set of other variables are ON.
 # Example invocation:
 #
@@ -35,6 +36,20 @@ function(dependent_option option doc default depends force)
   endif() 
 endfunction()
 
+#------------------------------------------------------------------------------
+# add dummy target to dependencies work even with subproject is disabled.
+# this code may need to change if ExternalProject.cmake changes.
+function(__create_required_targets name)
+  add_custom_target(${name})
+  set_property(TARGET ${name} PROPERTY _EP_STAMP_DIR ${CMAKE_CURRENT_BINARY_DIR})
+  SET (NO_${UNAME} TRUE)
+  add_custom_command(
+    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${name}-done
+    COMMENT "Completed ${name}"
+    COMMAND ${CMAKE_COMMAND} -E touch ${CMAKE_CURRENT_BINARY_DIR}/${name}-done)
+endfunction()
+
+#------------------------------------------------------------------------------
 # Add a project to this "superbuild". For every enabled project, this function
 # tries to import a cmake file named ${name}.cmake which should contain the
 # build rules for the project.
@@ -80,8 +95,8 @@ function(add_project name)
     message(STATUS "Using configuration ${rv}")
   else ()
     # add dummy target to dependencies work even with subproject is disabled.
-    add_custom_target(${name})
-    SET (NO_${UNAME} TRUE)
+    # this code may need to change if ExternalProject.cmake changes.
+    __create_required_targets(${name})
   endif()
 endfunction()
 
