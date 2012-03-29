@@ -8,6 +8,8 @@ if (USE_SYSTEM_QT)
   add_system_project(qt)
 
 else ()
+  add_project(freetype REQUIRED)
+  add_project(fontconfig DEPENDS libxml2)
   add_external_project(
     qt
     DEPENDS zlib png freetype fontconfig
