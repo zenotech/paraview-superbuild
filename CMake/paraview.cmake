@@ -22,6 +22,43 @@ if (ENABLE_MANTA)
 endif()
 
 if (ENABLE_MPICH2 AND USE_SYSTEM_MPI)
+  set (MPIFIRSTPASS ON)
+  foreach(lib ${MPI_C_LIBRARIES} )
+    if (${MPIFIRSTPASS})
+      set(PV_MPI_C_LIBRARIES ${lib})
+      set (MPIFIRSTPASS OFF)
+    else ()
+      set (PV_MPI_C_LIBRARIES ${PV_MPI_C_LIBRARIES}+${lib})
+    endif()
+  endforeach(lib)
+  set (MPIFIRSTPASS ON)
+  foreach(lib ${MPI_CXX_LIBRARIES} )
+    if (${MPIFIRSTPASS})
+      set(PV_MPI_CXX_LIBRARIES ${lib})
+      set (MPIFIRSTPASS OFF)
+    else ()
+      set (PV_MPI_CXX_LIBRARIES ${PV_MPI_CXX_LIBRARIES}+${lib})
+    endif()
+  endforeach(lib)
+  set (MPIFIRSTPASS ON)
+  foreach(lib ${MPI_LIBRARY} )
+    if (${MPIFIRSTPASS})
+      set(PV_MPI_LIBRARY ${lib})
+      set (MPIFIRSTPASS OFF)
+    else ()
+      set (PV_MPI_LIBRARY ${PV_MPI_LIBRARY}+${lib})
+    endif()
+  endforeach(lib)
+  set (MPIFIRSTPASS ON)
+  foreach(lib ${MPI_EXTRA_LIBRARY} )
+    if (${MPIFIRSTPASS})
+      set(PV_MPI_EXTRA_LIBRARY ${lib})
+      set (MPIFIRSTPASS OFF)
+    else ()
+      set (PV_MPI_EXTRA_LIBRARY ${PV_MPI_EXTRA_LIBRARY}+${lib})
+    endif()
+  endforeach(lib)
+
   # if using system MPI, tell ParaView to use the user-specified MPI
   list (APPEND extra_cmake_args
     -DMPIEXEC:FILEPATH=${MPIEXEC}
@@ -32,15 +69,15 @@ if (ENABLE_MPICH2 AND USE_SYSTEM_MPI)
     -DMPI_CXX_COMPILER:FILEPATH=${MPI_CXX_COMPILER}
     -DMPI_CXX_COMPILE_FLAGS:STRING=${MPI_CXX_COMPILE_FLAGS}
     -DMPI_CXX_INCLUDE_PATH:STRING=${MPI_CXX_INCLUDE_PATH}
-    -DMPI_CXX_LIBRARIES:STRING=${MPI_CXX_LIBRARIES}
+    -DMPI_CXX_LIBRARIES:STRING=${PV_MPI_CXX_LIBRARIES}
     -DMPI_CXX_LINK_FLAGS:STRING=${MPI_CXX_LINK_FLAGS}
     -DMPI_C_COMPILER:FILEPATH=${MPI_C_COMPILER}
     -DMPI_C_COMPILE_FLAGS:STRING=${MPI_C_COMPILE_FLAGS}
     -DMPI_C_INCLUDE_PATH:STRING=${MPI_C_INCLUDE_PATH}
-    -DMPI_C_LIBRARIES:STRING=${MPI_C_LIBRARIES}
+    -DMPI_C_LIBRARIES:STRING=${PV_MPI_C_LIBRARIES}
     -DMPI_C_LINK_FLAGS:STRING=${MPI_C_LINK_FLAGS}
-    -DMPI_EXTRA_LIBRARY:STRING=${MPI_EXTRA_LIBRARY}
-    -DMPI_LIBRARY:FILEPATH=${MPI_LIBRARY})
+    -DMPI_EXTRA_LIBRARY:STRING=${PV_MPI_EXTRA_LIBRARY}
+    -DMPI_LIBRARY:FILEPATH=${PV_MPI_LIBRARY})
 endif ()
 
 if (ENABLE_HDF5)
@@ -54,7 +91,7 @@ if (ENABLE_QT AND USE_SYSTEM_QT)
 endif()
 
 add_external_project(paraview
-  DEPENDS zlib png freetype hdf5 silo cgns ffmpeg libxml2 boost python numpy
+  DEPENDS zlib png hdf5 silo cgns ffmpeg libxml2 boost python numpy
           mpich2 manta qt
 
   CMAKE_ARGS
