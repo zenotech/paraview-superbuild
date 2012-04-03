@@ -7,7 +7,7 @@ install(DIRECTORY "@install_location@/lib/paraview-3.14"
   COMPONENT superbuild)
 
 # install python
-if (ENABLE_PYTHON)
+if (ENABLE_PYTHON AND NOT USE_SYSTEM_PYTHON)
   install(DIRECTORY "@install_location@/lib/python2.7"
     DESTINATION "lib/paraview-3.14/lib"
     USE_SOURCE_PERMISSIONS
@@ -31,19 +31,22 @@ install(CODE
   COMPONENT superbuild)
 
 # simply other miscellaneous dependencies.
-install(DIRECTORY
+
+if (NOT PV_WITHOUT_QT_SUPPORT AND NOT USE_SYSTEM_QT)
+  install(DIRECTORY
     # install all qt plugins (including sqllite).
     # FIXME: we can reconfigure Qt to be built with inbuilt sqllite support to 
     # avoid the need for plugins.
     "@install_location@/plugins/"
-  DESTINATION "lib/paraview-3.14"
-  COMPONENT superbuild
-  PATTERN "*.a" EXCLUDE
-  PATTERN "paraview-3.14" EXCLUDE
-  PATTERN "fontconfig" EXCLUDE
-  PATTERN "*.jar" EXCLUDE
-  PATTERN "*.debug.*" EXCLUDE
-  PATTERN "libboost*" EXCLUDE)
+    DESTINATION "lib/paraview-3.14"
+    COMPONENT superbuild
+    PATTERN "*.a" EXCLUDE
+    PATTERN "paraview-3.14" EXCLUDE
+    PATTERN "fontconfig" EXCLUDE
+    PATTERN "*.jar" EXCLUDE
+    PATTERN "*.debug.*" EXCLUDE
+    PATTERN "libboost*" EXCLUDE)
+endif()
 
 # install executables
 foreach(executable
@@ -53,7 +56,7 @@ foreach(executable
     COMPONENT superbuild)
 endforeach()
 
-if (ENABLE_MPICH2)
+if (ENABLE_MPICH2 AND NOT USE_SYSTEM_MPI)
   install(PROGRAMS "@install_location@/bin/mpiexec.hydra"
     DESTINATION "lib/paraview-3.14"
     COMPONENT superbuild
