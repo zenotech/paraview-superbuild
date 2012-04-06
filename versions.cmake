@@ -103,3 +103,7 @@ add_revision(mili_plugin
   GIT_REPOSITORY git://kwsource.kitwarein.com/paraview/mili.git
   GIT_TAG master)
 
+add_revision(nektar_plugin
+  GIT_REPOSITORY git://gitorious.org/nektarplugin/nektarplugin.git
+  GIT_TAG master)
+

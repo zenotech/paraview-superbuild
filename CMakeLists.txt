@@ -103,4 +103,5 @@ add_project(paraview.bundle REQUIRED)
 # Now add optional/proprietary plugins.
 add_project(acusolve_plugin DEFAULT_OFF)
 add_project(vistrails_plugin DEFAULT_OFF)
+add_project(nektar_plugin DEFAULT_OFF)
 #add_project(mili_plugin DEFAULT_OFF)
