@@ -84,7 +84,7 @@ add_revision(mesa
 
 add_revision(paraview
   GIT_REPOSITORY git://paraview.org/ParaView.git
-  GIT_TAG v3.14.0)
+  GIT_TAG v3.14.1)
 
 #------------------------------------------------------------------------------
 # Optional Plugins. Doesn't affect ParaView binaries at all even is missing

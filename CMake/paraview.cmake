@@ -82,7 +82,9 @@ endif ()
 
 if (ENABLE_HDF5)
   list (APPEND extra_cmake_args
-    -DHDF5_C_LIBRARY:PATH=<INSTALL_DIR>/lib/libhdf5.so+<INSTALL_DIR>/lib/libhdf5_hl.so)
+    -DHDF5_C_LIBRARY:PATH=<INSTALL_DIR>/lib/libhdf5.so+<INSTALL_DIR>/lib/libhdf5_hl.so
+    -DHDF5_hdf5_LIBRARY=<INSTALL_DIR>/lib/libhdf5.so
+    -DHDF5_hdf5_hl_LIBRARY=<INSTALL_DIR>/lib/libhdf5_hl.so)
 endif()
 
 if (ENABLE_QT AND USE_SYSTEM_QT)
