@@ -1,4 +1,3 @@
-
 add_external_project(png
   DEPENDS zlib
 

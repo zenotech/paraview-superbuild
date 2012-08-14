@@ -1,16 +1,4 @@
-# we support using system qt.
-dependent_option(USE_SYSTEM_QT
-  "Turn ON to use installed Qt instead of building from source" OFF
-  "ENABLE_QT" OFF)
-
-if (USE_SYSTEM_QT)
-  find_package(Qt4)
-  add_system_project(qt)
-
-else ()
-  add_project(freetype REQUIRED)
-  add_project(fontconfig DEPENDS libxml2)
-  add_external_project(
+add_external_project_or_use_system(
     qt
     DEPENDS zlib png freetype fontconfig
     CONFIGURE_COMMAND <SOURCE_DIR>/configure
@@ -37,8 +25,4 @@ else ()
                       -L <INSTALL_DIR>/lib
     PROCESS_ENVIRONMENT
       LD_LIBRARY_PATH "<BINARY_DIR>/lib"
-  )
-endif()
-
-# if qt build fails due to missing QtCLucene, then simply restart make with
-# LD_LIBRARY_PATH set to include the <BINARY_DIR>/lib.
+)

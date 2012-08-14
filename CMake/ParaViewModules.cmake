@@ -2,40 +2,167 @@ include(PVExternalProject)
 include(CMakeParseArguments)
 
 #------------------------------------------------------------------------------
-# Function to provide an option only if a set of other variables are ON.
-# Example invocation:
-#
-#  dependent_option(USE_FOO "Use Foo" ON "USE_BAR;USE_ZOT" OFF)
-#
-# If both USE_BAR and USE_ZOT are true, this provides an option called
-# USE_FOO that defaults to ON.  Otherwise, it sets USE_FOO to OFF.  If
-# the status of USE_BAR or USE_ZOT ever changes, any value for the
-# USE_FOO option is saved so that when the option is re-enabled it
-# retains its old value.
-#
-function(dependent_option option doc default depends force)
-  if (${option}_ISSET MATCHES "^${option}_ISSET$")
-    set(${option}_AVAILABLE 1)
-    foreach (d ${depends})
-      if (NOT ${d})
-        set(${option}_AVAILABLE 0)
+# Macro to be used to register versions for any module. This makes it easier to
+# consolidate versions for all modules in a single file, if needed.
+macro(add_revision name)
+  set(${name}_revision "${ARGN}")
+endmacro()
+
+#------------------------------------------------------------------------------
+macro(add_external_project _name)
+  project_check_name(${_name})
+  set(cm-project ${_name})
+  set(${cm-project}_DECLARED 1)
+
+  if (build-projects)
+    set (arguments)
+    set (optional_depends)
+    set (accumulate FALSE)
+    foreach(arg ${ARGN})
+      if ("${arg}" MATCHES "^DEPENDS_OPTIONAL$")
+        set (accumulate TRUE)
+      elseif ("${arg}" MATCHES "${_ep_keywords_ExternalProject_Add}")
+        set (accumulate FALSE)
+      elseif (accumulate)
+        list(APPEND optional_depends "${arg}")
+      endif()
+
+      if (NOT accumulate)
+        list(APPEND arguments "${arg}")
       endif()
     endforeach()
 
-    if (${option}_AVAILABLE)
-      option(${option} "${doc}" "${default}")
-      set(${option} "${${option}}" CACHE BOOL "${doc}" FORCE)
-    else ()
-      if(NOT ${option} MATCHES "^${option}$")
-        set(${option} "${${option}}" CACHE INTERNAL "${doc}")
-      endif ()
-      set (${option} ${force})
-    endif()
-  else()
-    set(${option} "${${option}_ISSET}")
-  endif() 
-endfunction()
+    foreach (op_dep ${optional_depends})
+      if (${op_dep}_ENABLED)
+        list (APPEND arguments DEPENDS ${op_dep})
+      endif()
+    endforeach()
+    set(${cm-project}_ARGUMENTS "${arguments}")
 
+    unset(arguments)
+    unset(optional_depends)
+    unset(accumulate)
+  else()
+
+    set(${cm-project}_DEPENDS "")
+    set(${cm-project}_ARGUMENTS "")
+    set(${cm-project}_NEEDED_BY "")
+    set(${cm-project}_CAN_USE_SYSTEM 0)
+    set (doing "")
+    foreach(arg ${ARGN})
+      if ("${arg}" MATCHES "^DEPENDS$")
+        set (doing "DEPENDS")
+      elseif ("${arg}" MATCHES "^DEPENDS_OPTIONAL$")
+        set (doing "DEPENDS_OPTIONAL")
+      elseif ("${arg}" MATCHES "${_ep_keywords_ExternalProject_Add}")
+        set (doing "")
+      elseif (doing STREQUAL "DEPENDS")
+        list(APPEND ${cm-project}_DEPENDS "${arg}")
+      elseif ((doing STREQUAL "DEPENDS_OPTIONAL") AND ENABLE_${arg})
+        list(APPEND ${cm-project}_DEPENDS "${arg}")
+      endif()
+    endforeach()
+
+    option(ENABLE_${cm-project} "Request to build project ${cm-project}" OFF)
+    set_property(CACHE ENABLE_${cm-project} PROPERTY TYPE BOOL)
+    list(APPEND CM_PROJECTS_ALL "${cm-project}")
+
+    if (USE_SYSTEM_${cm-project})
+      set(${cm-project}_DEPENDS "")
+    endif()
+  endif()
+endmacro()
+
+#------------------------------------------------------------------------------
+# similar to add_external_project, except provides the user with an option to
+# use-system installation of the project.
+macro(add_external_project_or_use_system _name)
+  if (build-projects)
+    add_external_project(${_name} ${ARGN})
+  else()
+    add_external_project(${_name} ${ARGN})
+    set(${_name}_CAN_USE_SYSTEM 1)
+
+    # add an option an hide it by default. We'll expose it to the user if needed.
+    option(USE_SYSTEM_${_name} "Use system ${_name}" OFF)
+    set_property(CACHE USE_SYSTEM_${_name} PROPERTY TYPE INTERNAL)
+  endif()
+endmacro()
+
+#------------------------------------------------------------------------------
+macro(process_dependencies)
+  set (CM_PROJECTS_ENABLED "")
+  foreach(cm-project IN LISTS CM_PROJECTS_ALL)
+    set(${cm-project}_ENABLED FALSE)
+    if (ENABLE_${cm-project})
+      list(APPEND CM_PROJECTS_ENABLED ${cm-project})
+    endif()
+  endforeach()
+  list(SORT CM_PROJECTS_ENABLED) # Deterministic order.
+
+  # Order list to satisfy dependencies. We don't include the use-system
+  # libraries in the depedency walk.
+  include(TopologicalSort)
+  topological_sort(CM_PROJECTS_ENABLED "" _DEPENDS)
+
+  # build information about what project needs what.
+  foreach (cm-project IN LISTS CM_PROJECTS_ENABLED)
+    enable_project(${cm-project} "")
+    foreach (dependency IN LISTS ${cm-project}_DEPENDS)
+      enable_project(${dependency} "${cm-project}")
+    endforeach()
+  endforeach()
+
+  foreach (cm-project IN LISTS CM_PROJECTS_ENABLED)
+    if (ENABLE_${cm-project})
+      message(STATUS "Enabling ${cm-project} as requested.")
+      set_property(CACHE ENABLE_${cm-project} PROPERTY TYPE BOOL)
+    else()
+      list(SORT ${cm-project}_NEEDED_BY)
+      list(REMOVE_DUPLICATES ${cm-project}_NEEDED_BY)
+      message(STATUS "Enabling ${cm-project} since needed by: ${${cm-project}_NEEDED_BY}")
+      set_property(CACHE ENABLE_${cm-project} PROPERTY TYPE INTERNAL)
+    endif()
+  endforeach()
+  message(STATUS "PROJECTS_ENABLED ${CM_PROJECTS_ENABLED}")
+  set (build-projects 1)
+  foreach (cm-project IN LISTS CM_PROJECTS_ENABLED)
+    if (${cm-project}_CAN_USE_SYSTEM)
+      # for every enabled project that can use system, expose the option to the
+      # user.
+      set_property(CACHE USE_SYSTEM_${cm-project} PROPERTY TYPE BOOL)
+      if (USE_SYSTEM_${cm-project})
+        add_dummy_external_project(${cm-project})
+        include(${cm-project}.use.system OPTIONAL RESULT_VARIABLE rv)
+        if (rv STREQUAL "NOTFOUND")
+          message(AUTHOR_WARNING "${cm-project}.use.system not found!!!")
+        endif()
+      else()
+        include(${cm-project})
+        add_external_project_internal(${cm-project} ${${cm-project}_ARGUMENTS})
+      endif()
+    else()
+      include(${cm-project})
+      add_external_project_internal(${cm-project} ${${cm-project}_ARGUMENTS})
+    endif()
+  endforeach()
+  unset (build-projects)
+endmacro()
+#------------------------------------------------------------------------------
+macro(enable_project name needed-by)
+  set (${name}_ENABLED TRUE CACHE INTERNAL "" FORCE)
+  list (APPEND ${name}_NEEDED_BY "${needed-by}")
+endmacro()
+
+#------------------------------------------------------------------------------
+# internal macro to validate project names.
+macro(project_check_name _name)
+  if( NOT "${_name}" MATCHES "^[a-zA-Z][a-zA-Z0-9]*$")
+    message(FATAL_ERROR "Invalid project name: ${_name}")
+  endif()
+endmacro()
+
+#******************************************************************************
 #------------------------------------------------------------------------------
 # add dummy target to dependencies work even with subproject is disabled.
 # this code may need to change if ExternalProject.cmake changes.
@@ -48,6 +175,18 @@ function(__create_required_targets name)
     COMMENT "Completed ${name}"
     COMMAND ${CMAKE_COMMAND} -E touch ${CMAKE_CURRENT_BINARY_DIR}/${name}-done)
 endfunction()
+
+function(add_dummy_external_project name)
+  ExternalProject_Add(${name}
+  DOWNLOAD_COMMAND ""
+  SOURCE_DIR ""
+  UPDATE_COMMAND ""
+  CONFIGURE_COMMAND ""
+  BUILD_COMMAND ""
+  INSTALL_COMMAND ""
+  )
+endfunction()
+
 
 #------------------------------------------------------------------------------
 # Add a project to this "superbuild". For every enabled project, this function
@@ -72,7 +211,6 @@ function(add_project name)
     else()
       option(ENABLE_${UNAME} "Enable sub-project '${name}'" OFF)
     endif()
-    mark_as_advanced(ENABLE_${UNAME})
   endif()
 
   if (ENABLE_${UNAME})
@@ -100,7 +238,19 @@ function(add_project name)
   endif()
 endfunction()
 
-function(add_external_project name)
+macro(get_project_depends _name _prefix)
+  if (NOT ${_prefix}_${_name}_done)
+    set(${_prefix}_${_name}_done 1)
+    foreach (dep ${${_name}_DEPENDS})
+      if (NOT ${_prefix}_${dep}_done)
+        list(APPEND ${_prefix}_DEPENDS ${dep})
+        get_project_depends(${dep} ${_prefix})
+      endif()
+    endforeach()
+  endif()
+endmacro()
+
+function(add_external_project_internal name)
   set (cmake_params)
   foreach (flag CMAKE_BUILD_TYPE
                 CMAKE_C_FLAGS_DEBUG
@@ -115,6 +265,18 @@ function(add_external_project name)
       list (APPEND cmake_params -D${flag}:STRING=${${flag}})
     endif()
   endforeach()
+
+  #get extra-cmake args from every dependent project, if any.
+  set(arg_DEPENDS)
+  get_project_depends(${name} arg)
+  foreach(dependency IN LISTS arg_DEPENDS)
+    get_property(args TARGET ${dependency} PROPERTY CMAKE_ARGS)
+    list(APPEND cmake_params ${args})
+  endforeach()
+
+ if (name STREQUAL "paraview")
+   message("${ARGN}")
+ endif()
 
   PVExternalProject_Add(${name} ${ARGN}
     PREFIX ${name}
@@ -141,11 +303,19 @@ function(add_external_project name)
     )
 endfunction()
 
-function(add_revision name)
-  set(${name}_revision "${ARGN}" CACHE INTERNAL
-      "Revision for ${name}")
-endfunction()
-
 function(add_system_project name)
   __create_required_targets(${name})
 endfunction()
+
+
+macro(add_extra_cmake_args)
+  if (build-projects)
+    if (NOT cm-project)
+      message(AUTHOR_WARNING "add_extra_cmake_args called an incorrect stage.")
+      return()
+    endif()
+    set_property(TARGET ${cm-project} APPEND PROPERTY CMAKE_ARGS ${ARGN})
+  else()
+    # nothing to do.
+  endif()
+endmacro()

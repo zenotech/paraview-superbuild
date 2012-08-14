@@ -1,121 +1,33 @@
 set (extra_cmake_args)
-
-set (build_qt_gui)
-if (${ENABLE_QT} AND NOT ${PV_COMMAND_LINE_TOOLS_ONLY})
-  set (build_qt_gui TRUE)
-else()
-  set (build_qt_gui FALSE)
-endif()
-
-if (ENABLE_PYTHON AND USE_SYSTEM_PYTHON)
-  # if using system Python, tell ParaView to use the user-specified Python.
-  list(APPEND extra_cmake_args
-    -DPYTHON_EXECUTABLE:FILEPATH=${PYTHON_EXECUTABLE}
-    -DPYTHON_INCLUDE_DIR:PATH=${PYTHON_INCLUDE_DIR}
-    -DPYTHON_LIBRARY:FILEPATH=${PYTHON_LIBRARY}
-  )
-endif()
-
-if (ENABLE_MANTA)
+if (manta_ENABLED)
   list (APPEND extra_cmake_args
     -DMANTA_BUILD:PATH=${ParaViewSuperBuild_BINARY_DIR}/manta/src/manta-build)
 endif()
 
-if (ENABLE_MPICH2 AND USE_SYSTEM_MPI)
-  set (MPIFIRSTPASS ON)
-  foreach(lib ${MPI_C_LIBRARIES} )
-    if (${MPIFIRSTPASS})
-      set(PV_MPI_C_LIBRARIES ${lib})
-      set (MPIFIRSTPASS OFF)
-    else ()
-      set (PV_MPI_C_LIBRARIES ${PV_MPI_C_LIBRARIES}+${lib})
-    endif()
-  endforeach(lib)
-  set (MPIFIRSTPASS ON)
-  foreach(lib ${MPI_CXX_LIBRARIES} )
-    if (${MPIFIRSTPASS})
-      set(PV_MPI_CXX_LIBRARIES ${lib})
-      set (MPIFIRSTPASS OFF)
-    else ()
-      set (PV_MPI_CXX_LIBRARIES ${PV_MPI_CXX_LIBRARIES}+${lib})
-    endif()
-  endforeach(lib)
-  set (MPIFIRSTPASS ON)
-  foreach(lib ${MPI_LIBRARY} )
-    if (${MPIFIRSTPASS})
-      set(PV_MPI_LIBRARY ${lib})
-      set (MPIFIRSTPASS OFF)
-    else ()
-      set (PV_MPI_LIBRARY ${PV_MPI_LIBRARY}+${lib})
-    endif()
-  endforeach(lib)
-  set (MPIFIRSTPASS ON)
-  foreach(lib ${MPI_EXTRA_LIBRARY} )
-    if (${MPIFIRSTPASS})
-      set(PV_MPI_EXTRA_LIBRARY ${lib})
-      set (MPIFIRSTPASS OFF)
-    else ()
-      set (PV_MPI_EXTRA_LIBRARY ${PV_MPI_EXTRA_LIBRARY}+${lib})
-    endif()
-  endforeach(lib)
-
-  # if using system MPI, tell ParaView to use the user-specified MPI
-  list (APPEND extra_cmake_args
-    -DMPIEXEC:FILEPATH=${MPIEXEC}
-    -DMPIEXEC_MAX_NUMPROCS:STRING=${MPIEXEC_MAX_NUMPROCS}
-    -DMPIEXEC_NUMPROC_FLAG:STRING=${MPIEXEC_NUMPROC_FLAG}
-    -DMPIEXEC_POSTFLAGS:STRING=${MPIEXEC_POSTFLAGS}
-    -DMPIEXEC_PREFLAGS:STRING=${MPIEXEC_PREFLAGS}
-    -DMPI_CXX_COMPILER:FILEPATH=${MPI_CXX_COMPILER}
-    -DMPI_CXX_COMPILE_FLAGS:STRING=${MPI_CXX_COMPILE_FLAGS}
-    -DMPI_CXX_INCLUDE_PATH:STRING=${MPI_CXX_INCLUDE_PATH}
-    -DMPI_CXX_LIBRARIES:STRING=${PV_MPI_CXX_LIBRARIES}
-    -DMPI_CXX_LINK_FLAGS:STRING=${MPI_CXX_LINK_FLAGS}
-    -DMPI_C_COMPILER:FILEPATH=${MPI_C_COMPILER}
-    -DMPI_C_COMPILE_FLAGS:STRING=${MPI_C_COMPILE_FLAGS}
-    -DMPI_C_INCLUDE_PATH:STRING=${MPI_C_INCLUDE_PATH}
-    -DMPI_C_LIBRARIES:STRING=${PV_MPI_C_LIBRARIES}
-    -DMPI_C_LINK_FLAGS:STRING=${MPI_C_LINK_FLAGS}
-    -DMPI_EXTRA_LIBRARY:STRING=${PV_MPI_EXTRA_LIBRARY}
-    -DMPI_LIBRARY:FILEPATH=${PV_MPI_LIBRARY})
-endif ()
-
-if (ENABLE_HDF5)
-  list (APPEND extra_cmake_args
-    -DHDF5_C_LIBRARY:PATH=<INSTALL_DIR>/lib/libhdf5.so+<INSTALL_DIR>/lib/libhdf5_hl.so
-    -DHDF5_hdf5_LIBRARY=<INSTALL_DIR>/lib/libhdf5.so
-    -DHDF5_hdf5_hl_LIBRARY=<INSTALL_DIR>/lib/libhdf5_hl.so)
-endif()
-
-if (ENABLE_QT AND USE_SYSTEM_QT)
-  list (APPEND extra_cmake_args
-    -DQT_QMAKE_EXECUTABLE:FILEPATH=${QT_QMAKE_EXECUTABLE})
-endif()
-
 add_external_project(paraview
-  DEPENDS zlib png hdf5 silo cgns ffmpeg libxml2 boost python numpy
-          mpich2 manta qt
+  DEPENDS_OPTIONAL
+     zlib png hdf5 silo cgns ffmpeg libxml2 boost python numpy
+     mpich2 manta qt
 
   CMAKE_ARGS
     -DBUILD_SHARED_LIBS:BOOL=ON
     -DBUILD_TESTING:BOOL=OFF
     -DPARAVIEW_BUILD_PLUGIN_CoProcessingScriptGenerator:BOOL=ON
     -DPARAVIEW_BUILD_PLUGIN_EyeDomeLighting:BOOL=ON
-    -DPARAVIEW_BUILD_PLUGIN_Manta:BOOL=${ENABLE_MANTA}
-    -DPARAVIEW_BUILD_QT_GUI:BOOL=${build_qt_gui}
-    -DPARAVIEW_ENABLE_PYTHON:BOOL=${ENABLE_PYTHON}
-    -DPARAVIEW_USE_MPI:BOOL=${ENABLE_MPICH2}
+    -DPARAVIEW_BUILD_PLUGIN_Manta:BOOL=${manta_ENABLED}
+    -DPARAVIEW_BUILD_QT_GUI:BOOL=${qt_ENABLED}
+    -DPARAVIEW_ENABLE_PYTHON:BOOL=${python_ENABLED}
+    -DPARAVIEW_USE_MPI:BOOL=${mpich2_ENABLED}
     -DPARAVIEW_USE_VISITBRIDGE:BOOL=ON
-    -DVISIT_BUILD_READER_CGNS:BOOL=${ENABLE_CGNS}
-    -DVISIT_BUILD_READER_Silo:BOOL=${ENABLE_SILO}
-    -DVTK_USE_BOOST:BOOL=${ENABLE_BOOST}
-    -DVTK_USE_FFMPEG_ENCODER:BOOL=${ENABLE_FFMPEG}
-    -DVTK_USE_QT:BOOL=${ENABLE_QT}
-    -DVTK_USE_SYSTEM_FREETYPE:BOOL=${ENABLE_FREETYPE}
-    -DVTK_USE_SYSTEM_HDF5:BOOL=${ENABLE_HDF5}
-    -DVTK_USE_SYSTEM_LIBXML2:BOOL=${ENABLE_LIBXML2}
-    -DVTK_USE_SYSTEM_PNG:BOOL=${ENABLE_PNG}
-    -DVTK_USE_SYSTEM_ZLIB:BOOL=${ENABLE_ZLIB}
+    -DVISIT_BUILD_READER_CGNS:BOOL=${cngs_ENABLED}
+    -DVISIT_BUILD_READER_Silo:BOOL=${silo_ENABLED}
+    -DVTK_USE_BOOST:BOOL=${boost_ENABLED}
+    -DVTK_USE_FFMPEG_ENCODER:BOOL=${ffmpeg_ENABLED}
+#    -DVTK_USE_SYSTEM_FREETYPE:BOOL=${ENABLE_FREETYPE}
+    -DVTK_USE_SYSTEM_HDF5:BOOL=${hdf5_ENABLED}
+#    -DVTK_USE_SYSTEM_LIBXML2:BOOL=${ENABLE_LIBXML2}
+#    -DVTK_USE_SYSTEM_PNG:BOOL=${ENABLE_PNG}
+#    -DVTK_USE_SYSTEM_ZLIB:BOOL=${ENABLE_ZLIB}
 
   ${extra_cmake_args}
 
