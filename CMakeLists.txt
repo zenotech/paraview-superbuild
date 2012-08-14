@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 2.8.8)
 project(ParaViewSuperBuild)
 set (ParaViewSuperBuild_CMAKE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
+set (ParaViewSuperBuild_PROJECTS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Projects")
 include(CMakeDependentOption)
 
 #-----------------------------------------------------------------------------
@@ -35,8 +36,9 @@ endif()
 # Setup CMAKE_MODULE_PATH so that platform specific configurations are processed
 # before the generic ones.
 set (CMAKE_MODULE_PATH
-  "${ParaViewSuperBuild_CMAKE_DIR}/${platform}"
-  "${ParaViewSuperBuild_CMAKE_DIR}/common"
+  "${ParaViewSuperBuild_PROJECTS_DIR}/${platform}"
+  "${ParaViewSuperBuild_PROJECTS_DIR}/common"
+  "${ParaViewSuperBuild_PROJECTS_DIR}"
   "${ParaViewSuperBuild_CMAKE_DIR}"
   "${CMAKE_CURRENT_SOURCE_DIR}"
   ${CMAKE_MODULE_PATH})
