@@ -1,47 +1,58 @@
 # script to "bundle" paraview.
 
+# We hardcode the version numbers since we cannot determine versions during
+# configure stage.
+set (pv_version_major 3)
+set (pv_version_minor 14)
+set (pv_version_patch 1)
+set (pv_version_suffix dev)
+set (pv_version "${pv_version_major}.${pv_version_minor}")
+
 # install all ParaView's shared libraries.
-install(DIRECTORY "@install_location@/lib/paraview-3.14"
+install(DIRECTORY "@install_location@/lib/paraview-${pv_version}"
   DESTINATION "lib"
   USE_SOURCE_PERMISSIONS
   COMPONENT superbuild)
 
 # install python
-if (ENABLE_PYTHON AND NOT USE_SYSTEM_PYTHON)
+if (python_ENABLED AND NOT USE_SYSTEM_python)
   install(DIRECTORY "@install_location@/lib/python2.7"
-    DESTINATION "lib/paraview-3.14/lib"
+    DESTINATION "lib/paraview-${pv_version}/lib"
     USE_SOURCE_PERMISSIONS
     COMPONENT superbuild)
   # install pyconfig.h
   install (DIRECTORY "@install_location@/include/python2.7"
-    DESTINATION "lib/paraview-3.14/include"
+    DESTINATION "lib/paraview-${pv_version}/include"
     USE_SOURCE_PERMISSIONS
     COMPONENT superbuild
     PATTERN "pyconfig.h")
 endif()
 
 # install library dependencies for various executables.
+# the dependencies are searched only under the <install_location> and hence
+# system libraries are not packaged.
 install(CODE
   "execute_process(COMMAND
     ${CMAKE_COMMAND}
-      -Dexecutable:PATH=${install_location}/lib/paraview-3.14/paraview
+      -Dexecutable:PATH=${install_location}/lib/paraview-${pv_version}/paraview
       -Ddependencies_root:PATH=${install_location}
-      -Dtarget_root:PATH=\${CMAKE_INSTALL_PREFIX}/lib/paraview-3.14
+      -Dtarget_root:PATH=\${CMAKE_INSTALL_PREFIX}/lib/paraview-${pv_version}
+      -Dpv_version:STRING=${pv_version}
       -P ${CMAKE_CURRENT_LIST_DIR}/install_dependencies.cmake)"
   COMPONENT superbuild)
 
 # simply other miscellaneous dependencies.
 
-if (NOT PV_WITHOUT_QT_SUPPORT AND NOT USE_SYSTEM_QT)
+if (qt_ENABLED AND NOT USE_SYSTEM_qt)
   install(DIRECTORY
     # install all qt plugins (including sqllite).
     # FIXME: we can reconfigure Qt to be built with inbuilt sqllite support to 
     # avoid the need for plugins.
     "@install_location@/plugins/"
-    DESTINATION "lib/paraview-3.14"
+    DESTINATION "lib/paraview-${pv_version}"
     COMPONENT superbuild
     PATTERN "*.a" EXCLUDE
-    PATTERN "paraview-3.14" EXCLUDE
+    PATTERN "paraview-${pv_version}" EXCLUDE
     PATTERN "fontconfig" EXCLUDE
     PATTERN "*.jar" EXCLUDE
     PATTERN "*.debug.*" EXCLUDE
@@ -56,27 +67,34 @@ foreach(executable
     COMPONENT superbuild)
 endforeach()
 
-if (ENABLE_MPICH2 AND NOT USE_SYSTEM_MPI)
+if (mpich2_ENABLED AND NOT USE_SYSTEM_mpich2)
   install(PROGRAMS "@install_location@/bin/mpiexec.hydra"
-    DESTINATION "lib/paraview-3.14"
+    DESTINATION "lib/paraview-${pv_version}"
     COMPONENT superbuild
     RENAME "mpiexec")
   foreach (hydra_exe hydra_nameserver hydra_persist hydra_pmi_proxy)
     install(PROGRAMS "@install_location@/bin/${hydra_exe}"
-      DESTINATION "lib/paraview-3.14"
+      DESTINATION "lib/paraview-${pv_version}"
       COMPONENT superbuild)
   endforeach()
 endif()
 
 # Enable CPack packaging.
-SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY
   "ParaView is a scientific visualization tool.")
-SET(CPACK_PACKAGE_NAME "ParaView")
-SET(CPACK_PACKAGE_VENDOR "Kitware, Inc.")
-SET(CPACK_PACKAGE_VERSION_MAJOR 3)
-SET(CPACK_PACKAGE_VERSION_MINOR 14)
-SET(CPACK_PACKAGE_VERSION_PATCH 1)
-SET(CPACK_PACKAGE_FILE_NAME
-  "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}-${package_suffix}")
+set(CPACK_PACKAGE_NAME "ParaView")
+set(CPACK_PACKAGE_VENDOR "Kitware, Inc.")
+set(CPACK_PACKAGE_VERSION_MAJOR ${pv_version_major})
+set(CPACK_PACKAGE_VERSION_MINOR ${pv_version_minor})
+if (pv_version_suffix)
+  set(CPACK_PACKAGE_VERSION_PATCH ${pv_version_patch}-${pv_version_suffix})
+  set(CPACK_PACKAGE_FILE_NAME
+    "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}-${pv_version_suffix}-${package_suffix}")
+else()
+  set(CPACK_PACKAGE_VERSION_PATCH ${pv_version_patch})
+  set(CPACK_PACKAGE_FILE_NAME
+    "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}-${package_suffix}")
+endif()
+
 SET(CPACK_COMPONENTS_ALL "superbuild")
 INCLUDE(CPack)
