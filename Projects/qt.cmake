@@ -12,6 +12,10 @@ add_external_project_or_use_system(
                       -no-openssl
                       -no-phonon
                       -no-xinerama
+                      -no-script
+                      -no-scripttools
+                      -no-declarative-debug
+                      -no-xvideo
                       -opensource
                       -qt-libjpeg
                       -qt-libtiff

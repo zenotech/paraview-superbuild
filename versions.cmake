@@ -59,8 +59,8 @@ add_revision(fontconfig
   URL_MD5 77e15a92006ddc2adbb06f840d591c0e)
 
 add_revision(qt
-  URL "http://paraview.org/files/v3.14/dependencies/qt-everywhere-opensource-src-4.6.4.tar.gz"
-  URL_MD5 8ac880cc07a130c39607b65efd5e1421)
+  URL "http://releases.qt-project.org/qt4/source/qt-everywhere-opensource-src-4.8.2.tar.gz"
+  URL_MD5 3c1146ddf56247e16782f96910a8423b)
 
 add_revision(python
   URL "http://paraview.org/files/v3.14/dependencies/Python-2.7.2.tgz"
@@ -71,8 +71,8 @@ add_revision(numpy
   URL_MD5 2bce18c08fc4fce461656f0f4dd9103e)
 
 add_revision(boost
-  URL "http://downloads.sourceforge.net/project/boost/boost/1.45.0/boost_1_45_0.tar.gz"
-  URL_MD5 739792c98fafb95e7a6b5da23a30062c)
+  URL "http://downloads.sourceforge.net/project/boost/boost/1.50.0/boost_1_50_0.tar.gz"
+  URL_MD5 dbc07ab0254df3dda6300fd737b3f264)
 
 add_revision(manta
   URL "http://paraview.org/files/v3.14/dependencies/manta-r2439.tar.gz"
