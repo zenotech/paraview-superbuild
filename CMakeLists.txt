@@ -48,9 +48,9 @@ set (CMAKE_MODULE_PATH
 set (install_location "${CMAKE_CURRENT_BINARY_DIR}/install")
 set (download_location "${CMAKE_CURRENT_BINARY_DIR}/downloads")
 set (ldflags "$ENV{LDFLAGS} -L${install_location}/lib")
-set (cppflags "$ENV{CPPFLAGS} -I${install_location}/include -fPIC")
-set (cxxflags "$ENV{CXXFLAGS} -I${install_location}/include -fPIC")
-set (cflags "$ENV{CFLAGS} -I${install_location}/include")
+set (cppflags "$ENV{CPPFLAGS} -fPIC")
+set (cxxflags "$ENV{CXXFLAGS} -fPIC")
+set (cflags "$ENV{CFLAGS}")
 set (ld_library_path "${install_location}/lib:$ENV{LD_LIBRARY_PATH}")
 set (prefix_path "${install_location}")
 
@@ -96,10 +96,18 @@ include(mesa)
 # libraries we've built here.
 include(paraview)
 
+#include(acusolve_plugin)
+#include(vistrails_plugin)
+#include(nektar_plugin)
+#include(mili_plugin)
 process_dependencies()
 
+if (paraview_ENABLED)
+  include(paraview.bundle)
+endif()
 
 return()
+
 SET (CMAKE_INSTALL_COMPONENT runtime)
 ## When building with Mesa and generating command line tools alone, 
 ## we provide the user with an option to use OSMesa.
@@ -112,8 +120,8 @@ SET (CMAKE_INSTALL_COMPONENT runtime)
 
 add_project(paraview.bundle REQUIRED)
 
-# Now add optional/proprietary plugins.
-add_project(acusolve_plugin DEFAULT_OFF)
-add_project(vistrails_plugin DEFAULT_OFF)
-add_project(nektar_plugin DEFAULT_OFF)
+## Now add optional/proprietary plugins.
+#add_project(acusolve_plugin DEFAULT_OFF)
+#add_project(vistrails_plugin DEFAULT_OFF)
+#add_project(nektar_plugin DEFAULT_OFF)
 #add_project(mili_plugin DEFAULT_OFF)
