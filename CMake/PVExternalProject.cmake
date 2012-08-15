@@ -10,7 +10,32 @@ include(ExternalProject)
 string(REPLACE ")" "|PROCESS_ENVIRONMENT)"
   _ep_keywords_PVExternalProject_Add "${_ep_keywords_ExternalProject_Add}")
 
+function(PVExternalProject_Add_Win32 name)
+    set (arguments)
+    set (optional_depends)
+    set (accumulate FALSE)
+    foreach(arg ${ARGN})
+			if ("${arg}" MATCHES "^PROCESS_ENVIRONMENT$")
+        set (accumulate TRUE)
+      elseif ("${arg}" MATCHES "${_ep_keywords_ExternalProject_Add}")
+        set (accumulate FALSE)
+      endif()
+      if (NOT accumulate)
+        list(APPEND arguments "${arg}")
+		  endif()
+    endforeach()
+    ExternalProject_Add(${name} ${arguments}) 
+    unset(arguments)
+    unset(optional_depends)
+    unset(accumulate)
+endfunction()
+
 function (PVExternalProject_Add name)
+  if (WIN32)
+     PVExternalProject_Add_Win32(${name} ${ARGN})
+		 return()
+	endif()
+ 
   # process arguments are detect USE_ENVIRONMENT, BUILD_COMMAND and
   # CONFIGURE_COMMAND.
 
@@ -105,6 +130,7 @@ function (PVExternalProject_Add name)
 
   if (has_build_command)
     get_target_property(step_command pv-${name} _EP_BUILD_COMMAND)
+    message("${name} BUILD_COMMAND ${step_command}")
     _ep_replace_location_tags(${name} step_command)
     configure_file(${ParaViewSuperBuild_CMAKE_DIR}/pep_configure.cmake.in
       ${CMAKE_CURRENT_BINARY_DIR}/pv-${name}-build.cmake

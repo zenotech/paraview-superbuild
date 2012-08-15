@@ -103,7 +103,7 @@ include(paraview)
 process_dependencies()
 
 if (paraview_ENABLED)
-  include(paraview.bundle)
+  include(paraview.bundle OPTIONAL)
 endif()
 
 return()
