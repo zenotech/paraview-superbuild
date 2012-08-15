@@ -22,9 +22,11 @@ add_external_project(paraview
     -DVISIT_BUILD_READER_CGNS:BOOL=${cngs_ENABLED}
     -DVISIT_BUILD_READER_Silo:BOOL=${silo_ENABLED}
     -DVTK_USE_BOOST:BOOL=${boost_ENABLED}
-    -DVTK_USE_FFMPEG_ENCODER:BOOL=${ffmpeg_ENABLED}
-#    -DVTK_USE_SYSTEM_FREETYPE:BOOL=${ENABLE_FREETYPE}
     -DVTK_USE_SYSTEM_HDF5:BOOL=${hdf5_ENABLED}
+    -DModule_vtkIOFFMPEG:BOOL=${ffmpeg_ENABLED}
+    # since VTK mangles all the following, I wonder if there's any point in
+    # making it use system versions.
+#    -DVTK_USE_SYSTEM_FREETYPE:BOOL=${ENABLE_FREETYPE}
 #    -DVTK_USE_SYSTEM_LIBXML2:BOOL=${ENABLE_LIBXML2}
 #    -DVTK_USE_SYSTEM_PNG:BOOL=${ENABLE_PNG}
 #    -DVTK_USE_SYSTEM_ZLIB:BOOL=${ENABLE_ZLIB}
