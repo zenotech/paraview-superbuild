@@ -10,21 +10,24 @@ include(ExternalProject)
 string(REPLACE ")" "|PROCESS_ENVIRONMENT)"
   _ep_keywords_PVExternalProject_Add "${_ep_keywords_ExternalProject_Add}")
 
-function(PVExternalProject_Add_Win32 name)
+#------------------------------------------------------------------------------
+# win32 version of the macro that simply strips the PROCESS_ENVIRONMENT and call
+# ExternalProject_Add().
+function(_PVExternalProject_Add_Win32 name)
     set (arguments)
     set (optional_depends)
     set (accumulate FALSE)
     foreach(arg ${ARGN})
-			if ("${arg}" MATCHES "^PROCESS_ENVIRONMENT$")
+      if ("${arg}" MATCHES "^PROCESS_ENVIRONMENT$")
         set (accumulate TRUE)
       elseif ("${arg}" MATCHES "${_ep_keywords_ExternalProject_Add}")
         set (accumulate FALSE)
       endif()
       if (NOT accumulate)
         list(APPEND arguments "${arg}")
-		  endif()
+      endif()
     endforeach()
-    ExternalProject_Add(${name} ${arguments}) 
+    ExternalProject_Add(${name} ${arguments})
     unset(arguments)
     unset(optional_depends)
     unset(accumulate)
@@ -32,10 +35,10 @@ endfunction()
 
 function (PVExternalProject_Add name)
   if (WIN32)
-     PVExternalProject_Add_Win32(${name} ${ARGN})
-		 return()
-	endif()
- 
+     _PVExternalProject_Add_Win32(${name} ${ARGN})
+    return()
+  endif()
+
   # process arguments are detect USE_ENVIRONMENT, BUILD_COMMAND and
   # CONFIGURE_COMMAND.
 
