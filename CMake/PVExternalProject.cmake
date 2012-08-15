@@ -130,7 +130,6 @@ function (PVExternalProject_Add name)
 
   if (has_build_command)
     get_target_property(step_command pv-${name} _EP_BUILD_COMMAND)
-    message("${name} BUILD_COMMAND ${step_command}")
     _ep_replace_location_tags(${name} step_command)
     configure_file(${ParaViewSuperBuild_CMAKE_DIR}/pep_configure.cmake.in
       ${CMAKE_CURRENT_BINARY_DIR}/pv-${name}-build.cmake
