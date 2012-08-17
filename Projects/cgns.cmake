@@ -1,15 +1,14 @@
 add_external_project(
   cgns
   DEPENDS zlib hdf5
-  CONFIGURE_COMMAND <SOURCE_DIR>/configure
-                    --prefix=<INSTALL_DIR>
-                    --enable-shared=all
-                    # don't build with HDF5 support, 
-                    # as that seems broken.
-                    #--with-hdf5=<INSTALL_DIR>
-                    #--with-szip=<INSTALL_DIR>/lib/libsz.so
-                    --with-zlib
-                    --with-fortran=no
-                    --enable-64bit
-  BUILD_IN_SOURCE 1
+  CMAKE_ARGS
+  -DCGNS_BUILD_SHARED:BOOL=ON
+  -DENABLE_64BIT:BOOL=ON
+# we didn't enable hdf5 support in past,
+# and even now, we seem to have build issues,
+# so disabling it.
+  -DENABLE_HDF5:BOOL=OFF
+#  -DENABLE_HDF5:BOOL=ON
+#  -DHDF5_NEED_SZIP:BOOL=ON
+#  -DHDF5_NEED_ZLIB:BOOL=ON
 )

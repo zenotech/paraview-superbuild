@@ -43,8 +43,10 @@ add_revision(silo
   URL_MD5 03e27c977f34dc6e9a5f3864153c24fe)
 
 add_revision(cgns
-  URL "http://paraview.org/files/v3.14/dependencies/cgnslib_2.5-5.tar.gz"
-  URL_MD5 ae2a2e79b99d41c63e5ed5f661f70fd9)
+  URL "http://downloads.sourceforge.net/project/cgns/cgnslib_3.1/cgnslib_3.1.3-4.tar.gz"
+  URL_MD5 442bba32b576f3429cbd086af43fd4ae)
+#URL "http://paraview.org/files/v3.14/dependencies/cgnslib_2.5-5.tar.gz"
+#  URL_MD5 ae2a2e79b99d41c63e5ed5f661f70fd9)
 
 add_revision(ffmpeg
   URL "http://paraview.org/files/v3.14/dependencies/ffmpeg-0.6.5.tar.gz"
