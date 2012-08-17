@@ -1,3 +1,7 @@
+if (APPLE)
+  message(FATAL_ERROR "ABORT")
+endif()
+
 add_external_project_or_use_system(python
   DEPENDS zlib png
   CONFIGURE_COMMAND <SOURCE_DIR>/configure
