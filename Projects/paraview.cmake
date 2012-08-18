@@ -29,6 +29,10 @@ add_external_project(paraview
 #    -DVTK_USE_SYSTEM_PNG:BOOL=${ENABLE_PNG}
 #    -DVTK_USE_SYSTEM_ZLIB:BOOL=${ENABLE_ZLIB}
 
+    # specify the apple app install prefix. No harm in specifying it for all
+    # platforms.
+    -DMACOSX_APP_INSTALL_PREFIX:PATH=<INSTALL_DIR>/Applications
+
   ${extra_cmake_args}
 
   LIST_SEPARATOR +
