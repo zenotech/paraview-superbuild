@@ -72,3 +72,9 @@ if (mpich2_ENABLED AND NOT USE_SYSTEM_mpich2)
       COMPONENT superbuild)
   endforeach()
 endif()
+
+add_test(NAME GenerateParaViewPackage
+         COMMAND ${CMAKE_CPACK_COMMAND} -G TGZ -V
+         WORKING_DIRECTORY ${ParaViewSuperBuild_BINARY_DIR})
+set_tests_properties(GenerateParaViewPackage PROPERTIES
+                     TIMEOUT 1200) # increase timeout to 20 mins.
