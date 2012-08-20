@@ -69,6 +69,11 @@ string (STRIP "${cflags}"  cflags)
 include (ParaViewModules)
 include (versions)
 
+#------------------------------------------------------------------------------
+# enable testing support.
+include(CTest)
+#------------------------------------------------------------------------------
+
 #-----------------------------------------------------------------------------
 set (CM_PROJECTS_ALL)
 
@@ -128,3 +133,4 @@ add_project(paraview.bundle REQUIRED)
 #add_project(vistrails_plugin DEFAULT_OFF)
 #add_project(nektar_plugin DEFAULT_OFF)
 #add_project(mili_plugin DEFAULT_OFF)
+
