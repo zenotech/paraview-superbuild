@@ -47,10 +47,11 @@ set (CMAKE_MODULE_PATH
 # Setup some standard variables that control various locations and flags.
 set (install_location "${CMAKE_CURRENT_BINARY_DIR}/install")
 set (download_location "${CMAKE_CURRENT_BINARY_DIR}/downloads")
+# FIXME: currently, if any of these are empty, we have build issues on Unix.
 set (ldflags "$ENV{LDFLAGS} -L${install_location}/lib")
 set (cppflags "$ENV{CPPFLAGS} -fPIC")
 set (cxxflags "$ENV{CXXFLAGS} -fPIC")
-set (cflags "$ENV{CFLAGS}")
+set (cflags "$ENV{CFLAGS} -fPIC")
 set (ld_library_path "${install_location}/lib:$ENV{LD_LIBRARY_PATH}")
 set (prefix_path "${install_location}")
 
