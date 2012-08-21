@@ -77,4 +77,7 @@ add_test(NAME GenerateParaViewPackage
          COMMAND ${CMAKE_CPACK_COMMAND} -G TGZ -V
          WORKING_DIRECTORY ${ParaViewSuperBuild_BINARY_DIR})
 set_tests_properties(GenerateParaViewPackage PROPERTIES
+                     # needed so that tests are run on typical paraview
+                     # dashboards
+                     LABELS "PARAVIEW"
                      TIMEOUT 1200) # increase timeout to 20 mins.
