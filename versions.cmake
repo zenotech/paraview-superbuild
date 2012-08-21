@@ -92,10 +92,21 @@ add_revision(paraview
   GIT_REPOSITORY git://paraview.org/ParaView.git
   GIT_TAG "master")
 
+add_revision(diy
+   SVN_REPOSITORY https://svn.mcs.anl.gov/repos/diy/trunk)
+
+add_revision(qhull
+    GIT_REPOSITORY https://github.com/gzagaris/gxzagas-qhull.git
+    GIT_TAG master)
+
 #------------------------------------------------------------------------------
 # Optional Plugins. Doesn't affect ParaView binaries at all even if missing
 # or disabled.
 #------------------------------------------------------------------------------
+
+add_revision(cosmologytools
+    GIT_REPOSITORY git@public.kitware.com:cosmologytools.git
+    GIT_TAG master)
 
 add_revision(acusolve_plugin
   GIT_REPOSITORY git://kwsource.kitwarein.com/paraview/acusolvereaderplugin.git
