@@ -291,7 +291,8 @@ function(add_external_project_internal name)
       CPPFLAGS "${cppflags}"
       CXXFLAGS "${cxxflags}"
       CFLAGS "${cflags}"
-      LD_LIBRARY_PATH "${ld_library_path}"
+# disabling since its causing error with newer gcc
+#      LD_LIBRARY_PATH "${ld_library_path}"
       CMAKE_PREFIX_PATH "${prefix_path}"
     CMAKE_ARGS
       -DCMAKE_INSTALL_PREFIX:PATH=${prefix_path}
