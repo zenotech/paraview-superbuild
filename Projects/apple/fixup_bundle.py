@@ -200,12 +200,18 @@ for dep in mLibraries:
   dep.copyToApp(App)
   new_id = dep.Id
   install_name_tool_command += ["-change", '"%s"' % old_id, '"%s"' % new_id]
+print ""
 
 install_name_tool_command = " ".join(install_name_tool_command)
 
+print "------------------------------------------------------------"
+print "Running 'install_name_tool' to fix paths to copied files."
+print ""
 # Run the command for all libraries and executables.
 # The --separator for file allows helps use locate the file name accurately.
 binaries_to_fix = commands.getoutput('find %s -type f | xargs file --separator ":--:" | grep -i ":--:.*Mach-O" | sed "s/:.*//" | sort | uniq ' % App).split()
+
+
 result = ""
 for dep in binaries_to_fix:
   commands.getoutput('chmod u+w "%s"' % dep)
@@ -215,4 +221,7 @@ for dep in binaries_to_fix:
 
 # Lastly, we need to copy Qt plugins over.
 if QtPluginsDir:
-  commands.getoutput('cp -r "%s/*" "%s/Contents/Plugins"' % (QtPluginsDir, App))
+  print "------------------------------------------------------------"
+  print "Copying Qt plugins "
+  print "  %s ==> .../Contents/Plugins" % QtPluginsDir
+  commands.getoutput('cp -R "%s/" "%s/Contents/Plugins"' % (QtPluginsDir, App))
