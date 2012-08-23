@@ -266,6 +266,13 @@ function(add_external_project_internal name)
     endif()
   endforeach()
 
+  if (APPLE)
+    list (APPEND cmake_params
+      -DCMAKE_OSX_ARCHITECTURES:STRING=${CMAKE_OSX_ARCHITECTURES}
+      -DCMAKE_OSX_DEPLOYMENT_TARGET:STRING=${CMAKE_OSX_DEPLOYMENT_TARGET}
+      -DCMAKE_OSX_SYSROOT:PATH=${CMAKE_OSX_SYSROOT})
+  endif()
+
   #get extra-cmake args from every dependent project, if any.
   set(arg_DEPENDS)
   get_project_depends(${name} arg)
@@ -291,6 +298,7 @@ function(add_external_project_internal name)
       CPPFLAGS "${cppflags}"
       CXXFLAGS "${cxxflags}"
       CFLAGS "${cflags}"
+      MACOSX_DEPLOYMENT_TARGET "${CMAKE_OSX_DEPLOYMENT_TARGET}"
 # disabling since its causing error with newer gcc
 #      LD_LIBRARY_PATH "${ld_library_path}"
       CMAKE_PREFIX_PATH "${prefix_path}"

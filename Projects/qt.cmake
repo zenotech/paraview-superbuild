@@ -1,11 +1,21 @@
 set (qt_depends)
 set (qt_options)
+set (patch_command)
 if (NOT APPLE AND UNIX)
   list (APPEND qt_depends freetype fontconfig png)
   list (APPEND qt_options
                -system-libpng
                -I <INSTALL_DIR>/include/freetype2
                -I <INSTALL_DIR>/include/fontconfig)
+elseif (APPLE)
+  list (APPEND qt_options
+              -sdk ${CMAKE_OSX_SYSROOT}
+              -arch ${CMAKE_OSX_ARCHITECTURES})
+  # Need to patch Qt code to build with Xcode 4.3 or newer (where SDK
+  # location chnages using the following command:
+  #find . -name "*.pro" -exec sed -i -e "s:/Developer/SDKs/:.*:g" {} \;
+  set (patch_command
+    "PATCH_COMMAND /usr/bin/find . -name \"*.pro\" -exec sed -i -e \"s:/Developer/SDKs/:.*:g\" {} \;")
 endif()
 add_external_project_or_use_system(
     qt
@@ -36,4 +46,5 @@ add_external_project_or_use_system(
                       ${qt_options}
     PROCESS_ENVIRONMENT
       LD_LIBRARY_PATH "<BINARY_DIR>/lib"
+    ${patch_command}
 )
