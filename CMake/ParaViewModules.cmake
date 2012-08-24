@@ -311,6 +311,14 @@ function(add_external_project_internal name)
       -DCMAKE_SHARED_LINKER_FLAGS:STRING=${ldflags}
       ${cmake_params}
     )
+
+  get_property(additional_steps GLOBAL PROPERTY ${name}_STEPS)
+  if (additional_steps)
+     foreach (step ${additional_steps})
+       get_property(step_contents GLOBAL PROPERTY ${name}-STEP-${step})
+       ExternalProject_Add_Step(${name} ${step} ${step_contents}) 
+     endforeach()
+  endif()
 endfunction()
 
 function(add_system_project name)
@@ -324,7 +332,20 @@ macro(add_extra_cmake_args)
       message(AUTHOR_WARNING "add_extra_cmake_args called an incorrect stage.")
       return()
     endif()
-		set_property(GLOBAL APPEND PROPERTY ${cm-project}_CMAKE_ARGS ${ARGN})
+    set_property(GLOBAL APPEND PROPERTY ${cm-project}_CMAKE_ARGS ${ARGN})
+  else()
+    # nothing to do.
+  endif()
+endmacro()
+
+macro(add_external_project_step name)
+  if (build-projects)
+    if (NOT cm-project)
+      message(AUTHOR_WARNING "add_external_project_step called an incorrect stage.")
+      return()
+    endif()
+    set_property(GLOBAL APPEND PROPERTY ${cm-project}_STEPS "${name}")
+    set_property(GLOBAL APPEND PROPERTY ${cm-project}-STEP-${name} ${ARGN})
   else()
     # nothing to do.
   endif()

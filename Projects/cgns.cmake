@@ -1,6 +1,7 @@
 add_external_project(
   cgns
   DEPENDS zlib hdf5
+
   CMAKE_ARGS
   -DCGNS_BUILD_SHARED:BOOL=ON
   -DENABLE_64BIT:BOOL=ON
@@ -12,3 +13,16 @@ add_external_project(
 #  -DHDF5_NEED_SZIP:BOOL=ON
 #  -DHDF5_NEED_ZLIB:BOOL=ON
 )
+
+if (WIN32)
+  add_external_project_step(patch0
+	  COMMAND ${CMAKE_COMMAND} -E copy_if_different ${ParaViewSuperBuild_PROJECTS_DIR}/patches/cgns.src.CMakeLists.txt
+	          <SOURCE_DIR>/src/CMakeLists.txt
+	  DEPENDEES update
+          DEPENDERS patch)
+  add_external_project_step(patch1
+	  COMMAND ${CMAKE_COMMAND} -E copy_if_different ${ParaViewSuperBuild_PROJECTS_DIR}/patches/cgns.src.tools.CMakeLists.txt
+	          <SOURCE_DIR>/src/tools/CMakeLists.txt
+	  DEPENDEES update
+          DEPENDERS patch)
+endif()
