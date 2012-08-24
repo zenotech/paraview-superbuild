@@ -298,7 +298,8 @@ function(add_external_project_internal name)
       CPPFLAGS "${cppflags}"
       CXXFLAGS "${cxxflags}"
       CFLAGS "${cflags}"
-      MACOSX_DEPLOYMENT_TARGET "${CMAKE_OSX_DEPLOYMENT_TARGET}"
+# disabling this since it fails when building numpy.
+#      MACOSX_DEPLOYMENT_TARGET "${CMAKE_OSX_DEPLOYMENT_TARGET}"
 # disabling since its causing error with newer gcc
 #      LD_LIBRARY_PATH "${ld_library_path}"
       CMAKE_PREFIX_PATH "${prefix_path}"
