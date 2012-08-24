@@ -15,7 +15,7 @@ elseif (APPLE)
   # location chnages using the following command:
   #find . -name "*.pro" -exec sed -i -e "s:/Developer/SDKs/:.*:g" {} \;
   set (patch_command
-    "PATCH_COMMAND /usr/bin/find . -name \"*.pro\" -exec sed -i -e \"s:/Developer/SDKs/:.*:g\" {} \;")
+       PATCH_COMMAND /usr/bin/find . -name "*.pro" -exec sed -i -e "s:/Developer/SDKs/:.*:g" {} +)
 endif()
 add_external_project_or_use_system(
     qt
