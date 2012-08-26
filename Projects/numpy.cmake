@@ -1,8 +1,15 @@
+set (install_location "<INSTALL_DIR>")
+if (WIN32)
+  # numpy build has issues with paths containing "C:". So we set the prefix as a
+  # relative path.
+  set (install_location "../../../install")
+endif()
+
 add_external_project(numpy
   DEPENDS python
   CONFIGURE_COMMAND "echo"
   INSTALL_COMMAND "echo"
   BUILD_IN_SOURCE 1
   BUILD_COMMAND
-    ${pv_python_executable} setup.py install --prefix=<INSTALL_DIR>
+    ${pv_python_executable} setup.py install --prefix=${install_location}
 )
