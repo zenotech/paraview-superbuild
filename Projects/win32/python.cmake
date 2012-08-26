@@ -12,11 +12,15 @@ endif()
 
 
 #------------------------------------------------------------------------------
+# in the following build commands, we use devenv explicitly since the generator
+# the user has chosen could be nmake, in which case CMAKE_BUILD_TOOL is not the
+# right tool. Since devenv is in the path in the nmake build environment as well
+# as VS environment, we can safely call it. 
 add_external_project_or_use_system(python
   DEPENDS zlib
   BUILD_IN_SOURCE 1
   CONFIGURE_COMMAND "echo"
-  BUILD_COMMAND ${CMAKE_BUILD_TOOL} PCbuild/pcbuild.sln /build ${configuration}
+  BUILD_COMMAND devenv PCbuild/pcbuild.sln /build ${configuration}
                                     /project python
   #devenv doesn't seem to building all specified projects when I list them in
   #same command line. So making them separate calls.
@@ -44,7 +48,7 @@ set (python_projects_to_build
 
 foreach(dep IN LISTS python_projects_to_build)
   add_external_project_step(python-project-${dep}
-    COMMAND ${CMAKE_BUILD_TOOL} <SOURCE_DIR>/PCbuild/pcbuild.sln /build ${configuration}
+    COMMAND devenv <SOURCE_DIR>/PCbuild/pcbuild.sln /build ${configuration}
                                 /project ${dep}
     DEPENDEES build
     DEPENDERS install)
