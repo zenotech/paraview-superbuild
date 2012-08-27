@@ -204,6 +204,15 @@ print ""
 
 install_name_tool_command = " ".join(install_name_tool_command)
 
+# If Qt Plugins dir is specified, copies those in right now.
+# We need to fix paths on those too.
+# Currently, we are not including plugins in the external dependency search.
+if QtPluginsDir:
+  print "------------------------------------------------------------"
+  print "Copying Qt plugins "
+  print "  %s ==> .../Contents/Plugins" % QtPluginsDir
+  commands.getoutput('cp -R "%s/" "%s/Contents/Plugins"' % (QtPluginsDir, App))
+
 print "------------------------------------------------------------"
 print "Running 'install_name_tool' to fix paths to copied files."
 print ""
@@ -218,10 +227,3 @@ for dep in binaries_to_fix:
 #  print "Fixing '%s'" % dep
   commands.getoutput('install_name_tool %s "%s"' % (install_name_tool_command, dep))
   commands.getoutput('chmod a-w "%s"' % dep)
-
-# Lastly, we need to copy Qt plugins over.
-if QtPluginsDir:
-  print "------------------------------------------------------------"
-  print "Copying Qt plugins "
-  print "  %s ==> .../Contents/Plugins" % QtPluginsDir
-  commands.getoutput('cp -R "%s/" "%s/Contents/Plugins"' % (QtPluginsDir, App))
