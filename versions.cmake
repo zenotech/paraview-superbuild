@@ -12,9 +12,6 @@ add_revision(zlib
   URL "http://paraview.org/files/v3.14/dependencies/zlib-1.2.5.tar.gz"
   URL_MD5 c735eab2d659a96e5a594c9e8541ad63)
 
-# Can't use PNG 1.5 since Qt 4.6.* is making use of deprecated API.
-#  URL "ftp://ftp.simplesystems.org/pub/libpng/png/src/libpng-1.5.7.tar.gz"
-#  URL_MD5 944b56a84b65d94054cc73d7ff965de8
 add_revision(png
   URL "http://paraview.org/files/v3.14/dependencies/libpng-1.4.8.tar.gz"
   URL_MD5 49c6e05be5fa88ed815945d7ca7d4aa9)
@@ -31,9 +28,6 @@ add_revision(hdf5
   URL http://www.hdfgroup.org/ftp/HDF5/current/src/hdf5-1.8.9.tar.gz
   URL_MD5 d1266bb7416ef089400a15cc7c963218)
 
-# 3.12 binaries are using this customized silo, not sure why. It doesn't build
-# correctly on linux. I'm changing the code to use the standard silo binary.
-# URL http://paraview.org/files/misc/silo-4.8-bsd.tar.gz"
 add_revision(silo
   URL "http://paraview.org/files/v3.14/dependencies/silo-4.8-bsd.tar.gz"
   URL_MD5 03e27c977f34dc6e9a5f3864153c24fe)
