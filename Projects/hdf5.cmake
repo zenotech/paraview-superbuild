@@ -27,3 +27,16 @@ if (MSVC)
   DEPENDERS patch  # do before patch
   )
 endif()
+
+if (WIN32)
+  # On Windows, find_package(HDF5) with cmake 2.8.[8,9] always ends up finding
+  # the dlls instead of the libs. So setting the variables explicitly for
+  # dependent projects.
+  add_extra_cmake_args(
+    -DHDF5_C_LIBRARY:FILEPATH=${install_location}/lib/hdf5dll.lib
+    -DHDF5_HL_LIBRARY:FILEPATH=${install_location}/lib/hdf5_hldll.lib
+    # This variable is for CGNS, since CGNS doesn't use standard find_package()
+    # to find hdf5.
+    -DHDF5_LIBRARY:FILEPATH=${install_location}/lib/hdf5dll.lib
+  )
+endif()
