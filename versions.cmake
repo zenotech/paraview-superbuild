@@ -28,12 +28,8 @@ add_revision(szip
   URL_MD5 902f831bcefb69c6b635374424acbead)
 
 add_revision(hdf5
-  URL "http://paraview.org/files/v3.14/dependencies/hdf5-1.8.8.tar.gz"
-  URL_MD5 1196e668f5592bfb50d1de162eb16cff)
-#add_revision(hdf5
-#  URL http://www.hdfgroup.org/ftp/HDF5/current/src/hdf5-1.8.9.tar.gz
-#  URL_MD5 d1r66bb7416ef089400a15cc7c963218)
-  
+  URL http://www.hdfgroup.org/ftp/HDF5/current/src/hdf5-1.8.9.tar.gz
+  URL_MD5 d1266bb7416ef089400a15cc7c963218)
 
 # 3.12 binaries are using this customized silo, not sure why. It doesn't build
 # correctly on linux. I'm changing the code to use the standard silo binary.
@@ -45,8 +41,6 @@ add_revision(silo
 add_revision(cgns
   URL "http://downloads.sourceforge.net/project/cgns/cgnslib_3.1/cgnslib_3.1.3-4.tar.gz"
   URL_MD5 442bba32b576f3429cbd086af43fd4ae)
-#URL "http://paraview.org/files/v3.14/dependencies/cgnslib_2.5-5.tar.gz"
-#  URL_MD5 ae2a2e79b99d41c63e5ed5f661f70fd9)
 
 add_revision(ffmpeg
   URL "http://paraview.org/files/v3.14/dependencies/ffmpeg-0.6.5.tar.gz"
