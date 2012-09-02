@@ -24,8 +24,6 @@ add_external_project_or_use_system(
                     -xmlpatterns
                     -I <INSTALL_DIR>/include
                     -L <INSTALL_DIR>/lib
-  # nmake will already be in path for VS-devenv or nmake environments
-  # so we don't have to provide full paths.
-  BUILD_COMMAND     nmake
-  INSTALL_COMMAND   nmake install
+  BUILD_COMMAND     ${NMAKE_PATH} 
+  INSTALL_COMMAND   ${NMAKE_PATH} install
 ) 

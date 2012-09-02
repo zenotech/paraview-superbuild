@@ -20,7 +20,7 @@ add_external_project_or_use_system(python
   DEPENDS zlib
   BUILD_IN_SOURCE 1
   CONFIGURE_COMMAND "echo"
-  BUILD_COMMAND devenv PCbuild/pcbuild.sln /build ${configuration}
+  BUILD_COMMAND ${DEVENV_PATH} PCbuild/pcbuild.sln /build ${configuration}
                                     /project python
   #devenv doesn't seem to building all specified projects when I list them in
   #same command line. So making them separate calls.
@@ -48,7 +48,7 @@ set (python_projects_to_build
 
 foreach(dep IN LISTS python_projects_to_build)
   add_external_project_step(python-project-${dep}
-    COMMAND devenv <SOURCE_DIR>/PCbuild/pcbuild.sln /build ${configuration}
+    COMMAND ${DEVENV_PATH} <SOURCE_DIR>/PCbuild/pcbuild.sln /build ${configuration}
                                 /project ${dep}
     DEPENDEES build
     DEPENDERS install)
