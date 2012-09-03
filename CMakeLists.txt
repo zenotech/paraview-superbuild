@@ -76,11 +76,16 @@ if (APPLE)
 endif()
 set (prefix_path "${install_location}")
 
+# merge in default/user-specified CMake flags.
+set (ldflags "${CMAKE_SHARED_LINKER_FLAGS} ${ldflags}")
+set (cppflags "${CMAKE_CXX_FLAGS} ${cppflags}")
+set (cxxflags "${CMAKE_CXX_FLAGS} ${cxxflags}")
+set (cflags "${CMAKE_C_FLAGS} ${cflags}")
+
 string (STRIP "${ldflags}" ldflags)
 string (STRIP "${cppflags}" cppflags)
 string (STRIP "${cxxflags}" cxxflags)
 string (STRIP "${cflags}"  cflags)
-
 #-----------------------------------------------------------------------------
 ## Top-level options. These must be limited to a commonly used subset with
 ## default values being used for building ParaView binaries.
