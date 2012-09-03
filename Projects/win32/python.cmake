@@ -24,7 +24,11 @@ add_external_project_or_use_system(python
                                     /project python
   #devenv doesn't seem to building all specified projects when I list them in
   #same command line. So making them separate calls.
-  INSTALL_COMMAND "echo"
+
+  # We need to copy pyconfig.h from PC/ to Include.
+  INSTALL_COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                  <SOURCE_DIR>/PC/pyconfig.h
+                  <SOURCE_DIR>/Include/pyconfig.h
 )
 
 #------------------------------------------------------------------------------
