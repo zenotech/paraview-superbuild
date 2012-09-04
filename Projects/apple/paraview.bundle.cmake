@@ -5,6 +5,7 @@ set (CPACK_GENERATOR DragNDrop)
 
 # include some common stub.
 include(paraview.bundle.common)
+include(CPack)
 
 # now fixup each of the applications.
 # we only to paraview explicitly.

@@ -1,17 +1,41 @@
 # script to "bundle" paraview.
+
+#------------------------------------------------------------------------------
 # include common stuff.
 
-set (PARAVIEW_INSTALL_MANUAL_PDF TRUE)
 # setting PARAVIEW_INSTALL_MANUAL_PDF ensures that paraview.bundle.common
 # will download and install the manual pdf.
+set (PARAVIEW_INSTALL_MANUAL_PDF TRUE)
 include(paraview.bundle.common)
+
+# set NSIS install specific stuff.
+
+# URL to website providing assistance in installing your application.
+set (CPACK_NSIS_HELP_LINK "http://paraview.org/Wiki/ParaView")
+set (CPACK_NSIS_MENU_LINKS
+  "doc/ParaViewUsersGuide.v${pv_version}.pdf" "ParaView User's Guide"
+  "bin/paraview.exe" "ParaView"
+  "bin/pvserver.exe" "pvserver (Server)"
+  "bin/pvdataserver.exe" "pvdataserver (Data-Server)"
+  "bin/pvrenderserver.exe" "pvrenderserver (Render-Server)")
+if (python_ENABLED)
+  set (CPACK_NSIS_MENU_LINKS ${CPACK_NSIS_MENU_LINKS}
+    "bin/pvpython.exe" "pvpython (Python Shell)")
+endif()
+
+#FIXME: need a pretty icon.
+#set (CPACK_NSIS_MUI_ICON "${CMAKE_CURRENT_LIST_DIR}/paraview.ico")
+set (CPACK_NSIS_MUI_FINISHPAGE_RUN "bin/paraview.exe")
+
+include(CPack)
+#------------------------------------------------------------------------------
 
 # install paraview executables to bin.
 foreach(executable
   paraview pvbatch pvdataserver pvpython pvrenderserver pvserver)
   install(PROGRAMS "${install_location}/bin/${executable}.exe"
     DESTINATION "bin"
-    COMPONENT superbuild)
+    COMPONENT ParaView)
 endforeach()
 
 # install all dlls to bin. This will install all VTK/ParaView dlls plus any
@@ -19,13 +43,13 @@ endforeach()
 install(DIRECTORY "${install_location}/bin/"
         DESTINATION "bin"
         USE_SOURCE_PERMISSIONS
-        COMPONENT superbuild
+        COMPONENT ParaView
         FILES_MATCHING PATTERN "*.dll")
 
 # install the .plugins file
 install(FILES "${install_location}/bin/.plugins"
         DESTINATION "bin"
-        COMPONENT superbuild)
+        COMPONENT ParaView)
 
 # install python since (since python dlls are not in the install location)
 if (python_ENABLED AND NOT USE_SYSTEM_python)
@@ -33,21 +57,21 @@ if (python_ENABLED AND NOT USE_SYSTEM_python)
   install(DIRECTORY "${ParaViewSuperBuild_BINARY_DIR}/python/src/python/Lib"
           DESTINATION "bin"
           USE_SOURCE_PERMISSIONS
-          COMPONENT superbuild)
+          COMPONENT ParaView)
 
   # install python dlls.
   get_filename_component(python_bin_dir "${pv_python_executable}" PATH)
   install(DIRECTORY "${python_bin_dir}/"
           DESTINATION "bin"
           USE_SOURCE_PERMISSIONS
-          COMPONENT superbuild
+          COMPONENT ParaView
           FILES_MATCHING PATTERN "python*.dll")
 
   if (numpy_ENABLED)
     install(DIRECTORY "${install_location}/lib/site-packages/numpy"
             DESTINATION "bin/Lib/site-packages"
             USE_SOURCE_PERMISSIONS
-            COMPONENT superbuild)
+            COMPONENT ParaView)
   endif()
 endif()
 
@@ -58,7 +82,7 @@ if (qt_ENABLED AND NOT USE_SYSTEM_qt)
     # avoid the need for plugins.
     "${install_location}/plugins/"
     DESTINATION "bin"
-    COMPONENT superbuild
+    COMPONENT ParaView
     PATTERN "*.dll")
 endif()
 
@@ -66,7 +90,7 @@ endif()
 install(DIRECTORY "${install_location}/lib/paraview-${pv_version}"
         DESTINATION "lib"
         USE_SOURCE_PERMISSIONS
-        COMPONENT superbuild
+        COMPONENT ParaView
         PATTERN "*.lib" EXCLUDE)
 
 # install system runtimes.
@@ -77,12 +101,12 @@ include(InstallRequiredSystemLibraries)
 #if (mpich2_ENABLED AND NOT USE_SYSTEM_mpich2)
 #  install(PROGRAMS "@install_location@/bin/mpiexec.hydra"
 #    DESTINATION "lib/paraview-${pv_version}"
-#    COMPONENT superbuild
+#    COMPONENT ParaView
 #    RENAME "mpiexec")
 #  foreach (hydra_exe hydra_nameserver hydra_persist hydra_pmi_proxy)
 #    install(PROGRAMS "@install_location@/bin/${hydra_exe}"
 #      DESTINATION "lib/paraview-${pv_version}"
-#      COMPONENT superbuild)
+#      COMPONENT ParaView)
 #  endforeach()
 #endif()
 

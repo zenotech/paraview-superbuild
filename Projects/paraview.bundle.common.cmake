@@ -24,9 +24,9 @@ endif()
 set(CPACK_PACKAGE_FILE_NAME
     "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}-${package_suffix}")
 
-SET(CPACK_COMPONENTS_ALL "superbuild")
-include(CPack)
-
+# Don't import CPack yet, let the platform specific code get another chance at
+# changing the variables.
+# include(CPack)
 
 # PARAVIEW_INSTALL_MANUAL_PDF is set before importing this file.
 # This allows us to override the pdf downloading code for apple.

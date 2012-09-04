@@ -1,6 +1,7 @@
 # script to "bundle" paraview.
 
 include(paraview.bundle.common)
+include(CPack)
 
 # install all ParaView's shared libraries.
 install(DIRECTORY "@install_location@/lib/paraview-${pv_version}"
