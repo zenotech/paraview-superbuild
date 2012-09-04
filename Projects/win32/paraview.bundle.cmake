@@ -1,5 +1,9 @@
 # script to "bundle" paraview.
 # include common stuff.
+
+set (PARAVIEW_INSTALL_MANUAL_PDF TRUE)
+# setting PARAVIEW_INSTALL_MANUAL_PDF ensures that paraview.bundle.common
+# will download and install the manual pdf.
 include(paraview.bundle.common)
 
 # install paraview executables to bin.

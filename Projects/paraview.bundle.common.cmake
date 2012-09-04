@@ -26,3 +26,19 @@ set(CPACK_PACKAGE_FILE_NAME
 
 SET(CPACK_COMPONENTS_ALL "superbuild")
 include(CPack)
+
+
+# PARAVIEW_INSTALL_MANUAL_PDF is set before importing this file.
+# This allows us to override the pdf downloading code for apple.
+if (PARAVIEW_INSTALL_MANUAL_PDF)
+  # download an install manual pdf.
+  install(CODE "
+    # create the doc directory.
+    file(MAKE_DIRECTORY \"\${CMAKE_INSTALL_PREFIX}/doc\")
+
+    # download the manual pdf.
+    file(DOWNLOAD \"http://www.paraview.org/files/v${pv_version}/ParaViewUsersGuide.v${pv_version}.pdf\"
+        \"\${CMAKE_INSTALL_PREFIX}/doc/ParaViewUsersGuide.v${pv_version}.pdf\"
+        SHOW_PROGRESS)
+  ")
+endif()
