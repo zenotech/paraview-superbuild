@@ -2,7 +2,7 @@
 # skipping using our zlib on windows. Let qt build its own zlib.)
 add_external_project_or_use_system(
   qt
-  DEPENDS zlib
+  BUILD_IN_SOURCE 1
   CONFIGURE_COMMAND <SOURCE_DIR>/configure
                     -prefix <INSTALL_DIR>
                     -confirm-license
@@ -18,6 +18,7 @@ add_external_project_or_use_system(
                     -no-scripttools
                     -nomake demos
                     -nomake examples
+                    -nomake tests
                     -qt-libjpeg
                     -qt-libtiff
                     -webkit
