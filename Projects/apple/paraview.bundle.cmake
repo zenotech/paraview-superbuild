@@ -22,6 +22,17 @@ install(CODE "
    "
    COMPONENT superbuild)
 
+if (numpy_ENABLED)
+  # install numpy module into the application bundle.
+  install(CODE "
+                # install numpy
+                file(GLOB numpy-root \"${install_location}/lib/python*/site-packages/numpy\")
+                file(INSTALL DESTINATION \"\${CMAKE_INSTALL_PREFIX}/Applications/paraview.app/Contents/Python\"
+                     USE_SOURCE_PERMISSIONS TYPE DIRECTORY FILES
+                     \"\${numpy-root}\")
+               "
+          COMPONENT superbuild)
+endif()
 
 add_test(NAME GenerateParaViewPackage
          COMMAND ${CMAKE_CPACK_COMMAND} -G DragNDrop -V
