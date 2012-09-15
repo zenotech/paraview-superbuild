@@ -16,6 +16,7 @@ add_external_project(paraview
     -DPARAVIEW_BUILD_PLUGIN_EyeDomeLighting:BOOL=ON
     -DPARAVIEW_BUILD_PLUGIN_Manta:BOOL=${manta_ENABLED}
     -DPARAVIEW_BUILD_QT_GUI:BOOL=${qt_ENABLED}
+    -DPARAVIEW_ENABLE_FFMPEG:BOOL=${ffmpeg_ENABLED}
     -DPARAVIEW_ENABLE_PYTHON:BOOL=${python_ENABLED}
     -DPARAVIEW_USE_MPI:BOOL=${mpich2_ENABLED}
     -DPARAVIEW_USE_VISITBRIDGE:BOOL=ON
@@ -23,7 +24,6 @@ add_external_project(paraview
     -DVISIT_BUILD_READER_Silo:BOOL=${silo_ENABLED}
     -DVTK_USE_BOOST:BOOL=${boost_ENABLED}
     -DVTK_USE_SYSTEM_HDF5:BOOL=${hdf5_ENABLED}
-    -DModule_vtkIOFFMPEG:BOOL=${ffmpeg_ENABLED}
     # since VTK mangles all the following, I wonder if there's any point in
     # making it use system versions.
 #    -DVTK_USE_SYSTEM_FREETYPE:BOOL=${ENABLE_FREETYPE}
