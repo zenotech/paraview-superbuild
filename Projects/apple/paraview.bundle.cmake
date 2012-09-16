@@ -27,7 +27,7 @@ if (numpy_ENABLED)
   install(CODE "
                 # install numpy
                 file(GLOB numpy-root \"${install_location}/lib/python*/site-packages/numpy\")
-                file(INSTALL DESTINATION \"\${CMAKE_INSTALL_PREFIX}/Applications/paraview.app/Contents/Python\"
+                file(INSTALL DESTINATION \"\${CMAKE_INSTALL_PREFIX}/paraview.app/Contents/Python\"
                      USE_SOURCE_PERMISSIONS TYPE DIRECTORY FILES
                      \"\${numpy-root}\")
                "
