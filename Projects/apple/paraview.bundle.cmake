@@ -34,6 +34,16 @@ if (numpy_ENABLED)
           COMPONENT superbuild)
 endif()
 
+if (CUSTOMIZE_DMG)
+  install(CODE "
+               # put the dmg customizations into the package
+               execute_process(
+                 COMMAND ${CMAKE_COMMAND} -E tar xzv ${CMAKE_CURRENT_LIST_DIR}/dmg_customizer.tar.gz
+                 WORKING_DIRECTORY \"\${CMAKE_INSTALL_PREFIX}\")
+               "
+          COMPONENT superbuild)
+endif()
+
 add_test(NAME GenerateParaViewPackage
          COMMAND ${CMAKE_CPACK_COMMAND} -G DragNDrop -V
          WORKING_DIRECTORY ${ParaViewSuperBuild_BINARY_DIR})
