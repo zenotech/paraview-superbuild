@@ -25,9 +25,8 @@ endif()
 
 #FIXME: need a pretty icon.
 #set (CPACK_NSIS_MUI_ICON "${CMAKE_CURRENT_LIST_DIR}/paraview.ico")
-set (CPACK_NSIS_MUI_FINISHPAGE_RUN "bin/paraview.exe")
+#set (CPACK_NSIS_MUI_FINISHPAGE_RUN "bin/paraview.exe")
 
-include(CPack)
 #------------------------------------------------------------------------------
 
 # install paraview executables to bin.
@@ -96,6 +95,11 @@ install(DIRECTORY "${install_location}/lib/paraview-${pv_version}"
 # install system runtimes.
 set(CMAKE_INSTALL_SYSTEM_RUNTIME_DESTINATION "bin")
 include(InstallRequiredSystemLibraries)
+
+#-----------------------------------------------------------------------------
+# include CPack at end so that all COMPONENTs specified in install rules are
+# correctly detected.
+include(CPack)
 
 #-----------------------------------------------------------------------------
 #if (mpich2_ENABLED AND NOT USE_SYSTEM_mpich2)

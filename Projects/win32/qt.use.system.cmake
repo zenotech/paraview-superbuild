@@ -26,7 +26,7 @@ if (EXISTS "${QT_QMAKE_EXECUTABLE}")
   install(DIRECTORY "${qt_plugins_dir}/"
           DESTINATION "bin"
           USE_SOURCE_PERMISSIONS
-          COMPONENT Qt-Runtime
+          COMPONENT Qt_Runtime
           # skip debug dlls
           FILES_MATCHING REGEX "^.*d4.dll$" EXCLUDE 
           PATTERN "*.dll")
@@ -34,7 +34,7 @@ if (EXISTS "${QT_QMAKE_EXECUTABLE}")
   install(DIRECTORY "${qt_bin_dir}/"
           DESTINATION "bin"
           USE_SOURCE_PERMISSIONS
-          COMPONENT Qt-Runtime
+          COMPONENT Qt_Runtime
   
           # skip debug dlls
           FILES_MATCHING REGEX "^.*d4.dll$" EXCLUDE 
