@@ -74,9 +74,15 @@ add_revision(manta
   URL "http://paraview.org/files/v3.14/dependencies/manta-r2439.tar.gz"
   URL_MD5 fbf4107fe2f6d7e8a5ae3dda71805bdc)
 
-add_revision(mpi
-  URL "http://paraview.org/files/v3.14/dependencies/mpich2-1.4.1p1.tar.gz"
-  URL_MD5 b470666749bcb4a0449a072a18e2c204)
+if (UNIX AND NOT APPLE)
+  add_revision(mpi
+    URL "http://paraview.org/files/v3.14/dependencies/mpich2-1.4.1p1.tar.gz"
+    URL_MD5 b470666749bcb4a0449a072a18e2c204)
+elseif (WIN32)
+  add_revision(mpi
+    URL "http://www.open-mpi.org/software/ompi/v1.6/downloads/openmpi-1.6.1.tar.gz"
+    URL_MD5 7d7acd434b2fabe5adf1e50cebc86aa9)
+endif()
 
 add_revision(mesa
   URL http://paraview.org/files/v3.14/dependencies/MesaLib-7.11.2.tar.gz
