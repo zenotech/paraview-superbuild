@@ -7,7 +7,7 @@ endif()
 add_external_project(paraview
   DEPENDS_OPTIONAL
      zlib png hdf5 silo cgns ffmpeg libxml2 boost python numpy
-     mpich2 manta qt
+     mpi manta qt
 
   CMAKE_ARGS
     -DBUILD_SHARED_LIBS:BOOL=ON
@@ -18,7 +18,7 @@ add_external_project(paraview
     -DPARAVIEW_BUILD_QT_GUI:BOOL=${qt_ENABLED}
     -DPARAVIEW_ENABLE_FFMPEG:BOOL=${ffmpeg_ENABLED}
     -DPARAVIEW_ENABLE_PYTHON:BOOL=${python_ENABLED}
-    -DPARAVIEW_USE_MPI:BOOL=${mpich2_ENABLED}
+    -DPARAVIEW_USE_MPI:BOOL=${mpi_ENABLED}
     -DPARAVIEW_USE_VISITBRIDGE:BOOL=ON
     -DVISIT_BUILD_READER_CGNS:BOOL=${cgns_ENABLED}
     -DVISIT_BUILD_READER_Silo:BOOL=${silo_ENABLED}

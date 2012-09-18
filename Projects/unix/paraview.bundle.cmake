@@ -62,7 +62,7 @@ foreach(executable
     COMPONENT superbuild)
 endforeach()
 
-if (mpich2_ENABLED AND NOT USE_SYSTEM_mpich2)
+if (mpi_ENABLED AND NOT USE_SYSTEM_mpi)
   install(PROGRAMS "@install_location@/bin/mpiexec.hydra"
     DESTINATION "lib/paraview-${pv_version}"
     COMPONENT superbuild
