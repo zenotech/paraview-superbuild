@@ -39,4 +39,16 @@ if (WIN32)
     # to find hdf5.
     -DHDF5_LIBRARY:FILEPATH=${install_location}/lib/hdf5dll.lib
   )
+
+  # On 32-bit Windows, H5public.h ends up redefining ssize_t. This patch ensures
+  # that the old definition is undef-ed before redefining it.
+  if (NOT 64bit_build)
+    add_external_project_step(patch_fix_h5public
+     COMMAND ${CMAKE_COMMAND} -E copy_if_different
+             ${ParaViewSuperBuild_PROJECTS_DIR}/patches/hdf5.src.H5public.h
+             <SOURCE_DIR>/src/H5public.h
+     DEPENDEES update # do after update
+     DEPENDERS patch  # do before patch
+    )
+  endif()
 endif()
