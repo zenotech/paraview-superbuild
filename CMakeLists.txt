@@ -109,6 +109,9 @@ include (versions)
 #------------------------------------------------------------------------------
 # enable testing support.
 include(CTest)
+configure_file(
+  "${ParaViewSuperBuild_CMAKE_DIR}/CTestCustom.cmake.in"
+  "${CMAKE_CURRENT_BINARY_DIR}/CTestCustom.cmake" @ONLY)
 #------------------------------------------------------------------------------
 
 #-----------------------------------------------------------------------------
