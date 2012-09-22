@@ -65,14 +65,15 @@ if (python_ENABLED AND NOT USE_SYSTEM_python)
           USE_SOURCE_PERMISSIONS
           COMPONENT ParaView
           FILES_MATCHING PATTERN "python*.dll")
-
-  if (numpy_ENABLED)
-    install(DIRECTORY "${install_location}/lib/site-packages/numpy"
-            DESTINATION "bin/Lib/site-packages"
-            USE_SOURCE_PERMISSIONS
-            COMPONENT ParaView)
-  endif()
 endif()
+
+if (numpy_ENABLED)
+  install(DIRECTORY "${install_location}/lib/site-packages/numpy"
+          DESTINATION "bin/Lib/site-packages"
+          USE_SOURCE_PERMISSIONS
+          COMPONENT ParaView)
+endif()
+
 
 if (qt_ENABLED AND NOT USE_SYSTEM_qt)
   install(DIRECTORY
@@ -91,6 +92,22 @@ install(DIRECTORY "${install_location}/lib/paraview-${pv_version}"
         USE_SOURCE_PERMISSIONS
         COMPONENT ParaView
         PATTERN "*.lib" EXCLUDE)
+
+#-----------------------------------------------------------------------------
+if (mpi_ENABLED AND NOT USE_SYSTEM_mpi)
+  # install MPI executables (the dlls are already installed by a previous rule).
+  install(DIRECTORY "${install_location}/bin/"
+        DESTINATION "bin"
+        USE_SOURCE_PERMISSIONS
+        COMPONENT ParaView
+        FILES_MATCHING 
+          PATTERN "mpi*.exe"
+          PATTERN "ompi*.exe"
+          PATTERN "opal*.exe"
+          PATTERN "orte*.exe"
+        )
+endif()
+#-----------------------------------------------------------------------------
 
 # install system runtimes.
 set(CMAKE_INSTALL_SYSTEM_RUNTIME_DESTINATION "bin")

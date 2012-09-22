@@ -80,8 +80,10 @@ if (UNIX AND NOT APPLE)
     URL_MD5 b470666749bcb4a0449a072a18e2c204)
 elseif (WIN32)
   add_revision(mpi
-    URL "http://www.open-mpi.org/software/ompi/v1.6/downloads/openmpi-1.6.1.tar.gz"
-    URL_MD5 7d7acd434b2fabe5adf1e50cebc86aa9)
+#URL "http://www.open-mpi.org/software/ompi/v1.6/downloads/openmpi-1.6.1.tar.gz"
+    URL "http://www.open-mpi.org/software/ompi/v1.5/downloads/openmpi-1.5.4.tar.gz"
+    URL_MD5 cb11927986419374c54aa4c878209913)
+#    URL_MD5 7d7acd434b2fabe5adf1e50cebc86aa9)
 endif()
 
 add_revision(mesa
