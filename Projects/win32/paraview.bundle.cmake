@@ -139,7 +139,9 @@ add_test(NAME GenerateParaViewPackage-ZIP
          COMMAND ${CMAKE_CPACK_COMMAND} -G ZIP -V
          WORKING_DIRECTORY ${ParaViewSuperBuild_BINARY_DIR})
 
-set_tests_properties(GenerateParaViewPackage PROPERTIES
+set_tests_properties(GenerateParaViewPackage-NSIS
+                     GenerateParaViewPackage-ZIP
+                     PROPERTIES
                      # needed so that tests are run on typical paraview
                      # dashboards
                      LABELS "PARAVIEW"
