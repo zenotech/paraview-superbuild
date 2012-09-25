@@ -29,8 +29,6 @@ add_external_project(
                      -P ${CMAKE_CURRENT_LIST_DIR}/silo.install.cmake
 )
 
-if (WIN32)
-  add_extra_cmake_args(
-    -DSILO_INCLUDE_DIR:PATH=${install_location}/include
-    -DSILO_LIBRARY:FILEPATH=${install_location}/lib/silohdf5.lib)
-endif()
+add_extra_cmake_args(
+  -DSILO_INCLUDE_DIR:PATH=${install_location}/include
+  -DSILO_LIBRARY:FILEPATH=${install_location}/lib/silohdf5.lib)
