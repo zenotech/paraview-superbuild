@@ -131,9 +131,14 @@ include(CPack)
 #  endforeach()
 #endif()
 
-add_test(NAME GenerateParaViewPackage
+add_test(NAME GenerateParaViewPackage-NSIS
          COMMAND ${CMAKE_CPACK_COMMAND} -G NSIS -V
          WORKING_DIRECTORY ${ParaViewSuperBuild_BINARY_DIR})
+
+add_test(NAME GenerateParaViewPackage-ZIP
+         COMMAND ${CMAKE_CPACK_COMMAND} -G ZIP -V
+         WORKING_DIRECTORY ${ParaViewSuperBuild_BINARY_DIR})
+
 set_tests_properties(GenerateParaViewPackage PROPERTIES
                      # needed so that tests are run on typical paraview
                      # dashboards
