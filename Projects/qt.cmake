@@ -17,6 +17,9 @@ elseif (APPLE)
   set (patch_command
        PATCH_COMMAND /usr/bin/find . -name "*.pro" -exec sed -i -e "s:/Developer/SDKs/:.*:g" {} +)
 endif()
+set(qt_EXTRA_CONFIGURATION_OPTIONS ""
+    CACHE STRING "Extra arguments to be passed to Qt when configuring.")
+
 add_external_project_or_use_system(
     qt
     DEPENDS zlib ${qt_depends}
@@ -45,6 +48,7 @@ add_external_project_or_use_system(
                       -I <INSTALL_DIR>/include
                       -L <INSTALL_DIR>/lib
                       ${qt_options}
+                      ${qt_EXTRA_CONFIGURATION_OPTIONS}
     PROCESS_ENVIRONMENT
       LD_LIBRARY_PATH "<BINARY_DIR>/lib"
     ${patch_command}
