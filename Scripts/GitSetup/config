@@ -1,0 +1,6 @@
+[hooks]
+	url = git://vtk.org/VTK.git
+[gerrit]
+	project = ParaViewSuperbuild
+	site = http://review.source.kitware.com
+	pushurl = $username@review.source.kitware.com:ParaViewSuperbuild
