@@ -69,6 +69,20 @@ else ()
   set (ld_library_path "${install_location}/lib:$ENV{LD_LIBRARY_PATH}")
 endif()
 
+if (UNIX AND NOT APPLE)
+  # I am not exactly sure about the cause of these issues and how to cleanly
+  # overcome them, however, on some linuxes when Cmake is built shared, we end
+  # if we set LD_LIBRARY_PATH to the install/lib dir, we end up with errors
+  # due to conflicts with system libz. So for now, I am making this an option.
+  # By default we will let the superbuild scripts set LD_LIBRARY_PATH. However
+  # if users get errors like: libz.so.1: no version information available, then
+  # users should turn this flag off.
+  option(PASS_LD_LIBRARY_PATH_FOR_BUILDS
+         "Pass LD_LIBRARY_PATH to build scripts."
+         ON)
+  mark_as_advanced(PASS_LD_LIBRARY_PATH_FOR_BUILDS)
+endif()
+
 if (APPLE)
   set (cflags "${cflags} -arch x86_64 -mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET} -sysroot=${CMAKE_OSX_SYSROOT} ")
   set (cppflags "${cppflags} -arch x86_64 -mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET} -sysroot=${CMAKE_OSX_SYSROOT} ")

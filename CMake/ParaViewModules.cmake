@@ -285,6 +285,14 @@ function(add_external_project_internal name)
    message("${ARGN}")
  endif()
 
+  # refer to documentation for PASS_LD_LIBRARY_PATH_FOR_BUILDS in
+  # in root CMakeLists.txt.
+  set (ld_library_path_argument)
+  if (PASS_LD_LIBRARY_PATH_FOR_BUILDS)
+    set (ld_library_path_argument
+      LD_LIBRARY_PATH "${ld_library_path}")
+  endif ()
+
   PVExternalProject_Add(${name} ${ARGN}
     PREFIX ${name}
     DOWNLOAD_DIR ${download_location}
@@ -300,8 +308,7 @@ function(add_external_project_internal name)
       CFLAGS "${cflags}"
 # disabling this since it fails when building numpy.
 #      MACOSX_DEPLOYMENT_TARGET "${CMAKE_OSX_DEPLOYMENT_TARGET}"
-# disabling since its causing error with newer gcc
-#      LD_LIBRARY_PATH "${ld_library_path}"
+      ${ld_library_path_argument}
       CMAKE_PREFIX_PATH "${prefix_path}"
     CMAKE_ARGS
       -DCMAKE_INSTALL_PREFIX:PATH=${prefix_path}
