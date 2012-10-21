@@ -281,9 +281,9 @@ function(add_external_project_internal name)
     list(APPEND cmake_params ${args})
   endforeach()
 
- if (name STREQUAL "paraview")
-   message("${ARGN}")
- endif()
+#if (name STREQUAL "paraview")
+#  message("${ARGN}")
+#endif()
 
   # refer to documentation for PASS_LD_LIBRARY_PATH_FOR_BUILDS in
   # in root CMakeLists.txt.

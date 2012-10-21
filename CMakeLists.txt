@@ -54,7 +54,10 @@ set (CMAKE_MODULE_PATH
 #-----------------------------------------------------------------------------
 # Setup some standard variables that control various locations and flags.
 set (install_location "${CMAKE_CURRENT_BINARY_DIR}/install")
-set (download_location "${CMAKE_CURRENT_BINARY_DIR}/downloads")
+set (download_location "${CMAKE_CURRENT_BINARY_DIR}/downloads"
+     CACHE PATH "Location where source tar-balls are (to be) downloaded.")
+mark_as_advanced(download_location)
+
 if (WIN32)
   set (ldflags)
   set (cppflags)
