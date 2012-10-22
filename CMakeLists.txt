@@ -136,19 +136,19 @@ set (CM_PROJECTS_ALL)
 
 # Include all optional projects. These are the ones user can pick and choose.
 # Some of these allow using system libraries too.
-include(zlib)
-include(png)
-include(szip)
-include(hdf5)
-include(cgns)
-include(libxml2)
-include(qt)
-include(python)
-include(numpy)
 include(boost)
-
-include(silo)
+include(cgns)
+include(hdf5)
+include(libxml2)
 include(manta)
+include(numpy)
+include(png)
+include(python)
+include(qt)
+include(silo)
+include(szip)
+include(visitbridge)
+include(zlib)
 
 if (UNIX AND NOT APPLE)
   include(ffmpeg)
@@ -177,7 +177,7 @@ endif()
 return()
 
 SET (CMAKE_INSTALL_COMPONENT runtime)
-## When building with Mesa and generating command line tools alone, 
+## When building with Mesa and generating command line tools alone,
 ## we provide the user with an option to use OSMesa.
 #dependent_option(ENABLE_OSMESA
 #  "Turn ON to enable Offscreen Mesa 3D support." OFF

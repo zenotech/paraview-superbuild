@@ -6,8 +6,7 @@ endif()
 
 add_external_project(paraview
   DEPENDS_OPTIONAL
-     zlib png hdf5 silo cgns ffmpeg libxml2 boost python numpy
-     mpi manta qt
+    ffmpeg hdf5 libxml3 manta mpi numpy png python qt visitbridge zlib
 
   CMAKE_ARGS
     -DBUILD_SHARED_LIBS:BOOL=ON
@@ -19,10 +18,9 @@ add_external_project(paraview
     -DPARAVIEW_ENABLE_FFMPEG:BOOL=${ffmpeg_ENABLED}
     -DPARAVIEW_ENABLE_PYTHON:BOOL=${python_ENABLED}
     -DPARAVIEW_USE_MPI:BOOL=${mpi_ENABLED}
-    -DPARAVIEW_USE_VISITBRIDGE:BOOL=ON
+    -DPARAVIEW_USE_VISITBRIDGE:BOOL=${visitBridge_ENABLED}
     -DVISIT_BUILD_READER_CGNS:BOOL=${cgns_ENABLED}
     -DVISIT_BUILD_READER_Silo:BOOL=${silo_ENABLED}
-    -DVTK_USE_BOOST:BOOL=${boost_ENABLED}
     -DVTK_USE_SYSTEM_HDF5:BOOL=${hdf5_ENABLED}
     # since VTK mangles all the following, I wonder if there's any point in
     # making it use system versions.

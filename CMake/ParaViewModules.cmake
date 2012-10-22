@@ -74,6 +74,20 @@ macro(add_external_project _name)
 endmacro()
 
 #------------------------------------------------------------------------------
+# adds a dummy project to the build, which is a great way to setup a list
+# of dependencies as a build option. IE dummy project that turns on all
+# third party libraries
+macro(add_external_dummy_project _name)
+  if (build-projects)
+    add_external_project(${_name} ${ARGN})
+  else()
+    add_external_project(${_name} ${ARGN})
+    set(${_name}_IS_DUMMY_PROJECT TRUE CACHE INTERNAL
+      "Project just used to represent a logical block of dependencies" )
+  endif()
+endmacro()
+
+#------------------------------------------------------------------------------
 # similar to add_external_project, except provides the user with an option to
 # use-system installation of the project.
 macro(add_external_project_or_use_system _name)
@@ -132,7 +146,7 @@ macro(process_dependencies)
       # user.
       set_property(CACHE USE_SYSTEM_${cm-project} PROPERTY TYPE BOOL)
       if (USE_SYSTEM_${cm-project})
-        add_dummy_external_project(${cm-project})
+        add_external_dummy_project_internal(${cm-project})
         include(${cm-project}.use.system OPTIONAL RESULT_VARIABLE rv)
         if (rv STREQUAL "NOTFOUND")
           message(AUTHOR_WARNING "${cm-project}.use.system not found!!!")
@@ -141,6 +155,10 @@ macro(process_dependencies)
         include(${cm-project})
         add_external_project_internal(${cm-project} ${${cm-project}_ARGUMENTS})
       endif()
+    elseif(${cm-project}_IS_DUMMY_PROJECT)
+      #this project isn't built, just used as a graph node to
+      #represent a group of dependencies
+      add_external_dummy_project_internal(${cm-project})
     else()
       include(${cm-project})
       add_external_project_internal(${cm-project} ${${cm-project}_ARGUMENTS})
@@ -174,17 +192,6 @@ function(__create_required_targets name)
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${name}-done
     COMMENT "Completed ${name}"
     COMMAND ${CMAKE_COMMAND} -E touch ${CMAKE_CURRENT_BINARY_DIR}/${name}-done)
-endfunction()
-
-function(add_dummy_external_project name)
-  ExternalProject_Add(${name}
-  DOWNLOAD_COMMAND ""
-  SOURCE_DIR ""
-  UPDATE_COMMAND ""
-  CONFIGURE_COMMAND ""
-  BUILD_COMMAND ""
-  INSTALL_COMMAND ""
-  )
 endfunction()
 
 
@@ -250,6 +257,19 @@ macro(get_project_depends _name _prefix)
   endif()
 endmacro()
 
+#------------------------------------------------------------------------------
+function(add_external_dummy_project_internal name)
+  ExternalProject_Add(${name}
+  DOWNLOAD_COMMAND ""
+  SOURCE_DIR ""
+  UPDATE_COMMAND ""
+  CONFIGURE_COMMAND ""
+  BUILD_COMMAND ""
+  INSTALL_COMMAND ""
+  )
+endfunction()
+
+#------------------------------------------------------------------------------
 function(add_external_project_internal name)
   set (cmake_params)
   foreach (flag CMAKE_BUILD_TYPE
@@ -312,7 +332,7 @@ function(add_external_project_internal name)
       CMAKE_PREFIX_PATH "${prefix_path}"
     CMAKE_ARGS
       -DCMAKE_INSTALL_PREFIX:PATH=${prefix_path}
-      -DCMAKE_PREFIX_PATH:PATH=${prefix_path} 
+      -DCMAKE_PREFIX_PATH:PATH=${prefix_path}
       -DCMAKE_C_FLAGS:STRING=${cflags}
       -DCMAKE_CXX_FLAGS:STRING=${cppflags}
       -DCMAKE_SHARED_LINKER_FLAGS:STRING=${ldflags}
@@ -323,7 +343,7 @@ function(add_external_project_internal name)
   if (additional_steps)
      foreach (step ${additional_steps})
        get_property(step_contents GLOBAL PROPERTY ${name}-STEP-${step})
-       ExternalProject_Add_Step(${name} ${step} ${step_contents}) 
+       ExternalProject_Add_Step(${name} ${step} ${step_contents})
      endforeach()
   endif()
 endfunction()
