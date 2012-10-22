@@ -8,8 +8,10 @@ if (APPLE)
 endif()
 
 project(ParaViewSuperBuild)
-set (ParaViewSuperBuild_CMAKE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
-set (ParaViewSuperBuild_PROJECTS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Projects")
+set (SuperBuild_CMAKE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
+set (SuperBuild_PROJECTS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Projects")
+set (SuperBuild_BINARY_DIR ${ParaViewSuperBuild_BINARY_DIR})
+
 include(CMakeDependentOption)
 
 #-----------------------------------------------------------------------------
@@ -44,10 +46,10 @@ endif()
 # Setup CMAKE_MODULE_PATH so that platform specific configurations are processed
 # before the generic ones.
 set (CMAKE_MODULE_PATH
-  "${ParaViewSuperBuild_PROJECTS_DIR}/${platform}"
-  "${ParaViewSuperBuild_PROJECTS_DIR}/common"
-  "${ParaViewSuperBuild_PROJECTS_DIR}"
-  "${ParaViewSuperBuild_CMAKE_DIR}"
+  "${SuperBuild_PROJECTS_DIR}/${platform}"
+  "${SuperBuild_PROJECTS_DIR}/common"
+  "${SuperBuild_PROJECTS_DIR}"
+  "${SuperBuild_CMAKE_DIR}"
   "${CMAKE_CURRENT_SOURCE_DIR}"
   ${CMAKE_MODULE_PATH})
 
@@ -127,7 +129,7 @@ include (versions)
 # enable testing support.
 include(CTest)
 configure_file(
-  "${ParaViewSuperBuild_CMAKE_DIR}/CTestCustom.cmake.in"
+  "${SuperBuild_CMAKE_DIR}/CTestCustom.cmake.in"
   "${CMAKE_CURRENT_BINARY_DIR}/CTestCustom.cmake" @ONLY)
 #------------------------------------------------------------------------------
 
@@ -177,7 +179,7 @@ endif()
 return()
 
 SET (CMAKE_INSTALL_COMPONENT runtime)
-## When building with Mesa and generating command line tools alone, 
+## When building with Mesa and generating command line tools alone,
 ## we provide the user with an option to use OSMesa.
 #dependent_option(ENABLE_OSMESA
 #  "Turn ON to enable Offscreen Mesa 3D support." OFF

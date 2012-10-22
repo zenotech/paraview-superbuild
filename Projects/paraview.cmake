@@ -1,7 +1,7 @@
 set (extra_cmake_args)
 if (manta_ENABLED)
   list (APPEND extra_cmake_args
-    -DMANTA_BUILD:PATH=${ParaViewSuperBuild_BINARY_DIR}/manta/src/manta-build)
+    -DMANTA_BUILD:PATH=${SuperBuild_BINARY_DIR}/manta/src/manta-build)
 endif()
 
 add_external_project(paraview

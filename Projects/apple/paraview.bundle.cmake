@@ -46,7 +46,7 @@ endif()
 
 add_test(NAME GenerateParaViewPackage
          COMMAND ${CMAKE_CPACK_COMMAND} -G DragNDrop -V
-         WORKING_DIRECTORY ${ParaViewSuperBuild_BINARY_DIR})
+         WORKING_DIRECTORY ${SuperBuild_BINARY_DIR})
 set_tests_properties(GenerateParaViewPackage PROPERTIES
                      # needed so that tests are run on typical paraview
                      # dashboards

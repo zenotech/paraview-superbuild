@@ -7,7 +7,7 @@ add_external_project(
     # 1. incorrect target links when HDF5 support is enabeld
     # 2. incorrect install rules on windows (and cleans up install rules on other
     #    platforms too).
-    ${CMAKE_COMMAND} -E copy_if_different ${ParaViewSuperBuild_PROJECTS_DIR}/patches/cgns.src.CMakeLists.txt
+    ${CMAKE_COMMAND} -E copy_if_different ${SuperBuild_PROJECTS_DIR}/patches/cgns.src.CMakeLists.txt
 	                                        <SOURCE_DIR>/src/CMakeLists.txt
   CMAKE_ARGS
   -DCGNS_BUILD_SHARED:BOOL=ON
@@ -22,7 +22,7 @@ if (WIN32)
   # anyways when using MSVC (since the path didn't consider build configuration).
   add_external_project_step(patch1
     COMMENT "Fixing Windows install rules for CGNS tools"
-	  COMMAND ${CMAKE_COMMAND} -E copy_if_different ${ParaViewSuperBuild_PROJECTS_DIR}/patches/cgns.src.tools.CMakeLists.txt
+	  COMMAND ${CMAKE_COMMAND} -E copy_if_different ${SuperBuild_PROJECTS_DIR}/patches/cgns.src.tools.CMakeLists.txt
 	          <SOURCE_DIR>/src/tools/CMakeLists.txt
 	  DEPENDEES update
     DEPENDERS patch)

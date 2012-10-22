@@ -55,7 +55,7 @@ function (PVExternalProject_Add name)
 
   set (new_argn)
 
-  # check if we have a BUILD_COMMAND or CONFIGURE_COMMAND. 
+  # check if we have a BUILD_COMMAND or CONFIGURE_COMMAND.
   get_property(has_build_command TARGET pv-${name}
     PROPERTY _EP_BUILD_COMMAND SET)
   if(NOT has_build_command)
@@ -96,7 +96,7 @@ function (PVExternalProject_Add name)
 
   if (has_build_command)
     set(new_argn ${new_argn}
-      BUILD_COMMAND 
+      BUILD_COMMAND
       ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/pv-${name}-build.cmake)
   endif()
 
@@ -125,7 +125,7 @@ function (PVExternalProject_Add name)
   if (has_configure_command)
     get_target_property(step_command pv-${name} _EP_CONFIGURE_COMMAND)
     _ep_replace_location_tags(${name} step_command)
-    configure_file(${ParaViewSuperBuild_CMAKE_DIR}/pep_configure.cmake.in
+    configure_file(${SuperBuild_CMAKE_DIR}/pep_configure.cmake.in
       ${CMAKE_CURRENT_BINARY_DIR}/pv-${name}-configure.cmake
       @ONLY
       )
@@ -134,7 +134,7 @@ function (PVExternalProject_Add name)
   if (has_build_command)
     get_target_property(step_command pv-${name} _EP_BUILD_COMMAND)
     _ep_replace_location_tags(${name} step_command)
-    configure_file(${ParaViewSuperBuild_CMAKE_DIR}/pep_configure.cmake.in
+    configure_file(${SuperBuild_CMAKE_DIR}/pep_configure.cmake.in
       ${CMAKE_CURRENT_BINARY_DIR}/pv-${name}-build.cmake
       @ONLY)
   endif()

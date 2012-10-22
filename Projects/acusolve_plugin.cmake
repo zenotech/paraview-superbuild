@@ -2,7 +2,7 @@ add_external_project(acusolve_plugin
   DEPENDS paraview
 
   CMAKE_ARGS
-    -DParaView_DIR:PATH=${ParaViewSuperBuild_BINARY_DIR}/paraview/src/paraview-build
+    -DParaView_DIR:PATH=${SuperBuild_BINARY_DIR}/paraview/src/paraview-build
 
   INSTALL_COMMAND
     ${CMAKE_COMMAND} -E tar cfz
