@@ -74,7 +74,7 @@ add_revision(manta
   URL "http://paraview.org/files/v3.14/dependencies/manta-r2439.tar.gz"
   URL_MD5 fbf4107fe2f6d7e8a5ae3dda71805bdc)
 
-if (UNIX)
+if (UNIX AND NOT APPLE)
   add_revision(mpi
     URL "http://paraview.org/files/v3.14/dependencies/mpich2-1.4.1p1.tar.gz"
     URL_MD5 b470666749bcb4a0449a072a18e2c204)

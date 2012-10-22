@@ -158,8 +158,6 @@ if (UNIX AND NOT APPLE)
   include(mpi)
 elseif (WIN32)
   include(mpi)
-elseif (APPLE)
-  include(mpi)
 endif()
 
 # REMEMBER to tell VTK/ParaView to use VTK_SYSTEM_* for the
