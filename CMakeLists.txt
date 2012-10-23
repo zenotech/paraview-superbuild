@@ -151,15 +151,13 @@ include(boost)
 
 include(silo)
 include(manta)
+include(mpi)
 
 if (UNIX AND NOT APPLE)
   include(ffmpeg)
   include(fontconfig)
   include(freetype)
   include(mesa)
-  include(mpi)
-elseif (WIN32)
-  include(mpi)
 endif()
 
 # REMEMBER to tell VTK/ParaView to use VTK_SYSTEM_* for the
