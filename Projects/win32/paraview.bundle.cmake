@@ -53,7 +53,7 @@ install(FILES "${install_location}/bin/.plugins"
 # install python since (since python dlls are not in the install location)
 if (python_ENABLED AND NOT USE_SYSTEM_python)
   # install the Python's modules.
-  install(DIRECTORY "${ParaViewSuperBuild_BINARY_DIR}/python/src/python/Lib"
+  install(DIRECTORY "${SuperBuild_BINARY_DIR}/python/src/python/Lib"
           DESTINATION "bin"
           USE_SOURCE_PERMISSIONS
           COMPONENT ParaView)
@@ -78,7 +78,7 @@ endif()
 if (qt_ENABLED AND NOT USE_SYSTEM_qt)
   install(DIRECTORY
     # install all qt plugins (including sqllite).
-    # FIXME: we can reconfigure Qt to be built with inbuilt sqllite support to 
+    # FIXME: we can reconfigure Qt to be built with inbuilt sqllite support to
     # avoid the need for plugins.
     "${install_location}/plugins/"
     DESTINATION "bin"
@@ -100,7 +100,7 @@ if (mpi_ENABLED AND NOT USE_SYSTEM_mpi)
         DESTINATION "bin"
         USE_SOURCE_PERMISSIONS
         COMPONENT ParaView
-        FILES_MATCHING 
+        FILES_MATCHING
           PATTERN "mpi*.exe"
           PATTERN "ompi*.exe"
           PATTERN "opal*.exe"
@@ -133,11 +133,11 @@ include(CPack)
 
 add_test(NAME GenerateParaViewPackage-NSIS
          COMMAND ${CMAKE_CPACK_COMMAND} -G NSIS -V
-         WORKING_DIRECTORY ${ParaViewSuperBuild_BINARY_DIR})
+         WORKING_DIRECTORY ${SuperBuild_BINARY_DIR})
 
 add_test(NAME GenerateParaViewPackage-ZIP
          COMMAND ${CMAKE_CPACK_COMMAND} -G ZIP -V
-         WORKING_DIRECTORY ${ParaViewSuperBuild_BINARY_DIR})
+         WORKING_DIRECTORY ${SuperBuild_BINARY_DIR})
 
 set_tests_properties(GenerateParaViewPackage-NSIS
                      GenerateParaViewPackage-ZIP

@@ -1,5 +1,5 @@
 # include the common qt.use.system.cmake file.
-include("${ParaViewSuperBuild_PROJECTS_DIR}/qt.use.system.cmake")
+include("${SuperBuild_PROJECTS_DIR}/qt.use.system.cmake")
 
 option(PACKAGE_SYSTEM_QT
   "When enabled and USE_SYSTEM_qt is ON, packages needed Qt files" ON)
@@ -28,15 +28,15 @@ if (EXISTS "${QT_QMAKE_EXECUTABLE}")
           USE_SOURCE_PERMISSIONS
           COMPONENT Qt_Runtime
           # skip debug dlls
-          FILES_MATCHING REGEX "^.*d4.dll$" EXCLUDE 
+          FILES_MATCHING REGEX "^.*d4.dll$" EXCLUDE
           PATTERN "*.dll")
-  
+
   install(DIRECTORY "${qt_bin_dir}/"
           DESTINATION "bin"
           USE_SOURCE_PERMISSIONS
           COMPONENT Qt_Runtime
-  
+
           # skip debug dlls
-          FILES_MATCHING REGEX "^.*d4.dll$" EXCLUDE 
+          FILES_MATCHING REGEX "^.*d4.dll$" EXCLUDE
           PATTERN "*.dll")
 endif()

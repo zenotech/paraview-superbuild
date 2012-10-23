@@ -41,7 +41,7 @@ install(CODE
 if (qt_ENABLED AND NOT USE_SYSTEM_qt)
   install(DIRECTORY
     # install all qt plugins (including sqllite).
-    # FIXME: we can reconfigure Qt to be built with inbuilt sqllite support to 
+    # FIXME: we can reconfigure Qt to be built with inbuilt sqllite support to
     # avoid the need for plugins.
     "@install_location@/plugins/"
     DESTINATION "lib/paraview-${pv_version}"
@@ -76,7 +76,7 @@ endif()
 
 add_test(NAME GenerateParaViewPackage
          COMMAND ${CMAKE_CPACK_COMMAND} -G TGZ -V
-         WORKING_DIRECTORY ${ParaViewSuperBuild_BINARY_DIR})
+         WORKING_DIRECTORY ${SuperBuild_BINARY_DIR})
 set_tests_properties(GenerateParaViewPackage PROPERTIES
                      # needed so that tests are run on typical paraview
                      # dashboards

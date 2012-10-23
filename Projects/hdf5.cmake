@@ -5,7 +5,7 @@ add_external_project(
 
   # HDF5 1.8.9 has a CMake install rule bug. Fix that.
   PATCH_COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                ${ParaViewSuperBuild_PROJECTS_DIR}/patches/hdf5.CMakeLists.txt
+                ${SuperBuild_PROJECTS_DIR}/patches/hdf5.CMakeLists.txt
                 <SOURCE_DIR>/CMakeLists.txt
 
   CMAKE_ARGS
@@ -21,7 +21,7 @@ if (MSVC)
  # compiler when using nmake or ninja generators. This patch fixes that.
  add_external_project_step(patch_fix_msvc
   COMMAND ${CMAKE_COMMAND} -E copy_if_different
-          ${ParaViewSuperBuild_PROJECTS_DIR}/patches/hdf5.config.cmake.ConfigureChecks.cmake
+          ${SuperBuild_PROJECTS_DIR}/patches/hdf5.config.cmake.ConfigureChecks.cmake
           <SOURCE_DIR>/config/cmake/ConfigureChecks.cmake
   DEPENDEES update # do after update
   DEPENDERS patch  # do before patch
@@ -45,7 +45,7 @@ if (WIN32)
   if (NOT 64bit_build)
     add_external_project_step(patch_fix_h5public
      COMMAND ${CMAKE_COMMAND} -E copy_if_different
-             ${ParaViewSuperBuild_PROJECTS_DIR}/patches/hdf5.src.H5public.h
+             ${SuperBuild_PROJECTS_DIR}/patches/hdf5.src.H5public.h
              <SOURCE_DIR>/src/H5public.h
      DEPENDEES update # do after update
      DEPENDERS patch  # do before patch

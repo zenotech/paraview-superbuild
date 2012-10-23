@@ -2,7 +2,7 @@ add_external_project(vistrails_plugin
   DEPENDS paraview boost
 
   CMAKE_ARGS
-    -DParaView_DIR:PATH=${ParaViewSuperBuild_BINARY_DIR}/paraview/src/paraview-build
+    -DParaView_DIR:PATH=${SuperBuild_BINARY_DIR}/paraview/src/paraview-build
 
   INSTALL_COMMAND
     ${CMAKE_COMMAND} -DSOURCE_DIR:PATH=<SOURCE_DIR>
