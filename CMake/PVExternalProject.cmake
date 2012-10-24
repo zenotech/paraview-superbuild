@@ -55,6 +55,17 @@ function (PVExternalProject_Add name)
 
   set (new_argn)
 
+  #check for configure command
+  get_property(has_configure_command TARGET pv-${name}
+    PROPERTY _EP_CONFIGURE_COMMAND SET)
+
+  #override the configure command
+  if (has_configure_command)
+    set(new_argn ${new_argn}
+      CONFIGURE_COMMAND
+      ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/pv-${name}-configure.cmake)
+  endif()
+
   # check if we have a BUILD_COMMAND or CONFIGURE_COMMAND.
   get_property(has_build_command TARGET pv-${name}
     PROPERTY _EP_BUILD_COMMAND SET)
@@ -70,35 +81,28 @@ function (PVExternalProject_Add name)
     endif()
 
     set_property(TARGET pv-${name} PROPERTY _EP_BUILD_COMMAND "${cmd}")
-    set (has_build_command 1)
 
-    # when we customize the build command, the install command gets overridden
-    # as well and we need to explicitly specify it too.
-    get_property(has_install_command TARGET pv-${name} PROPERTY
-    _EP_INSTALL_COMMAND SET)
-
-    if (NOT has_install_command)
-      _ep_get_build_command(pv-${name} INSTALL install_cmd)
-      if (install_cmd)
-        set (new_argn ${new_argn} INSTALL_COMMAND ${install_cmd})
-      endif()
-    endif()
-  endif()
-
-  get_property(has_configure_command TARGET pv-${name}
-    PROPERTY _EP_CONFIGURE_COMMAND SET)
-
-  if (has_configure_command)
-    set(new_argn ${new_argn}
-      CONFIGURE_COMMAND
-      ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/pv-${name}-configure.cmake)
-  endif()
-
-  if (has_build_command)
+    #setup the new build command
     set(new_argn ${new_argn}
       BUILD_COMMAND
       ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/pv-${name}-build.cmake)
+
+    set (has_build_command 1)
   endif()
+
+  #check for install command, we always enforce an install command
+  get_property(has_install_command TARGET pv-${name}
+    PROPERTY _EP_INSTALL_COMMAND SET)
+
+  if (has_install_command)
+    get_property(install_cmd TARGET pv-${name}
+      PROPERTY _EP_INSTALL_COMMAND)
+  else()
+    _ep_get_build_command(pv-${name} INSTALL install_cmd)
+  endif()
+  #write out the new install command
+  set (new_argn ${new_argn} INSTALL_COMMAND "${install_cmd}")
+
 
   # now strip PROCESS_ENVIRONMENT from argments.
   set (skip TRUE)
