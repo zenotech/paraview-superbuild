@@ -118,7 +118,9 @@ function (PVExternalProject_Add name)
       list(APPEND new_argn ${arg})
     endif()
   endforeach()
-  ExternalProject_Add(${name} ${new_argn})
+  #new_argn has to be quoted to keep empty list elements around
+  #so that we properly parse empty install, configure, build,  etc
+  ExternalProject_Add(${name} "${new_argn}")
 
   # configure the scripts after the call ExternalProject_Add() since that sets
   # up the directories correctly.

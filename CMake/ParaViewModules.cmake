@@ -18,7 +18,8 @@ macro(add_external_project _name)
     set (arguments)
     set (optional_depends)
     set (accumulate FALSE)
-    foreach(arg ${ARGN})
+    set (project_arguments "${ARGN}") #need quotes to keep empty list items
+    foreach(arg IN LISTS project_arguments)
       if ("${arg}" MATCHES "^DEPENDS_OPTIONAL$")
         set (accumulate TRUE)
       elseif ("${arg}" MATCHES "${_ep_keywords_ExternalProject_Add}")
@@ -43,13 +44,14 @@ macro(add_external_project _name)
     unset(optional_depends)
     unset(accumulate)
   else()
-
     set(${cm-project}_DEPENDS "")
     set(${cm-project}_ARGUMENTS "")
     set(${cm-project}_NEEDED_BY "")
     set(${cm-project}_CAN_USE_SYSTEM 0)
     set (doing "")
-    foreach(arg ${ARGN})
+
+    set (project_arguments "${ARGN}") #need quotes to keep empty list items
+    foreach(arg IN LISTS project_arguments)
       if ("${arg}" MATCHES "^DEPENDS$")
         set (doing "DEPENDS")
       elseif ("${arg}" MATCHES "^DEPENDS_OPTIONAL$")
@@ -61,6 +63,7 @@ macro(add_external_project _name)
       elseif ((doing STREQUAL "DEPENDS_OPTIONAL") AND ENABLE_${arg})
         list(APPEND ${cm-project}_DEPENDS "${arg}")
       endif()
+
     endforeach()
 
     option(ENABLE_${cm-project} "Request to build project ${cm-project}" OFF)
@@ -153,7 +156,7 @@ macro(process_dependencies)
         endif()
       else()
         include(${cm-project})
-        add_external_project_internal(${cm-project} ${${cm-project}_ARGUMENTS})
+        add_external_project_internal(${cm-project} "${${cm-project}_ARGUMENTS}")
       endif()
     elseif(${cm-project}_IS_DUMMY_PROJECT)
       #this project isn't built, just used as a graph node to
@@ -161,7 +164,7 @@ macro(process_dependencies)
       add_external_dummy_project_internal(${cm-project})
     else()
       include(${cm-project})
-      add_external_project_internal(${cm-project} ${${cm-project}_ARGUMENTS})
+      add_external_project_internal(${cm-project} "${${cm-project}_ARGUMENTS}")
     endif()
   endforeach()
   unset (build-projects)
@@ -313,7 +316,11 @@ function(add_external_project_internal name)
       LD_LIBRARY_PATH "${ld_library_path}")
   endif ()
 
-  PVExternalProject_Add(${name} ${ARGN}
+
+  #args needs to be quoted so that empty list items aren't removed
+  #if that happens options like INSTALL_COMMAND "" won't work
+  set(args "${ARGN}")
+  PVExternalProject_Add(${name} "${args}"
     PREFIX ${name}
     DOWNLOAD_DIR ${download_location}
     INSTALL_DIR ${install_location}
