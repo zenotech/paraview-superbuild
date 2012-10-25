@@ -61,12 +61,21 @@ function (PVExternalProject_Add name)
 
   #override the configure command
   if (has_configure_command)
-    list(APPEND new_argn
-      CONFIGURE_COMMAND
-      ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/pv-${name}-configure.cmake)
+    get_property(configure_cmd TARGET pv-${name}
+      PROPERTY _EP_CONFIGURE_COMMAND)
+
+    if(configure_cmd STREQUAL "")
+      list(APPEND new_argn CONFIGURE_COMMAND "${configure_cmd}")
+      set(has_configure_command 0) #we don't want to call execute process
+    else()
+      list(APPEND new_argn
+        CONFIGURE_COMMAND
+        ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/pv-${name}-configure.cmake)
+    endif()
   endif()
 
-  # check if we have a BUILD_COMMAND or CONFIGURE_COMMAND.
+
+  # check if we have a BUILD_COMMAND
   get_property(has_build_command TARGET pv-${name}
     PROPERTY _EP_BUILD_COMMAND SET)
   if(has_build_command)
