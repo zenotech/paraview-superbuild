@@ -19,7 +19,7 @@ endif()
 add_external_project_or_use_system(python
   DEPENDS zlib
   BUILD_IN_SOURCE 1
-  CONFIGURE_COMMAND "echo"
+  CONFIGURE_COMMAND ""
   BUILD_COMMAND ${DEVENV_PATH} PCbuild/pcbuild.sln /build ${configuration}
                                     /project python
   #devenv doesn't seem to building all specified projects when I list them in
