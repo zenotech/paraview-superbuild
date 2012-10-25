@@ -1,0 +1,206 @@
+
+SET (CORE_SOURCES)
+SET (CORE_SOURCES ${CORE_SOURCES}
+     Containers/GridArray3.h
+     Containers/StringUtil.h
+     Containers/StringUtil.cc)
+
+SET (CORE_SOURCES ${CORE_SOURCES}
+     Color/ColorDB.h
+     Color/ColorDB.cc
+     Color/ColorSpace.h
+     Color/RGBColor.h
+     Color/RGBColor.cc
+     Color/RGBTraits.h
+     Color/RGBTraits.cc
+     Color/GrayColor.h
+     Color/GrayColor.cc
+     Color/Spectrum.h
+     Color/Spectrum.cc
+     Color/RegularColorMap.h
+     Color/RegularColorMap.cc)
+SET (CORE_SOURCES ${CORE_SOURCES}
+     Color/Colormaps/LinearColormap.h)
+SET (CORE_SOURCES ${CORE_SOURCES}
+     Exceptions/BadPrimitive.cc
+     Exceptions/BadPrimitive.h
+     Exceptions/ErrnoException.cc
+     Exceptions/ErrnoException.h
+     Exceptions/Exception.cc
+     Exceptions/Exception.h
+     Exceptions/FileNotFound.cc
+     Exceptions/FileNotFound.h
+     Exceptions/IllegalArgument.cc
+     Exceptions/IllegalArgument.h
+     Exceptions/InputError.cc
+     Exceptions/InputError.h
+     Exceptions/InternalError.cc
+     Exceptions/InternalError.h
+     Exceptions/InvalidState.cc
+     Exceptions/InvalidState.h
+     Exceptions/NullPointerException.cc
+     Exceptions/NullPointerException.h
+     Exceptions/OutputError.cc
+     Exceptions/OutputError.h
+     Exceptions/SerializationError.cc
+     Exceptions/SerializationError.h
+     Exceptions/UnknownColor.cc
+     Exceptions/UnknownColor.h
+     Exceptions/UnknownComponent.cc
+     Exceptions/UnknownComponent.h
+     Exceptions/UnknownPixelFormat.cc
+     Exceptions/UnknownPixelFormat.h
+     )
+SET (CORE_SOURCES ${CORE_SOURCES}
+     Geometry/AffineTransform.h
+     Geometry/AffineTransform.cc
+     Geometry/AffineTransformT.h
+     Geometry/AffineTransformT.cc
+     Geometry/BBox.h
+     Geometry/BBox.cc
+     Geometry/Ray.h
+     Geometry/ScalarTransform1D.h
+     Geometry/Vector.cc
+     Geometry/Vector.h
+     Geometry/VectorT.cc
+     Geometry/VectorT.h
+     Geometry/varray.h
+     Geometry/vecdefs.h
+     )
+SET (CORE_SOURCES ${CORE_SOURCES}
+     Math/CatmullRomInterpolator.h
+     Math/CheapRNG.cc
+     Math/CheapRNG.h
+     Math/ExponSSE.cc
+     Math/ExponSSE.h
+     Math/HaltonSequence.cc
+     Math/HaltonSequence.h
+     Math/KorobovRNG.cc
+     Math/KorobovRNG.h
+     Math/MiscMath.cc
+     Math/MiscMath.h
+     Math/MT_RNG.cc
+     Math/MT_RNG.h
+     Math/Noise.cc
+     Math/Noise.h
+     Math/SSEDefs.cc
+     Math/SSEDefs.h
+     Math/TrigSSE.cc
+     Math/TrigSSE.h
+     Math/ipow.h
+     )
+SET (CORE_SOURCES ${CORE_SOURCES}
+     Persistent/Archive.h
+     Persistent/Archive.cc
+     Persistent/ArchiveElement.h
+     Persistent/ArchiveElement.cc
+     Persistent/MantaRTTI.h
+     Persistent/MantaRTTI.cc
+     )
+
+IF (LIBXML2_FOUND)
+     SET (CORE_SOURCES ${CORE_SOURCES}
+          Persistent/XMLArchive.cc
+         )
+     INCLUDE_DIRECTORIES(${LIBXML2_INCLUDE})
+ENDIF (LIBXML2_FOUND)
+
+# Sources of Core/Thread classes
+SET(CORE_SOURCES ${CORE_SOURCES}
+  Thread/CleanupManager.cc
+  Thread/Guard.cc
+  Thread/MutexPool.cc
+  Thread/ParallelBase.cc
+  Thread/Runnable.cc
+  Thread/Thread.cc
+  Thread/ThreadError.cc
+  Thread/SimpleReducer.cc
+  Thread/ThreadLock.cc
+  Thread/ThreadGroup.cc
+  Thread/Thread_unix.cc
+  Thread/ThreadPool.cc
+  Thread/WorkQueue.cc
+)
+
+# If we are using PTHREADS then add these files
+IF (CMAKE_USE_PTHREADS_INIT)
+  # MESSAGE("Using Pthreads")
+  SET (CORE_SOURCES ${CORE_SOURCES}
+      Thread/Thread_pthreads.cc)
+
+  # Check to see if mmtimer is available.
+  IF(EXISTS /usr/include/sn/mmtimer.h)
+    SET(CORE_SOURCES ${CORE_SOURCES}
+                       Thread/Time_altix.cc)
+  ELSE(EXISTS /usr/include/sn/mmtimer.h)
+    SET(CORE_SOURCES ${CORE_SOURCES}
+                       Thread/Time_unix.cc)
+  ENDIF(EXISTS /usr/include/sn/mmtimer.h)
+ELSE(CMAKE_USE_PTHREADS_INIT)
+  IF(WIN32)
+    SET (CORE_SOURCES ${CORE_SOURCES}
+      Exceptions/StackWalker.h
+      Exceptions/StackWalker.cc
+      Thread/Thread_win32.cc
+      Thread/Time_win32.cc
+      Thread/Time.h
+      )
+  ENDIF(WIN32)
+ENDIF (CMAKE_USE_PTHREADS_INIT)
+
+
+
+SET (CORE_SOURCES ${CORE_SOURCES}
+     Util/AlignedAllocator.h
+     Util/AlignedAllocator.cc
+     Util/ApproximatePriorityQueue.h
+     Util/Args.h
+     Util/Args.cc
+     Util/Callback.h
+     Util/CallbackHandle.h
+     Util/CallbackHelpers.h
+     Util/CallbackHelpers.cc
+     Util/CPUTime.h
+     Util/CPUTime.cc
+     Util/Endian.h
+     Util/LargeFile.h
+     Util/LargeFile.cc
+     Util/MemoryPool.h
+     Util/Plugin.h
+     Util/Preprocessor.h
+     Util/PriorityQueue.h
+     Util/rgbe.h
+     Util/rgbe.cc
+     Util/Stat.h
+     Util/StaticCheck.h
+     Util/ThreadStorage.h
+     Util/ThreadStorage.cc
+     Util/Timer.h
+     Util/Timer.cc
+     Util/UpdateGraph.h
+     )
+
+ADD_LIBRARY (Manta_Core ${CORE_SOURCES})
+
+IF (UNIX AND NOT APPLE)
+  TARGET_LINK_LIBRARIES(Manta_Core dl)
+ENDIF()
+
+IF(LIBXML2_FOUND)
+  TARGET_LINK_LIBRARIES(Manta_Core ${LIBXML2_LIBRARY})
+ENDIF(LIBXML2_FOUND)
+
+IF (CMAKE_USE_PTHREADS_INIT)
+  TARGET_LINK_LIBRARIES(Manta_Core ${CMAKE_THREAD_LIBS_INIT})
+ELSE(CMAKE_USE_PTHREADS_INIT)
+  IF(WIN32)
+    TARGET_LINK_LIBRARIES(Manta_Core Winmm.lib)
+  ENDIF(WIN32)
+ENDIF(CMAKE_USE_PTHREADS_INIT)
+
+IF(MANTA_ENABLE_X11)
+  # The Manta_Core_XUtils library
+  ADD_LIBRARY (Manta_Core_XUtils XUtils/XHelper.cc)
+  TARGET_LINK_LIBRARIES(Manta_Core_XUtils Manta_Core)
+  TARGET_LINK_LIBRARIES(Manta_Core_XUtils ${OPENGL_LIBRARIES} ${X11_LIBRARIES})
+ENDIF(MANTA_ENABLE_X11)
