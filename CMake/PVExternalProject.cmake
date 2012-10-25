@@ -61,7 +61,7 @@ function (PVExternalProject_Add name)
 
   #override the configure command
   if (has_configure_command)
-    set(new_argn ${new_argn}
+    list(APPEND new_argn
       CONFIGURE_COMMAND
       ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/pv-${name}-configure.cmake)
   endif()
@@ -69,26 +69,39 @@ function (PVExternalProject_Add name)
   # check if we have a BUILD_COMMAND or CONFIGURE_COMMAND.
   get_property(has_build_command TARGET pv-${name}
     PROPERTY _EP_BUILD_COMMAND SET)
-  if(NOT has_build_command)
+  if(has_build_command)
+    get_property(build_cmd TARGET pv-${name}
+      PROPERTY _EP_BUILD_COMMAND)
+
+    #if the build command is an empty string it means we don't have a build
+    #command and we need to explicitly not create the external process
+    #build step, but instead pass down an empty build step
+    if(build_cmd STREQUAL "")
+      list(APPEND new_argn BUILD_COMMAND "${build_cmd}")
+      set(has_build_command 0) #we don't want to call execute process
+    endif()
+
+  else()
     # if no BUILD_COMMAND was specified, then the default build cmd is going to
     # be used, but then too we want to environment to be setup correctly. So we
     # obtain the default build command.
-    _ep_get_build_command(pv-${name} BUILD cmd)
-    if("${cmd}" MATCHES "^\\$\\(MAKE\\)")
+    _ep_get_build_command(pv-${name} BUILD build_cmd)
+    if("${build_cmd}" MATCHES "^\\$\\(MAKE\\)")
       # GNU make recognizes the string "$(MAKE)" as recursive make, so
       # ensure that it appears directly in the makefile.
-      string(REGEX REPLACE "^\\$\\(MAKE\\)" "${CMAKE_MAKE_PROGRAM} -j5" cmd "${cmd}")
+      string(REGEX REPLACE "^\\$\\(MAKE\\)" "${CMAKE_MAKE_PROGRAM} -j5" build_cmd "${build_cmd}")
+      set_property(TARGET pv-${name} PROPERTY _EP_BUILD_COMMAND "${build_cmd}")
     endif()
+    set(has_build_command 1)
+  endif()
 
-    set_property(TARGET pv-${name} PROPERTY _EP_BUILD_COMMAND "${cmd}")
-
-    #setup the new build command
-    set(new_argn ${new_argn}
+  #setup the new build command
+  if(has_build_command)
+    list(APPEND new_argn
       BUILD_COMMAND
       ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/pv-${name}-build.cmake)
-
-    set (has_build_command 1)
   endif()
+
 
   #check for install command, we always enforce an install command
   get_property(has_install_command TARGET pv-${name}
@@ -101,7 +114,7 @@ function (PVExternalProject_Add name)
     _ep_get_build_command(pv-${name} INSTALL install_cmd)
   endif()
   #write out the new install command
-  set (new_argn ${new_argn} INSTALL_COMMAND "${install_cmd}")
+  list(APPEND new_argn INSTALL_COMMAND "${install_cmd}")
 
 
   # now strip PROCESS_ENVIRONMENT from argments.
