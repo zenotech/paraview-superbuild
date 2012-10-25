@@ -30,3 +30,29 @@ add_external_project(
   INSTALL_COMMAND
     ${CMAKE_COMMAND} -E copy_directory <BINARY_DIR>/lib <INSTALL_DIR>/lib
 )
+
+if (UNIX AND NOT APPLE)
+  add_external_project_step(patch1
+      COMMENT "Fixing missing include files."
+      COMMAND ${CMAKE_COMMAND} -E copy_if_different
+              "${SuperBuild_PROJECTS_DIR}/patches/manta.Core.Thread.Thread.cc"
+              "<SOURCE_DIR>/Core/Thread/Thread.cc"
+      DEPENDEES update
+      DEPENDERS patch)
+
+  add_external_project_step(patch2
+      COMMENT "Fixing missing include files."
+      COMMAND ${CMAKE_COMMAND} -E copy_if_different
+              "${SuperBuild_PROJECTS_DIR}/patches/manta.Core.Containers.Array3.h"
+              "<SOURCE_DIR>/Core/Containers/Array3.h"
+      DEPENDEES update
+      DEPENDERS patch)
+
+  add_external_project_step(patch3
+    COMMENT "Fixing missing target link libraries for 'dl'."
+      COMMAND ${CMAKE_COMMAND} -E copy_if_different
+              "${SuperBuild_PROJECTS_DIR}/patches/manta.Core.CMakeLists.txt"
+              "<SOURCE_DIR>/Core/CMakeLists.txt"
+      DEPENDEES update
+      DEPENDERS patch)
+endif()
