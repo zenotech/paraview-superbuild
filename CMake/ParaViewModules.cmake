@@ -82,9 +82,9 @@ endmacro()
 # third party libraries
 macro(add_external_dummy_project _name)
   if (build-projects)
-    add_external_project(${_name} ${ARGN})
+    add_external_project(${_name} "${ARGN}")
   else()
-    add_external_project(${_name} ${ARGN})
+    add_external_project(${_name} "${ARGN}")
     set(${_name}_IS_DUMMY_PROJECT TRUE CACHE INTERNAL
       "Project just used to represent a logical block of dependencies" )
   endif()
@@ -95,9 +95,9 @@ endmacro()
 # use-system installation of the project.
 macro(add_external_project_or_use_system _name)
   if (build-projects)
-    add_external_project(${_name} ${ARGN})
+    add_external_project(${_name} "${ARGN}")
   else()
-    add_external_project(${_name} ${ARGN})
+    add_external_project(${_name} "${ARGN}")
     set(${_name}_CAN_USE_SYSTEM 1)
 
     # add an option an hide it by default. We'll expose it to the user if needed.
@@ -183,71 +183,7 @@ macro(project_check_name _name)
   endif()
 endmacro()
 
-#******************************************************************************
 #------------------------------------------------------------------------------
-# add dummy target to dependencies work even with subproject is disabled.
-# this code may need to change if ExternalProject.cmake changes.
-function(__create_required_targets name)
-  add_custom_target(${name})
-  set_property(TARGET ${name} PROPERTY _EP_STAMP_DIR ${CMAKE_CURRENT_BINARY_DIR})
-  SET (NO_${UNAME} TRUE)
-  add_custom_command(
-    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${name}-done
-    COMMENT "Completed ${name}"
-    COMMAND ${CMAKE_COMMAND} -E touch ${CMAKE_CURRENT_BINARY_DIR}/${name}-done)
-endfunction()
-
-
-#------------------------------------------------------------------------------
-# Add a project to this "superbuild". For every enabled project, this function
-# tries to import a cmake file named ${name}.cmake which should contain the
-# build rules for the project.
-# Option arguments:
-#   REQUIRED - when present, the user is not presented with a CMake option to
-#              disable the project (defaut is not REQUIRED).
-#   DEFAULT_OFF - when present, and REQUIRED is absent, the default state for
-#                 the project is OFF, (default is ON when missing).
-#   DEPENDS ... - list projects that need to be Enabled for this project to be
-#                 ON. Warns the user if any of the required dependencies is off.
-function(add_project name)
-  cmake_parse_arguments(arg "REQUIRED;DEFAULT_OFF" "" "DEPENDS" ${ARGN})
-
-  string(TOUPPER ${name} UNAME)
-  if (arg_REQUIRED)
-    set(ENABLE_${UNAME} ON CACHE INTERNAL "Project '${name}'" FORCE)
-  else()
-    if (NOT arg_DEFAULT_OFF)
-      option(ENABLE_${UNAME} "Enable sub-project '${name}'" ON)
-    else()
-      option(ENABLE_${UNAME} "Enable sub-project '${name}'" OFF)
-    endif()
-  endif()
-
-  if (ENABLE_${UNAME})
-    # verify each of the required dependencies is enabled.
-    foreach (required_dependency IN LISTS arg_DEPENDS)
-      string (TOUPPER ${required_dependency} UREQUIRED_DEPENDENCY)
-      if (NOT ENABLE_${UREQUIRED_DEPENDENCY})
-        message(WARNING
-          "${name} needs ${required_dependency} which is OFF, however."
-          "Ignoring ENABLE_${UNAME}.")
-        set (ENABLE_${UNAME} OFF)
-        break()
-      endif()
-    endforeach()
-  endif()
-
-  if (ENABLE_${UNAME})
-    # check for platform specific file. It none exists, try the default file.
-    include("${name}" RESULT_VARIABLE rv)
-    message(STATUS "Using configuration ${rv}")
-  else ()
-    # add dummy target to dependencies work even with subproject is disabled.
-    # this code may need to change if ExternalProject.cmake changes.
-    __create_required_targets(${name})
-  endif()
-endfunction()
-
 macro(get_project_depends _name _prefix)
   if (NOT ${_prefix}_${_name}_done)
     set(${_prefix}_${_name}_done 1)
@@ -354,11 +290,6 @@ function(add_external_project_internal name)
      endforeach()
   endif()
 endfunction()
-
-function(add_system_project name)
-  __create_required_targets(${name})
-endfunction()
-
 
 macro(add_extra_cmake_args)
   if (build-projects)
