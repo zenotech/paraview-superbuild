@@ -1,16 +1,15 @@
-
-# it's essential to build ompi static, other we are required to add
-# \DOMPI_IMPORTS etc. to the ParaView build flags and that's just annoying.
 add_external_project_or_use_system(mpi
-  CONFIGURE_COMMAND ${CMAKE_COMMAND} 
-                    -G "NMake Makefiles"
-                    -DCMAKE_INSTALL_PREFIX:PATH=${install_location}
-                    -DBUILD_SHARED_LIBS:BOOL=FALSE
-                    -DCMAKE_BUILD_TYPE:STRING=Release
-                    -DOMPI_RELEASE_BUILD:BOOL=TRUE
-                    <SOURCE_DIR>
-  BUILD_COMMAND ${NMAKE_PATH}
-  INSTALL_COMMAND ${NMAKE_PATH} install
+
+  # OpenMPI has a broken set_target_properties(...) call.
+  PATCH_COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                "${SuperBuild_PROJECTS_DIR}/patches/mpi.ompi.CMakeLists.txt"
+                "<SOURCE_DIR>/ompi/CMakeLists.txt"
+
+  CMAKE_ARGS
+    -DBUILD_SHARED_LIBS:BOOL=ON
+    -DOMPI_ENABLE_MPI_PROFILING:BOOL=OFF
+    -DCMAKE_BUILD_TYPE:STRING=Release
+    -DOMPI_RELEASE_BUILD:BOOL=ON
 )
 
 if (NOT USE_SYSTEM_mpi)
@@ -23,4 +22,7 @@ if (NOT USE_SYSTEM_mpi)
     -DMPI_CXX_INCLUDE_PATH:STRING=${install_location}/include
     -DMPI_CXX_LIBRARIES:STRING=${install_location}/lib/libmpi_cxx.lib
     )
+
+  append_flags(CMAKE_C_FLAGS "/DOMPI_IMPORTS /DOPAL_IMPORTS /DORTE_IMPORTS")
+  append_flags(CMAKE_CXX_FLAGS "/DOMPI_IMPORTS /DOPAL_IMPORTS /DORTE_IMPORTS")
 endif()

@@ -240,6 +240,26 @@ function(add_external_project_internal name)
     list(APPEND cmake_params ${args})
   endforeach()
 
+  # get extra flags added using append_flags(), if any.
+  set (extra_c_flags)
+  set (extra_cxx_flags)
+  foreach(dependency IN LISTS arg_DEPENDS)
+    get_property(_tmp GLOBAL PROPERTY ${dependency}_APPEND_FLAGS_CMAKE_C_FLAGS)
+    set (extra_c_flags ${extra_c_flags} ${_tmp})
+    get_property(_tmp GLOBAL PROPERTY ${dependency}_APPEND_FLAGS_CMAKE_CXX_FLAGS)
+    set (extra_cxx_flags ${extra_cxx_flags} ${_tmp})
+  endforeach()
+
+  set (project_c_flags "${cflags}")
+  if (extra_c_flags)
+    set (project_c_flags "${cflags} ${extra_c_flags}")
+  endif()
+  set (project_cxx_flags "${cxxflags}")
+  if (extra_cxx_flags)
+    set (project_cxx_flags "${cxxflags} ${extra_cxx_flags}")
+  endif()
+
+
 #if (name STREQUAL "paraview")
 #  message("${ARGN}")
 #endif()
@@ -267,8 +287,8 @@ function(add_external_project_internal name)
     PROCESS_ENVIRONMENT
       LDFLAGS "${ldflags}"
       CPPFLAGS "${cppflags}"
-      CXXFLAGS "${cxxflags}"
-      CFLAGS "${cflags}"
+      CXXFLAGS "${project_cxx_flags}"
+      CFLAGS "${project_c_flags}"
 # disabling this since it fails when building numpy.
 #      MACOSX_DEPLOYMENT_TARGET "${CMAKE_OSX_DEPLOYMENT_TARGET}"
       ${ld_library_path_argument}
@@ -276,8 +296,8 @@ function(add_external_project_internal name)
     CMAKE_ARGS
       -DCMAKE_INSTALL_PREFIX:PATH=${prefix_path}
       -DCMAKE_PREFIX_PATH:PATH=${prefix_path}
-      -DCMAKE_C_FLAGS:STRING=${cflags}
-      -DCMAKE_CXX_FLAGS:STRING=${cppflags}
+      -DCMAKE_C_FLAGS:STRING=${project_c_flags}
+      -DCMAKE_CXX_FLAGS:STRING=${project_cxx_flags}
       -DCMAKE_SHARED_LINKER_FLAGS:STRING=${ldflags}
       ${cmake_params}
     )
@@ -302,6 +322,29 @@ macro(add_extra_cmake_args)
     # nothing to do.
   endif()
 endmacro()
+
+#------------------------------------------------------------------------------
+# in case of OpenMPI on Windows, for example, we need to pass extra compiler
+# flags when building projects that use MPI. This provides an experimental
+# mechanism for the same.
+macro(append_flags key value)
+  if (NOT "${key}" STREQUAL "CMAKE_CXX_FLAGS" AND NOT "${key}" STREQUAL "CMAKE_C_FLAGS")
+    message(AUTHOR_WARNING
+      "Currently, only CMAKE_CXX_FLAGS and CMAKE_C_FLAGS are supported.")
+  endif()
+  if (build-projects)
+    if (NOT cm-project)
+      message(AUTHOR_WARNING "add_extra_cmake_args called an incorrect stage.")
+      return()
+    endif()
+    set_property(GLOBAL APPEND PROPERTY
+      ${cm-project}_APPEND_FLAGS_${key} "${value}")
+  else()
+    # nothing to do.
+  endif()
+endmacro()
+#------------------------------------------------------------------------------
+
 
 macro(add_external_project_step name)
   if (build-projects)
