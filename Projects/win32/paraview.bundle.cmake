@@ -101,11 +101,21 @@ if (mpi_ENABLED AND NOT USE_SYSTEM_mpi)
         USE_SOURCE_PERMISSIONS
         COMPONENT ParaView
         FILES_MATCHING
-          PATTERN "mpi*.exe"
+          PATTERN "mpiexec.exe"
+          PATTERN "mpirun.exe"
           PATTERN "ompi*.exe"
           PATTERN "opal*.exe"
           PATTERN "orte*.exe"
         )
+  # install the mpi configuration files needed for mpiexec.
+  install(DIRECTORY "${install_location}/etc/"
+          DESTINATION "etc"
+          USE_SOURCE_PERMISSIONS
+          COMPONENT ParaView)
+  install(DIRECTORY "${install_location}/share/openmpi"
+          DESTINATION "share"
+          USE_SOURCE_PERMISSIONS
+          COMPONENT ParaView)
 endif()
 #-----------------------------------------------------------------------------
 
