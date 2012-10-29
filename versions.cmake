@@ -93,7 +93,8 @@ add_revision(paraview
   GIT_TAG "master")
 
 add_revision(diy
-   SVN_REPOSITORY https://svn.mcs.anl.gov/repos/diy/trunk)
+   SVN_REPOSITORY https://svn.mcs.anl.gov/repos/diy/trunk
+   SVN_TRUST_CERT 1)
 
 add_revision(qhull
     GIT_REPOSITORY https://github.com/gzagaris/gxzagas-qhull.git
