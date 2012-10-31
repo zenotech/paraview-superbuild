@@ -74,6 +74,12 @@ if (numpy_ENABLED)
           COMPONENT ParaView)
 endif()
 
+if (matplotlib_ENABLED)
+  install(DIRECTORY "${install_location}/lib/site-packages/matplotlib"
+          DESTINATION "bin/Lib/site-packages"
+          USE_SOURCE_PERMISSIONS
+          COMPONENT ParaView)
+endif()
 
 if (qt_ENABLED AND NOT USE_SYSTEM_qt)
   install(DIRECTORY

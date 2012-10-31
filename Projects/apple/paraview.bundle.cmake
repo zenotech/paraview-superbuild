@@ -34,6 +34,18 @@ if (numpy_ENABLED)
           COMPONENT superbuild)
 endif()
 
+if (matplotlib_ENABLED)
+  # install matplotlib module into the application bundle.
+  install(CODE "
+                # install matplotlib
+                file(GLOB matplotlib-root \"${install_location}/lib/python*/site-packages/matplotlib\")
+                file(INSTALL DESTINATION \"\${CMAKE_INSTALL_PREFIX}/paraview.app/Contents/Python\"
+                     USE_SOURCE_PERMISSIONS TYPE DIRECTORY FILES
+                     \"\${matplotlib-root}\")
+               "
+          COMPONENT superbuild)
+endif()
+
 if (CUSTOMIZE_DMG)
   install(CODE "
                # put the dmg customizations into the package
