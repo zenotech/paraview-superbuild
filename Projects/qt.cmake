@@ -37,6 +37,7 @@ add_external_project_or_use_system(
                       -no-xinerama
                       -no-script
                       -no-scripttools
+                      -no-svg
                       -no-declarative-debug
                       -no-xvideo
                       -opensource
