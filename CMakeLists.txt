@@ -42,6 +42,11 @@ else ()
   set (package_suffix "${package_suffix}-32bit")
 endif()
 
+
+option(TRUST_SVN_CERTIFICATES_AUTOMATICALLY
+  "Trust SVN certificates automatically" ON)
+mark_as_advanced(TRUST_SVN_CERTIFICATES_AUTOMATICALLY)
+
 #-----------------------------------------------------------------------------
 # Setup CMAKE_MODULE_PATH so that platform specific configurations are processed
 # before the generic ones.
