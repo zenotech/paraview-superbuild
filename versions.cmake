@@ -48,9 +48,15 @@ add_revision(fontconfig
   URL "http://paraview.org/files/v3.14/dependencies/fontconfig-2.8.0.tar.gz"
   URL_MD5 77e15a92006ddc2adbb06f840d591c0e)
 
-add_revision(qt
-  URL "http://releases.qt-project.org/qt4/source/qt-everywhere-opensource-src-4.8.2.tar.gz"
-  URL_MD5 3c1146ddf56247e16782f96910a8423b)
+if (APPLE)
+  add_revision(qt
+    URL "http://releases.qt-project.org/qt4/source/qt-everywhere-opensource-src-4.8.3.tar.gz"
+    URL_MD5 a663b6c875f8d7caa8ac9c30e4a4ec3b)
+else()
+  add_revision(qt
+    URL "http://releases.qt-project.org/qt4/source/qt-everywhere-opensource-src-4.8.2.tar.gz"
+    URL_MD5 3c1146ddf56247e16782f96910a8423b)
+endif()
 
 if (WIN32)
   add_revision(python
