@@ -3,9 +3,9 @@
 # We hardcode the version numbers since we cannot determine versions during
 # configure stage.
 set (pv_version_major 3)
-set (pv_version_minor 14)
-set (pv_version_patch 1)
-set (pv_version_suffix dev)
+set (pv_version_minor 98)
+set (pv_version_patch 0)
+set (pv_version_suffix RC1)
 set (pv_version "${pv_version_major}.${pv_version_minor}")
 
 # Enable CPack packaging.
@@ -31,13 +31,14 @@ set(CPACK_PACKAGE_FILE_NAME
 # PARAVIEW_INSTALL_MANUAL_PDF is set before importing this file.
 # This allows us to override the pdf downloading code for apple.
 if (PARAVIEW_INSTALL_MANUAL_PDF)
+  set (pdf_pv_version "3.14")
   # download an install manual pdf.
   install(CODE "
     # create the doc directory.
     file(MAKE_DIRECTORY \"\${CMAKE_INSTALL_PREFIX}/doc\")
 
     # download the manual pdf.
-    file(DOWNLOAD \"http://www.paraview.org/files/v${pv_version}/ParaViewUsersGuide.v${pv_version}.pdf\"
+    file(DOWNLOAD \"http://www.paraview.org/files/v${pdf_pv_version}/ParaViewUsersGuide.v${pdf_pv_version}.pdf\"
         \"\${CMAKE_INSTALL_PREFIX}/doc/ParaViewUsersGuide.v${pv_version}.pdf\"
         SHOW_PROGRESS)
   ")
