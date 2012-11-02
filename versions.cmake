@@ -9,8 +9,9 @@
 # endif()
 
 add_revision(zlib
-  URL "http://paraview.org/files/v3.14/dependencies/zlib-1.2.5.tar.gz"
-  URL_MD5 c735eab2d659a96e5a594c9e8541ad63)
+  URL "http://zlib.net/zlib-1.2.7.tar.gz"
+  URL_MD5 60df6a37c56e7c1366cca812414f7b85)
+
 
 add_revision(png
   URL "http://paraview.org/files/v3.14/dependencies/libpng-1.4.8.tar.gz"
