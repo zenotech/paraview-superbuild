@@ -113,7 +113,7 @@ else()
 endif()
 
 add_revision(qhull
-    GIT_REPOSITORY https://github.com/gzagaris/gxzagas-qhull.git
+    GIT_REPOSITORY git://github.com/gzagaris/gxzagas-qhull.git
     GIT_TAG master)
 
 #------------------------------------------------------------------------------
