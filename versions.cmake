@@ -11,6 +11,7 @@
 add_revision(zlib
   URL "http://zlib.net/zlib-1.2.7.tar.gz"
   URL_MD5 60df6a37c56e7c1366cca812414f7b85)
+# NOTE: if updating zlib version, fix patch in zlib.cmake
 
 
 add_revision(png
