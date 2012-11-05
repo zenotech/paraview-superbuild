@@ -124,7 +124,7 @@ add_revision(acusolve_plugin
   GIT_REPOSITORY git://kwsource.kitwarein.com/paraview/acusolvereaderplugin.git
   GIT_TAG master)
 
-add_revision(vistrails_plugin
+add_revision(vistrails
   GIT_REPOSITORY git://kwsource.kitwarein.com/paraview/vistrails.git
   GIT_TAG master)
 
