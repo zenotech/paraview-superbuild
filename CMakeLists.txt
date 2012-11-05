@@ -159,10 +159,14 @@ include(szip)
 include(visitbridge)
 include(zlib)
 
+if (UNIX OR APPLE)
+  # since currently, freetype is not supported in windows. It will be soon.
+  include(freetype)
+endif()
+
 if (UNIX AND NOT APPLE)
   include(ffmpeg)
   include(fontconfig)
-  include(freetype)
   include(mesa)
 endif()
 

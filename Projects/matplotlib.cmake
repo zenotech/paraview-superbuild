@@ -12,6 +12,11 @@ add_external_project(matplotlib
   CONFIGURE_COMMAND ""
   INSTALL_COMMAND ""
   BUILD_IN_SOURCE 1
+
   BUILD_COMMAND
-    ${pv_python_executable} setup.py install --prefix=${_install_location}
+    ${CMAKE_COMMAND} -DPYTHON_EXECUTABLE:PATH=${pv_python_executable}
+                     -DMATPLOTLIB_SOURCE_DIR:PATH=<SOURCE_DIR>
+                     -DMATPLOTLIB_INSTALL_DIR:PATH=<INSTALL_DIR>
+                     -DNUMPY_INSTALL_DIR:PATH=<INSTALL_DIR>
+                     -P ${CMAKE_CURRENT_LIST_DIR}/matplotlib.build.cmake
 )
