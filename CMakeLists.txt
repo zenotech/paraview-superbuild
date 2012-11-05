@@ -181,8 +181,8 @@ endif()
 # libraries we've built here.
 include(paraview)
 include(vistrails)
+include(acusolve)
 
-#include(acusolve_plugin)
 #include(vistrails_plugin)
 #include(nektar_plugin)
 #include(mili_plugin)

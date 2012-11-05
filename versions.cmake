@@ -120,7 +120,7 @@ add_revision(cosmologytools
     GIT_REPOSITORY git://public.kitware.com/cosmologytools.git
     GIT_TAG master)
 
-add_revision(acusolve_plugin
+add_revision(acusolve
   GIT_REPOSITORY git://kwsource.kitwarein.com/paraview/acusolvereaderplugin.git
   GIT_TAG master)
 
