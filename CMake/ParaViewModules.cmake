@@ -48,6 +48,7 @@ macro(add_external_project _name)
     set(${cm-project}_DEPENDS "")
     set(${cm-project}_ARGUMENTS "")
     set(${cm-project}_NEEDED_BY "")
+    set(${cm-project}_DEPENDS_ANY "")
     set(${cm-project}_DEPENDS_OPTIONAL "")
     set(${cm-project}_CAN_USE_SYSTEM 0)
     set (doing "")
@@ -205,11 +206,27 @@ macro(project_check_name _name)
 endmacro()
 
 #------------------------------------------------------------------------------
+# get dependencies for a project, including optional dependencies that are
+# currently enabled. Since this macro looks at the ${mod}_ENABLED flag, it
+# cannot be used in the 'processing' pass, but the 'build' pass alone.
 macro(get_project_depends _name _prefix)
+  if (NOT build-projects)
+    message(AUTHOR_WARNING "get_project_depends can only be used in build pass")
+  endif()
   if (NOT ${_prefix}_${_name}_done)
     set(${_prefix}_${_name}_done 1)
+
+    # process regular dependencies
     foreach (dep ${${_name}_DEPENDS})
       if (NOT ${_prefix}_${dep}_done)
+        list(APPEND ${_prefix}_DEPENDS ${dep})
+        get_project_depends(${dep} ${_prefix})
+      endif()
+    endforeach()
+
+    # process optional dependencies (only consider those that are enabled).
+    foreach (dep ${${_name}_DEPENDS_OPTIONAL})
+      if (${dep}_ENABLED AND NOT ${_prefix}_${dep}_done)
         list(APPEND ${_prefix}_DEPENDS ${dep})
         get_project_depends(${dep} ${_prefix})
       endif()
