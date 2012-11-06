@@ -36,6 +36,7 @@ macro(add_external_project _name)
     foreach (op_dep ${optional_depends})
       if (${op_dep}_ENABLED)
         list (APPEND arguments DEPENDS ${op_dep})
+        #message(STATUS "OPTIONAL DEPENDENCY ${cm-project}->${op_dep}")
       endif()
     endforeach()
     set(${cm-project}_ARGUMENTS "${arguments}")
@@ -47,6 +48,7 @@ macro(add_external_project _name)
     set(${cm-project}_DEPENDS "")
     set(${cm-project}_ARGUMENTS "")
     set(${cm-project}_NEEDED_BY "")
+    set(${cm-project}_DEPENDS_OPTIONAL "")
     set(${cm-project}_CAN_USE_SYSTEM 0)
     set (doing "")
 
@@ -60,8 +62,8 @@ macro(add_external_project _name)
         set (doing "")
       elseif (doing STREQUAL "DEPENDS")
         list(APPEND ${cm-project}_DEPENDS "${arg}")
-      elseif ((doing STREQUAL "DEPENDS_OPTIONAL") AND ENABLE_${arg})
-        list(APPEND ${cm-project}_DEPENDS "${arg}")
+      elseif (doing STREQUAL "DEPENDS_OPTIONAL")
+        list(APPEND ${cm-project}_DEPENDS_OPTIONAL "${arg}")
       endif()
 
     endforeach()
@@ -72,7 +74,10 @@ macro(add_external_project _name)
 
     if (USE_SYSTEM_${cm-project})
       set(${cm-project}_DEPENDS "")
+      set(${cm-project}_DEPENDS_OPTIONAL "")
     endif()
+    set(${cm-project}_DEPENDS_ANY
+      ${${cm-project}_DEPENDS} ${${cm-project}_DEPENDS_OPTIONAL})
   endif()
 endmacro()
 
@@ -117,10 +122,26 @@ macro(process_dependencies)
   endforeach()
   list(SORT CM_PROJECTS_ENABLED) # Deterministic order.
 
-  # Order list to satisfy dependencies. We don't include the use-system
-  # libraries in the depedency walk.
+  # Order list to satisfy dependencies.
+  # First only use the non-optional dependencies.
   include(TopologicalSort)
   topological_sort(CM_PROJECTS_ENABLED "" _DEPENDS)
+
+  # Now generate a project order using both, optional and non-optional
+  # dependencies.
+  set (CM_PROJECTS_ORDER ${CM_PROJECTS_ENABLED})
+  topological_sort(CM_PROJECTS_ORDER "" _DEPENDS_ANY)
+
+  # Update CM_PROJECTS_ENABLED to be in the correct order taking into
+  # consideration optional dependencies.
+  set (new_order)
+  foreach (cm-project IN LISTS CM_PROJECTS_ORDER)
+    list(FIND CM_PROJECTS_ENABLED "${cm-project}" found)
+    if (found GREATER -1)
+      list(APPEND new_order "${cm-project}")
+    endif()
+  endforeach()
+  set (CM_PROJECTS_ENABLED ${new_order})
 
   # build information about what project needs what.
   foreach (cm-project IN LISTS CM_PROJECTS_ENABLED)

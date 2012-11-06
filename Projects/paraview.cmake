@@ -6,7 +6,7 @@ endif()
 
 add_external_project(paraview
   DEPENDS_OPTIONAL
-    ffmpeg hdf5 libxml3 manta matplotlib mpi numpy png python qt visitbridge zlib silo cgns
+    boost ffmpeg hdf5 libxml3 manta matplotlib mpi numpy png python qt visitbridge zlib silo cgns
 
   CMAKE_ARGS
     -DBUILD_SHARED_LIBS:BOOL=ON
