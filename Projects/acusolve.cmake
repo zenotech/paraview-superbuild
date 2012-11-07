@@ -1,4 +1,6 @@
-add_external_project(acusolve_plugin
+
+
+add_external_project(acusolve
   DEPENDS paraview
 
   CMAKE_ARGS
@@ -7,5 +9,5 @@ add_external_project(acusolve_plugin
   INSTALL_COMMAND
     ${CMAKE_COMMAND} -E tar cfz
       ${CMAKE_CURRENT_BINARY_DIR}/AcuSolveReaderPlugin-${package_suffix}.tgz
-      <BINARY_DIR>/libAcuSolveReader.so
+      <BINARY_DIR>/${CMAKE_SHARED_LIBRARY_PREFIX}AcuSolveReader${CMAKE_SHARED_LIBRARY_SUFFIX}
 )
