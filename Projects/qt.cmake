@@ -8,9 +8,10 @@ if (NOT APPLE AND UNIX)
                -I <INSTALL_DIR>/include/freetype2
                -I <INSTALL_DIR>/include/fontconfig)
   # Fix Qt build failure with GCC 4.1.
-  set (patch_command ${CMAKE_COMMAND} -E copy_if_different
-                     ${SuperBuild_PROJECTS_DIR}/patches/qt.src.3rdparty.webkit.Source.WebKit.pri
-                     <SOURCE_DIR>/src/3rdparty/webkit/Source/WebKit.pri)
+ set (patch_command PATCH_COMMAND
+                    ${CMAKE_COMMAND} -E copy_if_different
+                    ${SuperBuild_PROJECTS_DIR}/patches/qt.src.3rdparty.webkit.Source.WebKit.pri
+                    <SOURCE_DIR>/src/3rdparty/webkit/Source/WebKit.pri)
 elseif (APPLE)
   list (APPEND qt_options
               -sdk ${CMAKE_OSX_SYSROOT}
@@ -53,7 +54,5 @@ add_external_project_or_use_system(
                       -L <INSTALL_DIR>/lib
                       ${qt_options}
                       ${qt_EXTRA_CONFIGURATION_OPTIONS}
-    PROCESS_ENVIRONMENT
-      LD_LIBRARY_PATH "<BINARY_DIR>/lib"
     ${patch_command}
 )
