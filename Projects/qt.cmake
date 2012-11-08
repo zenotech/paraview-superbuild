@@ -56,3 +56,15 @@ add_external_project_or_use_system(
                       ${qt_EXTRA_CONFIGURATION_OPTIONS}
     ${patch_command}
 )
+
+if ((NOT 64bit_build) AND UNIX AND (NOT APPLE))
+  # on 32-bit builds, we are incorrectly ending with QT_POINTER_SIZE chosen as
+  # 8 (instead of 4) with GCC4.1 toolchain on old debians. This patch overcomes
+  # that.
+  add_external_project_step(qt-patch-configure
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                              ${SuperBuild_PROJECTS_DIR}/patches/qt.configure
+			      <SOURCE_DIR>/configure
+    DEPENDEES patch
+    DEPENDERS configure)
+endif()
