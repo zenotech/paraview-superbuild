@@ -65,8 +65,8 @@ else()
 endif()
 
 add_revision(numpy
-  URL "http://paraview.org/files/v3.14/dependencies/numpy-1.6.1.tar.gz"
-  URL_MD5 2bce18c08fc4fce461656f0f4dd9103e)
+  URL "http://paraview.org/files/dependencies/numpy-1.6.2.tar.gz"
+  URL_MD5 95ed6c9dcc94af1fc1642ea2a33c1bba)
 
 add_revision(matplotlib
   URL "http://paraview.org/files/v3.14/dependencies/matplotlib-1.1.1_notests.tar.gz"
