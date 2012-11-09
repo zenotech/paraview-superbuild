@@ -31,15 +31,15 @@ set(CPACK_PACKAGE_FILE_NAME
 # PARAVIEW_INSTALL_MANUAL_PDF is set before importing this file.
 # This allows us to override the pdf downloading code for apple.
 if (PARAVIEW_INSTALL_MANUAL_PDF)
-  set (pdf_pv_version "3.14")
+  set (pdf_pv_version "3.98")
   # download an install manual pdf.
   install(CODE "
     # create the doc directory.
     file(MAKE_DIRECTORY \"\${CMAKE_INSTALL_PREFIX}/doc\")
 
     # download the manual pdf.
-    file(DOWNLOAD \"http://www.paraview.org/files/v${pdf_pv_version}/ParaViewUsersGuide.v${pdf_pv_version}.pdf\"
-        \"\${CMAKE_INSTALL_PREFIX}/doc/ParaViewUsersGuide.v${pv_version}.pdf\"
+    file(DOWNLOAD \"http://www.paraview.org/files/v${pdf_pv_version}/ParaViewManual.v${pdf_pv_version}.pdf\"
+        \"\${CMAKE_INSTALL_PREFIX}/doc/ParaViewManual.v${pv_version}.pdf\"
         SHOW_PROGRESS)
   ")
 endif()
