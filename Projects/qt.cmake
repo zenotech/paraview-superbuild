@@ -15,7 +15,8 @@ if (NOT APPLE AND UNIX)
 elseif (APPLE)
   list (APPEND qt_options
               -sdk ${CMAKE_OSX_SYSROOT}
-              -arch ${CMAKE_OSX_ARCHITECTURES})
+              -arch ${CMAKE_OSX_ARCHITECTURES}
+              -qt-libpng)
   # Need to patch Qt code to build with Xcode 4.3 or newer (where SDK
   # location chnages using the following command:
   #find . -name "*.pro" -exec sed -i -e "s:/Developer/SDKs/:.*:g" {} \;
