@@ -79,12 +79,6 @@ if (matplotlib_ENABLED)
           DESTINATION "bin/Lib/site-packages"
           USE_SOURCE_PERMISSIONS
           COMPONENT ParaView)
-  # matplotlib needs these libraries, which are copied with a new name
-  # during its patch step...
-  install(FILES "${install_location}/lib/z.lib" "${install_location}/lib/png.lib"
-          DESTINATION "bin/Lib/"
-          USE_SOURCE_PERMISSIONS
-          COMPONENT ParaView)
 endif()
 
 if (qt_ENABLED AND NOT USE_SYSTEM_qt)
