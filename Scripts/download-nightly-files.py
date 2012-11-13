@@ -115,8 +115,11 @@ def downloadFiles(buildInfo, destination, suffix):
     for url in info['urls']:
         dstFileName = url.split('/')[-1]
         if suffix:
-            extensionIndex = dstFileName.rfind(".")
-            dstFileName = dstFileName[0:extensionIndex] + '-' + suffix + dstFileName[extensionIndex:]
+            if dstFileName.endswith(".tar.gz"):
+              dstFileName = dstFileName[0:-7] + '-' + suffix + '.tar.gz'
+            else:
+              extensionIndex = dstFileName.rfind(".")
+              dstFileName = dstFileName[0:extensionIndex] + '-' + suffix + dstFileName[extensionIndex:]
         fulldestinationPath = destination + "/" + dstFileName
         print "Downloading %s" % fulldestinationPath
         urllib.urlretrieve (url, fulldestinationPath)
