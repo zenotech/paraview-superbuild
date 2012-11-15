@@ -10,6 +10,21 @@ date         = ""
 download_dir = None
 suffix       = None
 
+# ----------------------------------------------------------------------------------------
+# customSuffix[siteName][buildName] = SuffixToUse
+# ----------------------------------------------------------------------------------------
+# This global variable is used to provide a custom suffix mapping based on
+# site and build name.
+# ----------------------------------------------------------------------------------------
+customSuffix = {
+   'altair.kitware': {
+      'MountainLion-nightlymaster-superbuild'        : '10.8-NIGHTLY',
+      'MountainLion-nightlymaster-superbuild-nompi'  : '10.8-NoMPI-NIGHTLY' },
+   'debian-x64.kitware': {'nightlymaster-superbuild' : 'debian-NIGHTLY' }
+}
+
+# ----------------------------------------------------------------------------------------
+
 def printUsage():
   print "Usage: script.py --project=ParaView"
   print
@@ -33,6 +48,8 @@ def printUsage():
   print "  $ ./script.py --help"
   print "  $ ./script.py --project=ParaView --download-dir=/tmp/pv-nightly --suffix=NIGHTLY --yesterday"
   print
+
+# ----------------------------------------------------------------------------------------
 
 def processArgs():
   global project, date, suffix, download_dir
@@ -58,6 +75,8 @@ def processArgs():
 
   return True
 
+# ----------------------------------------------------------------------------------------
+
 def extractBuildIds():
     buildIds = []
     url = ( "http://open.cdash.org/index.php?project=%s&date=%s" ) % (project, date)
@@ -71,6 +90,8 @@ def extractBuildIds():
             buildIds.append(line[start+1:end])
             index = line.find("viewFiles", index + 1)
     return buildIds
+
+# ----------------------------------------------------------------------------------------
 
 def getBuildInfo(buildId):
     buildName = ""
@@ -101,6 +122,15 @@ def getBuildInfo(buildId):
             index = line.find("upload/", index + 1)
     return { 'site': siteName, 'name': buildName, 'urls': fileURLs }
 
+# ----------------------------------------------------------------------------------------
+
+def getSuffix(buildInfo, default_suffix):
+	if customSuffix.has_key(info['site']) and customSuffix[info['site']].has_key(info['name']):
+	   return customSuffix[info['site']][info['name']]
+	return default_suffix
+
+# ----------------------------------------------------------------------------------------
+
 def printBuildInfo(info):
     print " Site: %s" % info['site']
     print " Name: %s" % info['name']
@@ -108,12 +138,15 @@ def printBuildInfo(info):
     for url in info['urls']:
         print "  - %s" % url
 
-def downloadFiles(buildInfo, destination, suffix):
+# ----------------------------------------------------------------------------------------
+
+def downloadFiles(buildInfo, destination, default_suffix):
     if not os.path.exists(destination):
         os.makedirs(destination)
 
     for url in info['urls']:
         dstFileName = url.split('/')[-1]
+        suffix = getSuffix(buildInfo, default_suffix)
         if suffix:
             if dstFileName.endswith(".tar.gz"):
               dstFileName = dstFileName[0:-7] + '-' + suffix + '.tar.gz'
@@ -124,6 +157,7 @@ def downloadFiles(buildInfo, destination, suffix):
         print "Downloading %s" % fulldestinationPath
         urllib.urlretrieve (url, fulldestinationPath)
 
+# ----------------------------------------------------------------------------------------
 
 if __name__ == "__main__":
   if processArgs():
@@ -152,3 +186,5 @@ if __name__ == "__main__":
         print
     else:
       print "No build founds with generated files."
+
+# ----------------------------------------------------------------------------------------
