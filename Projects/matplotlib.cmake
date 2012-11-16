@@ -1,4 +1,9 @@
 set (_install_location "<INSTALL_DIR>")
+if (WIN32)
+  # matplotlib build has issues with paths containing "C:". So we set the prefix as a
+  # relative path.
+  set (_install_location "../../../install")
+endif()
 
 # BUILD_COMMAND can't handle spaces in the executable name. Worse, for
 # Makefile builds, it writes out a cmake script where ${CMAKE_COMMAND} can
@@ -27,7 +32,7 @@ add_external_project(matplotlib
   BUILD_COMMAND
     "${SAFE_CMAKE_COMMAND}" -DPYTHON_EXECUTABLE:PATH=${pv_python_executable}
                             -DMATPLOTLIB_SOURCE_DIR:PATH=<SOURCE_DIR>
-                            -DMATPLOTLIB_INSTALL_DIR:PATH=<INSTALL_DIR>
+                            -DMATPLOTLIB_INSTALL_DIR:PATH=${_install_location}
                             -DNUMPY_INSTALL_DIR:PATH=<INSTALL_DIR>
                             -P ${SuperBuild_PROJECTS_DIR}/matplotlib.build.cmake
 )
