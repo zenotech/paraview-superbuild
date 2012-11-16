@@ -20,7 +20,10 @@ customSuffix = {
    'altair.kitware': {
       'MountainLion-nightlymaster-superbuild'        : '10.8-NIGHTLY',
       'MountainLion-nightlymaster-superbuild-nompi'  : '10.8-NoMPI-NIGHTLY' },
-   'debian-x64.kitware': {'nightlymaster-superbuild' : 'debian-NIGHTLY' }
+   'debian-x64.kitware': {'nightlymaster-superbuild' : 'glibc-2.3.6-NIGHTLY' },
+   'debian-x32.kitware': {'nightlymaster-superbuild' : 'glibc-2.3.6-NIGHTLY' },
+   'Blight.kitware' : {'ubuntu-x64-nightlymaster-superbuild' : 'glibc-2.15-NIGHTLY' },
+   'kamino.kitware' : {'Lion-nightlymaster-superbuild' : '10.6-10.7-NIGHTLY'}
 }
 
 # ----------------------------------------------------------------------------------------
