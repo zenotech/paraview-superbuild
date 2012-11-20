@@ -46,6 +46,16 @@ if (matplotlib_ENABLED)
           COMPONENT superbuild)
 endif()
 
+if (APPLY_MOUNTAIN_LION_FIX)
+  install(CODE "
+                # reduce library path size to try to overcome the dylib mountain lion bug
+                execute_process(
+                COMMAND ${CMAKE_CURRENT_LIST_DIR}/fixup_bundle_for_mountain_lion.py
+                        \"\${CMAKE_INSTALL_PREFIX}/paraview.app/Contents/MacOS/paraview\")
+	       "
+          COMPONENT superbuild)
+endif()
+
 if (CUSTOMIZE_DMG)
   install(CODE "
                # put the dmg customizations into the package

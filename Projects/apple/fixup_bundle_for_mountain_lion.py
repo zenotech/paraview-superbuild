@@ -1,10 +1,12 @@
-print "Hello World"
+#!/usr/bin/python
+
 import sys
 import commands
 import re
 
+print "Fixing bundle for Mountain Lion for Application: ", sys.argv[1]
+
 App = sys.argv[1]
-print App
 references_to_fix = commands.getoutput("""find %s | xargs file | grep "Mach-O" | sed "s/:.*//"  | xargs otool -l | grep " name" | sort | uniq | sed "s/name\ //" | grep "@executable_path" | awk '{print $1}'"""  % App)
 print "references_to_fix: ", references_to_fix
 
