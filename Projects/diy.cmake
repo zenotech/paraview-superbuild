@@ -1,7 +1,7 @@
 ## Builds DIY library
 ## https://svn.mcs.anl.gov/repos/diy/trunk
 add_external_project(diy
-    DEPENDS mpi
+    DEPENDS mpi hdf5
     BUILD_IN_SOURCE 1
     PROCESS_ENVIRONMENT
       MPICC "<INSTALL_DIR>/bin/mpicc"
