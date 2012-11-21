@@ -7,7 +7,7 @@ add_external_project(diy
       MPICC "<INSTALL_DIR>/bin/mpicc"
       MPICXX "<INSTALL_DIR>/bin/mpicxx"
     CONFIGURE_COMMAND
-        <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> --enable-fpic --disable-openmp --disable-bil --without-hdf5
+        <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> --enable-fpic --disable-openmp
     BUILD_COMMAND make
     INSTALL_COMMAND make install
         )
