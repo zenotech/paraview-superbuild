@@ -20,8 +20,30 @@ import shutil
 
 path_bundle_to_fix = sys.argv[1]
 library_name_mapping = {}
-hash_table = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+hash_table = "abcdefghijklmnopqrstuvwxyz0123456789"
 hash_table_size = len(hash_table)
+
+#---------------------------------------------------------------------------------
+
+def writeMapping(dir):
+    fo = open(dir + "/LibraryMapping.txt", "w")
+    for key in library_name_mapping.iterkeys():
+        fo.write(key + ":" + library_name_mapping[key] + "\n")
+    fo.close()
+
+#---------------------------------------------------------------------------------
+
+def readMapping(dir):
+    global library_name_mapping
+    try:
+        f = open(dir + "/LibraryMapping.txt", "r")
+        for line in f:
+            oldNew = line.split(":")
+            if len(oldNew) == 2:
+                library_name_mapping[oldNew[0]] = oldNew[1][0:-1]
+        f.close()
+    except:
+        pass
 
 #---------------------------------------------------------------------------------
 
@@ -68,23 +90,21 @@ def renameLibraries(dir):
 def fixInternalLibraryPath(dir):
     print "Fixing libraries in", dir
     for f in listdir(dir):
-        sys.stdout.write('.')
         fullPath = dir + "/" + f
-        newFullPath = dir + "/" + library_name_mapping[f]
         libs = commands.getoutput("otool -L %s | grep executable_path | awk '{print $1}'" % fullPath).split()
-        changeName = " -id "
-        if f.find("Qt") != -1:
-            changeName += f
-        else:
-            changeName += "@executable_path/" + f
+        changeName = " -id @executable_path/" + f
         for lib in libs:
             libname = lib[lib.rfind('/')+1:]
             if library_name_mapping.has_key(libname):
+                sys.stdout.write('.')
                 changeName += " -change " + lib + " @executable_path/" + library_name_mapping[libname]
 
         commands.getoutput('chmod u+w "%s"' % fullPath)
         commands.getoutput('install_name_tool %s "%s"' % (changeName, fullPath))
         commands.getoutput('chmod a-w "%s"' % fullPath)
+        if not library_name_mapping.has_key(f):
+            continue
+        newFullPath = dir + "/" + library_name_mapping[f]
         os.rename(fullPath, newFullPath)
     print "\n"
 
@@ -105,23 +125,24 @@ def updateFrameworkPath(dir, dest):
 
 #---------------------------------------------------------------------------------
 
-def fixExecutables(dir):
+def fixExecutables(dir, copyLibs=True):
     for f in listdir(dir):
         print "Fixing executable", f
         fullPath = dir + "/" + f
         libs = commands.getoutput("otool -L %s | grep executable_path | awk '{print $1}'" % fullPath).split()
         changeName = ""
         for lib in libs:
-            sys.stdout.write('.')
             libname = lib[lib.rfind('/')+1:]
             if library_name_mapping.has_key(libname):
+                sys.stdout.write('.')
                 changeName += " -change " + lib + " @executable_path/" + library_name_mapping[libname]
 
         commands.getoutput('chmod u+w "%s"' % fullPath)
         commands.getoutput('install_name_tool %s "%s"' % (changeName, fullPath))
         commands.getoutput('chmod a-w "%s"' % fullPath)
         print
-    commands.getoutput("cd %s && ln -s ../Libraries/* ." % dir)
+    if copyLibs:
+        commands.getoutput("cd %s && ln -s ../Libraries/* ." % dir)
 
 #---------------------------------------------------------------------------------
 
@@ -131,6 +152,7 @@ lib_dir = path_bundle_to_fix + "/Contents/Libraries"
 frameworks_dir = path_bundle_to_fix + "/Contents/Frameworks"
 bin_dir = path_bundle_to_fix + "/Contents/bin"
 pv_dir = path_bundle_to_fix + "/Contents/MacOS"
+plugins_dir = path_bundle_to_fix + "/Contents/Plugins"
 
 # Clean up previous bundle fix
 print "Remove links."
@@ -142,11 +164,24 @@ removeLinks(pv_dir)
 #updateFrameworkPath(frameworks_dir, lib_dir)
 
 # Rename libraries to shorten their path names
-sys.stdout.write("Rename libraries")
-renameLibraries(lib_dir)
+readMapping(lib_dir)
+if len(library_name_mapping) == 0:
+    sys.stdout.write("Rename libraries")
+    renameLibraries(lib_dir)
+    writeMapping(lib_dir)
+else:
+    print "Read previous mapping definition of", len(library_name_mapping), "libraries."
 
 # Update libraries to point to the new lib names
 fixInternalLibraryPath(lib_dir)
+
+# Update framework refs
+frameworks = commands.getoutput('find %s -type f | xargs file --separator ":--:" | grep -i ":--:.*Mach-O" | sed "s/:.*//" | sort | uniq' % frameworks_dir).split()
+for f in frameworks:
+    fixExecutables(f[0:f.rfind("/")], False)
+
+# Update plugins refs
+fixExecutables(plugins_dir, False)
 
 # Update executable to point to the new lib names
 fixExecutables(bin_dir)
