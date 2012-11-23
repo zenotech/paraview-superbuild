@@ -15,15 +15,15 @@ add_revision(zlib
 
 
 add_revision(png
-  URL "http://paraview.org/files/v3.14/dependencies/libpng-1.4.8.tar.gz"
+  URL "http://paraview.org/files/v3.98/dependencies/libpng-1.4.8.tar.gz"
   URL_MD5 49c6e05be5fa88ed815945d7ca7d4aa9)
 
 add_revision(freetype
-  URL "http://paraview.org/files/v3.14/dependencies/freetype-2.4.8.tar.gz"
+  URL "http://paraview.org/files/v3.98/dependencies/freetype-2.4.8.tar.gz"
   URL_MD5 "5d82aaa9a4abc0ebbd592783208d9c76")
 
 add_revision(szip
-  URL "http://paraview.org/files/v3.14/dependencies/szip-2.1.tar.gz"
+  URL "http://paraview.org/files/v3.98/dependencies/szip-2.1.tar.gz"
   URL_MD5 902f831bcefb69c6b635374424acbead)
 
 add_revision(hdf5
@@ -31,7 +31,7 @@ add_revision(hdf5
   URL_MD5 d1266bb7416ef089400a15cc7c963218)
 
 add_revision(silo
-  URL "http://paraview.org/files/v3.14/dependencies/silo-4.8-bsd.tar.gz"
+  URL "http://paraview.org/files/v3.98/dependencies/silo-4.8-bsd.tar.gz"
   URL_MD5 03e27c977f34dc6e9a5f3864153c24fe)
 
 add_revision(cgns
@@ -39,15 +39,15 @@ add_revision(cgns
   URL_MD5 442bba32b576f3429cbd086af43fd4ae)
 
 add_revision(ffmpeg
-  URL "http://paraview.org/files/v3.14/dependencies/ffmpeg-0.6.5.tar.gz"
+  URL "http://paraview.org/files/v3.98/dependencies/ffmpeg-0.6.5.tar.gz"
   URL_MD5 451054dae3b3d33a86c2c48bd12d56e7)
 
 add_revision(libxml2
-  URL "http://paraview.org/files/v3.14/dependencies/libxml2-2.7.8.tar.gz"
+  URL "http://paraview.org/files/v3.98/dependencies/libxml2-2.7.8.tar.gz"
   URL_MD5 8127a65e8c3b08856093099b52599c86)
 
 add_revision(fontconfig
-  URL "http://paraview.org/files/v3.14/dependencies/fontconfig-2.8.0.tar.gz"
+  URL "http://paraview.org/files/v3.98/dependencies/fontconfig-2.8.0.tar.gz"
   URL_MD5 77e15a92006ddc2adbb06f840d591c0e)
 
 add_revision(qt
@@ -60,7 +60,7 @@ if (WIN32)
     URL_MD5 "2cf641732ac23b18d139be077bd906cd")
 else()
   add_revision(python
-    URL "http://paraview.org/files/v3.14/dependencies/Python-2.7.2.tgz"
+    URL "http://paraview.org/files/v3.98/dependencies/Python-2.7.2.tgz"
     URL_MD5 "0ddfe265f1b3d0a8c2459f5bf66894c7")
 endif()
 
@@ -69,7 +69,7 @@ add_revision(numpy
   URL_MD5 95ed6c9dcc94af1fc1642ea2a33c1bba)
 
 add_revision(matplotlib
-  URL "http://paraview.org/files/v3.14/dependencies/matplotlib-1.1.1_notests.tar.gz"
+  URL "http://paraview.org/files/v3.98/dependencies/matplotlib-1.1.1_notests.tar.gz"
   URL_MD5 30ee59119599331bf1f3b6e838fee9a8)
 
 add_revision(boost
@@ -77,12 +77,12 @@ add_revision(boost
   URL_MD5 dbc07ab0254df3dda6300fd737b3f264)
 
 add_revision(manta
-  URL "http://paraview.org/files/v3.14/dependencies/manta-r2439.tar.gz"
+  URL "http://paraview.org/files/v3.98/dependencies/manta-r2439.tar.gz"
   URL_MD5 fbf4107fe2f6d7e8a5ae3dda71805bdc)
 
 if (UNIX)
   add_revision(mpi
-    URL "http://paraview.org/files/v3.14/dependencies/mpich2-1.4.1p1.tar.gz"
+    URL "http://paraview.org/files/v3.98/dependencies/mpich2-1.4.1p1.tar.gz"
     URL_MD5 b470666749bcb4a0449a072a18e2c204)
 elseif (WIN32)
   add_revision(mpi
@@ -91,7 +91,7 @@ elseif (WIN32)
 endif()
 
 add_revision(mesa
-  URL http://paraview.org/files/v3.14/dependencies/MesaLib-7.11.2.tar.gz
+  URL http://paraview.org/files/v3.98/dependencies/MesaLib-7.11.2.tar.gz
   URL_MD5 b9e84efee3931c0acbccd1bb5a860554)
 
 add_revision(paraview
