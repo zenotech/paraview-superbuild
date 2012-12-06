@@ -3,6 +3,10 @@ if (manta_ENABLED)
   list (APPEND extra_cmake_args
     -DMANTA_BUILD:PATH=${SuperBuild_BINARY_DIR}/manta/src/manta-build)
 endif()
+if(PV_NIGHTLY_SUFFIX)
+  list (APPEND extra_cmake_args
+    -DPV_NIGHTLY_SUFFIX:STRING=${PV_NIGHTLY_SUFFIX})
+endif()
 
 add_external_project(paraview
   DEPENDS_OPTIONAL
