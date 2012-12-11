@@ -130,9 +130,8 @@ add_revision(vistrails
   GIT_REPOSITORY git://kwsource.kitwarein.com/paraview/vistrails.git
   GIT_TAG master)
 
-add_revision(mili_plugin
-  GIT_REPOSITORY git://kwsource.kitwarein.com/paraview/mili.git
-  GIT_TAG master)
+#add_revision(mili_plugin
+# URL ${CMAKE_CURRENT_SOURCE_DIR}/Externals/mili)
 
 add_revision(nektar_plugin
   GIT_REPOSITORY git://gitorious.org/nektarplugin/nektarplugin.git
