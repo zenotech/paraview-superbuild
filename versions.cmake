@@ -101,7 +101,7 @@ add_revision(paraview
 if (TRUST_SVN_CERTIFICATES_AUTOMATICALLY)
   add_revision(diy
      SVN_REPOSITORY https://svn.mcs.anl.gov/repos/diy/trunk
-     SVN_REVISION -r144
+     SVN_REVISION -r155
      SVN_TRUST_CERT 1)
 else()
   add_revision(diy
