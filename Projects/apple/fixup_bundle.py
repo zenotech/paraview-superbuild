@@ -237,3 +237,14 @@ if __name__ == "__main__":
   #  print "Fixing '%s'" % dep
     commands.getoutput('install_name_tool %s "%s"' % (install_name_tool_command, dep))
     commands.getoutput('chmod a-w "%s"' % dep)
+  
+
+
+  # Fix mpich issue when loading CosmologyTools. When CosmologyTools was loaded, an 
+  # error was thrown about not being able to find libpmpich.dylib and libmpicxx.dylib.
+  # Creating these symbolic links is a temporary workaround, but, likely not a good
+  # long-term solution.
+  commands.getoutput('cd %s/Contents/Libraries && ln -s libmpich3.3.dylib libmpich.dylib' % App);
+  commands.getoutput('cd %s/Contents/Libraries && ln -s libmpichcxx3.3.dylib libmpichcxx.dylib' % App);
+  commands.getoutput('cd %s/Contents/Libraries && ln -s libmpich3.3.dylib libpmpich.dylib' % App);
+  
