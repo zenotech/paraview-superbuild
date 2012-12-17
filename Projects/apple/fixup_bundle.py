@@ -244,7 +244,7 @@ if __name__ == "__main__":
   # error was thrown about not being able to find libpmpich.dylib and libmpicxx.dylib.
   # Creating these symbolic links is a temporary workaround, but, likely not a good
   # long-term solution.
-  commands.getoutput('cd %s/Contents/Libraries && ln -s libmpich3.3.dylib libmpich.dylib' % App);
-  commands.getoutput('cd %s/Contents/Libraries && ln -s libmpichcxx3.3.dylib libmpichcxx.dylib' % App);
-  commands.getoutput('cd %s/Contents/Libraries && ln -s libmpich3.3.dylib libpmpich.dylib' % App);
+  commands.getoutput('cd %s/Contents/Libraries && ln -s libmpich.3.3.dylib libmpich.dylib' % App);
+  commands.getoutput('cd %s/Contents/Libraries && ln -s libmpichcxx.3.3.dylib libmpichcxx.dylib' % App);
+  commands.getoutput('cd %s/Contents/Libraries && ln -s libmpich.3.3.dylib libpmpich.dylib' % App);
   
