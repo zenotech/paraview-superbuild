@@ -60,9 +60,13 @@ if (WIN32)
     URL_MD5 "2cf641732ac23b18d139be077bd906cd")
 else()
   add_revision(python
-    URL "http://paraview.org/files/v3.98/dependencies/Python-2.7.2.tgz"
+            URL "http://paraview.org/files/v3.98/dependencies/Python-2.7.2.tgz"
     URL_MD5 "0ddfe265f1b3d0a8c2459f5bf66894c7")
 endif()
+
+add_revision(crosspython
+  URL "http://www.python.org/ftp/python/2.7.3/Python-2.7.3.tgz"
+  URL_MD5 "2cf641732ac23b18d139be077bd906cd")
 
 add_revision(numpy
   URL "http://paraview.org/files/dependencies/numpy-1.6.2.tar.gz"
@@ -94,7 +98,19 @@ add_revision(mesa
   URL http://paraview.org/files/v3.98/dependencies/MesaLib-7.11.2.tar.gz
   URL_MD5 b9e84efee3931c0acbccd1bb5a860554)
 
+add_revision(crossmesa
+  URL ftp://ftp.freedesktop.org/pub/mesa/7.6.1/MesaLib-7.6.1.tar.gz
+  URL_MD5 e80fabad2e3eb7990adae773d6aeacba)
+
 add_revision(paraview
+  GIT_REPOSITORY git://paraview.org/ParaView.git
+  GIT_TAG "master")
+
+add_revision(crossparaview
+  GIT_REPOSITORY git://paraview.org/ParaView.git
+  GIT_TAG "v3.98.0-RC3")
+
+add_revision(toolsparaview
   GIT_REPOSITORY git://paraview.org/ParaView.git
   GIT_TAG "master")
 

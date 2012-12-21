@@ -1,0 +1,95 @@
+diff --git a/CMake/vtkClientServerWrapping.cmake b/CMake/vtkClientServerWrapping.cmake
+index 7173d12..2096dc7 100644
+--- a/CMake/vtkClientServerWrapping.cmake
++++ b/CMake/vtkClientServerWrapping.cmake
+@@ -23,7 +23,8 @@ macro(vtk_add_cs_wrapping module)
+     PROPERTY INCLUDE_DIRECTORIES
+     ${${module}_DEPENDS_INCLUDE_DIRS}
+     ${${module}_INCLUDE_DIRS}
+-    ${vtkClientServer_INCLUDE_DIRS})
++    ${vtkClientServer_INCLUDE_DIRS}
++    ${OPENGL_INCLUDE_DIR})
+ 
+   # add compile definition for auto init for modules that provide implementation
+   if(${module}_IMPLEMENTS)
+diff --git a/ParaViewCore/ClientServerCore/Core/vtkPVSystemConfigInformation.h b/ParaViewCore/ClientServerCore/Core/vtkPVSystemConfigInformation.h
+index 8b36d91..76ec673 100644
+--- a/ParaViewCore/ClientServerCore/Core/vtkPVSystemConfigInformation.h
++++ b/ParaViewCore/ClientServerCore/Core/vtkPVSystemConfigInformation.h
+@@ -74,7 +74,7 @@ protected:
+   vtkPVSystemConfigInformation();
+   ~vtkPVSystemConfigInformation();
+ 
+-private:
++public:
+   //BTX
+   class ConfigInfo
+     {
+diff --git a/ParaViewCore/ClientServerCore/Rendering/CMakeLists.txt b/ParaViewCore/ClientServerCore/Rendering/CMakeLists.txt
+index 77b2b05..c0adf17 100644
+--- a/ParaViewCore/ClientServerCore/Rendering/CMakeLists.txt
++++ b/ParaViewCore/ClientServerCore/Rendering/CMakeLists.txt
+@@ -111,6 +111,9 @@ set_source_files_properties(
+   vtkPVView
+   ABSTRACT)
+ 
++
++include_directories(${OPENGL_INCLUDE_DIR})
++
+ # until VTK comes up with a cleaner mechanism, we set the hints like so.
+ set (old_VTK_WRAP_HINTS ${VTK_WRAP_HINTS})
+ set (VTK_WRAP_HINTS ${CMAKE_CURRENT_SOURCE_DIR}/hints)
+diff --git a/ParaViewCore/VTKExtensions/Default/CMakeLists.txt b/ParaViewCore/VTKExtensions/Default/CMakeLists.txt
+index ad45c23..762cf1b 100644
+--- a/ParaViewCore/VTKExtensions/Default/CMakeLists.txt
++++ b/ParaViewCore/VTKExtensions/Default/CMakeLists.txt
+@@ -169,6 +169,9 @@ set_source_files_properties(
+   vtkTransferFunctionEditorWidget1D
+   ABSTRACT)
+ 
++
++include_directories(${OPENGL_INCLUDE_DIR})
++
+ # until VTK comes up with a cleaner mechanism, we set the hints like so.
+ set (old_VTK_WRAP_HINTS ${VTK_WRAP_HINTS})
+ set (VTK_WRAP_HINTS ${CMAKE_CURRENT_SOURCE_DIR}/hints)
+diff --git a/ParaViewCore/VTKExtensions/Rendering/CMakeLists.txt b/ParaViewCore/VTKExtensions/Rendering/CMakeLists.txt
+index 31934aa..66adae4 100644
+--- a/ParaViewCore/VTKExtensions/Rendering/CMakeLists.txt
++++ b/ParaViewCore/VTKExtensions/Rendering/CMakeLists.txt
+@@ -137,4 +137,7 @@ foreach (file vtkIceTCompositeZPassShader_fs.glsl)
+ endforeach()
+ #---------------------------------------------------------
+ 
++
++include_directories(${OPENGL_INCLUDE_DIR})
++
+ vtk_module_library(vtkPVVTKExtensionsRendering ${Module_SRCS})
+diff --git a/ParaViewCore/VTKExtensions/Rendering/vtkSortedTableStreamer.cxx b/ParaViewCore/VTKExtensions/Rendering/vtkSortedTableStreamer.cxx
+index 4c2f230..3e5a973 100644
+--- a/ParaViewCore/VTKExtensions/Rendering/vtkSortedTableStreamer.cxx
++++ b/ParaViewCore/VTKExtensions/Rendering/vtkSortedTableStreamer.cxx
+@@ -157,7 +157,7 @@ public:
+ };
+ //----------------------------------------------------------------------------
+ template<class T>
+-class vtkSortedTableStreamer::Internals : public InternalsBase
++class vtkSortedTableStreamer::Internals : public vtkSortedTableStreamer::InternalsBase
+ {
+ public:
+   class Histogram
+diff --git a/Utilities/WrapClientServer/vtkWrapClientServer.c b/Utilities/WrapClientServer/vtkWrapClientServer.c
+index 1ea05dc..dc52f16 100644
+--- a/Utilities/WrapClientServer/vtkWrapClientServer.c
++++ b/Utilities/WrapClientServer/vtkWrapClientServer.c
+@@ -1114,8 +1114,8 @@ int main(int argc, char *argv[])
+   fprintf(fp,"#define VTK_WRAPPING_CXX\n");
+   if(strcmp("vtkObjectBase", data->Name) != 0)
+     {
+-    /* Block inclusion of full streams. */
+-    fprintf(fp,"#define VTK_STREAMS_FWD_ONLY\n");
++    ///* Block inclusion of full streams. */
++    //fprintf(fp,"#define VTK_STREAMS_FWD_ONLY\n");
+     }
+   fprintf(fp,"#include \"vtkSystemIncludes.h\"\n");
+   fprintf(fp,"#include \"%s.h\"\n",data->Name);
