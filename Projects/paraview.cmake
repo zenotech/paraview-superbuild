@@ -8,6 +8,13 @@ if(PV_NIGHTLY_SUFFIX)
     -DPV_NIGHTLY_SUFFIX:STRING=${PV_NIGHTLY_SUFFIX})
 endif()
 
+if (APPLE)
+  # We are having issues building mpi4py with Python 2.6 on Mac OSX. Hence,
+  # disable it for now.
+  list (APPEND extra_cmake_args
+        -DENABLE_MPI4PY:BOOL=OFF)
+endif()
+
 add_external_project(paraview
   DEPENDS_OPTIONAL
     boost ffmpeg hdf5 libxml3 manta matplotlib mpi numpy png python qt visitbridge zlib silo cgns
