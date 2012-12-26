@@ -19,14 +19,13 @@ endif()
 
 add_external_project(matplotlib
   DEPENDS python numpy png freetype
-  PATCH_COMMAND
-    ${CMAKE_COMMAND}
+  CONFIGURE_COMMAND
+    "${SAFE_CMAKE_COMMAND}"
       "-DPATCHES_DIR:PATH=${SuperBuild_PROJECTS_DIR}/patches/"
       "-DPATCH_OUTPUT_DIR:PATH=${CMAKE_BINARY_DIR}"
       "-DSOURCE_DIR:PATH=<SOURCE_DIR>"
       "-DINSTALL_DIR:PATH=<INSTALL_DIR>"
       -P "${SuperBuild_PROJECTS_DIR}/matplotlib.patch.cmake"
-  CONFIGURE_COMMAND ""
   INSTALL_COMMAND ""
   BUILD_IN_SOURCE 1
   BUILD_COMMAND
