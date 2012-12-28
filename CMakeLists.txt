@@ -189,6 +189,11 @@ include(paraview)
 include(vistrails)
 include(acusolve)
 
+option(NIGHTLY_BINARY_TESTING "Run Nightly-Binary ParaView Testing" OFF)
+if (NIGHTLY_BINARY_TESTING)
+  add_subdirectory(tests)
+endif()
+
 #include(vistrails_plugin)
 #include(nektar_plugin)
 #include(mili_plugin)
@@ -197,24 +202,3 @@ process_dependencies()
 if (paraview_ENABLED)
   include(paraview.bundle OPTIONAL)
 endif()
-
-return()
-
-SET (CMAKE_INSTALL_COMPONENT runtime)
-## When building with Mesa and generating command line tools alone,
-## we provide the user with an option to use OSMesa.
-#dependent_option(ENABLE_OSMESA
-#  "Turn ON to enable Offscreen Mesa 3D support." OFF
-#  "ENABLE_MESA;PV_COMMAND_LINE_TOOLS_ONLY" OFF)
-
-# REMEMBER to tell VTK/ParaView to use VTK_SYSTEM_* for the
-# libraries we've built here.
-
-add_project(paraview.bundle REQUIRED)
-
-## Now add optional/proprietary plugins.
-#add_project(acusolve_plugin DEFAULT_OFF)
-#add_project(vistrails_plugin DEFAULT_OFF)
-#add_project(nektar_plugin DEFAULT_OFF)
-#add_project(mili_plugin DEFAULT_OFF)
-

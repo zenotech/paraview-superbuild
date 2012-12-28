@@ -1,0 +1,47 @@
+<?xml version="1.0" ?>
+<pqevents>
+  <pqevent object="pqClientMainWindow/menubar" command="activate" arguments="menuTools" />
+  <pqevent object="pqClientMainWindow/menubar/menuTools" command="activate" arguments="actionManage_Plugins" />
+  <pqevent object="pqClientMainWindow/PluginManagerDialog/localGroup/localPlugins" command="setCurrent" arguments="PointSprite_Plugin" />
+  <pqevent object="pqClientMainWindow/PluginManagerDialog/localGroup/localPlugins" command="setCurrent" arguments="ForceTime" />
+  <pqevent object="pqClientMainWindow/PluginManagerDialog/localGroup/localPlugins" command="setCurrent" arguments="NonOrthogonalSource" />
+  <pqevent object="pqClientMainWindow/PluginManagerDialog/localGroup/localPlugins" command="setCurrent" arguments="CoProcessingPlugin" />
+  <pqevent object="pqClientMainWindow/PluginManagerDialog/localGroup/localPlugins" command="setCurrent" arguments="SurfaceLIC" />
+  <pqevent object="pqClientMainWindow/PluginManagerDialog/localGroup/localPlugins" command="setCurrent" arguments="UncertaintyRendering" />
+  <pqevent object="pqClientMainWindow/PluginManagerDialog/localGroup/localPlugins" command="setCurrent" arguments="QuadView" />
+  <pqevent object="pqClientMainWindow/PluginManagerDialog/localGroup/localPlugins" command="setCurrent" arguments="H5PartReader" />
+  <pqevent object="pqClientMainWindow/PluginManagerDialog/localGroup/localPlugins" command="setCurrent" arguments="ArrowGlyph" />
+  <pqevent object="pqClientMainWindow/PluginManagerDialog/localGroup/localPlugins" command="setCurrent" arguments="AnalyzeNIfTIIO" />
+  <pqevent object="pqClientMainWindow/PluginManagerDialog/localGroup/localPlugins" command="setCurrent" arguments="EyeDomeLightingView" />
+  <pqevent object="pqClientMainWindow/PluginManagerDialog/localGroup/localPlugins" command="setCurrent" arguments="pvblot" />
+  <pqevent object="pqClientMainWindow/PluginManagerDialog/localGroup/localPlugins" command="setCurrent" arguments="PacMan" />
+  <pqevent object="pqClientMainWindow/PluginManagerDialog/localGroup/localPlugins" command="setCurrent" arguments="Moments" />
+  <pqevent object="pqClientMainWindow/PluginManagerDialog/localGroup/localPlugins" command="setCurrent" arguments="SierraPlotTools" />
+  <pqevent object="pqClientMainWindow/PluginManagerDialog/localGroup/localPlugins" command="setCurrent" arguments="GMVReader" />
+  <pqevent object="pqClientMainWindow/PluginManagerDialog/localGroup/localPlugins" command="setCurrent" arguments="SLACTools" />
+  <pqevent object="pqClientMainWindow/PluginManagerDialog/localGroup/localPlugins" command="setCurrent" arguments="SciberQuestToolKit" />
+  <pqevent object="pqClientMainWindow/PluginManagerDialog/localGroup/localPlugins" command="setCurrent" arguments="PrismPlugin" />
+  <pqevent object="pqClientMainWindow/PluginManagerDialog/localGroup/localPlugins" command="setCurrent" arguments="vtkPVInitializerPlugin" />
+  <pqevent object="pqClientMainWindow/PluginManagerDialog/localGroup/loadSelected_Local" command="activate" arguments="" />
+  <pqevent object="pqClientMainWindow/PluginManagerDialog/buttonBox/1QPushButton0" command="activate" arguments="" />
+
+  <pqevent object="pqClientMainWindow/menubar" command="activate" arguments="menuSources" />
+  <pqevent object="pqClientMainWindow/menubar/menuSources" command="activate" arguments="SphereSource" />
+  <pqevent object="pqClientMainWindow/propertiesDock/propertiesPanel/Accept" command="activate" arguments="" />
+  <pqevent object="pqClientMainWindow/propertiesDock/propertiesPanel/Help" command="activate" arguments="" />
+  <pqevent object="pqClientMainWindow/pqHelpWindow/contentsDock/1QHelpContentWidget0" command="expand" arguments="0.0" />
+  <pqevent object="pqClientMainWindow/pqHelpWindow/contentsDock/1QHelpContentWidget0" command="setCurrent" arguments="0.0.3.0" />
+  <pqevent object="pqClientMainWindow/pqHelpWindow/contentsDock/1QHelpContentWidget0" command="setCurrent" arguments="0.0.4.0" />
+  <pqevent object="pqClientMainWindow/pqHelpWindow/contentsDock/1QHelpContentWidget0" command="setCurrent" arguments="0.0.5.0" />
+  <pqevent object="pqClientMainWindow/pqHelpWindow/contentsDock/1QHelpContentWidget0" command="setCurrent" arguments="0.0.7.0" />
+  <pqevent object="pqClientMainWindow/pqHelpWindow/1QWebView0" command="mousePress" arguments="1,1,0,32,201" />
+  <pqevent object="pqClientMainWindow/pqHelpWindow/1QWebView0" command="mouseRelease" arguments="1,0,0,32,201" />
+  <pqevent object="pqClientMainWindow/pqHelpWindow/1QTabBar0" command="set_tab_with_text" arguments="Search" />
+  <pqevent object="pqClientMainWindow/pqHelpWindow/searchDock/1QWidget0/1QHelpSearchQueryWidget0/1QLineEdit0" command="set_string" arguments="paraview" />
+  <pqevent object="pqClientMainWindow/pqHelpWindow/searchDock/1QWidget0/1QHelpSearchQueryWidget0/1QPushButton0" command="activate" arguments="" />
+
+  <pqevent object="pqClientMainWindow/menubar" command="activate" arguments="menuTools" />
+  <pqevent object="pqClientMainWindow/menubar/menuTools" command="activate" arguments="actionToolsPythonShell" />
+  <pqevent object="pqClientMainWindow/menubar/menu_File" command="activate" arguments="actionFileSaveAnimation" />
+  <pqevent object="pqAnimationSettingsDialog/cancelButton" command="activate" arguments="" />
+</pqevents>
