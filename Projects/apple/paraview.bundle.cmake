@@ -7,6 +7,13 @@ set (CPACK_GENERATOR DragNDrop)
 include(paraview.bundle.common)
 include(CPack)
 
+install(CODE
+  "
+  set(PV_PYTHON_LIB_INSTALL_PREFIX
+  \"\${CMAKE_INSTALL_PREFIX}/paraview.app/Contents/Python\")
+  "
+  COMPONENT superbuild)
+
 # now fixup each of the applications.
 # we only to paraview explicitly.
 install(CODE "
@@ -27,7 +34,7 @@ if (numpy_ENABLED)
   install(CODE "
                 # install numpy
                 file(GLOB numpy-root \"${install_location}/lib/python*/site-packages/numpy\")
-                file(INSTALL DESTINATION \"\${CMAKE_INSTALL_PREFIX}/paraview.app/Contents/Python\"
+                file(INSTALL DESTINATION \"\${PV_PYTHON_LIB_INSTALL_PREFIX}\"
                      USE_SOURCE_PERMISSIONS TYPE DIRECTORY FILES
                      \"\${numpy-root}\")
                "
@@ -39,9 +46,31 @@ if (matplotlib_ENABLED)
   install(CODE "
                 # install matplotlib
                 file(GLOB matplotlib-root \"${install_location}/lib/python*/site-packages/matplotlib\")
-                file(INSTALL DESTINATION \"\${CMAKE_INSTALL_PREFIX}/paraview.app/Contents/Python\"
-                     USE_SOURCE_PERMISSIONS TYPE DIRECTORY FILES
-                     \"\${matplotlib-root}\")
+                file(INSTALL
+                  DESTINATION \"\${PV_PYTHON_LIB_INSTALL_PREFIX}\"
+                  USE_SOURCE_PERMISSIONS
+                  TYPE DIRECTORY
+                  FILES \"\${matplotlib-root}\")
+
+                # install libpng (needed for matplotlib)
+                file(GLOB png-libs \"${install_location}/lib/libpng*dylib\")
+                foreach(png-lib \${png-libs})
+                  file(INSTALL
+                    DESTINATION
+                      \"\${CMAKE_INSTALL_PREFIX}/paraview.app/Contents/Libraries\"
+                    USE_SOURCE_PERMISSIONS
+                    TYPE SHARED_LIBRARY
+                    FILES \"\${png-lib}\")
+                endforeach()
+
+                # fixup matplotlib to find the bundled png libraries.
+                execute_process(
+                  COMMAND
+                    ${CMAKE_INSTALL_NAME_TOOL} -change
+                      libpng14.14.dylib
+                      @executable_path/../Libraries/libpng14.14.dylib
+                      \"\${PV_PYTHON_LIB_INSTALL_PREFIX}/matplotlib/_png.so\"
+                )
                "
           COMPONENT superbuild)
 endif()
