@@ -65,6 +65,14 @@ if (python_ENABLED AND NOT USE_SYSTEM_python)
           USE_SOURCE_PERMISSIONS
           COMPONENT ParaView
           FILES_MATCHING PATTERN "python*.dll")
+
+  # install python pyd objects (python dlls).
+  file(GLOB pyd_files
+       "${SuperBuild_BINARY_DIR}/python/src/python/PCbuild/*.pyd")
+  install(FILES ${pyd_files}
+          DESTINATION "bin/Lib"
+          COMPONENT ParaView)
+
 endif()
 
 if (numpy_ENABLED)

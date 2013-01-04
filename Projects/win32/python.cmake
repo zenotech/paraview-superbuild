@@ -48,7 +48,9 @@ set (python_projects_to_build
   winsound
   pyexpat
   _multiprocessing
-  pythonw)
+  pythonw
+  unicodedata
+)
 
 foreach(dep IN LISTS python_projects_to_build)
   add_external_project_step(python-project-${dep}
