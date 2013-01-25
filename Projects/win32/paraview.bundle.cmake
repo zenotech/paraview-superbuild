@@ -67,11 +67,11 @@ if (python_ENABLED AND NOT USE_SYSTEM_python)
           FILES_MATCHING PATTERN "python*.dll")
 
   # install python pyd objects (python dlls).
-  file(GLOB pyd_files
-       "${SuperBuild_BINARY_DIR}/python/src/python/PCbuild/*.pyd")
-  install(FILES ${pyd_files}
+  install(DIRECTORY "${SuperBuild_BINARY_DIR}/python/src/python/PCbuild/"
           DESTINATION "bin/Lib"
-          COMPONENT ParaView)
+          USE_SOURCE_PERMISSIONS
+          COMPONENT ParaView
+          FILES_MATCHING PATTERN "*.pyd")
 
 endif()
 
@@ -87,6 +87,20 @@ if (matplotlib_ENABLED)
           DESTINATION "bin/Lib/site-packages"
           USE_SOURCE_PERMISSIONS
           COMPONENT ParaView)
+
+  # Move the png and zlib dlls into the installed matplotlib package so that it
+  # can find them at runtime.
+  install(DIRECTORY "${SuperBuild_BINARY_DIR}/png/src/png-build/"
+          DESTINATION "bin/Lib/site-packages/matplotlib"
+          USE_SOURCE_PERMISSIONS
+          COMPONENT ParaView
+          FILES_MATCHING PATTERN "*.dll")
+  install(DIRECTORY "${SuperBuild_BINARY_DIR}/zlib/src/zlib-build/"
+          DESTINATION "bin/Lib/site-packages/matplotlib"
+          USE_SOURCE_PERMISSIONS
+          COMPONENT ParaView
+          FILES_MATCHING PATTERN "*.dll")
+
 endif()
 
 if (qt_ENABLED AND NOT USE_SYSTEM_qt)
