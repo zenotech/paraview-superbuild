@@ -170,8 +170,12 @@ include(szip)
 include(visitbridge)
 include(zlib)
 
-if (UNIX AND NOT APPLE)
+if (UNIX)
+  # Supported on Linux/Mac
   include(ffmpeg)
+endif()
+
+if (UNIX AND NOT APPLE)
   include(fontconfig)
   include(mesa)
 endif()
