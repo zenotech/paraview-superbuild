@@ -22,8 +22,7 @@ customSuffix = {
       'MountainLion-nightlymaster-superbuild-nompi'  : '10.8-NoMPI-NIGHTLY' },
    'debian-x64.kitware': {'nightlymaster-superbuild' : 'glibc-2.3.6-NIGHTLY' },
    'debian-x32.kitware': {'nightlymaster-superbuild' : 'glibc-2.3.6-NIGHTLY' },
-   'Blight.kitware' : {'ubuntu-x64-nightlymaster-superbuild' : 'glibc-2.15-NIGHTLY' },
-   'kamino.kitware' : {'Lion-nightlymaster-superbuild' : '10.6-10.7-NIGHTLY'}
+   'Blight.kitware' : {'ubuntu-x64-nightlymaster-superbuild' : 'glibc-2.15-NIGHTLY' }
 }
 
 # ----------------------------------------------------------------------------------------
@@ -70,7 +69,7 @@ def processArgs():
       suffix = arg.split("=")[1]
     if arg.startswith("--yesterday"):
       now = datetime.datetime.now() - datetime.timedelta(days=1)
-      date = "%d-%d-%d" % (now.year, now.month, now.day)
+      date = "%d-%02d-%d" % (now.year, now.month, now.day)
 
   if not project:
      printUsage()
