@@ -67,7 +67,12 @@ if (python_ENABLED AND NOT USE_SYSTEM_python)
           FILES_MATCHING PATTERN "python*.dll")
 
   # install python pyd objects (python dlls).
-  install(DIRECTORY "${SuperBuild_BINARY_DIR}/python/src/python/PCbuild/"
+  # For 64 bit builds, these are in an amd64/ subdir
+  set(PYTHON_PCBUILD_SUBDIR "")
+  if(CMAKE_CL_64)
+    set(PYTHON_PCBUILD_SUBDIR "amd64/")
+  endif()
+  install(DIRECTORY "${SuperBuild_BINARY_DIR}/python/src/python/PCbuild/${PYTHON_PCBUILD_SUBDIR}"
           DESTINATION "bin/Lib"
           USE_SOURCE_PERMISSIONS
           COMPONENT ParaView
