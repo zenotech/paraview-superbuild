@@ -51,7 +51,7 @@ endfunction()
 
 #------------------------------------------------------------------------------
 set(SUPERBUILD_DOWNLOAD_BASE_URL "http://www.paraview.org/files/nightly")
-set(PV_NIGHTLY_VERSION "3.98.0")
+set(PV_NIGHTLY_VERSION "3.98.1")
 set(PV_NIGHTLY_PARAVIEW "")
 set(PV_NIGHTLY_PVPYTHON "")
 set(PV_NIGHTLY_PVSERVER "")
