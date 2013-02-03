@@ -51,7 +51,7 @@ endfunction()
 
 #------------------------------------------------------------------------------
 set(SUPERBUILD_DOWNLOAD_BASE_URL "http://www.paraview.org/files/nightly")
-set(PV_NIGHTLY_VERSION "3.98.1")
+set(PV_NIGHTLY_VERSION "3.98.1-RC1")
 set(PV_NIGHTLY_PARAVIEW "")
 set(PV_NIGHTLY_PVPYTHON "")
 set(PV_NIGHTLY_PVSERVER "")
@@ -105,6 +105,7 @@ if(APPLE)
     set(paraview_nightly_filePath ${CMAKE_CURRENT_BINARY_DIR}/ParaViewNightly/PVNightly.dmg)
 
     if(NOT EXISTS ${paraview_nightly_filePath})
+       message("Downloading:  ${SUPERBUILD_DOWNLOAD_BASE_URL}/${paraview_nightly_server_filename}")
        # Download
        file(DOWNLOAD
           ${SUPERBUILD_DOWNLOAD_BASE_URL}/${paraview_nightly_server_filename}
