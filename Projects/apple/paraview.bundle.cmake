@@ -63,13 +63,31 @@ if (matplotlib_ENABLED)
                     FILES \"\${png-lib}\")
                 endforeach()
 
-                # fixup matplotlib to find the bundled png libraries.
+                # install libfreetype (needed for matplotlib)
+                file(GLOB freetype-libs \"${install_location}/lib/libfreetype*dylib\")
+                foreach(freetype-lib \${freetype-libs})
+                  file(INSTALL
+                    DESTINATION
+                      \"\${CMAKE_INSTALL_PREFIX}/paraview.app/Contents/Libraries\"
+                    USE_SOURCE_PERMISSIONS
+                    TYPE SHARED_LIBRARY
+                    FILES \"\${freetype-lib}\")
+                endforeach()
+
+                # fixup matplotlib to find the bundled libraries.
                 execute_process(
                   COMMAND
                     ${CMAKE_INSTALL_NAME_TOOL} -change
                       libpng14.14.dylib
                       @executable_path/../Libraries/libpng14.14.dylib
                       \"\${PV_PYTHON_LIB_INSTALL_PREFIX}/matplotlib/_png.so\"
+                )
+                execute_process(
+                  COMMAND
+                    ${CMAKE_INSTALL_NAME_TOOL} -change
+                      \"${install_location}/lib/libfreetype.6.dylib\"
+                      @executable_path/../Libraries/libfreetype.6.dylib
+                      \"\${PV_PYTHON_LIB_INSTALL_PREFIX}/matplotlib/ft2font.so\"
                 )
                "
           COMPONENT superbuild)
