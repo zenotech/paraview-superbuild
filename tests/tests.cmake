@@ -70,5 +70,15 @@ if (PARAVIEW_DATA_ROOT)
                    "--exit")
   set_tests_properties(TestData-Scenario1_p1.xmf PROPERTIES LABELS "PARAVIEW")
 
+  #----------------------------------------------------------------------------
+  add_test(NAME TestMatplotlib
+           COMMAND "${PV_NIGHTLY_PARAVIEW}"
+                   "-dr"
+                   "--disable-light-kit"
+                   "--test-directory=${SuperBuild_BINARY_DIR}/Testing/Temporary"
+                   "--test-script=${CMAKE_CURRENT_SOURCE_DIR}/TestMatplotlib.xml"
+                   "--test-baseline=${PARAVIEW_DATA_ROOT}/Baseline/Superbuild-TestMatplotlib.png"
+                   "--exit")
+  set_tests_properties(TestMatplotlib PROPERTIES LABELS "PARAVIEW")
 
 endif()
