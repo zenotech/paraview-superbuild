@@ -12,6 +12,15 @@ set (SuperBuild_CMAKE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
 set (SuperBuild_PROJECTS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Projects")
 set (SuperBuild_BINARY_DIR ${ParaViewSuperBuild_BINARY_DIR})
 
+set (platform)
+if (APPLE)
+  set (platform "apple")
+elseif (UNIX)
+  set (platform "unix")
+elseif (WIN32)
+  set (platform "win32")
+endif()
+
 #-----------------------------------------------------------------------------
 # Setup CMAKE_MODULE_PATH so that platform specific configurations are processed
 # before the generic ones.
@@ -60,17 +69,6 @@ if (NOT CROSS_BUILD_STAGE STREQUAL "CROSS")
   else ()
     set (64bit_build FALSE)
   endif()
-endif()
-
-set (platform)
-if (APPLE)
-  set (platform "apple")
-  option(APPLY_MOUNTAIN_LION_FIX "Apply Mountain Lion bundle fix" OFF)
-  mark_as_advanced(APPLY_MOUNTAIN_LION_FIX)
-elseif (UNIX)
-  set (platform "unix")
-elseif (WIN32)
-  set (platform "win32")
 endif()
 
 # Set suffix to be used for generating archives. This ensures that the package
