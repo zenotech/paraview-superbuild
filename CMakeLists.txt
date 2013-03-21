@@ -22,9 +22,18 @@ elseif (WIN32)
 endif()
 
 #-----------------------------------------------------------------------------
+# Cross compilation
+set (CROSS_BUILD_STAGE "HOST" CACHE STRING
+  "Cross compilation stage: either HOST(ie no crosscompile)|TOOLS|CROSS")
+set_property(CACHE CROSS_BUILD_STAGE PROPERTY STRINGS
+   "HOST" "TOOLS" "CROSS")
+
+#-----------------------------------------------------------------------------
 # Setup CMAKE_MODULE_PATH so that platform specific configurations are processed
 # before the generic ones.
+string(TOLOWER "${CROSS_BUILD_STAGE}" lstage)
 set (CMAKE_MODULE_PATH
+  "${SuperBuild_PROJECTS_DIR}/${platform}/${lstage}"
   "${SuperBuild_PROJECTS_DIR}/${platform}"
   "${SuperBuild_PROJECTS_DIR}/common"
   "${SuperBuild_PROJECTS_DIR}"
@@ -33,12 +42,6 @@ set (CMAKE_MODULE_PATH
   ${CMAKE_MODULE_PATH})
 
 #-----------------------------------------------------------------------------
-# Cross compilation
-set (CROSS_BUILD_STAGE "HOST" CACHE STRING
-  "Cross compilation stage: either HOST(ie no crosscompile)|TOOLS|CROSS")
-set_property(CACHE CROSS_BUILD_STAGE PROPERTY STRINGS
-   "HOST" "TOOLS" "CROSS")
-
 if (NOT CROSS_BUILD_STAGE STREQUAL "HOST")
   include(CrossCompilationMacros)
 
@@ -182,15 +185,15 @@ set (CM_PROJECTS_ALL)
 # Some of these allow using system libraries too.
 if (CROSS_BUILD_STAGE STREQUAL "CROSS")
   #include(crossnumpy)
-  include(crosspython)
-  include(crossmesa)
-  include(crossparaview)
+  include(python)
+  include(mesa)
+  include(paraview)
 elseif(CROSS_BUILD_STAGE STREQUAL "TOOLS")
   include(boost)
   include(png)
   include(zlib)
   include(python)
-  include(toolsparaview)
+  include(paraview)
 else()
   include(boost)
   include(cgns)
@@ -231,15 +234,15 @@ else()
   include(paraview)
   include(vistrails)
   include(acusolve)
-
-  option(NIGHTLY_BINARY_TESTING "Run Nightly-Binary ParaView Testing" OFF)
-  if (NIGHTLY_BINARY_TESTING)
-    add_subdirectory(tests)
-  endif()
 endif()
 
 process_dependencies()
 
 if (paraview_ENABLED)
   include(paraview.bundle OPTIONAL)
+endif()
+
+option(NIGHTLY_BINARY_TESTING "Run Nightly-Binary ParaView Testing" OFF)
+if (NIGHTLY_BINARY_TESTING)
+  add_subdirectory(tests)
 endif()

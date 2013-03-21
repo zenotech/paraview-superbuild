@@ -7,6 +7,9 @@ macro(query_target_machine)
     "Platform to cross compile for, either generic|bgp_xlc|xt5")
   set_property(CACHE cross_target PROPERTY STRINGS
     "generic" "bgp_xlc" "xt5")
+
+  set(CROSS_BUILD_SITE "" CACHE STRING
+    "Specify Site to load appropriate configuration defaults, if available.")
 endmacro()
 
 #=============================================================================
@@ -34,11 +37,20 @@ macro(do_cross_platform_settings)
     "${CMAKE_BINARY_DIR}/crosscompile/ParaViewTryRunResults.cmake")
 
   #configure additional platform specific options
-  configure_file(
-    ${CMAKE_SOURCE_DIR}/CMake/crosscompile/${cross_target}/ParaViewDefaults.cmake
-    ${CMAKE_BINARY_DIR}/crosscompile/ParaViewDefaults.cmake
-    @ONLY
-  )
+  string(TOLOWER "${CROSS_BUILD_SITE}" lsite)
+  set (site-specific-defaults
+    ${CMAKE_SOURCE_DIR}/CMake/crosscompile/${cross_target}/ParaViewDefaults.${lsite}.cmake)
+  if (EXISTS "${site-specific-defaults}")
+    configure_file(
+      "${site-specific-defaults}"
+      ${CMAKE_BINARY_DIR}/crosscompile/ParaViewDefaults.cmake
+      @ONLY)
+  else()
+    configure_file(
+      ${CMAKE_SOURCE_DIR}/CMake/crosscompile/${cross_target}/ParaViewDefaults.cmake
+      ${CMAKE_BINARY_DIR}/crosscompile/ParaViewDefaults.cmake
+      @ONLY)
+  endif()
   set(CROSS_OPTIONS_FILE
     "${CMAKE_BINARY_DIR}/crosscompile/ParaViewDefaults.cmake")
   include(${CROSS_OPTIONS_FILE})

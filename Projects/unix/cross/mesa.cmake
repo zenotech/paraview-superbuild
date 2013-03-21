@@ -1,4 +1,4 @@
-add_external_project(crossmesa
+add_external_project(mesa
   CONFIGURE_COMMAND
     echo "no configure"
   BUILD_COMMAND

@@ -1,4 +1,4 @@
-add_external_project(toolsparaview
+add_external_project(paraview
   DEPENDS_OPTIONAL
     python
 

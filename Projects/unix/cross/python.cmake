@@ -1,4 +1,4 @@
-add_external_project(crosspython
+add_external_project(python
   CMAKE_ARGS
     -DPYTHON_BUILD_LIB_SHARED:BOOL=OFF
     -DCMAKE_TOOLCHAIN_FILE=${SuperBuild_CMAKE_DIR}/crosscompile/${cross_target}/ToolChain.cmake
@@ -7,7 +7,7 @@ add_external_project(crosspython
     -DHAVE_GETGROUPS:BOOL=0
     -DHAVE_SETGROUPS:BOOL=0
     -DENABLE_IPV6:BOOL=0
-    -C ${SuperBuild_BINARY_DIR}/crosspython/src/crosspython/CMake/TryRunResults-Python-bgl-gcc.cmake
+    -C ${SuperBuild_BINARY_DIR}/python/src/python/CMake/TryRunResults-Python-bgl-gcc.cmake
     -C ${SuperBuild_CMAKE_DIR}/crosscompile/python_modules.cmake
     ../$source
   )
