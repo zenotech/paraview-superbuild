@@ -4,9 +4,9 @@
 #
 macro(query_target_machine)
   set(cross_target "generic" CACHE STRING
-    "Platform to cross compile for, either generic|bgp_xlc|xt5")
+    "Platform to cross compile for, either generic|bgp_xlc|xk7_gnu")
   set_property(CACHE cross_target PROPERTY STRINGS
-    "generic" "bgp_xlc" "xt5")
+    "generic" "bgp_xlc" "xk7_gnu")
 
   set(CROSS_BUILD_SITE "" CACHE STRING
     "Specify Site to load appropriate configuration defaults, if available.")
