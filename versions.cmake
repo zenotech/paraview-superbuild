@@ -104,8 +104,9 @@ endif()
 # build correctly with certain older compilers (e.g. on neser).
 add_revision(osmesa
 #    URL ftp://ftp.freedesktop.org/pub/mesa/8.0.5/MesaLib-8.0.5.tar.gz
+#    URL_MD5 cda5d101f43b8784fa60bdeaca4056f2)
     URL http://paraview.org/files/v3.98/dependencies/MesaLib-7.11.2.tar.gz
-    URL_MD5 cda5d101f43b8784fa60bdeaca4056f2)
+    URL_MD5 b9e84efee3931c0acbccd1bb5a860554)
 
 add_revision(paraview
   GIT_REPOSITORY git://paraview.org/ParaView.git
