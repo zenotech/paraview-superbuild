@@ -220,6 +220,7 @@ else()
   if (UNIX AND NOT APPLE)
     include(fontconfig)
     include(mesa)
+    include(osmesa)
   endif()
 
   # Build CosmologyTools on Linux and OS X
@@ -237,6 +238,18 @@ else()
 endif()
 
 process_dependencies()
+
+#-------------------------------------------------------------------------
+# Some sanity checks.
+# Sanity check: Cannot has osmesa and qt enabled at the same time.
+if (osmesa_ENABLED AND qt_ENABLED)
+  message(SEND_ERROR "Cannot enable OSMesa and QT at the same time.")
+endif()
+# Sanity check: Cannot has osmesa and mesa at the same time.
+if (osmesa_ENABLED AND mesa_ENABLED)
+  message(SEND_ERROR "Cannot enable OSMesa and Mesa at the same time.")
+endif()
+#-------------------------------------------------------------------------
 
 if (paraview_ENABLED)
   include(paraview.bundle OPTIONAL)

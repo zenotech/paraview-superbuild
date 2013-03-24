@@ -100,6 +100,10 @@ else()
     URL_MD5 b9e84efee3931c0acbccd1bb5a860554)
 endif()
 
+add_revision(osmesa
+    URL ftp://ftp.freedesktop.org/pub/mesa/8.0.5/MesaLib-8.0.5.tar.gz
+    URL_MD5 cda5d101f43b8784fa60bdeaca4056f2)
+
 add_revision(paraview
   GIT_REPOSITORY git://paraview.org/ParaView.git
   GIT_TAG "master")
