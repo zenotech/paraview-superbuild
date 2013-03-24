@@ -1,17 +1,27 @@
 add_external_project(osmesa
   CONFIGURE_COMMAND <SOURCE_DIR>/configure
                     --prefix=<INSTALL_DIR>
-                    --disable-shared
+                    --with-driver=osmesa
+                    --with-gallium-drivers=
                     --enable-shared
                     --disable-static
-                    --enable-osmesa
-                    --without-x
-                    --with-gallium-drivers=
-                    --disable-dri
-                    --disable-glx
-                    --disable-egl
   BUILD_IN_SOURCE 1
 )
+
+#add_external_project(osmesa
+#  CONFIGURE_COMMAND <SOURCE_DIR>/configure
+#                    --prefix=<INSTALL_DIR>
+#                    --disable-shared
+#                    --enable-shared
+#                    --disable-static
+#                    --enable-osmesa
+#                    --without-x
+#                    --with-gallium-drivers=
+#                    --disable-dri
+#                    --disable-glx
+#                    --disable-egl
+#  BUILD_IN_SOURCE 1
+#)
 
 add_extra_cmake_args(
   -DOPENGL_INCLUDE_DIR:PATH=<INSTALL_DIR>/include
