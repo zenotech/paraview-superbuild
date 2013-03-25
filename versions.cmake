@@ -151,3 +151,6 @@ add_revision(nektar_plugin
   GIT_REPOSITORY git://gitorious.org/nektarplugin/nektarplugin.git
   GIT_TAG master)
 
+add_revision(portfwd
+  URL http://iweb.dl.sourceforge.net/project/portfwd/portfwd/0.29/portfwd-0.29.tar.gz
+  URL_MD5 93161c91e12b0d67ca52dc13708a2f2f)
