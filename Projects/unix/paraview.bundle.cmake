@@ -29,10 +29,18 @@ endif()
 # install library dependencies for various executables.
 # the dependencies are searched only under the <install_location> and hence
 # system libraries are not packaged.
+set (reference_executable pvserver)
+if (python_ENABLED)
+  set (reference_executable pvbatch)
+endif()
+if (qt_ENABLED)
+  set (reference_executable paraview)
+endif()
+
 install(CODE
   "execute_process(COMMAND
     ${CMAKE_COMMAND}
-      -Dexecutable:PATH=${install_location}/lib/paraview-${pv_version}/paraview
+      -Dexecutable:PATH=${install_location}/lib/paraview-${pv_version}/${reference_executable}
       -Ddependencies_root:PATH=${install_location}
       -Dtarget_root:PATH=\${CMAKE_INSTALL_PREFIX}/lib/paraview-${pv_version}
       -Dpv_version:STRING=${pv_version}
@@ -58,8 +66,15 @@ if (qt_ENABLED AND NOT USE_SYSTEM_qt)
 endif()
 
 # install executables
-foreach(executable
-  paraview pvbatch pvblot pvdataserver pvpython pvrenderserver pvserver)
+set (executables pvserver pvdataserver pvrenderserver)
+if (python_ENABLED)
+  set (executables ${executables} pvbatch pvblot pvpython)
+endif()
+if (qt_ENABLED)
+  set (executables ${executables} paraview)
+endif()
+
+foreach(executable ${executables})
   install(PROGRAMS "@install_location@/bin/${executable}"
     DESTINATION "bin"
     COMPONENT superbuild)
