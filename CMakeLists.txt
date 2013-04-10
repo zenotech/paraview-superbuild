@@ -237,6 +237,11 @@ else()
   include(paraview)
   include(vistrails)
   include(acusolve)
+
+  # paraview.sdk is a module that is used install the ParaView SDK.
+  # Simply enabling this module will result in the ParaView SDK to be
+  # installed by "make install". Note that this is not always supported.
+  include(paraviewsdk OPTIONAL)
 endif()
 
 process_dependencies()
