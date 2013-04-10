@@ -120,7 +120,7 @@ if (TRUST_SVN_CERTIFICATES_AUTOMATICALLY)
 else()
   add_revision(diy
      SVN_REPOSITORY https://svn.mcs.anl.gov/repos/diy/trunk
-     SVN_REVISION -r157)
+     SVN_REVISION -r165)
 endif()
 
 add_revision(qhull
