@@ -4,6 +4,7 @@ import urllib
 import os
 import shutil
 import datetime
+import re
 
 project      = None
 date         = ""
