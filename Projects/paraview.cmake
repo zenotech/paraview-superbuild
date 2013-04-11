@@ -12,7 +12,7 @@ if (APPLE)
   # We are having issues building mpi4py with Python 2.6 on Mac OSX. Hence,
   # disable it for now.
   list (APPEND extra_cmake_args
-        -DENABLE_MPI4PY:BOOL=OFF)
+        -DPARAVIEW_USE_SYSTEM_MPI4PY:BOOL=ON)
 endif()
 
 add_external_project(paraview
