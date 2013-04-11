@@ -9,6 +9,7 @@ project      = None
 date         = ""
 download_dir = None
 suffix       = None
+keepVersion  = False
 
 # ----------------------------------------------------------------------------------------
 # customSuffix[siteName][buildName] = SuffixToUse
@@ -43,6 +44,8 @@ def printUsage():
   print " --suffix       : Append suffix to the download name so ParaView-v3.98.tgz"
   print "                  will be named ParaView-v3.98-${SUFFIX}.tgz (OPTIONAL)"
   print " --yesterday    : Set the date to be yesterday date"
+  print " --version      : Allow to keep the initial file version, otherwise any"
+  print "                  version number will be removed from the file name."
   print
   print "Command line examples:"
   print "  $ ./script.py --project=ParaView"
@@ -70,6 +73,8 @@ def processArgs():
     if arg.startswith("--yesterday"):
       now = datetime.datetime.now() - datetime.timedelta(days=1)
       date = "%d-%02d-%d" % (now.year, now.month, now.day)
+    if arg.startswith("--version"):
+      keepVersion = True
 
   if not project:
      printUsage()
@@ -142,12 +147,19 @@ def printBuildInfo(info):
 
 # ----------------------------------------------------------------------------------------
 
+def filterDestinationFileName(fileName):
+  if not keepVersion:
+    return re.sub( r'-[0-9]+.[0-9]+.[0-9]+', '', fileName)
+  return fileName
+
+# ----------------------------------------------------------------------------------------
+
 def downloadFiles(buildInfo, destination, default_suffix):
     if not os.path.exists(destination):
         os.makedirs(destination)
 
     for url in info['urls']:
-        dstFileName = url.split('/')[-1]
+        dstFileName = filterDestinationFileName(url.split('/')[-1])
         suffix = getSuffix(buildInfo, default_suffix)
         if suffix:
             if dstFileName.endswith(".tar.gz"):
