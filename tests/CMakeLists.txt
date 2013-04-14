@@ -51,7 +51,6 @@ endfunction()
 
 #------------------------------------------------------------------------------
 set(SUPERBUILD_DOWNLOAD_BASE_URL "http://www.paraview.org/files/nightly")
-set(PV_NIGHTLY_VERSION "3.98.1")
 set(PV_NIGHTLY_PARAVIEW "")
 set(PV_NIGHTLY_PVPYTHON "")
 set(PV_NIGHTLY_PVSERVER "")
@@ -74,7 +73,7 @@ set (PV_NIGHTLY_SUFFIX "${PARAVIEW_BUILD_ARCHITECTURE}bit-NIGHTLY"
 # ---------------------------------
 
 if(UNIX AND NOT APPLE)
-    set(paraview_nightly_server_filename "ParaView-${PV_NIGHTLY_VERSION}-Linux-${PV_NIGHTLY_SUFFIX}.tar.gz")
+    set(paraview_nightly_server_filename "ParaView-Linux-${PV_NIGHTLY_SUFFIX}.tar.gz")
     ExternalProject_Add( Nightly-ParaView
        URL "${SUPERBUILD_DOWNLOAD_BASE_URL}/${paraview_nightly_server_filename}"
        SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/ParaViewNightly
@@ -101,7 +100,7 @@ endif()
 # ---------------------------------
 
 if(APPLE)
-    set(paraview_nightly_server_filename "ParaView-${PV_NIGHTLY_VERSION}-Darwin-${PV_NIGHTLY_SUFFIX}.dmg")
+    set(paraview_nightly_server_filename "ParaView-Darwin-${PV_NIGHTLY_SUFFIX}.dmg")
     set(paraview_nightly_filePath ${CMAKE_CURRENT_BINARY_DIR}/ParaViewNightly/PVNightly.dmg)
 
     if(NOT EXISTS ${paraview_nightly_filePath})
@@ -157,7 +156,7 @@ endif()
 # ---------------------------------
 
 if(WIN32 OR WIN64)
-    set(paraview_nightly_server_filename "ParaView-${PV_NIGHTLY_VERSION}-Windows-${PV_NIGHTLY_SUFFIX}.zip")
+    set(paraview_nightly_server_filename "ParaView-Windows-${PV_NIGHTLY_SUFFIX}.zip")
 
     ExternalProject_Add( Nightly-ParaView
        URL "${SUPERBUILD_DOWNLOAD_BASE_URL}/${paraview_nightly_server_filename}"
