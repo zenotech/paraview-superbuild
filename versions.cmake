@@ -32,7 +32,7 @@ add_revision(hdf5
 
 add_revision(silo
   URL "http://paraview.org/files/v3.98/dependencies/silo-4.8-bsd.tar.gz"
-  URL_MD5 03e27c977f34dc6e9a5f3864153c24fe)
+  URL_MD5 d864e383f25b5b047b98aa2d5562d379)
 
 add_revision(cgns
   URL "http://www.paraview.org/files/v3.98/dependencies/cgnslib_3.1.3-4.tar.gz"
