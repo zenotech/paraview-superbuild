@@ -31,11 +31,20 @@ endif()
 
 # install paraview executables to bin.
 foreach(executable
-  paraview pvbatch pvdataserver pvpython pvrenderserver pvserver)
+  paraview pvdataserver pvrenderserver pvserver)
   install(PROGRAMS "${install_location}/bin/${executable}.exe"
     DESTINATION "bin"
     COMPONENT ParaView)
 endforeach()
+
+if (python_ENABLED)
+  foreach(executable
+    pvbatch pvpython)
+    install(PROGRAMS "${install_location}/bin/${executable}.exe"
+      DESTINATION "bin"
+      COMPONENT ParaView)
+  endforeach()
+endif()
 
 # install all dlls to bin. This will install all VTK/ParaView dlls plus any
 # other tool dlls that were placed in bin.
