@@ -2,7 +2,7 @@ add_external_project_or_use_system(mpi
 
   # OpenMPI has a broken set_target_properties(...) call.
   PATCH_COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                "${SuperBuild_PROJECTS_DIR}/patches/mpi.ompi.CMakeLists.txt"
+                "${SuperBuild_PROJECTS_DIR}/patches/mpi.ompi-1.4.4.CMakeLists.txt"
                 "<SOURCE_DIR>/ompi/CMakeLists.txt"
 
   CMAKE_ARGS

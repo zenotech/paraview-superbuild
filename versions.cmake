@@ -86,8 +86,8 @@ if (UNIX)
     URL_MD5 b470666749bcb4a0449a072a18e2c204)
 elseif (WIN32)
   add_revision(mpi
-    URL "http://www.paraview.org/files/v3.98/dependencies/openmpi-1.6.2.tar.gz"
-    URL_MD5 351845a0edd8141feb30d31edd59cdcd)
+    URL "http://www.paraview.org/files/v3.98/dependencies/openmpi-1.4.4.tar.gz"
+    URL_MD5 7253c2a43445fbce2bf4f1dfbac113ad)
 endif()
 
 if (CROSS_BUILD_STAGE STREQUAL "CROSS")
