@@ -24,6 +24,13 @@ add_test(NAME TestUI
 set_tests_properties(TestUI PROPERTIES LABELS "PARAVIEW")
 
 #------------------------------------------------------------------------------
+# Simple test to test paraviewweb.
+add_test(NAME Test-pvweb
+         COMMAND "${PV_NIGHTLY_PVPYTHON}"
+                 "${CMAKE_CURRENT_SOURCE_DIR}/basic_paraviewweb.py")
+set_tests_properties(Test-pvweb PROPERTIES LABELS "PARAVIEW")
+
+#------------------------------------------------------------------------------
 # Simple test to test pvpython/pvbatch.
 add_test(NAME Test-pvpython
          COMMAND "${PV_NIGHTLY_PVPYTHON}"
