@@ -81,4 +81,15 @@ if (PARAVIEW_DATA_ROOT)
                    "--exit")
   set_tests_properties(TestMatplotlib PROPERTIES LABELS "PARAVIEW")
 
+  #----------------------------------------------------------------------------
+  add_test(NAME TestFindData
+           COMMAND "${PV_NIGHTLY_PARAVIEW}"
+                   "-dr"
+                   "--disable-light-kit"
+                   "--test-directory=${SuperBuild_BINARY_DIR}/Testing/Temporary"
+                   "--test-script=${CMAKE_CURRENT_SOURCE_DIR}/TestFindData.xml"
+                   "--test-baseline=${PARAVIEW_DATA_ROOT}/Baseline/Superbuild-TestFindData.png"
+                   "--exit")
+  set_tests_properties(TestFindData PROPERTIES LABELS "PARAVIEW")
+
 endif()
