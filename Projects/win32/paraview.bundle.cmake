@@ -150,10 +150,6 @@ if (mpi_ENABLED AND NOT USE_SYSTEM_mpi)
           PATTERN "orte*.exe"
         )
   # install the mpi configuration files needed for mpiexec.
-  install(DIRECTORY "${install_location}/etc/"
-          DESTINATION "etc"
-          USE_SOURCE_PERMISSIONS
-          COMPONENT ParaView)
   install(DIRECTORY "${install_location}/share/openmpi"
           DESTINATION "share"
           USE_SOURCE_PERMISSIONS
