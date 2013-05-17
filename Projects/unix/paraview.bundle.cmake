@@ -68,7 +68,9 @@ endif()
 # install executables
 set (executables pvserver pvdataserver pvrenderserver)
 if (python_ENABLED)
-  set (executables ${executables} pvbatch pvblot pvpython)
+  set (executables ${executables} pvbatch pvpython)
+  # we are not building pvblot for now. Disable it.
+  # set (executables ${executables} pvblot)
 endif()
 if (qt_ENABLED)
   set (executables ${executables} paraview)
