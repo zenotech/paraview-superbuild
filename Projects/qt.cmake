@@ -25,6 +25,14 @@ elseif (APPLE)
 endif()
 set(qt_EXTRA_CONFIGURATION_OPTIONS ""
     CACHE STRING "Extra arguments to be passed to Qt when configuring.")
+option(qt_DISABLE_WEBKIT "Disable QtWebKit." OFF)
+mark_as_advanced(qt_DISABLE_WEBKIT)
+
+if (qt_DISABLE_WEBKIT)
+  list (APPEND qt_options -no-webkit)
+else()
+  list (APPEND qt_options -webkit)
+endif()
 
 add_external_project_or_use_system(
     qt
@@ -49,7 +57,6 @@ add_external_project_or_use_system(
                       -qt-libjpeg
                       -qt-libtiff
                       -system-zlib
-                      -webkit
                       -xmlpatterns
                       -I <INSTALL_DIR>/include
                       -L <INSTALL_DIR>/lib
@@ -69,3 +76,7 @@ if ((NOT 64bit_build) AND UNIX AND (NOT APPLE))
     DEPENDEES patch
     DEPENDERS configure)
 endif()
+
+# Tell ParaView to disable WebKit, if disabled.
+add_extra_cmake_args(
+  -DPQWIDGETS_DISABLE_QTWEBKIT:BOOL=${qt_DISABLE_WEBKIT})
