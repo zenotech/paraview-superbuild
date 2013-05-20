@@ -39,6 +39,19 @@ if (numpy_ENABLED)
           COMPONENT superbuild)
 endif()
 
+#-----------------------------------------------------------------------------
+if (mpi_ENABLED AND NOT USE_SYSTEM_mpi)
+  # install MPI executables (the dylib are already installed by a previous rule).
+  install(FILES
+           "${install_location}/bin/mpiexec.hydra"
+           "${install_location}/bin/mpirun"
+           "${install_location}/bin/hydra_pmi_proxy"
+        DESTINATION "${CMAKE_INSTALL_PREFIX}/paraview.app/Contents/MacOS"
+        COMPONENT ParaView
+        )
+endif()
+#-----------------------------------------------------------------------------
+
 if (matplotlib_ENABLED)
   # install matplotlib module into the application bundle.
   install(CODE "
