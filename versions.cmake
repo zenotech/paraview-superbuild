@@ -133,7 +133,7 @@ add_revision(qhull
 #------------------------------------------------------------------------------
 
 add_revision(cosmologytools
-    GIT_REPOSITORY git://public.kitware.com/cosmologytools.git
+    GIT_REPOSITORY git://public.kitware.com/cosmotools.git
     GIT_TAG master)
 
 add_revision(acusolve
