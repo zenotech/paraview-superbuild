@@ -46,7 +46,7 @@ if (mpi_ENABLED AND NOT USE_SYSTEM_mpi)
            "${install_location}/bin/mpiexec.hydra"
            "${install_location}/bin/mpirun"
            "${install_location}/bin/hydra_pmi_proxy"
-        DESTINATION "${CMAKE_INSTALL_PREFIX}/paraview.app/Contents/MacOS"
+        DESTINATION "paraview.app/Contents/MacOS"
         COMPONENT ParaView
         )
 endif()
