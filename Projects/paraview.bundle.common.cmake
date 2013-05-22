@@ -31,7 +31,7 @@ set(CPACK_PACKAGE_FILE_NAME
 # PARAVIEW_INSTALL_MANUAL_PDF is set before importing this file.
 # This allows us to override the pdf downloading code for apple.
 if (PARAVIEW_INSTALL_MANUAL_PDF)
-  set (pdf_pv_version "3.98")
+  set (pdf_pv_version "4.0")
   # download an install manual pdf.
   install(CODE "
     # create the doc directory.
