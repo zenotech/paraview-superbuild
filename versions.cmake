@@ -108,10 +108,6 @@ add_revision(osmesa
     URL http://paraview.org/files/v3.98/dependencies/MesaLib-7.11.2.tar.gz
     URL_MD5 b9e84efee3931c0acbccd1bb5a860554)
 
-add_revision(paraview
-  GIT_REPOSITORY git://paraview.org/ParaView.git
-  GIT_TAG "master")
-
 if (TRUST_SVN_CERTIFICATES_AUTOMATICALLY)
   add_revision(diy
      SVN_REPOSITORY https://svn.mcs.anl.gov/repos/diy/trunk
@@ -121,6 +117,34 @@ else()
   add_revision(diy
      SVN_REPOSITORY https://svn.mcs.anl.gov/repos/diy/trunk
      SVN_REVISION -r176)
+endif()
+
+# ----------------------------------------------------------------------------
+# You choose to download ParaView source form GIT or other URL/FILE tarball
+option(ParaView_FROM_GIT "If enabled then the repository is fetched from git" ON)
+
+if (ParaView_FROM_GIT)
+  # Download PV from GIT
+  add_revision(paraview
+    GIT_REPOSITORY git://paraview.org/ParaView.git
+    GIT_TAG "master")
+else()
+  # Variables to hold the URL and MD5 (optional)
+  set (ParaView_URL "" CACHE
+    FILEPATH "Specify the url for ParaView tarball")
+  set (ParaView_URL_MD5 "" CACHE
+    STRING "MD5 of the ParaView tarball")
+
+  # Get the length of the URL specified.
+  if("${ParaView_URL}" STREQUAL "")
+    # No URL specified raise error.
+    message (FATAL_ERROR "ParaView_URL should have a valid URL or FilePath to a ParaView tarball")
+  else()
+    # Download PV from source specified in URL
+    add_revision(paraview
+      URL ${ParaView_URL}
+      URL_MD5 ${ParaView_URL_MD5})
+  endif()
 endif()
 
 add_revision(qhull
