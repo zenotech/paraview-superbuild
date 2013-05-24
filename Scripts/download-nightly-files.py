@@ -150,6 +150,7 @@ def printBuildInfo(info):
 
 def filterDestinationFileName(fileName):
   if not keepVersion:
+    fileName = re.sub( r'-[0-9]+.[0-9]+.[0-9]+.RC[0-9]', '', fileName)
     return re.sub( r'-[0-9]+.[0-9]+.[0-9]+', '', fileName)
   return fileName
 
