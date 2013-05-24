@@ -5,7 +5,7 @@
 set (pv_version_major 4)
 set (pv_version_minor 0)
 set (pv_version_patch 0)
-set (pv_version_suffix RC1)
+set (pv_version_suffix RC2)
 set (pv_version "${pv_version_major}.${pv_version_minor}")
 
 # Enable CPack packaging.
