@@ -10,19 +10,19 @@ endif()
 
 # Remove any old directory.
 execute_process(
-  COMMAND ${CMAKE_COMMAND} -E remove_directory ${TMP_DIR}/CosmologyToolsPlugin
+  COMMAND ${CMAKE_COMMAND} -E remove_directory ${TMP_DIR}/CosmologyToolsPlugin-${bundle_suffix}
   WORKING_DIRECTORY ${TMP_DIR}
 )
 
 # Create a directory to put the plugin under.
 execute_process(
-    COMMAND ${CMAKE_COMMAND} -E make_directory ${TMP_DIR}/CosmologyToolsPlugin
+    COMMAND ${CMAKE_COMMAND} -E make_directory ${TMP_DIR}/CosmologyToolsPlugin-${bundle_suffix}
     WORKING_DIRECTORY ${TMP_DIR}
 )
 
 # Copy the plugin lib.
 execute_process(
-  COMMAND ${CMAKE_COMMAND} -E copy ${BINARY_DIR}/libs/${SHARED_LIBRARY_PREFIX}PVCosmologyToolsPlugins${SHARED_LIBRARY_SUFFIX} ${TMP_DIR}/CosmologyToolsPlugin
+  COMMAND ${CMAKE_COMMAND} -E copy ${BINARY_DIR}/libs/${SHARED_LIBRARY_PREFIX}PVCosmologyToolsPlugins${SHARED_LIBRARY_SUFFIX} ${TMP_DIR}/CosmologyToolsPlugin-${bundle_suffix}
   WORKING_DIRECTORY ${TMP_DIR}
 )
 
@@ -30,7 +30,7 @@ if (APPLE)
   execute_process(
     COMMAND ${CMAKE_CURRENT_LIST_DIR}/apple/fixup_plugin.py
             # The directory containing the plugin dylibs or the plugin itself.
-            ${TMP_DIR}/CosmologyToolsPlugin/${SHARED_LIBRARY_PREFIX}PVCosmologyToolsPlugins${SHARED_LIBRARY_SUFFIX}
+            ${TMP_DIR}/CosmologyToolsPlugin-${bundle_suffix}/${SHARED_LIBRARY_PREFIX}PVCosmologyToolsPlugins${SHARED_LIBRARY_SUFFIX}
             # names to replace (in order)
             "${PARAVIEW_BINARY_DIR}/lib/=@executable_path/../Libraries/"
             "${INSTALL_DIR}/lib/Qt=@executable_path/../Frameworks/Qt"
@@ -42,6 +42,7 @@ if (APPLE)
 endif()
 
 execute_process(
-    COMMAND ${CMAKE_COMMAND} -E tar cvz ${bundle_name} CosmologyToolsPlugin
+    COMMAND ${CMAKE_COMMAND}
+    -E tar cvfz ${bundle_name}-${bundle_suffix}.tgz CosmologyToolsPlugin-${bundle_suffix}
     WORKING_DIRECTORY ${TMP_DIR}
 )

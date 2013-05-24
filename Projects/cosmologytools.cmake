@@ -15,6 +15,7 @@ add_external_project(cosmologytools
                          -DINSTALL_DIR:PATH=<INSTALL_DIR>
                          -DPARAVIEW_BINARY_DIR:PATH=${ParaViewSuperBuild_BINARY_DIR}/paraview/src/paraview-build
                          -DTMP_DIR:PATH=<TMP_DIR>
-                         -Dbundle_name:STRING=${CMAKE_CURRENT_BINARY_DIR}/CosmologyToolsPlugin-${package_suffix}.tgz
+                         -Dbundle_name:STRING=${CMAKE_CURRENT_BINARY_DIR}/CosmologyToolsPlugin
+                         -Dbundle_suffix:STRING=${pv_version_long}-${package_suffix}
                          -P ${CMAKE_CURRENT_LIST_DIR}/install_cosmologytools.cmake
 )

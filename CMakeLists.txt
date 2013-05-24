@@ -83,6 +83,7 @@ else ()
   set (package_suffix "${package_suffix}-32bit")
 endif()
 
+include(paraview_version)
 
 option(TRUST_SVN_CERTIFICATES_AUTOMATICALLY
   "Trust SVN certificates automatically" ON)
