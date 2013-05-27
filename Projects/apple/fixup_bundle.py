@@ -41,8 +41,11 @@ class Library(object):
     # This is the actual path to a physical file
     self.RealPath = None
 
-   # This is the id for shared library.
+    # This is the id for shared library.
     self.Id = None
+
+    # These are names for symbolic links to this file.
+    self.SymLinks = []
 
     self.__depencies = None
     pass
@@ -87,6 +90,17 @@ class Library(object):
         commands.getoutput('install_name_tool -id "%s" %s' % (self.Id,
                             os.path.join(app, "Contents/Libraries/%s" % os.path.basename(self.RealPath))))
 
+      # Create symlinks for this copied file in the install location
+      # as were present in the source dir.
+      destdir = os.path.join(app, "Contents/Libraries")
+      # sourcefile is the file we copied already into the app bundle. We need to create symlink
+      # to it itself in the app bundle.
+      sourcefile = os.path.basename(self.RealPath)
+      for symlink in self.SymLinks:
+        print "Creating Symlink %s ==> .../Contents/Libraries/%s" % (symlink, os.path.basename(self.RealPath))
+        if not fakeCopy:
+          commands.getoutput("ln -s %s %s" % (sourcefile, os.path.join(destdir, symlink)))
+
   @classmethod
   def createFromReference(cls, ref, exepath):
     path = ref.replace("@executable_path", exepath)
@@ -101,6 +115,20 @@ class Library(object):
     lib = Library()
     lib.RealPath = os.path.realpath(path)
     lib.Id = _getid(path)
+    # locate all symlinks to this file in the containing directory. These are used when copying.
+    # We ensure that we copy all symlinks too.
+    dirname = os.path.dirname(lib.RealPath)
+    symlinks = commands.getoutput("find -L %s -samefile %s" % (dirname, lib.RealPath))
+    symlinks = symlinks.split()
+    try:
+      symlinks.remove(lib.RealPath)
+    except ValueError:
+      pass
+    linknames = []
+    for link in symlinks:
+      linkname = os.path.basename(link)
+      linknames.append(linkname)
+    lib.SymLinks = linknames
     return lib
 
 
@@ -237,14 +265,3 @@ if __name__ == "__main__":
   #  print "Fixing '%s'" % dep
     commands.getoutput('install_name_tool %s "%s"' % (install_name_tool_command, dep))
     commands.getoutput('chmod a-w "%s"' % dep)
-  
-
-
-  # Fix mpich issue when loading CosmologyTools. When CosmologyTools was loaded, an 
-  # error was thrown about not being able to find libpmpich.dylib and libmpicxx.dylib.
-  # Creating these symbolic links is a temporary workaround, but, likely not a good
-  # long-term solution.
-  commands.getoutput('cd %s/Contents/Libraries && ln -s libmpich.3.3.dylib libmpich.dylib' % App);
-  commands.getoutput('cd %s/Contents/Libraries && ln -s libmpichcxx.3.3.dylib libmpichcxx.dylib' % App);
-  commands.getoutput('cd %s/Contents/Libraries && ln -s libmpich.3.3.dylib libpmpich.dylib' % App);
-  
