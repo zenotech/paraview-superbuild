@@ -20,11 +20,11 @@ keepVersion  = False
 # ----------------------------------------------------------------------------------------
 customSuffix = {
    'altair.kitware': {
-      'MountainLion-nightlymaster-superbuild'        : '10.8-NIGHTLY',
-      'MountainLion-nightlymaster-superbuild-nompi'  : '10.8-NoMPI-NIGHTLY' },
-   'debian-x64.kitware': {'nightlymaster-superbuild' : 'glibc-2.3.6-NIGHTLY' },
-   'debian-x32.kitware': {'nightlymaster-superbuild' : 'glibc-2.3.6-NIGHTLY' },
-   'Blight.kitware' : {'ubuntu-x64-nightlymaster-superbuild' : 'glibc-2.15-NIGHTLY' }
+      'MountainLion-nightlymaster-superbuild'        : '10.8',
+      'MountainLion-nightlymaster-superbuild-nompi'  : '10.8-NoMPI' },
+   'debian-x64.kitware': {'nightlymaster-superbuild' : 'glibc-2.3.6' },
+   'debian-x32.kitware': {'nightlymaster-superbuild' : 'glibc-2.3.6' },
+   'Blight.kitware' : {'ubuntu-x64-nightlymaster-superbuild' : 'glibc-2.15' }
 }
 
 # ----------------------------------------------------------------------------------------
@@ -133,9 +133,13 @@ def getBuildInfo(buildId):
 # ----------------------------------------------------------------------------------------
 
 def getSuffix(buildInfo, default_suffix):
-	if customSuffix.has_key(info['site']) and customSuffix[info['site']].has_key(info['name']):
-	   return customSuffix[info['site']][info['name']]
-	return default_suffix
+  if customSuffix.has_key(info['site']) and customSuffix[info['site']].has_key(info['name']):
+    custom_suffix = customSuffix[info['site']][info['name']]
+    if default_suffix:
+      return "%s-%s" % (custom_suffix, default_suffix)
+    else:
+      return custom_suffix
+  return default_suffix
 
 # ----------------------------------------------------------------------------------------
 
