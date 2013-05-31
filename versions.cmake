@@ -9,7 +9,7 @@
 # endif()
 
 add_revision(zlib
-  URL "http://zlib.net/zlib-1.2.7.tar.gz"
+  URL "http://www.paraview.org/files/dependencies/zlib-1.2.7.tar.gz"
   URL_MD5 60df6a37c56e7c1366cca812414f7b85)
 # NOTE: if updating zlib version, fix patch in zlib.cmake
 
@@ -56,7 +56,7 @@ add_revision(qt
 
 if (WIN32)
   add_revision(python
-    URL "http://www.python.org/ftp/python/2.7.3/Python-2.7.3.tgz"
+    URL "http://www.paraview.org/files/dependencies/Python-2.7.3.tgz"
     URL_MD5 "2cf641732ac23b18d139be077bd906cd")
 else()
   add_revision(python
@@ -73,7 +73,7 @@ add_revision(matplotlib
   URL_MD5 30ee59119599331bf1f3b6e838fee9a8)
 
 add_revision(boost
-  URL "http://downloads.sourceforge.net/project/boost/boost/1.50.0/boost_1_50_0.tar.gz"
+  URL "http://www.paraview.org/files/dependencies/boost_1_50_0.tar.gz"
   URL_MD5 dbc07ab0254df3dda6300fd737b3f264)
 
 add_revision(manta
@@ -86,7 +86,7 @@ if (UNIX)
     URL_MD5 b470666749bcb4a0449a072a18e2c204)
 elseif (WIN32)
   add_revision(mpi
-    URL http://www.open-mpi.org/software/ompi/v1.6/downloads/openmpi-1.6.2.tar.gz
+    URL "http://www.paraview.org/files/dependencies/openmpi-1.6.2.tar.gz"
     URL_MD5 351845a0edd8141feb30d31edd59cdcd)
 endif()
 
