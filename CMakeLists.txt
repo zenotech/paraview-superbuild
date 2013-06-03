@@ -182,6 +182,15 @@ configure_file(
 #-----------------------------------------------------------------------------
 set (CM_PROJECTS_ALL)
 
+if (NOT WIN32)
+  # Check if there's a Fortran compiler. If there is, CMAKE_Fortran_COMPILER
+  # will be set. Note that as of CMake 2.8.11 that CMAKE_Fortran_COMPILER
+  # isn't passed to the external projects so setting it to something else
+  # will give unexpected results. This is CMake Mantis issue 14,231.
+  include(CheckFortran)
+endif()
+
+
 # Include all optional projects. These are the ones user can pick and choose.
 # Some of these allow using system libraries too.
 if (CROSS_BUILD_STAGE STREQUAL "CROSS")
@@ -213,6 +222,12 @@ else()
   include(szip)
   include(visitbridge)
   include(zlib)
+  if(CMAKE_Fortran_COMPILER)
+    # both of these packages require a Fortran compiler to build so we
+    # only present them to the user if we have one.
+    include(nektarreader)
+    include(lapack)
+  endif()
 
   if (UNIX)
     # Supported on Linux/Mac

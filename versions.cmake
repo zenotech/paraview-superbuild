@@ -169,10 +169,10 @@ add_revision(vistrails
 #add_revision(mili_plugin
 # URL ${CMAKE_CURRENT_SOURCE_DIR}/Externals/mili)
 
-add_revision(nektar_plugin
-  GIT_REPOSITORY git://gitorious.org/nektarplugin/nektarplugin.git
-  GIT_TAG master)
-
 add_revision(portfwd
   URL "http://www.paraview.org/files/dependencies/portfwd-0.29.tar.gz"
   URL_MD5 93161c91e12b0d67ca52dc13708a2f2f)
+
+add_revision(lapack
+  URL "http://paraview.org/files/dependencies/lapack-3.4.2.tgz"
+  URL_MD5 61bf1a8a4469d4bdb7604f5897179478)
