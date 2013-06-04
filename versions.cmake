@@ -131,7 +131,7 @@ if (ParaView_FROM_GIT)
 else()
   # Variables to hold the URL and MD5 (optional)
   set (ParaView_URL "" CACHE
-    FILEPATH "Specify the url for ParaView tarball")
+    STRING "Specify the url for ParaView tarball")
   set (ParaView_URL_MD5 "" CACHE
     STRING "MD5 of the ParaView tarball")
 
