@@ -42,13 +42,39 @@ endif()
 #-----------------------------------------------------------------------------
 if (mpi_ENABLED AND NOT USE_SYSTEM_mpi)
   # install MPI executables (the dylib are already installed by a previous rule).
-  install(FILES
-           "${install_location}/bin/mpiexec.hydra"
-           "${install_location}/bin/mpirun"
-           "${install_location}/bin/hydra_pmi_proxy"
-        DESTINATION "paraview.app/Contents/MacOS"
-        COMPONENT ParaView
-        )
+  install(CODE "
+     file(INSTALL
+       DESTINATION \"\${CMAKE_INSTALL_PREFIX}/paraview.app/Contents/MacOS\"
+       USE_SOURCE_PERMISSIONS
+       FILES \"${install_location}/bin/hydra_pmi_proxy\")
+
+     file(INSTALL
+       DESTINATION \"\${CMAKE_INSTALL_PREFIX}/paraview.app/Contents/MacOS\"
+       USE_SOURCE_PERMISSIONS
+       FILES \"${install_location}/bin/mpiexec.hydra\")
+
+     file(RENAME
+       \"\${CMAKE_INSTALL_PREFIX}/paraview.app/Contents/MacOS/mpiexec.hydra\"
+       \"\${CMAKE_INSTALL_PREFIX}/paraview.app/Contents/MacOS/mpiexec\")
+
+     # Fixup MPI bundled libraries
+     execute_process(
+       COMMAND
+         ${CMAKE_INSTALL_NAME_TOOL} -change
+           \"${install_location}/lib/libmpl.1.dylib\"
+           @executable_path/../Libraries/libmpl.1.dylib
+           \"\${CMAKE_INSTALL_PREFIX}/paraview.app/Contents/MacOS/mpiexec\"
+     )
+     execute_process(
+       COMMAND
+         ${CMAKE_INSTALL_NAME_TOOL} -change
+           \"${install_location}/lib/libmpl.1.dylib\"
+           @executable_path/../Libraries/libmpl.1.dylib
+           \"\${CMAKE_INSTALL_PREFIX}/paraview.app/Contents/MacOS/hydra_pmi_proxy\"
+     )
+
+  "
+  COMPONENT superbuild)
 endif()
 #-----------------------------------------------------------------------------
 
