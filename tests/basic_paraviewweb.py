@@ -1,9 +1,9 @@
 from paraview import web, paraviewweb_wamp, paraviewweb_protocols
-from paraview.pipeline_manager import *
+from paraview import pipeline_manager
 
 # Configure our current application
-_PipelineManager.authKey = 'paraviewweb-secret'
-_PipelineManager.dataDir = '.'
+pipeline_manager._PipelineManager.authKey = 'paraviewweb-secret'
+pipeline_manager._PipelineManager.dataDir = '.'
 
 # Setup static args
 class TestArgs:
@@ -16,4 +16,4 @@ args.timeout = 10
 args.content = ''
 
 # Start server
-web.start_webserver(options=args, protocol=_PipelineManager)
+web.start_webserver(options=args, protocol=pipeline_manager._PipelineManager)
