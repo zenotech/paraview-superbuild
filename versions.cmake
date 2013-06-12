@@ -158,7 +158,7 @@ add_revision(qhull
 
 add_revision(cosmologytools
     GIT_REPOSITORY git://public.kitware.com/cosmotools.git
-    GIT_TAG master)
+    GIT_TAG v0.11)
 
 add_revision(acusolve
   GIT_REPOSITORY git://kwsource.kitwarein.com/paraview/acusolvereaderplugin.git
