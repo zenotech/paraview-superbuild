@@ -2,7 +2,7 @@
 # configure stage.
 set (pv_version_major 4)
 set (pv_version_minor 0)
-set (pv_version_patch 0)
+set (pv_version_patch 1)
 set (pv_version_suffix)
 set (pv_version "${pv_version_major}.${pv_version_minor}")
 if (pv_version_suffix)
