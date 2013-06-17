@@ -18,7 +18,7 @@ if (NOT USE_SYSTEM_mpi)
     -DMPI_C_COMPILER:FILEPATH=${install_location}/bin/mpicc.exe
     -DMPI_CXX_COMPILER:FILEPATH=${install_location}/bin/mpicxx.exe
     -DMPI_C_INCLUDE_PATH:STRING=${install_location}/include
-    -DMPI_C_LIBRARIES:STRING=${install_location}/lib/libmpi.lib+${install_location}/lib/libopen-rte.lib+${install_location}/lib/libopen-pal.lib+advapi32.lib+Ws2_32.lib+shlwapi.lib
+    -DMPI_C_LIBRARIES:STRING=${install_location}/lib/libmpi.lib${ep_list_separator}${install_location}/lib/libopen-rte.lib${ep_list_separator}${install_location}/lib/libopen-pal.lib${ep_list_separator}advapi32.lib${ep_list_separator}Ws2_32.lib${ep_list_separator}shlwapi.lib
     -DMPI_CXX_INCLUDE_PATH:STRING=${install_location}/include
     -DMPI_CXX_LIBRARIES:STRING=${install_location}/lib/libmpi_cxx.lib
     )

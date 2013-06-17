@@ -1,6 +1,8 @@
 include(PVExternalProject)
 include(CMakeParseArguments)
 
+set (ep_list_separator "-+-")
+
 #------------------------------------------------------------------------------
 # Macro to be used to register versions for any module. This makes it easier to
 # consolidate versions for all modules in a single file, if needed.
@@ -336,6 +338,8 @@ function(add_external_project_internal name)
       -DCMAKE_CXX_FLAGS:STRING=${project_cxx_flags}
       -DCMAKE_SHARED_LINKER_FLAGS:STRING=${ldflags}
       ${cmake_params}
+
+    LIST_SEPARATOR "${ep_list_separator}"
     )
 
   get_property(additional_steps GLOBAL PROPERTY ${name}_STEPS)
@@ -393,4 +397,12 @@ macro(add_external_project_step name)
   else()
     # nothing to do.
   endif()
+endmacro()
+
+#------------------------------------------------------------------------------
+# When passing string with ";" to add_external_project() macros, we need to
+# ensure that the -+- is replaced with the LIST_SEPARATOR.
+macro(sanitize_lists_in_string out_var_prefix var)
+  string(REPLACE ";" "${ep_list_separator}" command "${${var}}")
+  set (${out_var_prefix}${var} "${command}")
 endmacro()

@@ -13,8 +13,6 @@ add_external_project(paraview
 
   INSTALL_COMMAND
     echo "Skipping install"
-
-  LIST_SEPARATOR +
 )
 
 conditionally_patch_for_crosscompilation(ParaViewTools)

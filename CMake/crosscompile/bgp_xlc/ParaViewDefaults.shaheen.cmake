@@ -13,7 +13,7 @@ set (PARAVIEW_OPTIONS
   # 2. Use system zlib
   -DVTK_USE_SYSTEM_HDF5:BOOL=ON
   -DVTK_USE_SYSTEM_ZLIB:BOOL=ON
-  -DHDF5_C_INCLUDE_DIR:PATH=/opt/share/hdf5/1.8.9/bgp-gcc/include+/bgsys/drivers/V1R4M2_200_2010-100508P/ppc/comm/default/include+/bgsys/drivers/V1R4M2_200_2010-100508P/ppc/comm/sys/include
+  -DHDF5_C_INCLUDE_DIR:PATH=/opt/share/hdf5/1.8.9/bgp-gcc/include${ep_list_separator}/bgsys/drivers/V1R4M2_200_2010-100508P/ppc/comm/default/include${ep_list_separator}/bgsys/drivers/V1R4M2_200_2010-100508P/ppc/comm/sys/include
   -DZLIB_INCLUDE_DIR:PATH=/opt/share/zlib/1.2.5/bgp-gcc/include
   -DZLIB_LIBRARY:FILEPATH=/opt/share/zlib/1.2.5/bgp-gcc/lib/libz.a
 
