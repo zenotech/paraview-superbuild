@@ -24,7 +24,11 @@ customSuffix = {
       'MountainLion-nightlymaster-superbuild-nompi'  : '10.8-NoMPI' },
    'debian-x64.kitware': {'nightlymaster-superbuild' : 'glibc-2.3.6' },
    'debian-x32.kitware': {'nightlymaster-superbuild' : 'glibc-2.3.6' },
-   'Blight.kitware' : {'ubuntu-x64-nightlymaster-superbuild' : 'glibc-2.15' }
+   'Blight.kitware' : {'ubuntu-x64-nightlymaster-superbuild' : 'glibc-2.15' },
+   'kamino.kitware' : {
+     'Lion-nightlymaster-superbuild'                 : 'Python-26',
+     'Lion-python27-nightlymaster-superbuild'        : 'Python-27'
+   }
 }
 
 # ----------------------------------------------------------------------------------------
