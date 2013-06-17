@@ -119,13 +119,14 @@ endif()
 
 # ----------------------------------------------------------------------------
 # You choose to download ParaView source form GIT or other URL/FILE tarball
-option(ParaView_FROM_GIT "If enabled then the repository is fetched from git" ON)
+option(ParaView_FROM_GIT
+       "If enabled then the repository is fetched from git" OFF)
 
 if (ParaView_FROM_GIT)
   # Download PV from GIT
   add_revision(paraview
     GIT_REPOSITORY git://paraview.org/ParaView.git
-    GIT_TAG "master")
+    GIT_TAG "release")
 else()
   # Variables to hold the URL and MD5 (optional)
   set (ParaView_URL "http://www.paraview.org/files/v4.0/ParaView-v4.0.1-source.tgz" CACHE
