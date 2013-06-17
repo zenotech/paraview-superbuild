@@ -63,6 +63,7 @@ def printUsage():
 
 def processArgs():
   global project, date, suffix, download_dir
+  global keepVersion
   for arg in sys.argv:
     if arg.startswith("--help"):
       printUsage()
@@ -157,6 +158,7 @@ def printBuildInfo(info):
 # ----------------------------------------------------------------------------------------
 
 def filterDestinationFileName(fileName):
+  global keepVersion
   if not keepVersion:
     fileName = re.sub( r'-[0-9]+.[0-9]+.[0-9]+.RC[0-9]', '', fileName)
     return re.sub( r'-[0-9]+.[0-9]+.[0-9]+', '', fileName)
