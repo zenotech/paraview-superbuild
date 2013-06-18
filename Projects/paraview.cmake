@@ -55,6 +55,4 @@ add_external_project(paraview
     -DMACOSX_APP_INSTALL_PREFIX:PATH=<INSTALL_DIR>/Applications
 
   ${extra_cmake_args}
-
-  LIST_SEPARATOR +
 )
