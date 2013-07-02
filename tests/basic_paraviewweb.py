@@ -14,6 +14,7 @@ args.port    = 8081
 args.debug   = 1
 args.timeout = 10
 args.content = ''
+args.nosignalhandlers = False
 
 # Start server
 web.start_webserver(options=args, protocol=pipeline_manager._PipelineManager)
