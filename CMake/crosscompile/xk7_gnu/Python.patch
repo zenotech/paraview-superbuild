@@ -1,6 +1,6 @@
-diff -ur newbuild/source/python/Python-2.7.3/Include/pymath.h newbuild/source/python/Python-2.7.3-cmakeified/Include/pymath.h
---- newbuild/source/python/Python-2.7.3/Include/pymath.h	2012-04-09 23:07:29.000000000 +0000
-+++ newbuild/source/python/Python-2.7.3-cmakeified/Include/pymath.h	2012-12-07 20:56:28.015959401 +0000
+diff -ur python_orig/Include/pymath.h python/Include/pymath.h
+--- python_orig/Include/pymath.h	2013-07-11 12:24:48.007671000 -0400
++++ python/Include/pymath.h	2013-07-11 12:20:57.077169000 -0400
 @@ -14,10 +14,12 @@
   *
   *Note: PC/pyconfig.h defines copysign as _copysign
@@ -14,9 +14,9 @@ diff -ur newbuild/source/python/Python-2.7.3/Include/pymath.h newbuild/source/py
  #ifndef HAVE_ROUND
  extern double round(double);
  #endif
-diff -ur newbuild/source/python/Python-2.7.3/Modules/posixmodule.c newbuild/source/python/Python-2.7.3-cmakeified/Modules/posixmodule.c
---- newbuild/source/python/Python-2.7.3/Modules/posixmodule.c	2012-04-09 23:07:34.000000000 +0000
-+++ newbuild/source/python/Python-2.7.3-cmakeified/Modules/posixmodule.c	2012-12-10 15:52:01.535879025 +0000
+diff -ur python_orig/Modules/posixmodule.c python/Modules/posixmodule.c
+--- python_orig/Modules/posixmodule.c	2013-07-11 12:12:47.468557000 -0400
++++ python/Modules/posixmodule.c	2013-07-11 12:20:12.823671000 -0400
 @@ -3716,6 +3716,8 @@
  #define DEV_PTY_FILE "/dev/ptmx"
  #endif
@@ -26,3 +26,49 @@ diff -ur newbuild/source/python/Python-2.7.3/Modules/posixmodule.c newbuild/sour
  #if defined(HAVE_OPENPTY) || defined(HAVE_FORKPTY) || defined(HAVE_DEV_PTMX)
  #ifdef HAVE_PTY_H
  #include <pty.h>
+diff -ur python_orig/Python/dynload_shlib.c python/Python/dynload_shlib.c
+--- python_orig/Python/dynload_shlib.c	2013-07-11 12:12:46.117677000 -0400
++++ python/Python/dynload_shlib.c	2013-07-11 12:23:47.884471000 -0400
+@@ -91,8 +91,12 @@
+         for (i = 0; i < nhandles; i++) {
+             if (statb.st_dev == handles[i].dev &&
+                 statb.st_ino == handles[i].ino) {
++#if 0
+                 p = (dl_funcptr) dlsym(handles[i].handle,
+                                        funcname);
++#else
++                p = NULL;
++#endif
+                 return p;
+             }
+         }
+@@ -127,10 +131,18 @@
+     pathname = pathbuf;
+ #endif
+ 
++#if 0
+     handle = dlopen(pathname, dlopenflags);
++#else
++    handle = NULL;
++#endif
+ 
+     if (handle == NULL) {
++#if 0
+         const char *error = dlerror();
++#else
++        const char *error = NULL;
++#endif
+         if (error == NULL)
+             error = "unknown dlopen() error";
+         PyErr_SetString(PyExc_ImportError, error);
+@@ -138,6 +150,10 @@
+     }
+     if (fp != NULL && nhandles < 128)
+         handles[nhandles++].handle = handle;
++#if 0
+     p = (dl_funcptr) dlsym(handle, funcname);
++#else
++    p = NULL;
++#endif
+     return p;
+ }

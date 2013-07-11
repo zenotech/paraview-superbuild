@@ -61,7 +61,7 @@ endmacro()
 #use them in the cross compile pass.
 #
 macro(find_hosttools)
-  set(PARAVIEW_HOSTTOOLS_DIR ${CMAKE_BINARY_DIR}/../tools/toolsparaview/src/toolsparaview-build/ CACHE PATH
+  set(PARAVIEW_HOSTTOOLS_DIR ${CMAKE_BINARY_DIR}/../tools/paraview/src/paraview-build/ CACHE PATH
     "Location of host built paraview compile tools directory")
   set(PYTHON_HOST_EXE ${CMAKE_BINARY_DIR}/../tools/install/bin/python CACHE PATH
     "Location of host built python executable")

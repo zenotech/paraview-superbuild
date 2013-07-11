@@ -11,10 +11,10 @@ include $(TOP)/configs/default
 CONFIG_NAME = craycle-osmesa-gnu
 
 # Compiler and flags
-CC = cc
-CXX = CC
-CFLAGS = -target=linux -O2 -ffast-math -D_POSIX_SOURCE -D_POSIX_C_SOURCE=199309L -D_SVID_SOURCE -D_BSD_SOURCE
-CXXFLAGS = -target=linux -O2 -ffast-math -D_POSIX_SOURCE -D_POSIX_C_SOURCE=199309L -D_SVID_SOURCE -D_BSD_SOURCE
+CC = /opt/gcc/4.7.2/bin/gcc
+CXX = /opt/gcc/4.7.2/bin/g++
+CFLAGS = -O2 -ffast-math -D_POSIX_SOURCE -D_POSIX_C_SOURCE=199309L -D_SVID_SOURCE -D_BSD_SOURCE
+CXXFLAGS = -O2 -ffast-math -D_POSIX_SOURCE -D_POSIX_C_SOURCE=199309L -D_SVID_SOURCE -D_BSD_SOURCE
 
 MKLIB_OPTIONS = -static
 
