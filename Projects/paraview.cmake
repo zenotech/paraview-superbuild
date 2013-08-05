@@ -1,3 +1,7 @@
+set(PV_EXTRA_CMAKE_ARGS ""
+    CACHE STRING "Extra arguments to be passed to ParaView when configuring.")
+mark_as_advanced(PV_EXTRA_CMAKE_ARGS)
+
 set (extra_cmake_args)
 if (manta_ENABLED)
   list (APPEND extra_cmake_args
