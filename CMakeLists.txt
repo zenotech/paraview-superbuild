@@ -112,6 +112,12 @@ else ()
   set (ld_library_path "${install_location}/lib:$ENV{LD_LIBRARY_PATH}")
 endif()
 
+#-----------------------------------------------------------------------------
+# Make sure install/lib directories exist by creating them
+# Windows doesn't like it if that directory does not exist even if it is empty
+file(MAKE_DIRECTORY "${install_location}/lib")
+
+
 if (UNIX AND NOT APPLE)
   # I am not exactly sure about the cause of these issues and how to cleanly
   # overcome them, however, on some linuxes when Cmake is built shared, we end
@@ -259,6 +265,21 @@ else()
   # installed by "make install". Note that this is not always supported.
   include(paraviewsdk OPTIONAL)
 endif()
+
+#-------------------------------------------------------------------------
+# Add any additional project that the user wants
+set(PV_EXTERNAL_PROJECTS "" CACHE STRING
+    "Provide the list of Projects that ParaView should additionally depends on")
+mark_as_advanced(PV_EXTERNAL_PROJECTS)
+
+# Include all additional external projects
+# Its their responsability to check the system and provide empty target if the
+# platform is not supported
+foreach(external_project IN ITEMS ${PV_EXTERNAL_PROJECTS})
+  include(${external_project})
+  set(ENABLE_${external_project} ON CACHE BOOL "" FORCE)
+endforeach()
+
 
 process_dependencies()
 
