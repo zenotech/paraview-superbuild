@@ -109,12 +109,12 @@ add_revision(osmesa
 if (TRUST_SVN_CERTIFICATES_AUTOMATICALLY)
   add_revision(diy
      SVN_REPOSITORY https://svn.mcs.anl.gov/repos/diy/trunk
-     SVN_REVISION -r176
+     SVN_REVISION -r178
      SVN_TRUST_CERT 1)
 else()
   add_revision(diy
      SVN_REPOSITORY https://svn.mcs.anl.gov/repos/diy/trunk
-     SVN_REVISION -r176)
+     SVN_REVISION -r178)
 endif()
 
 # ----------------------------------------------------------------------------
@@ -150,14 +150,18 @@ add_revision(qhull
     GIT_REPOSITORY git://github.com/gzagaris/gxzagas-qhull.git
     GIT_TAG master)
 
+add_revision(genericio
+    GIT_REPOSITORY git://kwsource.kitwarein.com/genericio/genericio.git
+    GIT_TAG master)
+
 #------------------------------------------------------------------------------
 # Optional Plugins. Doesn't affect ParaView binaries at all even if missing
 # or disabled.
 #------------------------------------------------------------------------------
 
-add_revision(cosmologytools
+add_revision(cosmotools
     GIT_REPOSITORY git://public.kitware.com/cosmotools.git
-    GIT_TAG v0.11)
+    GIT_TAG master)
 
 add_revision(acusolve
   GIT_REPOSITORY git://kwsource.kitwarein.com/paraview/acusolvereaderplugin.git

@@ -239,7 +239,7 @@ else()
     # Supported on Linux/Mac
     include(ffmpeg)
   endif()
-  
+
   if (UNIX AND NOT APPLE)
     include(portfwd)
     include(fontconfig)
@@ -247,11 +247,12 @@ else()
     include(osmesa)
   endif()
 
-  # Build CosmologyTools on Linux and OS X
+  # Build CosmoTools on Linux and OS X
   if (UNIX)
     include(qhull)
     include(diy)
-    include(cosmologytools)
+    include(genericio)
+    include(cosmotools)
   endif()
 
   # REMEMBER to tell VTK/ParaView to use VTK_SYSTEM_* for the
