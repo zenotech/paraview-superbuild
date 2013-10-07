@@ -1,0 +1,28 @@
+diff -ur newbuild/source/python/Python-2.7.3/Include/pymath.h newbuild/source/python/Python-2.7.3-cmakeified/Include/pymath.h
+--- newbuild/source/python/Python-2.7.3/Include/pymath.h	2012-04-09 23:07:29.000000000 +0000
++++ newbuild/source/python/Python-2.7.3-cmakeified/Include/pymath.h	2012-12-07 20:56:28.015959401 +0000
+@@ -14,6 +14,7 @@
+  *
+  *Note: PC/pyconfig.h defines copysign as _copysign
+  */
++#define HAVE_COPYSIGN
+ #ifndef HAVE_COPYSIGN
+ extern double copysign(double, double);
+ #endif
+
++#define HAVE_ROUND
+ #ifndef HAVE_ROUND
+ extern double round(double);
+ #endif
+diff -ur newbuild/source/python/Python-2.7.3/Modules/posixmodule.c newbuild/source/python/Python-2.7.3-cmakeified/Modules/posixmodule.c
+--- newbuild/source/python/Python-2.7.3/Modules/posixmodule.c	2012-04-09 23:07:34.000000000 +0000
++++ newbuild/source/python/Python-2.7.3-cmakeified/Modules/posixmodule.c	2012-12-10 15:52:01.535879025 +0000
+@@ -3716,2 +3716,2 @@
+ #define DEV_PTY_FILE "/dev/ptmx"
+ #endif
+
++#undef HAVE_FORKPTY
++#undef HAVE_OPENPTY
+ #if defined(HAVE_OPENPTY) || defined(HAVE_FORKPTY) || defined(HAVE_DEV_PTMX)
+ #ifdef HAVE_PTY_H
+ #include <pty.h>

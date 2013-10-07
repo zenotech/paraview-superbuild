@@ -299,7 +299,6 @@ function(add_external_project_internal name)
     set (project_cxx_flags "${cxxflags} ${extra_cxx_flags}")
   endif()
 
-
   #message("ARGS ${name} ${ARGN}")
 
   # refer to documentation for PASS_LD_LIBRARY_PATH_FOR_BUILDS in

@@ -1086,7 +1086,7 @@ diff -urN newbuild/source/python/Python-2.7.3/ConfigureChecks.cmake newbuild/sou
 +# dynamic loading
 +#
 +#######################################################################
-+if(HAVE_DLFCN_H)
++if(FALSE)
 +  macro_push_required_vars()
 +  set(CFG_HEADERS_SAVE ${CFG_HEADERS})
 +
@@ -1096,7 +1096,7 @@ diff -urN newbuild/source/python/Python-2.7.3/ConfigureChecks.cmake newbuild/sou
 +
 +  set(CFG_HEADERS ${CFG_HEADERS_SAVE})
 +  macro_pop_required_vars()
-+endif(HAVE_DLFCN_H)
++endif()
 +
 +
 +if(HAVE_DLOPEN) # OR .... )

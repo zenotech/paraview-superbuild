@@ -4,9 +4,9 @@
 #
 macro(query_target_machine)
   set(cross_target "generic" CACHE STRING
-    "Platform to cross compile for, either generic|bgp_xlc|xk7_gnu")
+    "Platform to cross compile for, either generic|bgp_xlc|bgq_xlc|bgq_gnu|xk7_gnu")
   set_property(CACHE cross_target PROPERTY STRINGS
-    "generic" "bgp_xlc" "xk7_gnu")
+    "generic" "bgp_xlc" "bgq_xlc" "bgq_gnu" "xk7_gnu")
 
   set(CROSS_BUILD_SITE "" CACHE STRING
     "Specify Site to load appropriate configuration defaults, if available.")
@@ -20,14 +20,24 @@ macro(do_cross_platform_settings)
   #copy toolchains
   configure_file(
     ${CMAKE_SOURCE_DIR}/CMake/crosscompile/${cross_target}/ToolChain.cmake
-    ${CMAKE_BINARY_DIR}/crosscompile/ParaViewToolChain.cmake
+    ${CMAKE_BINARY_DIR}/crosscompile/ToolChain.cmake
     @ONLY
   )
+  set(PYTHON_TOOLCHAIN_FILE
+    "${CMAKE_BINARY_DIR}/crosscompile/ToolChain.cmake")
   set(PARAVIEW_TOOLCHAIN_FILE
-    "${CMAKE_BINARY_DIR}/crosscompile/ParaViewToolChain.cmake")
+    "${CMAKE_BINARY_DIR}/crosscompile/ToolChain.cmake")
 
-  #configure tryrunresults
-  #see CMake/crosscompile/trycompiler.py for sample of how to generate new ones
+  #configure Python tryrunresults
+  configure_file(
+    ${CMAKE_SOURCE_DIR}/CMake/crosscompile/${cross_target}/PythonTryRunResults.cmake
+    ${CMAKE_BINARY_DIR}/crosscompile/PythonTryRunResults.cmake
+    @ONLY
+  )
+  set(PYTHON_TRYRUN_FILE
+    "${CMAKE_BINARY_DIR}/crosscompile/PythonTryRunResults.cmake")
+
+  #configure ParaView tryrunresults
   configure_file(
     ${CMAKE_SOURCE_DIR}/CMake/crosscompile/${cross_target}/ParaViewTryRunResults.cmake
     ${CMAKE_BINARY_DIR}/crosscompile/ParaViewTryRunResults.cmake
@@ -38,6 +48,24 @@ macro(do_cross_platform_settings)
 
   #configure additional platform specific options
   string(TOLOWER "${CROSS_BUILD_SITE}" lsite)
+
+  set (site-specific-defaults
+    ${CMAKE_SOURCE_DIR}/CMake/crosscompile/${cross_target}/PythonDefaults.${lsite}.cmake)
+  if (EXISTS "${site-specific-defaults}")
+    configure_file(
+      "${site-specific-defaults}"
+      ${CMAKE_BINARY_DIR}/crosscompile/PythonDefaults.cmake
+      @ONLY)
+  else()
+    configure_file(
+      ${CMAKE_SOURCE_DIR}/CMake/crosscompile/${cross_target}/PythonDefaults.cmake
+      ${CMAKE_BINARY_DIR}/crosscompile/PythonDefaults.cmake
+      @ONLY)
+  endif()
+  set(PYTHON_CROSS_OPTIONS_FILE
+    "${CMAKE_BINARY_DIR}/crosscompile/PythonDefaults.cmake")
+  include(${PYTHON_CROSS_OPTIONS_FILE})
+
   set (site-specific-defaults
     ${CMAKE_SOURCE_DIR}/CMake/crosscompile/${cross_target}/ParaViewDefaults.${lsite}.cmake)
   if (EXISTS "${site-specific-defaults}")
@@ -51,9 +79,9 @@ macro(do_cross_platform_settings)
       ${CMAKE_BINARY_DIR}/crosscompile/ParaViewDefaults.cmake
       @ONLY)
   endif()
-  set(CROSS_OPTIONS_FILE
+  set(PARAVIEW_CROSS_OPTIONS_FILE
     "${CMAKE_BINARY_DIR}/crosscompile/ParaViewDefaults.cmake")
-  include(${CROSS_OPTIONS_FILE})
+  include(${PARAVIEW_CROSS_OPTIONS_FILE})
 endmacro()
 
 #=============================================================================

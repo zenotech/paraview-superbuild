@@ -4,6 +4,8 @@ if (${python_ENABLED})
   #tell paraview to do python build with the python made in host tools pass
   set(pythonexe "-DPYTHON_EXECUTABLE:FILEPATH=${PYTHON_HOST_EXE}")
   #set(buildcmd "BUILD_COMMAND LD_LIBRARY_PATH=${PYTHON_HOST_LIBDIR}:$LD_LIBRARY_PATH bash -c make")
+  set(pythoninc "-DPYTHON_INCLUDE_DIR:PATH=${install_location}/include/python2.7")
+  set(pythonlib "-DPYTHON_LIBRARY:FILEPATH=${install_location}/lib/libpython2.7.a")
 endif()
 
 add_external_project(paraview
@@ -23,12 +25,12 @@ add_external_project(paraview
     -DVTK_OPENGL_HAS_OSMESA:BOOL=TRUE
     -DOSMESA_LIBRARY:FILEPATH=${install_location}/lib/libOSMesa.a
     -DOSMESA_INCLUDE_DIR:PATH=${install_location}/include
-    -DBOOST_INCLUDEDIR:PATH=${BOOST_HOST_INCLUDEDIR}
+    -DBoost_INCLUDE_DIR:PATH=${BOOST_HOST_INCLUDEDIR}
     ${pythonexe}
+    ${pythoninc}
+    ${pythonlib}
     ${PARAVIEW_OPTIONS}
     -C ${PARAVIEW_TRYRUN_FILE}
-
-  #${buildcmd}
 
   INSTALL_COMMAND
     echo "Skipping install"

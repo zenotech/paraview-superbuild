@@ -1,0 +1,87 @@
+diff -ur tools/paraview/src/paraview/CMake/vtkClientServerWrapping.cmake crossgnu5/paraview/src/paraview/CMake/vtkClientServerWrapping.cmake
+--- tools/paraview/src/paraview/CMake/vtkClientServerWrapping.cmake	2013-06-19 13:56:08.000000000 +0000
++++ crossgnu5/paraview/src/paraview/CMake/vtkClientServerWrapping.cmake	2013-10-05 00:18:56.334990000 +0000
+@@ -25,6 +25,6 @@
+     ${${module}_INCLUDE_DIRS}
+     ${vtkClientServer_INCLUDE_DIRS})
+   if (NOT WIN32)
+-    set_property(TARGET ${module}CS APPEND
+-      PROPERTY COMPILE_FLAGS "-fPIC")
++    #set_property(TARGET ${module}CS APPEND
++    #  PROPERTY COMPILE_FLAGS "-fPIC")
+   endif()
+
+   # add compile definition for auto init for modules that provide implementation
+diff -ur tools/paraview/src/paraview/ParaViewCore/ClientServerCore/Core/vtkPVSystemConfigInformation.h crossgnu5/paraview/src/paraview/ParaViewCore/ClientServerCore/Core/vtkPVSystemConfigInformation.h
+--- tools/paraview/src/paraview/ParaViewCore/ClientServerCore/Core/vtkPVSystemConfigInformation.h	2013-06-19 13:56:08.000000000 +0000
++++ crossgnu5/paraview/src/paraview/ParaViewCore/ClientServerCore/Core/vtkPVSystemConfigInformation.h	2013-10-04 21:26:16.624461000 +0000
+@@ -114,2 +114,2 @@
+   vtkPVSystemConfigInformation();
+   ~vtkPVSystemConfigInformation();
+
+-private:
++public:
+   //BTX
+   vector<ConfigInfo> Configs;
+   //ETX
+diff -ur tools/paraview/src/paraview/ParaViewCore/VTKExtensions/Rendering/CMakeLists.txt crossgnu5/paraview/src/paraview/ParaViewCore/VTKExtensions/Rendering/CMakeLists.txt
+--- tools/paraview/src/paraview/ParaViewCore/VTKExtensions/Rendering/CMakeLists.txt	2013-06-19 13:56:09.000000000 +0000
++++ crossgnu5/paraview/src/paraview/ParaViewCore/VTKExtensions/Rendering/CMakeLists.txt	2013-10-04 21:26:16.631016000 +0000
+@@ -137,2 +137,2 @@
+ endforeach()
+ #---------------------------------------------------------
+
++
++include_directories(${OPENGL_INCLUDE_DIR})
++
+ vtk_module_library(vtkPVVTKExtensionsRendering ${Module_SRCS})
+diff -ur tools/paraview/src/paraview/VTK/Filters/Geometry/vtkStructuredGridConnectivity.h crossgnu5/paraview/src/paraview/VTK/Filters/Geometry/vtkStructuredGridConnectivity.h
+--- tools/paraview/src/paraview/VTK/Filters/Geometry/vtkStructuredGridConnectivity.h	2013-06-19 13:57:32.000000000 +0000
++++ crossgnu5/paraview/src/paraview/VTK/Filters/Geometry/vtkStructuredGridConnectivity.h	2013-10-05 00:16:17.148477117 +0000
+@@ -42,5 +42,7 @@
+ #include <iostream> // For cout
+ #include <vector>   // For STL vector
+ #include <map>      // For STL map
++#ifndef __WRAP__
+ #include <utility>  // For STL pair and overloaded relational operators
++#endif
+ #include <cassert>  // For assert()
+
+ // Forward Declarations
+diff -ur tools/paraview/src/paraview/VTK/IO/AMR/vtkAMRBaseReader.h crossgnu5/paraview/src/paraview/VTK/IO/AMR/vtkAMRBaseReader.h
+--- tools/paraview/src/paraview/VTK/IO/AMR/vtkAMRBaseReader.h	2013-06-19 13:57:32.000000000 +0000
++++ crossgnu5/paraview/src/paraview/VTK/IO/AMR/vtkAMRBaseReader.h	2013-10-05 00:28:29.352073146 +0000
+@@ -24,4 +24,6 @@
+ #include "vtkOverlappingAMRAlgorithm.h"
+ #include <vector>    // STL vector header
+ #include <map>       // STL map header
++#ifndef __WRAP__
+ #include <utility>   // for STL pair
++#endif
+
+ // Forward Declarations
+ class vtkOverlappingAMR;
+diff -ur tools/paraview/src/paraview/VTK/ThirdParty/hdf5/vtkhdf5/src/H5F.c crossgnu5/paraview/src/paraview/VTK/ThirdParty/hdf5/vtkhdf5/src/H5F.c
+--- tools/paraview/src/paraview/VTK/ThirdParty/hdf5/vtkhdf5/src/H5F.c	2013-06-19 13:57:35.000000000 +0000
++++ crossgnu5/paraview/src/paraview/VTK/ThirdParty/hdf5/vtkhdf5/src/H5F.c	2013-10-05 00:02:59.358204253 +0000
+@@ -48,2 +48,2 @@
+ #endif
+ #include "H5FDdirect.h"         /*Linux direct I/O			*/
+
++#undef H5_HAVE_SYMLINK
++
+ /* Struct only used by functions H5F_get_objects and H5F_get_objects_cb */
+ typedef struct H5F_olist_t {
+     H5I_type_t obj_type;        /* Type of object to look for */
+diff -ur tools/paraview/src/paraview/VTK/ThirdParty/hdf5/vtkhdf5/src/H5Omtime.c crossgnu5/paraview/src/paraview/VTK/ThirdParty/hdf5/vtkhdf5/src/H5Omtime.c
+--- tools/paraview/src/paraview/VTK/ThirdParty/hdf5/vtkhdf5/src/H5Omtime.c	2013-06-19 13:57:35.000000000 +0000
++++ crossgnu5/paraview/src/paraview/VTK/ThirdParty/hdf5/vtkhdf5/src/H5Omtime.c	2013-10-05 00:11:15.384435004 +0000
+@@ -27,2 +27,2 @@
+ #include "H5MMprivate.h"	/* Memory management			*/
+ #include "H5Opkg.h"             /* Object headers			*/
+
++#undef H5_HAVE_TM_GMTOFF
++#undef H5_HAVE_TIMEZONE
+
+ static void *H5O_mtime_new_decode(H5F_t *f, hid_t dxpl_id, H5O_t *open_oh,
+     unsigned mesg_flags, unsigned *ioflags, const uint8_t *p);
