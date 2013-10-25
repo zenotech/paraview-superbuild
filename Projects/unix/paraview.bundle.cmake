@@ -97,7 +97,7 @@ endif()
 # Add ParaViewWeb www directory if available
 if(python_ENABLED)
   install(DIRECTORY "@install_location@/share/paraview-${pv_version}/www"
-    DESTINATION "share/paraview-${pv_version}/www"
+    DESTINATION "share/paraview-${pv_version}"
     USE_SOURCE_PERMISSIONS
     COMPONENT superbuild)
 endif()
