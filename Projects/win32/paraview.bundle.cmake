@@ -162,6 +162,17 @@ set(CMAKE_INSTALL_SYSTEM_RUNTIME_DESTINATION "bin")
 include(InstallRequiredSystemLibraries)
 
 #-----------------------------------------------------------------------------
+# install ParaViewWeb www directory
+
+# FIXME: Need to figure out the path before enabling it...
+#if(python_ENABLED)
+#  install(DIRECTORY "${install_location}/share/paraview-${pv_version}/www"
+#          DESTINATION "share/paraview-${pv_version}/www"
+#          USE_SOURCE_PERMISSIONS
+#          COMPONENT ParaView)
+#endif()
+
+#-----------------------------------------------------------------------------
 # include CPack at end so that all COMPONENTs specified in install rules are
 # correctly detected.
 include(CPack)

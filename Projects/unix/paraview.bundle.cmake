@@ -94,6 +94,14 @@ if (mpi_ENABLED AND NOT USE_SYSTEM_mpi)
   endforeach()
 endif()
 
+# Add ParaViewWeb www directory if available
+if(python_ENABLED)
+  install(DIRECTORY "@install_location@/share/paraview-${pv_version}/www"
+    DESTINATION "share/paraview-${pv_version}/www"
+    USE_SOURCE_PERMISSIONS
+    COMPONENT superbuild)
+endif()
+
 add_test(NAME GenerateParaViewPackage
          COMMAND ${CMAKE_CPACK_COMMAND} -G TGZ -V
          WORKING_DIRECTORY ${SuperBuild_BINARY_DIR})
