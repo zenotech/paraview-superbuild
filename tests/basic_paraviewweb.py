@@ -1,9 +1,9 @@
-from paraview import web, paraviewweb_wamp, paraviewweb_protocols
-from paraview import pipeline_manager
+from paraview.web import wamp, protocols, pv_web_visualizer
+from vtk.web import server
 
 # Configure our current application
-pipeline_manager._PipelineManager.authKey = 'paraviewweb-secret'
-pipeline_manager._PipelineManager.dataDir = '.'
+pv_web_visualizer._PipelineManager.authKey = 'paraviewweb-secret'
+pv_web_visualizer._PipelineManager.dataDir = '.'
 
 # Setup static args
 class TestArgs:
@@ -17,4 +17,4 @@ args.content = ''
 args.nosignalhandlers = False
 
 # Start server
-web.start_webserver(options=args, protocol=pipeline_manager._PipelineManager)
+server.start_webserver(options=args, protocol=pv_web_visualizer._PipelineManager)
