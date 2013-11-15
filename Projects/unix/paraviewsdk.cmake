@@ -15,12 +15,16 @@ if (paraviewsdk_ENABLED)
     return()
   endif()
 
-  install(DIRECTORY "@install_location@/include"
+  install(DIRECTORY "@install_location@/include/"
           DESTINATION "include"
           COMPONENT superbuild)
 
-  install(DIRECTORY "@install_location@/lib"
+  install(DIRECTORY "@install_location@/lib/"
           DESTINATION "lib"
           COMPONENT superbuild
           PATTERN "paraview-${pv_version}" EXCLUDE)
+
+  install(DIRECTORY "@install_location@/lib/cmake/"
+          DESTINATION "lib/cmake"
+          COMPONENT superbuild)
 endif()
