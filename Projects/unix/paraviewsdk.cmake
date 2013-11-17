@@ -15,16 +15,24 @@ if (paraviewsdk_ENABLED)
     return()
   endif()
 
+  # install all include files.
   install(DIRECTORY "@install_location@/include/"
           DESTINATION "include"
           COMPONENT superbuild)
 
+  # install all library files (including those for dependencies built).
   install(DIRECTORY "@install_location@/lib/"
           DESTINATION "lib"
           COMPONENT superbuild
           PATTERN "paraview-${pv_version}" EXCLUDE)
 
+  # install all CMake files.
   install(DIRECTORY "@install_location@/lib/cmake/"
           DESTINATION "lib/cmake"
+          COMPONENT superbuild)
+
+  # install all executables since these include the wrapping tools and others.
+  install(DIRECTORY "@install_location@/bin/"
+          DESTINATION "bin"
           COMPONENT superbuild)
 endif()
