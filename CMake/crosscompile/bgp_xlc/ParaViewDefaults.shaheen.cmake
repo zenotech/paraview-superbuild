@@ -1,4 +1,16 @@
-set(64bit_build TRUE)
+set(PARAVIEW_MODULES_TO_ENABLE "" CACHE STRING
+    "Specify modules to enable separated by ';' e.g.  vtkIOXML;vtkFiltersProgrammable")
+
+set(enabled_vtk_modules)
+if(PARAVIEW_MODULES_TO_ENABLE)
+  foreach(module ${PARAVIEW_MODULES_TO_ENABLE})
+    set(enabled_vtk_modules
+      ${enabled_vtk_modules}
+      -DModule_${module}:BOOL=ON)
+  endforeach()
+endif()
+
+set(64bit_build FALSE)
 set (PARAVIEW_OPTIONS
   -DBUILD_SHARED_LIBS:BOOL=OFF
   -DBUILD_TESTING:BOOL=OFF
@@ -48,4 +60,10 @@ set (PARAVIEW_OPTIONS
   -DPARAVIEW_BUILD_PLUGIN_UncertaintyRendering:BOOL=OFF
   -DPARAVIEW_BUILD_PLUGIN_VaporPlugin:BOOL=OFF
   -DPARAVIEW_BUILD_PLUGIN_pvblot:BOOL=OFF
+
+  # Disable automatic enabling of VTK modules. We manually select VTK modules
+  # that need to be enabled.
+  -DPARAVIEW_ENABLE_VTK_MODULES_AS_NEEDED:BOOL=OFF
+
+  ${enabled_vtk_modules}
 )
