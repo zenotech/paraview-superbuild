@@ -304,3 +304,18 @@ option(NIGHTLY_BINARY_TESTING "Run Nightly-Binary ParaView Testing" OFF)
 if (NIGHTLY_BINARY_TESTING)
   add_subdirectory(tests)
 endif()
+
+#------------------------------------------------------------------------------
+# Test to check install tree for paraviewsdk
+#------------------------------------------------------------------------------
+if (BUILD_TESTING AND paraviewsdk_ENABLED)
+  add_test ( NAME TestParaViewSDKInstall
+    COMMAND ${CMAKE_COMMAND}
+    -DPARAVIEW_BINARY_DIR:PATH=${SuperBuild_BINARY_DIR}
+    -DPARAVIEW_INSTALL_DIR:PATH=${CMAKE_INSTALL_PREFIX}
+    -DPARAVIEW_SOURCE_DIR:PATH=${SuperBuild_BINARY_DIR}/paraview/src/paraview
+    -DPARAVIEW_TEST_DIR:PATH=${SuperBuild_BINARY_DIR}/Testing/Temporary
+    -DPARAVIEW_VERSION:STRING=${pv_version}
+    -P ${SuperBuild_CMAKE_DIR}/ParaViewSDKTestInstall.cmake)
+  set_tests_properties(TestParaViewSDKInstall PROPERTIES LABELS "PARAVIEW")
+endif ()
