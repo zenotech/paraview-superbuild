@@ -34,5 +34,6 @@ if (paraviewsdk_ENABLED)
   # install all executables since these include the wrapping tools and others.
   install(DIRECTORY "@install_location@/bin/"
           DESTINATION "bin"
+          USE_SOURCE_PERMISSIONS
           COMPONENT superbuild)
 endif()
