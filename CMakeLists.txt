@@ -317,5 +317,7 @@ if (BUILD_TESTING AND paraviewsdk_ENABLED)
     -DPARAVIEW_TEST_DIR:PATH=${SuperBuild_BINARY_DIR}/Testing/Temporary
     -DPARAVIEW_VERSION:STRING=${pv_version}
     -P ${SuperBuild_CMAKE_DIR}/ParaViewSDKTestInstall.cmake)
-  set_tests_properties(TestParaViewSDKInstall PROPERTIES LABELS "PARAVIEW")
+  set_tests_properties(TestParaViewSDKInstall PROPERTIES
+                       LABELS "PARAVIEW"
+                       TIMEOUT 1500)
 endif ()
