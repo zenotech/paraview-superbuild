@@ -1,0 +1,22 @@
+add_external_project(curl
+
+   GIT_REPOSITORY https://github.com/bagder/curl.git
+   GIT_TAG "curl-7_31_0"
+
+   CMAKE_ARGS
+        -DBUILD_CURL_EXE:BOOL=OFF
+        -DBUILD_CURL_TESTS:BOOL=OFF
+        -DBUILD_DASHBOARD_REPORTS:BOOL=OFF
+        -DCURL_STATICLIB:BOOL=OFF
+        -DCURL_USE_ARES:BOOL=OFF
+        -DCURL_ZLIB:BOOL=OFF
+
+        -DCMAKE_BUILD_TYPE:STRING=Release
+
+        -DCMAKE_OSX_SYSROOT:PATH=${CMAKE_OSX_SYSROOT}
+        -DCMAKE_OSX_ARCHITECTURES:STRING=${CMAKE_OSX_ARCHITECTURES}
+        -DCMAKE_OSX_DEPLOYMENT_TARGET:STRING=${CMAKE_OSX_DEPLOYMENT_TARGET}
+)
+
+# any project depending on curl, inherits these cmake variables
+add_extra_cmake_args(-DCURL_INSTALL_PATH:PATH=<INSTALL_DIR>)
