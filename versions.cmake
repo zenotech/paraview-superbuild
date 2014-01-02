@@ -69,8 +69,8 @@ add_revision(numpy
   URL_MD5 95ed6c9dcc94af1fc1642ea2a33c1bba)
 
 add_revision(matplotlib
-  URL "http://paraview.org/files/dependencies/matplotlib-1.3.1.tar.gz"
-  URL_MD5 444624ad58de05f9029b0b5811e11c17)
+  URL "http://paraview.org/files/dependencies/matplotlib-1.1.1_notests.tar.gz"
+  URL_MD5 30ee59119599331bf1f3b6e838fee9a8)
 
 add_revision(boost
   URL "http://www.paraview.org/files/dependencies/boost_1_50_0.tar.gz"
