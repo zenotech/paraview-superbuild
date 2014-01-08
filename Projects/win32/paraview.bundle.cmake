@@ -102,6 +102,12 @@ if (matplotlib_ENABLED)
           USE_SOURCE_PERMISSIONS
           COMPONENT ParaView)
 
+  # Add dateutil package dependency
+  install(DIRECTORY "${install_location}/lib/site-packages/dateutil"
+          DESTINATION "bin/Lib/site-packages"
+          USE_SOURCE_PERMISSIONS
+          COMPONENT ParaView)
+
   # Move the png and zlib dlls into the installed matplotlib package so that it
   # can find them at runtime.
   install(DIRECTORY "${SuperBuild_BINARY_DIR}/png/src/png-build/"
