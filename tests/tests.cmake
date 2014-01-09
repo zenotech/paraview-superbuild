@@ -89,6 +89,17 @@ if (PARAVIEW_DATA_ROOT)
   set_tests_properties(TestMatplotlib PROPERTIES LABELS "PARAVIEW")
 
   #----------------------------------------------------------------------------
+  add_test(NAME TestPythonView
+           COMMAND "${PV_NIGHTLY_PARAVIEW}"
+                   "-dr"
+                   "--disable-light-kit"
+                   "--test-directory=${SuperBuild_BINARY_DIR}/Testing/Temporary"
+                   "--test-script=${SuperBuild_BINARY_DIR}/paraview/src/paraview/Applications/ParaView/Testing/XML/TestPythonView.xml"
+                   "--test-baseline=${PARAVIEW_DATA_ROOT}/Baseline/TestPythonView.png"
+                   "--exit")
+  set_tests_properties(TestPythonView PROPERTIES LABELS "PARAVIEW")
+
+  #----------------------------------------------------------------------------
   add_test(NAME TestFindData
            COMMAND "${PV_NIGHTLY_PARAVIEW}"
                    "-dr"
