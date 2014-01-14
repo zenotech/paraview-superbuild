@@ -94,7 +94,7 @@ if (PARAVIEW_DATA_ROOT)
                    "-dr"
                    "--disable-light-kit"
                    "--test-directory=${SuperBuild_BINARY_DIR}/Testing/Temporary"
-                   "--test-script=${SuperBuild_BINARY_DIR}/paraview/src/paraview/Applications/ParaView/Testing/XML/TestPythonView.xml"
+                   "--test-script=${CMAKE_CURRENT_SOURCE_DIR}/TestPythonView.xml"
                    "--test-baseline=${PARAVIEW_DATA_ROOT}/Baseline/TestPythonView.png"
                    "--exit")
   set_tests_properties(TestPythonView PROPERTIES LABELS "PARAVIEW")
