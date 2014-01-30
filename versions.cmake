@@ -150,7 +150,7 @@ add_revision(qhull
 
 add_revision(genericio
     GIT_REPOSITORY git://kwsource.kitwarein.com/genericio/genericio.git
-    GIT_TAG master)
+    GIT_TAG v1.1)
 
 #------------------------------------------------------------------------------
 # Optional Plugins. Doesn't affect ParaView binaries at all even if missing
@@ -159,7 +159,7 @@ add_revision(genericio
 
 add_revision(cosmotools
     GIT_REPOSITORY git://public.kitware.com/cosmotools.git
-    GIT_TAG master)
+    GIT_TAG v0.13)
 
 add_revision(acusolve
   GIT_REPOSITORY git://kwsource.kitwarein.com/paraview/acusolvereaderplugin.git
