@@ -18,11 +18,22 @@ endmacro()
 #
 macro(do_cross_platform_settings)
   #copy toolchains
-  configure_file(
-    ${CMAKE_SOURCE_DIR}/CMake/crosscompile/${cross_target}/ToolChain.cmake
-    ${CMAKE_BINARY_DIR}/crosscompile/ToolChain.cmake
-    @ONLY
-  )
+  string(TOLOWER "${CROSS_BUILD_SITE}" lsite)
+
+  set (site-specific-defaults
+    ${CMAKE_SOURCE_DIR}/CMake/crosscompile/${cross_target}/ToolChain.${lsite}.cmake)
+  if (EXISTS "${site-specific-defaults}")
+    configure_file(
+      "${site-specific-defaults}"
+      ${CMAKE_BINARY_DIR}/crosscompile/ToolChain.cmake
+      @ONLY)
+  else()
+    configure_file(
+      ${CMAKE_SOURCE_DIR}/CMake/crosscompile/${cross_target}/ToolChain.cmake
+      ${CMAKE_BINARY_DIR}/crosscompile/ToolChain.cmake
+      @ONLY
+    )
+  endif()
   set(PYTHON_TOOLCHAIN_FILE
     "${CMAKE_BINARY_DIR}/crosscompile/ToolChain.cmake")
   set(PARAVIEW_TOOLCHAIN_FILE
@@ -47,8 +58,6 @@ macro(do_cross_platform_settings)
     "${CMAKE_BINARY_DIR}/crosscompile/ParaViewTryRunResults.cmake")
 
   #configure additional platform specific options
-  string(TOLOWER "${CROSS_BUILD_SITE}" lsite)
-
   set (site-specific-defaults
     ${CMAKE_SOURCE_DIR}/CMake/crosscompile/${cross_target}/PythonDefaults.${lsite}.cmake)
   if (EXISTS "${site-specific-defaults}")
