@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="9.00"
 	Name="pdb_detect"
 	ProjectGUID="{17857422-AD82-4D37-A5AF-94C4556935D0}"
 	RootNamespace="pdb_detect"
 	Keyword="Win32Proj"
+	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform
@@ -26,9 +27,11 @@
 			InheritedPropertySheets="..\NO_SEC_DEP.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
+			BuildLogFile="$(IntDir)\$(ProjectName)_BuildLog.htm"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				CommandLine="cd ..\..\&#x0D;&#x0A;copysilo.bat&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -49,7 +52,7 @@
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="true"
+				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -68,6 +71,8 @@
 				SubSystem="1"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -89,12 +94,9 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
-				Description="Create pdbform.h"
-				CommandLine="&quot;$(OutDir)\pdb_detect.exe&quot; &gt; ..\..\..\src\pdb\pdform.h&#x0D;&#x0A;"
+				Description="Create pdbform.h, lite_pdb.h, lite_score.h"
+				CommandLine="$(OutDir)\pdb_detect.exe &gt; ..\..\..\src\pdb\pdform.h&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -105,9 +107,11 @@
 			InheritedPropertySheets="..\NO_SEC_DEP.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
+			BuildLogFile="$(IntDir)\$(ProjectName)_BuildLog.htm"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				CommandLine="cd ..\..\&#x0D;&#x0A;copysilo.bat&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -129,7 +133,7 @@
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="true"
+				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -148,6 +152,8 @@
 				SubSystem="1"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -169,11 +175,8 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
-				Description="Create pdbform.h"
+				Description="Create pdbform.h, lite_pdb.h, lite_score.h."
 				CommandLine="&quot;$(OutDir)\pdb_detect.exe&quot; &gt; ..\..\..\src\pdb\pdform.h&#x0D;&#x0A;"
 			/>
 		</Configuration>

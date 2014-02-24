@@ -4,9 +4,9 @@
 # SILO_SOURCE_DIR
 # SILO_INSTALL_DIR
 if (64BIT_BUILD)
-  set(silo_bin_dir SiloWindows/MSVC8/x64/DllwithHDF5_Release)
+  set(silo_bin_dir SiloWindows/MSVC9/x64/Release)
 else()
-  set(silo_bin_dir SiloWindows/MSVC8/Win32/DllwithHDF5_Release)
+  set(silo_bin_dir SiloWindows/MSVC9/Win32/Release)
 endif()
 
 

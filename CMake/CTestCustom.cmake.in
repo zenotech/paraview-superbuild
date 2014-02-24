@@ -15,8 +15,4 @@ set (CTEST_CUSTOM_ERROR_EXCEPTION
 
   # again from numpy, skip configtest errors.
   "_configtest"
-
-  # skip untar errors when unpacking silo.
-  "CMake Error.*archive_write_header"
-  "CMake Error.*silo-4.8-bsd/config-site"
 )
