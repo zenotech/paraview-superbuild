@@ -60,6 +60,7 @@ set (PARAVIEW_OPTIONS
   -DPARAVIEW_BUILD_PLUGIN_UncertaintyRendering:BOOL=OFF
   -DPARAVIEW_BUILD_PLUGIN_VaporPlugin:BOOL=OFF
   -DPARAVIEW_BUILD_PLUGIN_pvblot:BOOL=OFF
+  -DPARAVIEW_BUILD_PLUGIN_StreamingParticles:BOOL=OFF
 
   # Disable automatic enabling of VTK modules. We manually select VTK modules
   # that need to be enabled.
