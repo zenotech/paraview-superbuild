@@ -24,6 +24,24 @@ add_test(NAME TestUI
 set_tests_properties(TestUI PROPERTIES LABELS "PARAVIEW")
 
 #------------------------------------------------------------------------------
+# Simple test of a public, automatically deployed version of paraviewweb.  If
+# system python does not have selenium, test will still be added and run, but
+# will be allowed to pass only in the case of missing python modules.  In the
+# future we can set here a SKIP_RETURN_CODE to allow the test to return a
+# value which will indicate to CTest that some dependencies were not met.
+if(ENABLE_REMOTE_PVWEB_TEST)
+  find_package(PythonInterp 2.7)
+  if(PYTHON_EXECUTABLE)
+    add_test(NAME Test-pvweb-autodeploy
+             COMMAND "${PYTHON_EXECUTABLE}"
+                     "${CMAKE_CURRENT_SOURCE_DIR}/../Scripts/pvweb/auto_pvweb_test.py"
+                     "--remotehost=${REMOTE_PVWEB_HOST}"
+                     "--visualizerpath=www/apps/Visualizer")
+    set_tests_properties(Test-pvweb-autodeploy PROPERTIES LABELS "PARAVIEW")
+  endif()
+endif()
+
+#------------------------------------------------------------------------------
 # Simple test to test paraviewweb.
 add_test(NAME Test-pvweb
          COMMAND "${PV_NIGHTLY_PVPYTHON}"

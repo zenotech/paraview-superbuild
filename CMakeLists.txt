@@ -301,6 +301,16 @@ if (paraview_ENABLED)
 endif()
 
 option(NIGHTLY_BINARY_TESTING "Run Nightly-Binary ParaView Testing" OFF)
+
+# Create this cache option only if nightly binary testing is enabled,
+# but in that case, you will still have to explicitly turn it on.
+cmake_dependent_option(ENABLE_REMOTE_PVWEB_TEST
+  "Whether or not to include a test of a remote pvweb instance" OFF
+  "NIGHTLY_BINARY_TESTING" OFF)
+set(REMOTE_PVWEB_HOST "pvw-test.kitware.com"
+    CACHE STRING "Fully qualifed host name of remote host")
+mark_as_advanced(ENABLE_REMOTE_PVWEB_TEST REMOTE_PVWEB_HOST)
+
 if (NIGHTLY_BINARY_TESTING)
   add_subdirectory(tests)
 endif()
