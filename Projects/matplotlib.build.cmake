@@ -6,7 +6,7 @@
 #    ${pv_python_executable} setup.py install --prefix=${_install_location}
 
 # Find the location of numpy
-file(GLOB_RECURSE numpy-egg "${NUMPY_INSTALL_DIR}/lib/*.egg-info")
+file(GLOB_RECURSE numpy-egg "${NUMPY_INSTALL_DIR}/lib*/*.egg-info")
 # message("${NUMPY_INSTALL_DIR}/lib/*.egg-info \n ${numpy-egg} --- ")
 if (NOT numpy-egg)
   message(FATAL_ERROR "Failed to locate numpy-egg")
