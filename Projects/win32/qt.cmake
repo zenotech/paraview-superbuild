@@ -16,12 +16,12 @@ add_external_project_or_use_system(
                     -no-phonon
                     -no-script
                     -no-scripttools
+                    -no-webkit
                     -nomake demos
                     -nomake examples
                     -nomake tests
                     -qt-libjpeg
                     -qt-libtiff
-                    -webkit
                     -xmlpatterns
                     -I <INSTALL_DIR>/include
                     -L <INSTALL_DIR>/lib

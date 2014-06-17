@@ -7,6 +7,9 @@ if (NOT APPLE AND UNIX)
                -system-libpng
                -I <INSTALL_DIR>/include/freetype2
                -I <INSTALL_DIR>/include/fontconfig)
+ # This patch may now be unnecessary since we don't build webkit anymore.
+ # But I'll leave it in, until the 4.1 dashboards are back online so the
+ # change can tested.
   # Fix Qt build failure with GCC 4.1.
  set (patch_command PATCH_COMMAND
                     ${CMAKE_COMMAND} -E copy_if_different
@@ -25,14 +28,6 @@ elseif (APPLE)
 endif()
 set(qt_EXTRA_CONFIGURATION_OPTIONS ""
     CACHE STRING "Extra arguments to be passed to Qt when configuring.")
-option(qt_DISABLE_WEBKIT "Disable QtWebKit." OFF)
-mark_as_advanced(qt_DISABLE_WEBKIT)
-
-if (qt_DISABLE_WEBKIT)
-  list (APPEND qt_options -no-webkit)
-else()
-  list (APPEND qt_options -webkit)
-endif()
 
 add_external_project_or_use_system(
     qt
@@ -50,8 +45,9 @@ add_external_project_or_use_system(
                       -no-phonon
                       -no-xinerama
                       -no-scripttools
-                      -no-svg
                       -no-declarative-debug
+                      -no-svg
+                      -no-webkit
                       -no-xvideo
                       -opensource
                       -qt-libjpeg
@@ -76,7 +72,3 @@ if ((NOT 64bit_build) AND UNIX AND (NOT APPLE))
     DEPENDEES patch
     DEPENDERS configure)
 endif()
-
-# Tell ParaView to disable WebKit, if disabled.
-add_extra_cmake_args(
-  -DPQWIDGETS_DISABLE_QTWEBKIT:BOOL=${qt_DISABLE_WEBKIT})
