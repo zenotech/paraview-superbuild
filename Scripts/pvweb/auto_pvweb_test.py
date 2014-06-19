@@ -1,5 +1,5 @@
 
-import sys, time
+import sys, time, re
 
 dependencies_met = True
 
@@ -34,12 +34,12 @@ javascript_get_errors = "return window.pvwebTestErrors"
 def checkInstallHash(url):
     response = requests.get(url + 'hash.json')
     if response.status_code != 200:
-        raise Exception("Error, unable to retrieve the installation hash")
-
-    print "Installation hash info:"
-    hashObj = response.json()
-    for key in hashObj:
-        print "     " + key + " => " + hashObj[key]
+        print "Warning, unable to retrieve the installation hash from " + url
+    else:
+        print "Installation hash info:"
+        hashObj = response.json()
+        for key in hashObj:
+            print "     " + key + " => " + hashObj[key]
 
 
 # ============================================================================
@@ -57,7 +57,7 @@ def webVisualizerTest(window, pvweb_host, path):
 
     # Load the target web application
     window.get(url)
-    time.sleep(10)
+    time.sleep(15)
     print 'Loaded application'
 
     # Click on the "Open file" icon to start the process of loading a file
@@ -144,6 +144,25 @@ def runPvwebTest(pvweb_host, path):
 
 
 # ============================================================================
+# Split up the urls and break them up into their component pieces to run the
+# test on each.
+# ============================================================================
+def runOnAllHosts(urlListString):
+    regex = re.compile('http://([^/]+)(/.+)')
+    urlList = urlListString.split(';')
+    result = 0
+    for url in urlList:
+        m = regex.search(url)
+        if m:
+            print 'Testing against ' + url
+            result += runPvwebTest(m.group(1), m.group(2))
+        else:
+            print 'Unknown url format: ' + url
+            result += 1
+    return result
+
+
+# ============================================================================
 # Main script entry point
 # ============================================================================
 if __name__ == "__main__":
@@ -152,9 +171,8 @@ if __name__ == "__main__":
         print 'Some python module dependency was unmet, allow test pass'
         sys.exit(0)
 
-    p = argparse.ArgumentParser(description="Test remote ParaViewWeb instance")
-    p.add_argument("-r", "--remotehost", type=str, default="", help="URL for remote host")
-    p.add_argument("-p", "--visualizerpath", type=str, default="", help="Path to application")
+    p = argparse.ArgumentParser(description="Test remote ParaViewWeb instances")
+    p.add_argument("-t", "--testurls", type=str, default="", help="List of urls to test")
     args = p.parse_args()
 
-    sys.exit(runPvwebTest(args.remotehost, args.visualizerpath))
+    sys.exit(runOnAllHosts(args.testurls))

@@ -305,14 +305,14 @@ option(NIGHTLY_BINARY_TESTING "Run Nightly-Binary ParaView Testing" OFF)
 # Create this cache option only if nightly binary testing is enabled,
 # but in that case, you will still have to explicitly turn it on.
 cmake_dependent_option(ENABLE_REMOTE_PVWEB_TEST
-  "Whether or not to include a test of a remote pvweb instance" OFF
+  "Whether or not to include a test of remote pvweb instances" OFF
   "NIGHTLY_BINARY_TESTING" OFF)
-set(REMOTE_PVWEB_HOST "pvw-test.kitware.com"
-    CACHE STRING "Fully qualifed host name of remote host")
-set(REMOTE_PVWEB_APP_PATH "apps/Visualizer"
-    CACHE STRING "Path to the Web Visualizer on remote installation")
-mark_as_advanced(ENABLE_REMOTE_PVWEB_TEST REMOTE_PVWEB_HOST REMOTE_PVWEB_APP_PATH)
-
+set(REMOTE_PVWEB_VISUALIZER_URLS
+  http://pvw-test.kitware.com/apps/Visualizer
+  http://pvw.kitware.com/apps/Visualizer
+  http://paraviewweb.kitware.com/apps/Visualizer
+  CACHE STRING "A list of urls against which to run a simple Web Visualizer test.")
+mark_as_advanced(ENABLE_REMOTE_PVWEB_TEST REMOTE_PVWEB_VISUALIZER_URLS)
 if (NIGHTLY_BINARY_TESTING)
   add_subdirectory(tests)
 endif()

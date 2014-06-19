@@ -35,8 +35,7 @@ if(ENABLE_REMOTE_PVWEB_TEST)
     add_test(NAME Test-pvweb-autodeploy
              COMMAND "${PYTHON_EXECUTABLE}"
                      "${CMAKE_CURRENT_SOURCE_DIR}/../Scripts/pvweb/auto_pvweb_test.py"
-                     "--remotehost=${REMOTE_PVWEB_HOST}"
-                     "--visualizerpath=${REMOTE_PVWEB_APP_PATH}")
+                     "--testurls=${REMOTE_PVWEB_VISUALIZER_URLS}")
     set_tests_properties(Test-pvweb-autodeploy PROPERTIES LABELS "PARAVIEW")
   endif()
 endif()
