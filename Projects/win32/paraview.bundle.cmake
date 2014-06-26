@@ -170,10 +170,11 @@ include(InstallRequiredSystemLibraries)
 #-----------------------------------------------------------------------------
 # install ParaViewWeb www directory
 if(python_ENABLED)
-  install(DIRECTORY "${install_location}/share/paraview-${pv_version}/www"
-          DESTINATION "share/paraview-${pv_version}"
-          USE_SOURCE_PERMISSIONS
-          COMPONENT ParaView)
+# FIXME: Web is currently disabled on Windows builds of ParaView.
+# install(DIRECTORY "${install_location}/share/paraview-${pv_version}/www"
+#         DESTINATION "share/paraview-${pv_version}"
+#         USE_SOURCE_PERMISSIONS
+#         COMPONENT ParaView)
 endif()
 
 #-----------------------------------------------------------------------------
