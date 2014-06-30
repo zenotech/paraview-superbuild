@@ -109,4 +109,4 @@ set_tests_properties(GenerateParaViewPackage PROPERTIES
                      # needed so that tests are run on typical paraview
                      # dashboards
                      LABELS "PARAVIEW"
-                     TIMEOUT 1200) # increase timeout to 20 mins.
+                     TIMEOUT 3600) # increase timeout to 60 mins.
