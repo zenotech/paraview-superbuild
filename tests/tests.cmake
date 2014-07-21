@@ -17,7 +17,6 @@ find_path(PARAVIEW_DATA_ROOT ParaViewData.readme
 add_test(NAME TestUI
          COMMAND "${PV_NIGHTLY_PARAVIEW}"
                  "-dr"
-                 "--disable-light-kit"
                  "--test-directory=${SuperBuild_BINARY_DIR}/Testing/Temporary"
                  "--test-script=${CMAKE_CURRENT_SOURCE_DIR}/TestUI.xml"
                  "--exit")
@@ -65,7 +64,6 @@ if (PARAVIEW_DATA_ROOT)
   add_test(NAME TestData-csg.silo
            COMMAND "${PV_NIGHTLY_PARAVIEW}"
                    "-dr"
-                   "--disable-light-kit"
                    "--data=${PARAVIEW_DATA_ROOT}/Data/VisItBridge/csg.silo"
                    "--test-directory=${SuperBuild_BINARY_DIR}/Testing/Temporary"
                    "--test-script=${CMAKE_CURRENT_SOURCE_DIR}/TestData-cs_silo.xml"
@@ -76,7 +74,6 @@ if (PARAVIEW_DATA_ROOT)
   add_test(NAME TestData-5blocks.cgns
            COMMAND "${PV_NIGHTLY_PARAVIEW}"
                    "-dr"
-                   "--disable-light-kit"
                    "--data=${PARAVIEW_DATA_ROOT}/Data/VisItBridge/5blocks.cgns"
                    "--test-directory=${SuperBuild_BINARY_DIR}/Testing/Temporary"
                    "--test-script=${CMAKE_CURRENT_SOURCE_DIR}/TestData-5blocks_cgns.xml"
@@ -87,7 +84,6 @@ if (PARAVIEW_DATA_ROOT)
   add_test(NAME TestData-Scenario1_p1.xmf
            COMMAND "${PV_NIGHTLY_PARAVIEW}"
                    "-dr"
-                   "--disable-light-kit"
                    "--data=${PARAVIEW_DATA_ROOT}/Data/Scenario1_p1.xmf"
                    "--test-directory=${SuperBuild_BINARY_DIR}/Testing/Temporary"
                    "--test-script=${CMAKE_CURRENT_SOURCE_DIR}/TestData.xml"
@@ -98,7 +94,6 @@ if (PARAVIEW_DATA_ROOT)
   add_test(NAME TestMatplotlib
            COMMAND "${PV_NIGHTLY_PARAVIEW}"
                    "-dr"
-                   "--disable-light-kit"
                    "--test-directory=${SuperBuild_BINARY_DIR}/Testing/Temporary"
                    "--test-script=${CMAKE_CURRENT_SOURCE_DIR}/TestMatplotlib.xml"
                    "--test-baseline=${PARAVIEW_DATA_ROOT}/Baseline/Superbuild-TestMatplotlib.png"
@@ -109,7 +104,6 @@ if (PARAVIEW_DATA_ROOT)
   add_test(NAME TestPythonView
            COMMAND "${PV_NIGHTLY_PARAVIEW}"
                    "-dr"
-                   "--disable-light-kit"
                    "--test-directory=${SuperBuild_BINARY_DIR}/Testing/Temporary"
                    "--test-script=${CMAKE_CURRENT_SOURCE_DIR}/TestPythonView.xml"
                    "--test-baseline=${PARAVIEW_DATA_ROOT}/Baseline/TestPythonView.png"
@@ -120,7 +114,6 @@ if (PARAVIEW_DATA_ROOT)
   add_test(NAME TestFindData
            COMMAND "${PV_NIGHTLY_PARAVIEW}"
                    "-dr"
-                   "--disable-light-kit"
                    "--test-directory=${SuperBuild_BINARY_DIR}/Testing/Temporary"
                    "--test-script=${CMAKE_CURRENT_SOURCE_DIR}/TestFindData.xml"
                    "--test-baseline=${PARAVIEW_DATA_ROOT}/Baseline/Superbuild-TestFindData.png"
