@@ -17,7 +17,7 @@ endif()
 # right tool. Since devenv is in the path in the nmake build environment as well
 # as VS environment, we can safely call it.
 add_external_project_or_use_system(python
-  DEPENDS zlib
+  DEPENDS bzip2 zlib
   BUILD_IN_SOURCE 1
   CONFIGURE_COMMAND ""
   BUILD_COMMAND ${DEVENV_PATH} PCbuild/pcbuild.sln /build ${configuration}
