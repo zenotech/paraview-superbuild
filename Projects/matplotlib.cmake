@@ -17,7 +17,7 @@ if(${CMAKE_GENERATOR} STREQUAL "Ninja")
   set(SAFE_CMAKE_COMMAND "${CMAKE_COMMAND}")
 endif()
 
-add_external_project(matplotlib
+add_external_project_or_use_system(matplotlib
   DEPENDS python numpy png freetype
   CONFIGURE_COMMAND
     "${SAFE_CMAKE_COMMAND}"

@@ -47,6 +47,7 @@ add_external_project(paraview
     -DVTK_USE_SYSTEM_HDF5:BOOL=${hdf5_ENABLED}
     -DPARAVIEW_INSTALL_DEVELOPMENT_FILES:BOOL=${PARAVIEW_INSTALL_DEVELOPMENT_FILES}
     -DPARAVIEW_BUILD_PLUGIN_Nektar:BOOL=${nektarreader_ENABLED}
+    -DPARAVIEW_ENABLE_MATPLOTLIB:BOOL=${matplotlib_ENABLED}
     # since VTK mangles all the following, I wonder if there's any point in
     # making it use system versions.
 #    -DVTK_USE_SYSTEM_FREETYPE:BOOL=${ENABLE_FREETYPE}
