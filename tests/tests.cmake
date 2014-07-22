@@ -41,11 +41,13 @@ endif()
 
 #------------------------------------------------------------------------------
 # Simple test to test paraviewweb.
-add_test(NAME Test-pvweb
-         COMMAND "${PV_NIGHTLY_PVPYTHON}"
-                 "${CMAKE_CURRENT_SOURCE_DIR}/basic_paraviewweb.py")
-set_tests_properties(Test-pvweb PROPERTIES LABELS "PARAVIEW")
-
+if (NOT WIN32)
+  # we don't package ParaViewWeb on Windows anymore.
+  add_test(NAME Test-pvweb
+           COMMAND "${PV_NIGHTLY_PVPYTHON}"
+                   "${CMAKE_CURRENT_SOURCE_DIR}/basic_paraviewweb.py")
+  set_tests_properties(Test-pvweb PROPERTIES LABELS "PARAVIEW")
+endif()
 #------------------------------------------------------------------------------
 # Simple test to test pvpython/pvbatch.
 add_test(NAME Test-pvpython
@@ -53,10 +55,13 @@ add_test(NAME Test-pvpython
                  "${CMAKE_CURRENT_SOURCE_DIR}/basic_python.py")
 set_tests_properties(Test-pvpython PROPERTIES LABELS "PARAVIEW")
 
-add_test(NAME Test-pvbatch
-         COMMAND "${PV_NIGHTLY_PVBATCH}"
-                 "${CMAKE_CURRENT_SOURCE_DIR}/basic_python.py")
-set_tests_properties(Test-pvbatch PROPERTIES LABELS "PARAVIEW")
+if (NOT WIN32)
+  # Windows MPI has issues with pvbatch.
+  add_test(NAME Test-pvbatch
+           COMMAND "${PV_NIGHTLY_PVBATCH}"
+                   "${CMAKE_CURRENT_SOURCE_DIR}/basic_python.py")
+  set_tests_properties(Test-pvbatch PROPERTIES LABELS "PARAVIEW")
+endif()
 
 if (PARAVIEW_DATA_ROOT)
   # Test to load various data files to ensure reader support.
