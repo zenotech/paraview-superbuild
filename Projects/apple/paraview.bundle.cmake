@@ -27,6 +27,15 @@ install(CODE "
    "
    COMPONENT superbuild)
 
+install(CODE "
+              # install six.py
+              file(GLOB six-files \"\${CMAKE_INSTALL_PREFIX}/paraview.app/Contents/Python/site-packages/six.py*\")
+              file(INSTALL DESTINATION \"\${PV_PYTHON_LIB_INSTALL_PREFIX}\"
+                   USE_SOURCE_PERMISSIONS FILES
+                   \${six-files})
+             "
+        COMPONENT superbuild)
+
 if (numpy_ENABLED)
   # install numpy module into the application bundle.
   install(CODE "
