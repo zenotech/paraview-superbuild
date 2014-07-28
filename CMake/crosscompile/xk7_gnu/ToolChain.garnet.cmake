@@ -2,8 +2,8 @@
 SET(CMAKE_SYSTEM_NAME Catamount)
 
 # set the compiler
-set(CMAKE_C_COMPILER /opt/cray/xt-asyncpe/5.21/bin/cc)
-set(CMAKE_CXX_COMPILER /opt/cray/xt-asyncpe/5.21/bin/CC)
+set(CMAKE_C_COMPILER /opt/cray/xt-asyncpe/5.24/bin/cc)
+set(CMAKE_CXX_COMPILER /opt/cray/xt-asyncpe/5.24/bin/CC)
 
 ## set the search path for the environment coming with the compiler
 ## and a directory where you can install your own compiled software
