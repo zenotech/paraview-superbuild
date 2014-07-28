@@ -1,0 +1,1 @@
+add_external_dummy_project(bzip2)

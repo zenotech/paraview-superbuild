@@ -1,0 +1,60 @@
+cmake_minimum_required(VERSION 2.8.8)
+
+project(bzip2 C)
+
+if (CMAKE_C_COMPILER_ID MATCHES "GNU")
+    set(CMAKE_CXX_FLAGS
+        "${CMAKE_CXX_FLAGS} -Wall -Winline -O2 -g")
+endif ()
+
+set(bz2_srcs
+    blocksort.c
+    huffman.c
+    crctable.c
+    randtable.c
+    compress.c
+    decompress.c
+    bzlib.c)
+
+add_library(bz2
+    ${bz2_srcs})
+add_executable(bzip2
+    bzip2.c)
+target_link_libraries(bzip2
+    bz2)
+add_executable(bzip2recover
+    bzip2recover.c)
+target_link_libraries(bzip2recover
+    bz2)
+
+install(
+    TARGETS     bzip2 bzip2recover bz2
+    ARCHIVE
+        DESTINATION "lib"
+    LIBRARY
+        DESTINATION "lib"
+    RUNTIME
+        DESTINATION "bin"
+    COMPONENT   runtime)
+# TODO: Generator expressions aren't expanded in install()?
+#if (UNIX)
+#    foreach (binname bunzip2 bzcat)
+#        install(
+#            FILES       "$<TARGET_FILE:bzip2>"
+#            DESTINATION "bin"
+#            RENAME      "${binname}"
+#            COMPONENT   runtime)
+#    endforeach ()
+#endif ()
+foreach (scriptname bzdiff bzmore bzgrep)
+    install(
+        PROGRAMS    "${CMAKE_CURRENT_SOURCE_DIR}/${scriptname}"
+        DESTINATION "bin"
+        COMPONENT   runtime)
+endforeach ()
+foreach (header bzlib.h)
+    install(
+        FILES       "${CMAKE_CURRENT_SOURCE_DIR}/${header}"
+        DESTINATION "include"
+        COMPONENT   development)
+endforeach ()
