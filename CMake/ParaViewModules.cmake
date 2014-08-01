@@ -1,8 +1,6 @@
 include(PVExternalProject)
 include(CMakeParseArguments)
 
-set (ep_list_separator "-+-")
-
 #------------------------------------------------------------------------------
 # Macro to be used to register versions for any module. This makes it easier to
 # consolidate versions for all modules in a single file, if needed.
