@@ -61,8 +61,8 @@ def webVisualizerTest(window, pvweb_host, path):
     print 'Loaded application'
 
     # Click on the "Open file" icon to start the process of loading a file
-    filesDiv = window.find_element_by_css_selector(".action.files")
-    filesDiv.click()
+    filesSpan = window.find_element_by_css_selector(".inspector-selector[data-type=files]")
+    filesSpan.click()
     time.sleep(3)
     print 'Clicked link to open file'
 
@@ -70,39 +70,58 @@ def webVisualizerTest(window, pvweb_host, path):
     # expectation here that the paraview data dir with which we started the
     # server points to the "Data" folder in the standard ParaViewData git
     # repo.
-    canLi = window.execute_script("return $('.vtk-files.action:contains(can.ex2)')[0]")
+    canLi = window.find_element_by_css_selector('li.clickable[data-file="can.ex2"]')
     canLi.click()
     time.sleep(3)
     print 'Clicked link to open the can dataset'
 
-    # Now choose how to color the object
-    colorByLink = window.find_element_by_css_selector(".colorBy.color")
-    colorByLink.click()
-    time.sleep(1)
+    # Find the representation properties
+    reprPanel = window.execute_script("return $('span.vtk-icon-plus-circled:contains(Representation)')[0]")
+    try:
+        reprPanel.click()
+    except:
+        try:
+            reprPanel.click()
+        except:
+            print 'Unable to click on the representation panel'
+            return 1
+    time.sleep(3)
+    print 'Clicked to open the representation panel'
 
-    colorByDispLi = window.find_element_by_css_selector(".points[name=DISPL]")
-    colorByDispLi.click()
-    time.sleep(1)
-    print 'Clicked link to color by DISPL'
+    # Click on the select option corresponding to DISPL
+    selectElt = window.find_element_by_css_selector('select.form-control.array')
+    selectElt.click()
+    time.sleep(3)
+    print 'Clicked on the ColorBy select widget'
+
+    displOpt = window.find_element_by_css_selector('option[value="ARRAY:POINTS:DISPL"]')
+    displOpt.click()
+    time.sleep(3)
+    print 'Clicked on the DISPL array'
+
+    # Click the refresh button
+    refreshButton = window.find_element_by_css_selector('span.clickable[data-action=apply-property-values]')
+    refreshButton.click()
+    time.sleep(3)
+    print 'Clicked the apply button'
+
+    # Toggle time toolbar
+    toggleTime = window.find_element_by_css_selector('.toggle-time-toolbar.clickable')
+    toggleTime.click()
+    time.sleep(3)
+    print 'Displayed the time toolbar'
 
     # Jump to the final time step
-    endTimeLi = window.find_element_by_css_selector(".action[action=last]")
+    endTimeLi = window.find_element_by_css_selector('span.vcr-action[data-action=last]')
     endTimeLi.click()
     time.sleep(1)
     print 'Clicked button to jump to last timestep'
 
     # Rescale now that we're at the final time step
-    rescaleIcon = window.find_element_by_css_selector(".rescale-data")
+    rescaleIcon = window.find_element_by_css_selector('span.clickable[data-action=rescale-data]')
     rescaleIcon.click()
     time.sleep(1)
     print 'Clicked rescale button'
-
-    # Now click the resetCamera icon so that we change the center of
-    # rotation
-    resetCameraIcon = window.find_element_by_css_selector("[action=resetCamera]");
-    resetCameraIcon.click()
-    time.sleep(1)
-    print 'Clicked reset camera button'
 
     # Now retrieve any errors we collected during the test
     errors = window.execute_script(javascript_get_errors)

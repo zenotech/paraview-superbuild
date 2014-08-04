@@ -9,16 +9,17 @@ version = { "release" : { "url": "http://paraview.org/files/v4.1/",
                                            "linux32": "ParaView-4.1.0-Linux-32bit-glibc-2.3.6.tar.gz",
                                            "linux64": "ParaView-4.1.0-Linux-64bit-glibc-2.3.6.tar.gz",
                                            "win32"  : "ParaView-4.1.0-Windows-32bit.zip",
-                                           "win64"  : "ParaView-4.1.0-Windows-64bit.zip" } },
+                                           "win64"  : "ParaView-4.1.0-Windows-64bit.zip" },
+                          "documentation": "http://paraview.org/files/v4.1/ParaView-API-docs-v4.1.zip"},
             "nightly" : { "url": "http://paraview.org/files/nightly/",
                           "application": { "osx"    : "ParaView-Darwin-64bit-Lion-Python27-NIGHTLY.dmg",
                                            "linux32": "ParaView-Linux-32bit-glibc-2.3.6-NIGHTLY.tar.gz",
                                            "linux64": "ParaView-Linux-64bit-glibc-2.3.6-NIGHTLY.tar.gz",
                                            "win32"  : "ParaView-Windows-32bit-NIGHTLY.zip",
-                                           "win64"  : "ParaView-Windows-64bit-NIGHTLY.zip" } } }
+                                           "win64"  : "ParaView-Windows-64bit-NIGHTLY.zip" },
+                          "documentation": "http://www.paraview.org/files/nightly/ParaView-doc.tar.gz" } }
 
 data = "http://paraview.org/files/v4.1/ParaViewData-v4.1.0.zip"
-documentation = "http://paraview.org/files/v4.1/ParaView-API-docs-v4.1.zip"
 
 
 # ===================================================================
@@ -141,6 +142,7 @@ def mainProgram():
     v = version[args.installversion]
     url = v['url']
     application = v['application']
+    documentation = v['documentation']
 
     pvdataname = data[data.rfind('/')+1:]
     pvdocname = documentation[documentation.rfind('/')+1:]
@@ -239,7 +241,21 @@ def mainProgram():
     # /www
     if documentation != '' and not os.path.exists(os.path.join(install_path, 'www')):
         print " => Unpack Web"
-        unzip(documentation_file, install_path)
+        if documentation_file.endswith(".zip"):
+            unzip(documentation_file, install_path)
+        else:
+            # FIXME: instead of unzipping, we need to uncompress/untar the
+            # doc file because for some reason it exists as a tar zip.  Then
+            # the rest of this code relies on how unzip works, so we need to
+            # keep that working.
+            os.system("cd %s;tar xvzf %s" % (install_path, documentation_file))
+            matcher = re.compile('(.+)\.(tar\.gz|tgz)')
+            m = matcher.search(pvdocname)
+            newdirname = pvdocname
+            if m:
+                newdirname = m.group(1)
+                pvdocname = newdirname + 'xxxx'
+            os.system("cd %s; mv www %s" % (install_path, newdirname))
         src = os.path.join(install_path, pvdocname[:-4], 'js-doc')
         dst = os.path.join(install_path, 'www')
         os.rename(src, dst)
@@ -310,15 +326,19 @@ def mainProgram():
             },
             "apps": {
                 "pipeline": {
-                    "cmd": ["${python_exec}", "${python_path}/paraview/web/pv_web_visualizer.py", "--port", "${port}", "--data-dir", "${data}" ],
+                    "cmd": ["${python_exec}", "${python_path}/paraview/web/pv_web_visualizer.py", "--port", "${port}", "--data-dir", "${data}", "-f" ],
+                    "ready_line" : "Starting factory"
+                },
+                "visualizer": {
+                    "cmd": ["${python_exec}", "${python_path}/paraview/web/pv_web_visualizer.py", "--port", "${port}", "--data-dir", "${data}", "-f", "--any-readers" ],
                     "ready_line" : "Starting factory"
                 },
                 "loader": {
-                    "cmd": ["${python_exec}", "${python_path}/paraview/web/pv_web_file_loader.py", "--port", "${port}", "--data-dir", "${data}"],
+                    "cmd": ["${python_exec}", "${python_path}/paraview/web/pv_web_file_loader.py", "--port", "${port}", "--data-dir", "${data}", "-f" ],
                     "ready_line" : "Starting factory"
                     },
                 "data_prober": {
-                    "cmd": ["${python_exec}", "${python_path}/paraview/web/pv_web_data_prober.py", "--port", "${port}", "--data-dir", "${data}"],
+                    "cmd": ["${python_exec}", "${python_path}/paraview/web/pv_web_data_prober.py", "--port", "${port}", "--data-dir", "${data}", "-f" ],
                     "ready_line" : "Starting factory"
                     }
             }
