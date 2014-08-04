@@ -7,24 +7,21 @@ if (NOT APPLE AND UNIX)
                -system-libpng
                -I <INSTALL_DIR>/include/freetype2
                -I <INSTALL_DIR>/include/fontconfig)
- # This patch may now be unnecessary since we don't build webkit anymore.
- # But I'll leave it in, until the 4.1 dashboards are back online so the
- # change can tested.
   # Fix Qt build failure with GCC 4.1.
  set (patch_command PATCH_COMMAND
                     ${CMAKE_COMMAND} -E copy_if_different
                     ${SuperBuild_PROJECTS_DIR}/patches/qt.src.3rdparty.webkit.Source.WebKit.pri
                     <SOURCE_DIR>/src/3rdparty/webkit/Source/WebKit.pri)
 elseif (APPLE)
+  #set the platform to be clang if on apple and not gcc
+  if(NOT CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    list (APPEND qt_options -platform unsupported/macx-clang)
+  endif()
+
   list (APPEND qt_options
               -sdk ${CMAKE_OSX_SYSROOT}
               -arch ${CMAKE_OSX_ARCHITECTURES}
               -qt-libpng)
-  # Need to patch Qt code to build with Xcode 4.3 or newer (where SDK
-  # location chnages using the following command:
-  #find . -name "*.pro" -exec sed -i -e "s:/Developer/SDKs/:.*:g" {} \;
-  set (patch_command
-       PATCH_COMMAND /usr/bin/find . -name "*.pro" -exec sed -i -e "s:/Developer/SDKs/:.*:g" {} +)
 endif()
 set(qt_EXTRA_CONFIGURATION_OPTIONS ""
     CACHE STRING "Extra arguments to be passed to Qt when configuring.")
@@ -32,33 +29,33 @@ set(qt_EXTRA_CONFIGURATION_OPTIONS ""
 add_external_project_or_use_system(
     qt
     DEPENDS zlib ${qt_depends}
-    CONFIGURE_COMMAND <SOURCE_DIR>/configure
-                      -prefix <INSTALL_DIR>
-                      -confirm-license
-                      -release
-                      -no-audio-backend
-                      -no-dbus
-                      -nomake demos
-                      -nomake examples
-                      -no-multimedia
-                      -no-openssl
-                      -no-phonon
-                      -no-xinerama
-                      -no-scripttools
-                      -no-declarative-debug
-                      -no-svg
-                      -no-webkit
-                      -no-xvideo
-                      -opensource
-                      -qt-libjpeg
-                      -qt-libtiff
-                      -system-zlib
-                      -xmlpatterns
-                      -I <INSTALL_DIR>/include
-                      -L <INSTALL_DIR>/lib
-                      ${qt_options}
-                      ${qt_EXTRA_CONFIGURATION_OPTIONS}
     ${patch_command}
+    CONFIGURE_COMMAND <SOURCE_DIR>/configure
+      -prefix <INSTALL_DIR>
+      -confirm-license
+      -release
+      -no-audio-backend
+      -no-dbus
+      -no-declarative-debug
+      -nomake demos
+      -nomake examples
+      -no-multimedia
+      -no-openssl
+      -no-phonon
+      -no-scripttools
+      -no-svg
+      -no-webkit
+      -no-xinerama
+      -no-xvideo
+      -opensource
+      -qt-libjpeg
+      -qt-libtiff
+      -system-zlib
+      -xmlpatterns
+      -I <INSTALL_DIR>/include
+      -L <INSTALL_DIR>/lib
+      ${qt_options}
+      ${qt_EXTRA_CONFIGURATION_OPTIONS}
 )
 
 if ((NOT 64bit_build) AND UNIX AND (NOT APPLE))
@@ -68,7 +65,17 @@ if ((NOT 64bit_build) AND UNIX AND (NOT APPLE))
   add_external_project_step(qt-patch-configure
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
                               ${SuperBuild_PROJECTS_DIR}/patches/qt.configure
-			      <SOURCE_DIR>/configure
+            <SOURCE_DIR>/configure
     DEPENDEES patch
     DEPENDERS configure)
+endif()
+
+if (APPLE)
+  # corewlan .pro file needs to be patched to find
+  add_external_project_step(qt-patch-corewlan
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                              ${SuperBuild_PROJECTS_DIR}/patches/qt.src.plugins.bearer.corewlan.corewlan.pro
+            <SOURCE_DIR>/src/plugins/bearer/corewlan/corewlan.pro
+    DEPENDEES configure
+    DEPENDERS build)
 endif()
