@@ -94,6 +94,19 @@ if (mpi_ENABLED AND NOT USE_SYSTEM_mpi)
   endforeach()
 endif()
 
+install(DIRECTORY "@install_location@/share/appdata"
+  DESTINATION "share/icons"
+  USE_SOURCE_PERMISSIONS
+  COMPONENT superbuild)
+install(DIRECTORY "@install_location@/share/applications"
+  DESTINATION "share/icons"
+  USE_SOURCE_PERMISSIONS
+  COMPONENT superbuild)
+install(DIRECTORY "@install_location@/share/icons"
+  DESTINATION "share/icons"
+  USE_SOURCE_PERMISSIONS
+  COMPONENT superbuild)
+
 # Add ParaViewWeb www directory if available
 if(python_ENABLED)
   install(DIRECTORY "@install_location@/share/paraview-${pv_version}/www"
