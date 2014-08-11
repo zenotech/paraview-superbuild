@@ -7,19 +7,19 @@ include(paraview.bundle.common)
 include(CPack)
 
 # install all ParaView's shared libraries.
-install(DIRECTORY "@install_location@/lib/paraview-${pv_version}"
+install(DIRECTORY "${install_location}/lib/paraview-${pv_version}"
   DESTINATION "lib"
   USE_SOURCE_PERMISSIONS
   COMPONENT superbuild)
 
 # install python
 if (python_ENABLED AND NOT USE_SYSTEM_python)
-  install(DIRECTORY "@install_location@/lib/python2.7"
+  install(DIRECTORY "${install_location}/lib/python2.7"
     DESTINATION "lib/paraview-${pv_version}/lib"
     USE_SOURCE_PERMISSIONS
     COMPONENT superbuild)
   # install pyconfig.h
-  install (DIRECTORY "@install_location@/include/python2.7"
+  install (DIRECTORY "${install_location}/include/python2.7"
     DESTINATION "lib/paraview-${pv_version}/include"
     USE_SOURCE_PERMISSIONS
     COMPONENT superbuild
@@ -54,7 +54,7 @@ if (qt_ENABLED AND NOT USE_SYSTEM_qt)
     # install all qt plugins (including sqllite).
     # FIXME: we can reconfigure Qt to be built with inbuilt sqllite support to
     # avoid the need for plugins.
-    "@install_location@/plugins/"
+    "${install_location}/plugins/"
     DESTINATION "lib/paraview-${pv_version}"
     COMPONENT superbuild
     PATTERN "*.a" EXCLUDE
@@ -77,39 +77,39 @@ if (qt_ENABLED)
 endif()
 
 foreach(executable ${executables})
-  install(PROGRAMS "@install_location@/bin/${executable}"
+  install(PROGRAMS "${install_location}/bin/${executable}"
     DESTINATION "bin"
     COMPONENT superbuild)
 endforeach()
 
 if (mpi_ENABLED AND NOT USE_SYSTEM_mpi)
-  install(PROGRAMS "@install_location@/bin/mpiexec.hydra"
+  install(PROGRAMS "${install_location}/bin/mpiexec.hydra"
     DESTINATION "lib/paraview-${pv_version}"
     COMPONENT superbuild
     RENAME "mpiexec")
   foreach (hydra_exe hydra_nameserver hydra_persist hydra_pmi_proxy)
-    install(PROGRAMS "@install_location@/bin/${hydra_exe}"
+    install(PROGRAMS "${install_location}/bin/${hydra_exe}"
       DESTINATION "lib/paraview-${pv_version}"
       COMPONENT superbuild)
   endforeach()
 endif()
 
-install(DIRECTORY "@install_location@/share/appdata"
+install(DIRECTORY "${install_location}/share/appdata"
   DESTINATION "share/icons"
   USE_SOURCE_PERMISSIONS
   COMPONENT superbuild)
-install(DIRECTORY "@install_location@/share/applications"
+install(DIRECTORY "${install_location}/share/applications"
   DESTINATION "share/icons"
   USE_SOURCE_PERMISSIONS
   COMPONENT superbuild)
-install(DIRECTORY "@install_location@/share/icons"
+install(DIRECTORY "${install_location}/share/icons"
   DESTINATION "share/icons"
   USE_SOURCE_PERMISSIONS
   COMPONENT superbuild)
 
 # Add ParaViewWeb www directory if available
 if(python_ENABLED)
-  install(DIRECTORY "@install_location@/share/paraview-${pv_version}/www"
+  install(DIRECTORY "${install_location}/share/paraview-${pv_version}/www"
     DESTINATION "share/paraview-${pv_version}"
     USE_SOURCE_PERMISSIONS
     COMPONENT superbuild)
