@@ -16,6 +16,7 @@ if (APPLE)
   # We are having issues building mpi4py with Python 2.6 on Mac OSX. Hence,
   # disable it for now.
   list (APPEND extra_cmake_args
+        -DModule_vtkParallelMPI4Py:BOOL=OFF
         -DVTK_USE_SYSTEM_MPI4PY:BOOL=ON)
 endif()
 
