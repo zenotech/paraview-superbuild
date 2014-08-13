@@ -12,14 +12,6 @@ if(PV_NIGHTLY_SUFFIX)
     -DPV_NIGHTLY_SUFFIX:STRING=${PV_NIGHTLY_SUFFIX})
 endif()
 
-if (APPLE)
-  # We are having issues building mpi4py with Python 2.6 on Mac OSX. Hence,
-  # disable it for now.
-  list (APPEND extra_cmake_args
-        -DModule_vtkParallelMPI4Py:BOOL=OFF
-        -DVTK_USE_SYSTEM_MPI4PY:BOOL=ON)
-endif()
-
 set (PARAVIEW_INSTALL_DEVELOPMENT_FILES FALSE)
 if (paraviewsdk_ENABLED)
   set (PARAVIEW_INSTALL_DEVELOPMENT_FILES TRUE)
