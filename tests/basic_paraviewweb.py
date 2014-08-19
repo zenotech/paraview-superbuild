@@ -2,8 +2,8 @@ from paraview.web import wamp, protocols, pv_web_visualizer
 from vtk.web import server
 
 # Configure our current application
-pv_web_visualizer._PipelineManager.authKey = 'paraviewweb-secret'
-pv_web_visualizer._PipelineManager.dataDir = '.'
+pv_web_visualizer._VisualizerServer.authKey = 'paraviewweb-secret'
+pv_web_visualizer._VisualizerServer.dataDir = '.'
 
 # Setup static args
 class TestArgs:
@@ -26,6 +26,8 @@ args.dsHost = None
 args.dsPort = 11111
 args.rsHost = None
 args.rsPort = 11111
+args.plugins = ""
+args.proxies = None
 
 # Start server
-server.start_webserver(options=args, protocol=pv_web_visualizer._PipelineManager)
+server.start_webserver(options=args, protocol=pv_web_visualizer._VisualizerServer)
