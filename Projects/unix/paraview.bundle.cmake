@@ -95,15 +95,15 @@ if (mpi_ENABLED AND NOT USE_SYSTEM_mpi)
 endif()
 
 install(DIRECTORY "${install_location}/share/appdata"
-  DESTINATION "share/icons"
+  DESTINATION "share"
   USE_SOURCE_PERMISSIONS
   COMPONENT superbuild)
 install(DIRECTORY "${install_location}/share/applications"
-  DESTINATION "share/icons"
+  DESTINATION "share"
   USE_SOURCE_PERMISSIONS
   COMPONENT superbuild)
 install(DIRECTORY "${install_location}/share/icons"
-  DESTINATION "share/icons"
+  DESTINATION "share"
   USE_SOURCE_PERMISSIONS
   COMPONENT superbuild)
 
