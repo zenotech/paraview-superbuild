@@ -16,3 +16,8 @@ set (CTEST_CUSTOM_ERROR_EXCEPTION
   # again from numpy, skip configtest errors.
   "_configtest"
 )
+
+# We disable all compiler warnings on superbuild. They are too numerous and pretty much useless
+# when they show up on the dashboard. If you want to track them do, just run the build
+# manually.
+set (CTEST_CUSTOM_MAXIMUM_NUMBER_OF_WARNINGS 0)
