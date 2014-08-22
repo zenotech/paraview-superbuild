@@ -12,7 +12,7 @@ class TestArgs:
 args = TestArgs()
 args.host    = 'localhost'
 args.port    = 8081
-args.debug   = 1
+args.debug   = True
 args.timeout = 10
 args.content = ''
 args.nosignalhandlers = False
@@ -27,7 +27,17 @@ args.dsPort = 11111
 args.rsHost = None
 args.rsPort = 11111
 args.plugins = ""
+args.exclude = "^\\.|~$|^\\$"
+args.group = "[0-9]+\\."
+args.palettes = None
 args.proxies = None
+args.no_auto_readers = False
+args.sslKey = None
+args.sslCert = None
+args.ws = 'ws'
+args.lp = 'lp'
+args.nows = False
+args.nolp = False
 
 # Start server
 server.start_webserver(options=args, protocol=pv_web_visualizer._VisualizerServer)
