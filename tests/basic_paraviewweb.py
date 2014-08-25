@@ -26,6 +26,7 @@ args.dsHost = None
 args.dsPort = 11111
 args.rsHost = None
 args.rsPort = 11111
+args.rcPort = -1
 args.plugins = ""
 args.exclude = "^\\.|~$|^\\$"
 args.group = "[0-9]+\\."
