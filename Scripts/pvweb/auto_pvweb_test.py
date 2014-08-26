@@ -1,10 +1,58 @@
 
 import sys, time, re
 
+"""
+This script is meant to test full round trip communication to remote
+ParaViewWeb servers, including access to static content and launching
+of the ParaViewWeb processes.  In order for it to work, the remote end
+must have, linked from the top level of its static content directory,
+a folder containing the following containing the following index.html
+content.
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body onbeforeunload="stop()" onunload="stop()">
+
+  <!-- Scripts -->
+  <script src="../../lib/core/vtkweb-loader.js" load="core"></script>
+  <script type="text/Javascript">
+    var config = {
+      sessionManagerURL: vtkWeb.properties.sessionManagerURL,
+      application: "pvw-test"
+    },
+    connection = null,
+    fileList = null;
+    var stop = vtkWeb.NoOp;
+    var start = function(c) {
+      connection = c;
+
+      // Update stop method to use the connection
+      stop = function() {
+        connection.session.call('application.exit');
+      }
+    };
+
+    // Try to launch the Viz process
+    vtkWeb.smartConnect(config, start, function(code,reason){
+      console.log("Inside smartConnect close callback.");
+    });
+  </script>
+</body>
+</html>
+
+Note that this index.html content needs access to normal paraview/vtkWeb
+static content located in the "lib" and "ext" folders, so the symlink setup
+needs to be such that these javascript dependencies can be satisfied.
+
+"""
+
 dependencies_met = True
 
 try:
-    import argparse, selenium, Image, requests
+    import argparse, selenium, requests
     from selenium import webdriver
 except Exception as inst:
     print "Unable to import needed modules:"
@@ -45,7 +93,7 @@ def checkInstallHash(url):
 # ============================================================================
 # Loads the WebVisualizer and interacts with it.
 # ============================================================================
-def webVisualizerTest(window, pvweb_host, path):
+def simpleProtocolTest(window, pvweb_host, path):
     urlRoot = 'http://' + pvweb_host + '/'
     url = urlRoot + path
 
@@ -60,68 +108,20 @@ def webVisualizerTest(window, pvweb_host, path):
     time.sleep(15)
     print 'Loaded application'
 
-    # Click on the "Open file" icon to start the process of loading a file
-    filesSpan = window.find_element_by_css_selector(".inspector-selector[data-type=files]")
-    filesSpan.click()
-    time.sleep(3)
-    print 'Clicked link to open file'
+    # Execute the list directories and files rpc call
+    window.execute_script("connection.session.call('file.server.directory.list').then(function(obj){fileList=obj;},function(err){fileList=err;});")
+    time.sleep(5)
+    result = window.execute_script("return fileList");
 
-    # Click on the "can" link to load some paraview data.  We have the
-    # expectation here that the paraview data dir with which we started the
-    # server points to the "Data" folder in the standard ParaViewData git
-    # repo.
-    canLi = window.find_element_by_css_selector('li.clickable[data-file="can.ex2"]')
-    canLi.click()
-    time.sleep(3)
-    print 'Clicked link to open the can dataset'
+    if not 'dirs' in result or not 'files' in result:
+        print 'Got unexpected results from file.server.directory.list rpc method:'
+        print result
+        return 1
 
-    # Find the representation properties
-    reprPanel = window.execute_script("return $('span.vtk-icon-plus-circled:contains(Representation)')[0]")
-    try:
-        reprPanel.click()
-    except:
-        try:
-            reprPanel.click()
-        except:
-            print 'Unable to click on the representation panel'
-            return 1
-    time.sleep(3)
-    print 'Clicked to open the representation panel'
-
-    # Click on the select option corresponding to DISPL
-    selectElt = window.find_element_by_css_selector('select.form-control.array')
-    selectElt.click()
-    time.sleep(3)
-    print 'Clicked on the ColorBy select widget'
-
-    displOpt = window.find_element_by_css_selector('option[value="ARRAY:POINTS:DISPL"]')
-    displOpt.click()
-    time.sleep(3)
-    print 'Clicked on the DISPL array'
-
-    # Click the refresh button
-    refreshButton = window.find_element_by_css_selector('span.clickable[data-action=apply-property-values]')
-    refreshButton.click()
-    time.sleep(3)
-    print 'Clicked the apply button'
-
-    # Toggle time toolbar
-    toggleTime = window.find_element_by_css_selector('.toggle-time-toolbar.clickable')
-    toggleTime.click()
-    time.sleep(3)
-    print 'Displayed the time toolbar'
-
-    # Jump to the final time step
-    endTimeLi = window.find_element_by_css_selector('span.vcr-action[data-action=last]')
-    endTimeLi.click()
-    time.sleep(1)
-    print 'Clicked button to jump to last timestep'
-
-    # Rescale now that we're at the final time step
-    rescaleIcon = window.find_element_by_css_selector('span.clickable[data-action=rescale-data]')
-    rescaleIcon.click()
-    time.sleep(1)
-    print 'Clicked rescale button'
+    if len(result['dirs']) == 0 or len(result['files']) == 0:
+        print 'Expected non-zero length files and directories list, actually got:'
+        print result
+        return 1
 
     # Now retrieve any errors we collected during the test
     errors = window.execute_script(javascript_get_errors)
@@ -148,7 +148,7 @@ def runPvwebTest(pvweb_host, path):
 
     # Try to run the actual test
     try:
-        returnStatus = webVisualizerTest(window, pvweb_host, path)
+        returnStatus = simpleProtocolTest(window, pvweb_host, path)
     except Exception as inst:
         print 'Caught exception running test:'
         print inst

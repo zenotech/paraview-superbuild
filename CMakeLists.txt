@@ -314,9 +314,9 @@ cmake_dependent_option(ENABLE_REMOTE_PVWEB_TEST
   "Whether or not to include a test of remote pvweb instances" OFF
   "NIGHTLY_BINARY_TESTING" OFF)
 set(REMOTE_PVWEB_VISUALIZER_URLS
-  http://pvw-test.kitware.com/apps/Visualizer
-  http://pvw.kitware.com/apps/Visualizer
-  http://paraviewweb.kitware.com/apps/Visualizer
+  http://pvw-test.kitware.com/sbtest
+  http://pvw.kitware.com/sbtest
+  http://paraviewweb.kitware.com/sbtest
   CACHE STRING "A list of urls against which to run a simple Web Visualizer test.")
 mark_as_advanced(ENABLE_REMOTE_PVWEB_TEST REMOTE_PVWEB_VISUALIZER_URLS)
 if (NIGHTLY_BINARY_TESTING)
