@@ -1,8 +1,16 @@
 ##------------------------------------------------------------------------------
 ## Regular expression for warning exception during build process
-#set (CTEST_CUSTOM_WARNING_EXCEPTION
-#  ${CTEST_CUSTOM_WARNING_EXCEPTION}
-#)
+set (CTEST_CUSTOM_WARNING_EXCEPTION
+  ${CTEST_CUSTOM_WARNING_EXCEPTION}
+
+  # ignore all warnings when CTEST_CUSTOM_MAXIMUM_NUMBER_OF_WARNINGS doesnt'
+  # have any effect.
+  ".*"
+  ".ParaViewSuperbuild.*"
+  "[w|W]arning"
+  "WARNING"
+  "CMake Warning"
+)
 
 # Regular expression for warning exception during build process
 # Regular expression for error exceptions during build process
