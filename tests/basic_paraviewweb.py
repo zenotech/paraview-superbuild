@@ -20,6 +20,7 @@ args.authKey = 'vtkweb-secret'
 args.forceFlush = False
 args.testScriptPath = ''
 args.baselineImgDir = ''
+args.uploadPath = None
 args.path = '.'
 args.file = None
 args.dsHost = None
