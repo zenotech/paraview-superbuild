@@ -26,6 +26,14 @@ endif()
 set(qt_EXTRA_CONFIGURATION_OPTIONS ""
     CACHE STRING "Extra arguments to be passed to Qt when configuring.")
 
+set(extra_commands)
+if (CMAKE_GENERATOR STREQUAL "Ninja")
+  # when using ninja, we can't use Ninja to build Qt, so we change that to
+  # "make".
+  set (extra_commands
+        BUILD_COMMAND make
+        INSTALL_COMMAND make install)
+endif()
 add_external_project_or_use_system(
     qt
     DEPENDS zlib ${qt_depends}
@@ -56,7 +64,9 @@ add_external_project_or_use_system(
       -L <INSTALL_DIR>/lib
       ${qt_options}
       ${qt_EXTRA_CONFIGURATION_OPTIONS}
+      ${extra_commands}
 )
+unset(extra_commands)
 
 if ((NOT 64bit_build) AND UNIX AND (NOT APPLE))
   # on 32-bit builds, we are incorrectly ending with QT_POINTER_SIZE chosen as
