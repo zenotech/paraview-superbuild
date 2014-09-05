@@ -9,7 +9,7 @@
 # endif()
 
 add_revision(bzip2
-  URL "http://bzip.org/1.0.6/bzip2-1.0.6.tar.gz"
+  URL "http://www.paraview.org/files/dependencies/bzip2-1.0.6.tar.gz"
   URL_MD5 00b516f4704d4a7cb50a1d97e6e8e15b)
 # NOTE: if updating bzip2 version, fix patch in bzip2.cmake
 
@@ -45,9 +45,7 @@ add_revision(cgns
   URL_MD5 442bba32b576f3429cbd086af43fd4ae)
 
 add_revision(ffmpeg
-  #  URL "http://paraview.org/files/dependencies/ffmpeg-0.6.5.tar.gz"
-  #  URL_MD5 451054dae3b3d33a86c2c48bd12d56e7)
-  URL "https://ffmpeg.org/releases/ffmpeg-2.3.3.tar.bz2"
+  URL "http://paraview.org/files/dependencies/ffmpeg-2.3.3.tar.bz2"
   URL_MD5 72361d3b8717b6db3ad2b9da8df7af5e)
 
 add_revision(libxml2
@@ -59,7 +57,7 @@ add_revision(fontconfig
   URL_MD5 77e15a92006ddc2adbb06f840d591c0e)
 
 add_revision(qt
-  URL "http://download.qt-project.org/official_releases/qt/4.8/4.8.6/qt-everywhere-opensource-src-4.8.6.tar.gz"
+  URL "http://paraview.org/files/dependencies/qt-everywhere-opensource-src-4.8.6.tar.gz"
   URL_MD5 2edbe4d6c2eff33ef91732602f3518eb)
 
 if (WIN32 OR (CROSS_BUILD_STAGE STREQUAL "CROSS"))
