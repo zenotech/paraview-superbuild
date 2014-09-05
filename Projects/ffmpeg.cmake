@@ -19,6 +19,7 @@ add_external_project(
                     --disable-network
                     --disable-static
                     --enable-shared
+                    --disable-yasm
 #                    --extra-cflags=${cppflags}
 #                    --extra-ldflags=${ldflags}
                     ${extra_commands}
