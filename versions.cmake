@@ -45,8 +45,10 @@ add_revision(cgns
   URL_MD5 442bba32b576f3429cbd086af43fd4ae)
 
 add_revision(ffmpeg
-  URL "http://paraview.org/files/dependencies/ffmpeg-0.6.5.tar.gz"
-  URL_MD5 451054dae3b3d33a86c2c48bd12d56e7)
+  #  URL "http://paraview.org/files/dependencies/ffmpeg-0.6.5.tar.gz"
+  #  URL_MD5 451054dae3b3d33a86c2c48bd12d56e7)
+  URL "https://ffmpeg.org/releases/ffmpeg-2.3.3.tar.bz2"
+  URL_MD5 72361d3b8717b6db3ad2b9da8df7af5e)
 
 add_revision(libxml2
   URL "http://paraview.org/files/dependencies/libxml2-2.7.8.tar.gz"

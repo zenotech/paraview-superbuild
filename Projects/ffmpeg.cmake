@@ -1,3 +1,9 @@
+set (extra_commands)
+if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+  #set the platform to be clang if on apple and not gcc
+  set(extra_commands --cc=clang)
+endif()
+
 add_external_project(
   ffmpeg
   DEPENDS zlib
@@ -15,5 +21,7 @@ add_external_project(
                     --enable-shared
 #                    --extra-cflags=${cppflags}
 #                    --extra-ldflags=${ldflags}
+                    ${extra_commands}
   BUILD_IN_SOURCE 1
 )
+unset(extra_commands)
