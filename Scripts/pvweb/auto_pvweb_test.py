@@ -139,11 +139,15 @@ def simpleProtocolTest(window, pvweb_host, path):
 # Just wraps the actual test in a try/catch and returns "not ok" in case of an
 # exception.
 # ============================================================================
-def runPvwebTest(pvweb_host, path):
+def runPvwebTest(pvweb_host, path, browserName):
     returnStatus = 1
 
     # Create a chrome window for the test
-    window = webdriver.Chrome()
+    if browserName == 'firefox':
+        window = webdriver.Firefox()
+    else:
+        window = webdriver.Chrome()
+
     window.set_window_size(720, 520)
 
     # Try to run the actual test
@@ -166,7 +170,7 @@ def runPvwebTest(pvweb_host, path):
 # Split up the urls and break them up into their component pieces to run the
 # test on each.
 # ============================================================================
-def runOnAllHosts(urlListString):
+def runOnAllHosts(browserName, urlListString):
     regex = re.compile('http://([^/]+)(/.+)')
     urlList = urlListString.split(';')
     result = 0
@@ -174,7 +178,7 @@ def runOnAllHosts(urlListString):
         m = regex.search(url)
         if m:
             print 'Testing against ' + url
-            result += runPvwebTest(m.group(1), m.group(2))
+            result += runPvwebTest(m.group(1), m.group(2), browserName)
         else:
             print 'Unknown url format: ' + url
             result += 1
@@ -192,6 +196,7 @@ if __name__ == "__main__":
 
     p = argparse.ArgumentParser(description="Test remote ParaViewWeb instances")
     p.add_argument("-t", "--testurls", type=str, default="", help="List of urls to test")
+    p.add_argument("-b", "--browser", type=str, default="firefox", help="Should be either 'chrome' or 'firefox'")
     args = p.parse_args()
 
-    sys.exit(runOnAllHosts(args.testurls))
+    sys.exit(runOnAllHosts(args.browser, args.testurls))

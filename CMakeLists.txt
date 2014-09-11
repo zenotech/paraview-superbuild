@@ -325,7 +325,10 @@ set(REMOTE_PVWEB_VISUALIZER_URLS
   http://pvw.kitware.com/sbtest
   http://paraviewweb.kitware.com/sbtest
   CACHE STRING "A list of urls against which to run a simple Web Visualizer test.")
-mark_as_advanced(ENABLE_REMOTE_PVWEB_TEST REMOTE_PVWEB_VISUALIZER_URLS)
+set(REMOTE_PVWEB_TEST_BROWSER
+  firefox
+  CACHE STRING "Which browser to use during testing, either chrome or firefox")
+mark_as_advanced(ENABLE_REMOTE_PVWEB_TEST REMOTE_PVWEB_VISUALIZER_URLS REMOTE_PVWEB_TEST_BROWSER)
 if (NIGHTLY_BINARY_TESTING)
   add_subdirectory(tests)
 endif()
