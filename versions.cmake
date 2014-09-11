@@ -112,15 +112,25 @@ add_revision(osmesa
     URL "http://paraview.org/files/dependencies/MesaLib-7.11.2.tar.gz"
     URL_MD5 b9e84efee3931c0acbccd1bb5a860554)
 
-if (TRUST_SVN_CERTIFICATES_AUTOMATICALLY)
+
+# Add an option to not use diy from SVN. One Debian-Etch the SVN is too old
+# to work with invalid SVN certificates.
+option(DIY_SKIP_SVN "If enabled, we simply download diy from a source tar" OFF)
+if(DIY_SKIP_SVN)
   add_revision(diy
-     SVN_REPOSITORY https://svn.mcs.anl.gov/repos/diy/trunk
-     SVN_REVISION -r178
-     SVN_TRUST_CERT 1)
+    URL "http://paraview.org/files/dependencies/diy-src.r178.tar.gz"
+    URL_MD5 4fba13aae93927d0f32dd6db0599ffcd)
 else()
-  add_revision(diy
-     SVN_REPOSITORY https://svn.mcs.anl.gov/repos/diy/trunk
-     SVN_REVISION -r178)
+  if (TRUST_SVN_CERTIFICATES_AUTOMATICALLY)
+    add_revision(diy
+       SVN_REPOSITORY https://svn.mcs.anl.gov/repos/diy/trunk
+       SVN_REVISION -r178
+       SVN_TRUST_CERT 1)
+  else()
+    add_revision(diy
+       SVN_REPOSITORY https://svn.mcs.anl.gov/repos/diy/trunk
+       SVN_REVISION -r178)
+  endif()
 endif()
 
 # ----------------------------------------------------------------------------
