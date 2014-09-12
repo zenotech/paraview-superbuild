@@ -13,8 +13,12 @@ if (NOT APPLE AND UNIX)
                     ${SuperBuild_PROJECTS_DIR}/patches/qt.src.3rdparty.webkit.Source.WebKit.pri
                     <SOURCE_DIR>/src/3rdparty/webkit/Source/WebKit.pri)
 elseif (APPLE)
-  #set the platform to be clang if on apple and not gcc
-  if(NOT CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  # Set the platform to be clang if on apple and not gcc
+  # This doesn't work on 10.5 (leopard) 10.6 (snow leopard) toolchain, however.
+  # So, we check for that.
+  if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND
+      CMAKE_OSX_DEPLOYMENT_TARGET AND
+      CMAKE_OSX_DEPLOYMENT_TARGET VERSION_GREATER "10.6")
     list (APPEND qt_options -platform unsupported/macx-clang)
   endif()
 
