@@ -89,14 +89,14 @@ if (python_ENABLED AND NOT USE_SYSTEM_python)
 
 endif()
 
-if (numpy_ENABLED)
+if (numpy_ENABLED AND NOT USE_SYSTEM_numpy)
   install(DIRECTORY "${install_location}/lib/site-packages/numpy"
           DESTINATION "bin/Lib/site-packages"
           USE_SOURCE_PERMISSIONS
           COMPONENT ParaView)
 endif()
 
-if (matplotlib_ENABLED)
+if (matplotlib_ENABLED AND NOT USE_SYSTEM_matplotlib)
   install(DIRECTORY "${install_location}/lib/site-packages/matplotlib"
           DESTINATION "bin/Lib/site-packages"
           USE_SOURCE_PERMISSIONS

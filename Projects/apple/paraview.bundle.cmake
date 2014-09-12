@@ -36,7 +36,7 @@ install(CODE "
              "
         COMPONENT superbuild)
 
-if (numpy_ENABLED)
+if (numpy_ENABLED AND NOT USE_SYSTEM_numpy)
   # install numpy module into the application bundle.
   install(CODE "
                 # install numpy
@@ -87,7 +87,7 @@ if (mpi_ENABLED AND NOT USE_SYSTEM_mpi)
 endif()
 #-----------------------------------------------------------------------------
 
-if (matplotlib_ENABLED)
+if (matplotlib_ENABLED AND NOT USE_SYSTEM_matplotlib)
   # install matplotlib module into the application bundle.
   install(CODE "
                 # install matplotlib
