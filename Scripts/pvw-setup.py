@@ -217,14 +217,14 @@ def mainProgram():
             os.rename(os.path.join(install_path, "ParaView-4.1.0-Linux-32bit"), os.path.join(install_path, "paraview"))
         elif app_type == 'linux64':
             os.system("cd %s;tar xvzf %s" % (install_path, app_file))
-            os.rename(os.path.join(install_path, "ParaView-4.2.0-RC1-Linux-64bit"), os.path.join(install_path, "paraview"))
+            os.rename(os.path.join(install_path, "ParaView-4.2.0-Linux-64bit"), os.path.join(install_path, "paraview"))
         else:
             # Unzip app
             unzip(app_file, install_path)
             if app_type == 'win64':
-                os.rename(os.path.join(install_path, "ParaView-4.2.0-RC1-Windows-64bit"), os.path.join(install_path, "paraview"))
+                os.rename(os.path.join(install_path, "ParaView-4.2.0-Windows-64bit"), os.path.join(install_path, "paraview"))
             if app_type == 'win32':
-                os.rename(os.path.join(install_path, "ParaView-4.2.0-RC1-Windows-32bit"), os.path.join(install_path, "paraview"))
+                os.rename(os.path.join(install_path, "ParaView-4.2.0-Windows-32bit"), os.path.join(install_path, "paraview"))
 
     # ===================================================================
     # Structure directories
