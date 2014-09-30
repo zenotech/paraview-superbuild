@@ -29,11 +29,11 @@ if (PARAVIEW_INSTALL_MANUAL_PDF)
   # download an install manual pdf.
   install(CODE "
     # create the doc directory.
-    file(MAKE_DIRECTORY \"\${CMAKE_INSTALL_PREFIX}/doc\")
+    file(MAKE_DIRECTORY \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/doc\")
 
     # download the manual pdf.
     file(DOWNLOAD \"http://www.paraview.org/files/v${pdf_pv_version}/ParaViewManual.v${pdf_pv_version}.pdf\"
-        \"\${CMAKE_INSTALL_PREFIX}/doc/ParaViewManual.v${pv_version}.pdf\"
+        \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/doc/ParaViewManual.v${pv_version}.pdf\"
         SHOW_PROGRESS)
   ")
 endif()
