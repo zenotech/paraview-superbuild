@@ -1,5 +1,3 @@
-# zlib supports cmake. the only problem is that we need to remove the zconf.h
-# file.
 add_external_project_or_use_system(
   bzip2
   )

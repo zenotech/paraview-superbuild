@@ -1,5 +1,4 @@
-
-add_external_project(
+add_external_project_or_use_system(
   hdf5
   DEPENDS zlib szip
 
@@ -51,3 +50,5 @@ if (WIN32)
     )
   endif()
 endif()
+
+add_extra_cmake_args(-DVTK_USE_SYSTEM_HDF5:BOOL=ON)

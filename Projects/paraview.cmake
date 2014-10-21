@@ -17,6 +17,10 @@ if (paraviewsdk_ENABLED)
   set (PARAVIEW_INSTALL_DEVELOPMENT_FILES TRUE)
 endif()
 
+if(${osmesa_ENABLED})
+  set(osmesa_ARGS -DVTK_OPENGL_HAS_OSMESA:BOOL=ON -DVTK_USE_X:BOOL=OFF)
+endif()
+
 add_external_project(paraview
   DEPENDS_OPTIONAL
     boost cosmotools ffmpeg hdf5 libxml3 manta matplotlib mpi numpy png python qt visitbridge zlib silo cgns
@@ -37,18 +41,16 @@ add_external_project(paraview
     -DPARAVIEW_USE_VISITBRIDGE:BOOL=${visitbridge_ENABLED}
     -DVISIT_BUILD_READER_CGNS:BOOL=${cgns_ENABLED}
     -DVISIT_BUILD_READER_Silo:BOOL=${silo_ENABLED}
-    -DVTK_USE_SYSTEM_HDF5:BOOL=${hdf5_ENABLED}
     -DPARAVIEW_INSTALL_DEVELOPMENT_FILES:BOOL=${PARAVIEW_INSTALL_DEVELOPMENT_FILES}
     -DPARAVIEW_BUILD_PLUGIN_Nektar:BOOL=${nektarreader_ENABLED}
     -DPARAVIEW_ENABLE_MATPLOTLIB:BOOL=${matplotlib_ENABLED}
     -DVTK_USE_SYSTEM_NETCDF:BOOL=${netcdf_ENABLED}
-
-    # since VTK mangles all the following, I wonder if there's any point in
-    # making it use system versions.
-#    -DVTK_USE_SYSTEM_FREETYPE:BOOL=${ENABLE_FREETYPE}
-#    -DVTK_USE_SYSTEM_LIBXML2:BOOL=${ENABLE_LIBXML2}
-#    -DVTK_USE_SYSTEM_PNG:BOOL=${ENABLE_PNG}
-#    -DVTK_USE_SYSTEM_ZLIB:BOOL=${ENABLE_ZLIB}
+    -DVTK_USE_SYSTEM_FREETYPE:BOOL=${freetype_ENABLED}
+    -DVTK_USE_SYSTEM_HDF5:BOOL=${hdf5_ENABLED}
+    -DVTK_USE_SYSTEM_LIBXML2:BOOL=${libxml2_ENABLED}
+    -DVTK_USE_SYSTEM_PNG:BOOL=${png_ENABLED}
+    -DVTK_USE_SYSTEM_ZLIB:BOOL=${zlib_ENABLED}
+    ${osmesa_ARGS}
 
     # Web documentation
     -DPARAVIEW_BUILD_WEB_DOCUMENTATION:BOOL=${PARAVIEW_BUILD_WEB_DOCUMENTATION}

@@ -1,4 +1,4 @@
-add_external_project(png
+add_external_project_or_use_system(png
   DEPENDS zlib
 
   CMAKE_ARGS

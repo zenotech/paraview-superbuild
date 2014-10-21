@@ -1,4 +1,4 @@
-add_external_project(lapack
+add_external_project_or_use_system(lapack
   BUILD_IN_SOURCE 0
   CMAKE_ARGS
     -DBUILD_SHARED_LIBS:BOOL=ON

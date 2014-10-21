@@ -5,15 +5,15 @@ if (paraviewsdk_ENABLED)
     return()
   endif()
 
-  if (python_ENABLED AND NOT USE_SYSTEM_python)
-    message(WARNING "Please use System-Python or disable Python to enable SDK deployment")
-    return()
-  endif()
+  #if (python_ENABLED AND NOT USE_SYSTEM_python)
+  #  message(WARNING "Please use System-Python or disable Python to enable SDK deployment")
+  #  return()
+  #endif()
 
-  if (mpi_ENABLED AND NOT USE_SYSTEM_mpi)
-    message(WARNING "Please use System-MPI or disable MPI to enable SDK deployment")
-    return()
-  endif()
+  #if (mpi_ENABLED AND NOT USE_SYSTEM_mpi)
+  #  message(WARNING "Please use System-MPI or disable MPI to enable SDK deployment")
+  #  return()
+  #endif()
 
   # install all include files.
   install(DIRECTORY "${install_location}/include/"

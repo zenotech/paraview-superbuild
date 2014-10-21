@@ -1,4 +1,4 @@
-add_external_project(
+add_external_project_or_use_system(
   freetype
   DEPENDS zlib
   CONFIGURE_COMMAND <SOURCE_DIR>/configure
