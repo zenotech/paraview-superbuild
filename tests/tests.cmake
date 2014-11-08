@@ -121,3 +121,15 @@ add_test(NAME TestFindData
                  "--test-baseline=${CMAKE_CURRENT_SOURCE_DIR}/Baselines/Superbuild-TestFindData.png"
                  "--exit")
 set_tests_properties(TestFindData PROPERTIES LABELS "PARAVIEW")
+
+#----------------------------------------------------------------------------
+add_test(NAME PrintVersionServer
+         COMMAND "${PV_NIGHTLY_PVSERVER}"
+                 "--version"
+        )
+set_tests_properties(PrintVersionServer PROPERTIES LABELS "PARAVIEW")
+add_test(NAME PrintVersionClient
+         COMMAND "${PV_NIGHTLY_PARAVIEW}"
+                 "--version"
+        )
+set_tests_properties(PrintVersionClient PROPERTIES LABELS "PARAVIEW")
