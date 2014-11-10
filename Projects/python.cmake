@@ -14,4 +14,10 @@ add_external_project_or_use_system(python
                     --enable-unicode
                     ${libtype}
   )
+if (NOT CROSS_BUILD_STAGE STREQUAL "CROSS")
+  # Pass the -rpath flag when building python to avoid issues running the
+  # executable we built.
+  append_flags(LDFLAGS "-Wl,-rpath,${install_location}/lib" PROJECT_ONLY)
+endif()
+
 set (pv_python_executable "${install_location}/bin/python" CACHE INTERNAL "" FORCE)

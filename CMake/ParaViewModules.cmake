@@ -281,11 +281,26 @@ function(add_external_project_internal name)
   # get extra flags added using append_flags(), if any.
   set (extra_c_flags)
   set (extra_cxx_flags)
+  set (extra_ld_flags)
+
+  # scan project flags.
+  set (_tmp)
+  get_property(_tmp GLOBAL PROPERTY ${name}_APPEND_PROJECT_ONLY_FLAGS_CMAKE_C_FLAGS)
+  set (extra_c_flags ${extra_c_flags} ${_tmp})
+  get_property(_tmp GLOBAL PROPERTY ${name}_APPEND_PROJECT_ONLY_FLAGS_CMAKE_CXX_FLAGS)
+  set (extra_cxx_flags ${extra_cxx_flags} ${_tmp})
+  get_property(_tmp GLOBAL PROPERTY ${name}_APPEND_PROJECT_ONLY_FLAGS_LDFLAGS)
+  set (extra_ld_flags ${extra_ld_flags} ${_tmp})
+  unset(_tmp)
+
+  # scan dependecy flags.
   foreach(dependency IN LISTS arg_DEPENDS)
     get_property(_tmp GLOBAL PROPERTY ${dependency}_APPEND_FLAGS_CMAKE_C_FLAGS)
     set (extra_c_flags ${extra_c_flags} ${_tmp})
     get_property(_tmp GLOBAL PROPERTY ${dependency}_APPEND_FLAGS_CMAKE_CXX_FLAGS)
     set (extra_cxx_flags ${extra_cxx_flags} ${_tmp})
+    get_property(_tmp GLOBAL PROPERTY ${dependency}_APPEND_FLAGS_LDFLAGS)
+    set (extra_ld_flags ${extra_ld_flags} ${_tmp})
   endforeach()
 
   set (project_c_flags "${cflags}")
@@ -295,6 +310,10 @@ function(add_external_project_internal name)
   set (project_cxx_flags "${cxxflags}")
   if (extra_cxx_flags)
     set (project_cxx_flags "${cxxflags} ${extra_cxx_flags}")
+  endif()
+  set (project_ld_flags "${ldflags}")
+  if (extra_ld_flags)
+    set (project_ld_flags "${ldflags} ${extra_ld_flags}")
   endif()
 
   #message("ARGS ${name} ${ARGN}")
@@ -320,7 +339,7 @@ function(add_external_project_internal name)
     ${${name}_revision}
 
     PROCESS_ENVIRONMENT
-      LDFLAGS "${ldflags}"
+      LDFLAGS "${project_ld_flags}"
       CPPFLAGS "${cppflags}"
       CXXFLAGS "${project_cxx_flags}"
       CFLAGS "${project_c_flags}"
@@ -333,7 +352,7 @@ function(add_external_project_internal name)
       -DCMAKE_PREFIX_PATH:PATH=${prefix_path}
       -DCMAKE_C_FLAGS:STRING=${project_c_flags}
       -DCMAKE_CXX_FLAGS:STRING=${project_cxx_flags}
-      -DCMAKE_SHARED_LINKER_FLAGS:STRING=${ldflags}
+      -DCMAKE_SHARED_LINKER_FLAGS:STRING=${project_ld_flags}
       ${cmake_params}
 
     LIST_SEPARATOR "${ep_list_separator}"
@@ -364,22 +383,41 @@ endmacro()
 # in case of OpenMPI on Windows, for example, we need to pass extra compiler
 # flags when building projects that use MPI. This provides an experimental
 # mechanism for the same.
-macro(append_flags key value)
-  if (NOT "${key}" STREQUAL "CMAKE_CXX_FLAGS" AND NOT "${key}" STREQUAL "CMAKE_C_FLAGS")
+# There are two kinds for flags, flag to use to build to the project itself, or
+# those to use to build any dependencies. The default is latter. For former,
+# pass in an optional argument PROJECT_ONLY.
+function(append_flags key value)
+  if (NOT "${key}" STREQUAL "CMAKE_CXX_FLAGS" AND
+      NOT "${key}" STREQUAL "CMAKE_C_FLAGS" AND
+      NOT "${key}" STREQUAL "LDFLAGS")
     message(AUTHOR_WARNING
-      "Currently, only CMAKE_CXX_FLAGS and CMAKE_C_FLAGS are supported.")
+      "Currently, only CMAKE_CXX_FLAGS, CMAKE_C_FLAGS, and LDFLAGS are supported.")
   endif()
+  set (project_only FALSE)
+  foreach (arg IN LISTS ARGN)
+    if ("${arg}" STREQUAL "PROJECT_ONLY")
+      set (project_only TRUE)
+    else()
+      message(AUTHOR_WARNING "Unknown argument to append_flags(), ${arg}.")
+    endif()
+  endforeach()
+
   if (build-projects)
     if (NOT cm-project)
       message(AUTHOR_WARNING "add_extra_cmake_args called an incorrect stage.")
       return()
     endif()
-    set_property(GLOBAL APPEND PROPERTY
-      ${cm-project}_APPEND_FLAGS_${key} "${value}")
+    if (project_only)
+      set_property(GLOBAL APPEND PROPERTY
+        ${cm-project}_APPEND_PROJECT_ONLY_FLAGS_${key} "${value}")
+    else ()
+      set_property(GLOBAL APPEND PROPERTY
+        ${cm-project}_APPEND_FLAGS_${key} "${value}")
+    endif()
   else()
     # nothing to do.
   endif()
-endmacro()
+endfunction()
 #------------------------------------------------------------------------------
 
 
