@@ -1,0 +1,43 @@
+#PBS -S /bin/bash
+#PBS -N PVBuildShared
+#PBS -l nodes=1:ppn=1
+#PBS -l walltime=1:00:00
+#PBS -j oe
+
+# This is used to build ParaView on Cielo / Cielito, a Cray XE6 at LANL
+
+. /opt/modules/default/init/bash
+
+# Start with a pristine environment
+module purge
+
+# Load the compilers
+module load PrgEnv-intel
+module load craype-target-compute_node
+export CRAYPE_LINK_TYPE=dynamic
+export TMP=/tmp/scratch
+export TEMP=/tmp/scratch
+export TMPDIR=/tmp/scratch
+export CC=$(which cc)
+export CXX=$(which CC)
+export FC=$(which ftn)
+
+# Load the Cray-provided libraries
+module load cray-hdf5
+module load cray-libsci
+module load cray-mpich
+
+# Used by the CMake FindHDF5.cmake module
+export HDF5_ROOT=${HDF5_DIR}
+
+# Run the build seteps
+aprun /bin/bash -c " \
+mkdir /tmp/scratch/pv-build && \
+cd /tmp/scratch/pv-build && \
+$HOME/Code/CMake/build/release/bin/cmake \
+  -C/usr/projects/packages/hpc_paraview/superbuild/source/ParaViewSuperbuild/CMake/Sites/LANL-Cray.cmake \
+  -DCMAKE_INSTALL_PREFIX=/usr/projects/packages/hpc_paraview/superbuild/install/cielito_intel_mpich \
+  /usr/projects/packages/hpc_paraview/superbuild/source/ParaViewSuperbuild &&
+make && \
+make install \
+"
