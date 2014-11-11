@@ -20,7 +20,7 @@ endif()
 add_external_project(paraview
   DEPENDS_OPTIONAL
     boost cosmotools ffmpeg hdf5 libxml3 manta matplotlib mpi numpy png python qt visitbridge zlib silo cgns
-    mesa osmesa nektarreader
+    mesa osmesa nektarreader netcdf
     ${PV_EXTERNAL_PROJECTS}
 
   CMAKE_ARGS
@@ -41,6 +41,8 @@ add_external_project(paraview
     -DPARAVIEW_INSTALL_DEVELOPMENT_FILES:BOOL=${PARAVIEW_INSTALL_DEVELOPMENT_FILES}
     -DPARAVIEW_BUILD_PLUGIN_Nektar:BOOL=${nektarreader_ENABLED}
     -DPARAVIEW_ENABLE_MATPLOTLIB:BOOL=${matplotlib_ENABLED}
+    -DVTK_USE_SYSTEM_NETCDF:BOOL=${netcdf_ENABLED}
+
     # since VTK mangles all the following, I wonder if there's any point in
     # making it use system versions.
 #    -DVTK_USE_SYSTEM_FREETYPE:BOOL=${ENABLE_FREETYPE}

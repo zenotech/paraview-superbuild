@@ -195,3 +195,7 @@ add_revision(portfwd
 add_revision(lapack
   URL "http://paraview.org/files/dependencies/lapack-3.4.2.tgz"
   URL_MD5 61bf1a8a4469d4bdb7604f5897179478)
+
+add_revision(netcdf
+  URL http://www.paraview.org/files/dependencies/netcdf-4.3.2.modified.tar.gz
+  URL_MD5 f77510128856021a773b6234c5226492)
