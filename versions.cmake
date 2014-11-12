@@ -198,4 +198,4 @@ add_revision(lapack
 
 add_revision(netcdf
   URL http://www.paraview.org/files/dependencies/netcdf-4.3.2.modified.tar.gz
-  URL_MD5 f77510128856021a773b6234c5226492)
+  URL_MD5 1415954f347944b388bac2040996a181)
