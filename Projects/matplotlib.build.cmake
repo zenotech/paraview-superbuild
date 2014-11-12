@@ -19,6 +19,8 @@ else()
   set (separator ":")
 endif()
 
+set(ENV{PKG_CONFIG_PATH} "${MATPLOTLIB_INSTALL_DIR}/lib/pkgconfig:$ENV{PKG_CONFIG_PATH}")
+
 # since we may find multiple eggs (or may not), just loop over all of them.
 foreach(egg ${numpy-egg})
   get_filename_component(dir "${egg}" PATH)
