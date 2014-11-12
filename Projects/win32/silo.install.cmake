@@ -19,7 +19,13 @@ execute_process(
           "${SILO_SOURCE_DIR}/${silo_bin_dir}/silohdf5.dll"
           "${SILO_INSTALL_DIR}/bin/silohdf5.dll"
 
-  COMMAND ${CMAKE_COMMAND} -E copy_directory
-          "${SILO_SOURCE_DIR}/SiloWindows/include"
-          "${SILO_INSTALL_DIR}/include"
+  # There's a config.h file in this directory that we shouldn't install.
+  # That causes build problems with other projects.
+  COMMAND ${CMAKE_COMMAND} -E copy_if_different
+          "${SILO_SOURCE_DIR}/SiloWindows/include/silo.h"
+          "${SILO_INSTALL_DIR}/include/silo.h"
+
+  COMMAND ${CMAKE_COMMAND} -E copy_if_different
+          "${SILO_SOURCE_DIR}/SiloWindows/include/siloversion.h"
+          "${SILO_INSTALL_DIR}/include/siloversion.h"
   )
