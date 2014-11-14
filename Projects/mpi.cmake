@@ -5,6 +5,7 @@ add_external_project_or_use_system(mpi
                     --disable-static
                     --disable-f77
                     --disable-fc
+                    --disable-mpe
   # PVExternalProject_Add sets up an parallel build, by default.
   # that doesn't work for the version of MPICH2 we're using.
   BUILD_COMMAND ${CMAKE_MAKE_PROGRAM}
