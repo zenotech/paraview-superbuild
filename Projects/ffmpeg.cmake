@@ -7,7 +7,7 @@ endif()
 add_external_project(
   ffmpeg
   DEPENDS zlib
-  CONFIGURE_COMMAND <SOURCE_DIR>/configure
+  CONFIGURE_COMMAND "<SOURCE_DIR>/configure
                     --prefix=<INSTALL_DIR>
                     --disable-avdevice
                     --disable-bzlib
@@ -20,9 +20,9 @@ add_external_project(
                     --disable-static
                     --enable-shared
                     --disable-yasm
-#                    --extra-cflags=${cppflags}
-#                    --extra-ldflags=${ldflags}
-                    ${extra_commands}
+                    \"--extra-cflags=${cppflags}\"
+                    \"--extra-ldflags=${ldflags}\"
+                    ${extra_commands}"
   BUILD_IN_SOURCE 1
 )
 unset(extra_commands)
