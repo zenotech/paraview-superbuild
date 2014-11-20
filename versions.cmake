@@ -33,8 +33,8 @@ add_revision(szip
   URL_MD5 902f831bcefb69c6b635374424acbead)
 
 add_revision(hdf5
-  URL "http://paraview.org/files/dependencies/hdf5-1.8.9.tar.gz"
-  URL_MD5 d1266bb7416ef089400a15cc7c963218)
+  URL "http://www.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8.13/src/hdf5-1.8.13.tar.gz"
+  URL_MD5 c03426e9e77d7766944654280b467289)
 
 add_revision(silo
   URL "http://paraview.org/files/dependencies/silo-4.9.1-bsd.tar.gz"
