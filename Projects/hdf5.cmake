@@ -28,11 +28,11 @@ if (WIN32)
   # the dlls instead of the libs. So setting the variables explicitly for
   # dependent projects.
   add_extra_cmake_args(
-    -DHDF5_C_LIBRARY:FILEPATH=${install_location}/lib/hdf5dll.lib
-    -DHDF5_HL_LIBRARY:FILEPATH=${install_location}/lib/hdf5_hldll.lib
+    -DHDF5_C_LIBRARY:FILEPATH=${install_location}/lib/hdf5.lib
+    -DHDF5_HL_LIBRARY:FILEPATH=${install_location}/lib/hdf5_hl.lib
     # This variable is for CGNS, since CGNS doesn't use standard find_package()
     # to find hdf5.
-    -DHDF5_LIBRARY:FILEPATH=${install_location}/lib/hdf5dll.lib
+    -DHDF5_LIBRARY:FILEPATH=${install_location}/lib/hdf5.lib
     )
 
   # On 32-bit Windows, H5public.h ends up redefining ssize_t. This patch ensures

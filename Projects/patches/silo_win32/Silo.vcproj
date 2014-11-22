@@ -82,7 +82,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="zlib.lib hdf5dll.lib"
+				AdditionalDependencies="zlib.lib hdf5.lib"
 				OutputFile="$(OutDir)\silohdf5.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
@@ -113,7 +113,7 @@
 			/>
 			<!-- <Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy $(HDF5_LIB_DIR)\hdf5dll.dll $(OutDir)&#x0D;&#x0A;copy $(ZLIB_LIB_DIR)\zlib.dll $(OutDir)&#x0D;&#x0A;copy $(SZIP_LIB_DIR)\szlibdll.dll $(OutDir)&#x0D;&#x0A;"
+				CommandLine="copy $(HDF5_LIB_DIR)\hdf5.dll $(OutDir)&#x0D;&#x0A;copy $(ZLIB_LIB_DIR)\zlib.dll $(OutDir)&#x0D;&#x0A;copy $(SZIP_LIB_DIR)\szlibdll.dll $(OutDir)&#x0D;&#x0A;"
 			/>-->
 		</Configuration>
 		<Configuration
@@ -180,7 +180,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="zlib.lib hdf5dll.lib"
+				AdditionalDependencies="zlib.lib hdf5.lib"
 				OutputFile="$(OutDir)\silohdf5.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
@@ -211,7 +211,7 @@
 			/>
 			<!-- <Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy $(HDF5_LIB_DIR_X64)\hdf5dll.dll $(OutDir)&#x0D;&#x0A;copy $(ZLIB_LIB_DIR_X64)\zlib.dll $(OutDir)&#x0D;&#x0A;copy $(SZIP_LIB_DIR_X64)\szlibdll.dll $(OutDir)&#x0D;&#x0A;"
+				CommandLine="copy $(HDF5_LIB_DIR_X64)\hdf5.dll $(OutDir)&#x0D;&#x0A;copy $(ZLIB_LIB_DIR_X64)\zlib.dll $(OutDir)&#x0D;&#x0A;copy $(SZIP_LIB_DIR_X64)\szlibdll.dll $(OutDir)&#x0D;&#x0A;"
 			/>-->
 		</Configuration>
 		<Configuration
@@ -276,7 +276,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="zlib.lib hdf5dll.lib"
+				AdditionalDependencies="zlib.lib hdf5.lib"
 				OutputFile="$(OutDir)\silohdf5.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
@@ -308,7 +308,7 @@
 			/>
 			<!-- <Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy $(HDF5_LIB_DIR)\hdf5dll.dll $(OutDir)&#x0D;&#x0A;copy $(ZLIB_LIB_DIR)\zlib.dll $(OutDir)&#x0D;&#x0A;copy $(SZIP_LIB_DIR)\szlibdll.dll $(OutDir)&#x0D;&#x0A;"
+				CommandLine="copy $(HDF5_LIB_DIR)\hdf5.dll $(OutDir)&#x0D;&#x0A;copy $(ZLIB_LIB_DIR)\zlib.dll $(OutDir)&#x0D;&#x0A;copy $(SZIP_LIB_DIR)\szlibdll.dll $(OutDir)&#x0D;&#x0A;"
 			/>-->
 		</Configuration>
 		<Configuration
@@ -373,7 +373,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="zlib.lib hdf5dll.lib"
+				AdditionalDependencies="zlib.lib hdf5.lib"
 				OutputFile="$(OutDir)\silohdf5.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
@@ -405,7 +405,7 @@
 			/>
 			<!--<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy $(HDF5_LIB_DIR_X64)\hdf5dll.dll $(OutDir)&#x0D;&#x0A;copy $(ZLIB_LIB_DIR_X64)\zlib.dll $(OutDir)&#x0D;&#x0A;copy $(SZIP_LIB_DIR_X64)\szlibdll.dll $(OutDir)&#x0D;&#x0A;"
+				CommandLine="copy $(HDF5_LIB_DIR_X64)\hdf5.dll $(OutDir)&#x0D;&#x0A;copy $(ZLIB_LIB_DIR_X64)\zlib.dll $(OutDir)&#x0D;&#x0A;copy $(SZIP_LIB_DIR_X64)\szlibdll.dll $(OutDir)&#x0D;&#x0A;"
 			/>-->
 		</Configuration>
 	</Configurations>
