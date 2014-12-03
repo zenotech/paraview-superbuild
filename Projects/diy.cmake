@@ -26,3 +26,13 @@ else()
     )
 endif()
 
+# Required because OS X's standard library now has a globally-accessible 'rank'
+# symbol (std::__1::rank) which conflicts with the static-global 'rank' in
+# diy.cpp.
+add_external_project_step(patch_diy_src
+  COMMAND ${CMAKE_COMMAND} -E copy_if_different
+          "${SuperBuild_PROJECTS_DIR}/patches/diy.src.diy.cpp"
+          "<SOURCE_DIR>/src/diy.cpp"
+DEPENDEES update # do after update
+DEPENDERS patch  # do before patch
+)
