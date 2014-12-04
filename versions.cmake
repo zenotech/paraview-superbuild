@@ -166,7 +166,7 @@ add_revision(qhull
 
 add_revision(genericio
     GIT_REPOSITORY git://kwsource.kitwarein.com/genericio/genericio.git
-    GIT_TAG v1.3)
+    GIT_TAG master)
 
 #------------------------------------------------------------------------------
 # Optional Plugins. Doesn't affect ParaView binaries at all even if missing
