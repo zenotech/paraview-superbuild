@@ -42,7 +42,6 @@ add_external_project(paraview
     -DPARAVIEW_BUILD_PLUGIN_Nektar:BOOL=${nektarreader_ENABLED}
     -DPARAVIEW_ENABLE_MATPLOTLIB:BOOL=${matplotlib_ENABLED}
     -DVTK_USE_SYSTEM_NETCDF:BOOL=${netcdf_ENABLED}
-    -DPARAVIEW_BUILD_PLUGIN_CGNSReader:BOOL=${cgns_ENABLED}
 
     # since VTK mangles all the following, I wonder if there's any point in
     # making it use system versions.
