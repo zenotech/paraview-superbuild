@@ -1,5 +1,12 @@
+if(BUILD_SHARED_LIBS)
+  set(shared_args --enable-shared --disable-static)
+else()
+  set(shared_args --disable-shared --enable-static)
+endif()
+
 add_external_project(szip
   CONFIGURE_COMMAND <SOURCE_DIR>/configure
+                    ${shared_args}
                     --enable-encoding
                     --prefix=<INSTALL_DIR>
 )

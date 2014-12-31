@@ -1,5 +1,6 @@
 add_external_project_or_use_system(
   bzip2
+  CMAKE_ARGS -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
   )
 #-------------------------------------------------------
 # bzip2 needs a fix for '--version-script' linker option. The option needs to be

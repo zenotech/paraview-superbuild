@@ -31,6 +31,12 @@ set (CROSS_BUILD_STAGE "HOST" CACHE STRING
   "Cross compilation stage: either HOST(ie no crosscompile)|TOOLS|CROSS")
 set_property(CACHE CROSS_BUILD_STAGE PROPERTY STRINGS
    "HOST" "TOOLS" "CROSS")
+if(CROSS_BUILD_STAGE STREQUAL "HOST")
+  # Default to shared libs
+  set(BUILD_SHARED_LIBS ON  CACHE BOOL "Enable shared libraries")
+else()
+  set(BUILD_SHARED_LIBS OFF CACHE BOOL "Enable shared libraries")
+endif()
 
 #-----------------------------------------------------------------------------
 # Setup CMAKE_MODULE_PATH so that platform specific configurations are processed

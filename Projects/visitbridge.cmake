@@ -4,4 +4,5 @@
 add_external_dummy_project(visitbridge
   DEPENDS boost
   DEPENDS_OPTIONAL silo cgns
+  CMAKE_ARGS -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
 )

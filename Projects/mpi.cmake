@@ -1,8 +1,12 @@
+if(BUILD_SHARED_LIBS)
+  set(shared_args --enable-shared --disable-static)
+else()
+  set(shared_args --disable-shared --enable-static)
+endif()
 add_external_project_or_use_system(mpi
   CONFIGURE_COMMAND <SOURCE_DIR>/configure
                     --prefix=<INSTALL_DIR>
-                    --enable-shared
-                    --disable-static
+                    ${shared_args}
                     --disable-f77
                     --disable-fc
                     --disable-mpe

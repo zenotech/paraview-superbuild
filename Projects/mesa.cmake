@@ -1,9 +1,13 @@
+if(BUILD_SHARED_LIBS)
+  set(shared_args --enable-shared --disable-static)
+else()
+  set(shared_args --disable-shared --enable-static)
+endif()
 
 add_external_project(mesa
   CONFIGURE_COMMAND <SOURCE_DIR>/configure
                     --prefix=<INSTALL_DIR>
-                    --disable-static
-                    --enable-shared
+                    ${shared_args}
                     --enable-texture-float
                     --with-driver=xlib
                     # I wonder if this option makes it possible to use OSMesa

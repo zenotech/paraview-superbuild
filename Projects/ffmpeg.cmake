@@ -1,3 +1,9 @@
+if(BUILD_SHARED_LIBS)
+  set(shared_args --enable-shared --disable-static)
+else()
+  set(shared_args --disable-shared --enable-static)
+endif()
+
 add_external_project(
   ffmpeg
   DEPENDS zlib
@@ -11,9 +17,8 @@ add_external_project(
                     --disable-ffprobe
                     --disable-ffserver
                     --disable-network
-                    --disable-static
-                    --enable-shared
                     --disable-yasm
+                    ${shared_args}
                     --cc=${CMAKE_C_COMPILER}
                     \"--extra-cflags=${cppflags}\"
                     \"--extra-ldflags=${ldflags}\"
