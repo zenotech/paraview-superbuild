@@ -33,6 +33,7 @@ if (APPLE)
 endif()
 
 
-execute_process(
-  COMMAND ${CMAKE_COMMAND} -E tar cvfz ${bundle_name}-${bundle_suffix}.tgz VisTrailsPlugin-${bundle_suffix}
-  WORKING_DIRECTORY ${TMP_DIR})
+include("${PLUGIN_SCRIPT}")
+make_plugin_tarball("${TMP_DIR}"
+  "${bundle_name}-${bundle_suffix}"
+  "VisTrailsPlugin-${bundle_suffix}")

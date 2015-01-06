@@ -101,6 +101,10 @@ set (download_location "${CMAKE_CURRENT_BINARY_DIR}/downloads"
 mark_as_advanced(download_location)
 
 if (WIN32)
+  find_program(7Z_EXE NAMES 7z)
+endif ()
+
+if (WIN32)
   set (ldflags)
   set (cppflags)
   set (cxxflags)

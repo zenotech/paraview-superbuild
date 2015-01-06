@@ -9,6 +9,8 @@ add_external_project(acusolve
                      -DINSTALL_DIR:PATH=<INSTALL_DIR>
                      -DPARAVIEW_BINARY_DIR:PATH=${ParaViewSuperBuild_BINARY_DIR}/paraview/src/paraview-build
                      -DTMP_DIR:PATH=<TMP_DIR>
+                    "-DPLUGIN_SCRIPT:FILEPATH=${CMAKE_CURRENT_SOURCE_DIR}/plugin-macros.cmake"
+                    "-D7Z_EXE:FILEPATH=${7Z_EXE}"
                      -Dbundle_name:STRING=${CMAKE_CURRENT_BINARY_DIR}/AcuSolveReaderPlugin
                      -Dbundle_suffix:STRING=${pv_version_long}-${package_suffix}
                      -P ${CMAKE_CURRENT_LIST_DIR}/install_acusolve.cmake
