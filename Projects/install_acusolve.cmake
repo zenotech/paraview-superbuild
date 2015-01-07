@@ -40,7 +40,7 @@ if (APPLE)
 endif()
 
 # make tarball
-execute_process(
-  COMMAND ${CMAKE_COMMAND}
-  -E tar cvfz ${bundle_name}-${bundle_suffix}.tgz AcuSolveReaderPlugin-${bundle_suffix}
-  WORKING_DIRECTORY ${TMP_DIR})
+include("${PLUGIN_SCRIPT}")
+make_plugin_tarball("${TMP_DIR}"
+  "${bundle_name}-${bundle_suffix}"
+  "AcuSolveReaderPlugin-${bundle_suffix}")
