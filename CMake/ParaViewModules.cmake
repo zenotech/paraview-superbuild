@@ -387,9 +387,9 @@ endmacro()
 # those to use to build any dependencies. The default is latter. For former,
 # pass in an optional argument PROJECT_ONLY.
 function(append_flags key value)
-  if (NOT "${key}" STREQUAL "CMAKE_CXX_FLAGS" AND
-      NOT "${key}" STREQUAL "CMAKE_C_FLAGS" AND
-      NOT "${key}" STREQUAL "LDFLAGS")
+  if (NOT "x${key}" STREQUAL "xCMAKE_CXX_FLAGS" AND
+      NOT "x${key}" STREQUAL "xCMAKE_C_FLAGS" AND
+      NOT "x${key}" STREQUAL "xLDFLAGS")
     message(AUTHOR_WARNING
       "Currently, only CMAKE_CXX_FLAGS, CMAKE_C_FLAGS, and LDFLAGS are supported.")
   endif()
