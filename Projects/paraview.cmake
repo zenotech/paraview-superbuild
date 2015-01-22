@@ -17,11 +17,6 @@ if (paraviewsdk_ENABLED)
   set (PARAVIEW_INSTALL_DEVELOPMENT_FILES TRUE)
 endif()
 
-set(python_ARGS)
-if(python_ENABLED)
-  set(python_ARGS -DVTK_PYTHON_VERSION=2.7)
-endif()
-
 if(${osmesa_ENABLED})
   set(osmesa_ARGS -DVTK_OPENGL_HAS_OSMESA:BOOL=ON -DVTK_USE_X:BOOL=OFF)
 endif()
@@ -55,7 +50,6 @@ add_external_project(paraview
     -DVTK_USE_SYSTEM_LIBXML2:BOOL=${libxml2_ENABLED}
     -DVTK_USE_SYSTEM_PNG:BOOL=${png_ENABLED}
     -DVTK_USE_SYSTEM_ZLIB:BOOL=${zlib_ENABLED}
-    ${python_ARGS}
     ${osmesa_ARGS}
 
     # Web documentation

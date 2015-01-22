@@ -22,3 +22,7 @@ if (NOT CROSS_BUILD_STAGE STREQUAL "CROSS")
 endif()
 
 set (pv_python_executable "${install_location}/bin/python" CACHE INTERNAL "" FORCE)
+
+add_extra_cmake_args(
+  -DVTK_PYTHON_VERSION=2.7
+)
