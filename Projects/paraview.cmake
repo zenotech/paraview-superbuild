@@ -17,7 +17,8 @@ if (paraviewsdk_ENABLED)
   set (PARAVIEW_INSTALL_DEVELOPMENT_FILES TRUE)
 endif()
 
-if(${osmesa_ENABLED})
+set(osmesa_ARGS)
+if(osmesa_ENABLED)
   set(osmesa_ARGS -DVTK_OPENGL_HAS_OSMESA:BOOL=ON -DVTK_USE_X:BOOL=OFF)
 endif()
 
