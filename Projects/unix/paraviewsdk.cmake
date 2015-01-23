@@ -28,10 +28,10 @@ if (paraviewsdk_ENABLED)
 
   # Workaround to patch any hard-coded paths to the build folder
   install(CODE "
-  file(GLOB_RECURSE ALL_CMAKE_FILES \"${install_location}/lib/cmake/*.cmake\")
+  file(GLOB_RECURSE ALL_CMAKE_FILES \"${install_location}/lib/*.cmake\")
   foreach(F \${ALL_CMAKE_FILES})
     execute_process(
-      COMMAND sed \"s|${install_location}|\${_IMPORT_PREFIX}|g\" -i \${F}
+      COMMAND sed \"s|${install_location}|\\\${_IMPORT_PREFIX}|g\" -i \${F}
     )
   endforeach()")
 
