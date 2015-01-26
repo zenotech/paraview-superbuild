@@ -30,8 +30,21 @@ endif()
 set(qt_EXTRA_CONFIGURATION_OPTIONS ""
     CACHE STRING "Extra arguments to be passed to Qt when configuring.")
 
+# See https://bugreports.qt.io/browse/QTBUG-5774 and the links available there.
+option(qt_WORK_AROUND_BROKEN_ASSISTANT_BUILD
+  "Work around a build issue in Qt. Use this if you see linker errors with QtHelp and QCLucene." OFF)
+mark_as_advanced(qt_WORK_AROUND_BROKEN_ASSISTANT_BUILD)
+
 set(extra_commands)
-if (CMAKE_GENERATOR STREQUAL "Ninja")
+if (qt_WORK_AROUND_BROKEN_ASSISTANT_BUILD)
+  # This hack is required because Qt's build gets mucked up when we set
+  # LDFLAGS, CXXFLAGS, etc. Installing things makes it work because the files
+  # get placed into the install tree which has rpaths so they get found. Since
+  # it is such a hack, it is an option which off and hidden by default.
+  set (extra_commands
+        BUILD_COMMAND make install
+        INSTALL_COMMAND "")
+elseif (CMAKE_GENERATOR STREQUAL "Ninja")
   # when using ninja, we can't use Ninja to build Qt, so we change that to
   # "make".
   set (extra_commands
