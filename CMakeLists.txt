@@ -212,6 +212,8 @@ if (NOT WIN32)
   include(CheckFortran)
 endif()
 
+option(USE_NONFREE_COMPONENTS "Enable the non-free parts of the superbuild" OFF)
+mark_as_advanced(USE_NONFREE_COMPONENTS)
 
 # Include all optional projects. These are the ones user can pick and choose.
 # Some of these allow using system libraries too.
@@ -267,7 +269,7 @@ else()
   endif()
 
   # Build CosmoTools on Linux and OS X
-  if (UNIX)
+  if (UNIX AND USE_NONFREE_COMPONENTS)
     include(qhull)
     include(diy)
     include(genericio)
@@ -277,8 +279,10 @@ else()
   # REMEMBER to tell VTK/ParaView to use VTK_SYSTEM_* for the
   # libraries we've built here.
   include(paraview)
-  include(vistrails)
-  include(acusolve)
+  if (USE_NONFREE_COMPONENTS)
+    include(vistrails)
+    include(acusolve)
+  endif ()
 
   # paraview.sdk is a module that is used install the ParaView SDK.
   # Simply enabling this module will result in the ParaView SDK to be

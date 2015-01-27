@@ -113,26 +113,6 @@ add_revision(osmesa
     URL_MD5 b9e84efee3931c0acbccd1bb5a860554)
 
 
-# Add an option to not use diy from SVN. One Debian-Etch the SVN is too old
-# to work with invalid SVN certificates.
-option(DIY_SKIP_SVN "If enabled, we simply download diy from a source tar" OFF)
-if(DIY_SKIP_SVN)
-  add_revision(diy
-    URL "http://paraview.org/files/dependencies/diy-src.r178.tar.gz"
-    URL_MD5 4fba13aae93927d0f32dd6db0599ffcd)
-else()
-  if (TRUST_SVN_CERTIFICATES_AUTOMATICALLY)
-    add_revision(diy
-       SVN_REPOSITORY https://svn.mcs.anl.gov/repos/diy/trunk
-       SVN_REVISION -r178
-       SVN_TRUST_CERT 1)
-  else()
-    add_revision(diy
-       SVN_REPOSITORY https://svn.mcs.anl.gov/repos/diy/trunk
-       SVN_REVISION -r178)
-  endif()
-endif()
-
 # ----------------------------------------------------------------------------
 # You choose to download ParaView source form GIT or other URL/FILE tarball
 option(ParaView_FROM_GIT "If enabled then the repository is fetched from git" ON)
@@ -160,30 +140,52 @@ else()
   endif()
 endif()
 
-add_revision(qhull
-    GIT_REPOSITORY git://github.com/gzagaris/gxzagas-qhull.git
-    GIT_TAG master)
-
-add_revision(genericio
-    GIT_REPOSITORY git://kwsource.kitwarein.com/genericio/genericio.git
-    GIT_TAG master)
-
 #------------------------------------------------------------------------------
 # Optional Plugins. Doesn't affect ParaView binaries at all even if missing
 # or disabled.
 #------------------------------------------------------------------------------
 
-add_revision(cosmotools
+if (USE_NONFREE_COMPONENTS)
+  add_revision(qhull
+    GIT_REPOSITORY git://github.com/gzagaris/gxzagas-qhull.git
+    GIT_TAG master)
+
+  add_revision(genericio
+    GIT_REPOSITORY git://kwsource.kitwarein.com/genericio/genericio.git
+    GIT_TAG master)
+
+  # Add an option to not use diy from SVN. On Debian-Etch the SVN is too old
+  # to work with invalid SVN certificates.
+  option(DIY_SKIP_SVN "If enabled, we simply download diy from a source tar" OFF)
+  if(DIY_SKIP_SVN)
+    add_revision(diy
+      URL "http://paraview.org/files/dependencies/diy-src.r178.tar.gz"
+      URL_MD5 4fba13aae93927d0f32dd6db0599ffcd)
+  else()
+    if (TRUST_SVN_CERTIFICATES_AUTOMATICALLY)
+      add_revision(diy
+         SVN_REPOSITORY https://svn.mcs.anl.gov/repos/diy/trunk
+         SVN_REVISION -r178
+         SVN_TRUST_CERT 1)
+    else()
+      add_revision(diy
+         SVN_REPOSITORY https://svn.mcs.anl.gov/repos/diy/trunk
+         SVN_REVISION -r178)
+    endif()
+  endif()
+
+  add_revision(cosmotools
     GIT_REPOSITORY git://public.kitware.com/cosmotools.git
     GIT_TAG v0.13)
 
-add_revision(acusolve
-  GIT_REPOSITORY git://kwsource.kitwarein.com/paraview/acusolvereaderplugin.git
-  GIT_TAG master)
+  add_revision(acusolve
+    GIT_REPOSITORY git://kwsource.kitwarein.com/paraview/acusolvereaderplugin.git
+    GIT_TAG master)
 
-add_revision(vistrails
-  GIT_REPOSITORY git://kwsource.kitwarein.com/paraview/vistrails.git
-  GIT_TAG master)
+  add_revision(vistrails
+    GIT_REPOSITORY git://kwsource.kitwarein.com/paraview/vistrails.git
+    GIT_TAG master)
+endif ()
 
 #add_revision(mili_plugin
 # URL ${CMAKE_CURRENT_SOURCE_DIR}/Externals/mili)
