@@ -18,9 +18,9 @@ set (ep_list_separator "-+-")
 
 set (platform)
 if (APPLE)
-  set (platform "apple")
+  set (platform "apple" "apple-unix")
 elseif (UNIX)
-  set (platform "unix")
+  set (platform "unix" "apple-unix")
 elseif (WIN32)
   set (platform "win32")
 endif()
@@ -42,14 +42,16 @@ endif()
 # Setup CMAKE_MODULE_PATH so that platform specific configurations are processed
 # before the generic ones.
 string(TOLOWER "${CROSS_BUILD_STAGE}" lstage)
-set (CMAKE_MODULE_PATH
-  "${SuperBuild_PROJECTS_DIR}/${platform}/${lstage}"
-  "${SuperBuild_PROJECTS_DIR}/${platform}"
-  "${SuperBuild_PROJECTS_DIR}/common"
-  "${SuperBuild_PROJECTS_DIR}"
-  "${SuperBuild_CMAKE_DIR}"
-  "${CMAKE_CURRENT_SOURCE_DIR}"
-  ${CMAKE_MODULE_PATH})
+set(SuperBuild_MODULE_PATH)
+foreach(P IN LISTS platform)
+  list(APPEND SuperBuild_MODULE_PATH "${SuperBuild_PROJECTS_DIR}/${P}/${lstage}")
+  list(APPEND SuperBuild_MODULE_PATH "${SuperBuild_PROJECTS_DIR}/${P}/")
+endforeach()
+list(APPEND SuperBuild_MODULE_PATH "${SuperBuild_PROJECTS_DIR}/common/")
+list(APPEND SuperBuild_MODULE_PATH "${SuperBuild_PROJECTS_DIR}")
+list(APPEND SuperBuild_MODULE_PATH "${SuperBuild_CMAKE_DIR}")
+list(APPEND SuperBuild_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}")
+list(INSERT CMAKE_MODULE_PATH 0 ${SuperBuild_MODULE_PATH})
 
 #-----------------------------------------------------------------------------
 if (NOT CROSS_BUILD_STAGE STREQUAL "HOST")
