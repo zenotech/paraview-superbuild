@@ -16,12 +16,12 @@ add_external_project(genericio
         -DBUILD_TESTING:BOOL=OFF
         -DBUILD_PROGRAMS:BOOL=OFF
     INSTALL_COMMAND
-        ${CMAKE_COMMAND} -E copy <BINARY_DIR>/libGenericIO.${lib_suffix} <INSTALL_DIR>/lib
+        ${CMAKE_COMMAND} -E copy <BINARY_DIR>/libGenericIO${lib_suffix} <INSTALL_DIR>/lib
 )
 
 
 # Any project that depends on cosmotools inherits the following cmake args
 add_extra_cmake_args(
     -DGENERIC_IO_INCLUDE_DIR:PATH=${SuperBuild_BINARY_DIR}/genericio/src/genericio
-    -DGENERIC_IO_LIBRARIES:PATH=${SuperBuild_BINARY_DIR}/genericio/src/genericio-build/libGenericIO.${lib_suffix}
+    -DGENERIC_IO_LIBRARIES:PATH=${SuperBuild_BINARY_DIR}/genericio/src/genericio-build/libGenericIO${lib_suffix}
 )
