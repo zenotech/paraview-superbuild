@@ -59,13 +59,6 @@ set(LAPACK_LIBRARIES
 # This comes from the cray-mpich module
 set(USE_SYSTEM_mpi      ON CACHE BOOL "")
 
-# Force the internal python version
-# not sure why we need to do this but otherwise the wrong python version gets
-# found, but only sometimes ???
-set(PV_EXTRA_CMAKE_ARGS
-  "-DPYTHON_EXECUTABLE:FILEPATH=\${install_location}/bin/python\${ep_list_separator}-DPYTHON_LIBRARY:FILEPATH=\${install_location}/lib/libpython2.7.so\${ep_list_separator}-DPYTHON_INCLUDE_DIR:PATH=\${install_location}/include/python2.7"
-  CACHE STRING "")
-
 # Make sure the final ParaView build uses the whole node
 include(ProcessorCount)
 ProcessorCount(N)
