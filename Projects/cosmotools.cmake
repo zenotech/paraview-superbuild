@@ -3,6 +3,11 @@ if(WIN32)
  return()
 endif()
 
+if(BUILD_SHARED_LIBS)
+  set(lib_suffix ${CMAKE_SHARED_LIBRARY_SUFFIX})
+else()
+  set(lib_suffix ${CMAKE_STATIC_LIBRARY_SUFFIX})
+endif()
 
 add_external_project(cosmotools
     DEPENDS genericio diy qhull
@@ -21,11 +26,11 @@ add_external_project(cosmotools
         -DQHULL_LIBRARIES:PATH=${SuperBuild_BINARY_DIR}/qhull/src/qhull-build/libqhullstatic.a
 
     INSTALL_COMMAND
-        ${CMAKE_COMMAND} -E copy <BINARY_DIR>/libs/libcosmotools.a <INSTALL_DIR>/lib
+        ${CMAKE_COMMAND} -E copy <BINARY_DIR>/libs/libcosmotools${lib_suffix} <INSTALL_DIR>/lib
 )
 
 # Any project that depends on cosmotools inherits the following cmake args
 add_extra_cmake_args(
     -DCOSMOTOOLS_INCLUDE_DIR:PATH=${SuperBuild_BINARY_DIR}/cosmotools/src/cosmotools-build/include
-    -DCOSMOTOOLS_LIBRARIES:PATH=${SuperBuild_BINARY_DIR}/cosmotools/src/cosmotools-build/libs/libcosmotools.a
+    -DCOSMOTOOLS_LIBRARIES:PATH=${SuperBuild_BINARY_DIR}/cosmotools/src/cosmotools-build/libs/libcosmotools${lib_suffix}
 )
