@@ -15,3 +15,7 @@ add_external_project_or_use_system(mpi
   BUILD_COMMAND ${CMAKE_MAKE_PROGRAM}
   BUILD_IN_SOURCE 1
 )
+if(NOT USE_SYSTEM_mpi)
+  set(MPI_C_COMPILER <INSTALL_DIR>/bin/mpicc)
+  set(MPI_CXX_COMPILER <INSTALL_DIR>/bin/mpic++)
+endif()

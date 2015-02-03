@@ -258,6 +258,8 @@ else()
 
   if (UNIX)
     # Supported on Linux/Mac
+    include(adios)
+    include(mxml)
     include(ffmpeg)
   endif()
 

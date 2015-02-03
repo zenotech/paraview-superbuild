@@ -1,7 +1,6 @@
-find_package(PythonLibs REQUIRED)
-find_package(PythonInterp REQUIRED)
+find_package(PythonLibs   2.6 REQUIRED)
+find_package(PythonInterp 2.6 REQUIRED)
 
-set (pv_python_executable "${PYTHON_EXECUTABLE}" CACHE INTERNAL "" FORCE)
 # This will add PYTHON_LIBRARY, PYTHON_EXECUTABLE, PYTHON_INCLUDE_DIR
 # variables. User can set/override these to change the Python being used.
 add_extra_cmake_args(

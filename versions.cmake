@@ -190,3 +190,13 @@ add_revision(lapack
 add_revision(netcdf
   URL http://www.paraview.org/files/dependencies/netcdf-4.3.2.modified.tar.gz
   URL_MD5 1841196c2bfcf10246966eecf92ad0ec)
+
+add_revision(mxml
+  URL http://www.paraview.org/files/dependencies/mxml-2.9.tar.gz
+  URL_MD5 e21cad0f7aacd18f942aa0568a8dee19
+)
+
+add_revision(adios
+  URL http://www.paraview.org/files/dependencies/adios-1.8-439f0fb6.tar.bz2
+  URL_MD5 a88701c77a7ead5daadd8d8aff70556a
+)

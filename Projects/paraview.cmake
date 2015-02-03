@@ -24,7 +24,7 @@ endif()
 
 add_external_project(paraview
   DEPENDS_OPTIONAL
-    boost cosmotools ffmpeg hdf5 libxml3 manta matplotlib mpi numpy png python qt visitbridge zlib silo cgns
+    adios boost cosmotools ffmpeg hdf5 libxml3 manta matplotlib mpi numpy png python qt visitbridge zlib silo cgns
     mesa osmesa nektarreader netcdf
     ${PV_EXTERNAL_PROJECTS}
 
@@ -52,6 +52,7 @@ add_external_project(paraview
     -DVTK_USE_SYSTEM_LIBXML2:BOOL=${libxml2_ENABLED}
     -DVTK_USE_SYSTEM_PNG:BOOL=${png_ENABLED}
     -DVTK_USE_SYSTEM_ZLIB:BOOL=${zlib_ENABLED}
+    -DModule_vtkIOADIOS:BOOL=${adios_ENABLED}
     ${osmesa_ARGS}
 
     # Web documentation
