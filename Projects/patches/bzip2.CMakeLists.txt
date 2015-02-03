@@ -15,6 +15,9 @@ set(bz2_srcs
     compress.c
     decompress.c
     bzlib.c)
+if(WIN32)
+  list(APPEND bz2_srcs libbz2.def)
+endif()
 
 add_library(bz2
     ${bz2_srcs})
