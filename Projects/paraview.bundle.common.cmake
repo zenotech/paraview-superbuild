@@ -18,6 +18,9 @@ endif()
 set(CPACK_PACKAGE_FILE_NAME
     "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}-${package_suffix}")
 
+# set the license file.
+set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_LIST_DIR}/paraview.license.txt")
+
 if (CMAKE_CL_64)
   # Change default installation root path for Windows x64
   set(CPACK_NSIS_INSTALL_ROOT "$PROGRAMFILES64")
