@@ -20,6 +20,9 @@ set (CTEST_CUSTOM_ERROR_EXCEPTION
   # skip numpy configure errors on Windows.
   # these are warnings about Atlas/Blas not found.
   "system_info.py.*UserWarning:"
+  # "Unknown distribution option: 'test_suite'"
+  # "Unknown distribution option: 'define_macros'"
+  "dist.py.*UserWarning:"
 
   # again from numpy, skip configtest errors.
   "_configtest"
