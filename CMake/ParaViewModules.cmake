@@ -231,6 +231,7 @@ macro(process_dependencies)
     elseif(${cm-project}_IS_DUMMY_PROJECT)
       #this project isn't built, just used as a graph node to
       #represent a group of dependencies
+      include(${cm-project})
       add_external_dummy_project_internal(${cm-project})
     else()
       include(${cm-project})
