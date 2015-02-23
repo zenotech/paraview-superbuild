@@ -9,6 +9,54 @@ macro(add_revision name)
 endmacro()
 
 #------------------------------------------------------------------------------
+# Use this macro instead of the add_revision() macro when adding
+# a source repo to add advanced options for the user to change the default
+# selections. Currently advanced options are added for
+# CVS_REPOSITORY, CVS_MODULE, CVS_TAG, SVN_REVISION, SVN_REVISION,
+# GIT_REPOSITORY, GIT_TAG, HG_REPOSITORY, HG_TAG, URL, URL_HASH, and URL_MD5.
+#------------------------------------------------------------------------------
+function(add_customizable_revision name)
+  # ExternalProject_Add arguments
+  #[CVS_REPOSITORY cvsroot]    # CVSROOT of CVS repository
+  #[CVS_MODULE mod]            # Module to checkout from CVS repo
+  #[CVS_TAG tag]               # Tag to checkout from CVS repo
+  #[SVN_REPOSITORY url]        # URL of Subversion repo
+  #[SVN_REVISION rev]          # Revision to checkout from Subversion repo
+  #[SVN_USERNAME john ]        # Username for Subversion checkout and update
+  #[SVN_PASSWORD doe ]         # Password for Subversion checkout and update
+  #[SVN_TRUST_CERT 1 ]         # Trust the Subversion server site certificate
+  #[GIT_REPOSITORY url]        # URL of git repo
+  #[GIT_TAG tag]               # Git branch name, commit id or tag
+  #[GIT_SUBMODULES modules...] # Git submodules that shall be updated, all if empty
+  #[HG_REPOSITORY url]         # URL of mercurial repo
+  #[HG_TAG tag]                # Mercurial branch name, commit id or tag
+  #[URL /.../src.tgz]          # Full path or URL of source
+  #[URL_HASH ALGO=value]       # Hash of file at URL
+  #[URL_MD5 md5]               # Equivalent to URL_HASH MD5=md5
+
+  set (args
+    CVS_REPOSITORY CVS_MODULE CVS_TAG
+    SVN_REVISION SVN_REVISION
+    GIT_REPOSITORY GIT_TAG
+    HG_REPOSITORY HG_TAG
+    URL URL_HASH URL_MD5)
+  cmake_parse_arguments(_args "" "${args}" "" ${ARGN})
+  set (CUSTOMIZED_ARGN)
+  string(TOUPPER "${name}" name_UPPER)
+  foreach (key IN LISTS args)
+    if (_args_${key})
+      set (option_name "${name_UPPER}_${key}")
+      set (option_default "${_args_${key}}")
+      set(${option_name} "${option_default}" CACHE STRING "${key} for project '${name}'")
+      mark_as_advanced(${option_name})
+      list(APPEND CUSTOMIZED_ARGN ${key} ${${option_name}})
+    endif()
+  endforeach()
+
+  set (${name}_revision ${CUSTOMIZED_ARGN} ${_args_UNPARSED_ARGUMENTS} PARENT_SCOPE)
+endfunction()
+
+#------------------------------------------------------------------------------
 macro(add_external_project _name)
   project_check_name(${_name})
   set(cm-project ${_name})
