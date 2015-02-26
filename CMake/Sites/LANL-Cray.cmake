@@ -1,6 +1,5 @@
 # Tarballs needing to be downloaded:
 # boost
-# ffmpeg (broken on Cielo)
 # matplotlib
 # numpy
 # osmesa
@@ -12,15 +11,14 @@ set(CMAKE_BUILD_TYPE  Release CACHE STRING "")
 
 if("$ENV{CRAYPE_LINK_TYPE}" STREQUAL "dynamic")
   set(BUILD_SHARED_LIBS ON CACHE BOOL "")
-  set(LIB_EXT ${CMAKE_SHARED_LIBRARY_SUFFIX})
+  set(LIB_EXT ".so")
 else()
   set(BUILD_SHARED_LIBS OFF CACHE BOOL "")
-  set(LIB_EXT ${CMAKE_STATIC_LIBRARY_SUFFIX})
+  set(LIB_EXT ".a")
 endif()
 
 set(ENABLE_boost       ON CACHE BOOL "")
 set(ENABLE_bzip2       ON CACHE BOOL "")
-#set(ENABLE_ffmpeg      ON CACHE BOOL "") Broken on Cielo
 set(ENABLE_freetype    ON CACHE BOOL "")
 set(ENABLE_hdf5        ON CACHE BOOL "")
 set(ENABLE_lapack      ON CACHE BOOL "")
@@ -50,14 +48,15 @@ set(USE_SYSTEM_hdf5     ON CACHE BOOL "")
 string(TOLOWER "$ENV{PE_ENV}" PE_low)
 set(USE_SYSTEM_lapack   ON CACHE BOOL "")
 set(BLAS_LIBRARIES
-  "$ENV{CRAY_LIBSCI_PREFIX_DIR}/lib/libsci_${PE_low}.${LIB_EXT}"
+  "$ENV{CRAY_LIBSCI_PREFIX_DIR}/lib/libsci_${PE_low}${LIB_EXT}"
   CACHE FILEPATH "")
 set(LAPACK_LIBRARIES
-  "$ENV{CRAY_LIBSCI_PREFIX_DIR}/lib/libsci_${PE_low}.${LIB_EXT}"
+  "$ENV{CRAY_LIBSCI_PREFIX_DIR}/lib/libsci_${PE_low}${LIB_EXT}"
   CACHE FILEPATH "")
 
 # This comes from the cray-mpich module
 set(USE_SYSTEM_mpi      ON CACHE BOOL "")
+find_program(MPIEXEC aprun)
 
 # Make sure the final ParaView build uses the whole node
 include(ProcessorCount)

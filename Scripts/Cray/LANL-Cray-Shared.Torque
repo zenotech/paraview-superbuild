@@ -1,10 +1,31 @@
 #PBS -S /bin/bash
 #PBS -N PVBuildShared
 #PBS -l nodes=1:ppn=1
-#PBS -l walltime=1:00:00
+#PBS -l walltime=3:00:00
 #PBS -j oe
 
 # This is used to build ParaView on Cielo / Cielito, a Cray XE6 at LANL
+
+# Validate arguments
+if [ $# -ne 1 ]
+then
+  echo "Usage: qsub $(basename $0) -F \"intel|gnu|pgi|cray\""
+  exit 1
+fi
+COMP=$1
+
+case ${COMP} in
+  intel)
+    export INTEL_LICENSE_FILE=/opt/intel/licenses/intel.lic
+    ;;
+  gnu|pgi|cray)
+    ;;
+  *)
+    echo "Error: Unknown compiler \"${COMP}\" specified"
+    exit 1
+    ;;
+esac
+
 
 . /opt/modules/default/init/bash
 
@@ -12,12 +33,16 @@
 module purge
 
 # Load the compilers
-module load PrgEnv-intel
+module load PrgEnv-${COMP}
 module load craype-target-compute_node
 export CRAYPE_LINK_TYPE=dynamic
+
+# The compute nodes don't have write access to /tmp, only /tmp/scratch
 export TMP=/tmp/scratch
 export TEMP=/tmp/scratch
 export TMPDIR=/tmp/scratch
+
+# Make sure the compiler vars contain the full path to the cray wrappers
 export CC=$(which cc)
 export CXX=$(which CC)
 export FC=$(which ftn)
@@ -30,14 +55,50 @@ module load cray-mpich
 # Used by the CMake FindHDF5.cmake module
 export HDF5_ROOT=${HDF5_DIR}
 
-# Run the build seteps
+# Workaround for the license server issues
+
+# Number of "make" retries
+RTMAX=30
+
+# Seconds in between retries
+RTSLEEP=120
+
+#
+# Second to last line in the aprun script is the "linearized" bash snippet:
+#
+# RT=0
+# until make
+# do
+#   if [ $RT -ge $RTMAX ]
+#   then
+#     echo "$RTMAX Retries Exceeded"
+#     exit $?
+#   fi
+#   RT=$((RT+1))
+#   echo "Retrying ($RT/$RTMAX) in $RTSLEEP seconds"
+#   sleep $RTSLEEP
+# done
+#
+# Basically, this will keep retring the make command, at most RTMAX number
+# of times, until it succeeds.  This is currently necessary to work around
+# an unexplained issue with the Intel license server and intel compilers
+# running on compute nodes.
+#
+
+# Run the build steps
+BASE_DIR=/usr/projects/packages/hpc_paraview/superbuild
+BUILD_DIR=/tmp/scratch/pv-build
+
 aprun /bin/bash -c " \
-mkdir /tmp/scratch/pv-build && \
-cd /tmp/scratch/pv-build && \
+mkdir -p ${BUILD_DIR} && \
+cd ${BUILD_DIR} && \
 $HOME/Code/CMake/build/release/bin/cmake \
-  -C/usr/projects/packages/hpc_paraview/superbuild/source/ParaViewSuperbuild/CMake/Sites/LANL-Cray.cmake \
-  -DCMAKE_INSTALL_PREFIX=/usr/projects/packages/hpc_paraview/superbuild/install/cielito_intel_mpich \
-  /usr/projects/packages/hpc_paraview/superbuild/source/ParaViewSuperbuild &&
-make && \
+  -C${BASE_DIR}/source/ParaViewSuperbuild/CMake/Sites/LANL-Cray.cmake \
+  -DCMAKE_INSTALL_PREFIX=${BASE_DIR}/install/cielito_${COMP}_mpich \
+  ${BASE_DIR}/source/ParaViewSuperbuild && \
+RT=0; until make; do if [ \$RT -ge $RTMAX ]; then echo \"$RTMAX Retries Exceeded\"; exit \$?; fi; RT=\$((RT+1)); echo \"Retrying (\$RT/$RTMAX) in $RTSLEEP seconds\"; sleep $RTSLEEP; done && \
 make install \
 "
+
+echo "Build complete"
+
