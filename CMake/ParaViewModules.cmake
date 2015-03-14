@@ -33,13 +33,15 @@ function(add_customizable_revision name)
   #[URL /.../src.tgz]          # Full path or URL of source
   #[URL_HASH ALGO=value]       # Hash of file at URL
   #[URL_MD5 md5]               # Equivalent to URL_HASH MD5=md5
+  #[SOURCE_DIR]                # Source dir to be used for build
 
   set (args
     CVS_REPOSITORY CVS_MODULE CVS_TAG
     SVN_REVISION SVN_REVISION
     GIT_REPOSITORY GIT_TAG
     HG_REPOSITORY HG_TAG
-    URL URL_HASH URL_MD5)
+    URL URL_HASH URL_MD5
+    SOURCE_DIR)
   cmake_parse_arguments(_args "" "${args}" "" ${ARGN})
   set (CUSTOMIZED_ARGN)
   string(TOUPPER "${name}" name_UPPER)

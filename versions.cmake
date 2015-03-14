@@ -8,6 +8,8 @@
 #   ..
 # endif()
 
+include(CMakeDependentOption)
+
 add_revision(bzip2
   URL "http://www.paraview.org/files/dependencies/bzip2-1.0.6.tar.gz"
   URL_MD5 00b516f4704d4a7cb50a1d97e6e8e15b)
@@ -116,6 +118,9 @@ add_revision(osmesa
 # ----------------------------------------------------------------------------
 # You choose to download ParaView source form GIT or other URL/FILE tarball
 option(ParaView_FROM_GIT "If enabled then the repository is fetched from git" ON)
+cmake_dependent_option(ParaView_FROM_SOURCE_DIR OFF
+  "Enable to use existing ParaView source."
+  "NOT ParaView_FROM_GIT" OFF)
 
 if (ParaView_FROM_GIT)
   # Download PV from GIT
@@ -123,10 +128,15 @@ if (ParaView_FROM_GIT)
     GIT_REPOSITORY git://paraview.org/ParaView.git
     GIT_TAG "master")
 else()
-  # Variables to hold the URL and MD5 (optional)
-  add_customizable_revision(paraview
-    URL "http://www.paraview.org/files/v4.3/ParaView-v4.3.1-source.tar.gz"
-    URL_MD5 "d03d3ab504037edd21306413dff64293")
+  if (ParaView_FROM_SOURCE_DIR)
+    add_customizable_revision(paraview
+      SOURCE_DIR "ParaViewSource")
+  else()
+    # Variables to hold the URL and MD5 (optional)
+    add_customizable_revision(paraview
+      URL "http://www.paraview.org/files/v4.3/ParaView-v4.3.1-source.tar.gz"
+      URL_MD5 "d03d3ab504037edd21306413dff64293")
+  endif()
 endif()
 
 #------------------------------------------------------------------------------
