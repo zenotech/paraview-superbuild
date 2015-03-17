@@ -1,6 +1,10 @@
 [hooks]
-	url = git://vtk.org/VTK.git
-[gerrit]
-	project = ParaViewSuperbuild
-	site = http://review.source.kitware.com
-	pushurl = $username@review.source.kitware.com:ParaViewSuperbuild
+	url = https://gitlab.kitware.com/paraview/paraview.git
+[upstream]
+	url = https://gitlab.kitware.com/paraview/paraview-superbuild.git
+[gitlab]
+	host = gitlab.kitware.com
+	group-path = paraview
+	group-name = ParaView
+	project-path = paraview-superbuild
+	project-name = ParaView-Superbuild
