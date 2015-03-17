@@ -1,7 +1,7 @@
-Download ParaViewSuperbuild with Git
-====================================
+Download ParaView-Superbuild with Git
+=====================================
 
-This page documents how to download ParaViewSuperbuild source code through [Git][].
+This page documents how to download ParaView-Superbuild source code through [Git][].
 See the [README](README.md) for more information.
 
 [Git]: http://git-scm.com

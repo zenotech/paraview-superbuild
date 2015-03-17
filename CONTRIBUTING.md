@@ -1,14 +1,14 @@
-Contributing to ParaViewSuperbuild
-==================================
+Contributing to ParaView-Superbuild
+===================================
 
 Our project uses GitLab for code review and Buildbot to test proposed
-patches before they are merged.  Please check our [ParaViewSuperbuild Git][]
+patches before they are merged.  Please check our [ParaView-Superbuild Git][]
 instructions for details on developing and contributing to the project.
 
 Our [Wiki][] is used to document features, flesh out designs and host other
 documentation. We have several [Mailing Lists][] to coordinate development and
 to provide support.
 
-[ParaViewSuperbuild Git]: Documentation/dev/git/README.md
+[ParaView-Superbuild Git]: Documentation/dev/git/README.md
 [Wiki]: http://www.paraview.org/Wiki/ParaView
 [Mailing Lists]: http://www.paraview.org/mailing-lists/

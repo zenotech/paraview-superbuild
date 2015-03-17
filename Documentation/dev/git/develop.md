@@ -1,14 +1,14 @@
-Develop ParaViewSuperbuild with Git
-===================================
+Develop ParaView-Superbuild with Git
+====================================
 
-This page documents how to develop ParaViewSuperbuild through [Git][].
+This page documents how to develop ParaView-Superbuild through [Git][].
 See the [README](README.md) for more information.
 
 [Git]: http://git-scm.com
 
 Git is an extremely powerful version control tool that supports many
 different "workflows" for individual development and collaboration.
-Here we document procedures used by the ParaViewSuperbuild development community.
+Here we document procedures used by the ParaView-Superbuild development community.
 In the interest of simplicity and brevity we do *not* provide an
 explanation of why we use this approach.
 
@@ -20,7 +20,7 @@ Before you begin, perform initial setup:
 1.  Register [GitLab Access].
 
 2.  Follow the [download instructions](download.md#clone) to create a
-    local ParaViewSuperbuild clone:
+    local ParaView-Superbuild clone:
 
         $ git clone https://gitlab.kitware.com/paraview/paraview-superbuild.git ParaView-Superbuild
         $ cd ParaView-Superbuild
@@ -31,11 +31,11 @@ Before you begin, perform initial setup:
         $ ./Utilities/SetupForDevelopment.sh
 
 4.  (Optional but highly recommended.)
-    [Register](https://open.cdash.org/register.php) with the ParaViewSuperbuild project
+    [Register](https://open.cdash.org/register.php) with the ParaView-Superbuild project
     on Kitware's CDash instance to better know how your code performs in
     regression tests.  After registering and signing in, click on
     "All Dashboards" link in the upper left corner, scroll down and click
-    "Subscribe to this project" on the right of ParaViewSuperbuild.
+    "Subscribe to this project" on the right of ParaView-Superbuild.
 
 [GitLab Access]: https://gitlab.kitware.com/users/sign_in
 [developer setup script]: /Utilities/SetupForDevelopment.sh
@@ -43,7 +43,7 @@ Before you begin, perform initial setup:
 Workflow
 --------
 
-ParaViewSuperbuild development uses a [branchy workflow][] based on topic branches.
+ParaView-Superbuild development uses a [branchy workflow][] based on topic branches.
 Our collaboration workflow consists of three main steps:
 
 1.  Local Development:
@@ -102,7 +102,7 @@ Share a Topic
 When a topic is ready for review and possible inclusion, share it by pushing
 to a fork of your repository in GitLab.  Be sure you have registered and
 signed in for [GitLab Access][] and created your fork by visiting the main
-[ParaViewSuperbuild GitLab][] repository page and using the "Fork" button in the upper right.
+[ParaView-Superbuild GitLab][] repository page and using the "Fork" button in the upper right.
 
 [ParaView-Superbuild GitLab]: https://gitlab.kitware.com/paraview/paraview-superbuild
 
@@ -238,7 +238,7 @@ succeeds.
 
 ### Testing ###
 
-ParaViewSuperbuild has a [buildbot](http://buildbot.net) instance watching for merge requests
+ParaView-Superbuild has a [buildbot](http://buildbot.net) instance watching for merge requests
 to test.  To enable testing, the `buildbot` label may be added to a merge
 request to be considered.  Merge requests by developers will be picked up
 automatically.  For other users, a developer must issue a command to buildbot
