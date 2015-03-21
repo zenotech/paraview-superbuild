@@ -325,25 +325,7 @@ if (paraview_ENABLED)
   include(paraview.bundle OPTIONAL)
 endif()
 
-option(NIGHTLY_BINARY_TESTING "Run Nightly-Binary ParaView Testing" OFF)
-
-# Create this cache option only if nightly binary testing is enabled,
-# but in that case, you will still have to explicitly turn it on.
-cmake_dependent_option(ENABLE_REMOTE_PVWEB_TEST
-  "Whether or not to include a test of remote pvweb instances" OFF
-  "NIGHTLY_BINARY_TESTING" OFF)
-set(REMOTE_PVWEB_VISUALIZER_URLS
-  http://pvw-test.kitware.com/sbtest
-  http://pvw.kitware.com/sbtest
-  http://paraviewweb.kitware.com/sbtest
-  CACHE STRING "A list of urls against which to run a simple Web Visualizer test.")
-set(REMOTE_PVWEB_TEST_BROWSER
-  firefox
-  CACHE STRING "Which browser to use during testing, either chrome or firefox")
-mark_as_advanced(ENABLE_REMOTE_PVWEB_TEST REMOTE_PVWEB_VISUALIZER_URLS REMOTE_PVWEB_TEST_BROWSER)
-if (NIGHTLY_BINARY_TESTING)
-  add_subdirectory(tests)
-endif()
+add_subdirectory(Testing)
 
 #------------------------------------------------------------------------------
 # Test to check install tree for paraviewsdk
