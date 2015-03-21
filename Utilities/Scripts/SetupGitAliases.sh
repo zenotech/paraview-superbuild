@@ -6,7 +6,7 @@ echo "Setting up useful Git aliases..." &&
 git config alias.prepush 'log --graph --stat origin/master..' &&
 
 # Alias to push the current topic branch to Gerrit
-gerrit_disabled="ParaViewSuperbuild no longer uses Gerrit. Please use GitLab." &&
+gerrit_disabled="ParaView-Superbuild no longer uses Gerrit. Please use GitLab." &&
 git config alias.gerrit-push '!sh -c "echo '"${gerrit_disabled}"'"' &&
 
 # Alias to push the current topic branch to GitLab
