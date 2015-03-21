@@ -47,10 +47,10 @@ ${ov}
   if(NOT contents_length EQUAL 1 OR NOT IS_DIRECTORY "${contents}")
     set(contents "${OUTPUT_DIRECTORY}/__Extract__")
   endif()
-  file(RENAME "${contents}" "${OUTPUT_DIRECTORY}/../__Package__")
+  get_filename_component(templocation "${OUTPUT_DIRECTORY}/../__Package__" ABSOLUTE)
+  file(RENAME "${contents}" "${templocation}")
   file(REMOVE_RECURSE "${OUTPUT_DIRECTORY}")
-  file(MAKE_DIRECTORY "${OUTPUT_DIRECTORY}")
-  file(RENAME "${OUTPUT_DIRECTORY}/../__Package__" "${OUTPUT_DIRECTORY}")
+  file(RENAME "${templocation}" "${OUTPUT_DIRECTORY}")
   message("Package `installed` under '${OUTPUT_DIRECTORY}'")
 
 elseif(file_ext MATCHES "\\.dmg$")
@@ -91,9 +91,9 @@ ${ov}
   execute_process(COMMAND hdiutil detach "${OUTPUT_DIRECTORY}/__Mount__")
 
   # Now put the contents in __Extract__ to the same location as ${OUTPUT_DIRECTORY}}
-  file(RENAME "${OUTPUT_DIRECTORY}/__Extract__" "${OUTPUT_DIRECTORY}/../__Package__")
+  get_filename_component(templocation "${OUTPUT_DIRECTORY}/../__Package__" ABSOLUTE)
+  file(RENAME "${OUTPUT_DIRECTORY}/__Extract__" "${templocation}")
   file(REMOVE_RECURSE "${OUTPUT_DIRECTORY}")
-  file(MAKE_DIRECTORY "${OUTPUT_DIRECTORY}")
-  file(RENAME "${OUTPUT_DIRECTORY}/../__Package__" "${OUTPUT_DIRECTORY}")
+  file(RENAME "${templocation}" "${OUTPUT_DIRECTORY}")
   message("Package `installed` under '${OUTPUT_DIRECTORY}'")
 endif()
