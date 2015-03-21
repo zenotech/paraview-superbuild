@@ -58,15 +58,17 @@ add_external_project_or_use_system(
     CONFIGURE_COMMAND <SOURCE_DIR>/configure
       -prefix <INSTALL_DIR>
       -confirm-license
-      -release
       -no-audio-backend
       -no-dbus
       -no-declarative-debug
+      -no-multimedia
       -nomake demos
       -nomake examples
+      -nomake tests
       -no-multimedia
       -no-openssl
       -no-phonon
+      -no-script
       -no-scripttools
       -no-svg
       -no-webkit
@@ -75,6 +77,7 @@ add_external_project_or_use_system(
       -opensource
       -qt-libjpeg
       -qt-libtiff
+      -release
       -system-zlib
       -xmlpatterns
       -I <INSTALL_DIR>/include
