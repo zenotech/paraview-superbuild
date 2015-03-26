@@ -5,7 +5,7 @@ QT = core network
 LIBS += -framework Foundation -framework SystemConfiguration
 
 contains(QT_CONFIG, corewlan) {
-    isEmpty(QMAKE_MAC_SDK)|contains(QMAKE_MAC_SDK, ".*MacOSX10\.[6789]\.sdk") {
+    isEmpty(QMAKE_MAC_SDK)|contains(QMAKE_MAC_SDK, ".*MacOSX10\.([6789]|10)\.sdk") {
          LIBS += -framework CoreWLAN -framework Security
     }
 }
