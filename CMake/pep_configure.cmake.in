@@ -1,6 +1,7 @@
 
 set (environment "@process_environment@")
 set (command @step_command@)
+set (suppress @suppress@)
 
 set (key)
 foreach (arg IN LISTS environment)
@@ -19,7 +20,13 @@ foreach (arg IN LISTS environment)
   endif()
 endforeach()
 
+set(args)
+if (suppress)
+  list(APPEND args OUTPUT_QUIET ERROR_QUIET)
+endif ()
+
 execute_process(COMMAND ${command}
+  ${args}
   RESULT_VARIABLE rv)
 
 if (rv)
