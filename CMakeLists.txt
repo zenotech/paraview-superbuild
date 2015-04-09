@@ -271,6 +271,7 @@ else()
   include(numpy)
   include(png)
   include(python)
+  include(qt4)
   include(qt)
   include(silo)
   include(szip)
@@ -339,7 +340,7 @@ process_dependencies()
 #-------------------------------------------------------------------------
 # Some sanity checks.
 # Sanity check: Cannot has osmesa and qt enabled at the same time.
-if (osmesa_ENABLED AND qt_ENABLED)
+if (osmesa_ENABLED AND (qt4_ENABLED OR qt_ENABLED))
   message(SEND_ERROR "Cannot enable OSMesa and QT at the same time.")
 endif()
 # Sanity check: Cannot has osmesa and mesa at the same time.

@@ -88,7 +88,7 @@ if (python_ENABLED AND NOT USE_SYSTEM_python)
           FILES_MATCHING PATTERN "zlib*.dll")
 endif()
 
-if (qt_ENABLED AND NOT USE_SYSTEM_qt)
+if ((qt4_ENABLED AND NOT USE_SYSTEM_qt4) OR (qt_ENABLED AND NOT USE_SYSTEM_qt))
   install(DIRECTORY
     # install all qt plugins (including sqllite).
     # FIXME: we can reconfigure Qt to be built with inbuilt sqllite support to

@@ -1,7 +1,7 @@
 # fix the zdll.lib issue (qt wants the library to be named differently hence
 # skipping using our zlib on windows. Let qt build its own zlib.)
 add_external_project_or_use_system(
-  qt
+  qt4
   BUILD_IN_SOURCE 1
   CONFIGURE_COMMAND <SOURCE_DIR>/configure.exe
                     -prefix <INSTALL_DIR>
