@@ -95,8 +95,6 @@ else ()
   set (package_suffix "${package_suffix}-32bit")
 endif()
 
-include(paraview_version)
-
 option(TRUST_SVN_CERTIFICATES_AUTOMATICALLY
   "Trust SVN certificates automatically" ON)
 mark_as_advanced(TRUST_SVN_CERTIFICATES_AUTOMATICALLY)
@@ -192,6 +190,8 @@ endif()
 #-----------------------------------------------------------------------------
 include (ParaViewModules)
 include (versions)
+# Determine ParaView version, either automatically or manually.
+include(DetermineParaViewVersion)
 
 #------------------------------------------------------------------------------
 # enable testing support.

@@ -1,7 +1,5 @@
 # Consolidates platform independent stub for paraview.bundle.cmake files.
 
-include (paraview_version)
-
 # Enable CPack packaging.
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY
   "ParaView is a scientific visualization tool.")
