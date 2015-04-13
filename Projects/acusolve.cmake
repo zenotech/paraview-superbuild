@@ -12,6 +12,6 @@ add_external_project(acusolve
                     "-DPLUGIN_SCRIPT:FILEPATH=${CMAKE_CURRENT_LIST_DIR}/plugin-macros.cmake"
                     "-D7Z_EXE:FILEPATH=${7Z_EXE}"
                      -Dbundle_name:STRING=${CMAKE_CURRENT_BINARY_DIR}/AcuSolveReaderPlugin
-                     -Dbundle_suffix:STRING=${pv_version_long}-${package_suffix}
+                     -Dbundle_suffix:STRING=${pv_version_long}-${PACKAGE_SUFFIX}
                      -P ${CMAKE_CURRENT_LIST_DIR}/install_acusolve.cmake
 )

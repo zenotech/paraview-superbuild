@@ -88,12 +88,19 @@ endif()
 
 # Set suffix to be used for generating archives. This ensures that the package
 # files have decent names that we can directly upload to the website.
-set (package_suffix "${CMAKE_SYSTEM_NAME}")
+set (package_suffix_default "${CMAKE_SYSTEM_NAME}")
 if (64bit_build)
-  set (package_suffix "${package_suffix}-64bit")
+  set (package_suffix_default "${package_suffix_default}-64bit")
 else ()
-  set (package_suffix "${package_suffix}-32bit")
+  set (package_suffix_default "${package_suffix_default}-32bit")
 endif()
+
+# PACKAGE_SUFFIX: A string that can be set to the suffix you want to use for all
+# the generated packages. By default, its set to
+# ${CMAKE_SYSTEM_NAME}-{64|32}bit.
+set (PACKAGE_SUFFIX "${package_suffix_default}"
+  CACHE STRING "String to use as a suffix for generated packages")
+mark_as_advanced(PACKAGE_SUFFIX)
 
 option(TRUST_SVN_CERTIFICATES_AUTOMATICALLY
   "Trust SVN certificates automatically" ON)
