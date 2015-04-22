@@ -150,7 +150,7 @@ if (USE_NONFREE_COMPONENTS)
     GIT_TAG master)
 
   add_revision(genericio
-    GIT_REPOSITORY git://kwsource.kitwarein.com/genericio/genericio.git
+    GIT_REPOSITORY https://kwgitlab.kitware.com/paraview/genericio.git
     GIT_TAG master)
 
   # Add an option to not use diy from SVN. On Debian-Etch the SVN is too old
@@ -178,11 +178,11 @@ if (USE_NONFREE_COMPONENTS)
     GIT_TAG v0.13)
 
   add_revision(acusolve
-    GIT_REPOSITORY git://kwsource.kitwarein.com/paraview/acusolvereaderplugin.git
+    GIT_REPOSITORY https://kwgitlab.kitware.com/paraview/acusolvereaderplugin.git
     GIT_TAG master)
 
   add_revision(vistrails
-    GIT_REPOSITORY git://kwsource.kitwarein.com/paraview/vistrails.git
+    GIT_REPOSITORY https://kwgitlab.kitware.com/paraview/vistrails.git
     GIT_TAG master)
 endif ()
 
