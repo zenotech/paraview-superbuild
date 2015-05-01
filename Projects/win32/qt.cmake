@@ -3,7 +3,7 @@
 add_external_project_or_use_system(
   qt
   BUILD_IN_SOURCE 1
-  CONFIGURE_COMMAND <SOURCE_DIR>/configure
+  CONFIGURE_COMMAND <SOURCE_DIR>/configure.exe
                     -prefix <INSTALL_DIR>
                     -confirm-license
                     -no-audio-backend
