@@ -17,7 +17,6 @@ add_external_project_or_use_system(
                     -no-phonon
                     -no-script
                     -no-scripttools
-                    -no-svg
                     -no-webkit
                     -opensource
                     -qt-libjpeg
