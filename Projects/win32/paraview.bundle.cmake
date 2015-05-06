@@ -62,65 +62,30 @@ install(FILES "${install_location}/bin/.plugins"
 # install python since (since python dlls are not in the install location)
 if (python_ENABLED AND NOT USE_SYSTEM_python)
   # install the Python's modules.
-  install(DIRECTORY "${SuperBuild_BINARY_DIR}/python/src/python/Lib"
+  install(DIRECTORY "${install_location}/bin/Lib"
           DESTINATION "bin"
           USE_SOURCE_PERMISSIONS
           COMPONENT ParaView)
 
   # install python dlls.
-  get_filename_component(python_bin_dir "${pv_python_executable}" PATH)
-  install(DIRECTORY "${python_bin_dir}/"
+  install(DIRECTORY "${install_location}/bin/"
           DESTINATION "bin"
           USE_SOURCE_PERMISSIONS
           COMPONENT ParaView
           FILES_MATCHING PATTERN "python*.dll")
 
-  # install python pyd objects (python dlls).
-  # For 64 bit builds, these are in an amd64/ subdir
-  set(PYTHON_PCBUILD_SUBDIR "")
-  if(CMAKE_CL_64)
-    set(PYTHON_PCBUILD_SUBDIR "amd64/")
-  endif()
-  install(DIRECTORY "${SuperBuild_BINARY_DIR}/python/src/python/PCbuild/${PYTHON_PCBUILD_SUBDIR}"
-          DESTINATION "bin/Lib"
-          USE_SOURCE_PERMISSIONS
-          COMPONENT ParaView
-          FILES_MATCHING PATTERN "*.pyd")
-
-endif()
-
-if (numpy_ENABLED AND NOT USE_SYSTEM_numpy)
-  install(DIRECTORY "${install_location}/lib/site-packages/numpy"
-          DESTINATION "bin/Lib/site-packages"
-          USE_SOURCE_PERMISSIONS
-          COMPONENT ParaView)
-endif()
-
-if (matplotlib_ENABLED AND NOT USE_SYSTEM_matplotlib)
-  install(DIRECTORY "${install_location}/lib/site-packages/matplotlib"
-          DESTINATION "bin/Lib/site-packages"
-          USE_SOURCE_PERMISSIONS
-          COMPONENT ParaView)
-
-  # Add dateutil package dependency
-  install(DIRECTORY "${install_location}/lib/site-packages/dateutil"
-          DESTINATION "bin/Lib/site-packages"
-          USE_SOURCE_PERMISSIONS
-          COMPONENT ParaView)
-
   # Move the png and zlib dlls into the installed matplotlib package so that it
   # can find them at runtime.
-  install(DIRECTORY "${SuperBuild_BINARY_DIR}/png/src/png-build/"
+  install(DIRECTORY "${install_location}/bin/"
           DESTINATION "bin/Lib/site-packages/matplotlib"
           USE_SOURCE_PERMISSIONS
           COMPONENT ParaView
-          FILES_MATCHING PATTERN "*.dll")
-  install(DIRECTORY "${SuperBuild_BINARY_DIR}/zlib/src/zlib-build/"
+          FILES_MATCHING PATTERN "libpng*.dll")
+  install(DIRECTORY "${install_location}/bin/"
           DESTINATION "bin/Lib/site-packages/matplotlib"
           USE_SOURCE_PERMISSIONS
           COMPONENT ParaView
-          FILES_MATCHING PATTERN "*.dll")
-
+          FILES_MATCHING PATTERN "zlib*.dll")
 endif()
 
 if (qt_ENABLED AND NOT USE_SYSTEM_qt)

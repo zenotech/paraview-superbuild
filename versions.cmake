@@ -62,7 +62,17 @@ add_revision(qt
   URL "http://paraview.org/files/dependencies/qt-everywhere-opensource-src-4.8.6.tar.gz"
   URL_MD5 2edbe4d6c2eff33ef91732602f3518eb)
 
-if (WIN32 OR (CROSS_BUILD_STAGE STREQUAL "CROSS"))
+if (WIN32)
+  if (64bit_build)
+    add_revision(python
+      URL "http://www.paraview.org/files/dependencies/python+deps.tar.bz2"
+      URL_MD5 "4318b8f771eda5606d9ce7f0be9f82e1")
+  else ()
+    add_revision(python
+      URL "http://www.paraview.org/files/dependencies/python+deps-x32.tar.bz2"
+      URL_MD5 "6ba441784a672e08379d23ddd61146f0")
+  endif ()
+elseif (CROSS_BUILD_STAGE STREQUAL "CROSS")
   add_revision(python
     URL "http://www.paraview.org/files/dependencies/Python-2.7.3.tgz"
     URL_MD5 "2cf641732ac23b18d139be077bd906cd")
