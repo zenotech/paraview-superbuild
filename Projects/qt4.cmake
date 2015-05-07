@@ -85,6 +85,8 @@ add_external_project_or_use_system(
       ${qt_options}
       ${qt_EXTRA_CONFIGURATION_OPTIONS}
       ${extra_commands}
+    BUILD_COMMAND make install
+    INSTALL_COMMAND ""
 )
 unset(extra_commands)
 
