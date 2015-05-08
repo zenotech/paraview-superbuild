@@ -74,6 +74,17 @@ add_external_project_or_use_system(
     ${qt_build_commands}
 )
 
+if (APPLE)
+  # modal dialog problems
+  # https://bugreports.qt.io/browse/QTBUG-40585
+  add_external_project_step(qt-patch-qcocoaeventdispatcher
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                              ${SuperBuild_PROJECTS_DIR}/patches/qt.qtbase.plugins.platforms.cocoa.qcocoaeventdispatcher.mm
+            <SOURCE_DIR>/qtbase/plugins/platforms/cocoa/qcocoaeventdispatcher.mm
+    DEPENDEES configure
+    DEPENDERS build)
+endif()
+
 add_extra_cmake_args(
   -DPARAVIEW_QT_VERSION:STRING=5
   -DQt5_DIR:PATH=<INSTALL_DIR>/lib/cmake/Qt5
