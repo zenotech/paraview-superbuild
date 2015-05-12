@@ -2,9 +2,37 @@ cmake_minimum_required(VERSION 2.8.9)
 
 if (APPLE)
   if(NOT CMAKE_OSX_DEPLOYMENT_TARGET)
-    message(WARNING "Ensure that CMAKE_OSX_SYSROOT, CMAKE_OSX_DEPLOYMENT_TARGET are set correctly")
     set(CMAKE_OSX_ARCHITECTURES "x86_64" CACHE STRING "By default, build for 64-bit Leopard")
   endif()
+
+  if (CMAKE_OSX_SDK)
+    execute_process(
+      COMMAND xcodebuild
+              -sdk ${CMAKE_OSX_SDK}
+              -version Path
+      OUTPUT_VARIABLE
+              CMAKE_OSX_SYSROOT
+      RESULT_VARIABLE
+              res
+      OUTPUT_STRIP_TRAILING_WHITESPACE)
+    if (res)
+      message(FATAL_ERROR "Cannot determine SDK path for SDK: ${CMAKE_OSX_SDK}")
+    endif ()
+    execute_process(
+      COMMAND xcodebuild
+              -sdk ${CMAKE_OSX_SDK}
+              -version SDKVersion
+      OUTPUT_VARIABLE
+              CMAKE_OSX_DEPLOYMENT_TARGET
+      RESULT_VARIABLE
+              res
+      OUTPUT_STRIP_TRAILING_WHITESPACE)
+    if (res)
+      message(FATAL_ERROR "Cannot determine SDK version for SDK: ${CMAKE_OSX_SDK}")
+    endif ()
+  else ()
+    message(FATAL_ERROR "Ensure that CMAKE_OSX_SDK is set correctly")
+  endif ()
 endif()
 
 project(ParaViewSuperBuild)
@@ -243,6 +271,7 @@ else()
   include(numpy)
   include(png)
   include(python)
+  include(qt4)
   include(qt)
   include(silo)
   include(szip)
@@ -311,7 +340,7 @@ process_dependencies()
 #-------------------------------------------------------------------------
 # Some sanity checks.
 # Sanity check: Cannot has osmesa and qt enabled at the same time.
-if (osmesa_ENABLED AND qt_ENABLED)
+if (osmesa_ENABLED AND (qt4_ENABLED OR qt_ENABLED))
   message(SEND_ERROR "Cannot enable OSMesa and QT at the same time.")
 endif()
 # Sanity check: Cannot has osmesa and mesa at the same time.

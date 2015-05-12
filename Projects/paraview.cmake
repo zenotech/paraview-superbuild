@@ -22,9 +22,14 @@ if(osmesa_ENABLED)
   set(osmesa_ARGS -DVTK_OPENGL_HAS_OSMESA:BOOL=ON -DVTK_USE_X:BOOL=OFF)
 endif()
 
+set(use_qt OFF)
+if (qt4_ENABLED OR qt_ENABLED)
+  set(use_qt ON)
+endif ()
+
 add_external_project(paraview
   DEPENDS_OPTIONAL
-    adios boost cosmotools ffmpeg hdf5 libxml3 manta matplotlib mpi numpy png python qt visitbridge zlib silo cgns
+    adios boost cosmotools ffmpeg hdf5 libxml3 manta matplotlib mpi numpy png python qt4 qt visitbridge zlib silo cgns
     mesa osmesa nektarreader netcdf
     ${PV_EXTERNAL_PROJECTS}
 
@@ -34,7 +39,7 @@ add_external_project(paraview
     -DPARAVIEW_BUILD_PLUGIN_CoProcessingScriptGenerator:BOOL=ON
     -DPARAVIEW_BUILD_PLUGIN_EyeDomeLighting:BOOL=ON
     -DPARAVIEW_BUILD_PLUGIN_MantaView:BOOL=${manta_ENABLED}
-    -DPARAVIEW_BUILD_QT_GUI:BOOL=${qt_ENABLED}
+    -DPARAVIEW_BUILD_QT_GUI:BOOL=${use_qt}
     -DPARAVIEW_ENABLE_FFMPEG:BOOL=${ffmpeg_ENABLED}
     -DPARAVIEW_ENABLE_PYTHON:BOOL=${python_ENABLED}
     -DPARAVIEW_ENABLE_COSMOTOOLS:BOOL=${cosmotools_ENABLED}

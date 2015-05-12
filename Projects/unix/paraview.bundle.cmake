@@ -33,7 +33,7 @@ set (reference_executable pvserver)
 if (python_ENABLED)
   set (reference_executable pvbatch)
 endif()
-if (qt_ENABLED)
+if (qt4_ENABLED OR qt_ENABLED)
   set (reference_executable paraview)
 endif()
 
@@ -49,7 +49,7 @@ install(CODE
 
 # simply other miscellaneous dependencies.
 
-if (qt_ENABLED AND NOT USE_SYSTEM_qt)
+if ((qt4_ENABLED AND NOT USE_SYSTEM_qt4) OR (qt_ENABLED AND NOT USE_SYSTEM_qt))
   install(DIRECTORY
     # install all qt plugins (including sqllite).
     # FIXME: we can reconfigure Qt to be built with inbuilt sqllite support to
@@ -72,7 +72,7 @@ if (python_ENABLED)
   # we are not building pvblot for now. Disable it.
   # set (executables ${executables} pvblot)
 endif()
-if (qt_ENABLED)
+if (qt4_ENABLED OR qt_ENABLED)
   set (executables ${executables} paraview)
 endif()
 
@@ -94,7 +94,7 @@ if (mpi_ENABLED AND NOT USE_SYSTEM_mpi)
   endforeach()
 endif()
 
-if (qt_ENABLED)
+if (qt4_ENABLED OR qt_ENABLED)
   install(DIRECTORY "${install_location}/share/appdata"
     DESTINATION "share"
     USE_SOURCE_PERMISSIONS
