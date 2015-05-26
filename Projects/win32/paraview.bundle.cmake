@@ -106,28 +106,6 @@ install(DIRECTORY "${install_location}/lib/paraview-${pv_version}"
         COMPONENT ParaView
         PATTERN "*.lib" EXCLUDE)
 
-#-----------------------------------------------------------------------------
-if (mpi_ENABLED AND NOT USE_SYSTEM_mpi)
-  # install MPI executables (the dlls are already installed by a previous rule).
-  install(DIRECTORY "${install_location}/bin/"
-        DESTINATION "bin"
-        USE_SOURCE_PERMISSIONS
-        COMPONENT ParaView
-        FILES_MATCHING
-          PATTERN "mpiexec.exe"
-          PATTERN "mpirun.exe"
-          PATTERN "ompi*.exe"
-          PATTERN "opal*.exe"
-          PATTERN "orte*.exe"
-        )
-  # install the mpi configuration files needed for mpiexec.
-  install(DIRECTORY "${install_location}/share/openmpi"
-          DESTINATION "share"
-          USE_SOURCE_PERMISSIONS
-          COMPONENT ParaView)
-endif()
-#-----------------------------------------------------------------------------
-
 # install system runtimes.
 set(CMAKE_INSTALL_SYSTEM_RUNTIME_DESTINATION "bin")
 include(InstallRequiredSystemLibraries)
@@ -146,19 +124,6 @@ endif()
 # include CPack at end so that all COMPONENTs specified in install rules are
 # correctly detected.
 include(CPack)
-
-#-----------------------------------------------------------------------------
-#if (mpich2_ENABLED AND NOT USE_SYSTEM_mpich2)
-#  install(PROGRAMS "@install_location@/bin/mpiexec.hydra"
-#    DESTINATION "lib/paraview-${pv_version}"
-#    COMPONENT ParaView
-#    RENAME "mpiexec")
-#  foreach (hydra_exe hydra_nameserver hydra_persist hydra_pmi_proxy)
-#    install(PROGRAMS "@install_location@/bin/${hydra_exe}"
-#      DESTINATION "lib/paraview-${pv_version}"
-#      COMPONENT ParaView)
-#  endforeach()
-#endif()
 
 add_test(NAME GenerateParaViewPackage-NSIS
          COMMAND ${CMAKE_CPACK_COMMAND} -G NSIS -V
