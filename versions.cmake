@@ -165,8 +165,8 @@ endif()
 
 if (USE_NONFREE_COMPONENTS)
   add_revision(qhull
-    GIT_REPOSITORY git://github.com/gzagaris/gxzagas-qhull.git
-    GIT_TAG master)
+    GIT_REPOSITORY https://github.com/mathstuf/qhull.git
+    GIT_TAG next)
 
   add_revision(genericio
     GIT_REPOSITORY https://kwgitlab.kitware.com/paraview/genericio.git
