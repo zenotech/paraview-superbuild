@@ -1,0 +1,52 @@
+#$ -S /bin/bash
+#$ -N PVBuild
+#$ -pe make 16
+
+case ${PVMPI} in
+  mpich|openmpi)
+    PVMPI_MODULE=${PVMPI}-x86_64
+    ;;
+  *)
+    echo "Error: MPI implementation must be specified in the PVMPI variable and must be one of mpich or openmpi."
+    exit 1
+    ;;
+esac
+
+echo "Building on $(hostname -f)"
+
+#source /etc/profile.d/modules.sh
+module purge
+module load ${PVMPI_MODULE}
+export CC=/usr/bin/gcc
+export CXX=/usr/bin/g++
+export FC=/usr/bin/gfortran
+
+#SCRATCH_DIR=/data/shared/scratch/${USER}
+SCRATCH_DIR=/data/local/${USER}
+mkdir -p ${SCRATCH_DIR}
+SOURCE_DIR=${HOME}/Code/ParaView/Superbuild/source
+BUILD_DIR=$(mktemp -d -p ${SCRATCH_DIR} --suffix=.pvbuild-${PVMPI}-shared)
+INSTALL_DIR=/opt/Kitware/ParaView/4.3.1-osmesa/${PVMPI}_shared
+
+cd ${BUILD_DIR}
+
+# Configure
+echo "Configuring..."
+/opt/Kitware/CMake/3.2.3/bin/cmake \
+  -C${SOURCE_DIR}/CMake/Sites/Kitware-Andromeda-Shared.cmake \
+  -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
+  ${SOURCE_DIR}
+
+# Build and install
+echo "Building..."
+make
+
+# Install
+echo "Installing..."
+mkdir -p ${INSTALL_DIR}
+make install
+
+# Cleanup
+echo "Cleaning up build directory ${BUILD_DIR}"
+cd /tmp
+rm -rf ${BUILD_DIR}
