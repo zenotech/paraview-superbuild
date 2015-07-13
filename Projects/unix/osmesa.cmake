@@ -1,7 +1,9 @@
 if(BUILD_SHARED_LIBS)
   set(shared_args --enable-shared --disable-static)
+  set(OSMESALIB libOSMesa.so)
 else()
   set(shared_args --disable-shared --enable-static)
+  set(OSMESALIB libOSMesa.a)
 endif()
 add_external_project_or_use_system(osmesa
   CONFIGURE_COMMAND <SOURCE_DIR>/configure
@@ -13,9 +15,10 @@ add_external_project_or_use_system(osmesa
 )
 
 add_extra_cmake_args(
-  -DOPENGL_INCLUDE_DIR:PATH=<INSTALL_DIR>/include
-  -DOPENGL_gl_LIBRARY:FILEPATH=
-  -DOPENGL_glu_LIBRARY:FILEPATH=<INSTALL_DIR>/lib/libGLU.so
+  -DOPENGL_INCLUDE_DIR:PATH=""
+  -DOPENGL_xmesa_INCLUDE_DIR:PATH=""
+  -DOPENGL_gl_LIBRARY:FILEPATH=""
+  -DOPENGL_glu_LIBRARY:FILEPATH=""
   -DOSMESA_INCLUDE_DIR:PATH=<INSTALL_DIR>/include
-  -DOSMESA_LIBRARY:FILEPATH=<INSTALL_DIR>/lib/libOSMesa.so
+  -DOSMESA_LIBRARY:FILEPATH=<INSTALL_DIR>/lib/${OSMESALIB}
 )
