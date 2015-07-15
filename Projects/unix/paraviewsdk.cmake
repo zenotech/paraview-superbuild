@@ -1,6 +1,6 @@
 add_external_dummy_project(paraviewsdk DEPENDS paraview)
 if (paraviewsdk_ENABLED)
-  if ((qt4_ENABLED AND NOT USE_SYSTEM_qt4) OR (qt_ENABLED AND NOT USE_SYSTEM_qt))
+  if ((qt4_ENABLED AND NOT USE_SYSTEM_qt4) OR (qt5_ENABLED AND NOT USE_SYSTEM_qt))
     message(WARNING "Please use System-Qt or disable Qt to enable SDK deployment")
     return()
   endif()

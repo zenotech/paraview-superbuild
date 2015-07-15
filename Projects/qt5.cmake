@@ -41,7 +41,7 @@ if (WIN32)
 endif ()
 
 add_external_project_or_use_system(
-    qt
+    qt5
     DEPENDS zlib ${qt_depends}
     CONFIGURE_COMMAND
       ${qt_configure_command}
@@ -77,9 +77,9 @@ add_external_project_or_use_system(
 if (APPLE)
   # modal dialog problems
   # https://bugreports.qt.io/browse/QTBUG-40585
-  add_external_project_step(qt-patch-qcocoaeventdispatcher
+  add_external_project_step(qt5-patch-qcocoaeventdispatcher
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                              ${SuperBuild_PROJECTS_DIR}/patches/qt.qtbase.plugins.platforms.cocoa.qcocoaeventdispatcher.mm
+                              ${SuperBuild_PROJECTS_DIR}/patches/qt5.qtbase.plugins.platforms.cocoa.qcocoaeventdispatcher.mm
             <SOURCE_DIR>/qtbase/plugins/platforms/cocoa/qcocoaeventdispatcher.mm
     DEPENDEES configure
     DEPENDERS build)

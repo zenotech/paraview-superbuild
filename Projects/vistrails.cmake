@@ -1,6 +1,6 @@
 add_external_project(vistrails
   DEPENDS paraview
-  DEPENDS_OPTIONAL qt4 qt
+  DEPENDS_OPTIONAL qt4 qt5
 
   CMAKE_ARGS
     -DParaView_DIR:PATH=${SuperBuild_BINARY_DIR}/paraview/src/paraview-build

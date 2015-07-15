@@ -1,5 +1,5 @@
 # include the common qt.use.system.cmake file.
-include("${SuperBuild_PROJECTS_DIR}/qt.use.system.cmake")
+include("${SuperBuild_PROJECTS_DIR}/qt5.use.system.cmake")
 
 option(PACKAGE_SYSTEM_QT
   "When enabled and USE_SYSTEM_qt is ON, packages needed Qt files" ON)

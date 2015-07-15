@@ -63,11 +63,11 @@ add_revision(qt4
   URL_MD5 2edbe4d6c2eff33ef91732602f3518eb)
 
 if (WIN32)
-  add_revision(qt
+  add_revision(qt5
     URL "http://download.qt.io/official_releases/qt/5.4/5.4.1/single/qt-everywhere-opensource-src-5.4.1.zip"
     URL_MD5 57b25c68982237abb9e18b347034e005)
 else ()
-  add_revision(qt
+  add_revision(qt5
     URL "http://download.qt.io/official_releases/qt/5.4/5.4.1/single/qt-everywhere-opensource-src-5.4.1.tar.gz"
     URL_MD5 90f3fbce38ed16e5dc2cd0909ae86ca4)
 endif ()
