@@ -186,7 +186,7 @@ if __name__ == "__main__":
   print "All required frameworks/libraries will be placed under %s/%s" % (App, LibrariesPrefix)
   print ""
 
-  executables = commands.getoutput('find %s -type f| xargs file | grep -i "Mach-O.*executable" | sed "s/:.*//" | sort' % App)
+  executables = commands.getoutput('find %s -type f| xargs file | grep -i "Mach-O.*executable" | sed "s/:.*//" | cut -d\\  -f1 | sort' % App)
   executables = executables.split()
   print "------------------------------------------------------------"
   print "Found executables : "
@@ -196,7 +196,7 @@ if __name__ == "__main__":
 
 
   # Find libraries inside the package already.
-  libraries = commands.getoutput('find %s -type f | xargs file | grep -i "Mach-O.*shared library" | sed "s/:.*//" | sort' % App)
+  libraries = commands.getoutput('find %s -type f | xargs file | grep -i "Mach-O.*shared library" | sed "s/:.*//" | cut -d\\  -f1 | sort' % App)
   libraries = libraries.split()
   print "Found %d libraries within the package." % len(libraries)
 
@@ -204,7 +204,7 @@ if __name__ == "__main__":
   # ITS NOT THIS SCRIPT'S JOB TO FIX BROKEN INSTALL RULES.
 
   external_libraries = commands.getoutput(
-    'find %s | xargs file | grep "Mach-O" | sed "s/:.*//" | xargs otool -l | grep " name" | sort | uniq | sed "s/name\ //" | grep -v "@" | sed "s/ (offset.*)//"' % App)
+    'find %s | xargs file | grep "Mach-O" | sed "s/:.*//" | cut -d\\  -f1 | xargs otool -l | grep " name" | sort | uniq | sed "s/name\ //" | grep -v "@" | sed "s/ (offset.*)//"' % App)
 
   mLibraries = set()
   for lib in external_libraries.split():
@@ -260,7 +260,7 @@ if __name__ == "__main__":
   print ""
   # Run the command for all libraries and executables.
   # The --separator for file allows helps use locate the file name accurately.
-  binaries_to_fix = commands.getoutput('find %s -type f | xargs file --separator ":--:" | grep -i ":--:.*Mach-O" | sed "s/:.*//" | sort | uniq ' % App).split()
+  binaries_to_fix = commands.getoutput('find %s -type f | xargs file --separator ":--:" | grep -i ":--:.*Mach-O" | sed "s/:.*//" | cut -d\\  -f1 | sort | uniq ' % App).split()
 
 
   result = ""
