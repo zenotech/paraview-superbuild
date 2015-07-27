@@ -27,6 +27,11 @@ if (qt4_ENABLED OR qt_ENABLED)
   set(use_qt ON)
 endif ()
 
+set(PARAVIEW_RENDERING_BACKEND "OpenGL" CACHE STRING "Rendering backend to use for ParaView")
+set_property(CACHE PARAVIEW_RENDERING_BACKEND
+  PROPERTY
+    STRINGS "OpenGL;OpenGL2")
+
 add_external_project(paraview
   DEPENDS_OPTIONAL
     adios boost cosmotools ffmpeg hdf5 libxml3 manta matplotlib mpi numpy png python qt4 qt visitbridge zlib silo cgns
@@ -58,6 +63,7 @@ add_external_project(paraview
     -DVTK_USE_SYSTEM_PNG:BOOL=${png_ENABLED}
     -DVTK_USE_SYSTEM_ZLIB:BOOL=${zlib_ENABLED}
     -DModule_vtkIOADIOS:BOOL=${adios_ENABLED}
+    -DVTK_RENDERING_BACKEND:STRING=${PARAVIEW_RENDERING_BACKEND}
     ${osmesa_ARGS}
 
     # Web documentation
