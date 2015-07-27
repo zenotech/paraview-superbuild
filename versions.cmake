@@ -138,8 +138,7 @@ add_revision(osmesa
 # ----------------------------------------------------------------------------
 # You choose to download ParaView source form GIT or other URL/FILE tarball
 option(ParaView_FROM_GIT "If enabled then the repository is fetched from git" ON)
-cmake_dependent_option(ParaView_FROM_SOURCE_DIR OFF
-  "Enable to use existing ParaView source."
+cmake_dependent_option(ParaView_FROM_SOURCE_DIR "Enable to use existing ParaView source." OFF
   "NOT ParaView_FROM_GIT" OFF)
 
 if (ParaView_FROM_GIT)
