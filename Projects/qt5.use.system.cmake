@@ -2,7 +2,7 @@ find_package(Qt5 REQUIRED
   COMPONENTS
     Core)
 
-add_external_dummy_project(qt)
+add_external_dummy_project(qt5)
 
 add_extra_cmake_args(
   -DPARAVIEW_QT_VERSION:STRING=5

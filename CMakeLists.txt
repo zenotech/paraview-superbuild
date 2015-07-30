@@ -230,6 +230,11 @@ endif()
 option(USE_NONFREE_COMPONENTS "Enable the non-free parts of the superbuild" OFF)
 mark_as_advanced(USE_NONFREE_COMPONENTS)
 
+if (ENABLE_qt AND NOT ENABLE_qt4 AND NOT ENABLE_qt5)
+  message(FATAL_ERROR "Qt is enabled, but no version is specified. "
+          "Please enable either Qt4 (recommended) or Qt5.")
+endif ()
+
 # Include all optional projects. These are the ones user can pick and choose.
 # Some of these allow using system libraries too.
 if (CROSS_BUILD_STAGE STREQUAL "CROSS")
@@ -260,7 +265,7 @@ else()
   include(png)
   include(python)
   include(qt4)
-  include(qt)
+  include(qt5)
   include(silo)
   include(szip)
   include(visitbridge)
@@ -328,8 +333,8 @@ process_dependencies()
 #-------------------------------------------------------------------------
 # Some sanity checks.
 # Sanity check: Cannot has osmesa and qt enabled at the same time.
-if (osmesa_ENABLED AND (qt4_ENABLED OR qt_ENABLED))
-  message(SEND_ERROR "Cannot enable OSMesa and QT at the same time.")
+if (osmesa_ENABLED AND (qt4_ENABLED OR qt5_ENABLED))
+  message(SEND_ERROR "Cannot enable OSMesa and Qt at the same time.")
 endif()
 # Sanity check: Cannot has osmesa and mesa at the same time.
 if (osmesa_ENABLED AND mesa_ENABLED)

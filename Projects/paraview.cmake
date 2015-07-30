@@ -23,7 +23,7 @@ if(osmesa_ENABLED)
 endif()
 
 set(use_qt OFF)
-if (qt4_ENABLED OR qt_ENABLED)
+if (qt4_ENABLED OR qt5_ENABLED)
   set(use_qt ON)
 endif ()
 
@@ -34,7 +34,7 @@ set_property(CACHE PARAVIEW_RENDERING_BACKEND
 
 add_external_project(paraview
   DEPENDS_OPTIONAL
-    adios boost cosmotools ffmpeg hdf5 libxml3 manta matplotlib mpi numpy png python qt4 qt visitbridge zlib silo cgns
+    adios boost cosmotools ffmpeg hdf5 libxml3 manta matplotlib mpi numpy png python qt4 qt5 visitbridge zlib silo cgns
     mesa osmesa nektarreader netcdf
     ${PV_EXTERNAL_PROJECTS}
 
