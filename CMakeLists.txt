@@ -114,22 +114,6 @@ if (NOT CROSS_BUILD_STAGE STREQUAL "CROSS")
   endif()
 endif()
 
-# Set suffix to be used for generating archives. This ensures that the package
-# files have decent names that we can directly upload to the website.
-set (package_suffix_default "${CMAKE_SYSTEM_NAME}")
-if (64bit_build)
-  set (package_suffix_default "${package_suffix_default}-64bit")
-else ()
-  set (package_suffix_default "${package_suffix_default}-32bit")
-endif()
-
-# PACKAGE_SUFFIX: A string that can be set to the suffix you want to use for all
-# the generated packages. By default, its set to
-# ${CMAKE_SYSTEM_NAME}-{64|32}bit.
-set (PACKAGE_SUFFIX "${package_suffix_default}"
-  CACHE STRING "String to use as a suffix for generated packages")
-mark_as_advanced(PACKAGE_SUFFIX)
-
 option(TRUST_SVN_CERTIFICATES_AUTOMATICALLY
   "Trust SVN certificates automatically" ON)
 mark_as_advanced(TRUST_SVN_CERTIFICATES_AUTOMATICALLY)
@@ -348,6 +332,41 @@ if (osmesa_ENABLED AND mesa_ENABLED)
   message(SEND_ERROR "Cannot enable OSMesa and Mesa at the same time.")
 endif()
 #-------------------------------------------------------------------------
+
+# Set suffix to be used for generating archives. This ensures that the package
+# files have decent names that we can directly upload to the website.
+set(package_suffix_items)
+if (qt4_ENABLED)
+  list(APPEND package_suffix_items
+    Qt4)
+endif ()
+if (paraview_ENABLED AND PARAVIEW_RENDERING_BACKEND STREQUAL "OpenGL2")
+  list(APPEND package_suffix_items
+    OpenGL2)
+endif ()
+if (APPLE)
+  list(APPEND package_suffix_items
+    "OSX${CMAKE_OSX_DEPLOYMENT_TARGET}")
+else ()
+  list(APPEND package_suffix_items
+    "${CMAKE_SYSTEM_NAME}")
+endif ()
+if (64bit_build)
+  list(APPEND package_suffix_items
+    "64bit")
+else ()
+  list(APPEND package_suffix_items
+    "32bit")
+endif()
+
+string(REPLACE ";" "-" package_suffix_default "${package_suffix_items}")
+
+# PACKAGE_SUFFIX: A string that can be set to the suffix you want to use for all
+# the generated packages. By default, its set to
+# ${CMAKE_SYSTEM_NAME}-{64|32}bit.
+set (PACKAGE_SUFFIX "${package_suffix_default}"
+  CACHE STRING "String to use as a suffix for generated packages")
+mark_as_advanced(PACKAGE_SUFFIX)
 
 if (paraview_ENABLED)
   include(paraview.bundle OPTIONAL)
