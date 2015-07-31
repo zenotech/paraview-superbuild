@@ -9,6 +9,8 @@ elseif (WIN32)
   set (SHARED_LIBRARY_SUFFIX ".dll")
 endif()
 
+include("${bundle_suffix_file}")
+
 set(plugin_dir "${TMP_DIR}/AcuSolveReaderPlugin-${bundle_suffix}")
 
 # Remove any old directory

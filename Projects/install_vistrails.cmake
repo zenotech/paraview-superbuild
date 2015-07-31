@@ -12,6 +12,8 @@ elseif (WIN32)
   set (PLUGIN_DIR "bin")
 endif()
 
+include("${bundle_suffix_file}")
+
 set(plugin_dir "${TMP_DIR}/VisTrailsPlugin-${bundle_suffix}")
 
 file(REMOVE_RECURSE "${plugin_dir}")

@@ -377,6 +377,10 @@ set (PACKAGE_SUFFIX "${package_suffix_default}"
   CACHE STRING "String to use as a suffix for generated packages")
 mark_as_advanced(PACKAGE_SUFFIX)
 
+file(WRITE "${CMAKE_BINARY_DIR}/paraview_version.cmake"
+"set(bundle_suffix \"${pv_version_long}-${PACKAGE_SUFFIX}\")
+")
+
 if (paraview_ENABLED)
   include(paraview.bundle OPTIONAL)
 endif()
