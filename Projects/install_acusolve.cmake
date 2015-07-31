@@ -9,26 +9,22 @@ elseif (WIN32)
   set (SHARED_LIBRARY_SUFFIX ".dll")
 endif()
 
+set(plugin_dir "${TMP_DIR}/AcuSolveReaderPlugin-${bundle_suffix}")
+
 # Remove any old directory
-execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory ${TMP_DIR}/AcuSolveReaderPlugin-${bundle_suffix}
-  WORKING_DIRECTORY ${TMP_DIR}
-)
-
+file(REMOVE_RECURSE "${plugin_dir}")
 # Create a directory to put the plugin under.
-execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${TMP_DIR}/AcuSolveReaderPlugin-${bundle_suffix}
-  WORKING_DIRECTORY ${TMP_DIR}
-)
+file(MAKE_DIRECTORY "${plugin_dir}")
 
-# Copy th plugin lib.
-execute_process(COMMAND ${CMAKE_COMMAND} -E copy ${BINARY_DIR}/${SHARED_LIBRARY_PREFIX}AcuSolveReader${SHARED_LIBRARY_SUFFIX} ${TMP_DIR}/AcuSolveReaderPlugin-${bundle_suffix}
-  WORKING_DIRECTORY ${TMP_DIR}
-)
+# Copy the plugin lib.
+file(COPY "${BINARY_DIR}/${SHARED_LIBRARY_PREFIX}AcuSolveReader${SHARED_LIBRARY_SUFFIX}"
+  DESTINATION "${plugin_dir}")
 
 if (APPLE)
   execute_process(
     COMMAND ${CMAKE_CURRENT_LIST_DIR}/apple/fixup_plugin.py
             # The directory containing the plugin dylibs.
-            ${TMP_DIR}/AcuSolveReaderPlugin-${bundle_suffix}
+            "${plugin_dir}"
             # names to replace (in order)
             "${PARAVIEW_BINARY_DIR}/lib/=@executable_path/../Libraries/"
             "${INSTALL_DIR}/lib/Qt=@executable_path/../Frameworks/Qt"

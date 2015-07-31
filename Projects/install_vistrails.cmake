@@ -12,16 +12,20 @@ elseif (WIN32)
   set (PLUGIN_DIR "bin")
 endif()
 
-execute_process(COMMAND ${CMAKE_COMMAND} -E remove_directory ${TMP_DIR}/VisTrailsPlugin-${bundle_suffix})
-execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${TMP_DIR}/VisTrailsPlugin-${bundle_suffix})
-execute_process(COMMAND ${CMAKE_COMMAND} -E copy ${SOURCE_DIR}/README ${TMP_DIR}/VisTrailsPlugin-${bundle_suffix})
-execute_process(COMMAND ${CMAKE_COMMAND} -E copy ${BINARY_DIR}/${PLUGIN_DIR}/${SHARED_LIBRARY_PREFIX}VisTrailsPlugin${SHARED_LIBRARY_SUFFIX} ${TMP_DIR}/VisTrailsPlugin-${bundle_suffix})
+set(plugin_dir "${TMP_DIR}/VisTrailsPlugin-${bundle_suffix}")
+
+file(REMOVE_RECURSE "${plugin_dir}")
+file(MAKE_DIRECTORY "${plugin_dir}")
+
+file(COPY "${SOURCE_DIR}/README"
+          "${BINARY_DIR}/${PLUGIN_DIR}/${SHARED_LIBRARY_PREFIX}VisTrailsPlugin${SHARED_LIBRARY_SUFFIX}"
+  DESTINATION "${plugin_dir}")
 
 if (APPLE)
   execute_process(
     COMMAND ${CMAKE_CURRENT_LIST_DIR}/apple/fixup_plugin.py
             # The directory containing the plugin dylibs.
-            ${TMP_DIR}/VisTrailsPlugin-${bundle_suffix}
+            "${plugin_dir}"
             # names to replace (in order)
             "${PARAVIEW_BINARY_DIR}/lib/=@executable_path/../Libraries/"
             "${INSTALL_DIR}/lib/Qt=@executable_path/../Frameworks/Qt"
