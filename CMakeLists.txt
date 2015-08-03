@@ -373,9 +373,23 @@ string(REPLACE ";" "-" package_suffix_default "${package_suffix_items}")
 # PACKAGE_SUFFIX: A string that can be set to the suffix you want to use for all
 # the generated packages. By default, its set to
 # ${CMAKE_SYSTEM_NAME}-{64|32}bit.
-set (PACKAGE_SUFFIX "${package_suffix_default}"
+set (PACKAGE_SUFFIX "<default>"
   CACHE STRING "String to use as a suffix for generated packages")
 mark_as_advanced(PACKAGE_SUFFIX)
+
+if (NOT PACKAGE_SUFFIX OR PACKAGE_SUFFIX STREQUAL "<default>")
+  set(PACKAGE_SUFFIX "${package_suffix_default}")
+elseif (NOT PACKAGE_SUFFIX STREQUAL package_suffix_default)
+  message(WARNING "The suffix for the package (${PACKAGE_SUFFIX}) does not "
+                  "match the suggested suffix based on build options "
+                  "(${package_suffix_default}). Set it to '<default>' or "
+                  "an empty string to use the default suffix. Using the "
+                  "provided suffix.")
+endif ()
+
+file(WRITE "${CMAKE_BINARY_DIR}/paraview_version.cmake"
+"set(bundle_suffix \"${pv_version_long}-${PACKAGE_SUFFIX}\")
+")
 
 if (paraview_ENABLED)
   include(paraview.bundle OPTIONAL)
