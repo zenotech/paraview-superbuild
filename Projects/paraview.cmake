@@ -34,7 +34,7 @@ set_property(CACHE PARAVIEW_RENDERING_BACKEND
 
 add_external_project(paraview
   DEPENDS_OPTIONAL
-    adios boost cosmotools ffmpeg hdf5 libxml3 manta matplotlib mpi numpy png python qt4 qt5 visitbridge zlib silo cgns
+    adios boost cosmotools ffmpeg hdf5 libxml3 manta matplotlib mpi numpy png python qt4 qt5 visitbridge zlib silo cgns xdmf3
     mesa osmesa nektarreader netcdf
     ${PV_EXTERNAL_PROJECTS}
 
@@ -50,6 +50,7 @@ add_external_project(paraview
     -DPARAVIEW_ENABLE_COSMOTOOLS:BOOL=${cosmotools_ENABLED}
     -DPARAVIEW_USE_MPI:BOOL=${mpi_ENABLED}
     -DPARAVIEW_USE_VISITBRIDGE:BOOL=${visitbridge_ENABLED}
+    -DPARAVIEW_ENABLE_XDMF3:BOOL=${xdmf3_ENABLED}
     -DVISIT_BUILD_READER_CGNS:BOOL=OFF # force to off
     -DPARAVIEW_ENABLE_CGNS:BOOL=${cgns_ENABLED}
     -DVISIT_BUILD_READER_Silo:BOOL=${silo_ENABLED}
