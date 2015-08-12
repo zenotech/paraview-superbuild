@@ -287,7 +287,10 @@ endmacro()
 
 #------------------------------------------------------------------------------
 function(add_external_dummy_project_internal name)
+  set(arg_DEPENDS)
+  get_project_depends(${name} arg)
   ExternalProject_Add(${name}
+  DEPENDS ${arg_DEPENDS}
   DOWNLOAD_COMMAND ""
   SOURCE_DIR ""
   UPDATE_COMMAND ""
