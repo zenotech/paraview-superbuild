@@ -141,8 +141,7 @@ macro(add_external_dummy_project _name)
     add_external_project(${_name} "${ARGN}")
   else()
     add_external_project(${_name} "${ARGN}")
-    set(${_name}_IS_DUMMY_PROJECT TRUE CACHE INTERNAL
-      "Project just used to represent a logical block of dependencies" )
+    set_property(GLOBAL PROPERTY ${_name}_IS_DUMMY_PROJECT TRUE)
   endif()
 endmacro()
 
@@ -216,6 +215,7 @@ macro(process_dependencies)
   message(STATUS "PROJECTS_ENABLED ${CM_PROJECTS_ENABLED}")
   set (build-projects 1)
   foreach (cm-project IN LISTS CM_PROJECTS_ENABLED)
+    get_property(is_dummy GLOBAL PROPERTY ${cm-project}_IS_DUMMY_PROJECT)
     if (${cm-project}_CAN_USE_SYSTEM)
       # for every enabled project that can use system, expose the option to the
       # user.
@@ -230,7 +230,7 @@ macro(process_dependencies)
         include(${cm-project})
         add_external_project_internal(${cm-project} "${${cm-project}_ARGUMENTS}")
       endif()
-    elseif(${cm-project}_IS_DUMMY_PROJECT)
+    elseif(is_dummy)
       #this project isn't built, just used as a graph node to
       #represent a group of dependencies
       include(${cm-project})
