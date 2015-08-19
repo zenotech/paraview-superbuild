@@ -32,11 +32,22 @@ set_property(CACHE PARAVIEW_RENDERING_BACKEND
   PROPERTY
     STRINGS "OpenGL;OpenGL2")
 
+get_property(plugins GLOBAL PROPERTY pv_plugins)
+list (REMOVE_DUPLICATES plugins)
+
+set(plugin_dirs)
+foreach (plugin IN LISTS plugins)
+  if (${plugin}_ENABLED AND TARGET ${plugin})
+      get_property(plugin_dir TARGET "${plugin}" PROPERTY _EP_SOURCE_DIR)
+      set(plugin_dirs "${plugin_dir}$<SEMICOLON>${plugin_dirs}")
+  endif ()
+endforeach ()
+
 add_external_project(paraview
   DEPENDS_OPTIONAL
     adios boost cosmotools ffmpeg hdf5 libxml3 manta matplotlib mpi numpy png python qt4 qt5 visitbridge zlib silo cgns xdmf3
     mesa osmesa nektarreader netcdf
-    ${PV_EXTERNAL_PROJECTS}
+    ${PV_EXTERNAL_PROJECTS} ${plugins}
 
   CMAKE_ARGS
     -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
@@ -74,7 +85,10 @@ add_external_project(paraview
     # platforms.
     -DMACOSX_APP_INSTALL_PREFIX:PATH=<INSTALL_DIR>/Applications
 
-  ${extra_cmake_args}
+    # add additional plugin directories
+    -DPARAVIEW_EXTERNAL_PLUGIN_DIRS:STRING=${plugin_dirs}
+
+    ${extra_cmake_args}
 
   ${PV_EXTRA_CMAKE_ARGS}
 )
