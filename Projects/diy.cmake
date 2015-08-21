@@ -17,7 +17,7 @@ add_external_project(diy
     MPICXX "${mpicxx}"
   CONFIGURE_COMMAND
       <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> --enable-fpic --disable-openmp
-  BUILD_COMMAND make
+  BUILD_COMMAND "${CMAKE_COMMAND}" -Ddiy_source=<SOURCE_DIR> -P "${CMAKE_CURRENT_LIST_DIR}/diy.build.cmake"
   INSTALL_COMMAND make install
   )
 
