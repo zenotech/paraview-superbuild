@@ -180,16 +180,9 @@ if (USE_NONFREE_COMPONENTS)
       URL "http://paraview.org/files/dependencies/diy-src.r178.tar.gz"
       URL_MD5 4fba13aae93927d0f32dd6db0599ffcd)
   else()
-    if (TRUST_SVN_CERTIFICATES_AUTOMATICALLY)
-      add_revision(diy
-         SVN_REPOSITORY https://svn.mcs.anl.gov/repos/diy/trunk
-         SVN_REVISION -r178
-         SVN_TRUST_CERT 1)
-    else()
-      add_revision(diy
-         SVN_REPOSITORY https://svn.mcs.anl.gov/repos/diy/trunk
-         SVN_REVISION -r178)
-    endif()
+    add_revision(diy
+      GIT_REPOSITORY https://gitlab.kitware.com/paraview/diy.git
+      GIT_TAG f5c00a034279d20cf040705d78a6b7bdb4beae43) # r178
   endif()
 
   add_revision(cosmotools
