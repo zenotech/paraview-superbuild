@@ -11,105 +11,96 @@ macro (superbuild_setup_variables)
   set(paraview_version "${paraview_version_major}.${paraview_version_minor}")
 endmacro ()
 
-option(USE_NONFREE_COMPONENTS "Enable the non-free parts of the superbuild" OFF)
-mark_as_advanced(USE_NONFREE_COMPONENTS)
-
 if (ENABLE_qt AND NOT ENABLE_qt4 AND NOT ENABLE_qt5)
   message(FATAL_ERROR "Qt is enabled, but no version is specified. "
           "Please enable either Qt4 (recommended) or Qt5.")
 endif ()
 
-# Include all optional projects. These are the ones user can pick and choose.
-# Some of these allow using system libraries too.
-if (CROSS_BUILD_STAGE STREQUAL "CROSS")
-  #include(crossnumpy)
-  include(python)
-  include(mesa)
-  include(paraview)
-  include(paraviewsdk)
-elseif(CROSS_BUILD_STAGE STREQUAL "TOOLS")
-  include(boost)
-  include(bzip2)
-  include(png)
-  include(zlib)
-  include(python)
-  include(paraview)
-  include(portfwd)
-else()
-  include(boost)
-  include(bzip2)
-  include(cgns)
-  include(freetype)
-  include(hdf5)
-  include(ispc)
-  include(netcdf)
-  include(libxml2)
-  include(manta)
-  include(matplotlib)
-  include(mpi)
-  include(numpy)
-  include(ospray)
-  include(png)
-  include(python)
-  include(qt4)
-  include(qt5)
-  include(silo)
-  include(szip)
-  include(tbb)
-  include(visitbridge)
-  include(vortexfinder2)
-  include(vrpn)
-  include(xdmf3)
-  include(zlib)
-  if(CMAKE_Fortran_COMPILER)
-    # both of these packages require a Fortran compiler to build so we
-    # only present them to the user if we have one.
-    include(lapack)
-  endif()
+function (superbuild_find_projects var)
+  include(ParaViewSuperbuildMacros)
 
-  if (UNIX)
-    # Supported on Linux/Mac
-    include(adios)
-    include(mxml)
-    include(ffmpeg)
-  endif()
+  set(projects
+    cxx11
+    paraview
+    python)
 
-  if (UNIX AND NOT APPLE)
-    include(portfwd)
-    include(fontconfig)
-    include(llvm)
-    include(mesa)
-    include(osmesa)
-    include(egl)
-    include(catalyst)
-  endif()
+  option(USE_NONFREE_COMPONENTS "Enable the non-free parts of the superbuild" OFF)
+  mark_as_advanced(USE_NONFREE_COMPONENTS)
 
-  # Build CosmoTools on Linux and OS X
-  if (UNIX AND USE_NONFREE_COMPONENTS)
-    include(qhull)
-    include(diy)
-    include(genericio)
-    include(cosmotools)
-  endif()
+  list(APPEND projects
+    boost
+    bzip2
+    cgns
+    freetype
+    hdf5
+    ispc
+    netcdf
+    matplotlib
+    mpi
+    numpy
+    ospray
+    #paraviewsdk
+    png
+    python
+    qt4
+    qt5
+    silo
+    szip
+    tbb
+    visitbridge
+    vortexfinder2
+    vrpn
+    xdmf3
+    zlib)
 
-  include(paraviewusersguide)
-  include(paraviewtutorial)
-  include(paraviewgettingstartedguide)
-  include(paraviewtutorialdata)
-
-  # REMEMBER to tell VTK/ParaView to use VTK_SYSTEM_* for the
-  # libraries we've built here.
-  include(paraview)
-  if (USE_NONFREE_COMPONENTS)
-    include(vistrails)
-    include(acusolve)
+  if (NOT APPLE)
+    list(APPEND projects
+      manta)
   endif ()
 
-  # paraview.sdk is a module that is used install the ParaView SDK.
-  # Simply enabling this module will result in the ParaView SDK to be
-  # installed by "make install". Note that this is not always supported.
-  include(paraviewsdk OPTIONAL)
-endif()
+  if (UNIX)
+    list(APPEND projects
+      adios
+      ffmpeg
+      libxml2
+      mxml)
+
+    if (NOT APPLE)
+      list(APPEND projects
+        catalyst
+        egl
+        fontconfig
+        llvm
+        mesa
+        osmesa
+        portfwd)
+    endif ()
+  endif ()
+
+  list(APPEND projects
+    paraviewgettingstartedguide
+    paraviewtutorial
+    paraviewtutorialdata
+    paraviewusersguide)
+
+  if (USE_NONFREE_COMPONENTS)
+    list(APPEND projects
+      acusolve
+      vistrails)
+
+    if (UNIX)
+      list(APPEND projects
+        cosmotools
+        diy
+        genericio
+        qhull)
+    endif ()
+  endif ()
+
+  set("${var}"
+    ${projects}
+    PARENT_SCOPE)
+endfunction ()
 
 if (${ENABLE_ospray})
   #Turn ON C++1
