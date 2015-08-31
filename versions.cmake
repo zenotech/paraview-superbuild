@@ -42,6 +42,10 @@ superbuild_set_revision(cosmotools
   GIT_REPOSITORY "git://public.kitware.com/cosmotools.git"
   GIT_TAG        v0.13)
 
+superbuild_set_revision(genericio
+  GIT_REPOSITORY "https://kwgitlab.kitware.com/paraview/genericio.git"
+  GIT_TAG        origin/master)
+
 add_revision(vrpn
   GIT_REPOSITORY "https://github.com/vrpn/vrpn.git"
   GIT_TAG a545ef6415f0026aabdbdb1d7fdbefeb91c47d4f)
@@ -77,10 +81,6 @@ add_revision(catalyst ${paraview_revision})
 #------------------------------------------------------------------------------
 
 if (USE_NONFREE_COMPONENTS)
-  add_revision(genericio
-    GIT_REPOSITORY https://kwgitlab.kitware.com/paraview/genericio.git
-    GIT_TAG master)
-
   add_revision(acusolve
     GIT_REPOSITORY https://kwgitlab.kitware.com/paraview/acusolvereaderplugin.git
     GIT_TAG master)
