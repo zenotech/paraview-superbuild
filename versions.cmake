@@ -10,6 +10,10 @@ superbuild_set_revision(osmesa
   URL     "http://paraview.org/files/dependencies/mesa-12.0.1.tar.xz"
   URL_MD5 972fd5ad5a63aeabf173fb9adefc6522)
 
+superbuild_set_revision(manta
+  URL     "http://paraview.org/files/dependencies/manta-r2439.tar.gz"
+  URL_MD5 fbf4107fe2f6d7e8a5ae3dda71805bdc)
+
 add_revision(silo
   URL "http://paraview.org/files/dependencies/silo-4.9.1-bsd.tar.gz"
   URL_MD5 465d2a0a8958b088cde83fb2a5a7eeef)
@@ -17,10 +21,6 @@ add_revision(silo
 add_revision(cgns
   URL "http://www.paraview.org/files/dependencies/cgnslib_3.1.3-4.tar.gz"
   URL_MD5 442bba32b576f3429cbd086af43fd4ae)
-
-add_revision(manta
-  URL "http://paraview.org/files/dependencies/manta-r2439.tar.gz"
-  URL_MD5 fbf4107fe2f6d7e8a5ae3dda71805bdc)
 
 add_revision(vrpn
   GIT_REPOSITORY "https://github.com/vrpn/vrpn.git"
