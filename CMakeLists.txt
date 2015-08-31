@@ -179,5 +179,3 @@ function (superbuild_add_packaging)
 endfunction ()
 
 process_dependencies()
-
-add_subdirectory(Testing)
