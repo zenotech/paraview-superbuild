@@ -18,8 +18,8 @@ superbuild_set_revision(silo
   URL     "http://paraview.org/files/dependencies/silo-4.9.1-bsd.tar.gz"
   URL_MD5 465d2a0a8958b088cde83fb2a5a7eeef)
 
-add_revision(cgns
-  URL "http://www.paraview.org/files/dependencies/cgnslib_3.1.3-4.tar.gz"
+superbuild_set_revision(cgns
+  URL     "http://www.paraview.org/files/dependencies/cgnslib_3.1.3-4.tar.gz"
   URL_MD5 442bba32b576f3429cbd086af43fd4ae)
 
 add_revision(vrpn
