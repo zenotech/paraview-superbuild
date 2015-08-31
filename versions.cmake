@@ -1,3 +1,7 @@
+superbuild_set_revision(qhull
+  GIT_REPOSITORY "https://github.com/mathstuf/qhull.git"
+  GIT_TAG        origin/next)
+
 add_revision(silo
   URL "http://paraview.org/files/dependencies/silo-4.9.1-bsd.tar.gz"
   URL_MD5 465d2a0a8958b088cde83fb2a5a7eeef)
@@ -63,10 +67,6 @@ add_revision(catalyst ${paraview_revision})
 #------------------------------------------------------------------------------
 
 if (USE_NONFREE_COMPONENTS)
-  add_revision(qhull
-    GIT_REPOSITORY https://github.com/mathstuf/qhull.git
-    GIT_TAG next)
-
   add_revision(genericio
     GIT_REPOSITORY https://kwgitlab.kitware.com/paraview/genericio.git
     GIT_TAG master)
