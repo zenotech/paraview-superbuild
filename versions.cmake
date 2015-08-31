@@ -38,6 +38,10 @@ superbuild_set_revision(cgns
   URL     "http://www.paraview.org/files/dependencies/cgnslib_3.1.3-4.tar.gz"
   URL_MD5 442bba32b576f3429cbd086af43fd4ae)
 
+superbuild_set_revision(cosmotools
+  GIT_REPOSITORY "git://public.kitware.com/cosmotools.git"
+  GIT_TAG        v0.13)
+
 add_revision(vrpn
   GIT_REPOSITORY "https://github.com/vrpn/vrpn.git"
   GIT_TAG a545ef6415f0026aabdbdb1d7fdbefeb91c47d4f)
@@ -76,10 +80,6 @@ if (USE_NONFREE_COMPONENTS)
   add_revision(genericio
     GIT_REPOSITORY https://kwgitlab.kitware.com/paraview/genericio.git
     GIT_TAG master)
-
-  add_revision(cosmotools
-    GIT_REPOSITORY git://public.kitware.com/cosmotools.git
-    GIT_TAG v0.13)
 
   add_revision(acusolve
     GIT_REPOSITORY https://kwgitlab.kitware.com/paraview/acusolvereaderplugin.git
