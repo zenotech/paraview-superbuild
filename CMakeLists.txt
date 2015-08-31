@@ -12,16 +12,6 @@ mark_as_advanced(TRUST_SVN_CERTIFICATES_AUTOMATICALLY)
 #option(PV_COMMAND_LINE_TOOLS_ONLY
 #  "Turn this ON to build command lines tools alone." OFF)
 
-if (WIN32)
-  if ( (NOT "${CMAKE_GENERATOR}" MATCHES "^NMake.*$") OR
-       (NOT "${CMAKE_GENERATOR}" MATCHES "^Visual Studio.*$"))
-  # not use VS environment. We need to be pointed to nmake and devenv paths
-  # since they are needed when building tools (qt, python, etc.)
-    find_program(DEVENV_PATH devenv)
-    mark_as_advanced(DEVENV_PATH)
-  endif()
-endif()
-
 option(USE_NONFREE_COMPONENTS "Enable the non-free parts of the superbuild" OFF)
 mark_as_advanced(USE_NONFREE_COMPONENTS)
 

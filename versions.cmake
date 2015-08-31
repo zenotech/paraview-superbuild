@@ -14,8 +14,8 @@ superbuild_set_revision(manta
   URL     "http://paraview.org/files/dependencies/manta-r2439.tar.gz"
   URL_MD5 fbf4107fe2f6d7e8a5ae3dda71805bdc)
 
-add_revision(silo
-  URL "http://paraview.org/files/dependencies/silo-4.9.1-bsd.tar.gz"
+superbuild_set_revision(silo
+  URL     "http://paraview.org/files/dependencies/silo-4.9.1-bsd.tar.gz"
   URL_MD5 465d2a0a8958b088cde83fb2a5a7eeef)
 
 add_revision(cgns
