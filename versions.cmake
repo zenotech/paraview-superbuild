@@ -6,6 +6,10 @@ superbuild_set_revision(llvm
   URL     "http://paraview.org/files/dependencies/llvm-3.8.1.src.tar.xz"
   URL_MD5 538467e6028bbc9259b1e6e015d25845)
 
+superbuild_set_revision(osmesa
+  URL     "http://paraview.org/files/dependencies/mesa-12.0.1.tar.xz"
+  URL_MD5 972fd5ad5a63aeabf173fb9adefc6522)
+
 add_revision(silo
   URL "http://paraview.org/files/dependencies/silo-4.9.1-bsd.tar.gz"
   URL_MD5 465d2a0a8958b088cde83fb2a5a7eeef)
@@ -31,10 +35,6 @@ else()
     URL "http://paraview.org/files/dependencies/mesa-12.0.1.tar.xz"
     URL_MD5 972fd5ad5a63aeabf173fb9adefc6522)
 endif()
-
-add_revision(osmesa
-    URL "http://paraview.org/files/dependencies/mesa-12.0.1.tar.xz"
-    URL_MD5 972fd5ad5a63aeabf173fb9adefc6522)
 
 # ----------------------------------------------------------------------------
 # You choose to download ParaView source form GIT or other URL/FILE tarball
