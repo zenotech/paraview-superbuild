@@ -69,34 +69,19 @@ superbuild_set_revision(paraviewtutorialdata
   URL     "http://www.paraview.org/files/data/ParaViewTutorialData.tar.gz"
   URL_MD5 ff7ceab8cfc674b227c0bba392d1ed3c)
 
+superbuild_set_external_source(paraview
+  "https://gitlab.kitware.com/paraview/paraview.git" "origin/master"
+  "http://www.paraview.org/files/v5.1/ParaView-v5.1.2.tar.gz"
+  "44fb32fc8988fcdfbc216c9e40c3e925")
+
+get_property(paraview_revision GLOBAL
+  PROPERTY paraview_revision)
+superbuild_set_external_source(catalyst
+  ${paraview_revision})
+
 add_revision(vrpn
   GIT_REPOSITORY "https://github.com/vrpn/vrpn.git"
   GIT_TAG a545ef6415f0026aabdbdb1d7fdbefeb91c47d4f)
-
-# ----------------------------------------------------------------------------
-# You choose to download ParaView source form GIT or other URL/FILE tarball
-option(ParaView_FROM_GIT "If enabled then the repository is fetched from git" ON)
-cmake_dependent_option(ParaView_FROM_SOURCE_DIR "Enable to use existing ParaView source." OFF
-  "NOT ParaView_FROM_GIT" OFF)
-
-if (ParaView_FROM_GIT)
-  # Download PV from GIT
-  add_customizable_revision(paraview
-    GIT_REPOSITORY https://gitlab.kitware.com/paraview/paraview.git
-    GIT_TAG "master")
-else()
-  if (ParaView_FROM_SOURCE_DIR)
-    add_customizable_revision(paraview
-      SOURCE_DIR "ParaViewSource")
-  else()
-    # Variables to hold the URL and MD5 (optional)
-    add_customizable_revision(paraview
-      URL "http://www.paraview.org/files/v5.1/ParaView-v5.1.2.tar.gz"
-      URL_MD5 "44fb32fc8988fcdfbc216c9e40c3e925")
-  endif()
-endif()
-
-add_revision(catalyst ${paraview_revision})
 
 #------------------------------------------------------------------------------
 # Optional Plugins. Doesn't affect ParaView binaries at all even if missing

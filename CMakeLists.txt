@@ -5,6 +5,12 @@ project(ParaViewSuperBuild)
 list(INSERT CMAKE_MODULE_PATH 0
   "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
+macro (superbuild_setup_variables)
+  include(SuperbuildVersionMacros)
+  superbuild_set_version_variables(paraview "5.1.2" "paraview-version.cmake")
+  set(paraview_version "${paraview_version_major}.${paraview_version_minor}")
+endmacro ()
+
 option(TRUST_SVN_CERTIFICATES_AUTOMATICALLY
   "Trust SVN certificates automatically" ON)
 mark_as_advanced(TRUST_SVN_CERTIFICATES_AUTOMATICALLY)
