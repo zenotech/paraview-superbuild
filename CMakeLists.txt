@@ -142,73 +142,43 @@ function (superbuild_sanity_check)
   endif ()
 endfunction ()
 
+function (superbuild_add_packaging)
+  if (WIN32)
+    set(generators
+      NSIS
+      ZIP)
+  elseif (APPLE)
+    set(generators
+      DragNDrop)
+  else ()
+    set(generators
+      TGZ)
+  endif ()
+
+  if (USE_SYSTEM_qt4)
+    list(APPEND superbuild_export_variables
+      QT_LIBRARY_DIR)
+  endif ()
+
+  include(paraview.suffix)
+  list(APPEND superbuild_export_variables
+    PARAVIEW_PACKAGE_SUFFIX)
+
+  foreach (generator IN LISTS generators)
+    if (paraview_enabled)
+      superbuild_add_extra_package_test(paraview "${generator}"
+        LABELS  "ParaView"
+        TIMEOUT 1200)
+    endif ()
+    if (catalyst_enabled)
+      superbuild_add_extra_package_test(catalyst "${generator}"
+        LABELS  "ParaView"
+        TIMEOUT 1200)
+    endif ()
+  endforeach ()
+endfunction ()
+
 process_dependencies()
-
-# Set suffix to be used for generating archives. This ensures that the package
-# files have decent names that we can directly upload to the website.
-set(package_suffix_items)
-if (qt4_ENABLED)
-  list(APPEND package_suffix_items
-    Qt4)
-endif ()
-if (paraview_ENABLED AND PARAVIEW_RENDERING_BACKEND STREQUAL "OpenGL2")
-  list(APPEND package_suffix_items
-    OpenGL2)
-endif ()
-if (mpi_ENABLED)
-  list(APPEND package_suffix_items
-    MPI)
-endif ()
-if (APPLE)
-  list(APPEND package_suffix_items
-    "OSX${CMAKE_OSX_DEPLOYMENT_TARGET}")
-else ()
-  list(APPEND package_suffix_items
-    "${CMAKE_SYSTEM_NAME}")
-endif ()
-# XXX(package): Temporary as the transition to the CentOS6 builder takes place.
-if (ENV{HOSTNAME} STREQUAL "pvbinsdash")
-  list(APPEND package_suffix_items
-    "el6")
-endif ()
-if (64bit_build)
-  list(APPEND package_suffix_items
-    "64bit")
-else ()
-  list(APPEND package_suffix_items
-    "32bit")
-endif()
-
-string(REPLACE ";" "-" package_suffix_default "${package_suffix_items}")
-
-# PACKAGE_SUFFIX: A string that can be set to the suffix you want to use for all
-# the generated packages. By default, its set to
-# ${CMAKE_SYSTEM_NAME}-{64|32}bit.
-set (PACKAGE_SUFFIX "<default>"
-  CACHE STRING "String to use as a suffix for generated packages")
-mark_as_advanced(PACKAGE_SUFFIX)
-
-if (NOT PACKAGE_SUFFIX OR PACKAGE_SUFFIX STREQUAL "<default>")
-  set(PACKAGE_SUFFIX "${package_suffix_default}")
-elseif (NOT PACKAGE_SUFFIX STREQUAL package_suffix_default)
-  message(WARNING "The suffix for the package (${PACKAGE_SUFFIX}) does not "
-                  "match the suggested suffix based on build options "
-                  "(${package_suffix_default}). Set it to '<default>' or "
-                  "an empty string to use the default suffix. Using the "
-                  "provided suffix.")
-endif ()
-
-file(WRITE "${CMAKE_BINARY_DIR}/paraview_version.cmake"
-"set(bundle_suffix \"${pv_version_long}-${PACKAGE_SUFFIX}\")
-")
-
-if (paraview_ENABLED)
-  include(paraview.bundle OPTIONAL)
-endif()
-
-if (catalyst_ENABLED)
-  include(catalyst.bundle OPTIONAL)
-endif()
 
 add_subdirectory(Testing)
 
