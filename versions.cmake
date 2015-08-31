@@ -50,6 +50,10 @@ superbuild_set_revision(acusolve
   GIT_REPOSITORY "https://kwgitlab.kitware.com/paraview/acusolvereaderplugin.git"
   GIT_TAG        origin/master)
 
+superbuild_set_revision(vistrails
+  GIT_REPOSITORY "https://kwgitlab.kitware.com/paraview/vistrails.git"
+  GIT_TAG        origin/master)
+
 add_revision(vrpn
   GIT_REPOSITORY "https://github.com/vrpn/vrpn.git"
   GIT_TAG a545ef6415f0026aabdbdb1d7fdbefeb91c47d4f)
@@ -83,12 +87,6 @@ add_revision(catalyst ${paraview_revision})
 # Optional Plugins. Doesn't affect ParaView binaries at all even if missing
 # or disabled.
 #------------------------------------------------------------------------------
-
-if (USE_NONFREE_COMPONENTS)
-  add_revision(vistrails
-    GIT_REPOSITORY https://kwgitlab.kitware.com/paraview/vistrails.git
-    GIT_TAG master)
-endif ()
 
 #add_customizable_revision(vortexfinder2
 #  GIT_REPOSITORY https://github.com/hguo/vortexfinder2.git
