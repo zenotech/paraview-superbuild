@@ -11,11 +11,6 @@ macro (superbuild_setup_variables)
   set(paraview_version "${paraview_version_major}.${paraview_version_minor}")
 endmacro ()
 
-if (ENABLE_qt AND NOT ENABLE_qt4 AND NOT ENABLE_qt5)
-  message(FATAL_ERROR "Qt is enabled, but no version is specified. "
-          "Please enable either Qt4 (recommended) or Qt5.")
-endif ()
-
 function (superbuild_find_projects var)
   include(ParaViewSuperbuildMacros)
 
@@ -102,53 +97,52 @@ function (superbuild_find_projects var)
     PARENT_SCOPE)
 endfunction ()
 
-if (${ENABLE_ospray})
-  #Turn ON C++1
-  if (UNIX AND NOT APPLE)
-    set(cxxflags
-        "${cxxflags} -std=c++11 -Wno-literal-suffix -Wno-error=narrowing -Wno-narrowing")
+function (superbuild_sanity_check)
+  if (NOT paraview_enabled AND NOT catalyst_enabled)
+    message(WARNING "ParaView is disabled...")
   endif ()
-  if (APPLE)
-    set(cxxflags
-        "${cxxflags} -std=c++11 -stdlib=libc++ -Wno-error=c++11-narrowing -D_DARWIN_C_SOURCE")
-    set(ldflags
-        "${ldflags} -stdlib=libc++")
+
+  include(qt.functions)
+
+  superbuild_qt_sanity_check()
+
+  # Sanity check: Cannot have EGL and Qt enabled at the same time.
+  if (egl_enabled AND (qt4_enabled OR qt5_enabled))
+    message(SEND_ERROR "Cannot enable EGL and Qt at the same time.")
   endif ()
-endif()
+
+  # Sanity check: Cannot have EGL and Mesa at the same time.
+  if (egl_enabled AND mesa_enabled)
+    message(SEND_ERROR "Cannot enable EGL and Mesa at the same time.")
+  endif ()
+
+  # Sanity check: Must use OpenGL2 backed with EGL
+  if (egl_enabled AND NOT PARAVIEW_RENDERING_BACKEND STREQUAL "OpenGL2")
+    message(SEND_ERROR "Cannot enable EGL with the old VTK rendering backend at the same time.")
+  endif ()
+
+  # Sanity check: Cannot have EGL and OSMesa at the same time.
+  if (egl_enabled AND osmesa_enabled)
+    message(SEND_ERROR "Cannot enable EGL and OSMesa at the same time.")
+  endif ()
+
+  # Sanity check: Cannot have OSMesa and Qt enabled at the same time.
+  if (osmesa_enabled AND (qt4_enabled OR qt5_enabled))
+    message(SEND_ERROR "Cannot enable OSMesa and Qt at the same time.")
+  endif ()
+
+  # Sanity check: Cannot have OSMesa and Mesa at the same time.
+  if (osmesa_enabled AND mesa_enabled)
+    message(SEND_ERROR "Cannot enable OSMesa and Mesa at the same time.")
+  endif ()
+
+  # Sanity check: Cannot have ParaView and Catalyst enabled at the same time.
+  if (paraview_enabled AND catalyst_enabled)
+    message(SEND_ERROR "Cannot enable ParaView and Catalyst at the same time.")
+  endif ()
+endfunction ()
 
 process_dependencies()
-
-#-------------------------------------------------------------------------
-# Some sanity checks.
-# Sanity check: Cannot have EGL and qt enabled at the same time.
-if (egl_ENABLED AND (qt4_ENABLED OR qt5_ENABLED))
-  message(SEND_ERROR "Cannot enable EGL and Qt at the same time.")
-endif()
-# Sanity check: Cannot have egl and mesa at the same time.
-if (egl_ENABLED AND mesa_ENABLED)
-  message(SEND_ERROR "Cannot enable EGL and Mesa at the same time.")
-endif()
-# Sanity check: Must use OpenGL2 backed with egl
-if (egl_ENABLED AND NOT ${PARAVIEW_RENDERING_BACKEND} STREQUAL "OpenGL2")
-  message(SEND_ERROR "Cannot enable EGL and OSMesa at the same time.")
-endif()
-# Sanity check: Cannot have egl and osmesa at the same time.
-if (egl_ENABLED AND osmesa_ENABLED)
-  message(SEND_ERROR "Cannot enable EGL and OSMesa at the same time.")
-endif()
-# Sanity check: Cannot have osmesa and qt enabled at the same time.
-if (osmesa_ENABLED AND (qt4_ENABLED OR qt5_ENABLED))
-  message(SEND_ERROR "Cannot enable OSMesa and Qt at the same time.")
-endif()
-# Sanity check: Cannot have osmesa and mesa at the same time.
-if (osmesa_ENABLED AND mesa_ENABLED)
-  message(SEND_ERROR "Cannot enable OSMesa and Mesa at the same time.")
-endif()
-# Sanity check: Cannot have catalyst and paraview enabled at the same time.
-if (paraview_ENABLED AND catalyst_ENABLED)
-  message(SEND_ERROR "Cannot enable ParaView and Catalyst at the same time.")
-endif()
-#-------------------------------------------------------------------------
 
 # Set suffix to be used for generating archives. This ensures that the package
 # files have decent names that we can directly upload to the website.
