@@ -182,7 +182,15 @@ function (superbuild_add_tests)
   add_subdirectory("${CMAKE_SOURCE_DIR}/tests" "${CMAKE_BINARY_DIR}/tests")
 endfunction ()
 
+set(boost_libraries
+  date_time
+  system
+  thread)
+
+list(APPEND superbuild_version_files
+  "${CMAKE_CURRENT_LIST_DIR}/versions.cmake")
 list(APPEND extra_ctest_custom_files
   "${CMAKE_CURRENT_LIST_DIR}/cmake/CTestCustom.cmake")
-
-process_dependencies()
+list(APPEND superbuild_project_roots
+  "${CMAKE_CURRENT_LIST_DIR}/projects")
+add_subdirectory(superbuild)
