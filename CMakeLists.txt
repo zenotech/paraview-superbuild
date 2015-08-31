@@ -11,16 +11,6 @@ macro (superbuild_setup_variables)
   set(paraview_version "${paraview_version_major}.${paraview_version_minor}")
 endmacro ()
 
-option(TRUST_SVN_CERTIFICATES_AUTOMATICALLY
-  "Trust SVN certificates automatically" ON)
-mark_as_advanced(TRUST_SVN_CERTIFICATES_AUTOMATICALLY)
-
-#-----------------------------------------------------------------------------
-## Top-level options. These must be limited to a commonly used subset with
-## default values being used for building ParaView binaries.
-#option(PV_COMMAND_LINE_TOOLS_ONLY
-#  "Turn this ON to build command lines tools alone." OFF)
-
 option(USE_NONFREE_COMPONENTS "Enable the non-free parts of the superbuild" OFF)
 mark_as_advanced(USE_NONFREE_COMPONENTS)
 
@@ -134,21 +124,6 @@ if (${ENABLE_ospray})
         "${ldflags} -stdlib=libc++")
   endif ()
 endif()
-
-#-------------------------------------------------------------------------
-# Add any additional project that the user wants
-set(PV_EXTERNAL_PROJECTS "" CACHE STRING
-    "Provide the list of Projects that ParaView should additionally depends on")
-mark_as_advanced(PV_EXTERNAL_PROJECTS)
-
-# Include all additional external projects
-# Its their responsibility to check the system and provide empty target if the
-# platform is not supported
-foreach(external_project IN ITEMS ${PV_EXTERNAL_PROJECTS})
-  include(${external_project})
-  set(ENABLE_${external_project} ON CACHE BOOL "" FORCE)
-endforeach()
-
 
 process_dependencies()
 
