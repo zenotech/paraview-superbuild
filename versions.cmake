@@ -14,6 +14,10 @@ superbuild_set_revision(manta
   URL     "http://paraview.org/files/dependencies/manta-r2439.tar.gz"
   URL_MD5 fbf4107fe2f6d7e8a5ae3dda71805bdc)
 
+superbuild_set_revision(mesa
+  URL     "http://paraview.org/files/dependencies/mesa-12.0.1.tar.xz"
+  URL_MD5 972fd5ad5a63aeabf173fb9adefc6522)
+
 superbuild_set_revision(silo
   URL     "http://paraview.org/files/dependencies/silo-4.9.1-bsd.tar.gz"
   URL_MD5 465d2a0a8958b088cde83fb2a5a7eeef)
@@ -25,16 +29,6 @@ superbuild_set_revision(cgns
 add_revision(vrpn
   GIT_REPOSITORY "https://github.com/vrpn/vrpn.git"
   GIT_TAG a545ef6415f0026aabdbdb1d7fdbefeb91c47d4f)
-
-if (CROSS_BUILD_STAGE STREQUAL "CROSS")
-  add_revision(mesa
-    URL "http://paraview.org/files/dependencies/MesaLib-7.6.1.tar.gz"
-    URL_MD5 e80fabad2e3eb7990adae773d6aeacba)
-else()
-  add_revision(mesa
-    URL "http://paraview.org/files/dependencies/mesa-12.0.1.tar.xz"
-    URL_MD5 972fd5ad5a63aeabf173fb9adefc6522)
-endif()
 
 # ----------------------------------------------------------------------------
 # You choose to download ParaView source form GIT or other URL/FILE tarball
