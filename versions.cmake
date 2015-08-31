@@ -22,6 +22,10 @@ superbuild_set_revision(diy
   GIT_REPOSITORY "https://gitlab.kitware.com/paraview/diy.git"
   GIT_TAG        origin/for/paraview) # r178 + patch
 
+superbuild_set_revision(adios
+  URL     "http://www.paraview.org/files/dependencies/adios-1.8-439f0fb6.tar.bz2"
+  URL_MD5 a88701c77a7ead5daadd8d8aff70556a)
+
 superbuild_set_revision(silo
   URL     "http://paraview.org/files/dependencies/silo-4.9.1-bsd.tar.gz"
   URL_MD5 465d2a0a8958b088cde83fb2a5a7eeef)
@@ -96,11 +100,6 @@ add_revision(portfwd
 add_revision(mxml
   URL http://www.paraview.org/files/dependencies/mxml-2.9.tar.gz
   URL_MD5 e21cad0f7aacd18f942aa0568a8dee19
-)
-
-add_revision(adios
-  URL http://www.paraview.org/files/dependencies/adios-1.8-439f0fb6.tar.bz2
-  URL_MD5 a88701c77a7ead5daadd8d8aff70556a
 )
 
 set(ispc_file "")
