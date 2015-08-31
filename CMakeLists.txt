@@ -178,4 +178,11 @@ function (superbuild_add_packaging)
   endforeach ()
 endfunction ()
 
+function (superbuild_add_tests)
+  add_subdirectory("${CMAKE_SOURCE_DIR}/tests" "${CMAKE_BINARY_DIR}/tests")
+endfunction ()
+
+list(APPEND extra_ctest_custom_files
+  "${CMAKE_CURRENT_LIST_DIR}/cmake/CTestCustom.cmake")
+
 process_dependencies()
