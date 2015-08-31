@@ -26,6 +26,10 @@ superbuild_set_revision(adios
   URL     "http://www.paraview.org/files/dependencies/adios-1.8-439f0fb6.tar.bz2"
   URL_MD5 a88701c77a7ead5daadd8d8aff70556a)
 
+superbuild_set_revision(mxml
+  URL     "http://www.paraview.org/files/dependencies/mxml-2.9.tar.gz"
+  URL_MD5 e21cad0f7aacd18f942aa0568a8dee19)
+
 superbuild_set_revision(silo
   URL     "http://paraview.org/files/dependencies/silo-4.9.1-bsd.tar.gz"
   URL_MD5 465d2a0a8958b088cde83fb2a5a7eeef)
@@ -96,11 +100,6 @@ add_customizable_revision(vortexfinder2
 add_revision(portfwd
   URL "http://www.paraview.org/files/dependencies/portfwd-0.29.tar.gz"
   URL_MD5 93161c91e12b0d67ca52dc13708a2f2f)
-
-add_revision(mxml
-  URL http://www.paraview.org/files/dependencies/mxml-2.9.tar.gz
-  URL_MD5 e21cad0f7aacd18f942aa0568a8dee19
-)
 
 set(ispc_file "")
 set(ispc_md5 "")
