@@ -97,8 +97,8 @@ add_customizable_revision(vortexfinder2
   GIT_REPOSITORY https://github.com/tjcorona/vortexfinder2.git
   GIT_TAG master)
 
-add_revision(portfwd
-  URL "http://www.paraview.org/files/dependencies/portfwd-0.29.tar.gz"
+superbuild_set_revision(portfwd
+  URL     "http://www.paraview.org/files/dependencies/portfwd-0.29.tar.gz"
   URL_MD5 93161c91e12b0d67ca52dc13708a2f2f)
 
 set(ispc_file "")
