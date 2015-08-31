@@ -18,6 +18,10 @@ superbuild_set_revision(mesa
   URL     "http://paraview.org/files/dependencies/mesa-12.0.1.tar.xz"
   URL_MD5 972fd5ad5a63aeabf173fb9adefc6522)
 
+superbuild_set_revision(diy
+  GIT_REPOSITORY "https://gitlab.kitware.com/paraview/diy.git"
+  GIT_TAG        origin/for/paraview) # r178 + patch
+
 superbuild_set_revision(silo
   URL     "http://paraview.org/files/dependencies/silo-4.9.1-bsd.tar.gz"
   URL_MD5 465d2a0a8958b088cde83fb2a5a7eeef)
@@ -64,19 +68,6 @@ if (USE_NONFREE_COMPONENTS)
   add_revision(genericio
     GIT_REPOSITORY https://kwgitlab.kitware.com/paraview/genericio.git
     GIT_TAG master)
-
-  # Add an option to not use diy from SVN. On Debian-Etch the SVN is too old
-  # to work with invalid SVN certificates.
-  option(DIY_SKIP_SVN "If enabled, we simply download diy from a source tar" OFF)
-  if(DIY_SKIP_SVN)
-    add_revision(diy
-      URL "http://paraview.org/files/dependencies/diy-src.r178.tar.gz"
-      URL_MD5 4fba13aae93927d0f32dd6db0599ffcd)
-  else()
-    add_revision(diy
-      GIT_REPOSITORY https://gitlab.kitware.com/paraview/diy.git
-      GIT_TAG f5c00a034279d20cf040705d78a6b7bdb4beae43) # r178
-  endif()
 
   add_revision(cosmotools
     GIT_REPOSITORY git://public.kitware.com/cosmotools.git
