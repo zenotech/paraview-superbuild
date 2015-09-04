@@ -153,8 +153,8 @@ else()
   else()
     # Variables to hold the URL and MD5 (optional)
     add_customizable_revision(paraview
-      URL "http://www.paraview.org/files/v4.4/ParaView-v4.4.0-RC1-source.tar.gz"
-      URL_MD5 "18f340ba9f517cfe9e04a9676d416a58")
+      URL "http://www.paraview.org/files/v4.4/ParaView-v4.4.0-RC2-source.tar.gz"
+      URL_MD5 "e8b9e67629a0f0032b4d322713418508")
   endif()
 endif()
 
