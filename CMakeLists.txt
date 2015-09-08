@@ -280,6 +280,7 @@ else()
   include(silo)
   include(szip)
   include(visitbridge)
+  include(xdmf3)
   include(zlib)
   if(CMAKE_Fortran_COMPILER)
     # both of these packages require a Fortran compiler to build so we
