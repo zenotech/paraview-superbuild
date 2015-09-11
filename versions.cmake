@@ -145,7 +145,7 @@ if (ParaView_FROM_GIT)
   # Download PV from GIT
   add_customizable_revision(paraview
     GIT_REPOSITORY https://gitlab.kitware.com/paraview/paraview.git
-    GIT_TAG "v4.4.0")
+    GIT_TAG "master")
 else()
   if (ParaView_FROM_SOURCE_DIR)
     add_customizable_revision(paraview
