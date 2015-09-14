@@ -43,6 +43,17 @@ foreach (plugin IN LISTS plugins)
   endif ()
 endforeach ()
 
+if (NOT CMAKE_CONFIGURATION_TYPES AND NOT WIN32)
+  set(PARAVIEW_BUILD_TYPE "" CACHE STRING "Paraview's build mode")
+  mark_as_advanced(PARAVIEW_BUILD_TYPE)
+  if (NOT PARAVIEW_BUILD_TYPE)
+    set(PARAVIEW_BUILD_TYPE "${CMAKE_BUILD_TYPE}")
+  endif ()
+
+  set(CMAKE_BUILD_TYPE_save "${CMAKE_BUILD_TYPE}")
+  set(CMAKE_BUILD_TYPE "${PARAVIEW_BUILD_TYPE}")
+endif ()
+
 add_external_project(paraview
   DEPENDS_OPTIONAL
     adios boost cosmotools ffmpeg hdf5 libxml3 manta matplotlib mpi numpy png python qt4 qt5 visitbridge zlib silo cgns xdmf3
@@ -92,3 +103,7 @@ add_external_project(paraview
 
   ${PV_EXTRA_CMAKE_ARGS}
 )
+
+if (DEFINED CMAKE_BUILD_TYPE_save)
+  set(CMAKE_BUILD_TYPE "${CMAKE_BUILD_TYPE_save}")
+endif ()
