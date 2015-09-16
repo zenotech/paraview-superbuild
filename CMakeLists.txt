@@ -345,11 +345,11 @@ process_dependencies()
 
 #-------------------------------------------------------------------------
 # Some sanity checks.
-# Sanity check: Cannot has osmesa and qt enabled at the same time.
+# Sanity check: Cannot have osmesa and qt enabled at the same time.
 if (osmesa_ENABLED AND (qt4_ENABLED OR qt5_ENABLED))
   message(SEND_ERROR "Cannot enable OSMesa and Qt at the same time.")
 endif()
-# Sanity check: Cannot has osmesa and mesa at the same time.
+# Sanity check: Cannot have osmesa and mesa at the same time.
 if (osmesa_ENABLED AND mesa_ENABLED)
   message(SEND_ERROR "Cannot enable OSMesa and Mesa at the same time.")
 endif()
