@@ -302,6 +302,7 @@ else()
     include(fontconfig)
     include(mesa)
     include(osmesa)
+    include(catalyst)
   endif()
 
   # Build CosmoTools on Linux and OS X
@@ -352,6 +353,10 @@ endif()
 # Sanity check: Cannot have osmesa and mesa at the same time.
 if (osmesa_ENABLED AND mesa_ENABLED)
   message(SEND_ERROR "Cannot enable OSMesa and Mesa at the same time.")
+endif()
+# Sanity check: Cannot have catalyst and paraview enabled at the same time.
+if (paraview_ENABLED AND catalyst_ENABLED)
+  message(SEND_ERROR "Cannot enable ParaView and Catalyst at the same time.")
 endif()
 #-------------------------------------------------------------------------
 
@@ -406,6 +411,10 @@ file(WRITE "${CMAKE_BINARY_DIR}/paraview_version.cmake"
 
 if (paraview_ENABLED)
   include(paraview.bundle OPTIONAL)
+endif()
+
+if (catalyst_ENABLED)
+  include(catalyst.bundle OPTIONAL)
 endif()
 
 add_subdirectory(Testing)
