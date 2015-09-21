@@ -55,6 +55,12 @@ set (SuperBuild_CMAKE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
 set (SuperBuild_PROJECTS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Projects")
 set (SuperBuild_BINARY_DIR ${ParaViewSuperBuild_BINARY_DIR})
 
+if (NOT CMAKE_CONFIGURATION_TYPES)
+  set(CMAKE_BUILD_TYPE "Release"
+    CACHE STRING "The build mode")
+  mark_as_advanced(CMAKE_BUILD_TYPE)
+endif ()
+
 # The external projects list separator string should be set ASAP so that
 # anything else can use it that needs it.
 set (ep_list_separator "-+-")
