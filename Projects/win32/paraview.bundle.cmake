@@ -13,14 +13,14 @@ include(paraview.bundle.common)
 # URL to website providing assistance in installing your application.
 set (CPACK_NSIS_HELP_LINK "http://paraview.org/Wiki/ParaView")
 set (CPACK_NSIS_MENU_LINKS
-  "doc/TheParaViewGuide-CC-Edition.pdf" "The ParaView Guide (CC Edition)"
-  "bin/paraview.exe" "ParaView"
-  "bin/pvserver.exe" "pvserver (Server)"
-  "bin/pvdataserver.exe" "pvdataserver (Data-Server)"
-  "bin/pvrenderserver.exe" "pvrenderserver (Render-Server)")
+  "doc/TheParaViewGuide-CC-Edition.pdf" "ParaView Guide (CE) ${pv_version_long}"
+  "bin/paraview.exe" "ParaView ${pv_version_long}"
+  "bin/pvserver.exe" "pvserver ${pv_version_long} (Server)"
+  "bin/pvdataserver.exe" "pvdataserver ${pv_version_long} (Data-Server)"
+  "bin/pvrenderserver.exe" "pvrenderserver ${pv_version_long} (Render-Server)")
 if (python_ENABLED)
   set (CPACK_NSIS_MENU_LINKS ${CPACK_NSIS_MENU_LINKS}
-    "bin/pvpython.exe" "pvpython (Python Shell)")
+    "bin/pvpython.exe" "pvpython ${pv_version_long} (Python Shell)")
 endif()
 
 #FIXME: need a pretty icon.
