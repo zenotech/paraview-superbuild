@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 2.8.9)
 
 if (APPLE)
-  if(NOT CMAKE_OSX_DEPLOYMENT_TARGET)
-    set(CMAKE_OSX_ARCHITECTURES "x86_64" CACHE STRING "By default, build for 64-bit Leopard")
+  if(NOT CMAKE_OSX_ARCHITECTURES)
+    set(CMAKE_OSX_ARCHITECTURES "x86_64" CACHE STRING "By default, build for 64-bit")
   endif()
 
   if (NOT CMAKE_OSX_SDK)
