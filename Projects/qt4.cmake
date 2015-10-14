@@ -80,6 +80,7 @@ add_external_project_or_use_system(
       -release
       -system-zlib
       -xmlpatterns
+      -stl
       -I <INSTALL_DIR>/include
       -L <INSTALL_DIR>/lib
       ${qt_options}
