@@ -158,6 +158,8 @@ else()
   endif()
 endif()
 
+add_revision(catalyst ${paraview_revision})
+
 #------------------------------------------------------------------------------
 # Optional Plugins. Doesn't affect ParaView binaries at all even if missing
 # or disabled.
