@@ -58,9 +58,15 @@ add_revision(fontconfig
   URL "http://paraview.org/files/dependencies/fontconfig-2.8.0.tar.gz"
   URL_MD5 77e15a92006ddc2adbb06f840d591c0e)
 
-add_revision(qt4
-  URL "http://paraview.org/files/dependencies/qt-everywhere-opensource-src-4.8.6.tar.gz"
-  URL_MD5 2edbe4d6c2eff33ef91732602f3518eb)
+if (WIN32)
+  add_revision(qt4
+    URL "http://paraview.org/files/dependencies/qt-everywhere-opensource-src-4.8.4.tar.gz"
+    URL_MD5 89c5ecba180cae74c66260ac732dc5cb)
+else ()
+  add_revision(qt4
+    URL "http://paraview.org/files/dependencies/qt-everywhere-opensource-src-4.8.6.tar.gz"
+    URL_MD5 2edbe4d6c2eff33ef91732602f3518eb)
+endif ()
 
 if (WIN32)
   add_revision(qt5
