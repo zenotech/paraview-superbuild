@@ -107,7 +107,7 @@ add_revision(matplotlib
   URL_MD5 30ee59119599331bf1f3b6e838fee9a8)
 
 add_revision(boost
-  URL "http://sourceforge.net/projects/boost/files/boost/1.56.0/boost_1_56_0.tar.gz/download"
+  URL "http://www.computationalmodelbuilder.org/files/dependencies/boost_1_56_0.tar.gz"
   URL_MD5 8c54705c424513fa2be0042696a3a162)
 
 add_revision(manta
