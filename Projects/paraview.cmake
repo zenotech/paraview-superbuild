@@ -57,7 +57,7 @@ endif ()
 add_external_project(paraview
   DEPENDS_OPTIONAL
     adios boost cosmotools ffmpeg hdf5 libxml3 manta matplotlib mpi numpy png python qt4 qt5 visitbridge zlib silo cgns xdmf3
-    mesa osmesa nektarreader netcdf
+    mesa osmesa nektarreader netcdf vrpn
     ${PV_EXTERNAL_PROJECTS} ${plugins}
 
   CMAKE_ARGS
@@ -88,6 +88,10 @@ add_external_project(paraview
     -DModule_vtkIOADIOS:BOOL=${adios_ENABLED}
     -DVTK_RENDERING_BACKEND:STRING=${PARAVIEW_RENDERING_BACKEND}
     ${osmesa_ARGS}
+
+    # vrpn
+    -DPARAVIEW_BUILD_PLUGIN_VRPlugin:BOOL=${vrpn_ENABLED}
+    -DPARAVIEW_USE_VRPN:BOOL=${vrpn_ENABLED}
 
     # Web documentation
     -DPARAVIEW_BUILD_WEB_DOCUMENTATION:BOOL=${PARAVIEW_BUILD_WEB_DOCUMENTATION}
