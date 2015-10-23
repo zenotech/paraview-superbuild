@@ -114,6 +114,10 @@ add_revision(manta
   URL "http://paraview.org/files/dependencies/manta-r2439.tar.gz"
   URL_MD5 fbf4107fe2f6d7e8a5ae3dda71805bdc)
 
+add_revision(vrpn
+  GIT_REPOSITORY "https://github.com/vrpn/vrpn.git"
+  GIT_TAG a545ef6415f0026aabdbdb1d7fdbefeb91c47d4f)
+
 if (UNIX)
   add_revision(mpi
     URL "http://paraview.org/files/dependencies/mpich2-1.4.1p1.tar.gz"
