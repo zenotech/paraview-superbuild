@@ -107,7 +107,7 @@ add_revision(matplotlib
   URL_MD5 30ee59119599331bf1f3b6e838fee9a8)
 
 add_revision(boost
-  URL "http://sourceforge.net/projects/boost/files/boost/1.56.0/boost_1_56_0.tar.gz/download"
+  URL "http://www.computationalmodelbuilder.org/files/dependencies/boost_1_56_0.tar.gz"
   URL_MD5 8c54705c424513fa2be0042696a3a162)
 
 add_revision(manta
@@ -241,3 +241,19 @@ add_revision(adios
   URL http://www.paraview.org/files/dependencies/adios-1.8-439f0fb6.tar.bz2
   URL_MD5 a88701c77a7ead5daadd8d8aff70556a
 )
+
+set(tbb_ver "44_20150728oss")
+if (WIN32)
+  set(tbb_file "tbb${tbb_ver}_win.zip")
+  set(tbb_md5 "e7bbf293cdb5a50ca81347c80168956d")
+elseif (APPLE)
+  set(tbb_file "tbb${tbb_ver}_osx.tgz")
+  set(tbb_md5 "a767d7a8b375e6b054e44e2317d806b8")
+else ()
+  set(tbb_file "tbb${tbb_ver}_lin_0.tgz")
+  set(tbb_md5 "ab5df80a65adf423b14637a1f35814b2")
+endif ()
+
+add_revision(tbb
+  URL "http://www.paraview.org/files/dependencies/${tbb_file}"
+  URL_MD5 "${tbb_md5}")

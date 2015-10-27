@@ -54,10 +54,15 @@ if (NOT CMAKE_CONFIGURATION_TYPES AND NOT WIN32)
   set(CMAKE_BUILD_TYPE "${PARAVIEW_BUILD_TYPE}")
 endif ()
 
+set(VTK_SMP_IMPLEMENTATION_TYPE "Sequential")
+if (tbb_ENABLED)
+  set(VTK_SMP_IMPLEMENTATION_TYPE "TBB")
+endif ()
+
 add_external_project(paraview
   DEPENDS_OPTIONAL
     adios boost cosmotools ffmpeg hdf5 libxml3 manta matplotlib mpi numpy png python qt4 qt5 visitbridge zlib silo cgns xdmf3
-    mesa osmesa nektarreader netcdf vrpn
+    mesa osmesa nektarreader netcdf vrpn tbb
     ${PV_EXTERNAL_PROJECTS} ${plugins}
 
   CMAKE_ARGS
@@ -87,6 +92,7 @@ add_external_project(paraview
     -DVTK_USE_SYSTEM_ZLIB:BOOL=${zlib_ENABLED}
     -DModule_vtkIOADIOS:BOOL=${adios_ENABLED}
     -DVTK_RENDERING_BACKEND:STRING=${PARAVIEW_RENDERING_BACKEND}
+    -DVTK_SMP_IMPLEMENTATION_TYPE:STRING=${VTK_SMP_IMPLEMENTATION_TYPE}
     ${osmesa_ARGS}
 
     # vrpn
