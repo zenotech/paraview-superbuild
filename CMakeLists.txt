@@ -169,7 +169,8 @@ endif()
 #-----------------------------------------------------------------------------
 # Make sure install/lib directories exist by creating them
 # Windows doesn't like it if that directory does not exist even if it is empty
-file(MAKE_DIRECTORY "${install_location}/lib")
+file(MAKE_DIRECTORY "${install_location}/lib"
+                    "${install_location}/bin")
 
 
 if (UNIX AND NOT APPLE)
@@ -311,6 +312,9 @@ else()
     include(mesa)
     include(osmesa)
     include(catalyst)
+    include(ispc)
+    include(ospray)
+    include(pvospray)
   endif()
 
   # Build CosmoTools on Linux and OS X

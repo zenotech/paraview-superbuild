@@ -257,3 +257,18 @@ endif ()
 add_revision(tbb
   URL "http://www.paraview.org/files/dependencies/${tbb_file}"
   URL_MD5 "${tbb_md5}")
+
+add_revision(ispc
+  URL "http://sourceforge.net/projects/ispcmirror/files/v1.8.2/ispc-v1.8.2-linux.tar.gz"
+  URL_MD5 "39dca86592deb207ce4dc1211eef9d33")
+
+add_revision(ospray
+  GIT_REPOSITORY "https://github.com/ospray/OSPRay.git"
+  GIT_TAG "master")
+
+add_revision(pvospray
+  GIT_REPOSITORY https://github.com/tj-corona/pvOSPRay.git
+  GIT_TAG paraview-superbuild)
+#add_revision(pvospray
+  #  GIT_REPOSITORY "https://github.com/TACC/pvOSPRay.git"
+  #GIT_TAG "836c814758127e1fede695fc7f51b54c26f80b34")
