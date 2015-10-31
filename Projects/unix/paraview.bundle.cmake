@@ -117,6 +117,12 @@ if(python_ENABLED)
     COMPONENT superbuild)
 endif()
 
+if (ospray_ENABLED)
+  install(DIRECTORY "${install_location}/lib/"
+    DESTINATION "lib/paraview-${pv_version}"
+    FILES_MATCHING PATTERN "libospray*")
+endif()
+
 add_test(NAME GenerateParaViewPackage
          COMMAND ${CMAKE_CPACK_COMMAND} -G TGZ -V
          WORKING_DIRECTORY ${SuperBuild_BINARY_DIR})
