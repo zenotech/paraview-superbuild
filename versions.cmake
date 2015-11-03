@@ -262,9 +262,11 @@ add_revision(ispc
   URL "http://sourceforge.net/projects/ispcmirror/files/v1.8.2/ispc-v1.8.2-linux.tar.gz"
   URL_MD5 "39dca86592deb207ce4dc1211eef9d33")
 
+# We use this fork since patching of git repos doesn't work well with git 1.7.* available
+# on our VMs.
 add_revision(ospray
-  GIT_REPOSITORY "https://github.com/ospray/OSPRay.git"
-  GIT_TAG "master")
+  GIT_REPOSITORY "https://github.com/utkarshayachit/OSPRay.git"
+  GIT_TAG "paraview")
 
 add_revision(pvospray
   GIT_REPOSITORY https://github.com/tj-corona/pvOSPRay.git
