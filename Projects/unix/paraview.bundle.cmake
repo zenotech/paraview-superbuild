@@ -123,6 +123,38 @@ if (ospray_ENABLED)
     FILES_MATCHING PATTERN "libospray*")
 endif()
 
+# For linux, we optionally support bundling pre-built mesa binaries.
+option(BUNDLE_PREBUILT_MESA_BINARIES
+  "Enable to package prebuilt mesa binaries" OFF)
+mark_as_advanced(BUNDLE_PREBUILT_MESA_BINARIES)
+
+function(download_if_not_present url dest)
+  if(NOT EXISTS "${dest}")
+    file(DOWNLOAD "${url}" "${dest}" SHOW_PROGRESS)
+  endif()
+endfunction()
+
+if (BUNDLE_PREBUILT_MESA_BINARIES)
+  file(MAKE_DIRECTORY "${SuperBuild_BINARY_DIR}/mesa-downloads")
+  download_if_not_present(
+    "http://www.paraview.org/files/dependencies/mesa-llvm.tar.gz"
+    "${SuperBuild_BINARY_DIR}/mesa-downloads/mesa-llvm.tar.gz")
+  download_if_not_present(
+    "http://www.paraview.org/files/dependencies/mesa-swr-avx.tar.gz"
+    "${SuperBuild_BINARY_DIR}/mesa-downloads/mesa-swr-avx.tar.gz")
+  download_if_not_present(
+    "http://www.paraview.org/files/dependencies/mesa-swr-avx2.tar.gz"
+    "${SuperBuild_BINARY_DIR}/mesa-downloads/mesa-swr-avx2.tar.gz")
+  execute_process(
+    COMMAND ${CMAKE_COMMAND} -E tar xzf mesa-llvm.tar.gz
+    COMMAND ${CMAKE_COMMAND} -E tar xzf mesa-swr-avx.tar.gz
+    COMMAND ${CMAKE_COMMAND} -E tar xzf mesa-swr-avx2.tar.gz
+    WORKING_DIRECTORY ${SuperBuild_BINARY_DIR}/mesa-downloads)
+  install(DIRECTORY ${SuperBuild_BINARY_DIR}/mesa-downloads/
+          DESTINATION "lib/paraview-${pv_version}"
+          PATTERN "*.tar.gz" EXCLUDE)
+endif()
+
 add_test(NAME GenerateParaViewPackage
          COMMAND ${CMAKE_CPACK_COMMAND} -G TGZ -V
          WORKING_DIRECTORY ${SuperBuild_BINARY_DIR})
