@@ -266,11 +266,10 @@ add_revision(ispc
 # on our VMs.
 add_revision(ospray
   GIT_REPOSITORY "https://github.com/utkarshayachit/OSPRay.git"
-  GIT_TAG "paraview")
-
+  GIT_TAG "release-0.8-paraview")
 add_revision(pvospray
-  GIT_REPOSITORY https://github.com/tj-corona/pvOSPRay.git
-  GIT_TAG paraview-superbuild)
+ GIT_REPOSITORY "https://github.com/utkarshayachit/pvOSPRay.git"
+ GIT_TAG "4.4dev-paraview")
 #add_revision(pvospray
-  #  GIT_REPOSITORY "https://github.com/TACC/pvOSPRay.git"
-  #GIT_TAG "836c814758127e1fede695fc7f51b54c26f80b34")
+# GIT_REPOSITORY "https://github.com/TACC/pvOSPRay.git"
+# GIT_TAG "4.4dev")
