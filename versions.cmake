@@ -114,6 +114,6 @@ superbuild_set_revision(ispc
   URL     "${ispc_file}"
   URL_MD5 "${ispc_md5}")
 
-add_revision(ospray
-  GIT_REPOSITORY "https://github.com/ospray/ospray.git"
-  GIT_TAG "v0.10.0")
+superbuild_set_revision(ospray
+  GIT_REPOSITORY "https://github.com/mathstuf/ospray.git"
+  GIT_TAG        origin/for/paraview)
