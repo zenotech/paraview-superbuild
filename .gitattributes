@@ -23,3 +23,5 @@ pre-commit       crlf=input
 *.c              hooks.MaxObjectKiB=0
 
 *.md             whitespace=tab-in-indent conflict-marker-size=30
+
+*.patch          -whitespace -text
