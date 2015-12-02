@@ -1,33 +1,33 @@
-set(CATALYST_EDITION "Essentials"
+set(PARVIEW_CATALYST_EDITION "Essentials"
   CACHE STRING "The catalyst edition to build")
-set_property(CACHE CATALYST_EDITION
+set_property(CACHE PARVIEW_CATALYST_EDITION
   PROPERTY
     STRINGS Essentials Extras Rendering-Base)
-option(CATALYST_PYTHON "Enable Python support in catalyst" ON)
+option(PARVIEW_CATALYST_PYTHON "Enable Python support in catalyst" ON)
 
 set(catalyst_editions Base)
-if (CATALYST_PYTHON)
+if (PARAVIEW_CATALYST_PYTHON)
   list(APPEND catalyst_editions
     Enable-Python)
 endif ()
-if (CATALYST_EDITION STREQUAL Essentials)
+if (PARAVIEW_CATALYST_EDITION STREQUAL Essentials)
   list(APPEND catalyst_editions
     Essentials)
-elseif (CATALYST_EDITION STREQUAL Extras)
+elseif (PARAVIEW_CATALYST_EDITION STREQUAL Extras)
   list(APPEND catalyst_editions
     Essentials
     Extras)
-elseif (CATALYST_EDITION STREQUAL Rendering-Base)
+elseif (PARAVIEW_CATALYST_EDITION STREQUAL Rendering-Base)
   list(APPEND catalyst_editions
     Essentials
     Extras
     Rendering-Base)
-  if (CATALYST_PYTHON)
+  if (PARAVIEW_CATALYST_PYTHON)
     list(APPEND catalyst_editions
       Rendering-Base-Python)
   endif ()
-else ()
-  message(FATAL_ERROR "Unknown catalyst edition set: ${CATALYST_EDITION}")
+elseif (catalyst_enabled)
+  message(FATAL_ERROR "Unknown catalyst edition set: ${PARAVIEW_CATALYST_EDITION}")
 endif ()
 
 set(catalyst_edition_args)
@@ -45,7 +45,7 @@ set(catalyst_cmake_args
   -DCMAKE_CXX_FLAGS:STRING=${project_cxx_flags}
   -DCMAKE_SHARED_LINKER_FLAGS:STRING=${project_ld_flags})
 
-add_external_project(catalyst
+superbuild_add_project(catalyst
   DEPENDS   mpi python
   CONFIGURE_COMMAND
     ${pv_python_executable} <SOURCE_DIR>/Catalyst/catalyze.py
@@ -61,4 +61,4 @@ add_external_project(catalyst
     ${CMAKE_COMMAND}
       --build <BINARY_DIR>
       --target install
-      -- -j${PV_MAKE_NCPUS})
+      -- -j${SUPERBUILD_PROJECT_PARALLELISM})

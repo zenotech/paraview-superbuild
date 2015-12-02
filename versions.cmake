@@ -78,6 +78,7 @@ get_property(paraview_revision GLOBAL
   PROPERTY paraview_revision)
 superbuild_set_external_source(catalyst
   ${paraview_revision})
+unset(paraview_revision)
 
 add_revision(vrpn
   GIT_REPOSITORY "https://github.com/vrpn/vrpn.git"
