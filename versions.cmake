@@ -80,9 +80,9 @@ superbuild_set_external_source(catalyst
   ${paraview_revision})
 unset(paraview_revision)
 
-add_revision(vrpn
+superbuild_set_revision(vrpn
   GIT_REPOSITORY "https://github.com/vrpn/vrpn.git"
-  GIT_TAG a545ef6415f0026aabdbdb1d7fdbefeb91c47d4f)
+  GIT_TAG        a545ef6415f0026aabdbdb1d7fdbefeb91c47d4f)
 
 #------------------------------------------------------------------------------
 # Optional Plugins. Doesn't affect ParaView binaries at all even if missing

@@ -1,6 +1,0 @@
-add_external_project(vrpn
-  #DEPENDS_OPTIONAL mpi
-  CMAKE_ARGS
-    -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
-    #-DVRPN_USE_MPI:BOOL=${mpi_ENABLED}
-)
