@@ -100,25 +100,20 @@ superbuild_set_revision(portfwd
   URL     "http://www.paraview.org/files/dependencies/portfwd-0.29.tar.gz"
   URL_MD5 93161c91e12b0d67ca52dc13708a2f2f)
 
-set(ispc_file "")
-set(ispc_md5 "")
+set(ispc_ver "1.9.0")
 if (WIN32)
-  set(ispc_file
-    "https://sourceforge.net/projects/ispcmirror/files/v1.9.0/ispc-v1.9.0-windows-vs2013.zip")
+  set(ispc_file "https://sourceforge.net/projects/ispcmirror/files/v${ispc_ver}/ispc-v${ispc_ver}-windows-vs2013.zip")
   set(ispc_md5 "436101ac570b3d1e29f106e10d466c31")
 elseif (APPLE)
-  set(ispc_file
-    "https://sourceforge.net/projects/ispcmirror/files/v1.9.0/ispc-v1.9.0-osx.tar.gz")
+  set(ispc_file "https://sourceforge.net/projects/ispcmirror/files/v${ispc_ver}/ispc-v${ispc_ver}-osx.tar.gz")
   set(ispc_md5 "2e95991e9d29e8d512b906a27e7775c5")
 else ()
-  set(ispc_file
-    "http://sourceforge.net/projects/ispcmirror/files/v1.9.0/ispc-v1.9.0-linux.tar.gz")
+  set(ispc_file "http://sourceforge.net/projects/ispcmirror/files/v${ispc_ver}/ispc-v${ispc_ver}-linux.tar.gz")
   set(ispc_md5 "18e60e1b554fa08cace2a4e40102a908")
 endif ()
-add_revision(ispc
-  URL "${ispc_file}"
-  URL_MD5 "${ispc_md5}"
-  )
+superbuild_set_revision(ispc
+  URL     "${ispc_file}"
+  URL_MD5 "${ispc_md5}")
 
 add_revision(ospray
   GIT_REPOSITORY "https://github.com/ospray/ospray.git"
