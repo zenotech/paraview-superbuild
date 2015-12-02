@@ -84,17 +84,16 @@ superbuild_set_revision(vrpn
   GIT_REPOSITORY "https://github.com/vrpn/vrpn.git"
   GIT_TAG        a545ef6415f0026aabdbdb1d7fdbefeb91c47d4f)
 
+superbuild_set_revision(vortexfinder2
+  #GIT_REPOSITORY "https://github.com/hguo/vortexfinder2.git"
+  #GIT_TAG        2bdae9bfc0f36e1013a4b41c5d25c9e6ebbf1701)
+  GIT_REPOSITORY "https://github.com/tjcorona/vortexfinder2.git"
+  GIT_TAG        origin/master)
+
 #------------------------------------------------------------------------------
 # Optional Plugins. Doesn't affect ParaView binaries at all even if missing
 # or disabled.
 #------------------------------------------------------------------------------
-
-#add_customizable_revision(vortexfinder2
-#  GIT_REPOSITORY https://github.com/hguo/vortexfinder2.git
-#  GIT_TAG 2bdae9bfc0f36e1013a4b41c5d25c9e6ebbf1701)
-add_customizable_revision(vortexfinder2
-  GIT_REPOSITORY https://github.com/tjcorona/vortexfinder2.git
-  GIT_TAG master)
 
 superbuild_set_revision(portfwd
   URL     "http://www.paraview.org/files/dependencies/portfwd-0.29.tar.gz"
