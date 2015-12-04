@@ -4,6 +4,18 @@ file(INSTALL
   DESTINATION "${install_location}/include"
   PATTERN "index.html" EXCLUDE)
 
+# Remove rpath junk
+if (APPLE)
+  file(GLOB libraries "${source_location}/${libdir}/*.dylib")
+  foreach (library IN LISTS libraries)
+    get_filename_component(filename "${library}" NAME)
+    execute_process(
+      COMMAND install_name_tool
+              -id "${library}"
+              "${library}")
+  endforeach ()
+endif ()
+
 # Install libraries
 file(INSTALL
   "${source_location}/${libdir}/"
