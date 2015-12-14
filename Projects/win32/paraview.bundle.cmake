@@ -13,7 +13,7 @@ include(paraview.bundle.common)
 # URL to website providing assistance in installing your application.
 set (CPACK_NSIS_HELP_LINK "http://paraview.org/Wiki/ParaView")
 set (CPACK_NSIS_MENU_LINKS
-  "doc/TheParaViewGuide-CC-Edition.pdf" "ParaView Guide (CE) ${pv_version_long}"
+  "doc/ParaViewGuide-CE.pdf" "ParaView Guide (CE) ${pv_version_long}"
   "bin/paraview.exe" "ParaView ${pv_version_long}"
   "bin/pvserver.exe" "pvserver ${pv_version_long} (Server)"
   "bin/pvdataserver.exe" "pvdataserver ${pv_version_long} (Data-Server)"

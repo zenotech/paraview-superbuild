@@ -39,7 +39,7 @@ if (PARAVIEW_INSTALL_MANUAL_PDF)
 
     # download the manual pdf.
     file(DOWNLOAD \"http://www.paraview.org/files/v${pdf_pv_version}/TheParaViewGuide-v${pdf_pv_version}-CC-Edition.pdf\"
-        \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/doc/TheParaViewGuide-CC-Edition.pdf\"
+      \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/doc/ParaViewGuide-CE.pdf\"
         SHOW_PROGRESS)
   ")
 endif()
