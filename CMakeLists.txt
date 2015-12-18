@@ -382,6 +382,10 @@ if (paraview_ENABLED AND PARAVIEW_RENDERING_BACKEND STREQUAL "OpenGL2")
   list(APPEND package_suffix_items
     OpenGL2)
 endif ()
+if (mpi_ENABLED)
+  list(APPEND package_suffix_items
+    MPI)
+endif ()
 if (APPLE)
   list(APPEND package_suffix_items
     "OSX${CMAKE_OSX_DEPLOYMENT_TARGET}")
