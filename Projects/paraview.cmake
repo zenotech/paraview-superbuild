@@ -63,7 +63,7 @@ add_external_project(paraview
   DEPENDS_OPTIONAL
     adios boost cosmotools ffmpeg hdf5 libxml3 manta matplotlib mpi numpy png
     python qt4 qt5 visitbridge zlib silo cgns xdmf3 ospray
-    mesa osmesa nektarreader netcdf vrpn tbb
+    mesa osmesa netcdf vrpn tbb
     ${PV_EXTERNAL_PROJECTS} ${plugins}
 
   CMAKE_ARGS
@@ -83,7 +83,6 @@ add_external_project(paraview
     -DPARAVIEW_ENABLE_CGNS:BOOL=${cgns_ENABLED}
     -DVISIT_BUILD_READER_Silo:BOOL=${silo_ENABLED}
     -DPARAVIEW_INSTALL_DEVELOPMENT_FILES:BOOL=${PARAVIEW_INSTALL_DEVELOPMENT_FILES}
-    -DPARAVIEW_BUILD_PLUGIN_Nektar:BOOL=${nektarreader_ENABLED}
     -DPARAVIEW_ENABLE_MATPLOTLIB:BOOL=${matplotlib_ENABLED}
     -DVTK_USE_SYSTEM_NETCDF:BOOL=${netcdf_ENABLED}
     -DVTK_USE_SYSTEM_FREETYPE:BOOL=${freetype_ENABLED}
