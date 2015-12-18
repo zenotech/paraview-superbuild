@@ -295,7 +295,6 @@ else()
   if(CMAKE_Fortran_COMPILER)
     # both of these packages require a Fortran compiler to build so we
     # only present them to the user if we have one.
-    include(nektarreader)
     include(lapack)
   endif()
 
