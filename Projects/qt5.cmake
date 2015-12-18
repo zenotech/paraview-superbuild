@@ -66,7 +66,6 @@ add_external_project_or_use_system(
       -no-openssl
       -qt-libjpeg
       -qt-pcre
-      -system-zlib
       -I <INSTALL_DIR>/include
       -L <INSTALL_DIR>/lib
       ${qt_options}
