@@ -1,0 +1,56 @@
+diff --git cross/paraview/src/paraview/VTK/CMake/vtkWrapPython.cmake cross/paraview/src/paraview/VTK/CMake/vtkWrapPython.cmake
+index 3b94fa0..1d0154c 100644
+--- cross/paraview/src/paraview/VTK/CMake/vtkWrapPython.cmake
++++ cross/paraview/src/paraview/VTK/CMake/vtkWrapPython.cmake
+@@ -191,6 +191,11 @@ if(VTK_WRAP_PYTHON_FIND_LIBS)
+   # the libraries.  This should be needed only rarely.  It should
+   # also be moved to the CMake FindPython.cmake module at some point.
+   if(UNIX)
++    find_library(PYTHON_UTIL_LIBRARY
++      NAMES util
++      DOC "Utility library needed for vtkpython")
++    mark_as_advanced(PYTHON_UTIL_LIBRARY)
++
+     if(NOT DEFINED PYTHON_EXTRA_LIBS)
+       set(PYTHON_EXTRA_LIBS "" CACHE STRING
+         "Extra libraries to link when linking to python (such as \"z\" for zlib).  Separate multiple libraries with semicolons.")
+@@ -199,7 +204,7 @@ if(VTK_WRAP_PYTHON_FIND_LIBS)
+   endif()
+
+   # Include any extra libraries for python.
+-  set(VTK_PYTHON_LIBRARIES ${VTK_PYTHON_LIBRARIES} ${PYTHON_EXTRA_LIBS})
++  set(VTK_PYTHON_LIBRARIES ${VTK_PYTHON_LIBRARIES} ${PYTHON_UTIL_LIBRARY} ${PYTHON_EXTRA_LIBS})
+ endif()
+
+ # Determine the location of the supplied header in the include_dirs supplied.
+diff --git cross/paraview/src/paraview/VTK/Utilities/Python/CMakeLists.txt cross/paraview/src/paraview/VTK/Utilities/Python/CMakeLists.txt
+index 999446f..97f97a2 100644
+--- cross/paraview/src/paraview/VTK/Utilities/Python/CMakeLists.txt
++++ cross/paraview/src/paraview/VTK/Utilities/Python/CMakeLists.txt
+@@ -3,7 +3,7 @@
+ set(VTK_WRAP_PYTHON_FIND_LIBS ON)
+ include(vtkWrapPython)
+
+-set(${vtk-module}_LIBRARIES ${PYTHON_LIBRARIES})
++set(${vtk-module}_LIBRARIES ${VTK_PYTHON_LIBRARIES})
+ set(${vtk-module}_SYSTEM_INCLUDE_DIRS "${PYTHON_INCLUDE_DIRS}")
+ set(${vtk-module}_NO_Header_Test 1)
+ vtk_module_impl()
+diff --git cross/paraview/src/paraview/VTK/Wrapping/Python/CMakeLists.txt cross/paraview/src/paraview/VTK/Wrapping/Python/CMakeLists.txt
+index c5ac9e7..ce5c6d5 100644
+--- cross/paraview/src/paraview/VTK/Wrapping/Python/CMakeLists.txt
++++ cross/paraview/src/paraview/VTK/Wrapping/Python/CMakeLists.txt
+@@ -51,13 +51,6 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR}
+   ${vtkPython_INCLUDE_DIRS}
+   ${vtkWrappingPythonCore_INCLUDE_DIRS})
+
+-if(UNIX)
+-  find_library(PYTHON_UTIL_LIBRARY
+-    NAMES util
+-    DOC "Utility library needed for vtkpython")
+-  mark_as_advanced(PYTHON_UTIL_LIBRARY)
+-endif()
+-
+ # Generate the header which initializes Python modules when BUILD_SHARED_LIBS is
+ # OFF. The py_module_dependencies will be set to the libraries we should link
+ # against when we use the vtkpythonmodules.h file.
