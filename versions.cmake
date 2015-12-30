@@ -90,8 +90,8 @@ if (WIN32)
   endif ()
 elseif (CROSS_BUILD_STAGE STREQUAL "CROSS")
   add_revision(python
-    URL "http://www.paraview.org/files/dependencies/Python-2.7.3.tgz"
-    URL_MD5 "2cf641732ac23b18d139be077bd906cd")
+    URL "http://www.paraview.org/files/dependencies/Python-2.7.3_CMake-7d1eb56.tar.bz2"
+    URL_MD5 "48121a265837f825b1136ca8cf9bc4cd")
 else()
   add_revision(python
     URL "http://paraview.org/files/dependencies/Python-2.7.2.tgz"
