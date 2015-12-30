@@ -26,14 +26,12 @@ add_external_project(paraview
     -DOSMESA_LIBRARY:FILEPATH=${install_location}/lib/libOSMesa.a
     -DOSMESA_INCLUDE_DIR:PATH=${install_location}/include
     -DBoost_INCLUDE_DIR:PATH=${BOOST_HOST_INCLUDEDIR}
+    -DPARAVIEW_INSTALL_DEVELOPMENT_FILES:BOOL=${paraviewsdk_ENABLED}
     ${pythonexe}
     ${pythoninc}
     ${pythonlib}
     ${PARAVIEW_OPTIONS}
     -C ${PARAVIEW_TRYRUN_FILE}
-
-  INSTALL_COMMAND
-    echo "Skipping install"
 )
 
 conditionally_patch_for_crosscompilation(ParaView)
