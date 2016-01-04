@@ -21,3 +21,13 @@ add_external_project_step(patch1
     DEPENDERS patch)
 
 conditionally_patch_for_crosscompilation(Mesa "" 1 1)
+
+add_extra_cmake_args(
+  -DOPENGL_INCLUDE_DIR:PATH=
+  -DOPENGL_xmesa_INCLUDE_DIR:PATH=
+  -DOPENGL_gl_LIBRARY:FILEPATH=
+  -DOPENGL_glu_LIBRARY:FILEPATH=
+  -DOSMESA_INCLUDE_DIR:PATH=<INSTALL_DIR>/include
+  -DOSMESA_LIBRARY:FILEPATH=<INSTALL_DIR>/lib/libOSMesa.a
+  -DVTK_RENDERING_BACKEND:STRING=OpenGL
+)
