@@ -94,8 +94,8 @@ elseif (CROSS_BUILD_STAGE STREQUAL "CROSS")
     URL_MD5 "48121a265837f825b1136ca8cf9bc4cd")
 else()
   add_revision(python
-    URL "http://paraview.org/files/dependencies/Python-2.7.2.tgz"
-    URL_MD5 "0ddfe265f1b3d0a8c2459f5bf66894c7")
+    URL "http://paraview.org/files/dependencies/Python-2.7.11.tgz"
+    URL_MD5 "6b6076ec9e93f05dd63e47eb9c15728b")
 endif()
 
 add_revision(numpy
