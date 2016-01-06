@@ -33,12 +33,13 @@ else
 fi
 
 . /opt/modules/default/init/bash
-module purge 1>/dev/null 2>/dev/null
-module load modules ${EXTRA_MODULES} gcc PrgEnv-${COMP} craype-${CPU} cray-mpich cray-hdf5
 
-export CC=gcc
-export CXX=g++
-export FC=gfortran
+module purge 1>/dev/null 2>/dev/null
+module load modules gcc
+
+export CC=$(which gcc)
+export CXX=$(which g++)
+export FC=$(which gfortran)
 
 mkdir tools
 cd tools
@@ -57,8 +58,20 @@ ${CMAKE} \
   -DENABLE_bzip2:BOOL=TRUE \
   -DUSE_SYSTEM_bzip2:BOOL=TRUE \
   -Ddownload_location:PATH=${DOWN} \
+  -DPV_MAKE_NCPUS=12 \
   ${SRC}
 make
+
+module purge 1>/dev/null 2>/dev/null
+module load modules ${EXTRA_MODULES} PrgEnv-${COMP} craype-${CPU} cray-mpich cray-hdf5
+if [ "${COMP}" = "intel" ]
+then
+  # We still need the gcc module with the Intel compiler so we can get C++11 headers
+  module load gcc
+
+  # Use a newer Intel compiler
+  module swap intel intel/15.0.5.223
+fi
 
 unset CC
 unset CXX
