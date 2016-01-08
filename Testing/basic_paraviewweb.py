@@ -40,6 +40,6 @@ args.ws = 'ws'
 args.lp = 'lp'
 args.nows = False
 args.nolp = False
-
+args.nobws = False
 # Start server
 server.start_webserver(options=args, protocol=pv_web_visualizer._VisualizerServer)
