@@ -71,6 +71,7 @@ add_external_project_or_use_system(
       ${qt_options}
       ${qt_EXTRA_CONFIGURATION_OPTIONS}
     ${qt_build_commands}
+    HELP_STRING "Request to build Qt5. Enable this to build the user interface with Qt5."
 )
 
 if (APPLE)
