@@ -65,6 +65,11 @@ macro(add_external_project _name)
   set(${cm-project}_DECLARED 1)
 
   if (build-projects)
+    # Here we do two things:
+    # - resolve the enabled optional dependencies for the project specified by the
+    #   DEPENDS_OPTIONAL argument 
+    # - prune the DEPENDS_OPTIONAL and HELP_STRING arguments from the project arguments because
+    #   these are unknown to the ExternalProject_Add() command that is ultimately called
     set (arguments)
     set (optional_depends)
     set (accumulate FALSE)
