@@ -17,4 +17,4 @@ docker run -i \
   --volume="${BASE_DIR}/shared:/mnt/shared:rw" \
   --add-host="${HOSTNAME}:${IP}" --hostname=paraview-el6-build \
   -t paraview-el6-build \
-  /bin/bash --login
+  /usr/bin/scl enable devtoolset-3 python27 -- /bin/bash --login
