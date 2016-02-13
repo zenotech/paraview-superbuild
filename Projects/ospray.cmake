@@ -13,6 +13,4 @@ add_extra_cmake_args(
   -DOSPRAY_SOURCE:PATH=${SuperBuild_BINARY_DIR}/ospray/src/ospray
   -DOSPRAY_CMAKE_DIR:PATH=${SuperBuild_BINARY_DIR}/ospray/src/ospray/cmake/
   -DOSPRAY_BUILD:PATH=${SuperBuild_BINARY_DIR}/ospray/src/ospray-build
-  -DLIB_OSPRAY:PATH=${SuperBuild_BINARY_DIR}/ospray/src/ospray-build/lib
-  -DLIB_OSPRAY_EMBREE:PATH=${SuperBuild_BINARY_DIR}/ospray/src/ospray-build
 )
