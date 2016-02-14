@@ -269,4 +269,4 @@ add_revision(ospray
   GIT_TAG "release-0.8-paraview")
 add_revision(pvospray
   GIT_REPOSITORY "https://github.com/TACC/pvOSPRay.git"
-  GIT_TAG "d234f1e19d0e82b71765c1c6f0a2758a3409a17a") # head of 'dev' branch as of 2015/12/23
+  GIT_TAG "v5.0.1") # tagged release v5.0.1 2016/3/11
