@@ -360,19 +360,19 @@ process_dependencies()
 #-------------------------------------------------------------------------
 # Some sanity checks.
 # Sanity check: Cannot have EGL and qt enabled at the same time.
-if (ENABLE_egl AND (qt4_ENABLED OR qt5_ENABLED))
+if (egl_ENABLED AND (qt4_ENABLED OR qt5_ENABLED))
   message(SEND_ERROR "Cannot enable EGL and Qt at the same time.")
 endif()
 # Sanity check: Cannot have egl and mesa at the same time.
-if (ENABLE_egl AND mesa_ENABLED)
+if (egl_ENABLED AND mesa_ENABLED)
   message(SEND_ERROR "Cannot enable EGL and Mesa at the same time.")
 endif()
 # Sanity check: Must use OpenGL2 backed with egl
-if (ENABLE_egl AND NOT ${PARAVIEW_RENDERING_BACKEND} STREQUAL "OpenGL2")
+if (egl_ENABLED AND NOT ${PARAVIEW_RENDERING_BACKEND} STREQUAL "OpenGL2")
   message(SEND_ERROR "Cannot enable EGL and OSMesa at the same time.")
 endif()
 # Sanity check: Cannot have egl and osmesa at the same time.
-if (ENABLE_egl AND osmesa_ENABLED)
+if (egl_ENABLED AND osmesa_ENABLED)
   message(SEND_ERROR "Cannot enable EGL and OSMesa at the same time.")
 endif()
 # Sanity check: Cannot have osmesa and qt enabled at the same time.
