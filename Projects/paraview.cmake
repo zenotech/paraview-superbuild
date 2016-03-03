@@ -69,13 +69,12 @@ add_external_project(paraview
   DEPENDS_OPTIONAL
     adios boost cosmotools ffmpeg hdf5 libxml3 manta matplotlib mpi numpy png
     python qt4 qt5 visitbridge zlib silo cgns xdmf3 ospray
-    mesa osmesa netcdf vrpn tbb
+    mesa osmesa netcdf vrpn tbb egl
     ${PV_EXTERNAL_PROJECTS} ${plugins}
 
   CMAKE_ARGS
     -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
     -DBUILD_TESTING:BOOL=OFF
-    -DPARAVIEW_BUILD_PLUGIN_CoProcessingScriptGenerator:BOOL=ON
     -DPARAVIEW_BUILD_PLUGIN_EyeDomeLighting:BOOL=ON
     -DPARAVIEW_BUILD_PLUGIN_MantaView:BOOL=${manta_ENABLED}
     -DPARAVIEW_BUILD_QT_GUI:BOOL=${use_qt}
@@ -101,7 +100,9 @@ add_external_project(paraview
     -DVTK_RENDERING_BACKEND:STRING=${PARAVIEW_RENDERING_BACKEND}
     -DVTK_SMP_IMPLEMENTATION_TYPE:STRING=${VTK_SMP_IMPLEMENTATION_TYPE}
     -DVTK_LEGACY_SILENT:BOOL=ON
+    -DPARAVIEW_FREEZE_PYTHON:BOOL=${PARAVIEW_FREEZE_PYTHON}
     ${osmesa_ARGS}
+    ${egl_ARGS}
 
     # vrpn
     -DPARAVIEW_BUILD_PLUGIN_VRPlugin:BOOL=${vrpn_ENABLED}
