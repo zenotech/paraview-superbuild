@@ -59,17 +59,22 @@ if (tbb_ENABLED)
   set(VTK_SMP_IMPLEMENTATION_TYPE "TBB")
 endif ()
 
+# Add ability to freeze Python modules.
+cmake_dependent_option(PARAVIEW_FREEZE_PYTHON
+  "Freeze Python packages/modules into the application." OFF
+  "python_ENABLED;NOT WIN32;paraview_ENABLED" OFF)
+mark_as_advanced(PARAVIEW_FREEZE_PYTHON)
+
 add_external_project(paraview
   DEPENDS_OPTIONAL
     adios boost cosmotools ffmpeg hdf5 libxml3 manta matplotlib mpi numpy png
     python qt4 qt5 visitbridge zlib silo cgns xdmf3 ospray
-    mesa osmesa netcdf vrpn tbb
+    mesa osmesa netcdf vrpn tbb egl
     ${PV_EXTERNAL_PROJECTS} ${plugins}
 
   CMAKE_ARGS
     -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
     -DBUILD_TESTING:BOOL=OFF
-    -DPARAVIEW_BUILD_PLUGIN_CoProcessingScriptGenerator:BOOL=ON
     -DPARAVIEW_BUILD_PLUGIN_EyeDomeLighting:BOOL=ON
     -DPARAVIEW_BUILD_PLUGIN_MantaView:BOOL=${manta_ENABLED}
     -DPARAVIEW_BUILD_QT_GUI:BOOL=${use_qt}
@@ -84,6 +89,7 @@ add_external_project(paraview
     -DVISIT_BUILD_READER_Silo:BOOL=${silo_ENABLED}
     -DPARAVIEW_INSTALL_DEVELOPMENT_FILES:BOOL=${PARAVIEW_INSTALL_DEVELOPMENT_FILES}
     -DPARAVIEW_ENABLE_MATPLOTLIB:BOOL=${matplotlib_ENABLED}
+    -DPARAVIEW_FREEZE_PYTHON:BOOL=${PARAVIEW_FREEZE_PYTHON}
     -DVTK_USE_SYSTEM_NETCDF:BOOL=${netcdf_ENABLED}
     -DVTK_USE_SYSTEM_FREETYPE:BOOL=${freetype_ENABLED}
     -DVTK_USE_SYSTEM_HDF5:BOOL=${hdf5_ENABLED}
@@ -94,7 +100,9 @@ add_external_project(paraview
     -DVTK_RENDERING_BACKEND:STRING=${PARAVIEW_RENDERING_BACKEND}
     -DVTK_SMP_IMPLEMENTATION_TYPE:STRING=${VTK_SMP_IMPLEMENTATION_TYPE}
     -DVTK_LEGACY_SILENT:BOOL=ON
+    -DPARAVIEW_FREEZE_PYTHON:BOOL=${PARAVIEW_FREEZE_PYTHON}
     ${osmesa_ARGS}
+    ${egl_ARGS}
 
     # vrpn
     -DPARAVIEW_BUILD_PLUGIN_VRPlugin:BOOL=${vrpn_ENABLED}

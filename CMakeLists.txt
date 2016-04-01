@@ -311,6 +311,7 @@ else()
     include(fontconfig)
     include(mesa)
     include(osmesa)
+    include(egl)
     include(catalyst)
     include(ispc)
     include(ospray)
@@ -346,7 +347,7 @@ set(PV_EXTERNAL_PROJECTS "" CACHE STRING
 mark_as_advanced(PV_EXTERNAL_PROJECTS)
 
 # Include all additional external projects
-# Its their responsability to check the system and provide empty target if the
+# Its their responsibility to check the system and provide empty target if the
 # platform is not supported
 foreach(external_project IN ITEMS ${PV_EXTERNAL_PROJECTS})
   include(${external_project})
@@ -358,6 +359,22 @@ process_dependencies()
 
 #-------------------------------------------------------------------------
 # Some sanity checks.
+# Sanity check: Cannot have EGL and qt enabled at the same time.
+if (egl_ENABLED AND (qt4_ENABLED OR qt5_ENABLED))
+  message(SEND_ERROR "Cannot enable EGL and Qt at the same time.")
+endif()
+# Sanity check: Cannot have egl and mesa at the same time.
+if (egl_ENABLED AND mesa_ENABLED)
+  message(SEND_ERROR "Cannot enable EGL and Mesa at the same time.")
+endif()
+# Sanity check: Must use OpenGL2 backed with egl
+if (egl_ENABLED AND NOT ${PARAVIEW_RENDERING_BACKEND} STREQUAL "OpenGL2")
+  message(SEND_ERROR "Cannot enable EGL and OSMesa at the same time.")
+endif()
+# Sanity check: Cannot have egl and osmesa at the same time.
+if (egl_ENABLED AND osmesa_ENABLED)
+  message(SEND_ERROR "Cannot enable EGL and OSMesa at the same time.")
+endif()
 # Sanity check: Cannot have osmesa and qt enabled at the same time.
 if (osmesa_ENABLED AND (qt4_ENABLED OR qt5_ENABLED))
   message(SEND_ERROR "Cannot enable OSMesa and Qt at the same time.")

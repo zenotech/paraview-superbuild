@@ -88,6 +88,7 @@ add_external_project_or_use_system(
       ${extra_commands}
     BUILD_COMMAND make install
     INSTALL_COMMAND ""
+    HELP_STRING "Request to build Qt4. Enable this to build the user interface with Qt4."
 )
 unset(extra_commands)
 

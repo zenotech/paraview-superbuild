@@ -155,7 +155,7 @@ if (ParaView_FROM_GIT)
   # Download PV from GIT
   add_customizable_revision(paraview
     GIT_REPOSITORY https://gitlab.kitware.com/paraview/paraview.git
-    GIT_TAG "v5.0.0")
+    GIT_TAG "v5.0.1")
 else()
   if (ParaView_FROM_SOURCE_DIR)
     add_customizable_revision(paraview
@@ -163,8 +163,8 @@ else()
   else()
     # Variables to hold the URL and MD5 (optional)
     add_customizable_revision(paraview
-      URL "http://www.paraview.org/files/v5.0/ParaView-v5.0.0-source.tar.gz"
-      URL_MD5 "4598f0b421460c8bbc635c9a1c3bdbee")
+      URL "http://www.paraview.org/files/v5.0/ParaView-v5.0.1-source.tar.gz"
+      URL_MD5 "fdf206113369746e2276b95b257d2c9b")
   endif()
 endif()
 
@@ -269,4 +269,4 @@ add_revision(ospray
   GIT_TAG "release-0.8-paraview")
 add_revision(pvospray
   GIT_REPOSITORY "https://github.com/TACC/pvOSPRay.git"
-  GIT_TAG "d234f1e19d0e82b71765c1c6f0a2758a3409a17a") # head of 'dev' branch as of 2015/12/23
+  GIT_TAG "v5.0.1") # tagged release v5.0.1 2016/3/11
