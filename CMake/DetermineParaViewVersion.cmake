@@ -7,7 +7,7 @@
 #   pv_version
 #   pv_version_long
 
-set (hardcoded_paraview_version "5.0.0")
+set (hardcoded_paraview_version "5.0.1")
 
 function(_set_version_vars versiontext)
   string(REGEX MATCH "([0-9]+)\\.([0-9]+)\\.([0-9]+)[-]*(.*)" version_matches "${versiontext}")
