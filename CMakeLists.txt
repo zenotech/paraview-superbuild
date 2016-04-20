@@ -411,6 +411,11 @@ else ()
   list(APPEND package_suffix_items
     "${CMAKE_SYSTEM_NAME}")
 endif ()
+# XXX(package): Temporary as the transition to the CentOS6 builder takes place.
+if (ENV{HOSTNAME} STREQUAL "pvbinsdash")
+  list(APPEND package_suffix_items
+    "el6")
+endif ()
 if (64bit_build)
   list(APPEND package_suffix_items
     "64bit")
