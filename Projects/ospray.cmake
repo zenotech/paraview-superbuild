@@ -17,3 +17,7 @@ add_external_project(ospray
     -DOSPRAY_MODULE_SEISMIC:BOOL=OFF
     -DOSPRAY_MODULE_TACHYON:BOOL=OFF
   )
+
+add_extra_cmake_args(
+  -DOSPRAY_BUILD_DIR:PATH=${CMAKE_CURRENT_BINARY_DIR}/ospray/src/ospray-build
+)
