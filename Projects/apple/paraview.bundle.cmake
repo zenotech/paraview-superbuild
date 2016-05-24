@@ -149,6 +149,18 @@ if (CUSTOMIZE_DMG)
           COMPONENT superbuild)
 endif()
 
+if (paraviewgettingstartedguide_ENABLED)
+  install(FILES ${paraviewgettingstartedguide_pdf}
+    DESTINATION "paraview.app/Contents/doc"
+    COMPONENT superbuild)
+endif()
+if (paraviewusersguide_ENABLED)
+  install(FILES ${paraviewusersguide_pdf}
+          DESTINATION "paraview.app/Contents/doc"
+          COMPONENT superbuild)
+endif()
+
+
 add_test(NAME GenerateParaViewPackage
          COMMAND ${CMAKE_CPACK_COMMAND} -G DragNDrop -V
          WORKING_DIRECTORY ${SuperBuild_BINARY_DIR})

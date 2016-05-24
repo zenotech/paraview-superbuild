@@ -326,6 +326,10 @@ else()
     include(cosmotools)
   endif()
 
+  include(paraviewusersguide)
+  include(paraviewtutorial)
+  include(paraviewgettingstartedguide)
+
   # REMEMBER to tell VTK/ParaView to use VTK_SYSTEM_* for the
   # libraries we've built here.
   include(paraview)
