@@ -262,6 +262,13 @@ add_revision(ispc
   URL "http://sourceforge.net/projects/ispcmirror/files/v1.8.2/ispc-v1.8.2-linux.tar.gz"
   URL_MD5 "39dca86592deb207ce4dc1211eef9d33")
 
+add_revision(paraviewusersguide
+  URL "http://www.paraview.org/files/v5.0/ParaViewGuide-CE-v5.0.0.pdf")
+add_revision(paraviewgettingstartedguide
+  URL "http://www.paraview.org/files/nightly/ParaViewGettingStartedGuide-v4.3.1-58-g6694801.pdf")
+add_revision(paraviewtutorial
+  URL "http://www.paraview.org/files/nightly/ParaViewTutorial.pdf")
+
 # We use this fork since patching of git repos doesn't work well with git 1.7.* available
 # on our VMs.
 add_revision(ospray

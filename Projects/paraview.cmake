@@ -70,6 +70,7 @@ add_external_project(paraview
     adios boost cosmotools ffmpeg hdf5 libxml3 manta matplotlib mpi numpy png
     python qt4 qt5 visitbridge zlib silo cgns xdmf3 ospray
     mesa osmesa netcdf vrpn tbb egl
+    paraviewusersguide paraviewgettingstartedguide
     ${PV_EXTERNAL_PROJECTS} ${plugins}
 
   CMAKE_ARGS
