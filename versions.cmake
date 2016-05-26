@@ -243,6 +243,7 @@ add_revision(adios
 )
 
 set(tbb_ver "44_20150728oss")
+
 if (WIN32)
   set(tbb_file "tbb${tbb_ver}_win.zip")
   set(tbb_md5 "e7bbf293cdb5a50ca81347c80168956d")
@@ -253,14 +254,28 @@ else ()
   set(tbb_file "tbb${tbb_ver}_lin_0.tgz")
   set(tbb_md5 "ab5df80a65adf423b14637a1f35814b2")
 endif ()
-
 add_revision(tbb
   URL "http://www.paraview.org/files/dependencies/${tbb_file}"
   URL_MD5 "${tbb_md5}")
 
+set(ispc_file "")
+set(ispc_md5 "")
+if (WIN32)
+  set(ispc_file
+    "https://sourceforge.net/projects/ispcmirror/files/v1.9.0/ispc-v1.9.0-windows-vs2013.zip")
+  set(ispc_md5 "436101ac570b3d1e29f106e10d466c31")
+elseif (APPLE)
+  set(ispc_file
+    "https://sourceforge.net/projects/ispcmirror/files/v1.9.0/ispc-v1.9.0-osx.tar.gz")
+  set(ispc_md5 "2e95991e9d29e8d512b906a27e7775c5")
+else ()
+  set(ispc_file
+    "http://sourceforge.net/projects/ispcmirror/files/v1.9.0/ispc-v1.9.0-linux.tar.gz")
+  set(ispc_md5 "18e60e1b554fa08cace2a4e40102a908")
+endif ()
 add_revision(ispc
-  URL "http://sourceforge.net/projects/ispcmirror/files/v1.9.0/ispc-v1.9.0-linux.tar.gz"
-  #URL_MD5 "39dca86592deb207ce4dc1211eef9d33")
+  URL "${ispc_file}"
+  URL_MD5 "${ispc_md5")
   )
 
 add_revision(ospray
