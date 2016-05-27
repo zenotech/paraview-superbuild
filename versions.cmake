@@ -214,7 +214,7 @@ endif ()
 #  GIT_REPOSITORY https://github.com/hguo/vortexfinder2.git
 #  GIT_TAG 2bdae9bfc0f36e1013a4b41c5d25c9e6ebbf1701)
 add_customizable_revision(vortexfinder2
-  GIT_REPOSITORY https://github.com/tjcorona/vortexfinder2.git
+  GIT_REPOSITORY https://github.com/demarle/vortexfinder2.git
   GIT_TAG master)
 
 #add_revision(mili_plugin
@@ -275,7 +275,7 @@ else ()
 endif ()
 add_revision(ispc
   URL "${ispc_file}"
-  URL_MD5 "${ispc_md5")
+  URL_MD5 "${ispc_md5}"
   )
 
 add_revision(ospray

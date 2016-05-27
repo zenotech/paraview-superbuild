@@ -348,6 +348,8 @@ if (${ospray_ENABLED})
   if (APPLE)
     set(cxxflags
         "${cxxflags} -std=c++11 -stdlib=libc++ -Wno-error=c++11-narrowing")
+    set(ldflags
+        "${ldflags} -stdlib=libc++")
   endif ()
 endif()
 

@@ -36,5 +36,5 @@ if (WIN32)
 endif()
 
 add_extra_cmake_args(
-  -DOSPRAY_BUILD_DIR:PATH=${CMAKE_CURRENT_BINARY_DIR}/ospray/src/ospray-build
+  -DOSPRAY_INSTALL_DIR:PATH=<INSTALL_DIR>
 )
