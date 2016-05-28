@@ -160,7 +160,7 @@ if (paraviewusersguide_ENABLED)
           COMPONENT superbuild)
 endif()
 if (paraviewtutorialdata_ENABLED)
-  install(DIRECTORY "{install_location}/data"
+  install(DIRECTORY "${install_location}/data"
           DESTINATION "paraview.app/Contents"
           COMPONENT superbuild)
 endif()
