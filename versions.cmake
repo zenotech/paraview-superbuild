@@ -268,6 +268,8 @@ add_revision(paraviewgettingstartedguide
   URL "http://www.paraview.org/files/nightly/ParaViewGettingStartedGuide-v4.3.1-58-g6694801.pdf")
 add_revision(paraviewtutorial
   URL "http://www.paraview.org/files/nightly/ParaViewTutorial.pdf")
+add_revision(paraviewtutorialdata
+  URL "http://www.paraview.org/files/data/ParaViewTutorialData.tar.gz")
 
 # We use this fork since patching of git repos doesn't work well with git 1.7.* available
 # on our VMs.

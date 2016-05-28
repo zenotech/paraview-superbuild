@@ -329,6 +329,7 @@ else()
   include(paraviewusersguide)
   include(paraviewtutorial)
   include(paraviewgettingstartedguide)
+  include(paraviewtutorialdata)
 
   # REMEMBER to tell VTK/ParaView to use VTK_SYSTEM_* for the
   # libraries we've built here.

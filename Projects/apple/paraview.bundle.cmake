@@ -159,7 +159,11 @@ if (paraviewusersguide_ENABLED)
           DESTINATION "paraview.app/Contents/doc"
           COMPONENT superbuild)
 endif()
-
+if (paraviewtutorialdata_ENABLED)
+  install(DIRECTORY "{install_location}/data"
+          DESTINATION "paraview.app/Contents"
+          COMPONENT superbuild)
+endif()
 
 add_test(NAME GenerateParaViewPackage
          COMMAND ${CMAKE_CPACK_COMMAND} -G DragNDrop -V

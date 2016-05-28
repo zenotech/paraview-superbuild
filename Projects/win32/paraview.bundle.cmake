@@ -32,6 +32,11 @@ if (paraviewtutorial_ENABLED)
        "doc/Tutorial.pdf" "ParaView Tutorial ${pv_version_long}")
   install(FILES ${paraviewtutorial_pdf} DESTINATION "doc" COMPONENT ParaView)
 endif()
+if (paraviewtutorialdata_ENABLED)
+  install(DIRECTORY "${install_location}/data/"
+          DESTINATION "data"
+          COMPONENT "ParaView")
+endif()
 
 #FIXME: need a pretty icon.
 #set (CPACK_NSIS_MUI_ICON "${CMAKE_CURRENT_LIST_DIR}/paraview.ico")
