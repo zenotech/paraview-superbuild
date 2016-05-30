@@ -35,6 +35,14 @@ if (WIN32)
   )
 endif()
 
-add_extra_cmake_args(
-  -DOSPRAY_INSTALL_DIR:PATH=<INSTALL_DIR>
-)
+
+if (WIN32)
+  #osp 0.10.0's installed ospray.config isn't quite right on windows
+  add_extra_cmake_args(
+    -DOSPRAY_BUILD_DIR:PATH=${CMAKE_CURRENT_BINARY_DIR}/ospray/src/ospray-build
+  )
+else()
+  add_extra_cmake_args(
+    -DOSPRAY_INSTALL_DIR:PATH=<INSTALL_DIR>
+  )
+endif()
