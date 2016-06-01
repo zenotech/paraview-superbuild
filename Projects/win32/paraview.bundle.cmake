@@ -2,10 +2,6 @@
 
 #------------------------------------------------------------------------------
 # include common stuff.
-
-# setting PARAVIEW_INSTALL_MANUAL_PDF ensures that paraview.bundle.common
-# will download and install the manual pdf.
-set (PARAVIEW_INSTALL_MANUAL_PDF TRUE)
 include(paraview.bundle.common)
 
 # set NSIS install specific stuff.
@@ -13,7 +9,6 @@ include(paraview.bundle.common)
 # URL to website providing assistance in installing your application.
 set (CPACK_NSIS_HELP_LINK "http://paraview.org/Wiki/ParaView")
 set (CPACK_NSIS_MENU_LINKS
-  "doc/ParaViewGuide-CE.pdf" "ParaView Guide (CE) ${pv_version_long}"
   "bin/paraview.exe" "ParaView ${pv_version_long}"
   "bin/pvserver.exe" "pvserver ${pv_version_long} (Server)"
   "bin/pvdataserver.exe" "pvdataserver ${pv_version_long} (Data-Server)"
@@ -21,6 +16,26 @@ set (CPACK_NSIS_MENU_LINKS
 if (python_ENABLED)
   set (CPACK_NSIS_MENU_LINKS ${CPACK_NSIS_MENU_LINKS}
     "bin/pvpython.exe" "pvpython ${pv_version_long} (Python Shell)")
+endif()
+if (paraviewgettingstartedguide_ENABLED)
+  list(APPEND CPACK_NSIS_MENU_LINKS
+    "doc/GettingStarted.pdf" "ParaView Getting Started Guide ${pv_version_long}")
+  install(FILES ${paraviewgettingstartedguide_pdf} DESTINATION "doc" COMPONENT ParaView)
+endif()
+if (paraviewusersguide_ENABLED)
+  list(APPEND CPACK_NSIS_MENU_LINKS
+       "doc/Guide.pdf" "ParaView Guide (CE) ${pv_version_long}")
+  install(FILES ${paraviewusersguide_pdf} DESTINATION "doc" COMPONENT ParaView)
+endif()
+if (paraviewtutorial_ENABLED)
+  list(APPEND CPACK_NSIS_MENU_LINKS
+       "doc/Tutorial.pdf" "ParaView Tutorial ${pv_version_long}")
+  install(FILES ${paraviewtutorial_pdf} DESTINATION "doc" COMPONENT ParaView)
+endif()
+if (paraviewtutorialdata_ENABLED)
+  install(DIRECTORY "${install_location}/data/"
+          DESTINATION "data"
+          COMPONENT "ParaView")
 endif()
 
 #FIXME: need a pretty icon.

@@ -1,8 +1,4 @@
 # script to "bundle" paraview.
-
-# setting PARAVIEW_INSTALL_MANUAL_PDF ensures that paraview.bundle.common
-# will download and install the manual pdf.
-set (PARAVIEW_INSTALL_MANUAL_PDF TRUE)
 include(paraview.bundle.common)
 include(CPack)
 
@@ -11,6 +7,28 @@ install(DIRECTORY "${install_location}/lib/paraview-${pv_version}"
   DESTINATION "lib"
   USE_SOURCE_PERMISSIONS
   COMPONENT superbuild)
+
+if (paraviewgettingstartedguide_ENABLED)
+  install(FILES ${paraviewgettingstartedguide_pdf}
+          DESTINATION "share/paraview-${pv_version}/doc"
+          COMPONENT superbuild)
+endif()
+if (paraviewusersguide_ENABLED)
+  install(FILES ${paraviewusersguide_pdf}
+          DESTINATION "share/paraview-${pv_version}/doc"
+          COMPONENT superbuild)
+endif()
+if (paraviewtutorial_ENABLED)
+  install(FILES ${paraviewtutorial_pdf}
+          DESTINATION "share/paraview-${pv_version}/doc"
+          COMPONENT superbuild)
+endif()
+if (paraviewtutorialdata_ENABLED)
+  install(DIRECTORY "${install_location}/data"
+          DESTINATION "share/paraview-${pv_version}"
+          USE_SOURCE_PERMISSIONS
+          COMPONENT superbuild)
+endif()
 
 # install python
 if (python_ENABLED AND NOT USE_SYSTEM_python)

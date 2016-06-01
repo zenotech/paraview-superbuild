@@ -27,18 +27,3 @@ endif()
 # Don't import CPack yet, let the platform specific code get another chance at
 # changing the variables.
 # include(CPack)
-
-# PARAVIEW_INSTALL_MANUAL_PDF is set before importing this file.
-# This allows us to override the pdf downloading code for apple.
-if (PARAVIEW_INSTALL_MANUAL_PDF)
-  # download an install manual pdf.
-  install(CODE "
-    # create the doc directory.
-    file(MAKE_DIRECTORY \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/doc\")
-
-    # download the manual pdf.
-    file(DOWNLOAD \"http://www.paraview.org/files/v5.0/ParaViewGuide-CE-v5.0.0.pdf\"
-      \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/doc/ParaViewGuide-CE.pdf\"
-        SHOW_PROGRESS)
-  ")
-endif()

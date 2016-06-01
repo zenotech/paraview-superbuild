@@ -281,3 +281,12 @@ add_revision(ispc
 add_revision(ospray
   GIT_REPOSITORY "https://github.com/ospray/ospray.git"
   GIT_TAG "v0.10.0")
+
+add_revision(paraviewusersguide
+  URL "http://www.paraview.org/files/v5.0/ParaViewGuide-CE-v5.0.0.pdf")
+add_revision(paraviewgettingstartedguide
+  URL "http://www.paraview.org/files/nightly/ParaViewGettingStartedGuide-v4.3.1-58-g6694801.pdf")
+add_revision(paraviewtutorial
+  URL "http://www.paraview.org/files/nightly/ParaViewTutorial.pdf")
+add_revision(paraviewtutorialdata
+  URL "http://www.paraview.org/files/data/ParaViewTutorialData.tar.gz")

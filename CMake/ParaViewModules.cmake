@@ -5,6 +5,10 @@ include(CMakeParseArguments)
 # Macro to be used to register versions for any module. This makes it easier to
 # consolidate versions for all modules in a single file, if needed.
 macro(add_revision name)
+  cmake_parse_arguments(_args "" "URL" "" ${ARGN})
+  if(_args_URL)
+    set(${name}_URL "${_args_URL}")
+  endif()
   set(${name}_revision "${ARGN}")
 endmacro()
 
@@ -548,9 +552,8 @@ function(append_flags key value)
     # nothing to do.
   endif()
 endfunction()
+
 #------------------------------------------------------------------------------
-
-
 macro(add_external_project_step name)
   if (build-projects)
     if (NOT cm-project)
@@ -564,6 +567,23 @@ macro(add_external_project_step name)
   endif()
 endmacro()
 
+#------------------------------------------------------------------------------
+macro(add_external_pdf name outname)
+  add_external_project(${name}
+    DOWNLOAD_COMMAND
+      ${CMAKE_COMMAND}
+      -DDOWNLOAD_URL:STRING=${${name}_URL}
+      -DDOWNLOAD_AS:FILEPATH=${download_location}/${outname}
+      -P ${SuperBuild_CMAKE_DIR}/DownloadIfNeeded.cmake
+    CONFIGURE_COMMAND ""
+    BUILD_COMMAND ""
+    INSTALL_COMMAND
+      ${CMAKE_COMMAND} -E copy ${download_location}/${outname} <INSTALL_DIR>/doc/${outname}
+    BUILD_IN_SOURCE 1)
+  if(${name}_ENABLED)
+    set(${name}_pdf "${install_location}/doc/${outname}")
+  endif()
+endmacro()
 #------------------------------------------------------------------------------
 # When passing string with ";" to add_external_project() macros, we need to
 # ensure that the -+- is replaced with the LIST_SEPARATOR.
