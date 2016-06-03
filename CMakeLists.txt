@@ -344,7 +344,7 @@ else()
   include(paraviewsdk OPTIONAL)
 endif()
 
-if (${ospray_ENABLED})
+if (${ENABLE_ospray})
   #Turn ON C++1
   if (UNIX AND NOT APPLE)
     set(cxxflags
@@ -352,7 +352,7 @@ if (${ospray_ENABLED})
   endif ()
   if (APPLE)
     set(cxxflags
-        "${cxxflags} -std=c++11 -stdlib=libc++ -Wno-error=c++11-narrowing")
+        "${cxxflags} -std=c++11 -stdlib=libc++ -Wno-error=c++11-narrowing -D_DARWIN_C_SOURCE")
     set(ldflags
         "${ldflags} -stdlib=libc++")
   endif ()
