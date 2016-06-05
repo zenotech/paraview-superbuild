@@ -17,6 +17,11 @@ if(${CMAKE_GENERATOR} STREQUAL "Ninja")
   set(SAFE_CMAKE_COMMAND "${CMAKE_COMMAND}")
 endif()
 
+set(_force_c++11 FALSE)
+if (APPLE AND "${cxxflags}" MATCHES "stdlib=libc\\+\\+")
+  set(_force_c++11 TRUE)
+endif()
+
 add_external_project_or_use_system(matplotlib
   DEPENDS python numpy png freetype
   CONFIGURE_COMMAND
@@ -25,6 +30,7 @@ add_external_project_or_use_system(matplotlib
       "-DPATCH_OUTPUT_DIR:PATH=${CMAKE_BINARY_DIR}"
       "-DSOURCE_DIR:PATH=<SOURCE_DIR>"
       "-DINSTALL_DIR:PATH=<INSTALL_DIR>"
+      "-DFORCE_C++11:BOOL=${_force_c++11}"
       -P "${SuperBuild_PROJECTS_DIR}/matplotlib.patch.cmake"
   INSTALL_COMMAND ""
   BUILD_IN_SOURCE 1

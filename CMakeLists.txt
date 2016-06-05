@@ -275,12 +275,14 @@ else()
   include(cgns)
   include(freetype)
   include(hdf5)
+  include(ispc)
   include(netcdf)
   include(libxml2)
   include(manta)
   include(matplotlib)
   include(mpi)
   include(numpy)
+  include(ospray)
   include(png)
   include(python)
   include(qt4)
@@ -313,9 +315,6 @@ else()
     include(osmesa)
     include(egl)
     include(catalyst)
-    include(ispc)
-    include(ospray)
-    include(pvospray)
   endif()
 
   # Build CosmoTools on Linux and OS X
@@ -343,6 +342,20 @@ else()
   # Simply enabling this module will result in the ParaView SDK to be
   # installed by "make install". Note that this is not always supported.
   include(paraviewsdk OPTIONAL)
+endif()
+
+if (${ENABLE_ospray})
+  #Turn ON C++1
+  if (UNIX AND NOT APPLE)
+    set(cxxflags
+        "${cxxflags} -std=c++11 -Wno-literal-suffix -Wno-error=narrowing -Wno-narrowing")
+  endif ()
+  if (APPLE)
+    set(cxxflags
+        "${cxxflags} -std=c++11 -stdlib=libc++ -Wno-error=c++11-narrowing -D_DARWIN_C_SOURCE")
+    set(ldflags
+        "${ldflags} -stdlib=libc++")
+  endif ()
 endif()
 
 #-------------------------------------------------------------------------

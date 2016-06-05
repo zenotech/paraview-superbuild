@@ -214,7 +214,7 @@ endif ()
 #  GIT_REPOSITORY https://github.com/hguo/vortexfinder2.git
 #  GIT_TAG 2bdae9bfc0f36e1013a4b41c5d25c9e6ebbf1701)
 add_customizable_revision(vortexfinder2
-  GIT_REPOSITORY https://github.com/tjcorona/vortexfinder2.git
+  GIT_REPOSITORY https://github.com/demarle/vortexfinder2.git
   GIT_TAG master)
 
 #add_revision(mili_plugin
@@ -243,6 +243,7 @@ add_revision(adios
 )
 
 set(tbb_ver "44_20150728oss")
+
 if (WIN32)
   set(tbb_file "tbb${tbb_ver}_win.zip")
   set(tbb_md5 "e7bbf293cdb5a50ca81347c80168956d")
@@ -253,14 +254,33 @@ else ()
   set(tbb_file "tbb${tbb_ver}_lin_0.tgz")
   set(tbb_md5 "ab5df80a65adf423b14637a1f35814b2")
 endif ()
-
 add_revision(tbb
   URL "http://www.paraview.org/files/dependencies/${tbb_file}"
   URL_MD5 "${tbb_md5}")
 
+set(ispc_file "")
+set(ispc_md5 "")
+if (WIN32)
+  set(ispc_file
+    "https://sourceforge.net/projects/ispcmirror/files/v1.9.0/ispc-v1.9.0-windows-vs2013.zip")
+  set(ispc_md5 "436101ac570b3d1e29f106e10d466c31")
+elseif (APPLE)
+  set(ispc_file
+    "https://sourceforge.net/projects/ispcmirror/files/v1.9.0/ispc-v1.9.0-osx.tar.gz")
+  set(ispc_md5 "2e95991e9d29e8d512b906a27e7775c5")
+else ()
+  set(ispc_file
+    "http://sourceforge.net/projects/ispcmirror/files/v1.9.0/ispc-v1.9.0-linux.tar.gz")
+  set(ispc_md5 "18e60e1b554fa08cace2a4e40102a908")
+endif ()
 add_revision(ispc
-  URL "http://sourceforge.net/projects/ispcmirror/files/v1.8.2/ispc-v1.8.2-linux.tar.gz"
-  URL_MD5 "39dca86592deb207ce4dc1211eef9d33")
+  URL "${ispc_file}"
+  URL_MD5 "${ispc_md5}"
+  )
+
+add_revision(ospray
+  GIT_REPOSITORY "https://github.com/ospray/ospray.git"
+  GIT_TAG "v0.10.0")
 
 add_revision(paraviewusersguide
   URL "http://www.paraview.org/files/nightly/ParaViewGuide-CE-v4.3.1-58-g6694801.pdf")
@@ -270,12 +290,3 @@ add_revision(paraviewtutorial
   URL "http://www.paraview.org/files/nightly/ParaViewTutorial.pdf")
 add_revision(paraviewtutorialdata
   URL "http://www.paraview.org/files/data/ParaViewTutorialData.tar.gz")
-
-# We use this fork since patching of git repos doesn't work well with git 1.7.* available
-# on our VMs.
-add_revision(ospray
-  GIT_REPOSITORY "https://github.com/utkarshayachit/OSPRay.git"
-  GIT_TAG "release-0.8-paraview")
-add_revision(pvospray
-  GIT_REPOSITORY "https://github.com/TACC/pvOSPRay.git"
-  GIT_TAG "v5.0.1") # tagged release v5.0.1 2016/3/11

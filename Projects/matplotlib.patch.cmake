@@ -17,6 +17,15 @@ if(WIN32)
   )
 endif()
 
+if (APPLE AND FORCE_C++11)
+  # replace hardcoded c++ and libstdc++ with c++11 and libc++
+  execute_process(
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+      "${PATCHES_DIR}/matplotlib.setupext.py"
+      "${SOURCE_DIR}/setupext.py"
+    )
+endif()
+
 configure_file("${PATCHES_DIR}/matplotlib.setup.cfg.in"
   "${PATCH_OUTPUT_DIR}/matplotlib.setup.cfg")
 

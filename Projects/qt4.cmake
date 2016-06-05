@@ -13,13 +13,13 @@ if (NOT APPLE AND UNIX)
                     ${SuperBuild_PROJECTS_DIR}/patches/qt4.src.3rdparty.webkit.Source.WebKit.pri
                     <SOURCE_DIR>/src/3rdparty/webkit/Source/WebKit.pri)
 elseif (APPLE)
-  # Set the platform to be clang if on apple and not gcc
+  # Set the platform to be clang, c++11 if on apple and not gcc
   # This doesn't work on 10.5 (leopard) 10.6 (snow leopard) toolchain, however.
   # So, we check for that.
-  if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND
+  if ((CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang") AND
       CMAKE_OSX_DEPLOYMENT_TARGET AND
       CMAKE_OSX_DEPLOYMENT_TARGET VERSION_GREATER "10.6")
-    list (APPEND qt_options -platform unsupported/macx-clang)
+    list (APPEND qt_options -platform unsupported/macx-clang-libc++)
   endif()
 
   list (APPEND qt_options
@@ -121,6 +121,25 @@ if (APPLE)
                               <SOURCE_DIR>/src/gui/kernel/qeventdispatcher_mac.mm
     DEPENDEES configure
     DEPENDERS build)
+
+
+  if ((CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang") AND
+      CMAKE_OSX_DEPLOYMENT_TARGET AND
+      CMAKE_OSX_DEPLOYMENT_TARGET VERSION_GREATER "10.6")
+    add_external_project_step(patch_qt4_1
+      COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "${SuperBuild_PROJECTS_DIR}/patches/qt4.tools.designer.src.lib.shared.previewmanager.cpp"
+            "<SOURCE_DIR>/tools/designer/src/lib/shared/previewmanager.cpp"
+      DEPENDEES patch 
+    )
+    add_external_project_step(patch_qt4_2
+      COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "${SuperBuild_PROJECTS_DIR}/patches/qt4.src.plugins.accessible.widgets.itemviews.cpp"
+            "<SOURCE_DIR>/src/plugins/accessible/widgets/itemviews.cpp"
+      DEPENDEES patch_qt4_1
+      DEPENDERS configure
+    )
+  endif()
 endif()
 
 add_extra_cmake_args(
