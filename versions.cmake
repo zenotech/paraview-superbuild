@@ -138,12 +138,13 @@ else()
     URL_MD5 b9e84efee3931c0acbccd1bb5a860554)
 endif()
 
-# We stick with 7.11.2 for Mesa version for now. Newer mesa doesn't seem to
-# build correctly with certain older compilers (e.g. on neser).
 add_revision(osmesa
-    URL "http://paraview.org/files/dependencies/MesaLib-7.11.2.tar.gz"
-    URL_MD5 b9e84efee3931c0acbccd1bb5a860554)
+    URL "http://paraview.org/files/dependencies/mesa-11.2.2.tar.gz"
+    URL_MD5 a87b3bab17e0c90de4557df738c9f0eb)
 
+add_revision(llvm
+    URL "http://paraview.org/files/dependencies/llvm-3.8.0.src.tar.xz"
+    URL_MD5 07a7a74f3c6bd65de4702bf941b511a0)
 
 # ----------------------------------------------------------------------------
 # You choose to download ParaView source form GIT or other URL/FILE tarball
