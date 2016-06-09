@@ -134,8 +134,7 @@ if (CROSS_BUILD_STAGE STREQUAL "CROSS")
     URL_MD5 e80fabad2e3eb7990adae773d6aeacba)
 else()
   add_revision(mesa
-    URL "http://paraview.org/files/dependencies/MesaLib-7.11.2.tar.gz"
-    URL_MD5 b9e84efee3931c0acbccd1bb5a860554)
+    URL "ftp://ftp.freedesktop.org/pub/mesa/12.0.0/mesa-12.0.0-rc2.tar.gz")
 endif()
 
 add_revision(osmesa
