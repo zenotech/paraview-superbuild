@@ -283,7 +283,7 @@ add_revision(ospray
   GIT_TAG "v0.10.0")
 
 add_revision(paraviewusersguide
-  URL "http://www.paraview.org/files/nightly/ParaViewGuide-CE-v4.3.1-58-g6694801.pdf")
+  URL "http://www.paraview.org/files/nightly/ParaViewGuide-CE-v4.3.1-60-g75edff2.pdf")
 add_revision(paraviewgettingstartedguide
   URL "http://www.paraview.org/files/nightly/ParaViewGettingStartedGuide-v4.3.1-58-g6694801.pdf")
 add_revision(paraviewtutorial
