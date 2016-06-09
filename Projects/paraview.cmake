@@ -27,7 +27,7 @@ if (qt4_ENABLED OR qt5_ENABLED)
   set(use_qt ON)
 endif ()
 
-set(PARAVIEW_RENDERING_BACKEND "OpenGL" CACHE STRING "Rendering backend to use for ParaView")
+set(PARAVIEW_RENDERING_BACKEND "OpenGL2" CACHE STRING "Rendering backend to use for ParaView")
 set_property(CACHE PARAVIEW_RENDERING_BACKEND
   PROPERTY
     STRINGS "OpenGL;OpenGL2")
