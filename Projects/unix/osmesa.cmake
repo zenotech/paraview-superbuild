@@ -6,7 +6,7 @@ else()
   set(OSMESALIB libOSMesa.a)
 endif()
 add_external_project_or_use_system(osmesa
-  DEPENDS python llvm
+  DEPENDS llvm
   CONFIGURE_COMMAND <SOURCE_DIR>/configure
                     --prefix=<INSTALL_DIR>
                     --enable-opengl --disable-gles1 --disable-gles2
@@ -22,9 +22,6 @@ add_external_project_or_use_system(osmesa
                     --disable-glx
                     --with-llvm-prefix=${LLVM_DIR}
                     ${shared_args}
-
-  PROCESS_ENVIRONMENT
-                    PYTHON2 ${pv_python_executable}
   BUILD_IN_SOURCE 1
 )
 
