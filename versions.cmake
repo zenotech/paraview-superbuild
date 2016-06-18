@@ -163,8 +163,8 @@ else()
   else()
     # Variables to hold the URL and MD5 (optional)
     add_customizable_revision(paraview
-      URL "http://www.paraview.org/files/v5.1/ParaView-v5.1.0-RC1.tar.gz"
-      URL_MD5 "e023b06014bfaf39373e3eda868a5ca8")
+      URL "http://www.paraview.org/files/v5.1/ParaView-v5.1.0.tar.gz"
+      URL_MD5 "be4ca6ecec86b5e5f75ffc41a1841ad8")
   endif()
 endif()
 
@@ -283,10 +283,10 @@ add_revision(ospray
   GIT_TAG "v0.10.0")
 
 add_revision(paraviewusersguide
-  URL "http://www.paraview.org/files/v5.1/ParaViewGuide-5.1.0-RC1.pdf")
+  URL "http://www.paraview.org/files/v5.1/ParaViewGuide-5.1.0.pdf")
 add_revision(paraviewgettingstartedguide
-  URL "http://www.paraview.org/files/v5.1/ParaViewGettingStarted-5.1.0-RC1.pdf")
+  URL "http://www.paraview.org/files/v5.1/ParaViewGettingStarted-5.1.0.pdf")
 add_revision(paraviewtutorial
-  URL "http://www.paraview.org/files/nightly/ParaViewTutorial.pdf")
+  URL "http://www.paraview.org/files/v5.1/ParaViewTutorial.pdf")
 add_revision(paraviewtutorialdata
   URL "http://www.paraview.org/files/data/ParaViewTutorialData.tar.gz")
