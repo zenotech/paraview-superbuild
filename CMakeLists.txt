@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.5)
 
 project(ParaViewSuperBuild)
 
+list(INSERT CMAKE_MODULE_PATH 0
+  "${CMAKE_CURRENT_LIST_DIR}/cmake")
+
 option(TRUST_SVN_CERTIFICATES_AUTOMATICALLY
   "Trust SVN certificates automatically" ON)
 mark_as_advanced(TRUST_SVN_CERTIFICATES_AUTOMATICALLY)
