@@ -10,7 +10,7 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "Intel" AND
 endif()
 
 add_external_project_or_use_system(llvm
-  DEPENDS zlib python
+  DEPENDS python
   CMAKE_ARGS
     -DCMAKE_BUILD_TYPE=Release
     -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
