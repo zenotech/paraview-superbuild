@@ -1,3 +1,10 @@
+# LLVM requires C++11 but CMake didn't gain enough knowledge on how to
+# do that properly with the Intel compiler until 3.6
+if(CMAKE_CXX_COMPILER_ID MATCHES "Intel" AND
+  CMAKE_VERSION VERSION_LESS 3.6)
+  message(FATAL_ERROR "Building LLVM with the Intel compiler requires CMake >= 3.6")
+endif()
+
 add_external_project_or_use_system(llvm
   DEPENDS zlib python
   CMAKE_ARGS
@@ -8,8 +15,13 @@ add_external_project_or_use_system(llvm
     -DLLVM_INSTALL_UTILS=ON
     -DLLVM_TARGETS_TO_BUILD:STRING=X86 # when using this on PowerPC, this will
                                        # need to be updated.
-    -DPYTHON_EXECUTABLE=${pv_python_executable}
 )
+
+# This has to go in the CXX_FLAGS explicitly to ensure it's correctly
+# propogated to the output of llvm-config.  Using the CMake property
+# for CXX_STANDARD=11 is insufficient.
+append_flags(CMAKE_CXX_FLAGS "${CMAKE_CXX11_STANDARD_COMPILE_OPTION}" PROJECT_ONLY)
+
 if(NOT USE_SYSTEM_llvm)
   set(LLVM_DIR "${install_location}" CACHE INTERNAL "")
 endif()
