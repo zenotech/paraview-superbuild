@@ -1,3 +1,7 @@
+if(NOT python_version_minimum OR python_version_minimum LESS 2.7)
+  set(python_version_minimum 2.7 CACHE INTERNAL "Minimum python version" FORCE)
+endif()
+
 # LLVM requires C++11 but CMake didn't gain enough knowledge on how to
 # do that properly with the Intel compiler until 3.6
 if(CMAKE_CXX_COMPILER_ID MATCHES "Intel" AND
