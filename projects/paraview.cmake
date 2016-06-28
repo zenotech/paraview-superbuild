@@ -22,7 +22,7 @@ if (paraviewsdk_enabled)
 endif ()
 
 # Undo osmesa cache settings so that other GL-based backends can work.
-if (NOT osmesa_enabled)
+if (NOT WIN32 AND NOT osmesa_enabled)
   list(APPEND paraview_extra_cmake_options
     -DOPENGL_gl_LIBRARY:BOOL=NOTFOUND
     -DOPENGL_glu_LIBRARY:BOOL=NOTFOUND
