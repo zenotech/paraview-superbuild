@@ -21,10 +21,18 @@ if (paraviewsdk_enabled)
   set(paraview_install_development_files TRUE)
 endif ()
 
-if (osmesa_enabled)
+# Undo osmesa cache settings so that other GL-based backends can work.
+if (NOT osmesa_enabled)
   list(APPEND paraview_extra_cmake_options
-    -DVTK_OPENGL_HAS_OSMESA:BOOL=ON
-    -DVTK_USE_X:BOOL=OFF)
+    -DOPENGL_gl_LIBRARY:BOOL=NOTFOUND
+    -DOPENGL_glu_LIBRARY:BOOL=NOTFOUND
+    -DOPENGL_INCLUDE_DIR:PATH=NOTFOUND)
+endif ()
+
+# Without an offscreen rendering backend, X should be used.
+set(paraview_use_x ON)
+if (osmesa_enabled OR egl_enabled)
+  set(paraview_use_x OFF)
 endif ()
 
 set(paraview_use_qt OFF)
@@ -126,6 +134,10 @@ superbuild_add_project(paraview
     -DVTK_RENDERING_BACKEND:STRING=${PARAVIEW_RENDERING_BACKEND}
     -DVTK_SMP_IMPLEMENTATION_TYPE:STRING=${paraview_smp_backend}
     -DVTK_LEGACY_SILENT:BOOL=ON
+    -DVTK_USE_OSMESA:BOOL=${osmesa_enabled}
+    -DVTK_USE_OFFSCREEN:BOOL=${osmesa_enabled}
+    -DVTK_USE_OFFSCREEN_EGL:BOOL=${egl_enabled}
+    -DVTK_USE_X:BOOL=${paraview_use_x}
 
     # vrpn
     -DPARAVIEW_BUILD_PLUGIN_VRPlugin:BOOL=${vrpn_enabled}
