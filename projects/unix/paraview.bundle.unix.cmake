@@ -43,7 +43,8 @@ if (mpi_enabled AND NOT USE_SYSTEM_mpi)
     hydra_nameserver
     hydra_persist
     hydra_pmi_proxy
-    mpiexec)
+    mpiexec
+    mpiexec.hydra)
   foreach (mpi_executable IN LISTS mpi_executables)
     superbuild_unix_install_utility("${mpi_executable}"
       "paraview-${paraview_version}"
