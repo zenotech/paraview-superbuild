@@ -1,5 +1,4 @@
-#------------------------------------------------------------------------------
-set(paraview_extract_dir "${CMAKE_CURRENT_BINARY_DIR}/test-extraction")
+set(paraview_extract_dir "${CMAKE_CURRENT_BINARY_DIR}/paraview/test-extraction")
 if (WIN32)
   set(generator "ZIP")
   set(paraview_exe "${paraview_extract_dir}/bin/paraview.exe")
@@ -14,160 +13,106 @@ elseif (APPLE)
   set(pvbatch_exe  "${paraview_extract_dir}/paraview.app/Contents/bin/pvbatch")
 else ()
   set(generator "TGZ")
-  set(glob_pattern "ParaView*.tar.gz")
   set(paraview_exe "${paraview_extract_dir}/bin/paraview")
   set(pvpython_exe "${paraview_extract_dir}/bin/pvpython")
   set(pvserver_exe "${paraview_extract_dir}/bin/pvserver")
   set(pvbatch_exe  "${paraview_extract_dir}/bin/pvbatch")
 endif ()
 
-superbuild_add_extract_test("${generator}" "${paraview_extract_dir}"
+include(paraview.suffix)
+set(glob_prefix "ParaView-${paraview_version_major}.${paraview_version_minor}.${paraview_version_patch}")
+if (PARAVIEW_PACKAGE_SUFFIX)
+  set(glob_prefix "${glob_prefix}-${PARAVIEW_PACKAGE_SUFFIX}")
+endif ()
+superbuild_add_extract_test("paraview" "${glob_prefix}" "${generator}" "${paraview_extract_dir}"
   LABEL "PARAVIEW")
-set(paraview_tests)
 
-set(gui_enabled FALSE)
-if (qt4_enabled OR qt5_enabled)
-  set(gui_enabled TRUE)
+if (NOT (qt4_enabled OR qt5_enabled))
+  set(paraview_exe)
 endif ()
 
-#------------------------------------------------------------------------------
-# Simple test to launch the application and load all plugins.
-add_test(
-  NAME    paraview-testui
-  COMMAND "${paraview_exe}"
-          "-dr"
-          "--test-directory=${CMAKE_BINARY_DIR}/Testing/Temporary"
-          "--test-script=${CMAKE_CURRENT_LIST_DIR}/xml/TestUI.xml"
-          "--exit")
-list(APPEND paraview_tests
-  paraview-testui)
+if (NOT python_enabled)
+  set(pvpython_exe)
+  set(pvbatch_exe)
+endif ()
 
-#------------------------------------------------------------------------------
-# Simple test to test pvpython/pvbatch.
-if (python_enabled)
-  add_test(
-    NAME    paraview-pvpython
-    COMMAND "${pvpython_exe}"
-            "${CMAKE_CURRENT_LIST_DIR}/python/basic_python.py")
-  list(APPEND paraview_tests
-    paraview-pvpython)
+if (NOT mpi_enabled)
+  set(pvbatch_exe)
+endif ()
 
-  if (NOT WIN32)
-    # MSMPI has issues with pvbatch.
-    add_test(
-      NAME    paraview-pvbatch
-      COMMAND "${pvbatch_exe}"
-              "${CMAKE_CURRENT_LIST_DIR}/python/basic_python.py")
-    list(APPEND paraview_tests
-      paraview-pvbatch)
+function (paraview_add_test name exe)
+  if (NOT exe)
+    return ()
   endif ()
+
+  add_test(
+    NAME    "paraview-${name}"
+    COMMAND "${exe}"
+            ${ARGN})
+  set_tests_properties(${paraview_tests}
+    PROPERTIES
+      LABELS  "PARAVIEW"
+      DEPENDS "extract-${paraview}-${generator}")
+endfunction ()
+
+function (paraview_add_ui_test name script)
+  paraview_add_test("${name}" "${paraview_exe}"
+    "-dr"
+    "--test-directory=${CMAKE_BINARY_DIR}/Testing/Temporary"
+    "--test-script=${CMAKE_CURRENT_LIST_DIR}/xml/${script}.xml"
+    ${ARGN}
+    "--exit")
+endfunction ()
+
+function (paraview_add_python_test name script)
+  paraview_add_test("${name}" "${pvpython_exe}"
+    "${CMAKE_CURRENT_LIST_DIR}/python/${script}.py")
+endfunction ()
+
+function (paraview_add_pvbatch_test name script)
+  paraview_add_test("${name}" "${pvbatch_exe}"
+    "${CMAKE_CURRENT_LIST_DIR}/python/${script}.py")
+endfunction ()
+
+# Simple test to launch the application and load all plugins.
+paraview_add_ui_test("testui" "TestUI")
+
+# Simple test to test pvpython/pvbatch.
+paraview_add_python_test("pvpython" "basic_python")
+if (NOT WIN32)
+  # MSMPI has issues with pvbatch.
+  paraview_add_pvbatch_test("pvbatch" "basic_python")
 endif ()
 
-#----------------------------------------------------------------------------
 # Test to load various data files to ensure reader support.
-if (cgns_enabled AND gui_enabled)
-  add_test(
-    NAME    paraview-data-csg.silo
-    COMMAND "${paraview_exe}"
-            "-dr"
-            "--data=${CMAKE_CURRENT_LIST_DIR}/data/csg.silo"
-            "--test-directory=${CMAKE_BINARY_DIR}/Testing/Temporary"
-            "--test-script=${CMAKE_CURRENT_LIST_DIR}/xml/TestData-cs_silo.xml"
-            "--exit")
-  list(APPEND paraview_tests
-    paraview-data-csg.silo)
-
-  #----------------------------------------------------------------------------
-  add_test(
-    NAME    paraview-data-5blocks.cgns
-    COMMAND "${paraview_exe}"
-            "-dr"
-            "--data=${CMAKE_CURRENT_LIST_DIR}/data/5blocks.cgns"
-            "--test-directory=${CMAKE_BINARY_DIR}/Testing/Temporary"
-            "--test-script=${CMAKE_CURRENT_LIST_DIR}/xml/TestData-5blocks_cgns.xml"
-            "--exit")
-  list(APPEND paraview_tests
-    paraview-data-5blocks.cgns)
+if (cgns_enabled)
+  paraview_add_ui_test("data-csg.silo" "TestData-cs_silo"
+    "--data=${CMAKE_CURRENT_LIST_DIR}/data/csg.silo")
+  paraview_add_ui_test("data-5blocks.cgns" "TestData-5blocks_cgns"
+    "--data=${CMAKE_CURRENT_LIST_DIR}/data/5blocks.cgns")
 endif ()
 
-#----------------------------------------------------------------------------
 # Disabling this test for now since the Data file is too big. We probably need
 # to add support for Data repository similar to ParaView/VTK soon.
-if (gui_enabled AND xdmf3_enabled AND FALSE)
-  add_test(
-    NAME    paraview-data-Scenario1_p1.xmf
-    COMMAND "${paraview_exe}"
-            "-dr"
-            "--data=${CMAKE_CURRENT_LIST_DIR}/data/Scenario1_p1.xmf"
-            "--test-directory=${CMAKE_BINARY_DIR}/Testing/Temporary"
-            "--test-script=${CMAKE_CURRENT_LIST_DIR}/xml/TestData.xml"
-            "--exit")
-  list(APPEND paraview_tests
-    paraview-data-Scenario1_p1.xmf)
+if (xdmf3_enabled AND FALSE)
+  paraview_add_ui_test("data-scenario1_p1.xmf" "TestData"
+    "--data=${CMAKE_CURRENT_LIST_DIR}/data/Scenario1_p1.xmf")
 endif ()
 
-#----------------------------------------------------------------------------
 if (matplotlib_enabled)
-  add_test(
-    NAME    paraview-matplotlib
-    COMMAND "${paraview_exe}"
-            "-dr"
-            "--test-directory=${CMAKE_BINARY_DIR}/Testing/Temporary"
-            "--test-script=${CMAKE_CURRENT_LIST_DIR}/xml/TestMatplotlib.xml"
-            "--test-baseline=${CMAKE_CURRENT_LIST_DIR}/baselines/Superbuild-TestMatplotlib.png"
-            "--exit")
-  list(APPEND paraview_tests
-    paraview-matplotlib)
+  paraview_add_ui_test("matplotlib" "TestMatplotlib"
+    "--test-baseline=${CMAKE_CURRENT_LIST_DIR}/baselines/Superbuild-TestMatplotlib.png")
 endif ()
 
-#----------------------------------------------------------------------------
 if (python_enabled)
-  add_test(
-    NAME    paraview-pythonview
-    COMMAND "${paraview_exe}"
-            "-dr"
-            "--test-directory=${CMAKE_BINARY_DIR}/Testing/Temporary"
-            "--test-script=${CMAKE_CURRENT_LIST_DIR}/xml/TestPythonView.xml"
-            "--test-baseline=${CMAKE_CURRENT_LIST_DIR}/baselines/TestPythonView.png"
-            "--exit")
-  list(APPEND paraview_tests
-    paraview-pythonview)
+  paraview_add_ui_test("pythonview" "TestPythonView"
+    "--test-baseline=${CMAKE_CURRENT_LIST_DIR}/baselines/TestPythonView.png")
 endif ()
 
-#----------------------------------------------------------------------------
-if (gui_enabled)
-  add_test(
-   NAME    paraview-finddata
-   COMMAND "${paraview_exe}"
-           "-dr"
-           "--test-directory=${CMAKE_BINARY_DIR}/Testing/Temporary"
-           "--test-script=${CMAKE_CURRENT_LIST_DIR}/xml/TestFindData.xml"
-           "--test-baseline=${CMAKE_CURRENT_LIST_DIR}/baselines/Superbuild-TestFindData.png"
-           "--exit")
- list(APPEND paraview_tests
-   paraview-finddata)
-endif ()
+paraview_add_ui_test("finddata" "TestFindData"
+  "--test-baseline=${CMAKE_CURRENT_LIST_DIR}/baselines/Superbuild-TestFindData.png")
 
-#----------------------------------------------------------------------------
-add_test(
-  NAME    paraview-version-server
-  COMMAND "${pvserver_exe}"
-          "--version")
-list(APPEND paraview_tests
-  paraview-version-server)
-
-#----------------------------------------------------------------------------
-if (gui_enabled)
-  add_test(
-    NAME    paraview-version-client
-    COMMAND "${paraview_exe}"
-            "--version")
-  list(APPEND paraview_tests
-    paraview-version-client)
-endif ()
-
-#----------------------------------------------------------------------------
-set_tests_properties(${paraview_tests}
-  PROPERTIES
-    LABELS  "PARAVIEW"
-    DEPENDS "extract-${generator}")
+paraview_add_test("version-server" "${pvserver_exe}"
+  "--version")
+paraview_add_test("version-client" "${paraview_exe}"
+  "--version")
