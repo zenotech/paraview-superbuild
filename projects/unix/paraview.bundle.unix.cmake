@@ -19,6 +19,17 @@ if (python_enabled)
     SEARCH_DIRECTORIES
             "paraview-${paraview_version}")
 
+  superbuild_unix_install_python(
+    "${CMAKE_INSTALL_PREFIX}"
+    "paraview-${paraview_version}"
+    MODULES   vtk
+    NAMESPACE paraview
+    MODULE_DIRECTORIES
+            "${superbuild_install_location}/lib/python2.7/site-packages"
+            "${superbuild_install_location}/lib/paraview-${paraview_version}/site-packages"
+    SEARCH_DIRECTORIES
+            "paraview-${paraview_version}")
+
   if (matplotlib_enabled)
     install(
       DIRECTORY   "${superbuild_install_location}/lib/python2.7/site-packages/matplotlib/mpl-data/"
