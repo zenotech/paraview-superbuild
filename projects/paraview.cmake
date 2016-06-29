@@ -31,7 +31,7 @@ endif ()
 
 # Without an offscreen rendering backend, X should be used.
 set(paraview_use_x ON)
-if (osmesa_enabled OR egl_enabled)
+if (WIN32 OR osmesa_enabled OR egl_enabled)
   set(paraview_use_x OFF)
 endif ()
 
