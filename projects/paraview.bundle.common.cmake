@@ -53,6 +53,46 @@ if (matplotlib_enabled AND NOT USE_SYSTEM_matplotlib)
     matplotlib)
 endif ()
 
+function (paraview_add_plugin output)
+  set(contents "<?xml version=\"1.0\"?>\n<Plugins>\n</Plugins>\n")
+  foreach (name IN LISTS ARGN)
+    set(auto_load 0)
+    if (DEFINED paraview_plugin_${name}_auto_load)
+      set(auto_load 0)
+    endif ()
+    set(plugin_directive "  <Plugin name=\"${name}\" auto_load=\"${auto_load}\" />\n")
+    string(REPLACE "</Plugins>" "${plugin_directive}</Plugins>" contents "${contents}")
+  endforeach ()
+  file(WRITE "${output}" "${contents}")
+endfunction ()
+
+set(paraview_plugins
+  AcceleratedAlgorithms
+  AnalyzeNIfTIIO
+  ArrowGlyph
+  CatalystScriptGeneratorPlugin
+  GeodesicMeasurement
+  GMVReader
+  H5PartReader
+  Moments
+  NonOrthogonalSource
+  SierraPlotTools
+  SLACTools
+  StreamingParticles
+  SurfaceLIC
+  PacMan
+  ThickenLayeredCells)
+
+if (manta_enabled)
+  list(APPEND paraview_plugins
+    MantaView)
+endif ()
+
+if (vortexfinder2_enabled)
+  list(APPEND paraview_plugins
+    VortexFinder2)
+endif ()
+
 function (paraview_install_pdf project filename)
   if (${project}_enabled)
     install(

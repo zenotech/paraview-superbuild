@@ -39,6 +39,21 @@ foreach (executable IN LISTS paraview_executables)
     "${library_paths}")
 endforeach()
 
+foreach (paraview_plugin IN LISTS paraview_plugins)
+  superbuild_windows_install_plugin("${paraview_plugin}.dll"
+    "bin"
+    "${library_paths}")
+endforeach ()
+
+set(plugins_file "${CMAKE_CURRENT_BINARY_DIR}/paraview.plugins")
+paraview_add_plugin("${plugins_file}" ${paraview_plugins})
+
+install(
+  FILES       "${plugins_file}"
+  DESTINATION "bin"
+  COMPONENT   superbuild
+  RENAME      ".plugins")
+
 if (python_enabled)
   include(python.functions)
   superbuild_install_superbuild_python()

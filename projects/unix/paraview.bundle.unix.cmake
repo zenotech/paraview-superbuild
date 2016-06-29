@@ -3,6 +3,22 @@ foreach (executable IN LISTS paraview_executables)
     "paraview-${paraview_version}")
 endforeach ()
 
+foreach (paraview_plugin IN LISTS paraview_plugins)
+  superbuild_unix_install_plugin("lib${paraview_plugin}.so"
+    "paraview-${paraview_version}"
+    ";paraview-${paraview_version}"
+    "paraview-${paraview_version}/plugins/")
+endforeach ()
+
+set(plugins_file "${CMAKE_CURRENT_BINARY_DIR}/paraview.plugins")
+paraview_add_plugin("${plugins_file}" ${paraview_plugins})
+
+install(
+  FILES       "${plugins_file}"
+  DESTINATION "lib/paraview-${paraview_version}"
+  COMPONENT   superbuild
+  RENAME      ".plugins")
+
 if (python_enabled)
   include(python.functions)
   superbuild_install_superbuild_python()

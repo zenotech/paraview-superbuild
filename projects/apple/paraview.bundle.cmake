@@ -6,12 +6,39 @@ if (NOT paraview_has_gui)
   message(FATAL_ERROR "Creating the Apple package without the GUI is not supported.")
 endif ()
 
+set(paraview_plugin_paths)
+foreach (paraview_plugin IN LISTS paraview_plugins)
+  if (EXISTS "${superbuild_install_location}/Applications/paraview.app/Contents/Libraries/lib${paraview_plugin}.dylib")
+    list(APPEND paraview_plugin_paths
+      "${superbuild_install_location}/Applications/paraview.app/Contents/Libraries/lib${paraview_plugin}.dylib")
+    continue ()
+  endif ()
+
+  foreach (path IN ITEMS "" "paraview-${paraview_version}")
+    if (EXISTS "${superbuild_install_location}/lib/${path}/lib${paraview_plugin}.dylib")
+      list(APPEND paraview_plugin_paths
+        "${superbuild_install_location}/lib/${path}/lib${paraview_plugin}.dylib")
+      break ()
+    endif ()
+  endforeach ()
+endforeach ()
+
 superbuild_apple_create_app(
   "\${CMAKE_INSTALL_PREFIX}"
   "paraview.app"
   "${superbuild_install_location}/Applications/paraview.app/Contents/MacOS/paraview"
   CLEAN
+  PLUGINS ${paraview_plugin_paths}
   SEARCH_DIRECTORIES "${superbuild_install_location}/lib")
+
+set(plugins_file "${CMAKE_CURRENT_BINARY_DIR}/paraview.plugins")
+paraview_add_plugin("${plugins_file}" ${plugins})
+
+install(
+  FILES       "${plugins_file}"
+  DESTINATION "paraview.app/Contents/Plugins"
+  COMPONENT   superbuild
+  RENAME      ".plugins")
 
 install(
   FILES       "${superbuild_install_location}/Applications/paraview.app/Contents/Resources/pvIcon.icns"
