@@ -1,5 +1,8 @@
-find_package(PythonLibs   2.6 REQUIRED)
-find_package(PythonInterp 2.6 REQUIRED)
+if(NOT python_version_minimum)
+  set(python_version_minimum 2.6 CACHE INTERNAL "Minimum python version" FORCE)
+endif()
+find_package(PythonLibs   ${python_version_minimum} REQUIRED)
+find_package(PythonInterp ${python_version_minimum}  REQUIRED)
 
 # This will add PYTHON_LIBRARY, PYTHON_EXECUTABLE, PYTHON_INCLUDE_DIR
 # variables. User can set/override these to change the Python being used.
