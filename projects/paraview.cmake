@@ -92,23 +92,32 @@ endif ()
 cmake_dependent_option(PARAVIEW_FREEZE_PYTHON "Freeze Python packages and modules into the application" OFF
   "python_enabled;NOT WIN32;paraview_enabled" OFF)
 
-set(paraviews_non_windows_dependencies)
-if (NOT WIN32)
-  set(paraviews_non_windows_dependencies
-    adios ffmpeg libxml2 mesa osmesa egl)
+set(paraviews_platform_dependencies)
+if (UNIX)
+  if (NOT APPLE)
+    list(APPEND paraviews_platform_dependencies
+      mesa osmesa egl)
+  endif ()
+  list(APPEND paraviews_platform_dependencies
+    adios ffmpeg libxml2)
+endif ()
+
+if (NOT APPLE)
+  list(APPEND paraviews_platform_dependencies
+    manta)
 endif ()
 
 superbuild_add_project(paraview
   DEFAULT_ON
   DEPENDS_OPTIONAL
-    boost hdf5 manta matplotlib mpi numpy png
+    boost hdf5 matplotlib mpi numpy png
     python qt4 qt5 visitbridge zlib silo cgns
     xdmf3 ospray vrpn tbb netcdf
     paraviewusersguide paraviewgettingstartedguide
     paraviewtutorial paraviewtutorialdata
     ${paraview_plugins}
     ${paraview_extra_depends}
-    ${paraviews_non_windows_dependencies}
+    ${paraviews_platform_dependencies}
     ${PARAVIEW_EXTERNAL_PROJECTS}
 
   CMAKE_ARGS
