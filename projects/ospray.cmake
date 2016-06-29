@@ -22,12 +22,14 @@ superbuild_add_project(ospray
     -DOSPRAY_MODULE_TACHYON:BOOL=OFF)
 
 if (WIN32)
-  set(ospray_source_dir "<SOURCE_DIR>")
-  _ep_replace_location_tags(ospray ospray_source_dir)
+  if (TARGET ospray)
+    set(ospray_source_dir "<SOURCE_DIR>")
+    _ep_replace_location_tags(ospray ospray_source_dir)
 
-  # The installed ospray.config isn't quite right on Windows.
-  superbuild_add_extra_cmake_args(
-    -DOSPRAY_BUILD_DIR:PATH=${ospray_binary_dir})
+    # The installed ospray.config isn't quite right on Windows.
+    superbuild_add_extra_cmake_args(
+      -DOSPRAY_BUILD_DIR:PATH=${ospray_binary_dir})
+  endif ()
 else ()
   superbuild_add_extra_cmake_args(
     -DOSPRAY_INSTALL_DIR:PATH=<INSTALL_DIR>)
