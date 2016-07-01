@@ -109,6 +109,11 @@ if (python_enabled)
     "--test-baseline=${CMAKE_CURRENT_LIST_DIR}/baselines/TestPythonView.png")
 endif ()
 
+if (ospray_enabled)
+  paraview_add_ui_test("ospray" "OSPRay"
+    "--test-baseline=${CMAKE_CURRENT_LIST_DIR}/baselines/OSPRay.png")
+endif ()
+
 paraview_add_ui_test("finddata" "TestFindData"
   "--test-baseline=${CMAKE_CURRENT_LIST_DIR}/baselines/Superbuild-TestFindData.png")
 
