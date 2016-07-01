@@ -20,12 +20,17 @@ get_prerequisites(
 
 message("Installing dependencies for '${exename}'")
 
+get_filename_component(resolved_deproot "${dependencies_root}" REALPATH)
+
 # resolve symlinks.
 set (resolved_prerequisites)
 foreach(link ${prerequisites})
   if (NOT link MATCHES ".*fontconfig.*")
+    get_filename_component(resolved_link "${link}" REALPATH)
+    if(NOT resolved_link MATCHES "^${resolved_deproot}/")
+      continue()
+    endif()
     if (IS_SYMLINK ${link})
-      get_filename_component(resolved_link "${link}" REALPATH)
       # now link may not directly point to resolved_link.
       # so we install the resolved link as the link.
       get_filename_component(resolved_name "${link}" NAME)
@@ -35,7 +40,7 @@ foreach(link ${prerequisites})
         RENAME "${resolved_name}"
         FILES "${resolved_link}")
     else ()
-      list(APPEND resolved_prerequisites ${link})
+      list(APPEND resolved_prerequisites ${resolved_link})
     endif()
   endif()
 endforeach()
