@@ -1,6 +1,6 @@
 superbuild_add_project(llvm
   CAN_USE_SYSTEM
-  DEPENDS zlib python
+  DEPENDS python cxx11
   CMAKE_ARGS
     -DCMAKE_BUILD_TYPE=Release
     -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
