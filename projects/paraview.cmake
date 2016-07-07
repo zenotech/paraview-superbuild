@@ -114,7 +114,7 @@ superbuild_add_project(paraview
     python qt4 qt5 visitbridge zlib silo cgns
     xdmf3 ospray vrpn tbb netcdf
     paraviewusersguide paraviewgettingstartedguide
-    paraviewtutorial paraviewtutorialdata
+    paraviewtutorial paraviewtutorialdata paraviewweb
     ${paraview_plugins}
     ${paraview_extra_depends}
     ${paraviews_platform_dependencies}
@@ -159,7 +159,8 @@ superbuild_add_project(paraview
     -DPARAVIEW_BUILD_PLUGIN_VRPlugin:BOOL=${vrpn_enabled}
     -DPARAVIEW_USE_VRPN:BOOL=${vrpn_enabled}
 
-    # Web documentation
+    # Web
+    -DVTK_Group_Web:BOOL=${paraviewweb_enabled}
     -DPARAVIEW_BUILD_WEB_DOCUMENTATION:BOOL=${PARAVIEW_BUILD_WEB_DOCUMENTATION}
 
     # specify the apple app install prefix. No harm in specifying it for all

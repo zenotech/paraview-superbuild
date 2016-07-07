@@ -35,6 +35,7 @@ function (superbuild_find_projects var)
     numpy
     ospray
     #paraviewsdk
+    paraviewweb
     png
     python
     qt4
@@ -90,6 +91,11 @@ function (superbuild_find_projects var)
         genericio
         qhull)
     endif ()
+  endif ()
+
+  if (WIN32)
+    list(APPEND projects
+      pywin32)
   endif ()
 
   set("${var}"
