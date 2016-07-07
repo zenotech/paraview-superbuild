@@ -38,6 +38,7 @@ function (superbuild_find_projects var)
     paraviewweb
     png
     python
+    pythonsetuptools
     qt4
     qt5
     silo
