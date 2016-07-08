@@ -104,11 +104,6 @@ if (matplotlib_enabled)
     "--test-baseline=${CMAKE_CURRENT_LIST_DIR}/baselines/Superbuild-TestMatplotlib.png")
 endif ()
 
-if (python_enabled)
-  paraview_add_ui_test("pythonview" "TestPythonView"
-    "--test-baseline=${CMAKE_CURRENT_LIST_DIR}/baselines/TestPythonView.png")
-endif ()
-
 if (ospray_enabled)
   paraview_add_ui_test("ospray" "OSPRay"
     "--test-baseline=${CMAKE_CURRENT_LIST_DIR}/baselines/OSPRay.png")
