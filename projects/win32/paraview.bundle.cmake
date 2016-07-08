@@ -90,6 +90,31 @@ if (python_enabled)
             "bin/Lib/site-packages/paraview")
 endif ()
 
+if (paraviewweb_enabled)
+  install(
+    DIRECTORY   "${superbuild_install_location}/bin/Lib/site-packages/pywin32_system32"
+    DESTINATION "bin/Lib/site-packages"
+    COMPONENT   "superbuild")
+  install(
+    DIRECTORY   "${superbuild_install_location}/bin/Lib/site-packages/win32"
+    DESTINATION "bin/Lib/site-packages"
+    COMPONENT   "superbuild")
+  install(
+    FILES       "${superbuild_install_location}/bin/Lib/site-packages/pywin32.pth"
+                "${superbuild_install_location}/bin/Lib/site-packages/pywin32.version.txt"
+    DESTINATION "bin/Lib/site-packages"
+    COMPONENT   "superbuild")
+
+  install(
+    DIRECTORY   "${superbuild_install_location}/lib/paraview-${paraview_version}/site-packages/paraview/web/defaultProxies.json"
+    DESTINATION "bin/Lib/site-packages/paraview/web"
+    COMPONENT   "superbuild")
+  install(
+    DIRECTORY   "${superbuild_install_location}/share/paraview-${paraview_version}/www"
+    DESTINATION "share/paraview-${paraview_version}"
+    COMPONENT   "superbuild")
+endif ()
+
 if ((qt4_enabled AND NOT USE_SYSTEM_qt4) OR (qt5_enabled AND NOT USE_SYSTEM_qt))
   # TODO: get a list of Qt plugins.
   foreach (qt_plugin IN LISTS qt_plugins)

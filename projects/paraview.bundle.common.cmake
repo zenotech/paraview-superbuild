@@ -58,6 +58,14 @@ if (paraviewweb_enabled)
     autobahn
     twisted
     zope)
+
+  if (WIN32)
+    list(APPEND python_modules
+      adodbapi
+      isapi
+      pythoncom
+      win32com)
+  endif ()
 endif ()
 
 function (paraview_add_plugin output)

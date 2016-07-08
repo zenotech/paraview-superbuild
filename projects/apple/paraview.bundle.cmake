@@ -113,3 +113,14 @@ install(
   FILES       "${CMAKE_CURRENT_LIST_DIR}/DS_Store"
   DESTINATION ".DS_Store"
   COMPONENT   superbuild)
+
+if (paraviewweb_enabled)
+  install(
+    DIRECTORY   "${superbuild_install_location}/Applications/paraview.app/Contents/Python/paraview/web/defaultProxies.json"
+    DESTINATION "paraview.app/Contents/Python/paraview/web"
+    COMPONENT   "${paraview_component}")
+  install(
+    DIRECTORY   "${superbuild_install_location}/Applications/paraview.app/Contents/www"
+    DESTINATION "paraview.app/Contents"
+    COMPONENT   "${paraview_component}")
+endif ()

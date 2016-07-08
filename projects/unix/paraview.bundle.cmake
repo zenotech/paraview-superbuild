@@ -36,11 +36,13 @@ if (paraview_has_gui)
     USE_SOURCE_PERMISSIONS)
 endif ()
 
-# Add ParaViewWeb www directory if available.
-if (python_enabled)
+if (paraviewweb_enabled)
+  install(
+    FILES       "${superbuild_install_location}/lib/paraview-${paraview_version}/site-packages/paraview/web/defaultProxies.json"
+    DESTINATION "lib/python2.7/site-packages/paraview/web"
+    COMPONENT   "${paraview_component}")
   install(
     DIRECTORY   "${superbuild_install_location}/share/paraview-${paraview_version}/www"
     DESTINATION "share/paraview-${paraview_version}"
-    COMPONENT   "${paraview_component}"
-    USE_SOURCE_PERMISSIONS)
+    COMPONENT   "${paraview_component}")
 endif ()
