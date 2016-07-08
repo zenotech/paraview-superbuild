@@ -53,6 +53,13 @@ if (matplotlib_enabled AND NOT USE_SYSTEM_matplotlib)
     matplotlib)
 endif ()
 
+if (paraviewweb_enabled)
+  list(APPEND python_modules
+    autobahn
+    twisted
+    zope)
+endif ()
+
 function (paraview_add_plugin output)
   set(contents "<?xml version=\"1.0\"?>\n<Plugins>\n</Plugins>\n")
   foreach (name IN LISTS ARGN)
