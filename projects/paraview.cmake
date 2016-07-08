@@ -160,7 +160,7 @@ superbuild_add_project(paraview
     -DPARAVIEW_USE_VRPN:BOOL=${vrpn_enabled}
 
     # Web
-    -DVTK_Group_Web:BOOL=${paraviewweb_enabled}
+    -DPARAVIEW_ENABLE_WEB:BOOL=${paraviewweb_enabled}
     -DPARAVIEW_BUILD_WEB_DOCUMENTATION:BOOL=${PARAVIEW_BUILD_WEB_DOCUMENTATION}
 
     # specify the apple app install prefix. No harm in specifying it for all
