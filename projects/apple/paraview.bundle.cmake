@@ -82,7 +82,7 @@ if (python_enabled)
   if (matplotlib_enabled)
     install(
       DIRECTORY   "${superbuild_install_location}/lib/python2.7/site-packages/matplotlib/mpl-data/"
-      DESTINATION "Python/matplotlib/mpl-data"
+      DESTINATION "paraview.app/Contents/Python/matplotlib/mpl-data"
       COMPONENT   superbuild)
   endif ()
 endif ()
