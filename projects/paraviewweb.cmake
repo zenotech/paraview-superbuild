@@ -5,4 +5,4 @@ if (WIN32)
 endif ()
 
 superbuild_add_dummy_project(paraviewweb
-  DEPENDS ${paraviewweb_depends})
+  DEPENDS paraviewwebvisualizer ${paraviewweb_depends})

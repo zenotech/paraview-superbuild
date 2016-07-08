@@ -117,3 +117,7 @@ superbuild_set_revision(ispc
 superbuild_set_revision(ospray
   GIT_REPOSITORY "https://github.com/mathstuf/ospray.git"
   GIT_TAG        origin/for/paraview)
+
+superbuild_set_revision(paraviewwebvisualizer
+  URL     "https://github.com/Kitware/visualizer/archive/v1.0.14.tar.gz"
+  URL_MD5 c6d78419da091f7107d5895216194880)
