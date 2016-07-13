@@ -6,10 +6,6 @@ superbuild_set_revision(llvm
   URL     "http://paraview.org/files/dependencies/llvm-3.8.1.src.tar.xz"
   URL_MD5 538467e6028bbc9259b1e6e015d25845)
 
-superbuild_set_revision(osmesa
-  URL     "http://paraview.org/files/dependencies/mesa-12.0.1.tar.xz"
-  URL_MD5 972fd5ad5a63aeabf173fb9adefc6522)
-
 superbuild_set_revision(manta
   URL     "http://paraview.org/files/dependencies/manta-r2439.tar.gz"
   URL_MD5 fbf4107fe2f6d7e8a5ae3dda71805bdc)
@@ -17,6 +13,12 @@ superbuild_set_revision(manta
 superbuild_set_revision(mesa
   URL     "http://paraview.org/files/dependencies/mesa-12.0.1.tar.xz"
   URL_MD5 972fd5ad5a63aeabf173fb9adefc6522)
+
+get_property(mesa_revision GLOBAL
+  PROPERTY mesa_revision)
+superbuild_set_external_source(osmesa
+  ${mesa_revision})
+unset(mesa_revision)
 
 superbuild_set_revision(diy
   GIT_REPOSITORY "https://gitlab.kitware.com/paraview/diy.git"
