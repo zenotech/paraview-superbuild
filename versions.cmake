@@ -155,7 +155,7 @@ if (ParaView_FROM_GIT)
   # Download PV from GIT
   add_customizable_revision(paraview
     GIT_REPOSITORY https://gitlab.kitware.com/paraview/paraview.git
-    GIT_TAG "master")
+    GIT_TAG "v5.1.1")
 else()
   if (ParaView_FROM_SOURCE_DIR)
     add_customizable_revision(paraview
@@ -163,8 +163,8 @@ else()
   else()
     # Variables to hold the URL and MD5 (optional)
     add_customizable_revision(paraview
-      URL "http://www.paraview.org/files/v5.1/ParaView-v5.1.0.tar.gz"
-      URL_MD5 "ce7263d8c896f6cc78e6a85a93c789c6")
+      URL "http://www.paraview.org/files/v5.1/ParaView-v5.1.1.tar.gz"
+      URL_MD5 "3977f41ee846327cd8738f7ffaaa0914")
   endif()
 endif()
 
