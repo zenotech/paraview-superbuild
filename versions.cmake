@@ -130,20 +130,20 @@ endif()
 
 if (CROSS_BUILD_STAGE STREQUAL "CROSS")
   add_revision(mesa
-    URL "http://www.paraview.org/files/dependencies/MesaLib-7.6.1.tar.gz"
+    URL "http://paraview.org/files/dependencies/MesaLib-7.6.1.tar.gz"
     URL_MD5 e80fabad2e3eb7990adae773d6aeacba)
 else()
   add_revision(mesa
-    URL "ftp://ftp.freedesktop.org/pub/mesa/12.0.1/mesa-12.0.1.tar.xz"
+    URL "http://paraview.org/files/dependencies/mesa-12.0.1.tar.xz"
     URL_MD5 972fd5ad5a63aeabf173fb9adefc6522)
 endif()
 
 add_revision(osmesa
-    URL "ftp://ftp.freedesktop.org/pub/mesa/12.0.1/mesa-12.0.1.tar.xz"
+    URL "http://paraview.org/files/dependencies/mesa-12.0.1.tar.xz"
     URL_MD5 972fd5ad5a63aeabf173fb9adefc6522)
 
 add_revision(llvm
-    URL "http://llvm.org/releases/3.8.1/llvm-3.8.1.src.tar.xz"
+    URL "http://paraview.org/files/dependencies/llvm-3.8.1.src.tar.xz"
     URL_MD5 538467e6028bbc9259b1e6e015d25845)
 
 # ----------------------------------------------------------------------------
