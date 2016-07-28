@@ -130,20 +130,21 @@ endif()
 
 if (CROSS_BUILD_STAGE STREQUAL "CROSS")
   add_revision(mesa
-    URL "http://www.paraview.org/files/dependencies/MesaLib-7.6.1.tar.gz"
+    URL "http://paraview.org/files/dependencies/MesaLib-7.6.1.tar.gz"
     URL_MD5 e80fabad2e3eb7990adae773d6aeacba)
 else()
   add_revision(mesa
-    URL "ftp://ftp.freedesktop.org/pub/mesa/12.0.0/mesa-12.0.0-rc2.tar.gz")
+    URL "http://paraview.org/files/dependencies/mesa-12.0.1.tar.xz"
+    URL_MD5 972fd5ad5a63aeabf173fb9adefc6522)
 endif()
 
 add_revision(osmesa
-    URL "http://paraview.org/files/dependencies/mesa-11.2.2.tar.gz"
-    URL_MD5 a87b3bab17e0c90de4557df738c9f0eb)
+    URL "http://paraview.org/files/dependencies/mesa-12.0.1.tar.xz"
+    URL_MD5 972fd5ad5a63aeabf173fb9adefc6522)
 
 add_revision(llvm
-    URL "http://paraview.org/files/dependencies/llvm-3.8.0.src.tar.xz"
-    URL_MD5 07a7a74f3c6bd65de4702bf941b511a0)
+    URL "http://paraview.org/files/dependencies/llvm-3.8.1.src.tar.xz"
+    URL_MD5 538467e6028bbc9259b1e6e015d25845)
 
 # ----------------------------------------------------------------------------
 # You choose to download ParaView source form GIT or other URL/FILE tarball
