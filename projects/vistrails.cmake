@@ -1,5 +1,5 @@
 set(plugin_project vistrails)
-set(plugin_name VisTrailsPlugin)
+set(vistrails_name VisTrailsPlugin)
 set(vistrails_install_files
   <SOURCE_DIR>/README
   <BINARY_DIR>/${CMAKE_SHARED_LIBRARY_PREFIX}VisTrailsPlugin${CMAKE_SHARED_LIBRARY_SUFFIX})
