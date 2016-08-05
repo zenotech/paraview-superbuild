@@ -15,8 +15,6 @@ superbuild_add_project(genericio
       <BINARY_DIR>/libGenericIO${lib_suffix}
       <INSTALL_DIR>/lib)
 
-superbuild_add_extra_cmake_args(
-
 if (TARGET genericio)
   set(genericio_include_dir "<SOURCE_DIR>")
   _ep_replace_location_tags(genericio genericio_include_dir)
