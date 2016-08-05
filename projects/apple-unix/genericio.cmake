@@ -11,8 +11,8 @@ superbuild_add_project(genericio
     -DBUILD_TESTING:BOOL=OFF
     -DBUILD_PROGRAMS:BOOL=OFF
   INSTALL_COMMAND
-    ${CMAKE_COMMAND} -E copy
-      <BINARY_DIR>/libGenericIO${lib_suffix}
+    "${CMAKE_COMMAND}" -E copy
+      <BINARY_DIR>/libGenericIO${genericio_lib_suffix}
       <INSTALL_DIR>/lib)
 
 if (TARGET genericio)
@@ -21,5 +21,5 @@ if (TARGET genericio)
 
   superbuild_add_extra_cmake_args(
     -DGENERIC_IO_INCLUDE_DIR:PATH=${genericio_include_dir}
-    -DGENERIC_IO_LIBRARIES:PATH=<INSTALL_DIR>/libGenericIO${lib_suffix})
+    -DGENERIC_IO_LIBRARIES:PATH=<INSTALL_DIR>/libGenericIO${genericio_lib_suffix})
 endif ()
