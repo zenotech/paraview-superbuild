@@ -22,8 +22,8 @@ superbuild_add_project(cosmotools
   DEPENDS genericio diy qhull
 
   CMAKE_ARGS
-    -DENABLE_DIY:BOOL=ON
-    -DENABLE_QHULL:BOOL=ON
+    -DENABLE_DIY:BOOL=${diy_enabled}
+    -DENABLE_QHULL:BOOL=${qhull_enabled}
     -DBUILD_COSMOTOOLS_PROGRAMS:BOOL=OFF
     -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
     -DBUILD_SIMULATION_INTERFACE:BOOL=OFF
