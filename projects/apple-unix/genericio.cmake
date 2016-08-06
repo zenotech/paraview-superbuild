@@ -15,7 +15,7 @@ superbuild_add_project(genericio
       <BINARY_DIR>/libGenericIO${genericio_lib_suffix}
       <INSTALL_DIR>/lib)
 
-if (TARGET genericio)
+if (superbuild_build_phase)
   set(genericio_include_dir "<SOURCE_DIR>")
   _ep_replace_location_tags(genericio genericio_include_dir)
 
