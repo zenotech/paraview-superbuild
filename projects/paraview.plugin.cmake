@@ -37,11 +37,11 @@ superbuild_add_project("${plugin_project}"
 
   INSTALL_COMMAND
     "${CMAKE_COMMAND}"
-      -Dparaview_binary_dir:PATH=${paraview_binary_dir}
+      -Dparaview_binary_location:PATH=${paraview_binary_dir}
       -Dplugin_name:STRING=${${plugin_project}_name}
       -Dbundle_name:STRING=${CMAKE_CURRENT_BINARY_DIR}/${${plugin_project}_name}
       -Dbundle_suffix_file:STRING=${CMAKE_BINARY_DIR}/paraview_version.cmake
-      -Dtmp_dir:PATH=<TMP_DIR>
+      -Dtmp_location:PATH=<TMP_DIR>
       "-Dinstall_files:STRING=${${plugin_project}_install_files}"
       "-Dfixup_plugin_paths:STRING=${${plugin_project}_fixup_plugin_paths}"
       ${paraview_plugin_extra_options}

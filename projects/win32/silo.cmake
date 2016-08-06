@@ -15,21 +15,21 @@ superbuild_add_project(silo
   BUILD_IN_SOURCE 1
   CONFIGURE_COMMAND
     "${CMAKE_COMMAND}"
-      -Dsource_dir:PATH=<SOURCE_DIR>
-      -Dinstall_dir:PATH=<INSTALL_DIR>
+      -Dsource_location:PATH=<SOURCE_DIR>
+      -Dinstall_location:PATH=<INSTALL_DIR>
       -P ${CMAKE_CURRENT_LIST_DIR}/scripts/silo.configure.cmake
   BUILD_COMMAND
     "${CMAKE_COMMAND}"
-      -D64bit_build:BOOL=${superbuild_is_64bit}
-      -Dsource_dir:PATH=<SOURCE_DIR>
-      -Dinstall_dir:PATH=<INSTALL_DIR>
+      -Dsuperbuild_is_64bit:BOOL=${superbuild_is_64bit}
+      -Dsource_location:PATH=<SOURCE_DIR>
+      -Dinstall_location:PATH=<INSTALL_DIR>
       -DDEVENV_PATH:FILEPATH=${DEVENV_PATH}
       -P ${CMAKE_CURRENT_LIST_DIR}/scripts/silo.build.cmake
   INSTALL_COMMAND
     "${CMAKE_COMMAND}"
-      -D64bit_build:BOOL=${superbuild_is_64bit}
-      -Dsource_dir:PATH=<SOURCE_DIR>
-      -Dinstall_dir:PATH=<INSTALL_DIR>
+      -Dsuperbuild_is_64bit:BOOL=${superbuild_is_64bit}
+      -Dsource_location:PATH=<SOURCE_DIR>
+      -Dinstall_location:PATH=<INSTALL_DIR>
       -P ${CMAKE_CURRENT_LIST_DIR}/scripts/silo.install.cmake)
 
 superbuild_apply_patch(silo fix-vcproj-quotation

@@ -1,24 +1,24 @@
 include("${bundle_suffix_file}")
 
-set(plugin_dir "${tmp_dir}/${plugin_name}${bundle_suffix}")
+set(plugin_location "${tmp_location}/${plugin_name}${bundle_suffix}")
 
-file(REMOVE_RECURSE "${plugin_dir}")
-file(MAKE_DIRECTORY "${plugin_dir}")
+file(REMOVE_RECURSE "${plugin_location}")
+file(MAKE_DIRECTORY "${plugin_location}")
 
 file(GLOB all_files
   ${install_files})
 
 file(
   COPY        ${all_files}
-  DESTINATION "${plugin_dir}")
+  DESTINATION "${plugin_location}")
 
 if (APPLE)
   execute_process(
     COMMAND "${CMAKE_CURRENT_LIST_DIR}/apple/fixup_plugin.py"
             # The directory containing the plugin dylibs.
-            "${plugin_dir}"
+            "${plugin_location}"
             # names to replace (in order)
-            "${paraview_binary_dir}/lib/=@executable_path/../Libraries/"
+            "${paraview_binary_location}/lib/=@executable_path/../Libraries/"
             ${fixup_plugin_paths})
 endif ()
 
@@ -38,6 +38,6 @@ function (make_plugin_tarball working_dir name)
             "${working_dir}")
 endfunction ()
 
-make_plugin_tarball("${tmp_dir}"
+make_plugin_tarball("${tmp_location}"
   "${bundle_name}${bundle_suffix}"
   "${plugin_name}${bundle_suffix}")
