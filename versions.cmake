@@ -1,7 +1,3 @@
-superbuild_set_revision(qhull
-  GIT_REPOSITORY "https://github.com/mathstuf/qhull.git"
-  GIT_TAG        origin/next)
-
 superbuild_set_revision(llvm
   URL     "http://paraview.org/files/dependencies/llvm-3.8.1.src.tar.xz"
   URL_MD5 538467e6028bbc9259b1e6e015d25845)
@@ -19,10 +15,6 @@ get_property(mesa_revision GLOBAL
 superbuild_set_external_source(osmesa
   ${mesa_revision})
 unset(mesa_revision)
-
-superbuild_set_revision(diy
-  GIT_REPOSITORY "https://gitlab.kitware.com/paraview/diy.git"
-  GIT_TAG        origin/for/paraview) # r178 + patch
 
 superbuild_set_revision(adios
   URL     "http://www.paraview.org/files/dependencies/adios-1.8-439f0fb6.tar.bz2"

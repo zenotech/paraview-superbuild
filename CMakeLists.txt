@@ -89,9 +89,7 @@ function (superbuild_find_projects var)
     if (UNIX)
       list(APPEND projects
         cosmotools
-        diy
-        genericio
-        qhull)
+        genericio)
     endif ()
   endif ()
 
