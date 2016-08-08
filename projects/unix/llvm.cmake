@@ -11,6 +11,4 @@ superbuild_add_project(llvm
                                        #        this will need to be updated.
     -DPYTHON_EXECUTABLE=${superbuild_python_executable})
 
-if (superbuild_build_phase)
-  set(llvm_dir "<INSTALL_DIR>")
-endif ()
+set(llvm_dir "<INSTALL_DIR>")
