@@ -40,10 +40,6 @@ superbuild_set_revision(cgns
   URL     "http://www.paraview.org/files/dependencies/cgnslib_3.1.3-4.tar.gz"
   URL_MD5 442bba32b576f3429cbd086af43fd4ae)
 
-superbuild_set_revision(cosmotools
-  GIT_REPOSITORY "git://public.kitware.com/cosmotools.git"
-  GIT_TAG        v0.13)
-
 superbuild_set_revision(genericio
   GIT_REPOSITORY "https://kwgitlab.kitware.com/paraview/genericio.git"
   GIT_TAG        origin/master)
