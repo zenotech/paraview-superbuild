@@ -22,7 +22,11 @@ superbuild_add_project(diy
       --disable-openmp
   BUILD_COMMAND
     "${CMAKE_COMMAND}"
-      -Ddiy_source=<SOURCE_DIR>
+      -Dsource_location=<SOURCE_DIR>
       -P "${CMAKE_CURRENT_LIST_DIR}/scripts/diy.build.cmake"
   INSTALL_COMMAND
     make install)
+
+superbuild_add_extra_cmake_args(
+  -DDIY_INCLUDE_DIRS:PATH=<INSTALL_DIR>/include
+  -DDIY_LIBRARIES:PATH=<INSTALL_DIR>/lib/libdiy${CMAKE_STATIC_LIBRARY_SUFFIX})

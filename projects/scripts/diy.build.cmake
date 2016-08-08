@@ -1,4 +1,4 @@
-file(MAKE_DIRECTORY "${diy_source}/lib")
+file(MAKE_DIRECTORY "${source_location}/lib")
 execute_process(
   COMMAND         "make"
   RESULT_VARIABLE res)
