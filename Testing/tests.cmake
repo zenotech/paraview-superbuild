@@ -57,28 +57,30 @@ set_tests_properties(TestUI PROPERTIES
 # will be allowed to pass only in the case of missing python modules.  In the
 # future we can set here a SKIP_RETURN_CODE to allow the test to return a
 # value which will indicate to CTest that some dependencies were not met.
-if(ENABLE_REMOTE_PVWEB_TEST)
-  find_package(PythonInterp 2.7)
-  if(PYTHON_EXECUTABLE)
-    add_test(NAME Test-pvweb-autodeploy
-             COMMAND "${PYTHON_EXECUTABLE}"
-                     "${CMAKE_CURRENT_SOURCE_DIR}/../Scripts/pvweb/auto_pvweb_test.py"
-                     "--testurls=${REMOTE_PVWEB_VISUALIZER_URLS}"
-                     "--browser=${REMOTE_PVWEB_TEST_BROWSER}")
-    set_tests_properties(Test-pvweb-autodeploy PROPERTIES LABELS "PARAVIEW")
-  endif()
-endif()
+#
+#  if(ENABLE_REMOTE_PVWEB_TEST)
+#    find_package(PythonInterp 2.7)
+#    if(PYTHON_EXECUTABLE)
+#      add_test(NAME Test-pvweb-autodeploy
+#               COMMAND "${PYTHON_EXECUTABLE}"
+#                       "${CMAKE_CURRENT_SOURCE_DIR}/../Scripts/pvweb/auto_pvweb_test.py"
+#                       "--testurls=${REMOTE_PVWEB_VISUALIZER_URLS}"
+#                       "--browser=${REMOTE_PVWEB_TEST_BROWSER}")
+#      set_tests_properties(Test-pvweb-autodeploy PROPERTIES LABELS "PARAVIEW")
+#    endif()
+#  endif()
 
 #------------------------------------------------------------------------------
 # Simple test to test paraviewweb.
-if (NOT WIN32)
-  # we don't package ParaViewWeb on Windows anymore.
-  add_test(NAME Test-pvweb
-           COMMAND "${PVPYTHON_EXECUTABLE}"
-                   "${CMAKE_CURRENT_SOURCE_DIR}/basic_paraviewweb.py")
-  set_tests_properties(Test-pvweb PROPERTIES
-                       LABELS "PARAVIEW" DEPENDS "PrepareBinariesForTesting")
-endif()
+#
+#  if (NOT WIN32)
+#    # we don't package ParaViewWeb on Windows anymore.
+#    add_test(NAME Test-pvweb
+#             COMMAND "${PVPYTHON_EXECUTABLE}"
+#                     "${CMAKE_CURRENT_SOURCE_DIR}/basic_paraviewweb.py")
+#    set_tests_properties(Test-pvweb PROPERTIES
+#                         LABELS "PARAVIEW" DEPENDS "PrepareBinariesForTesting")
+#  endif()
 #------------------------------------------------------------------------------
 # Simple test to test pvpython/pvbatch.
 add_test(NAME Test-pvpython
