@@ -199,4 +199,11 @@ list(APPEND extra_ctest_custom_files
   "${CMAKE_CURRENT_LIST_DIR}/cmake/CTestCustom.cmake")
 list(APPEND superbuild_project_roots
   "${CMAKE_CURRENT_LIST_DIR}/projects")
+
+if (NOT EXISTS "${CMAKE_CURRENT_LIST_DIR}/superbuild/CMakeLists.txt")
+  message(FATAL_ERROR "It appears as though the superbuild infrastructure "
+                      "is missing; did you forget to do `git submodule init` "
+                      "and `git submodule update`?")
+endif ()
+
 add_subdirectory(superbuild)
