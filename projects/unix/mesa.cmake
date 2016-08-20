@@ -1,34 +1,23 @@
 if (BUILD_SHARED_LIBS)
-  set(mesa_shared_args --enable-shared --disable-static)
+  set(mesa_library libGL.so)
 else ()
-  set(mesa_shared_args --disable-shared --enable-static)
+  set(mesa_library libGL.a)
 endif ()
 
+include(mesa.common)
+
 superbuild_add_project(mesa
+  CAN_USE_SYSTEM
   DEPENDS llvm
   CONFIGURE_COMMAND
     <SOURCE_DIR>/configure
-      --prefix=<INSTALL_DIR>
-      --enable-opengl
-      --disable-gles1
-      --disable-gles2
-      --disable-va
-      --disable-gbm
-      --disable-xvmc
-      --disable-vdpau
-      --enable-shared-glapi
-      --disable-texture-float
-      --disable-dri
-      --with-dri-drivers=
-      --enable-gallium-llvm
-      --enable-llvm-shared-libs       # FIXME: need to use static when llvm is static
-      --with-gallium-drivers=swrast,swr
-      --disable-egl
-      --disable-gbm
-      --with-egl-platforms=
-      --disable-osmesa
+      ${mesa_common_config_args}
       --disable-gallium-osmesa
       --enable-glx
-      --with-llvm-prefix=${llvm_dir}
-      ${mesa_shared_args}
   BUILD_IN_SOURCE 1)
+
+superbuild_add_extra_cmake_args(
+  -DOPENGL_INCLUDE_DIR:PATH=<INSTALL_DIR>/include
+  -DOPENGL_xmesa_INCLUDE_DIR:PATH=<INSTALL_DIR>/include
+  -DOPENGL_gl_LIBRARY:FILEPATH=<INSTALL_DIR>/lib/${mesa_library}
+  -DOPENGL_glu_LIBRARY:FILEPATH=)

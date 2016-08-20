@@ -21,14 +21,6 @@ if (paraviewsdk_enabled)
   set(paraview_install_development_files TRUE)
 endif ()
 
-# Undo osmesa cache settings so that other GL-based backends can work.
-if (NOT WIN32 AND NOT osmesa_enabled)
-  list(APPEND paraview_extra_cmake_options
-    -DOPENGL_gl_LIBRARY:BOOL=NOTFOUND
-    -DOPENGL_glu_LIBRARY:BOOL=NOTFOUND
-    -DOPENGL_INCLUDE_DIR:PATH=NOTFOUND)
-endif ()
-
 # Without an offscreen rendering backend, X should be used.
 set(paraview_use_x ON)
 if (WIN32 OR osmesa_enabled OR egl_enabled)
