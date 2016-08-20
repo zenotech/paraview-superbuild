@@ -174,12 +174,12 @@ function (superbuild_add_packaging)
     if (paraview_enabled)
       superbuild_add_extra_package_test(paraview "${generator}"
         LABELS  "ParaView"
-        TIMEOUT 1200)
+        TIMEOUT 6400)
     endif ()
     if (UNIX AND (paraview_enabled OR catalyst_enabled))
       superbuild_add_extra_package_test(catalyst "${generator}"
         LABELS  "ParaView"
-        TIMEOUT 1200)
+        TIMEOUT 6400)
     endif ()
   endforeach ()
 endfunction ()
