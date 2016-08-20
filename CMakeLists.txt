@@ -162,8 +162,11 @@ function (superbuild_add_packaging)
       QT_LIBRARY_DIR)
   endif ()
 
+  set(PARAVIEW_PACKAGE_FILE_NAME ""
+    CACHE STRING "If set, overrides the generated filename for the package")
   include(paraview.suffix)
   list(APPEND superbuild_export_variables
+    PARAVIEW_PACKAGE_FILE_NAME
     PARAVIEW_PACKAGE_SUFFIX
     MESA_SWR_ENABLED)
 
