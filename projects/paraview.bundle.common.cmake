@@ -68,6 +68,11 @@ if (paraviewweb_enabled)
   endif ()
 endif ()
 
+if (mpi_enabled)
+  list(APPEND python_modules
+    mpi4py)
+endif ()
+
 function (paraview_add_plugin output)
   set(contents "<?xml version=\"1.0\"?>\n<Plugins>\n</Plugins>\n")
   foreach (name IN LISTS ARGN)
@@ -85,18 +90,22 @@ set(paraview_plugins
   AcceleratedAlgorithms
   AnalyzeNIfTIIO
   ArrowGlyph
-  CatalystScriptGeneratorPlugin
   GeodesicMeasurement
   GMVReader
   H5PartReader
   Moments
   NonOrthogonalSource
-  SierraPlotTools
   SLACTools
   StreamingParticles
   SurfaceLIC
   PacMan
   ThickenLayeredCells)
+
+if (paraview_has_gui)
+  list(APPEND paraview_plugins
+    CatalystScriptGeneratorPlugin
+    SierraPlotTools)
+endif ()
 
 if (manta_enabled)
   list(APPEND paraview_plugins

@@ -85,7 +85,7 @@ if (UNIX)
       mesa osmesa egl)
   endif ()
   list(APPEND paraviews_platform_dependencies
-    adios ffmpeg libxml2
+    adios ffmpeg libxml2 freetype
 
     # For cosmotools
     genericio cosmotools)

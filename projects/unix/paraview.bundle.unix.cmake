@@ -56,7 +56,7 @@ if (python_enabled)
     SEARCH_DIRECTORIES
             "paraview-${paraview_version}")
 
-  if (matplotlib_enabled)
+  if (matplotlib_built_by_superbuild)
     install(
       DIRECTORY   "${superbuild_install_location}/lib/python2.7/site-packages/matplotlib/mpl-data/"
       DESTINATION "lib/python2.7/site-packages/matplotlib/mpl-data"
