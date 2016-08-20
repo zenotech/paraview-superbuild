@@ -75,8 +75,7 @@ set(PARAVIEW_EXTERNAL_PROJECTS ""
   CACHE STRING "A list of projects for ParaView to depend on")
 mark_as_advanced(PARAVIEW_EXTERNAL_PROJECTS)
 
-cmake_dependent_option(PARAVIEW_FREEZE_PYTHON "Freeze Python packages and modules into the application" OFF
-  "python_enabled;NOT WIN32;paraview_enabled" OFF)
+option(PARAVIEW_FREEZE_PYTHON "Freeze Python packages and modules into the application" OFF)
 
 set(paraviews_platform_dependencies)
 if (UNIX)

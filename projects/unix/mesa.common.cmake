@@ -1,5 +1,4 @@
-cmake_dependent_option(MESA_SWR_ENABLED "Enable the SWR driver" ON
-  "mesa_enabled" OFF)
+option(MESA_SWR_ENABLED "Enable the SWR driver" ON)
 mark_as_advanced(MESA_SWR_ENABLED)
 set(mesa_drivers
   swrast)
