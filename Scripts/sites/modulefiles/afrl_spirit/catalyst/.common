@@ -1,0 +1,171 @@
+proc ModulesHelp { } {
+	puts stderr "This loads the ParaView Catalyst environment"
+}
+
+proc ModulesDisplay { } {
+	puts stderr "Using ParaView Catalyst ${pv_module_version} built for ${current_compiler_name}/${pv_compiler_version} and ${current_mpi_name}/${pv_mpi_version}"
+}
+
+module-whatis    "Loads the ParaView Catalyst environment"
+
+conflict catalyst
+conflict paraview
+conflict ensight
+conflict visit
+
+set modules_loaded [split $env(LOADEDMODULES) :]
+
+#
+# Parse the currently laoded compiler
+#
+# The logic for detecting currently loaded compilers looks for modules matching
+# either foo-compilers/foo_version or compiler/foo/foo_version.  It also
+# assumes that only a single version of a particuler compiler is loaded at
+# any given time and that a gcc compiler may be loaded in addition to the
+# compiler wanting to be used
+#
+set current_compilers		[lsearch -inline -regexp -all ${modules_loaded} {^(compiler|[^/]+-compilers)/}]
+if {[llength ${current_compilers}] == 0} {
+	puts stderr "Loading default compiler: ${default_compiler_mod}/${default_compiler_version}"
+	module load ${default_compiler_mod}/${default_compiler_version}
+	set current_compilers "${default_compiler_mod}/${default_compiler_version}"
+}
+set current_compiler_name ""
+foreach compiler ${current_compilers} {
+  set s [split ${compiler} /]
+  set s0 [lindex ${s} 0]
+  if {${s0} == "compiler"} {
+    set n [lindex ${s} 1]
+    set v [lindex ${s} 2]
+  } else { # Matches [^/]+-compilers instead
+    set n [regsub  {^([^/]+)-compilers} ${s0} {\1}]
+    set v [lindex ${s} 1]
+  }
+  if {${n} == "gnu"} {
+    set n "gcc"
+  }
+
+  # Allow GCC to be replaced by non-gcc compiler.  This allows gcc to be
+  # loaded simultaneously with another compiler in order to provide necessary
+  # C++11 headers
+  if {${current_compiler_name} == "" || ${current_compiler_name} == "gcc"} {
+    set current_compiler ${compiler}
+    set current_compiler_name ${n}
+    set current_compiler_version ${v}
+  }
+}
+
+#
+# Parse the currently loaded MPI module
+#
+set re_mpi {^(mpi/)?(openmi|mpich|mvapich|sgimpt|mpt|impi|intel-mpi|cray-mpich)/([^/]+)$}
+set current_mpi [lsearch -inline -regexp ${modules_loaded} ${re_mpi}]
+if {${current_mpi} == ""} {
+	puts stderr "Loading default MPI: ${default_mpi_mod}/${default_mpi_version}"
+	module load ${default_mpi_mod}/${default_mpi_version}
+	set current_mpi ${default_mpi_mod}/${default_mpi_version}
+}
+set current_mpi_match [regexp -inline ${re_mpi} ${current_mpi}]
+set current_mpi_name [lindex ${current_mpi_match} 2]
+set current_mpi_version [lindex ${current_mpi_match} 3]
+switch ${current_mpi_name} {
+  mpt { set current_mpi_name "sgimpt" }
+  intel-mpi { set current_mpi_name "impi" }
+  default { }
+}
+
+if { ${current_compiler_name} == "gcc" } {
+  set current_compiler_mod "gnu"
+} else {
+  set current_compiler_mod ${current_compiler_name}
+}
+
+# Grab all available installations
+set pv_module_version	[file tail $ModulesCurrentModulefile]
+set pv_basedir 		$env(DAAC_HOME)/catalyst/${pv_module_version}
+set available_dirs	[glob -types d -nocomplain -directory ${pv_basedir} -tails */*/*/*]
+if {[llength ${available_dirs}] == 0} {
+	puts stderr "No Catalyst installations found in ${pv_basedir}"
+	exit 1
+}
+
+# Only look in compiler compatible directories
+set available_dirs	[lsearch -all -inline ${available_dirs} ${current_compiler_mod}/*/${current_mpi_name}/*]
+if {[llength ${available_dirs}] == 0} {
+	puts stderr "No Catalyst installations found compatible with the ${current_compiler_mod} compiler and ${current_mpi_name} MPI"
+	exit 1
+}
+
+# The following loop iterates through all installed configurations and looks
+# for the closest compiler match without going over and then the closes MPI version match.
+set pv_compiler_version ""
+set pv_mpi_version ""
+set cmp_pv_compiler_version ""
+set cmp_pv_mpi_version ""
+set cmp_current_compiler_version [regsub -all {\-} ${current_compiler_version} {.}]
+set cmp_current_mpi_version [regsub -all {\-} ${current_mpi_version} {.}]
+foreach dir ${available_dirs} {
+	set dsplit [split ${dir} /]
+	set test_compiler_version	[lindex ${dsplit} 1]
+	set test_mpi_version		[lindex ${dsplit} 3]
+	set cmp_test_compiler_version	[regsub -all {\-} ${test_compiler_version} {.}]
+	set cmp_test_mpi_version	[regsub -all {\-} ${test_mpi_version} {.}]
+	set cmp_current_compiler	[package vcompare ${cmp_test_compiler_version} ${cmp_current_compiler_version}]
+	set cmp_current_mpi		[package vcompare ${cmp_test_mpi_version} ${cmp_current_mpi_version}]
+
+        # Ignore install if either compiler or MPI versions are incompatible
+	if {${cmp_current_compiler} == 1 || ${cmp_current_mpi} == 1} { continue }
+
+	# Use it if it's the first one we've found
+        if {[string length ${pv_compiler_version}] == 0} {
+		set pv_compiler_version ${test_compiler_version}
+		set pv_mpi_version ${test_mpi_version}
+		set cmp_pv_compiler_version ${cmp_test_compiler_version}
+		set cmp_pv_mpi_version ${cmp_test_mpi_version}
+		continue
+	}
+
+	set cmp_pv_compiler		[package vcompare ${cmp_test_compiler_version} ${cmp_pv_compiler_version}]
+	set cmp_pv_mpi			[package vcompare ${cmp_test_mpi_version} ${cmp_pv_mpi_version}]
+
+	if {${cmp_pv_compiler} == 1 || (${cmp_pv_compiler} == 0 && ${cmp_pv_mpi} == 1)} {
+		set pv_compiler_version ${test_compiler_version}
+		set pv_mpi_version ${test_mpi_version}
+		set cmp_pv_compiler_version ${cmp_test_compiler_version}
+		set cmp_pv_mpi_version ${cmp_test_mpi_version}
+	}
+}
+
+if {[string length ${pv_compiler_version}] == 0} {
+	puts stderr "No Catalyst installations found compatible with the ${current_compiler_mod}/${current_compiler_version} compiler and ${current_mpi_name}/${current_mpi_version} MPI combination"
+	exit 2
+}
+puts stderr "Using ParaView Catalyst ${pv_module_version} built for ${current_compiler_name}-${pv_compiler_version} and ${current_mpi_name}-${pv_mpi_version}"
+set pv_prefix ${pv_basedir}/${current_compiler_mod}/${pv_compiler_version}/${current_mpi_name}/${pv_mpi_version}
+set pv_version [regexp -inline {[0-9]+\.[0-9]+} ${pv_module_version}]
+
+if ![is-loaded costinit] {
+	module load costinit
+}
+if ![is-loaded lapack/${current_compiler_mod}] {
+	module load lapack/${current_compiler_mod}/${default_lapack_version}
+}
+if ![is-loaded hdf5/${current_compiler_mod}] {
+	module load hdf5/${current_compiler_mod}/${default_hdf5_version}
+}
+
+
+# Make sure we use the right set of GCC headers for C++11 compatibility
+if { ${current_compiler_name} == "intel" } {
+	setenv GCC /app/gmpapp/gcc/platform/gcc-${default_intel_gcc_header_version}/bin
+}
+
+prepend-path	PATH		${pv_prefix}/bin
+prepend-path	LD_LIBRARY_PATH	${pv_prefix}/lib
+prepend-path	LD_LIBRARY_PATH	${pv_prefix}/lib/paraview-${pv_version}
+setenv		PYTHONPATH	${pv_prefix}/lib/python2.7/site-packages
+prepend-path	PYTHONPATH	${pv_prefix}/lib/paraview-${pv_version}/site-packages
+setenv		ParaView_DIR	${pv_prefix}
+
+set pv_version_full [regexp -inline {^[0-9\.]+} ${pv_module_version}]
+exec $env(DAAC_HOME)/paraview/utils/daac_logger local DAAC_catalyst ${pv_version_full}

@@ -1,0 +1,142 @@
+#!/bin/bash
+##########
+#MSUB -l nodes=1:ppn=1
+#MSUB -l walltime=4:00:00
+#MSUB -N pvbuild
+
+####################
+# Example Usage:
+####################
+#
+# Submit a build on Lightshow for Intel 15.0.5 with OpenMPI 1.6.5.
+# Note: Since Lightshow uses Nahelem CPUs, we will disable SWR and set
+#       the OSPray architecture to SSE.
+#
+# msub -v MACHINE=lightshow,COMP=intel,COMP_VER=15.0.5,MPI=openmpi,MPI_VER=1.6.5,SWR=0,OSPRAY=SSE /path/to/superbuild/source/Scripts/sites/LANL-TOSS2-Build.moab
+#
+# This will generate a logfile called lightshow.5.1.2-osmesa_intel-15.0.5_openmpi-1.6.5.out
+# The build will be located in /usr/projects/packages/hpc_paraview/superbuild/build/lightshow/5.1.2-osmesa_intel-15.0.5_openmpi-1.6.5/
+# Once finished, the result will be a file called 5.1.2-osmesa_intel-15.0.5_openmpi-1.6.5.tgz
+#
+####################
+#
+# Submit a build on Moonlight for Intel 16.0.3 with Intel MPI 5.1.3,
+# specifying an alternate location to look for the downloadad tar files
+# Note: Since Moonlight uses SandyBridge CPUs, we will leave SWR enabled
+#       by default and set the OSPray architecture to AVX.
+#
+# msub -v MACHINE=moonlight,COMP=intel,COMP_VER=16.0.3,MPI=impi,MPI_VER=5.1.3,OSPRAY=AVX,EXTRA_OPTS="-Dsuperbuild_download_location=/path/to/downloads" /path/to/superbuild/source/Scripts/sites/LANL-TOSS2-Build.moab
+#
+# This will generate a logfile called moonlight.5.1.2-osmesa_intel-16.0.3_impi-5.1.3.out
+# The build will be located in /usr/projects/packages/hpc_paraview/superbuild/build/moonlight/5.1.2-osmesa_intel-16.0.3_impi-5.1.3
+# Once finished, the result will be a file called 5.1.2-osmesa_intel-16.0.3_impi-5.1.3.tgz
+#
+####################
+
+usage()
+{
+  echo "This build script requires thr following variables to be set:"
+  echo "  MACHINE    - Machine name being built for"
+  echo "  COMP       - Compiler to build with (gcc or intel)"
+  echo "  COMP_VER   - Compiler version to build with"
+  echo "  MPI        - MPI distribution to use (openmpi or impi)"
+  echo "  MPI_VER    - MPI version to build with"
+  echo ""
+  echo "It also optionally accepts the following variables:"
+  echo "  SWR        - Whether or not to enable the SWR OSMesa driver."
+  echo "               Values: 0, 1 (default)"
+  echo "  OSPRAY     - SIMD architecture to build OSPray with."
+  echo "               Values: ALL (default), SSE, AVX, AVX2"
+  echo "  EXTRA_OPTS - String containing additional CMake arguments to pass"
+  echo "               during the configure step."
+}
+
+check_var()
+{
+  local VARNAME="$1"
+  local DEFAULT="$2"
+  eval local VARVALUE=\$$VARNAME
+  if [ -z "$VARVALUE" ]
+  then
+    if [ $# -ge 2 ]
+    then
+      eval $VARNAME="${DEFAULT}"
+    else
+      echo "Error: ${VARNAME} is empty or not defined"
+      usage
+      exit 1
+    fi
+  fi
+}
+
+check_var MACHINE
+check_var COMP
+check_var COMP_VER
+check_var MPI
+check_var MPI_VER
+check_var SWR 1
+check_var OSPRAY ALL
+check_var EXTRA_OPTS ""
+
+case ${COMP} in
+  *)
+    COMP_MOD=${COMP}
+    ;;
+esac
+
+case "${MPI}" in
+  impi|intel|intel-mpi*)
+    MPI_MOD=intel-mpi
+    MPI=impi
+    ;;
+  *)
+    MPI_MOD=${MPI}
+    ;;
+esac
+
+module purge
+
+# Set newer GCC for binutils and C++11 headers
+export PATH=/opt/rh/devtoolset-3/root/usr/bin:$PATH
+
+module load ${COMP_MOD}/${COMP_VER}
+module load ${MPI_MOD}/${MPI_VER}
+module load friendly-testing cmake/3.6.0 git/2.3.3
+
+BASENAME=5.1.2-osmesa_${COMP}-${COMP_VER}_${MPI}-${MPI_VER}
+BASEDIR=/usr/projects/packages/hpc_paraview/superbuild
+SRCDIR=${BASEDIR}/source/ParaViewSuperbuild
+BINDIR=${BASEDIR}/build/${MACHINE}/${BASENAME}
+LOG=${MACHINE}.${BASENAME}.out
+
+# Make sure we use the correct MPI wrappers
+if [ "${MPI}" == "impi" ] && [ "${COMP}" == "intel" ]
+then
+  export MPICC=mpiicc MPICXX=mpiicpc MPIFC=mpiifort
+  MPI_C_ARGS="-DMPI_C_COMPILER:FILEPATH=$(which mpiicc)"
+  MPI_CXX_ARGS="-DMPI_CXX_COMPILER:FILEPATH=$(which mpiicpc)"
+  MPI_F_ARGS="-DMPI_Fortran_COMPILER:FILEPATH=$(which mpiifort)"
+  EXTRA_OPTS="${EXTRA_OPTS} ${MPI_C_ARGS} ${MPI_CXX_ARGS} ${MPI_F_ARGS}"
+fi
+
+if [ $SWR -eq 1 ]
+then
+  EXTRA_OPTS="${EXTRA_OPTS} -DMESA_SWR_ENABLED=ON"
+else
+  EXTRA_OPTS="${EXTRA_OPTS} -DMESA_SWR_ENABLED=OFF"
+fi
+EXTRA_OPTS="${EXTRA_OPTS} -DOSPRAY_BUILD_ISA=${OSPRAY}"
+
+mkdir -p ${BINDIR}
+cd ${BINDIR}
+
+# This works around a cosmotools linker error.  Still not sure why paraview has the
+# associated linking problem but this seems to fix it
+export LD_FLAGS="${LDFLAGS} -Wl,--allow-shlib-undefined"
+
+cmake \
+  -DPARAVIEWSDK_PACKAGE_FILE_NAME=${BASENAME} \
+  -C${SRCDIR}/cmake/sites/LANL-TOSS2-Shared.cmake \
+  ${EXTRA_OPTS} ${SRCDIR} 2>&1 | tee ~/${LOG}
+make 2>&1 | tee -a ~/${LOG}
+ctest -R cpack-paraviewsdk-TGZ 2>&1 | tee -a ~/${LOG}
