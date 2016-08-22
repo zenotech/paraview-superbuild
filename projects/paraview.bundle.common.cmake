@@ -3,7 +3,9 @@ include(paraview-version)
 # Enable CPack packaging.
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY
   "ParaView is a scientific visualization tool.")
-set(CPACK_PACKAGE_NAME "ParaView")
+if (NOT DEFINED CPACK_PACKAGE_NAME)
+  set(CPACK_PACKAGE_NAME "ParaView")
+endif ()
 set(CPACK_PACKAGE_VENDOR "Kitware, Inc.")
 set(CPACK_PACKAGE_VERSION_MAJOR "${paraview_version_major}")
 set(CPACK_PACKAGE_VERSION_MINOR "${paraview_version_minor}")
@@ -12,8 +14,12 @@ if (PARAVIEW_PACKAGE_SUFFIX)
   set(CPACK_PACKAGE_VERSION_PATCH "${CPACK_PACKAGE_VERSION_PATCH}-${PARAVIEW_PACKAGE_SUFFIX}")
 endif ()
 
-if (PARAVIEW_PACKAGE_FILE_NAME)
-  set(CPACK_PACKAGE_FILE_NAME "${PARAVIEW_PACKAGE_FILE_NAME}")
+if (NOT DEFINED package_filename)
+  set(package_filename "${PARAVIEW_PACKAGE_FILE_NAME}")
+endif ()
+
+if (package_filename)
+  set(CPACK_PACKAGE_FILE_NAME "${package_filename}")
 else ()
   set(CPACK_PACKAGE_FILE_NAME
     "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}")

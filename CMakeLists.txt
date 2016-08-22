@@ -34,7 +34,7 @@ function (superbuild_find_projects var)
     mpi
     numpy
     ospray
-    #paraviewsdk
+    paraviewsdk
     paraviewweb
     paraviewwebvisualizer
     png
@@ -162,13 +162,24 @@ function (superbuild_add_packaging)
       QT_LIBRARY_DIR)
   endif ()
 
-  set(PARAVIEW_PACKAGE_FILE_NAME ""
-    CACHE STRING "If set, overrides the generated filename for the package")
   include(paraview.suffix)
   list(APPEND superbuild_export_variables
-    PARAVIEW_PACKAGE_FILE_NAME
-    PARAVIEW_PACKAGE_SUFFIX
-    MESA_SWR_ENABLED)
+    MESA_SWR_ENABLED
+    PARAVIEW_PACKAGE_SUFFIX)
+
+  if (paraview_enabled)
+    set(PARAVIEW_PACKAGE_FILE_NAME ""
+      CACHE STRING "If set, overrides the generated filename for the package")
+    list(APPEND superbuild_export_variables
+      PARAVIEW_PACKAGE_FILE_NAME)
+  endif ()
+
+  if (paraviewsdk_enabled)
+    set(PARAVIEWSDK_PACKAGE_FILE_NAME ""
+      CACHE STRING "If set, overrides the generated filename for the package")
+    list(APPEND superbuild_export_variables
+      PARAVIEWSDK_PACKAGE_FILE_NAME)
+  endif ()
 
   foreach (generator IN LISTS generators)
     if (paraview_enabled)
@@ -182,6 +193,12 @@ function (superbuild_add_packaging)
         TIMEOUT 6400)
     endif ()
   endforeach ()
+
+  if (paraviewsdk_enabled)
+    superbuild_add_extra_package_test(paraviewsdk "TGZ"
+      LABELS  "ParaView"
+      TIMEOUT 6400)
+  endif ()
 endfunction ()
 
 function (superbuild_add_tests)
