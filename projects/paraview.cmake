@@ -111,6 +111,7 @@ if (NOT APPLE)
 endif ()
 
 superbuild_add_project(paraview
+  DEBUGGABLE
   DEFAULT_ON
   DEPENDS_OPTIONAL
     boost hdf5 matplotlib mpi numpy png
