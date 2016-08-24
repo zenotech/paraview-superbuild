@@ -12,7 +12,7 @@ superbuild_set_revision(mesa
 
 get_property(mesa_revision GLOBAL
   PROPERTY mesa_revision)
-superbuild_set_external_source(osmesa
+superbuild_set_revision(osmesa
   ${mesa_revision})
 unset(mesa_revision)
 
