@@ -83,12 +83,6 @@ set(PARAVIEW_EXTERNAL_PROJECTS ""
   CACHE STRING "A list of projects for ParaView to depend on")
 mark_as_advanced(PARAVIEW_EXTERNAL_PROJECTS)
 
-set(paraview_extra_depends)
-if (USE_NONFREE_COMPONENTS)
-  list(APPEND paraview_extra_depends
-    cosmotools)
-endif ()
-
 cmake_dependent_option(PARAVIEW_FREEZE_PYTHON "Freeze Python packages and modules into the application" OFF
   "python_enabled;NOT WIN32;paraview_enabled" OFF)
 
@@ -102,7 +96,7 @@ if (UNIX)
     adios ffmpeg libxml2
 
     # For cosmotools
-    genericio)
+    genericio cosmotools)
 endif ()
 
 if (NOT APPLE)
@@ -120,7 +114,6 @@ superbuild_add_project(paraview
     paraviewusersguide paraviewgettingstartedguide
     paraviewtutorial paraviewtutorialdata paraviewweb
     ${paraview_plugins}
-    ${paraview_extra_depends}
     ${paraviews_platform_dependencies}
     ${PARAVIEW_EXTERNAL_PROJECTS}
 

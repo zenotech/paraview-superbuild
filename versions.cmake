@@ -33,8 +33,8 @@ superbuild_set_revision(cgns
   URL_MD5 442bba32b576f3429cbd086af43fd4ae)
 
 superbuild_set_revision(genericio
-  GIT_REPOSITORY "https://kwgitlab.kitware.com/paraview/genericio.git"
-  GIT_TAG        origin/master)
+  URL     "http://www.paraview.org/files/dependencies/genericio-master-a15ffc76cfa9f9674f933e8cb5ffc97a97fd7b27.zip"
+  URL_MD5 daea4ea2076fb6a1b8ccded8e861e1be)
 
 superbuild_set_revision(acusolve
   GIT_REPOSITORY "https://kwgitlab.kitware.com/paraview/acusolvereaderplugin.git"

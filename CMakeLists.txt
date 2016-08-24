@@ -59,7 +59,9 @@ function (superbuild_find_projects var)
   if (UNIX)
     list(APPEND projects
       adios
+      cosmotools
       ffmpeg
+      genericio
       libxml2
       mxml)
 
@@ -85,12 +87,6 @@ function (superbuild_find_projects var)
     list(APPEND projects
       acusolve
       vistrails)
-
-    if (UNIX)
-      list(APPEND projects
-        cosmotools
-        genericio)
-    endif ()
   endif ()
 
   if (WIN32)
