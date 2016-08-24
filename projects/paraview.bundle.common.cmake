@@ -43,12 +43,12 @@ set(python_modules
   pygments
   six)
 
-if (numpy_enabled AND NOT USE_SYSTEM_numpy)
+if (numpy_built_by_superbuild)
   list(APPEND python_modules
     numpy)
 endif ()
 
-if (matplotlib_enabled AND NOT USE_SYSTEM_matplotlib)
+if (matplotlib_built_by_superbuild)
   list(APPEND python_modules
     matplotlib)
 endif ()

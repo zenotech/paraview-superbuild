@@ -87,7 +87,7 @@ if (python_enabled)
   endif ()
 endif ()
 
-if (mpi_enabled AND NOT USE_SYSTEM_mpi)
+if (mpi_built_by_superbuild)
   set(mpi_executables
     hydra_pmi_proxy
     mpiexec.hydra)

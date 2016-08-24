@@ -8,7 +8,7 @@ set(paraview_component ParaView)
 include(paraview.bundle.unix)
 
 # Other miscellaneous dependencies.
-if ((qt4_enabled AND NOT USE_SYSTEM_qt4) OR (qt5_enabled AND NOT USE_SYSTEM_qt))
+if (qt4_built_by_superbuild OR qt5_built_by_superbuild)
   # TODO: get a list of Qt plugins.
   foreach (qt_plugin IN LISTS qt_plugins)
     superbuild_unix_install_plugin("${qt_plugin}.so"

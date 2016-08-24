@@ -2,7 +2,7 @@ superbuild_add_dummy_project(paraviewsdk
   DEPENDS paraview)
 
 function (paraviewsdk_check_system_usage project)
-  if (${project}_enabled AND NOT USE_SYSTEM_${project})
+  if (${project}_built_by_superbuild)
     message(WARNING "Please use a system ${project} or disable ${project} to enable SDK deployment!")
   endif ()
 endfunction ()
