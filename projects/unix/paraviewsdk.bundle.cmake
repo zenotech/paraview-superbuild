@@ -147,6 +147,17 @@ function (install_superbuild_binary fname)
     COMPONENT   superbuild)
 endfunction ()
 
+function (list_append_unique var)
+  foreach (value IN LISTS ARGN)
+    list(FIND "${var}" "${value}" idx)
+    if (idx EQUAL -1)
+      list(APPEND "${var}" "${value}")
+    endif ()
+  endforeach ()
+
+  set("${var}" "${${var}}" PARENT_SCOPE)
+endfunction ()
+
 include(GetPrerequisites)
 set(all_binaries)
 set(dependency_search_paths
@@ -159,7 +170,8 @@ foreach (fname IN LISTS libraries_to_install binaries_to_install)
   if (NOT ("${fname}" MATCHES "^${superbuild_install_location}/"))
     continue ()
   endif ()
-  list(APPEND all_binaries "${fname}")
+  list_append_unique(all_binaries
+    "${fname}")
 
   # We still want to install a symlink but only perform dependency resolution
   # on actual files.
@@ -185,15 +197,14 @@ foreach (fname IN LISTS libraries_to_install binaries_to_install)
         continue ()
       endif ()
 
-      list(APPEND all_binaries
+      list_append_unique(all_binaries
         "${resolved_dep}")
     endif ()
 
-    list(APPEND all_binaries
+    list_append_unique(all_binaries
       "${dep}")
   endforeach ()
 endforeach ()
-list(REMOVE_DUPLICATES all_binaries)
 
 # Now install all dependencies in the same location they exist in the
 # superbuild install tree.
