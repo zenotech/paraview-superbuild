@@ -23,7 +23,7 @@ superbuild_add_project(ospray
     -DCMAKE_INSTALL_LIBDIR:STRING=lib)
 
 if (WIN32)
-  if (superbuild_build_phase)
+  if (TARGET ospray)
     set(ospray_source_dir "<SOURCE_DIR>")
     _ep_replace_location_tags(ospray ospray_source_dir)
 

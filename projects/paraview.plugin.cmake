@@ -9,7 +9,7 @@ if (NOT ${plugin_project}_install_files)
 endif ()
 
 set(paraview_binary_dir)
-if (superbuild_build_phase)
+if (TARGET paraview)
   set(paraview_binary_dir "<BINARY_DIR>")
   _ep_replace_location_tags(paraview paraview_binary_dir)
 endif ()

@@ -3,7 +3,7 @@ set(PARAVIEW_EXTRA_CMAKE_ARGUMENTS ""
 mark_as_advanced(PARAVIEW_EXTRA_CMAKE_ARGUMENTS)
 
 set (paraview_extra_cmake_options)
-if (manta_enabled AND superbuild_build_phase)
+if (manta_enabled AND TARGET manta)
   set(manta_binary_dir "<BINARY_DIR>")
   _ep_replace_location_tags(manta manta_binary_dir)
 
@@ -53,7 +53,7 @@ get_property(paraview_plugins GLOBAL
 
 set(paraview_plugin_dirs)
 foreach (paraview_plugin IN LISTS paraview_plugins)
-  if (${paraview_plugin}_enabled AND superbuild_build_phase)
+  if (${paraview_plugin}_enabled AND TARGET "${paraview_plugin}")
     set(plugin_source_dir "<SOURCE_DIR>")
     _ep_replace_location_tags("${paraview_plugin}" plugin_source_dir)
     list(APPEND paraview_plugin_dirs
