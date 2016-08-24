@@ -26,5 +26,9 @@ install(
 list(APPEND paraview_executables
   paraview-config)
 
+# Catalyst never has paraview.
+list(REMOVE_ITEM paraview_executables
+  paraview)
+
 set(paraview_component "catalyst")
 include(paraview.bundle.unix)
