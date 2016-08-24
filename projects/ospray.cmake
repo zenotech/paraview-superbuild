@@ -1,4 +1,4 @@
-set(OSPRAY_BUILD_ISA "AVX"
+set(OSPRAY_BUILD_ISA "ALL"
   CACHE STRING "Target ISA for OSPray (SSE, AVX, AVX2 or ALL).")
 mark_as_advanced(OSPRAY_BUILD_ISA)
 set_property(CACHE OSPRAY_BUILD_ISA
