@@ -164,7 +164,8 @@ function (superbuild_add_packaging)
 
   include(paraview.suffix)
   list(APPEND superbuild_export_variables
-    PARAVIEW_PACKAGE_SUFFIX)
+    PARAVIEW_PACKAGE_SUFFIX
+    MESA_SWR_ENABLED)
 
   foreach (generator IN LISTS generators)
     if (paraview_enabled)

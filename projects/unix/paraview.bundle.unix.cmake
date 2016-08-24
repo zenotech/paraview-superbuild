@@ -19,6 +19,16 @@ install(
   COMPONENT   superbuild
   RENAME      ".plugins")
 
+if (MESA_SWR_ENABLED AND
+    (osmesa_built_by_superbuild OR mesa_built_by_superbuild))
+  # FIXME(package): install using the install macros.
+  install(
+    FILES       "${superbuild_install_location}/lib/libswrAVX.so"
+                "${superbuild_install_location}/lib/libswrAVX2.so"
+    DESTINATION lib
+    COMPONENT   superbuild)
+endif ()
+
 if (python_enabled)
   include(python.functions)
   superbuild_install_superbuild_python()
