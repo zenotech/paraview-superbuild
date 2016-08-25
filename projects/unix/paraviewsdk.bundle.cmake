@@ -98,9 +98,6 @@ foreach (cmake_file IN LISTS cmake_files)
   foreach (line IN LISTS lines)
     string(REGEX MATCHALL "\\\${_IMPORT_PREFIX}[^;\\\">]+" fnames "${line}")
 
-    # Ignore static libraries
-    list(FILTER fnames EXCLUDE REGEX "\\${CMAKE_STATIC_LIBRARY_SUFFIX}$")
-
     list(APPEND libraries_referenced_by_cmake
       ${fnames})
   endforeach ()
@@ -179,6 +176,13 @@ foreach (fname IN LISTS libraries_to_install binaries_to_install)
   if (NOT ("${fname}" MATCHES "^${superbuild_install_location}/"))
     continue ()
   endif ()
+
+  # Install static libraries separately.
+  if (fname MATCHES "\\${CMAKE_STATIC_LIBRARY_SUFFIX}$")
+    install_superbuild_static_library("${fname}")
+    continue ()
+  endif ()
+
   list_append_unique(all_binaries
     "${fname}")
 
