@@ -45,7 +45,10 @@ if (python_enabled)
     DIRECTORY   "${superbuild_install_location}/lib/paraview-${paraview_version}/site-packages"
     DESTINATION "lib/paraview-${paraview_version}"
     COMPONENT   superbuild
-    USE_SOURCE_PERMISSIONS)
+    USE_SOURCE_PERMISSIONS
+    PATTERN "__pycache__" EXCLUDE
+    PATTERN "*.pyo" EXCLUDE
+    PATTERN "*.pyc" EXCLUDE)
 
   # Install any non-ParaView Python libraries
   if (EXISTS "${superbuild_install_location}/lib/python2.7")
@@ -53,7 +56,10 @@ if (python_enabled)
       DIRECTORY   "${superbuild_install_location}/lib/python2.7"
       DESTINATION lib
       COMPONENT   superbuild
-      USE_SOURCE_PERMISSIONS)
+      USE_SOURCE_PERMISSIONS
+      PATTERN "__pycache__" EXCLUDE
+      PATTERN "*.pyo" EXCLUDE
+      PATTERN "*.pyc" EXCLUDE)
   endif ()
 
   # Install python binaries and symlinks
