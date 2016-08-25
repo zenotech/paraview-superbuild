@@ -94,9 +94,9 @@ endif ()
 file(GLOB_RECURSE cmake_files "${superbuild_install_location}/lib/cmake/paraview-${paraview_version}/*.cmake")
 set(libraries_referenced_by_cmake)
 foreach (cmake_file IN LISTS cmake_files)
-  file(STRINGS "${cmake_file}" lines REGEX "\\\${_IMPORT_PREFIX}[^;\\\"]+")
+  file(STRINGS "${cmake_file}" lines REGEX "\\\${_IMPORT_PREFIX}[^;\\\">]+")
   foreach (line IN LISTS lines)
-    string(REGEX MATCHALL "\\\${_IMPORT_PREFIX}[^;\\\"]+" fnames "${line}")
+    string(REGEX MATCHALL "\\\${_IMPORT_PREFIX}[^;\\\">]+" fnames "${line}")
 
     # Ignore static libraries
     list(FILTER fnames EXCLUDE REGEX "\\${CMAKE_STATIC_LIBRARY_SUFFIX}$")
