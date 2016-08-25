@@ -104,11 +104,16 @@ foreach (cmake_file IN LISTS cmake_files)
 endforeach ()
 list(REMOVE_DUPLICATES libraries_referenced_by_cmake)
 
-# Now grab extra python SOs
-file(GLOB_RECURSE paraview_python_modules
-  "${superbuild_install_location}/lib/paraview-${paraview_version}/site-packages/*${CMAKE_SHARED_MODULE_SUFFIX}")
-file(GLOB_RECURSE python_modules
-  "${superbuild_install_location}/lib/python2.7/*${CMAKE_SHARED_MODULE_SUFFIX}")
+if (python_enabled)
+  # Now grab extra python SOs
+  file(GLOB_RECURSE paraview_python_modules
+    "${superbuild_install_location}/lib/paraview-${paraview_version}/site-packages/*${CMAKE_SHARED_MODULE_SUFFIX}")
+  file(GLOB_RECURSE python_modules
+    "${superbuild_install_location}/lib/python2.7/*${CMAKE_SHARED_MODULE_SUFFIX}")
+else ()
+  set(paraview_python_modules)
+  set(python_modules)
+endif ()
 
 # Now resolve their symlinks
 set(libraries_to_install)
