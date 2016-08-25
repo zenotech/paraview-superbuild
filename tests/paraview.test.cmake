@@ -29,7 +29,7 @@ else ()
   endif ()
 endif ()
 superbuild_add_extract_test("paraview" "${glob_prefix}" "${generator}" "${paraview_extract_dir}"
-  LABEL "PARAVIEW")
+  LABELS "ParaView")
 
 if (NOT (qt4_enabled OR qt5_enabled))
   set(paraview_exe)
@@ -55,7 +55,7 @@ function (paraview_add_test name exe)
             ${ARGN})
   set_tests_properties(${paraview_tests}
     PROPERTIES
-      LABELS  "PARAVIEW"
+      LABELS  "ParaView"
       DEPENDS "extract-${paraview}-${generator}")
 endfunction ()
 

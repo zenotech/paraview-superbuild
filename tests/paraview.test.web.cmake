@@ -27,5 +27,5 @@ if (PYTHON_EXECUTABLE)
             "--browser=${PARAVIEW_WEB_BROWSER}")
   set_tests_properties(paraview-web-autodeploy
     PROPERTIES
-      LABELS "PARAVIEW")
+      LABELS "ParaView")
 endif ()
