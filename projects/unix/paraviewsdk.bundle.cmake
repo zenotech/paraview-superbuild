@@ -107,9 +107,9 @@ list(REMOVE_DUPLICATES libraries_referenced_by_cmake)
 if (python_enabled)
   # Now grab extra python SOs
   file(GLOB_RECURSE paraview_python_modules
-    "${superbuild_install_location}/lib/paraview-${paraview_version}/site-packages/*${CMAKE_SHARED_MODULE_SUFFIX}")
+    "${real_superbuild_install_location}/lib/paraview-${paraview_version}/site-packages/*${CMAKE_SHARED_MODULE_SUFFIX}")
   file(GLOB_RECURSE python_modules
-    "${superbuild_install_location}/lib/python2.7/*${CMAKE_SHARED_MODULE_SUFFIX}")
+    "${real_superbuild_install_location}/lib/python2.7/*${CMAKE_SHARED_MODULE_SUFFIX}")
 else ()
   set(paraview_python_modules)
   set(python_modules)
@@ -128,7 +128,7 @@ foreach (fname IN LISTS libraries_referenced_by_cmake paraview_python_modules py
     get_filename_component(resolved_fname "${fname}" REALPATH)
 
     # Skip symlinks that point to outside the install directory
-    if (NOT ("${resolved_fname}" MATCHES "^${superbuild_install_location}/"))
+    if (NOT ("${resolved_fname}" MATCHES "^${real_superbuild_install_location}/"))
       continue ()
     endif ()
 
@@ -172,13 +172,13 @@ endfunction ()
 include(GetPrerequisites)
 set(all_binaries)
 set(dependency_search_paths
-  "${superbuild_install_location}/lib/paraview-${paraview_version}"
-  "${superbuild_install_location}/lib/paraview-${paraview_version}/site-packages"
-  "${superbuild_install_location}/lib"
-  "${superbuild_install_location}/lib/python2.7"
-  "${superbuild_install_location}/lib/python2.7/lib-dynload")
+  "${real_superbuild_install_location}/lib/paraview-${paraview_version}"
+  "${real_superbuild_install_location}/lib/paraview-${paraview_version}/site-packages"
+  "${real_superbuild_install_location}/lib"
+  "${real_superbuild_install_location}/lib/python2.7"
+  "${real_superbuild_install_location}/lib/python2.7/lib-dynload")
 foreach (fname IN LISTS libraries_to_install binaries_to_install)
-  if (NOT ("${fname}" MATCHES "^${superbuild_install_location}/"))
+  if (NOT ("${fname}" MATCHES "^${real_superbuild_install_location}/"))
     continue ()
   endif ()
 
@@ -239,7 +239,7 @@ foreach (fname IN LISTS libraries_to_install binaries_to_install)
   endif ()
 
   # Drop any dependency outside the superbuild.
-  list(FILTER dependencies INCLUDE REGEX "^${superbuild_install_location}/")
+  list(FILTER dependencies INCLUDE REGEX "^(${real_superbuild_install_location}|${superbuild_install_location})/")
 
   foreach (dep IN LISTS dependencies)
     if (IS_SYMLINK "${dep}")
