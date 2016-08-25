@@ -183,6 +183,35 @@ foreach (fname IN LISTS libraries_to_install binaries_to_install)
     continue ()
   endif ()
 
+  # Find the .so for any .so.X libraries.
+  if (fname MATCHES "\\${CMAKE_SHARED_LIBRARY_SUFFIX}\\..*$")
+    string(REGEX REPLACE "\\${CMAKE_SHARED_LIBRARY_SUFFIX}.*" "${CMAKE_SHARED_LIBRARY_SUFFIX}"
+      shared_lib_link "${fname}")
+
+    # Not all .so files exists apparently?
+    if (EXISTS "${shared_lib_link}")
+      # CMake installs .so -> .so.soname -> .so.soversion symlink chains for
+      # shared libraries, so we need to install the middle link.
+      if (IS_SYMLINK "${shared_lib_link}")
+        # CMake doesn't provide something like this :( .
+        execute_process(
+          COMMAND readlink
+                  "${shared_lib_link}"
+          RESULT_VARIABLE res
+          OUTPUT_VARIABLE link_target
+          OUTPUT_STRIP_TRAILING_WHITESPACE)
+        if (res)
+          message(FATAL_ERROR "Failed to get the target for ${shared_lib_link}")
+        endif ()
+
+        get_filename_component(shared_lib_dir "${shared_lib_link}" DIRECTORY)
+        install_superbuild_binary("${shared_lib_dir}/${link_target}")
+      endif ()
+
+      install_superbuild_binary("${shared_lib_link}")
+    endif ()
+  endif ()
+
   list_append_unique(all_binaries
     "${fname}")
 
