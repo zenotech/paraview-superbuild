@@ -117,14 +117,8 @@ file(GLOB_RECURSE python_modules
 set(libraries_to_install)
 foreach (fname IN LISTS libraries_referenced_by_cmake paraview_python_modules python_modules)
   string(REPLACE "\${_IMPORT_PREFIX}" "${real_superbuild_install_location}" fname "${fname}")
-  get_filename_component(fname "${fname}" ABSOLUTE)
 
-  if (NOT EXISTS "${fname}" OR IS_DIRECTORY "${fname}")
-    continue ()
-  endif ()
-
-  # Skip files outside the install directory
-  if (NOT ("${fname}" MATCHES "^${superbuild_install_location}/"))
+  if (IS_DIRECTORY "${fname}")
     continue ()
   endif ()
 
@@ -196,12 +190,8 @@ foreach (fname IN LISTS libraries_to_install binaries_to_install)
 
   foreach (dep IN LISTS dependencies)
     if (IS_SYMLINK "${dep}")
+      # Symlinks better not cross the root directory. Bad install, bad.
       get_filename_component(resolved_dep "${dep}" REALPATH)
-
-      # Drop any dependency that is a symlink to outside the install dir
-      if (NOT ("${resolved_dep}" MATCHES "^${superbuild_install_location}/"))
-        continue ()
-      endif ()
 
       list_append_unique(all_binaries
         "${resolved_dep}")
