@@ -110,4 +110,4 @@ superbuild_set_revision(ospray
 
 superbuild_set_revision(paraviewwebvisualizer
   URL     "https://github.com/Kitware/visualizer/archive/v1.0.14.tar.gz"
-  URL_MD5 c6d78419da091f7107d5895216194880)
+  URL_MD5 aef81bcee73f5c05282265d8c31a48d8)
