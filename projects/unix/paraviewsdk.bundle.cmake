@@ -212,6 +212,12 @@ foreach (fname IN LISTS libraries_to_install binaries_to_install)
     endif ()
   endif ()
 
+  # The TBB libraries are special.
+  if (fname MATCHES "libtbb(|_malloc)")
+    install_superbuild_binary("${fname}")
+    continue ()
+  endif ()
+
   list_append_unique(all_binaries
     "${fname}")
 
