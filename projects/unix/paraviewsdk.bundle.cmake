@@ -138,15 +138,6 @@ foreach (fname IN LISTS libraries_referenced_by_cmake paraview_python_modules py
     "${fname}")
 endforeach ()
 
-function (install_superbuild_binary fname)
-  get_filename_component(fname_dir "${fname}" DIRECTORY)
-  string(REPLACE "${superbuild_install_location}/" "" fname_inst "${fname_dir}")
-  install(
-    PROGRAMS    "${fname}"
-    DESTINATION "${fname_inst}"
-    COMPONENT   superbuild)
-endfunction ()
-
 function (list_append_unique var)
   foreach (value IN LISTS ARGN)
     list(FIND "${var}" "${value}" idx)
@@ -156,6 +147,24 @@ function (list_append_unique var)
   endforeach ()
 
   set("${var}" "${${var}}" PARENT_SCOPE)
+endfunction ()
+
+function (_install_superbuild_file type fname)
+  get_filename_component(fname_dir "${fname}" DIRECTORY)
+  string(REPLACE "${superbuild_install_location}/" "" fname_inst "${fname_dir}")
+  string(REPLACE "${real_superbuild_install_location}/" "" fname_inst "${fname_inst}")
+  install(
+    "${type}"   "${fname}"
+    DESTINATION "${fname_inst}"
+    COMPONENT   superbuild)
+endfunction ()
+
+function (install_superbuild_static_library fname)
+  _install_superbuild_file(FILES "${fname}")
+endfunction ()
+
+function (install_superbuild_binary fname)
+  _install_superbuild_file(PROGRAMS "${fname}")
 endfunction ()
 
 include(GetPrerequisites)
