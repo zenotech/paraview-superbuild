@@ -25,6 +25,11 @@ endif ()
 set(paraview_use_x ON)
 if (WIN32 OR APPLE OR osmesa_enabled OR egl_enabled)
   set(paraview_use_x OFF)
+endif()
+
+set(paraview_visit_gmv ON)
+if (osmesa_enabled OR egl_enabled)
+  set(paraview_visit_gmv OFF)
 endif ()
 
 set(paraview_use_qt OFF)
@@ -122,8 +127,9 @@ superbuild_add_project(paraview
     -DPARAVIEW_USE_MPI:BOOL=${mpi_enabled}
     -DPARAVIEW_USE_OSPRAY:BOOL=${ospray_enabled}
     -DPARAVIEW_USE_VISITBRIDGE:BOOL=${visitbridge_enabled}
-    -DVISIT_BUILD_READER_CGNS:BOOL=OFF # force to off
     -DPARAVIEW_ENABLE_CGNS:BOOL=${cgns_enabled}
+    -DVISIT_BUILD_READER_CGNS:BOOL=OFF # force to off
+    -DVISIT_BUILD_READER_GMV:BOOL=${paraview_visit_gmv}
     -DVISIT_BUILD_READER_Silo:BOOL=${silo_enabled}
     -DPARAVIEW_INSTALL_DEVELOPMENT_FILES:BOOL=${paraview_install_development_files}
     -DPARAVIEW_ENABLE_MATPLOTLIB:BOOL=${matplotlib_enabled}
