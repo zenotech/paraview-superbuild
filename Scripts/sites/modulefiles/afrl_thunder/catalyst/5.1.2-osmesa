@@ -1,0 +1,17 @@
+#%Module1.0
+
+set default_compiler intel
+set default_compiler_version 15.0.3
+set default_aux_compiler gcc-compilers
+set default_aux_compiler_version 4.8.4
+set default_mpi sgimpt
+set default_mpi_version 2.12
+set default_boost_version 1.58.0
+set default_python_version 2.7.9
+set default_numpy_version 1.9.2
+set default_matplotlib_version 1.4.3
+set default_hdf5_version 1.8.15
+
+source [file join [file dirname $ModulesCurrentModulefile] .common]
+
+setenv GALLIUM_DRIVER swr

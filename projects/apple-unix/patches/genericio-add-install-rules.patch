@@ -1,0 +1,62 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index e299ee6..1dbdc44 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -109,6 +109,47 @@ set(GENERIC_IO_DATA_TESTS_SRC
+ add_library(GenericIO ${GENERIC_IO_SRC})
+ set_target_properties(GenericIO PROPERTIES POSITION_INDEPENDENT_CODE True)
+ target_link_libraries(GenericIO ${MPI_C_LIBRARIES} pthread)
++target_include_directories(GenericIO
++    PUBLIC
++        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
++        $<INSTALL_INTERFACE:include>)
++install(
++    TARGETS GenericIO
++    EXPORT  GenericIO-targets
++    ARCHIVE DESTINATION lib
++    LIBRARY DESTINATION lib
++    RUNTIME DESTINATION bin)
++
++set(genericio_includes
++    BloscCompression.h
++    CRC64.h
++    DataFilter.h
++    GenericIO.h
++    GenericIOBase.h
++    GenericIOCompress.h
++    GenericIODefinitions.hpp
++    GenericIOMPIReader.h
++    GenericIOMPIWriter.h
++    GenericIOPosixReader.h
++    GenericIOReader.h
++    GenericIOUtilities.h
++    GenericIOWriter.h)
++install(
++    FILES       ${genericio_includes}
++    DESTINATION "include")
++
++if (WIN32)
++    set(cmakedir cmake)
++else ()
++    set(cmakedir lib/cmake/GenericIO)
++endif ()
++
++install(
++    EXPORT      GenericIO-targets
++    DESTINATION ${cmakedir})
++install(
++    FILES       "${CMAKE_SOURCE_DIR}/GenericIOConfig.cmake"
++    DESTINATION ${cmakedir})
+ 
+ ##------------------------------------------------------------------------------
+ ## Build GenericIO programs
+diff --git a/GenericIOConfig.cmake b/GenericIOConfig.cmake
+new file mode 100644
+index 0000000..e5d945a
+--- /dev/null
++++ b/GenericIOConfig.cmake
+@@ -0,0 +1,4 @@
++include("${CMAKE_CURRENT_LIST_DIR}/GenericIO-targets.cmake")
++
++include(CMakeFindDependencyMacro)
++find_dependency(MPI)

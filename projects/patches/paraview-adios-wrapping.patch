@@ -1,0 +1,13 @@
+--- a/VTK/IO/ADIOS/CMakeLists.txt	2016-08-15 09:13:16.000000000 -0500
++++ b/VTK/IO/ADIOS/CMakeLists.txt	2016-08-15 09:13:06.000000000 -0500
+@@ -42,7 +42,9 @@
+   vtkADIOSWriterWrite
+ 
+   vtkADIOSDirTree
+-  WRAP_EXCLUDE
++  PROPERTIES
++    WRAP_EXCLUDE 1
++    WRAP_EXCLUDE_PYTHON 1
+   )
+ 
+ vtk_module_library(vtkIOADIOS ${Module_SOURCES})
