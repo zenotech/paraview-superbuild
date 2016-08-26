@@ -1,0 +1,26 @@
+From eec4dcf2c65bc3a4e8dd9dc553c3c73283efc384 Mon Sep 17 00:00:00 2001
+From: Chuck Atkins <chuck.atkins@kitware.com>
+Date: Wed, 24 Aug 2016 12:57:14 -0400
+Subject: [PATCH] Revert XZ back to BZip2 for compatibilioty with older
+ autotools
+
+---
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/configure.ac b/configure.ac
+index 69485f1..115c3dd 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -44,7 +44,7 @@ AC_INIT([Mesa], [MESA_VERSION],
+ AC_CONFIG_AUX_DIR([bin])
+ AC_CONFIG_MACRO_DIR([m4])
+ AC_CANONICAL_SYSTEM
+-AM_INIT_AUTOMAKE([foreign tar-ustar dist-xz subdir-objects])
++AM_INIT_AUTOMAKE([foreign tar-ustar dist-bzip2 subdir-objects])
+
+ dnl We only support native Windows builds (MinGW/MSVC) through SCons.
+ case "$host_os" in
+-- 
+2.5.5
+
