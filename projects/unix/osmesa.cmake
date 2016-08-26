@@ -19,6 +19,10 @@ superbuild_add_project(osmesa
 superbuild_apply_patch(osmesa install-headers
   "Install OSMesa headers")
 
+# For compatibility on machines with a crufty autotools
+superbuild_apply_patch(osmesa revert-xz
+  "Revert autoconf dist-xz to dist-bzip2")
+
 superbuild_add_extra_cmake_args(
   -DOPENGL_INCLUDE_DIR:PATH=NOTFOUND
   -DOPENGL_xmesa_INCLUDE_DIR:PATH=NOTFOUND
