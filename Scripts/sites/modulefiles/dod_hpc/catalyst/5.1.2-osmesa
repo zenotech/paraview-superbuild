@@ -1,0 +1,10 @@
+#%Module1.0
+
+set default_aux_gnu_compiler_module	gcc/4.8.2
+set default_mpi_module			cray-mpich/7.2.6
+set default_lapack_module		cray-libsci/13.2.0
+set default_hdf5_module			cray-hdf5/1.8.12
+
+source [file join [file dirname $ModulesCurrentModulefile] .common]
+
+setenv GALLIUM_DRIVER swr
