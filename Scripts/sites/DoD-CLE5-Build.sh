@@ -26,7 +26,7 @@ case "${COMP}" in
 esac
 
 case "${MPI}" in
-  cray|craympt)
+  cray|craympt|cray-mpich)
     MPI=craympt
     MPI_MOD=cray-mpich
     ;;
