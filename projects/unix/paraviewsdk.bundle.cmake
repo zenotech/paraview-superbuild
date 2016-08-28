@@ -178,7 +178,7 @@ set(dependency_search_paths
   "${real_superbuild_install_location}/lib/python2.7"
   "${real_superbuild_install_location}/lib/python2.7/lib-dynload")
 foreach (fname IN LISTS libraries_to_install binaries_to_install)
-  if (NOT ("${fname}" MATCHES "^${real_superbuild_install_location}/"))
+  if (NOT ("${fname}" MATCHES "^(${real_superbuild_install_location}|${superbuild_install_location})/"))
     continue ()
   endif ()
 
