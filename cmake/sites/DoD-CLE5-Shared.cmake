@@ -39,4 +39,7 @@ set(OSPRAY_BUILD_ISA ALL CACHE STRING "")
 
 # Paraview details
 set(paraview_FROM_GIT      OFF CACHE BOOL "")
-set(PARAVIEW_FREEZE_PYTHON ON  CACHE BOOL "")
+
+# Freezing when building our own python seems to generate broken
+# pv* executables
+#set(PARAVIEW_FREEZE_PYTHON ON  CACHE BOOL "")
