@@ -2,7 +2,7 @@
 
 if [ $# -lt 5 ]
 then
-  echo "Usage: $0 compiler cpu compiler_version mpi mpi_version [extra cmake args]"
+  echo "Usage: $0 cpu compiler compiler_version mpi mpi_version [extra cmake args]"
   exit 1
 fi
 
@@ -49,10 +49,12 @@ then
   # Also load GCC to get proper C++11 support
   module load gcc/4.8.2
 fi
+echo "Using binutils from $(dirname $(which ld))"
 module list
 
 export CC=$(which cc) CXX=$(which CC) FC=$(which ftn)
 export CRAYPE_LINK_TYPE=dynamic
+export HDF5_ROOT=${HDF5_DIR}
 
 BASENAME=5.1.2-osmesa_${COMP}-${COMP_VER}_${MPI}-${MPI_VER}
 SRC=$(readlink -f $(dirname $(readlink -f $0))/../..)
@@ -68,21 +70,9 @@ mkdir -p ${TMPDIR}
   -C${SRC}/cmake/sites/DoD-CLE5-Shared.cmake \
   -DSUPERBUILD_PROJECT_PARALLELISM=10 \
   "$@" ${SRC} 2>&1 | tee log.configure
-if [ ${PIPESTATUS[0]} -ne 0 ]
-then
-  exit 1
-fi
 
 make 2>&1 | tee log.build
-if [ ${PIPESTATUS[0]} -ne 0 ]
-then
-  exit 1
-fi
 
 ~/Code/CMake/build/master/bin/ctest -V -R cpack-paraviewsdk-TGZ 2>&1 | tee log.package
-if [ ${PIPESTATUS[0]} -ne 0 ]
-then
-  exit 1
-fi
 
 rm -rf ${TMPDIR}
