@@ -34,7 +34,6 @@ function (superbuild_find_projects var)
     mpi
     numpy
     ospray
-    paraviewsdk
     paraviewweb
     paraviewwebvisualizer
     png
@@ -73,6 +72,7 @@ function (superbuild_find_projects var)
         llvm
         mesa
         osmesa
+        paraviewsdk
         portfwd)
     endif ()
   endif ()
