@@ -34,7 +34,6 @@ function (superbuild_find_projects var)
     mpi
     numpy
     ospray
-    paraviewsdk
     paraviewweb
     paraviewwebvisualizer
     png
@@ -67,6 +66,7 @@ function (superbuild_find_projects var)
 
     if (NOT APPLE)
       list(APPEND projects
+        paraviewsdk
         catalyst
         egl
         fontconfig
