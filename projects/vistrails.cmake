@@ -9,5 +9,6 @@ set(vistrails_fixup_plugin_paths
   "libhdf5.7.3.0.dylib=@executable_path/../Libraries/libhdf5.1.8.9.dylib"
   "libhdf5_hl.7.3.0.dylib=@executable_path/../Libraries/libhdf5.1.8.9.dylib"
   "libcgns.3.1.dylib=@executable_path/../Libraries/libcgns.3.1.dylib")
+set(vistrails_depends boost)
 
 include(paraview.plugin)
