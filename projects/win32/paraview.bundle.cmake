@@ -22,8 +22,7 @@ set(pvpython_description "pvpython ${paraview_version_long} (Python Shell)")
 
 set(library_paths "lib")
 
-# FIXME: What about Qt5?
-if (USE_SYSTEM_qt4)
+if (QT_LIBRARY_DIR)
   list(APPEND library_paths
     "${QT_LIBRARY_DIR}")
 endif ()
