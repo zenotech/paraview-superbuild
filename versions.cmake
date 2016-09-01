@@ -40,10 +40,6 @@ superbuild_set_revision(acusolve
   GIT_REPOSITORY "https://kwgitlab.kitware.com/paraview/acusolvereaderplugin.git"
   GIT_TAG        origin/master)
 
-superbuild_set_revision(vistrails
-  GIT_REPOSITORY "https://kwgitlab.kitware.com/paraview/vistrails.git"
-  GIT_TAG        origin/master)
-
 set(paraview_doc_ver_series "5.1")
 set(paraview_doc_ver "${paraview_doc_ver_series}.0")
 superbuild_set_revision(paraviewusersguide

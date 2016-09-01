@@ -85,8 +85,7 @@ function (superbuild_find_projects var)
 
   if (USE_NONFREE_COMPONENTS)
     list(APPEND projects
-      acusolve
-      vistrails)
+      acusolve)
   endif ()
 
   if (WIN32)
