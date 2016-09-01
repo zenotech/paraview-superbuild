@@ -141,6 +141,10 @@ function (superbuild_sanity_check)
   if (paraview_enabled AND catalyst_enabled)
     message(SEND_ERROR "Cannot enable ParaView and Catalyst at the same time.")
   endif ()
+
+  if (paraview_enabled AND manta_enabled AND PARAVIEW_RENDERING_BACKEND STREQUAL "OpenGL2")
+    message(SEND_ERROR "Manta does not work with OpenGL2")
+  endif ()
 endfunction ()
 
 function (superbuild_add_packaging)
