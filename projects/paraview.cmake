@@ -109,7 +109,7 @@ superbuild_add_project(paraview
   DEBUGGABLE
   DEFAULT_ON
   DEPENDS_OPTIONAL
-    boost hdf5 matplotlib mpi numpy png
+    cxx11 boost hdf5 matplotlib mpi numpy png
     python qt4 qt5 visitbridge zlib silo cgns
     xdmf3 ospray vrpn tbb netcdf
     paraviewusersguide paraviewgettingstartedguide
@@ -153,6 +153,7 @@ superbuild_add_project(paraview
     -DVTK_USE_OFFSCREEN:BOOL=${osmesa_enabled}
     -DVTK_USE_OFFSCREEN_EGL:BOOL=${egl_enabled}
     -DVTK_USE_X:BOOL=${paraview_use_x}
+    -DVTK_USE_CXX11_FEATURES:BOOL=${cxx11_enabled}
 
     # vrpn
     -DPARAVIEW_BUILD_PLUGIN_VRPlugin:BOOL=${vrpn_enabled}
