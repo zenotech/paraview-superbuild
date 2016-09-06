@@ -124,7 +124,10 @@ endif ()
 
 if (vortexfinder2_enabled)
   list(APPEND paraview_plugins
-    VortexFinder2)
+    BDATReader
+    BDATSeriesReader
+    GLGPUSupercurrentFilter
+    GLGPUVortexFilter)
 endif ()
 
 function (paraview_install_pdf project filename)
