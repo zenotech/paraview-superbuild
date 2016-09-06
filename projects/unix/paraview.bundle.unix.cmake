@@ -62,7 +62,7 @@ if (python_enabled)
             "${superbuild_install_location}/lib/python2.7/site-packages"
             "${superbuild_install_location}/lib/paraview-${paraview_version}/site-packages"
     SEARCH_DIRECTORIES
-            "paraview-${paraview_version}")
+            "${library_paths}")
 
   if (matplotlib_built_by_superbuild)
     install(
