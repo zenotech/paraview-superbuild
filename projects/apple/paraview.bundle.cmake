@@ -101,9 +101,11 @@ if (mpi_built_by_superbuild)
       SEARCH_DIRECTORIES "${superbuild_install_location}/lib")
   endforeach ()
 
-  file(RENAME
-    \"\${CMAKE_INSTALL_PREFIX}/paraview.app/Contents/MacOS/mpiexec.hydra\"
-    \"\${CMAKE_INSTALL_PREFIX}/paraview.app/Contents/MacOS/mpiexec\")
+  install(CODE
+    "file(RENAME
+      \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/bin/mpiexec.hydra\"
+      \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/bin/mpiexec\")"
+    COMPONENT superbuild)
 endif ()
 
 install(
