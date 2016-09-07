@@ -80,6 +80,13 @@ if (python_enabled)
             "${superbuild_install_location}/Applications/paraview.app/Contents/Libraries"
             "${superbuild_install_location}/lib")
 
+  install(CODE
+    "file(REMOVE_RECURSE \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/paraview.app/Contents/Python/paraview/vtk\")
+    file(INSTALL
+      \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/paraview.app/Contents/Python/vtk\"
+      DESTINATION \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/paraview.app/Contents/Python/paraview/\")"
+    COMPONENT superbuild)
+
   if (matplotlib_enabled)
     install(
       DIRECTORY   "${superbuild_install_location}/lib/python2.7/site-packages/matplotlib/mpl-data/"
