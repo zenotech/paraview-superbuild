@@ -2,15 +2,12 @@ include(paraview-version)
 
 set(paraview_doc_dir "share/paraview-${paraview_version}/doc")
 set(paraview_data_dir "share/paraview-${paraview_version}/data")
+set(CPACK_PACKAGE_NAME "ParaView-Catalyst-${PARAVIEW_CATALYST_EDITION}")
 include(paraview.bundle.common)
 
 # Enable CPack packaging.
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY
   "ParaView Catalyst ${PARAVIEW_CATALYST_EDITION} for in-situ visualization")
-set(CPACK_PACKAGE_NAME "ParaView-Catalyst-${PARAVIEW_CATALYST_EDITION}")
-
-set(CPACK_PACKAGE_FILE_NAME
-  "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}-${PACKAGE_SUFFIX}")
 
 install(
   DIRECTORY   "${superbuild_install_location}/include/paraview-${paraview_version}"
