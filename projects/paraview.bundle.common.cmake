@@ -117,11 +117,6 @@ if (paraview_has_gui)
     SierraPlotTools)
 endif ()
 
-if (manta_enabled)
-  list(APPEND paraview_plugins
-    MantaView)
-endif ()
-
 if (vortexfinder2_enabled)
   list(APPEND paraview_plugins
     BDATReader

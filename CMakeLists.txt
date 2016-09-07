@@ -50,11 +50,6 @@ function (superbuild_find_projects var)
     xdmf3
     zlib)
 
-  if (NOT APPLE)
-    list(APPEND projects
-      manta)
-  endif ()
-
   if (UNIX)
     list(APPEND projects
       adios
@@ -140,10 +135,6 @@ function (superbuild_sanity_check)
   # Sanity check: Cannot have ParaView and Catalyst enabled at the same time.
   if (paraview_enabled AND catalyst_enabled)
     message(SEND_ERROR "Cannot enable ParaView and Catalyst at the same time.")
-  endif ()
-
-  if (paraview_enabled AND manta_enabled AND PARAVIEW_RENDERING_BACKEND STREQUAL "OpenGL2")
-    message(SEND_ERROR "Manta does not work with OpenGL2")
   endif ()
 endfunction ()
 

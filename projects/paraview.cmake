@@ -3,14 +3,6 @@ set(PARAVIEW_EXTRA_CMAKE_ARGUMENTS ""
 mark_as_advanced(PARAVIEW_EXTRA_CMAKE_ARGUMENTS)
 
 set (paraview_extra_cmake_options)
-if (manta_enabled AND TARGET manta)
-  set(manta_binary_dir "<BINARY_DIR>")
-  _ep_replace_location_tags(manta manta_binary_dir)
-
-  list(APPEND paraview_extra_cmake_options
-    -DMANTA_BUILD:PATH=${manta_binary_dir})
-endif ()
-
 if (PV_NIGHTLY_SUFFIX)
   list(APPEND paraview_extra_cmake_options
     -DPV_NIGHTLY_SUFFIX:STRING=${PV_NIGHTLY_SUFFIX})
@@ -100,11 +92,6 @@ if (UNIX)
     genericio cosmotools)
 endif ()
 
-if (NOT APPLE)
-  list(APPEND paraviews_platform_dependencies
-    manta)
-endif ()
-
 superbuild_add_project(paraview
   DEBUGGABLE
   DEFAULT_ON
@@ -123,7 +110,6 @@ superbuild_add_project(paraview
     -DBUILD_TESTING:BOOL=OFF
     -DPARAVIEW_BUILD_PLUGIN_CoProcessingScriptGenerator:BOOL=ON
     -DPARAVIEW_BUILD_PLUGIN_EyeDomeLighting:BOOL=ON
-    -DPARAVIEW_BUILD_PLUGIN_MantaView:BOOL=${manta_enabled}
     -DPARAVIEW_BUILD_QT_GUI:BOOL=${paraview_use_qt}
     -DPARAVIEW_ENABLE_FFMPEG:BOOL=${ffmpeg_enabled}
     -DPARAVIEW_ENABLE_PYTHON:BOOL=${python_enabled}
