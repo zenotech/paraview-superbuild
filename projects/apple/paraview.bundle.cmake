@@ -77,7 +77,8 @@ if (python_enabled)
     MODULE_DIRECTORIES
             "${superbuild_install_location}/Applications/paraview.app/Contents/Python"
     SEARCH_DIRECTORIES
-            "${superbuild_install_location}/Applications/paraview.app/Contents/Libraries")
+            "${superbuild_install_location}/Applications/paraview.app/Contents/Libraries"
+            "${superbuild_install_location}/lib")
 
   if (matplotlib_enabled)
     install(
