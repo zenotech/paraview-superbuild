@@ -17,7 +17,7 @@ if (PV_NIGHTLY_SUFFIX)
 endif ()
 
 set(paraview_install_development_files FALSE)
-if (paraviewsdk_enabled)
+if (UNIX OR paraviewsdk_enabled)
   set(paraview_install_development_files TRUE)
 endif ()
 
