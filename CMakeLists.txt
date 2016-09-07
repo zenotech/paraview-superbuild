@@ -186,7 +186,7 @@ function (superbuild_add_packaging)
         LABELS  "ParaView"
         TIMEOUT 6400)
     endif ()
-    if (UNIX AND (paraview_enabled OR catalyst_enabled))
+    if (catalyst_enabled OR (paraview_enabled AND UNIX AND NOT APPLE))
       superbuild_add_extra_package_test(catalyst "${generator}"
         LABELS  "ParaView"
         TIMEOUT 6400)
