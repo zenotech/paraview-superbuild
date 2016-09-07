@@ -113,7 +113,7 @@ install(
   DESTINATION ".resources/"
   COMPONENT   superbuild)
 install(
-  FILES       "${CMAKE_CURRENT_LIST_DIR}/DS_Store"
+  FILES       "${CMAKE_CURRENT_LIST_DIR}/files/DS_Store"
   DESTINATION ".DS_Store"
   COMPONENT   superbuild)
 
