@@ -110,8 +110,8 @@ if (mpi_built_by_superbuild)
 
   install(CODE
     "file(RENAME
-      \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/bin/mpiexec.hydra\"
-      \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/bin/mpiexec\")"
+      \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/paraview.app/Contents/bin/mpiexec.hydra\"
+      \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/paraview.app/Contents/bin/mpiexec\")"
     COMPONENT superbuild)
 endif ()
 
