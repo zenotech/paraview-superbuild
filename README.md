@@ -1,20 +1,19 @@
 ![ParaView-Superbuild](Documentation/img/paraview100.png)
 
-Introduction
-============
+# Introduction
+
 ParaView-Superbuild is a project to build ParaView. ParaView itself can be
 easily built using CMake. However, ParaView has several external dependencies,
 e.g. Qt, CGNS, FFMPEG, etc. and it can be very tedious to build all those
 dependencies. Also, if you want to generate redistributable binaries, you need to
 take extra case building and packaging these dependencies. To make our lives
-easier in supporting both these use-cases, ParaView-Superbuild project was born.
+easier in supporting both these use-cases, the ParaView-Superbuild project was born.
 
 Although primarily designed to build the official ParaView binaries,
 ParaView-Superbuild has since been regularly used to build ParaView packages
 on various supercomputing systems.
 
-Learning Resources
-==================
+# Learning Resources
 
 * General information is available at the [ParaView Homepage][].
 
@@ -29,8 +28,7 @@ Learning Resources
 [Kitware Support]: http://www.kitware.com/products/support.html
 [Kitware Training]: http://www.kitware.com/products/protraining.php
 
-Reporting Bugs
-==============
+# Reporting Bugs
 
 If you have found a bug:
 
@@ -45,8 +43,7 @@ If you have found a bug:
 
 [ParaView Issue Tracker]: http://www.paraview.org/Bug
 
-License
-=======
+# License
 
 Like ParaView, ParaView-Superbuild is distributed under the OSI-approved BSD 3-clause License.
 See [Copyright.txt][] for details. For additional licenses, refer to
@@ -55,8 +52,7 @@ See [Copyright.txt][] for details. For additional licenses, refer to
 [Copyright.txt]: Copyright.txt
 [ParaView Licenses]: http://www.paraview.org/paraview-license/
 
-Contributing
-============
+# Contributing
 
 See [CONTRIBUTING.md][] for instructions to contribute.
 
