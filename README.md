@@ -5,9 +5,10 @@
 ParaView-Superbuild is a project to build ParaView. ParaView itself can be
 easily built using CMake. However, ParaView has several external dependencies,
 e.g. Qt, CGNS, FFMPEG, etc. and it can be very tedious to build all those
-dependencies. Also, if you want to generate redistributable binaries, you need to
-take extra case building and packaging these dependencies. To make our lives
-easier in supporting both these use-cases, the ParaView-Superbuild project was born.
+dependencies. Also, if you want to generate redistributable binaries, you need
+to take extra case building and packaging these dependencies. To make our
+lives easier in supporting both these use-cases, the ParaView-Superbuild
+project was born.
 
 Although primarily designed to build the official ParaView binaries,
 ParaView-Superbuild has since been regularly used to build ParaView packages
