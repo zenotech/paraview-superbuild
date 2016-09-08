@@ -21,7 +21,51 @@ generators (Xcode and Visual Studio) are not supported.
 
 ## Projects and Features
 
-``TODO``
+The superbuild contains multiple projects which may be used to enable
+different features within the resulting ParaView build. Most projects involve
+downloading and adding the feature to the resulting package, but there are a
+few which are used just to enable features within ParaView itself.
+
+The `catalyst` and `paraview` projects are mutually exclusive (the libraries
+conflict in the install tree). The `catalyst` package is only available on
+Linux. One of these two projects must be enabled.
+
+The `paraviewsdk` project enables the building of a package which includes
+headers and libraries suitable for developing against ParaView. Only available
+on Linux (at the moment).
+
+The `paraviewweb` project adds web services into the resulting package.
+
+The `paraviewgettingstartedguide`, `paraviewtutorial`, `paraviewtutorialdata`,
+and `paraviewusersguide` packages add documentation to the package.
+
+ParaView supports multiple rendering engines including `egl`, `mesa`,
+`osmesa`, and `qt4`. All of these are incompatible with each other. In
+addition, the `egl` renderer requires the `OpenGL2` rendering backend. If none
+of these are chosen, a UI-less ParaView will be built (basically just
+`pvpython`). `qt5` is also available, but is not known to be ready. On Windows
+and macOS, only the `qt` packages are available.
+
+The `python` package is available to enable Python support in the package. In
+addition, the `matplotlib` and `numpy` packages are available.
+
+The following packages enable other features within ParaView:
+
+  * `adios`: Enable readers and writers for visualization data in the ADIOS
+    file format.
+  * `cgns`: Enable reading the cgns file format.
+  * `cosmotools`: Enables Cosmo file format readers and related filters and
+    algorithms.
+  * `ffmpeg`: Video encoding library for macOS and Linux.
+  * `ospray`: A ray tracing rendering backend from Intel.
+  * `silo`: Support reading the silo file format.
+  * `tbb`: Improved parallel processing support within various VTK and
+    ParaView filters and algorithms.
+  * `visitbridge`: Enables readers for file formats provided from the VisIt
+    project.
+  * `vortexfinder2`: A collection of tools to visualize and analyze vortices.
+  * `vrpn`: Virtual reality support.
+  * `xdmf3`: A meta file format built on top of HDF5.
 
 ## CMake Variables
 
@@ -45,11 +89,9 @@ generators (Xcode and Visual Studio) are not supported.
 The following flags affect ParaView directly:
 
   * `paraview_FROM_GIT` (default `ON`): If set, ParaView is built from the git
-    repository (see also `PARAVIEW_GIT_REPOSITORY` and `PARAVIEW_GIT_TAG`).
+    repository (see also `paraview_GIT_REPOSITORY` and `paraview_GIT_TAG`).
   * `paraview_FROM_SOURCE_DIR` (default `OFF`): If set, ParaView is built from
-    an existing source tree (use `PARAVIEW_SOURCE_DIR` to set the path).
-  * `paraview_FROM_SOURCE_DIR` (default `OFF`): If set, ParaView is built from
-    an existing source tree (use `PARAVIEW_SOURCE_DIR` to set the path).
+    an existing source tree (use `paraview_SOURCE_DIR` to set the path).
   * `CMAKE_BUILD_TYPE_paraview` (default is the same as the superbuild):
     ParaView may be built with a different build type (e.g., `Release` vs.
     `RelWithDebInfo`) as the rest of the superbuild using this variable.
