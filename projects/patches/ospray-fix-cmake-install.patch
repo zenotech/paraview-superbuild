@@ -1,6 +1,6 @@
 diff -U5 -Nru OSPRay-0.10.1/cmake/ospray_cmake_config/osprayConfig.cmake.in OSPRay-0.10.1.cmake-fix/cmake/ospray_cmake_config/osprayConfig.cmake.in
 --- OSPRay-0.10.1/cmake/ospray_cmake_config/osprayConfig.cmake.in	2016-06-02 14:23:00.000000000 -0400
-+++ OSPRay-0.10.1.cmake-fix/cmake/ospray_cmake_config/osprayConfig.cmake.in	2016-09-07 18:20:13.402886270 -0400
++++ OSPRay-0.10.1.cmake-fix/cmake/ospray_cmake_config/osprayConfig.cmake.in	2016-09-08 08:45:01.724901706 -0400
 @@ -58,19 +58,13 @@
  
  # Build the absolute root install directory as a relative path (determined when
@@ -24,13 +24,15 @@ diff -U5 -Nru OSPRay-0.10.1/cmake/ospray_cmake_config/osprayConfig.cmake.in OSPR
    OSPRAY_REPORT_NOT_FOUND(
      "ospray install root: ${CURRENT_ROOT_INSTALL_DIR}, "
      "determined from relative path from osprayConfig.cmake install location:  "
-@@ -144,10 +138,12 @@
+@@ -143,11 +137,13 @@
+ 
  if(OSPRAY_USE_EXTERNAL_EMBREE)
    # Find existing Embree on the machine
    find_package(embree @REQUIRED_MINIMUM_EMBREE@ REQUIRED)
  else()
-   if (APPLE)
-+    set(EMBREE_LIBRARY ${CURRENT_ROOT_INSTALL_DIR}/@CMAKE_INSTALL_LIBDIR@/${CMAKE_SHARED_LIBRARY_PREFIX}embree${CMAKE_LINK_LIBRARY_SUFFIX})
+-  if (APPLE)
++  if (WIN32)
++    set(EMBREE_LIBRARY ${CURRENT_ROOT_INSTALL_DIR}/@CMAKE_INSTALL_LIBDIR@/${CMAKE_IMPORT_LIBRARY_PREFIX}embree${CMAKE_IMPORT_LIBRARY_SUFFIX})
 +  elseif (APPLE)
      set(EMBREE_LIBRARY ${CURRENT_ROOT_INSTALL_DIR}/@CMAKE_INSTALL_LIBDIR@/${CMAKE_SHARED_LIBRARY_PREFIX}embree.2${CMAKE_SHARED_LIBRARY_SUFFIX})
    else()
