@@ -10,14 +10,14 @@ if (PARAVIEW_CATALYST_PYTHON)
   list(APPEND catalyst_editions
     Enable-Python)
 endif ()
-if (PARAVIEW_CATALYST_EDITION STREQUAL Essentials)
+if (PARAVIEW_CATALYST_EDITION STREQUAL "Essentials")
   list(APPEND catalyst_editions
     Essentials)
-elseif (PARAVIEW_CATALYST_EDITION STREQUAL Extras)
+elseif (PARAVIEW_CATALYST_EDITION STREQUAL "Extras")
   list(APPEND catalyst_editions
     Essentials
     Extras)
-elseif (PARAVIEW_CATALYST_EDITION STREQUAL Rendering-Base)
+elseif (PARAVIEW_CATALYST_EDITION STREQUAL "Rendering-Base")
   list(APPEND catalyst_editions
     Essentials
     Extras
