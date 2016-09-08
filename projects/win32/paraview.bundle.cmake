@@ -105,7 +105,7 @@ if (paraviewweb_enabled)
     COMPONENT   "superbuild")
 
   install(
-    DIRECTORY   "${superbuild_install_location}/lib/paraview-${paraview_version}/site-packages/paraview/web/defaultProxies.json"
+    FILES       "${superbuild_install_location}/lib/paraview-${paraview_version}/site-packages/paraview/web/defaultProxies.json"
     DESTINATION "bin/Lib/site-packages/paraview/web"
     COMPONENT   "superbuild")
   install(
