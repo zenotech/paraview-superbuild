@@ -81,7 +81,7 @@ if (mpi_built_by_superbuild)
     mpiexec.hydra)
   foreach (mpi_executable IN LISTS mpi_executables)
     superbuild_unix_install_utility("${mpi_executable}"
-      "paraview-${paraview_version}"
+      ""
       "../bin")
   endforeach ()
 endif ()
