@@ -74,11 +74,7 @@ endif ()
 
 if (mpi_built_by_superbuild)
   set(mpi_executables
-    hydra_nameserver
-    hydra_persist
-    hydra_pmi_proxy
-    mpiexec
-    mpiexec.hydra)
+    mpiexec)
   foreach (mpi_executable IN LISTS mpi_executables)
     superbuild_unix_install_utility("${mpi_executable}"
       ""
