@@ -73,8 +73,8 @@ if (mpi_built_by_superbuild)
   set(mpi_executables
     mpiexec)
   foreach (mpi_executable IN LISTS mpi_executables)
-    superbuild_unix_install_utility("${mpi_executable}"
-      ""
-      "../bin")
+    superbuild_unix_install_plugin("${mpi_executable}"
+      "lib"
+      "bin")
   endforeach ()
 endif ()
