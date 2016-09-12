@@ -41,6 +41,8 @@ function (make_plugin_tarball working_dir name)
 
   if (res)
     message(FATAL_ERROR "Failed to create the plugin artifact: ${out}")
+  else ()
+    message(STATUS "Plugin artifact file written: ${name}${ext}")
   endif ()
 endfunction ()
 
