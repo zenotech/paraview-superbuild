@@ -27,7 +27,7 @@ function (make_plugin_tarball working_dir name)
     set(cmd "${7Z_EXE}" a)
     set(ext ".zip")
   else ()
-    set(cmd "${CMAKE_COMMAND}" -E tar cvfz)
+    set(cmd "${CMAKE_COMMAND}" -E tar cvzf)
     set(ext ".tgz")
   endif ()
   execute_process(
