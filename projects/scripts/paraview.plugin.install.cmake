@@ -34,8 +34,14 @@ function (make_plugin_tarball working_dir name)
     COMMAND ${cmd}
             "${name}${ext}"
             ${ARGN}
-    WORKING_DIRECTORY
-            "${working_dir}")
+    WORKING_DIRECTORY "${working_dir}"
+    ERROR_VARIABLE    out
+    OUTPUT_VARIABLE   out
+    RESULT_VARIABLE   res)
+
+  if (res)
+    message(FATAL_ERROR "Failed to create the plugin artifact: ${out}")
+  endif ()
 endfunction ()
 
 make_plugin_tarball("${tmp_location}"
