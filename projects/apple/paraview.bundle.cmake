@@ -77,7 +77,15 @@ if (python_enabled)
     MODULE_DIRECTORIES
             "${superbuild_install_location}/Applications/paraview.app/Contents/Python"
     SEARCH_DIRECTORIES
-            "${superbuild_install_location}/Applications/paraview.app/Contents/Libraries")
+            "${superbuild_install_location}/Applications/paraview.app/Contents/Libraries"
+            "${superbuild_install_location}/lib")
+
+  install(CODE
+    "file(REMOVE_RECURSE \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/paraview.app/Contents/Python/paraview/vtk\")
+    file(INSTALL
+      \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/paraview.app/Contents/Python/vtk\"
+      DESTINATION \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/paraview.app/Contents/Python/paraview/\")"
+    COMPONENT superbuild)
 
   if (matplotlib_enabled)
     install(
@@ -100,9 +108,11 @@ if (mpi_built_by_superbuild)
       SEARCH_DIRECTORIES "${superbuild_install_location}/lib")
   endforeach ()
 
-  file(RENAME
-    \"\${CMAKE_INSTALL_PREFIX}/paraview.app/Contents/MacOS/mpiexec.hydra\"
-    \"\${CMAKE_INSTALL_PREFIX}/paraview.app/Contents/MacOS/mpiexec\")
+  install(CODE
+    "file(RENAME
+      \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/paraview.app/Contents/bin/mpiexec.hydra\"
+      \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/paraview.app/Contents/bin/mpiexec\")"
+    COMPONENT superbuild)
 endif ()
 
 install(
@@ -110,7 +120,7 @@ install(
   DESTINATION ".resources/"
   COMPONENT   superbuild)
 install(
-  FILES       "${CMAKE_CURRENT_LIST_DIR}/DS_Store"
+  FILES       "${CMAKE_CURRENT_LIST_DIR}/files/DS_Store"
   DESTINATION ".DS_Store"
   COMPONENT   superbuild)
 

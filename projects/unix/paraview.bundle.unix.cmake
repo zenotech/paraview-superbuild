@@ -1,13 +1,21 @@
+set(library_paths
+  "paraview-${paraview_version}")
+
+if (QT_LIBRARY_DIR)
+  list(APPEND library_paths
+    "${QT_LIBRARY_DIR}")
+endif ()
+
 foreach (executable IN LISTS paraview_executables)
   superbuild_unix_install_program("${executable}"
-    "paraview-${paraview_version}")
+    "${library_paths}")
 endforeach ()
 
 foreach (paraview_plugin IN LISTS paraview_plugins)
   superbuild_unix_install_plugin("lib${paraview_plugin}.so"
     "paraview-${paraview_version}"
-    ";paraview-${paraview_version}"
-    "paraview-${paraview_version}/plugins/")
+    ";${library_paths}"
+    "paraview-${paraview_version}/plugins/${paraview_plugin}/")
 endforeach ()
 
 set(plugins_file "${CMAKE_CURRENT_BINARY_DIR}/paraview.plugins")
@@ -43,7 +51,7 @@ if (python_enabled)
             "${superbuild_install_location}/lib/python2.7/site-packages"
             "${superbuild_install_location}/lib/paraview-${paraview_version}/site-packages"
     SEARCH_DIRECTORIES
-            "paraview-${paraview_version}")
+            "${library_paths}")
 
   superbuild_unix_install_python(
     "${CMAKE_INSTALL_PREFIX}"
@@ -54,7 +62,7 @@ if (python_enabled)
             "${superbuild_install_location}/lib/python2.7/site-packages"
             "${superbuild_install_location}/lib/paraview-${paraview_version}/site-packages"
     SEARCH_DIRECTORIES
-            "paraview-${paraview_version}")
+            "${library_paths}")
 
   if (matplotlib_built_by_superbuild)
     install(
@@ -66,14 +74,10 @@ endif ()
 
 if (mpi_built_by_superbuild)
   set(mpi_executables
-    hydra_nameserver
-    hydra_persist
-    hydra_pmi_proxy
-    mpiexec
-    mpiexec.hydra)
+    mpiexec)
   foreach (mpi_executable IN LISTS mpi_executables)
     superbuild_unix_install_utility("${mpi_executable}"
-      "paraview-${paraview_version}"
+      ""
       "../bin")
   endforeach ()
 endif ()

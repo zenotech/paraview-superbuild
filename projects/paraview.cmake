@@ -3,21 +3,13 @@ set(PARAVIEW_EXTRA_CMAKE_ARGUMENTS ""
 mark_as_advanced(PARAVIEW_EXTRA_CMAKE_ARGUMENTS)
 
 set (paraview_extra_cmake_options)
-if (manta_enabled AND TARGET manta)
-  set(manta_binary_dir "<BINARY_DIR>")
-  _ep_replace_location_tags(manta manta_binary_dir)
-
-  list(APPEND paraview_extra_cmake_options
-    -DMANTA_BUILD:PATH=${manta_binary_dir})
-endif ()
-
 if (PV_NIGHTLY_SUFFIX)
   list(APPEND paraview_extra_cmake_options
     -DPV_NIGHTLY_SUFFIX:STRING=${PV_NIGHTLY_SUFFIX})
 endif ()
 
 set(paraview_install_development_files FALSE)
-if (paraviewsdk_enabled)
+if (UNIX OR paraviewsdk_enabled)
   set(paraview_install_development_files TRUE)
 endif ()
 
@@ -45,19 +37,24 @@ set_property(CACHE PARAVIEW_RENDERING_BACKEND
 
 option(PARAVIEW_BUILD_WEB_DOCUMENTATION "Build documentation for the web" OFF)
 
-get_property(paraview_plugins GLOBAL
-  PROPERTY paraview_plugins)
+set(paraview_all_plugins
+  vortexfinder2)
 
-set(paraview_plugin_dirs)
-foreach (paraview_plugin IN LISTS paraview_plugins)
-  if (${paraview_plugin}_enabled AND TARGET "${paraview_plugin}")
-    set(plugin_source_dir "<SOURCE_DIR>")
-    _ep_replace_location_tags("${paraview_plugin}" plugin_source_dir)
-    list(APPEND paraview_plugin_dirs
-      "${plugin_source_dir}")
-  endif ()
-endforeach ()
-string(REPLACE ";" "${_superbuild_list_separator}" paraview_plugin_dirs "${paraview_plugin_dirs}")
+if (superbuild_build_phase)
+  get_property(paraview_plugins GLOBAL
+    PROPERTY paraview_plugins)
+
+  set(paraview_plugin_dirs)
+  foreach (paraview_plugin IN LISTS paraview_plugins)
+    if (${paraview_plugin}_enabled AND TARGET "${paraview_plugin}")
+      set(plugin_source_dir "<SOURCE_DIR>")
+      _ep_replace_location_tags("${paraview_plugin}" plugin_source_dir)
+      list(APPEND paraview_plugin_dirs
+        "${plugin_source_dir}")
+    endif ()
+  endforeach ()
+  string(REPLACE ";" "${_superbuild_list_separator}" paraview_plugin_dirs "${paraview_plugin_dirs}")
+endif ()
 
 if (NOT CMAKE_CONFIGURATION_TYPES AND NOT WIN32)
   set(PARAVIEW_BUILD_TYPE ""
@@ -86,7 +83,10 @@ set(paraviews_platform_dependencies)
 if (UNIX)
   if (NOT APPLE)
     list(APPEND paraviews_platform_dependencies
-      mesa osmesa egl)
+      mesa osmesa egl
+
+      # Needed for fonts to work properly.
+      fontconfig)
   endif ()
   list(APPEND paraviews_platform_dependencies
     adios ffmpeg libxml2 freetype
@@ -95,21 +95,16 @@ if (UNIX)
     genericio cosmotools)
 endif ()
 
-if (NOT APPLE)
-  list(APPEND paraviews_platform_dependencies
-    manta)
-endif ()
-
 superbuild_add_project(paraview
   DEBUGGABLE
   DEFAULT_ON
   DEPENDS_OPTIONAL
-    boost hdf5 matplotlib mpi numpy png
+    cxx11 boost hdf5 matplotlib mpi numpy png
     python qt4 qt5 visitbridge zlib silo cgns
     xdmf3 ospray vrpn tbb netcdf
     paraviewusersguide paraviewgettingstartedguide
     paraviewtutorial paraviewtutorialdata paraviewweb
-    ${paraview_plugins}
+    ${paraview_all_plugins}
     ${paraviews_platform_dependencies}
     ${PARAVIEW_EXTERNAL_PROJECTS}
 
@@ -118,7 +113,6 @@ superbuild_add_project(paraview
     -DBUILD_TESTING:BOOL=OFF
     -DPARAVIEW_BUILD_PLUGIN_CoProcessingScriptGenerator:BOOL=ON
     -DPARAVIEW_BUILD_PLUGIN_EyeDomeLighting:BOOL=ON
-    -DPARAVIEW_BUILD_PLUGIN_MantaView:BOOL=${manta_enabled}
     -DPARAVIEW_BUILD_QT_GUI:BOOL=${paraview_use_qt}
     -DPARAVIEW_ENABLE_FFMPEG:BOOL=${ffmpeg_enabled}
     -DPARAVIEW_ENABLE_PYTHON:BOOL=${python_enabled}
@@ -148,6 +142,7 @@ superbuild_add_project(paraview
     -DVTK_USE_OFFSCREEN:BOOL=${osmesa_enabled}
     -DVTK_USE_OFFSCREEN_EGL:BOOL=${egl_enabled}
     -DVTK_USE_X:BOOL=${paraview_use_x}
+    -DVTK_USE_CXX11_FEATURES:BOOL=${cxx11_enabled}
 
     # vrpn
     -DPARAVIEW_BUILD_PLUGIN_VRPlugin:BOOL=${vrpn_enabled}

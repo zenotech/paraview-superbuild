@@ -50,11 +50,6 @@ function (superbuild_find_projects var)
     xdmf3
     zlib)
 
-  if (NOT APPLE)
-    list(APPEND projects
-      manta)
-  endif ()
-
   if (UNIX)
     list(APPEND projects
       adios
@@ -73,6 +68,7 @@ function (superbuild_find_projects var)
         llvm
         mesa
         osmesa
+        paraviewsdk
         portfwd)
     endif ()
   endif ()
@@ -85,12 +81,12 @@ function (superbuild_find_projects var)
 
   if (USE_NONFREE_COMPONENTS)
     list(APPEND projects
-      acusolve
-      vistrails)
+      acusolve)
   endif ()
 
   if (WIN32)
     list(APPEND projects
+      ftjam
       pywin32)
   endif ()
 
@@ -162,10 +158,15 @@ function (superbuild_add_packaging)
       QT_LIBRARY_DIR)
   endif ()
 
+  if (NOT DEFINED PARAVIEW_CATALYST_EDITION)
+    set(PARAVIEW_CATALYST_EDITION Full)
+  endif ()
+
   include(paraview.suffix)
   list(APPEND superbuild_export_variables
     MESA_SWR_ENABLED
-    PARAVIEW_PACKAGE_SUFFIX)
+    PARAVIEW_PACKAGE_SUFFIX
+    PARAVIEW_CATALYST_EDITION)
 
   if (paraview_enabled)
     set(PARAVIEW_PACKAGE_FILE_NAME ""
@@ -187,7 +188,7 @@ function (superbuild_add_packaging)
         LABELS  "ParaView"
         TIMEOUT 6400)
     endif ()
-    if (UNIX AND (paraview_enabled OR catalyst_enabled))
+    if (catalyst_enabled OR (paraview_enabled AND UNIX AND NOT APPLE))
       superbuild_add_extra_package_test(catalyst "${generator}"
         LABELS  "ParaView"
         TIMEOUT 6400)

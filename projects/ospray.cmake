@@ -26,17 +26,8 @@ superbuild_apply_patch(ospray improve-findtbb
   "Improve FindTBB")
 superbuild_apply_patch(ospray ambiguous-cos
   "Fix ambiguous call to cos(float)")
+superbuild_apply_patch(ospray fix-cmake-install
+  "Fix the search path for the root on Windows")
 
-if (WIN32)
-  if (TARGET ospray)
-    set(ospray_source_dir "<SOURCE_DIR>")
-    _ep_replace_location_tags(ospray ospray_source_dir)
-
-    # The installed ospray.config isn't quite right on Windows.
-    superbuild_add_extra_cmake_args(
-      -DOSPRAY_BUILD_DIR:PATH=${ospray_binary_dir})
-  endif ()
-else ()
-  superbuild_add_extra_cmake_args(
-    -DOSPRAY_INSTALL_DIR:PATH=<INSTALL_DIR>)
-endif ()
+superbuild_add_extra_cmake_args(
+  -DOSPRAY_INSTALL_DIR:PATH=<INSTALL_DIR>)

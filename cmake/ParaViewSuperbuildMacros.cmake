@@ -46,7 +46,7 @@ function (paraview_add_plugin _name)
   superbuild_add_extra_cmake_args(
     "-DPARAVIEW_BUILD_PLUGIN_${plugin_name}:BOOL=ON")
 
-  if (superbuild_build_phase)
+  if (NOT superbuild_build_phase)
     set_property(GLOBAL APPEND
       PROPERTY
         paraview_plugins "${_name}")

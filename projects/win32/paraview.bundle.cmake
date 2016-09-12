@@ -22,8 +22,7 @@ set(pvpython_description "pvpython ${paraview_version_long} (Python Shell)")
 
 set(library_paths "lib")
 
-# FIXME: What about Qt5?
-if (USE_SYSTEM_qt4)
+if (QT_LIBRARY_DIR)
   list(APPEND library_paths
     "${QT_LIBRARY_DIR}")
 endif ()
@@ -106,7 +105,7 @@ if (paraviewweb_enabled)
     COMPONENT   "superbuild")
 
   install(
-    DIRECTORY   "${superbuild_install_location}/lib/paraview-${paraview_version}/site-packages/paraview/web/defaultProxies.json"
+    FILES       "${superbuild_install_location}/lib/paraview-${paraview_version}/site-packages/paraview/web/defaultProxies.json"
     DESTINATION "bin/Lib/site-packages/paraview/web"
     COMPONENT   "superbuild")
   install(
