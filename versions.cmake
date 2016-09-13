@@ -58,7 +58,7 @@ superbuild_set_external_source(paraview
 
 get_property(paraview_revision GLOBAL
   PROPERTY paraview_revision)
-superbuild_set_external_source(catalyst
+superbuild_set_revision(catalyst
   ${paraview_revision})
 unset(paraview_revision)
 
