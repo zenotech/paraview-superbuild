@@ -27,15 +27,23 @@ function (make_plugin_tarball working_dir name)
     set(cmd "${7Z_EXE}" a)
     set(ext ".zip")
   else ()
-    set(cmd "${CMAKE_COMMAND}" -E tar cvfz)
+    set(cmd "${CMAKE_COMMAND}" -E tar cvzf)
     set(ext ".tgz")
   endif ()
   execute_process(
     COMMAND ${cmd}
             "${name}${ext}"
             ${ARGN}
-    WORKING_DIRECTORY
-            "${working_dir}")
+    WORKING_DIRECTORY "${working_dir}"
+    ERROR_VARIABLE    out
+    OUTPUT_VARIABLE   out
+    RESULT_VARIABLE   res)
+
+  if (res)
+    message(FATAL_ERROR "Failed to create the plugin artifact: ${out}")
+  else ()
+    message(STATUS "Plugin artifact file written: ${name}${ext}")
+  endif ()
 endfunction ()
 
 make_plugin_tarball("${tmp_location}"
