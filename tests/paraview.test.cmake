@@ -88,6 +88,14 @@ if (NOT WIN32)
   paraview_add_pvbatch_test("pvbatch" "basic_python")
 endif ()
 
+if (numpy_enabled)
+  paraview_add_python_test("import-numpy" "import_numpy")
+endif ()
+
+if (matplotlib_enabled)
+  paraview_add_python_test("import-matplotlib" "import_matplotlib")
+endif ()
+
 # Test to load various data files to ensure reader support.
 if (cgns_enabled)
   paraview_add_ui_test("data-csg.silo" "TestData-cs_silo"
