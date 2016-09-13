@@ -172,3 +172,15 @@ endif ()
 if (DEFINED CMAKE_BUILD_TYPE_save)
   set(CMAKE_BUILD_TYPE "${CMAKE_BUILD_TYPE_save}")
 endif ()
+
+if (paraview_install_development_files)
+  find_program(SED_EXECUTABLE sed)
+  mark_as_advanced(SED_EXECUTABLE)
+  if (SED_EXECUTABLE)
+    superbuild_project_add_step("fixupcmakepaths"
+      COMMAND "${CMAKE_COMMAND}"
+        -P "${CMAKE_CURRENT_LIST_DIR}/scripts/paraview.fixupcmakepaths.cmake"
+      DEPENDEES install
+      WORKING_DIRECTORY <INSTALL_DIR>)
+  endif ()
+endif ()
