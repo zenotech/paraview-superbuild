@@ -134,3 +134,5 @@ if (paraviewweb_enabled)
     DESTINATION "paraview.app/Contents"
     COMPONENT   "${paraview_component}")
 endif ()
+
+paraview_install_extra_data()

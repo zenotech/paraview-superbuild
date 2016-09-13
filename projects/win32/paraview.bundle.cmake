@@ -130,3 +130,5 @@ if (qt4_built_by_superbuild OR qt5_built_by_superbuild)
   #  COMPONENT   ParaView
   #  USE_SOURCE_PERMISSIONS)
 endif ()
+
+paraview_install_extra_data()
