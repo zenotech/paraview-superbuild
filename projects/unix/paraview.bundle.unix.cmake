@@ -78,3 +78,5 @@ if (mpi_built_by_superbuild)
       "bin")
   endforeach ()
 endif ()
+
+paraview_install_extra_data()
