@@ -101,7 +101,8 @@ superbuild_add_project(paraview
   DEPENDS_OPTIONAL
     cxx11 boost hdf5 matplotlib mpi numpy png
     python qt4 qt5 visitbridge zlib silo cgns
-    xdmf3 ospray vrpn tbb netcdf
+    #xdmf3 ospray vrpn tbb netcdf
+    xdmf3 vrpn tbb netcdf
     paraviewusersguide paraviewgettingstartedguide
     paraviewtutorial paraviewtutorialdata paraviewweb
     ${paraview_all_plugins}
