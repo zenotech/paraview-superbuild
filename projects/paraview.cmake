@@ -95,14 +95,24 @@ if (UNIX)
     genericio cosmotools)
 endif ()
 
+if (ospray_enabled)
+  if (paraview_FROM_GIT)
+    message(WARNING "OSPRay is currently broken in ParaView/master.  Disabling")
+    set(use_ospray OFF)
+  else ()
+    set(use_ospray ON)
+  endif ()
+else ()
+  set(use_ospray OFF)
+endif ()
+
 superbuild_add_project(paraview
   DEBUGGABLE
   DEFAULT_ON
   DEPENDS_OPTIONAL
     cxx11 boost hdf5 matplotlib mpi numpy png
     python qt4 qt5 visitbridge zlib silo cgns
-    #xdmf3 ospray vrpn tbb netcdf
-    xdmf3 vrpn tbb netcdf
+    xdmf3 ospray vrpn tbb netcdf
     paraviewusersguide paraviewgettingstartedguide
     paraviewtutorial paraviewtutorialdata paraviewweb
     ${paraview_all_plugins}
@@ -120,7 +130,7 @@ superbuild_add_project(paraview
     -DPARAVIEW_ENABLE_COSMOTOOLS:BOOL=${cosmotools_enabled}
     -DPARAVIEW_ENABLE_XDMF3:BOOL=${xdmf3_enabled}
     -DPARAVIEW_USE_MPI:BOOL=${mpi_enabled}
-    -DPARAVIEW_USE_OSPRAY:BOOL=${ospray_enabled}
+    -DPARAVIEW_USE_OSPRAY:BOOL=${use_ospray}
     -DPARAVIEW_USE_VISITBRIDGE:BOOL=${visitbridge_enabled}
     -DPARAVIEW_ENABLE_CGNS:BOOL=${cgns_enabled}
     -DVISIT_BUILD_READER_CGNS:BOOL=OFF # force to off
