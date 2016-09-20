@@ -42,7 +42,8 @@ endif ()
 
 if (python_enabled)
   include(python.functions)
-  superbuild_install_superbuild_python()
+  superbuild_install_superbuild_python(
+    LIBSUFFIX "/paraview-${paraview_version}")
 
   superbuild_unix_install_python(
     LIBDIR              "lib/paraview-${paraview_version}"
