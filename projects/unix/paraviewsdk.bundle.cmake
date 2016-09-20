@@ -5,17 +5,6 @@ include(paraview.bundle.common)
 set(plugins_file "${CMAKE_CURRENT_BINARY_DIR}/paraview.plugins")
 paraview_add_plugin("${plugins_file}" ${paraview_plugins})
 
-# Workaround to patch any hard-coded paths to the build folder
-install(CODE "
-  file(GLOB_RECURSE cmake_files \"${superbuild_install_location}/lib/*.cmake\")
-  foreach (cmake_file IN LISTS cmake_files)
-    execute_process(
-      COMMAND sed
-              -i
-              -e \"s|${superbuild_install_location}|\\\${_IMPORT_PREFIX}|g\"
-              \${cmake_file})
-  endforeach ()"
-  COMPONENT superbuild)
 get_filename_component(real_superbuild_install_location "${superbuild_install_location}" REALPATH)
 
 # Install ParaView CMake files
@@ -97,7 +86,6 @@ foreach (cmake_file IN LISTS cmake_files)
   file(STRINGS "${cmake_file}" lines REGEX "\\\${_IMPORT_PREFIX}[^;\\\">]+")
   foreach (line IN LISTS lines)
     string(REGEX MATCHALL "\\\${_IMPORT_PREFIX}[^;\\\">]+" fnames "${line}")
-
     list(APPEND libraries_referenced_by_cmake
       ${fnames})
   endforeach ()
