@@ -3,8 +3,8 @@ superbuild_set_revision(llvm
   URL_MD5 538467e6028bbc9259b1e6e015d25845)
 
 superbuild_set_revision(mesa
-  URL     "http://paraview.org/files/dependencies/mesa-12.0.1.tar.xz"
-  URL_MD5 972fd5ad5a63aeabf173fb9adefc6522)
+  URL     "http://paraview.org/files/dependencies/mesa-12.0.3.tar.xz"
+  URL_MD5 1113699c714042d8c4df4766be8c57d8)
 
 get_property(mesa_revision GLOBAL
   PROPERTY mesa_revision)
