@@ -33,7 +33,7 @@ function (superbuild_find_projects var)
     matplotlib
     mpi
     numpy
-    #ospray
+    ospray
     paraviewweb
     paraviewwebvisualizer
     png
