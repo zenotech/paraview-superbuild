@@ -1,3 +1,9 @@
+if (CMAKE_CXX_COMPILER_ID MATCHES "Intel")
+  superbuild_append_flags(
+    cxx_flags "-diag-disable=597,873,1292,3373"
+    PROJECT_ONLY)
+endif ()
+
 superbuild_add_project(llvm
   CAN_USE_SYSTEM
   DEPENDS python cxx11

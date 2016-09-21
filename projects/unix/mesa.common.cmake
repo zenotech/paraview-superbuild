@@ -27,3 +27,9 @@ if (BUILD_SHARED_LIBS)
 else ()
   list(APPEND mesa_common_config_args --disable-shared --enable-static)
 endif ()
+
+if (CMAKE_CXX_COMPILER_ID MATCHES "Intel")
+  superbuild_append_flags(
+    cxx_flags "-diag-disable=177,873"
+    PROJECT_ONLY)
+endif ()
