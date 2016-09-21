@@ -1,9 +1,9 @@
-set(PARVIEW_CATALYST_EDITION "Essentials"
+set(PARAVIEW_CATALYST_EDITION "Essentials"
   CACHE STRING "The catalyst edition to build")
-set_property(CACHE PARVIEW_CATALYST_EDITION
+set_property(CACHE PARAVIEW_CATALYST_EDITION
   PROPERTY
     STRINGS Essentials Extras Rendering-Base)
-option(PARVIEW_CATALYST_PYTHON "Enable Python support in catalyst" ON)
+option(PARAVIEW_CATALYST_PYTHON "Enable Python support in catalyst" ON)
 
 set(catalyst_editions Base)
 if (PARAVIEW_CATALYST_PYTHON)
