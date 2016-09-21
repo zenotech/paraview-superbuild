@@ -15,6 +15,7 @@ set(BUILD_SHARED_LIBS  ON CACHE BOOL "")
 # Enable the appropriate packages
 set(ENABLE_boost       ON CACHE BOOL "")
 set(ENABLE_bzip2       ON CACHE BOOL "")
+set(ENABLE_cgns        ON CACHE BOOL "")
 set(ENABLE_ffmpeg      ON CACHE BOOL "")
 set(ENABLE_freetype    ON CACHE BOOL "")
 set(ENABLE_genericio   ON CACHE BOOL "")

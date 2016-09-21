@@ -35,5 +35,5 @@ index 0452596..513b79d 100644
 +    const float cosAngleMax = cosf(deg2rad(0.5f*openingAngle));
 +    const float cosAngleMin = cosf(deg2rad(0.5f*openingAngle - penumbraAngle));
      const float cosAngleScale = 1.0f/(cosAngleMin - cosAngleMax);
-     
+ 
      ispc::SpotLight_set(getIE(),
