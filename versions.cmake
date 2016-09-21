@@ -25,8 +25,8 @@ superbuild_set_revision(silo
   URL_MD5 465d2a0a8958b088cde83fb2a5a7eeef)
 
 superbuild_set_revision(cgns
-  URL     "http://www.paraview.org/files/dependencies/cgnslib_3.1.3-4.tar.gz"
-  URL_MD5 442bba32b576f3429cbd086af43fd4ae)
+  URL     "http://www.paraview.org/files/dependencies/cgns-3.3.0.tar.xz"
+  URL_MD5 01690e4e2b0e2105ee117032f4ee5b0c)
 
 superbuild_set_revision(genericio
   URL     "http://www.paraview.org/files/dependencies/genericio-master-a15ffc76cfa9f9674f933e8cb5ffc97a97fd7b27.zip"
