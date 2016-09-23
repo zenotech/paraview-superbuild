@@ -4,7 +4,7 @@ file(GLOB cmake_files
   "${pv_cmake_dir}/VTKConfig.cmake")
 
 if (APPLE)
-  set(sed_cmd_prefix sed -i "")
+  set(sed_cmd_prefix "sed -i \"\"")
   set(sed_cmd_suffix)
 else ()
   set(sed_cmd_prefix sed )
