@@ -189,7 +189,9 @@ if (paraview_install_development_files)
   if (SED_EXECUTABLE)
     superbuild_project_add_step("fixupcmakepaths"
       COMMAND "${CMAKE_COMMAND}"
-        -P "${CMAKE_CURRENT_LIST_DIR}/scripts/paraview.fixupcmakepaths.cmake"
+              -Dinstall_location:PATH=<INSTALL_DIR>
+              -Dparaview_version:STRING=${paraview_version}
+              -P "${CMAKE_CURRENT_LIST_DIR}/scripts/paraview.fixupcmakepaths.cmake"
       DEPENDEES install
       WORKING_DIRECTORY <INSTALL_DIR>)
   endif ()

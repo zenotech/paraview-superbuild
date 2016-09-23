@@ -1,4 +1,4 @@
-file(GLOB pv_cmake_dir "${CMAKE_CURRENT_BINARY_DIR}/lib/cmake/paraview-*")
+file(GLOB pv_cmake_dir "${install_location}/lib/cmake/paraview-${paraview_version}")
 file(GLOB cmake_files
   "${pv_cmake_dir}/ParaViewTargets*.cmake"
   "${pv_cmake_dir}/VTKConfig.cmake")
@@ -15,7 +15,7 @@ foreach (cmake_file IN LISTS cmake_files)
   execute_process(
     COMMAND
       ${sed_cmd_prefix}
-      -e "s|${CMAKE_CURRENT_BINARY_DIR}|\${_IMPORT_PREFIX}|g"
+      -e "s|${install_location}|\${_IMPORT_PREFIX}|g"
       ${sed_cmd_suffix}
       "${cmake_file}"
     RESULT_VARIABLE RES)
@@ -28,7 +28,7 @@ set(cmake_file "${pv_cmake_dir}/Modules/vtkCommonCore.cmake")
 execute_process(
   COMMAND
     ${sed_cmd_prefix}
-    -e "s|${CMAKE_CURRENT_BINARY_DIR}|\${VTK_INSTALL_PREFIX}|g"
+    -e "s|${install_location}|\${VTK_INSTALL_PREFIX}|g"
     ${sed_cmd_suffix}
     "${cmake_file}"
   RESULT_VARIABLE RES)
