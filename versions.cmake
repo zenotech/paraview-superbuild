@@ -63,14 +63,15 @@ superbuild_set_revision(catalyst
 unset(paraview_revision)
 
 superbuild_set_revision(vrpn
-  GIT_REPOSITORY "https://github.com/vrpn/vrpn.git"
-  GIT_TAG        a545ef6415f0026aabdbdb1d7fdbefeb91c47d4f)
+  # https://github.com/vrpn/vrpn.git
+  URL     "http://www.paraview.org/files/dependencies/vrpn-a545ef6415f0026aabdbdb1d7fdbefeb91c47d4f.tar.bz2"
+  URL_MD5 e1686f664c00519a251a50d6a8e328d5)
 
 superbuild_set_revision(vortexfinder2
-  #GIT_REPOSITORY "https://github.com/hguo/vortexfinder2.git"
-  #GIT_TAG        2bdae9bfc0f36e1013a4b41c5d25c9e6ebbf1701)
-  GIT_REPOSITORY "https://github.com/tjcorona/vortexfinder2.git"
-  GIT_TAG        origin/master)
+  # https://github.com/hguo/vortexfinder2.git
+  # https://github.com/tjcorona/vortexfinder2.git
+  URL     "http://www.paraview.org/files/dependencies/vortexfinder2-a960bf8d3e5d0dfdfd6669224950e7e55e36b6fa.tar.bz2"
+  URL_MD5 16ed366bb6459252b1ad6a86eced9480)
 
 #------------------------------------------------------------------------------
 # Optional Plugins. Doesn't affect ParaView binaries at all even if missing
