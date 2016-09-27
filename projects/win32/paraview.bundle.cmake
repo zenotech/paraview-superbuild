@@ -85,10 +85,6 @@ endif ()
 
 if (paraviewweb_enabled)
   install(
-    DIRECTORY   "${superbuild_install_location}/bin/Lib/site-packages/pywin32_system32"
-    DESTINATION "bin/Lib/site-packages"
-    COMPONENT   "superbuild")
-  install(
     DIRECTORY   "${superbuild_install_location}/bin/Lib/site-packages/win32"
     DESTINATION "bin/Lib/site-packages"
     COMPONENT   "superbuild")
