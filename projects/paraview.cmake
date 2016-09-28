@@ -95,17 +95,6 @@ if (UNIX)
     genericio cosmotools)
 endif ()
 
-if (ospray_enabled)
-  if (paraview_FROM_GIT)
-    message(WARNING "OSPRay is currently broken in ParaView/master.  Disabling")
-    set(use_ospray OFF)
-  else ()
-    set(use_ospray ON)
-  endif ()
-else ()
-  set(use_ospray OFF)
-endif ()
-
 superbuild_add_project(paraview
   DEBUGGABLE
   DEFAULT_ON
@@ -130,7 +119,7 @@ superbuild_add_project(paraview
     -DPARAVIEW_ENABLE_COSMOTOOLS:BOOL=${cosmotools_enabled}
     -DPARAVIEW_ENABLE_XDMF3:BOOL=${xdmf3_enabled}
     -DPARAVIEW_USE_MPI:BOOL=${mpi_enabled}
-    -DPARAVIEW_USE_OSPRAY:BOOL=${use_ospray}
+    -DPARAVIEW_USE_OSPRAY:BOOL=${ospray_enabled}
     -DPARAVIEW_USE_VISITBRIDGE:BOOL=${visitbridge_enabled}
     -DPARAVIEW_ENABLE_CGNS:BOOL=${cgns_enabled}
     -DVISIT_BUILD_READER_CGNS:BOOL=OFF # force to off
