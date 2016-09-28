@@ -14,6 +14,10 @@ superbuild_add_project(mesa
       ${mesa_common_config_args}
       --disable-gallium-osmesa
       --enable-glx
+  BUILD_COMMAND
+    $(MAKE)
+  INSTALL_COMMAND
+    make install
   BUILD_IN_SOURCE 1)
 
 superbuild_add_extra_cmake_args(
