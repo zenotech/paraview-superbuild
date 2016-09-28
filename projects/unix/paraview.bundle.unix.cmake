@@ -7,10 +7,18 @@ if (QT_LIBRARY_DIR)
     "${QT_LIBRARY_DIR}")
 endif ()
 
+set(exclude_regexes)
+if (mesa_built_by_superbuild OR osmesa_built_by_superbuild)
+  list(APPEND exclude_regexes
+    ".*/libglapi"
+    ".*/libGL")
+endif ()
+
 foreach (executable IN LISTS paraview_executables)
   superbuild_unix_install_program_fwd("${executable}"
     "lib/paraview-${paraview_version}"
-    SEARCH_DIRECTORIES "${library_paths}")
+    SEARCH_DIRECTORIES  "${library_paths}"
+    EXCLUDE_REGEXES     ${exclude_regexes})
 endforeach ()
 
 foreach (paraview_plugin IN LISTS paraview_plugins)
@@ -18,6 +26,7 @@ foreach (paraview_plugin IN LISTS paraview_plugins)
     "lib/paraview-${paraview_version}"
     "lib/paraview-${paraview_version}"
     SEARCH_DIRECTORIES  "${library_paths}"
+    EXCLUDE_REGEXES     ${exclude_regexes}
     LOCATION            "lib/paraview-${paraview_version}/plugins/${paraview_plugin}/")
 endforeach ()
 
@@ -60,6 +69,7 @@ if (python_enabled)
     MODULES             paraview
                         vtk
                         ${python_modules}
+    EXCLUDE_REGEXES     ${exclude_regexes}
     MODULE_DIRECTORIES  "${superbuild_install_location}/lib/python2.7/site-packages"
                         "${superbuild_install_location}/lib/paraview-${paraview_version}/site-packages"
     SEARCH_DIRECTORIES  "${library_paths}")
@@ -68,6 +78,7 @@ if (python_enabled)
     MODULE_DESTINATION  "/site-packages/paraview"
     LIBDIR              "lib/paraview-${paraview_version}"
     MODULES             vtk
+    EXCLUDE_REGEXES     ${exclude_regexes}
     MODULE_DIRECTORIES  "${superbuild_install_location}/lib/python2.7/site-packages"
                         "${superbuild_install_location}/lib/paraview-${paraview_version}/site-packages"
     SEARCH_DIRECTORIES  "${library_paths}")
