@@ -145,8 +145,8 @@ endfunction ()
 function (superbuild_add_packaging)
   if (WIN32)
     set(generators
-      NSIS
-      ZIP)
+      ZIP
+      NSIS)
   elseif (APPLE)
     set(generators
       DragNDrop)
