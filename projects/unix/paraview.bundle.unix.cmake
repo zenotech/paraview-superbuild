@@ -30,14 +30,24 @@ install(
   COMPONENT   superbuild
   RENAME      ".plugins")
 
-if (MESA_SWR_ENABLED AND
-    (osmesa_built_by_superbuild OR mesa_built_by_superbuild))
-  # FIXME(package): install using the install macros.
-  install(
-    FILES       "${superbuild_install_location}/lib/libswrAVX.so"
-                "${superbuild_install_location}/lib/libswrAVX2.so"
-    DESTINATION lib
-    COMPONENT   superbuild)
+if (osmesa_built_by_superbuild OR mesa_built_by_superbuild)
+  set(mesa_libraries
+    glapi
+    GL)
+
+  if (MESA_SWR_ENABLED)
+    list(APPEND mesa_libraries
+      swrAVX
+      swrAVX2)
+  endif ()
+
+  foreach (mesa_library IN LISTS mesa_libraries)
+    superbuild_unix_install_plugin("lib${mesa_library}.so"
+      "lib/paraview-${paraview_version}/mesa"
+      "lib"
+      SEARCH_DIRECTORIES  "${library_paths}"
+      LOCATION            "lib/paraview-${paraview_version}/mesa")
+  endforeach ()
 endif ()
 
 if (python_enabled)
