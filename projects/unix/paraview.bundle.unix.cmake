@@ -8,7 +8,8 @@ if (QT_LIBRARY_DIR)
 endif ()
 
 set(exclude_regexes)
-if (mesa_built_by_superbuild OR osmesa_built_by_superbuild)
+if (PARAVIEW_DEFAULT_SYSTEM_GL OR
+    (mesa_built_by_superbuild OR osmesa_built_by_superbuild))
   list(APPEND exclude_regexes
     ".*/libglapi"
     ".*/libGL")
@@ -50,12 +51,17 @@ if (osmesa_built_by_superbuild OR mesa_built_by_superbuild)
       swrAVX2)
   endif ()
 
+  set(suffix)
+  if (PARAVIEW_DEFAULT_SYSTEM_GL)
+    set(suffix "/mesa")
+  endif ()
+
   foreach (mesa_library IN LISTS mesa_libraries)
     superbuild_unix_install_plugin("lib${mesa_library}.so"
-      "lib/paraview-${paraview_version}/mesa"
+      "lib/paraview-${paraview_version}${suffix}"
       "lib"
       SEARCH_DIRECTORIES  "${library_paths}"
-      LOCATION            "lib/paraview-${paraview_version}/mesa")
+      LOCATION            "lib/paraview-${paraview_version}${suffix}")
   endforeach ()
 endif ()
 

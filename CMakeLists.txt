@@ -165,6 +165,7 @@ function (superbuild_add_packaging)
   include(paraview.suffix)
   list(APPEND superbuild_export_variables
     MESA_SWR_ENABLED
+    PARAVIEW_DEFAULT_SYSTEM_GL
     PARAVIEW_PACKAGE_SUFFIX
     PARAVIEW_CATALYST_EDITION)
 

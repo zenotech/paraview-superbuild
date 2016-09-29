@@ -2,6 +2,8 @@ set(PARAVIEW_EXTRA_CMAKE_ARGUMENTS ""
     CACHE STRING "Extra arguments to be passed to ParaView when configuring.")
 mark_as_advanced(PARAVIEW_EXTRA_CMAKE_ARGUMENTS)
 
+option(PARAVIEW_DEFAULT_SYSTEM_GL "Default to using the system OpenGL" OFF)
+
 set (paraview_extra_cmake_options)
 if (PV_NIGHTLY_SUFFIX)
   list(APPEND paraview_extra_cmake_options
