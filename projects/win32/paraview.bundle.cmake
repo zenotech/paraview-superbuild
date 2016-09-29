@@ -58,16 +58,13 @@ if (python_enabled)
   superbuild_install_superbuild_python()
 
   superbuild_windows_install_python(
-    "${CMAKE_INSTALL_PREFIX}"
     MODULES paraview
             vtk
             ${python_modules}
-    MODULE_DIRECTORIES
-            "${superbuild_install_location}/bin/Lib/site-packages"
-            "${superbuild_install_location}/lib/site-packages"
-            "${superbuild_install_location}/lib/paraview-${paraview_version}/site-packages"
-    SEARCH_DIRECTORIES
-            "lib")
+    MODULE_DIRECTORIES  "${superbuild_install_location}/bin/Lib/site-packages"
+                        "${superbuild_install_location}/lib/site-packages"
+                        "${superbuild_install_location}/lib/paraview-${paraview_version}/site-packages"
+    SEARCH_DIRECTORIES  "lib")
 
   if (matplotlib_enabled)
     install(
@@ -77,23 +74,16 @@ if (python_enabled)
   endif ()
 
   superbuild_windows_install_python(
-    "${CMAKE_INSTALL_PREFIX}"
     MODULES vtk
+    NAMESPACE "/paraview"
     MODULE_DIRECTORIES
             "${superbuild_install_location}/bin/Lib/site-packages"
             "${superbuild_install_location}/lib/site-packages"
             "${superbuild_install_location}/lib/paraview-${paraview_version}/site-packages"
-    SEARCH_DIRECTORIES
-            "lib"
-    DESTINATION
-            "bin/Lib/site-packages/paraview")
+    SEARCH_DIRECTORIES  "lib")
 endif ()
 
 if (paraviewweb_enabled)
-  install(
-    DIRECTORY   "${superbuild_install_location}/bin/Lib/site-packages/pywin32_system32"
-    DESTINATION "bin/Lib/site-packages"
-    COMPONENT   "superbuild")
   install(
     DIRECTORY   "${superbuild_install_location}/bin/Lib/site-packages/win32"
     DESTINATION "bin/Lib/site-packages"
