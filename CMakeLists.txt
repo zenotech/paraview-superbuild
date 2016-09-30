@@ -213,7 +213,7 @@ set(boost_libraries
 
 list(APPEND superbuild_version_files
   "${CMAKE_CURRENT_LIST_DIR}/versions.cmake")
-list(APPEND extra_ctest_custom_files
+list(APPEND superbuild_ctest_custom_files
   "${CMAKE_CURRENT_LIST_DIR}/cmake/CTestCustom.cmake")
 list(APPEND superbuild_project_roots
   "${CMAKE_CURRENT_LIST_DIR}/projects")
