@@ -115,14 +115,8 @@ if (mpi_built_by_superbuild)
     COMPONENT superbuild)
 endif ()
 
-install(
-  FILES       "${CMAKE_CURRENT_LIST_DIR}/files/background.png"
-  DESTINATION ".resources/"
-  COMPONENT   superbuild)
-install(
-  FILES       "${CMAKE_CURRENT_LIST_DIR}/files/DS_Store"
-  DESTINATION ".DS_Store"
-  COMPONENT   superbuild)
+set(CPACK_DMG_BACKGROUND_IMAGE "${CMAKE_CURRENT_LIST_DIR}/files/CMakeDMGBackground.tif")
+set(CPACK_DMG_DS_STORE_SETUP_SCRIPT "${CMAKE_CURRENT_LIST_DIR}/files/CMakeDMGSetup.scpt")
 
 if (paraviewweb_enabled)
   install(
