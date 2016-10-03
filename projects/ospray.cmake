@@ -27,8 +27,8 @@ superbuild_add_project(ospray
     -DOSPRAY_USE_EXTERNAL_EMBREE:BOOL=OFF
     -DCMAKE_INSTALL_LIBDIR:STRING=lib)
 
-#superbuild_apply_patch(ospray improve-findtbb
-#  "Improve FindTBB")
+superbuild_apply_patch(ospray improve-findtbb
+  "Improve FindTBB")
 #superbuild_apply_patch(ospray ambiguous-cos
 #  "Fix ambiguous call to cos(float)")
 #superbuild_apply_patch(ospray fix-cmake-install
