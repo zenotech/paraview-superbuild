@@ -1,13 +1,3 @@
-From 6b81a5636ffbfeba699679a1260e12e8e099db77 Mon Sep 17 00:00:00 2001
-From: Chuck Atkins <chuck.atkins@kitware.com>
-Date: Wed, 21 Sep 2016 12:10:26 -0400
-Subject: [PATCH 1/2] Fix windows DLL install locations
-
----
- src/CMakeLists.txt       | 11 ++++-------
- src/tools/CMakeLists.txt |  6 ------
- 2 files changed, 4 insertions(+), 13 deletions(-)
-
 diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
 index 44aa3a2..9acf50a 100644
 --- a/src/CMakeLists.txt
@@ -47,6 +37,3 @@ index 3d8ca70..f9362b4 100644
    if (CGNS_ENABLE_HDF5)
      install(PROGRAMS
          adf2hdf.bat
--- 
-2.7.4
-
