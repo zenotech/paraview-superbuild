@@ -1,5 +1,6 @@
-set(paraview_doc_dir "paraview.app/Contents/doc")
-set(paraview_data_dir "paraview.app/Contents/data")
+include(paraview-appname)
+set(paraview_doc_dir "${paraview_appname}/Contents/doc")
+set(paraview_data_dir "${paraview_appname}/Contents/data")
 include(paraview.bundle.common)
 
 if (NOT paraview_has_gui)
@@ -25,7 +26,7 @@ endforeach ()
 
 superbuild_apple_create_app(
   "\${CMAKE_INSTALL_PREFIX}"
-  "paraview.app"
+  "${paraview_appname}"
   "${superbuild_install_location}/Applications/paraview.app/Contents/MacOS/paraview"
   CLEAN
   PLUGINS ${paraview_plugin_paths}
@@ -36,17 +37,17 @@ paraview_add_plugin("${plugins_file}" ${plugins})
 
 install(
   FILES       "${plugins_file}"
-  DESTINATION "paraview.app/Contents/Plugins"
+  DESTINATION "${paraview_appname}/Contents/Plugins"
   COMPONENT   superbuild
   RENAME      ".plugins")
 
 install(
   FILES       "${superbuild_install_location}/Applications/paraview.app/Contents/Resources/pvIcon.icns"
-  DESTINATION "paraview.app/Contents/Resources"
+  DESTINATION "${paraview_appname}/Contents/Resources"
   COMPONENT   superbuild)
 install(
   FILES       "${superbuild_install_location}/Applications/paraview.app/Contents/Info.plist"
-  DESTINATION "paraview.app/Contents"
+  DESTINATION "${paraview_appname}/Contents"
   COMPONENT   superbuild)
 
 # Remove "paraview" from the list since we just installed it above.
@@ -56,7 +57,7 @@ list(REMOVE_ITEM paraview_executables
 foreach (executable IN LISTS paraview_executables)
   superbuild_apple_install_utility(
     "\${CMAKE_INSTALL_PREFIX}"
-    "paraview.app"
+    "${paraview_appname}"
     "${superbuild_install_location}/Applications/paraview.app/Contents/bin/${executable}"
     SEARCH_DIRECTORIES "${superbuild_install_location}/lib")
 endforeach ()
@@ -64,13 +65,13 @@ endforeach ()
 file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/qt.conf" "")
 install(
   FILES       "${CMAKE_CURRENT_BINARY_DIR}/qt.conf"
-  DESTINATION "paraview.app/Contents/Resources/qt.conf"
+  DESTINATION "${paraview_appname}/Contents/Resources/qt.conf"
   COMPONENT   superbuild)
 
 if (python_enabled)
   superbuild_apple_install_python(
     "\${CMAKE_INSTALL_PREFIX}"
-    "paraview.app"
+    "${paraview_appname}"
     MODULES paraview
             vtk
             ${python_modules}
@@ -81,16 +82,16 @@ if (python_enabled)
             "${superbuild_install_location}/lib")
 
   install(CODE
-    "file(REMOVE_RECURSE \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/paraview.app/Contents/Python/paraview/vtk\")
+    "file(REMOVE_RECURSE \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${paraview_appname}/Contents/Python/paraview/vtk\")
     file(INSTALL
-      \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/paraview.app/Contents/Python/vtk\"
-      DESTINATION \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/paraview.app/Contents/Python/paraview/\")"
+      \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${paraview_appname}/Contents/Python/vtk\"
+      DESTINATION \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${paraview_appname}/Contents/Python/paraview/\")"
     COMPONENT superbuild)
 
   if (matplotlib_enabled)
     install(
       DIRECTORY   "${superbuild_install_location}/lib/python2.7/site-packages/matplotlib/mpl-data/"
-      DESTINATION "paraview.app/Contents/Python/matplotlib/mpl-data"
+      DESTINATION "${paraview_appname}/Contents/Python/matplotlib/mpl-data"
       COMPONENT   superbuild)
   endif ()
 endif ()
@@ -103,15 +104,15 @@ if (mpi_built_by_superbuild)
   foreach (mpi_executable IN LISTS mpi_executables)
     superbuild_apple_install_utility(
       "\${CMAKE_INSTALL_PREFIX}"
-      "paraview.app"
+      "${paraview_appname}"
       "${superbuild_install_location}/bin/${mpi_executable}"
       SEARCH_DIRECTORIES "${superbuild_install_location}/lib")
   endforeach ()
 
   install(CODE
     "file(RENAME
-      \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/paraview.app/Contents/bin/mpiexec.hydra\"
-      \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/paraview.app/Contents/bin/mpiexec\")"
+      \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${paraview_appname}/Contents/bin/mpiexec.hydra\"
+      \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${paraview_appname}/Contents/bin/mpiexec\")"
     COMPONENT superbuild)
 endif ()
 
@@ -121,11 +122,11 @@ set(CPACK_DMG_DS_STORE_SETUP_SCRIPT "${CMAKE_CURRENT_LIST_DIR}/files/CMakeDMGSet
 if (paraviewweb_enabled)
   install(
     FILES       "${superbuild_install_location}/Applications/paraview.app/Contents/Python/paraview/web/defaultProxies.json"
-    DESTINATION "paraview.app/Contents/Python/paraview/web"
+    DESTINATION "${paraview_appname}/Contents/Python/paraview/web"
     COMPONENT   "${paraview_component}")
   install(
     DIRECTORY   "${superbuild_install_location}/share/paraview/www"
-    DESTINATION "paraview.app/Contents"
+    DESTINATION "${paraview_appname}/Contents"
     COMPONENT   "${paraview_component}")
 endif ()
 
