@@ -98,8 +98,8 @@ superbuild_set_revision(ispc
   URL_MD5 "${ispc_md5}")
 
 superbuild_set_revision(ospray
-  GIT_REPOSITORY "https://github.com/ospray/OSPRay.git"
-  GIT_TAG        origin/release-1.1.x)
+  URL     "https://github.com/ospray/OSPRay/archive/v1.1.0.tar.gz"
+  URL_MD5 77f177dd60a452d6b0e60c506e2bcc2a)
 
 superbuild_set_revision(paraviewwebvisualizer
   URL     "https://github.com/Kitware/visualizer/archive/v1.0.14.tar.gz"

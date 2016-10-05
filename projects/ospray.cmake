@@ -29,8 +29,6 @@ superbuild_add_project(ospray
 
 superbuild_apply_patch(ospray improve-findtbb
   "Improve FindTBB")
-#superbuild_apply_patch(ospray ambiguous-cos
-#  "Fix ambiguous call to cos(float)")
 superbuild_apply_patch(ospray fix-cmake-install
   "Fix the search path for the root on Windows")
 
