@@ -8,9 +8,9 @@ endif ()
 
 set(paraview_plugin_paths)
 foreach (paraview_plugin IN LISTS paraview_plugins)
-  if (EXISTS "${superbuild_install_location}/Applications/paraview.app/Contents/Libraries/lib${paraview_plugin}.dylib")
+  if (EXISTS "${superbuild_install_location}/Applications/paraview.app/Contents/Plugins/lib${paraview_plugin}.dylib")
     list(APPEND paraview_plugin_paths
-      "${superbuild_install_location}/Applications/paraview.app/Contents/Libraries/lib${paraview_plugin}.dylib")
+      "${superbuild_install_location}/Applications/paraview.app/Contents/Plugins/lib${paraview_plugin}.dylib")
     continue ()
   endif ()
 
