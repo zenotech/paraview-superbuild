@@ -99,7 +99,7 @@ if (paraviewweb_enabled)
     DESTINATION "bin/Lib/site-packages/paraview/web"
     COMPONENT   "superbuild")
   install(
-    DIRECTORY   "${superbuild_install_location}/share/paraview-${paraview_version}/www"
+    DIRECTORY   "${superbuild_install_location}/share/paraview/www"
     DESTINATION "share/paraview-${paraview_version}"
     COMPONENT   "superbuild")
 endif ()

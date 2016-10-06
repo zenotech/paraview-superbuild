@@ -8,9 +8,9 @@ endif ()
 
 set(paraview_plugin_paths)
 foreach (paraview_plugin IN LISTS paraview_plugins)
-  if (EXISTS "${superbuild_install_location}/Applications/paraview.app/Contents/Libraries/lib${paraview_plugin}.dylib")
+  if (EXISTS "${superbuild_install_location}/Applications/paraview.app/Contents/Plugins/lib${paraview_plugin}.dylib")
     list(APPEND paraview_plugin_paths
-      "${superbuild_install_location}/Applications/paraview.app/Contents/Libraries/lib${paraview_plugin}.dylib")
+      "${superbuild_install_location}/Applications/paraview.app/Contents/Plugins/lib${paraview_plugin}.dylib")
     continue ()
   endif ()
 
@@ -120,11 +120,11 @@ set(CPACK_DMG_DS_STORE_SETUP_SCRIPT "${CMAKE_CURRENT_LIST_DIR}/files/CMakeDMGSet
 
 if (paraviewweb_enabled)
   install(
-    DIRECTORY   "${superbuild_install_location}/Applications/paraview.app/Contents/Python/paraview/web/defaultProxies.json"
+    FILES       "${superbuild_install_location}/Applications/paraview.app/Contents/Python/paraview/web/defaultProxies.json"
     DESTINATION "paraview.app/Contents/Python/paraview/web"
     COMPONENT   "${paraview_component}")
   install(
-    DIRECTORY   "${superbuild_install_location}/Applications/paraview.app/Contents/www"
+    DIRECTORY   "${superbuild_install_location}/share/paraview/www"
     DESTINATION "paraview.app/Contents"
     COMPONENT   "${paraview_component}")
 endif ()
