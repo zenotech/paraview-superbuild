@@ -120,7 +120,7 @@ set(CPACK_DMG_DS_STORE_SETUP_SCRIPT "${CMAKE_CURRENT_LIST_DIR}/files/CMakeDMGSet
 
 if (paraviewweb_enabled)
   install(
-    DIRECTORY   "${superbuild_install_location}/Applications/paraview.app/Contents/Python/paraview/web/defaultProxies.json"
+    FILES       "${superbuild_install_location}/Applications/paraview.app/Contents/Python/paraview/web/defaultProxies.json"
     DESTINATION "paraview.app/Contents/Python/paraview/web"
     COMPONENT   "${paraview_component}")
   install(
