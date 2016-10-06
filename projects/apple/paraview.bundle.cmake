@@ -124,7 +124,7 @@ if (paraviewweb_enabled)
     DESTINATION "paraview.app/Contents/Python/paraview/web"
     COMPONENT   "${paraview_component}")
   install(
-    DIRECTORY   "${superbuild_install_location}/Applications/paraview.app/Contents/www"
+    DIRECTORY   "${superbuild_install_location}/share/paraview/www"
     DESTINATION "paraview.app/Contents"
     COMPONENT   "${paraview_component}")
 endif ()

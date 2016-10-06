@@ -44,7 +44,7 @@ if (paraviewweb_enabled)
     DESTINATION "lib/python2.7/site-packages/paraview/web"
     COMPONENT   "${paraview_component}")
   install(
-    DIRECTORY   "${superbuild_install_location}/share/paraview-${paraview_version}/www"
+    DIRECTORY   "${superbuild_install_location}/share/paraview/www"
     DESTINATION "share/paraview-${paraview_version}"
     COMPONENT   "${paraview_component}")
 endif ()
