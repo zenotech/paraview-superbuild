@@ -32,7 +32,7 @@ superbuild_apple_create_app(
   SEARCH_DIRECTORIES "${superbuild_install_location}/lib")
 
 set(plugins_file "${CMAKE_CURRENT_BINARY_DIR}/paraview.plugins")
-paraview_add_plugin("${plugins_file}" ${plugins})
+paraview_add_plugin("${plugins_file}" ${paraview_plugins})
 
 install(
   FILES       "${plugins_file}"
