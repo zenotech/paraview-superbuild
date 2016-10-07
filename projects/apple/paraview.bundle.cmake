@@ -132,7 +132,7 @@ if (paraviewweb_enabled)
     COMPONENT   "${paraview_component}")
   install(
     DIRECTORY   "${superbuild_install_location}/share/paraview/www"
-    DESTINATION "${paraview_appname}/Contents"
+    DESTINATION "${paraview_appname}/Contents/Resources"
     COMPONENT   "${paraview_component}")
 endif ()
 
