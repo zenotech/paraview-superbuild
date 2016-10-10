@@ -103,9 +103,14 @@ else ()
   set(python_modules)
 endif ()
 
+set(full_mesa_libraries)
+foreach(lib IN LISTS mesa_libraries)
+  list(APPEND full_mesa_libraries "\${_IMPORT_PREFIX}/lib/lib${lib}.so")
+endforeach ()
+
 # Now resolve their symlinks
 set(libraries_to_install)
-foreach (fname IN LISTS libraries_referenced_by_cmake paraview_python_modules python_modules)
+foreach (fname IN LISTS full_mesa_libraries libraries_referenced_by_cmake paraview_python_modules python_modules)
   string(REPLACE "\${_IMPORT_PREFIX}" "${real_superbuild_install_location}" fname "${fname}")
 
   if (IS_DIRECTORY "${fname}")
