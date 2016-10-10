@@ -85,7 +85,7 @@ set(paraviews_platform_dependencies)
 if (UNIX)
   if (NOT APPLE)
     list(APPEND paraviews_platform_dependencies
-      mesa osmesa egl
+      mesa osmesa egl glu
 
       # Needed for fonts to work properly.
       fontconfig)

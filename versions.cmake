@@ -12,6 +12,10 @@ superbuild_set_revision(osmesa
   ${mesa_revision})
 unset(mesa_revision)
 
+superbuild_set_revision(glu
+  URL     "http://www.paraview.org/files/dependencies/glu-9.0.0.tar.gz"
+  URL_MD5 bbc57d4fe3bd3fb095bdbef6fcb977c4)
+
 superbuild_set_revision(adios
   URL     "http://www.paraview.org/files/dependencies/adios-1.8-439f0fb6.tar.bz2"
   URL_MD5 a88701c77a7ead5daadd8d8aff70556a)

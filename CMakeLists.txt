@@ -67,6 +67,7 @@ function (superbuild_find_projects var)
         catalyst
         egl
         fontconfig
+        glu
         llvm
         mesa
         osmesa
@@ -140,6 +141,7 @@ function (superbuild_sanity_check)
   if (paraview_enabled AND catalyst_enabled)
     message(SEND_ERROR "Cannot enable ParaView and Catalyst at the same time.")
   endif ()
+
 endfunction ()
 
 function (superbuild_add_packaging)
