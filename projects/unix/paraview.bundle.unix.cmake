@@ -40,17 +40,8 @@ install(
   COMPONENT   superbuild
   RENAME      ".plugins")
 
-if (osmesa_built_by_superbuild OR mesa_built_by_superbuild)
-  set(mesa_libraries
-    glapi
-    GL)
 
-  if (MESA_SWR_ENABLED)
-    list(APPEND mesa_libraries
-      swrAVX
-      swrAVX2)
-  endif ()
-
+if (mesa_libraries)
   set(suffix)
   if (PARAVIEW_DEFAULT_SYSTEM_GL)
     set(suffix "/mesa")
