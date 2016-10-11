@@ -48,11 +48,17 @@ if (mesa_libraries)
   endif ()
 
   foreach (mesa_library IN LISTS mesa_libraries)
-    superbuild_unix_install_plugin("lib${mesa_library}.so"
-      "lib/paraview-${paraview_version}${suffix}"
-      "lib"
-      SEARCH_DIRECTORIES  "${library_paths}"
-      LOCATION            "lib/paraview-${paraview_version}${suffix}")
+    file(GLOB lib_filenames
+      RELATIVE "${superbuild_install_location}/lib"
+      "${superbuild_install_location}/lib/lib${mesa_library}.so*")
+
+    foreach (lib_filename IN LISTS lib_filenames)
+      superbuild_unix_install_plugin("${lib_filename}"
+        "lib/paraview-${paraview_version}${suffix}"
+        "lib"
+        SEARCH_DIRECTORIES  "${library_paths}"
+        LOCATION            "lib/paraview-${paraview_version}${suffix}")
+    endforeach ()
   endforeach ()
 endif ()
 
