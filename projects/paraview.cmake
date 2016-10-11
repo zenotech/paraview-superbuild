@@ -140,7 +140,7 @@ superbuild_add_project(paraview
     -DVTK_RENDERING_BACKEND:STRING=${PARAVIEW_RENDERING_BACKEND}
     -DVTK_SMP_IMPLEMENTATION_TYPE:STRING=${paraview_smp_backend}
     -DVTK_LEGACY_SILENT:BOOL=ON
-    -DVTK_USE_OSMESA:BOOL=${osmesa_enabled}
+    -DVTK_OPENGL_HAS_OSMESA:BOOL=${osmesa_enabled}
     -DVTK_USE_OFFSCREEN:BOOL=${osmesa_enabled}
     -DVTK_USE_OFFSCREEN_EGL:BOOL=${egl_enabled}
     -DVTK_USE_X:BOOL=${paraview_use_x}
