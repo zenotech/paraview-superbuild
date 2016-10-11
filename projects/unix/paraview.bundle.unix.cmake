@@ -12,7 +12,7 @@ if (PARAVIEW_DEFAULT_SYSTEM_GL OR
     (mesa_built_by_superbuild OR osmesa_built_by_superbuild))
   list(APPEND exclude_regexes
     ".*/libglapi"
-    ".*/libGL")
+    ".*/libGL[^U]")
 endif ()
 
 foreach (executable IN LISTS paraview_executables)
