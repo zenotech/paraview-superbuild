@@ -129,3 +129,29 @@ paraview_add_test("version-server" "${pvserver_exe}"
   "--version")
 paraview_add_test("version-client" "${paraview_exe}"
   "--version")
+
+if (mesa_enabled AND python_enabled)
+  if (PARAVIEW_DEFAULT_SYSTEM_GL)
+    # If PARAVIEW_DEFAULT_SYSTEM_GL is enabled, we need to pass extra arguments
+    # to use Mesa GL.
+    paraview_add_test("mesa-llvm" "${pvpython_exe}"
+      "--mesa-llvm"
+      "${CMAKE_CURRENT_LIST_DIR}/python/CheckOpenGLVersion.py"
+      "mesa" "llvmpipe")
+    if (MESA_SWR_ENABLED)
+      paraview_add_test("mesa-swr" "${pvpython_exe}"
+        "--mesa-swr"
+        "${CMAKE_CURRENT_LIST_DIR}/python/CheckOpenGLVersion.py"
+        "mesa" "swr")
+    endif ()
+  else ()
+    paraview_add_test("mesa-llvm" "${pvpython_exe}"
+      "${CMAKE_CURRENT_LIST_DIR}/python/CheckOpenGLVersion.py"
+      "mesa" "llvmpipe")
+    if (MESA_SWR_ENABLED)
+      paraview_add_test("mesa-swr" "${pvpython_exe}"
+        "${CMAKE_CURRENT_LIST_DIR}/python/CheckOpenGLVersion.py"
+        "mesa" "swr")
+    endif ()
+  endif ()
+endif ()
