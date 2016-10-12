@@ -54,10 +54,10 @@ function (paraview_add_test name exe)
     NAME    "paraview-${name}"
     COMMAND "${exe}"
             ${ARGN})
-  set_tests_properties(${paraview_tests}
+  set_tests_properties(paraview-${name}
     PROPERTIES
       LABELS  "ParaView"
-      DEPENDS "extract-${paraview}-${generator}")
+      DEPENDS "extract-paraview-${generator}")
 endfunction ()
 
 function (paraview_add_ui_test name script)
