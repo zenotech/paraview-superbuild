@@ -102,7 +102,7 @@ superbuild_set_revision(ispc
   URL_MD5 "${ispc_md5}")
 
 superbuild_set_revision(ospray
-  URL     "https://github.com/ospray/OSPRay/archive/v1.1.0.tar.gz"
+  URL     "http://www.paraview.org/files/dependencies/ospray-v1.1.0.tar.gz"
   URL_MD5 77f177dd60a452d6b0e60c506e2bcc2a)
 
 superbuild_set_revision(paraviewwebvisualizer
