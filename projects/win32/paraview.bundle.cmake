@@ -10,11 +10,11 @@ endif ()
 
 # URL to website providing assistance in installing your application.
 set(CPACK_NSIS_HELP_LINK "http://paraview.org/Wiki/ParaView")
-set(paraview_description "ParaView ${paraview_version_long}")
-set(pvserver_description "pvserver ${paraview_version_long} (Server)")
-set(pvdataserver_description "pvdataserver ${paraview_version_long} (Data-Server)")
-set(pvrenderserver_description "pvrenderserver ${paraview_version_long} (Render-Server)")
-set(pvpython_description "pvpython ${paraview_version_long} (Python Shell)")
+set(paraview_description "ParaView ${paraview_version_full}")
+set(pvserver_description "pvserver ${paraview_version_full} (Server)")
+set(pvdataserver_description "pvdataserver ${paraview_version_full} (Data-Server)")
+set(pvrenderserver_description "pvrenderserver ${paraview_version_full} (Render-Server)")
+set(pvpython_description "pvpython ${paraview_version_full} (Python Shell)")
 
 #FIXME: need a pretty icon.
 #set(CPACK_NSIS_MUI_ICON "${CMAKE_CURRENT_LIST_DIR}/paraview.ico")
