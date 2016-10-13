@@ -131,29 +131,26 @@ paraview_add_test("version-client" "${paraview_exe}"
   "--version")
 
 if (mesa_enabled AND python_enabled)
+  set(mesa_llvm_arg)
+  set(mesa_swr_arg)
   if (PARAVIEW_DEFAULT_SYSTEM_GL)
-    # If PARAVIEW_DEFAULT_SYSTEM_GL is enabled, we need to pass extra arguments
-    # to use Mesa GL.
-    paraview_add_test("mesa-llvm" "${pvpython_exe}"
-      "--mesa-llvm"
-      "${CMAKE_CURRENT_LIST_DIR}/python/CheckOpenGLVersion.py"
-      "mesa" "llvmpipe")
-    if (MESA_SWR_ENABLED)
-      paraview_add_test("mesa-swr" "${pvpython_exe}"
-        "--mesa-swr"
-        "${CMAKE_CURRENT_LIST_DIR}/python/CheckOpenGLVersion.py"
-        "mesa" "swr")
-    endif ()
-  else ()
-    paraview_add_test("mesa-llvm" "${pvpython_exe}"
-      "${CMAKE_CURRENT_LIST_DIR}/python/CheckOpenGLVersion.py"
-      "mesa" "llvmpipe")
-    if (MESA_SWR_ENABLED)
-      paraview_add_test("mesa-swr" "${pvpython_exe}"
-        "${CMAKE_CURRENT_LIST_DIR}/python/CheckOpenGLVersion.py"
-        "mesa" "swr")
-    endif ()
+    set(mesa_llvm_arg "--mesa-llvm")
+    set(mesa_swr_arg "--mesa-swr")
   endif ()
+
+  paraview_add_test("mesa-llvm" "${pvpython_exe}"
+    ${mesa_llvm_arg}
+    "${CMAKE_CURRENT_LIST_DIR}/python/CheckOpenGLVersion.py"
+    "mesa" "llvmpipe")
+  if (MESA_SWR_ENABLED)
+    paraview_add_test("mesa-swr" "${pvpython_exe}"
+      ${mesa_swr_arg}
+      "${CMAKE_CURRENT_LIST_DIR}/python/CheckOpenGLVersion.py"
+      "mesa" "swr")
+    # Mesa exits with failure.
+    set_tests_properties(paraview-mesa-swr
+      PROPERTIES PASS_REGULAR_EXPRESSION "SWR detected")
+  endif()
 endif ()
 
 if (python_enabled)
