@@ -14,10 +14,34 @@ Although primarily designed to build the official ParaView binaries,
 ParaView-Superbuild has since been regularly used to build ParaView packages
 on various supercomputing systems.
 
+# Obtaining the source
+
+To obtain the source locally, you can clone this repository using [Git](https://git-scm.org).
+
+    $ git clone --recursive https://gitlab.kitware.com/paraview/paraview-superbuild.git
+    $ cd paraview-superbuild
+
 # Building
 
 The superbuild may be built with a Makefiles or Ninja CMake generator. The IDE
 generators (Xcode and Visual Studio) are not supported.
+
+## Building a specific version
+
+The superbuild project uses same versioning scheme as ParaView, the state of
+the superbuild project gets tagged for every release of ParaView using the
+same tag name as the ParaView version. For example, to build using the build
+scripts used to build `v5.1.2` of ParaView, you use the `v5.1.2` tag.
+
+Currently available tags are shown
+[here](https://gitlab.kitware.com/paraview/paraview-superbuild/tags).
+
+To checkout superbuild for specific tag
+
+    $ cd paraview-superbuild
+    $ git fetch origin # ensure you have the latest state from the main repo
+    $ git checkout v5.1.2 # replace `v5.1.2` with tag name of your choice
+    $ git submodule update
 
 ## Projects and Features
 
