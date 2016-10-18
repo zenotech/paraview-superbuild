@@ -97,7 +97,7 @@ if (paraviewweb_enabled)
   install(
     PROGRAMS    "${superbuild_install_location}/bin/pvw-visualizer.py"
     DESTINATION "bin"
-    COMPONENT   "${paraview_component}")
+    COMPONENT   "superbuild")
   install(
     FILES       "${superbuild_install_location}/lib/paraview-${paraview_version}/site-packages/paraview/web/defaultProxies.json"
     DESTINATION "bin/Lib/site-packages/paraview/web"
