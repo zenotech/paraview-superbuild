@@ -129,15 +129,15 @@ if (paraviewweb_enabled)
   install(
     PROGRAMS    "${superbuild_install_location}/bin/pvw-visualizer.py"
     DESTINATION "${paraview_appname}/Contents/bin"
-    COMPONENT   "${paraview_component}")
+    COMPONENT   "superbuild")
   install(
     FILES       "${superbuild_install_location}/Applications/paraview.app/Contents/Python/paraview/web/defaultProxies.json"
     DESTINATION "${paraview_appname}/Contents/Python/paraview/web"
-    COMPONENT   "${paraview_component}")
+    COMPONENT   "superbuild")
   install(
     DIRECTORY   "${superbuild_install_location}/share/paraview/www"
     DESTINATION "${paraview_appname}/Contents/Resources"
-    COMPONENT   "${paraview_component}")
+    COMPONENT   "superbuild")
 endif ()
 
 paraview_install_extra_data()
