@@ -57,8 +57,8 @@ superbuild_set_revision(paraviewtutorialdata
 
 superbuild_set_external_source(paraview
   "https://gitlab.kitware.com/paraview/paraview.git" "origin/master"
-  "http://www.paraview.org/files/v5.2/ParaView-v5.2.0-RC1.tar.gz"
-  "96152b2387dbd707f634f056b6096f65")
+  "http://www.paraview.org/files/v5.2/ParaView-v5.2.0-RC2.tar.gz"
+  "01c8f00914707689284866c53a990384")
 
 get_property(paraview_revision GLOBAL
   PROPERTY paraview_revision)
