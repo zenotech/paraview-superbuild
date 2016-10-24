@@ -165,11 +165,6 @@ superbuild_add_project(paraview
 
     ${PARAVIEW_EXTRA_CMAKE_ARGUMENTS})
 
-if (NOT paraview_FROM_GIT AND adios_enabled)
-  superbuild_apply_patch(paraview adios-wrapping
-    "Fix broken python wrapping for ADIOS")
-endif ()
-
 if (DEFINED CMAKE_BUILD_TYPE_save)
   set(CMAKE_BUILD_TYPE "${CMAKE_BUILD_TYPE_save}")
 endif ()
