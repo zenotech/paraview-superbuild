@@ -14,7 +14,6 @@ set(BUILD_SHARED_LIBS  ON CACHE BOOL "")
 
 # Enable the appropriate packages
 set(ENABLE_boost       ON CACHE BOOL "")
-set(ENABLE_bzip2       ON CACHE BOOL "")
 set(ENABLE_cgns        ON CACHE BOOL "")
 set(ENABLE_ffmpeg      ON CACHE BOOL "")
 set(ENABLE_freetype    ON CACHE BOOL "")
@@ -36,7 +35,6 @@ set(ENABLE_visitbridge ON CACHE BOOL "")
 set(ENABLE_zlib        ON CACHE BOOL "")
 
 # These will get pulled from the compute node's userland
-set(USE_SYSTEM_bzip2      ON CACHE BOOL "")
 set(USE_SYSTEM_freetype   ON CACHE BOOL "")
 set(USE_SYSTEM_hdf5       ON CACHE BOOL "")
 set(USE_SYSTEM_libxml2    ON CACHE BOOL "")
