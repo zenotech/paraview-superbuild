@@ -144,9 +144,10 @@ function (list_append_unique var)
   set("${var}" "${${var}}" PARENT_SCOPE)
 endfunction ()
 
+
 function (_install_superbuild_file type fname)
   get_filename_component(fname_dir "${fname}" DIRECTORY)
-  string(REPLACE "${superbuild_install_location}/" "" fname_inst "${fname_dir}")
+  get_filename_component(fname_inst "${fname_dir}" REALPATH)
   string(REPLACE "${real_superbuild_install_location}/" "" fname_inst "${fname_inst}")
   install(
     "${type}"   "${fname}"
