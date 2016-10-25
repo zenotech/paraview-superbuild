@@ -97,6 +97,11 @@ if (UNIX)
     genericio cosmotools)
 endif ()
 
+set(paraview_mesa_sb_available FALSE)
+if (PARAVIEW_DEFAULT_SYSTEM_GL AND mesa_enabled)
+  set(paraview_mesa_sb_available TRUE)
+endif ()
+
 superbuild_add_project(paraview
   DEBUGGABLE
   DEFAULT_ON
@@ -145,6 +150,10 @@ superbuild_add_project(paraview
     -DVTK_USE_OFFSCREEN_EGL:BOOL=${egl_enabled}
     -DVTK_USE_X:BOOL=${paraview_use_x}
     -DVTK_USE_CXX11_FEATURES:BOOL=${cxx11_enabled}
+
+    # mesa flags
+    -DPARAVIEW_WITH_SUPERBUILD_MESA:BOOL=${paraview_mesa_sb_available}
+    -DPARAVIEW_WITH_SUPERBUILD_MESA_SWR:BOOL=${MESA_SWR_ENABLED}
 
     # vrpn
     -DPARAVIEW_BUILD_PLUGIN_VRPlugin:BOOL=${vrpn_enabled}
