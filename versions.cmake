@@ -108,3 +108,7 @@ superbuild_set_revision(ospray
 superbuild_set_revision(paraviewwebvisualizer
   URL     "http://www.paraview.org/files/dependencies/paraview-web-visualizer-v2.0.10.tar.gz"
   URL_MD5 895067cc7fa62a55b9d7af531e006a89)
+
+superbuild_set_revision(paraviewweblightviz
+  URL     "http://www.paraview.org/files/dependencies/light-viz-1.15.6.tar.gz"
+  URL_MD5 5867c8ef0fc0973cc41c8f2c8bc294ec)

@@ -38,6 +38,7 @@ function (superbuild_find_projects var)
     ospray
     paraviewweb
     paraviewwebvisualizer
+    paraviewweblightviz
     png
     python
     pythonsetuptools
