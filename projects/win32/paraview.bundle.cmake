@@ -95,15 +95,11 @@ if (paraviewweb_enabled)
     COMPONENT   "superbuild")
 
   install(
-    PROGRAMS    "${superbuild_install_location}/bin/pvw-visualizer.py"
-    DESTINATION "bin"
-    COMPONENT   "superbuild")
-  install(
     FILES       "${superbuild_install_location}/lib/paraview-${paraview_version}/site-packages/paraview/web/defaultProxies.json"
     DESTINATION "bin/Lib/site-packages/paraview/web"
     COMPONENT   "superbuild")
   install(
-    DIRECTORY   "${superbuild_install_location}/share/paraview/www"
+    DIRECTORY   "${superbuild_install_location}/share/paraview/web"
     DESTINATION "share/paraview-${paraview_version}"
     COMPONENT   "superbuild")
 endif ()
@@ -115,14 +111,6 @@ if (qt4_built_by_superbuild OR qt5_built_by_superbuild)
       "bin"
       "${library_paths}")
   endforeach ()
-
-  # Install ParaViewWeb www directory.
-  # FIXME: Web is currently disabled on Windows builds of ParaView.
-  #install(
-  #  DIRECTORY   "${superbuild_install_location}/share/paraview-${paraview_version}/www"
-  #  DESTINATION "share/paraview-${paraview_version}"
-  #  COMPONENT   ParaView
-  #  USE_SOURCE_PERMISSIONS)
 endif ()
 
 paraview_install_extra_data()

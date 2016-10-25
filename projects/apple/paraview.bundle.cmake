@@ -127,15 +127,11 @@ set(CPACK_DMG_DS_STORE_SETUP_SCRIPT "${CMAKE_CURRENT_BINARY_DIR}/CMakeDMGSetup.s
 
 if (paraviewweb_enabled)
   install(
-    PROGRAMS    "${superbuild_install_location}/bin/pvw-visualizer.py"
-    DESTINATION "${paraview_appname}/Contents/bin"
-    COMPONENT   "superbuild")
-  install(
     FILES       "${superbuild_install_location}/Applications/paraview.app/Contents/Python/paraview/web/defaultProxies.json"
     DESTINATION "${paraview_appname}/Contents/Python/paraview/web"
     COMPONENT   "superbuild")
   install(
-    DIRECTORY   "${superbuild_install_location}/share/paraview/www"
+    DIRECTORY   "${superbuild_install_location}/share/paraview/web"
     DESTINATION "${paraview_appname}/Contents/Resources"
     COMPONENT   "superbuild")
 endif ()

@@ -40,15 +40,11 @@ endif ()
 
 if (paraviewweb_enabled)
   install(
-    PROGRAMS    "${superbuild_install_location}/bin/pvw-visualizer.py"
-    DESTINATION "bin"
-    COMPONENT   "${paraview_component}")
-  install(
     FILES       "${superbuild_install_location}/lib/paraview-${paraview_version}/site-packages/paraview/web/defaultProxies.json"
     DESTINATION "lib/python2.7/site-packages/paraview/web"
     COMPONENT   "${paraview_component}")
   install(
-    DIRECTORY   "${superbuild_install_location}/share/paraview/www"
+    DIRECTORY   "${superbuild_install_location}/share/paraview/web"
     DESTINATION "share/paraview-${paraview_version}"
     COMPONENT   "${paraview_component}")
 endif ()
