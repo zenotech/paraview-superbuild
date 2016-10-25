@@ -147,8 +147,8 @@ endfunction ()
 function (superbuild_add_packaging)
   if (WIN32)
     set(generators
-      NSIS
-      ZIP)
+      ZIP
+      NSIS)
   elseif (APPLE)
     set(generators
       DragNDrop)
@@ -156,6 +156,7 @@ function (superbuild_add_packaging)
     set(generators
       TGZ)
   endif ()
+  list(GET generators 0 default_generator)
 
   if (USE_SYSTEM_qt4)
     list(APPEND superbuild_export_variables
@@ -187,13 +188,21 @@ function (superbuild_add_packaging)
       PARAVIEWSDK_PACKAGE_FILE_NAME)
   endif ()
 
+  set(default_package)
+
   foreach (generator IN LISTS generators)
     if (paraview_enabled)
+      if (NOT default_package)
+        set(default_package paraview)
+      endif ()
       superbuild_add_extra_package_test(paraview "${generator}"
         LABELS  "ParaView"
         TIMEOUT 6400)
     endif ()
     if (catalyst_enabled OR (paraview_enabled AND UNIX AND NOT APPLE))
+      if (NOT default_package)
+        set(default_package catalyst)
+      endif ()
       superbuild_add_extra_package_test(catalyst "${generator}"
         LABELS  "ParaView"
         TIMEOUT 6400)
@@ -201,9 +210,14 @@ function (superbuild_add_packaging)
   endforeach ()
 
   if (paraviewsdk_enabled)
+    set(default_package paraviewsdk)
     superbuild_add_extra_package_test(paraviewsdk "TGZ"
       LABELS  "ParaView"
       TIMEOUT 6400)
+  endif ()
+
+  if (default_package)
+    superbuild_enable_install_target("${default_package}/${default_generator}")
   endif ()
 endfunction ()
 
