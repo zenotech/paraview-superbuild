@@ -69,6 +69,23 @@ The following packages enable other features within ParaView:
 
 ## CMake Variables
 
+### Style Guide
+
+Note that currently not all project and configuration variables follow this
+style guide but any new projects should use this convention while any
+existing projects and configuration variables will transition to this over
+time.
+
+  * All references to a given project name will be lowercase.
+  * Underscores will be used as word seperators in variable names.
+  * All project specific configuration variables will be lower-case project
+    name followed by upper-case setting name.
+    Examples include:
+      * `mesa_USE_SWR` : Enable the OpenSWR driver for (OS)Mesa.
+      * `ospray_BUILD_ISA` : Select the SIMD architecture used to build OSPray.
+  * Internal variables used within a given project's projectname.cmake file
+    will be all lower-case.
+
 ### Build Variables
 
   * `superbuild_download_location` (default `${CMAKE_BINARY_DIR}/downloads`):
