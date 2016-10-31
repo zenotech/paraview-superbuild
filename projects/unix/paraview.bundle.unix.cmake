@@ -104,4 +104,15 @@ if (mpi_built_by_superbuild)
   endforeach ()
 endif ()
 
+foreach (qt4_plugin_path IN LISTS qt4_plugin_paths)
+  get_filename_component(qt4_plugin_group "${qt4_plugin_paths}" DIRECTORY)
+  get_filename_component(qt4_plugin_group "${qt4_plugin_group}" NAME)
+
+  superbuild_unix_install_plugin("${qt4_plugin_path}"
+    "lib/paraview-${paraview_version}"
+    "lib/paraview-${paraview_version}/${qt4_plugin_group}/"
+    SEARCH_DIRECTORIES  "${library_paths}"
+    EXCLUDE_REGEXES     ${exclude_regexes})
+endforeach ()
+
 paraview_install_extra_data()

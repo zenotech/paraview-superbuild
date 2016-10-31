@@ -136,4 +136,16 @@ if (paraviewweb_enabled)
     COMPONENT   "superbuild")
 endif ()
 
+foreach (qt4_plugin_path IN LISTS qt4_plugin_paths)
+  get_filename_component(qt4_plugin_group "${qt4_plugin_paths}" DIRECTORY)
+  get_filename_component(qt4_plugin_group "${qt4_plugin_group}" NAME)
+
+  superbuild_apple_install_module(
+    "\${CMAKE_INSTALL_PREFIX}"
+    "${paraview_appname}"
+    "${qt4_plugin_path}"
+    "Contents/Plugins/${qt4_plugin_group}"
+    SEARCH_DIRECTORIES  "${library_paths}")
+endforeach ()
+
 paraview_install_extra_data()
