@@ -121,6 +121,7 @@ superbuild_add_project(paraview
     -DPARAVIEW_BUILD_PLUGIN_CoProcessingScriptGenerator:BOOL=ON
     -DPARAVIEW_BUILD_PLUGIN_EyeDomeLighting:BOOL=ON
     -DPARAVIEW_BUILD_QT_GUI:BOOL=${paraview_use_qt}
+    -DPARAVIEW_ENABLE_QT_SUPPORT:BOOL=${paraview_use_qt}
     -DPARAVIEW_ENABLE_FFMPEG:BOOL=${ffmpeg_enabled}
     -DPARAVIEW_ENABLE_PYTHON:BOOL=${python_enabled}
     -DPARAVIEW_ENABLE_COSMOTOOLS:BOOL=${cosmotools_enabled}
