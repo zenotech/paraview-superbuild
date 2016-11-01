@@ -113,4 +113,14 @@ if (qt4_built_by_superbuild OR qt5_built_by_superbuild)
   endforeach ()
 endif ()
 
+foreach (qt4_plugin_path IN LISTS qt4_plugin_paths)
+  get_filename_component(qt4_plugin_group "${qt4_plugin_paths}" DIRECTORY)
+  get_filename_component(qt4_plugin_group "${qt4_plugin_group}" NAME)
+
+  superbuild_windows_install_plugin(
+    "${qt4_plugin_path}"
+    "plugins/${qt4_plugin_group}"
+    "${library_paths}")
+endforeach ()
+
 paraview_install_extra_data()
