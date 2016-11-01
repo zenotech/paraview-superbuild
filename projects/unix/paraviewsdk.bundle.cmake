@@ -32,7 +32,7 @@ if (python_enabled)
   # Install ParaView Python libraries
   install(
     DIRECTORY   "${superbuild_install_location}/lib/paraview-${paraview_version}/site-packages"
-    DESTINATION "lib/paraview-${paraview_version}"
+    DESTINATION "lib/python2.7"
     COMPONENT   superbuild
     USE_SOURCE_PERMISSIONS
     PATTERN "__pycache__" EXCLUDE
@@ -149,6 +149,9 @@ function (_install_superbuild_file type fname)
   get_filename_component(fname_dir "${fname}" DIRECTORY)
   get_filename_component(fname_inst "${fname_dir}" REALPATH)
   string(REPLACE "${real_superbuild_install_location}/" "" fname_inst "${fname_inst}")
+  string(REPLACE
+    "lib/paraview-${paraview_version}/site-packages" "lib/python2.7/site-packages"
+    fname_inst "${fname_inst}")
   install(
     "${type}"   "${fname}"
     DESTINATION "${fname_inst}"
