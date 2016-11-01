@@ -31,7 +31,7 @@ generators (Xcode and Visual Studio) are not supported.
 The superbuild project uses same versioning scheme as ParaView, the state of
 the superbuild project gets tagged for every release of ParaView using the
 same tag name as the ParaView version. For example, to build using the build
-scripts used to build `v5.1.2` of ParaView, you use the `v5.1.2` tag.
+scripts used to build `v5.2.0` of ParaView, you use the `v5.2.0` tag.
 
 Currently available tags are shown
 [here](https://gitlab.kitware.com/paraview/paraview-superbuild/tags).
@@ -40,8 +40,49 @@ To checkout superbuild for specific tag
 
     $ cd paraview-superbuild
     $ git fetch origin # ensure you have the latest state from the main repo
-    $ git checkout v5.1.2 # replace `v5.1.2` with tag name of your choice
+    $ git checkout v5.2.0 # replace `v5.2.0` with tag name of your choice
     $ git submodule update
+
+At this point, your superbuild is setup to have all the *rules* that were used
+when building the selected version of ParaView. It must be noted, however,
+it's possible to build a certain version of ParaView using build configuration designed
+for a different version. e.g. using superbuild for `v5.2.0`, you can try to build
+the latest development version of ParaView, or a custom branch. This is done
+by first checking out the superbuild for the appropriate version and then
+setting the CMake variables that affect which ParaView source is used. There are
+several ways to do the latter.
+
+
+1. If you want to use git to checkout ParaView source (default), then
+   set `paraview_FROM_GIT` to `ON`, ensure `paraview_GIT_REPOSITORY` is pointing
+   to the ParaView git repository you want to clone (default: set to the offical
+   ParaView Git) and then set the `paraview_GIT_TAG` to be a specific tagname or
+   branch available for the selected git repository e.g. `master` for latest
+   development code, `v5.2.0` for ParaView source tagged as v5.2.0, `release`
+   for latest stable release, or even a specific commit SHA. In this setup,
+   when building the superbuild, it will clone and checkout the approriate
+   revision from ParaView git repository on its own.
+2. Instead of letting superbuild do the cloning and updating
+   of the ParaView source, you can also manually check it out and keep it updated as
+   needed. To use this configuration, set `paraview_FROM_GIT` to `OFF`, then set
+   `paraview_FROM_SOURCE_DIR` to `ON` and set `paraview_SOURCE_DIR` to point to
+   your ParaView checkout. Now superbuild will simply try to build using
+   the ParaView source dir you specified.
+3. Another option is to simply use a source tarball for the ParaView source. For that, set
+   `paraview_FROM_GIT` to OFF (and ensure `paraview_FROM_SOURCE_DIR` is OFF
+   also). Then you can set `paraview_URL` and `paraview_URL_MD5` to point to the
+   download URL (or location on disk) to the source tarball and it's MD5 checksum
+   (used for validating the tarball). This is probably the best (and simplest)
+   way to ensure you build a specific version of ParaView.
+
+**NOTE:** If you switch to a version older than 5.2, the build instructions
+described on this page are not relevant since the superbuild was refactored and
+changed considerably for 5.2. For older versions, refer to instructions on the
+[Wiki](http://www.paraview.org/Wiki/index.php?title=ParaView/Superbuild&oldid=59804).
+
+**ALSO NOTE:** Since this README is expected to be updated for each version, once you checkout
+a specfic version, you may want to refer to the README for that specific
+version.
 
 ## Projects and Features
 
