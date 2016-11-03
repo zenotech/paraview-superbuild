@@ -92,6 +92,23 @@ if (python_enabled)
       DESTINATION "lib/python2.7/site-packages/matplotlib/mpl-data"
       COMPONENT   superbuild)
   endif ()
+
+  if (NOT python_built_by_superbuild)
+    install(CODE
+      "execute_process(
+        COMMAND \"${CMAKE_COMMAND}\" -E create_symlink
+                ../python2.7/site-packages
+                \$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/lib/paraview-${paraview_version}/site-packages
+        ERROR_VARIABLE  out
+        OUTPUT_VARIABLE out
+        RESULT_VARIABLE res)
+
+      if (res)
+        message(FATAL_ERROR
+          \"Failed to create the site-packages symlink: \${out}\")
+      endif ()"
+      COMPONENT superbuild)
+  endif ()
 endif ()
 
 if (mpi_built_by_superbuild)
