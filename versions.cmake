@@ -60,7 +60,6 @@ superbuild_set_revision(paraviewtutorialdata
   URL     "http://www.paraview.org/files/data/ParaViewTutorialData.tar.gz"
   URL_MD5 ff7ceab8cfc674b227c0bba392d1ed3c)
 
-
 superbuild_set_selectable_source(paraview
   SELECT 5.1.2 DEFAULT
     URL     "http://www.paraview.org/files/v5.1/ParaView-v5.1.2.tar.gz"
@@ -74,6 +73,9 @@ superbuild_set_selectable_source(paraview
   SELECT 5.2.0-RC3
     URL     "http://www.paraview.org/files/v5.2/ParaView-v5.2.0-RC3.tar.gz"
     URL_MD5 054883096d778537436b00e6ad9249bf
+  SELECT 5.2.0-RC4
+    URL     "http://www.paraview.org/files/v5.2/ParaView-v5.2.0-RC4.tar.gz"
+    URL_MD5 3ca7f2c8709050a97341829078dadae2
   SELECT git CUSTOMIZABLE
     GIT_REPOSITORY "https://gitlab.kitware.com/paraview/paraview.git"
     GIT_TAG        "origin/master"
