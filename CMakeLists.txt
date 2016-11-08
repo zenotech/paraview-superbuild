@@ -7,7 +7,14 @@ list(INSERT CMAKE_MODULE_PATH 0
 
 macro (superbuild_setup_variables)
   include(SuperbuildVersionMacros)
-  set(PARAVIEW_VERSION_DEFAULT "5.2.0-RC3" CACHE STRING "The default version of ParaView to use if it can't be auto-determined")
+
+  if (paraview_SOURCE_SELECTION STREQUAL "git")
+    set(PARAVIEW_VERSION_DEFAULT "5.2.0" CACHE STRING
+      "The default version of ParaView to use if it can't be auto-determined")
+  else ()
+    set(PARAVIEW_VERSION_DEFAULT "${paraview_SOURCE_SELECTION}" CACHE STRING
+      "The default version of ParaView to use if it can't be auto-determined")
+  endif()
   mark_as_advanced(PARAVIEW_VERSION_DEFAULT)
   superbuild_set_version_variables(paraview "${PARAVIEW_VERSION_DEFAULT}" "paraview-version.cmake")
   set(paraview_version "${paraview_version_major}.${paraview_version_minor}")

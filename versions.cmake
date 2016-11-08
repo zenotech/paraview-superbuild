@@ -61,10 +61,10 @@ superbuild_set_revision(paraviewtutorialdata
   URL_MD5 ff7ceab8cfc674b227c0bba392d1ed3c)
 
 superbuild_set_selectable_source(paraview
-  SELECT v5.1.2 DEFAULT
-    URL     "http://www.paraview.org/files/v5.1/ParaViewData-v5.1.2.tar.gz"
+  SELECT 5.1.2 DEFAULT
+    URL     "http://www.paraview.org/files/v5.1/ParaView-v5.1.2.tar.gz"
     URL_MD5 44fb32fc8988fcdfbc216c9e40c3e925
-  SELECT release-candidate
+  SELECT 5.2.0-RC3
     URL     "http://www.paraview.org/files/v5.2/ParaView-v5.2.0-RC3.tar.gz"
     URL_MD5 054883096d778537436b00e6ad9249bf
   SELECT git
