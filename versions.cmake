@@ -3,13 +3,10 @@ superbuild_set_revision(llvm
   URL_MD5 538467e6028bbc9259b1e6e015d25845)
 
 superbuild_set_selectable_source(mesa
-  SELECT v12.0.3
-    URL     "http://paraview.org/files/dependencies/mesa-12.0.3.tar.xz"
-    URL_MD5 1113699c714042d8c4df4766be8c57d8
-  SELECT v13.0.0 DEFAULT
+  SELECT 13.0.0 DEFAULT
     URL     "http://paraview.org/files/dependencies/mesa-13.0.0.tar.xz"
     URL_MD5 8c4ca7da1be2b8f9a877db09304335a4
-  SELECT git
+  SELECT git CUSTOMIZABLE
     GIT_REPOSITORY "https://gitlab.kitware.com/third-party/mesa.git"
     GIT_TAG        "origin/master")
 get_property(mesa_revision GLOBAL
