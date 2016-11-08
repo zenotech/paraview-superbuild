@@ -52,7 +52,7 @@ if (python_enabled)
   endif ()
 
   # Install python binaries and symlinks
-  if (NOT USE_SYSTEM_python)
+  if (python_built_by_superbuild)
     install(
       PROGRAMS    "${superbuild_install_location}/bin/python2.7-config"
                   "${superbuild_install_location}/bin/python2"
@@ -63,8 +63,8 @@ if (python_enabled)
       COMPONENT   superbuild)
     list(APPEND binaries_to_install
       "${superbuild_install_location}/bin/python2.7")
-  endif ()
-endif ()
+  endif()
+endif()
 
 # Extra TBB headers that are in the public interface
 if (tbb_built_by_superbuild)
@@ -170,9 +170,9 @@ include(GetPrerequisites)
 set(all_binaries)
 set(dependency_search_paths
   "${real_superbuild_install_location}/lib/paraview-${paraview_version}"
-  "${real_superbuild_install_location}/lib/paraview-${paraview_version}/site-packages"
   "${real_superbuild_install_location}/lib"
   "${real_superbuild_install_location}/lib/python2.7"
+  "${real_superbuild_install_location}/lib/python2.7/site-packages"
   "${real_superbuild_install_location}/lib/python2.7/lib-dynload")
 foreach (fname IN LISTS libraries_to_install binaries_to_install)
   if (NOT ("${fname}" MATCHES "^(${real_superbuild_install_location}|${superbuild_install_location})/"))
@@ -257,3 +257,21 @@ endforeach ()
 foreach (fname IN LISTS all_binaries)
   install_superbuild_binary("${fname}")
 endforeach ()
+
+# Add some leftover python symlinks
+if (python_enabled)
+  install(CODE
+    "execute_process(
+      COMMAND \"${CMAKE_COMMAND}\" -E create_symlink
+              ../python2.7/site-packages
+              \$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/lib/paraview-${paraview_version}/site-packages
+      ERROR_VARIABLE  out
+      OUTPUT_VARIABLE out
+      RESULT_VARIABLE res)
+
+    if (res)
+      message(FATAL_ERROR
+        \"Failed to create the site-packages symlink: \${out}\")
+    endif ()"
+    COMPONENT superbuild)
+endif ()
