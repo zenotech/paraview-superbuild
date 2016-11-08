@@ -150,6 +150,14 @@ time.
       * `ospray_BUILD_ISA` : Select the SIMD architecture used to build OSPray.
   * Internal variables used within a given project's projectname.cmake file
     will be all lower-case.
+  * Multiple versions:
+      * Use the `superbuild_set_selectable_source` macro to allow multiple
+        versions of a given project.
+      * Specify source selection versions as numeric, i.e. without any "v" or
+        "V" prefix.
+      * If the project is going through a release candidate cycle, add the
+        available RCs as additional sources as they become availabe.  Once
+        a final release is made, replace all the RCs with the updated release.
 
 ### Build Variables
 
