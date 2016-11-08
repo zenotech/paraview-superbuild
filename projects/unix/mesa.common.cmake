@@ -1,13 +1,35 @@
 option(mesa_USE_SWR "Enable the OpenSWR driver" ON)
 mark_as_advanced(mesa_USE_SWR)
 if (MESA_SWR_ENABLED)
-  message(WARNING "The MESA_SWR_ENABLED setting is deprecated in favor of mesa_USE_SWR.")
-  set(mesa_USE_SWR ${MESA_SWR_ENABLED} CACHE BOOL "Enable the OpenSWR driver" FORCE)
+  message(WARNING
+    "The MESA_SWR_ENABLED setting is deprecated in favor of mesa_USE_SWR.")
+  set(mesa_USE_SWR ${MESA_SWR_ENABLED} CACHE BOOL
+    "Enable the OpenSWR driver" FORCE)
 endif ()
 
 set(mesa_drivers swrast)
 if (mesa_USE_SWR)
   list(APPEND mesa_drivers swr)
+endif ()
+
+option(mesa_USE_TEXTURE_FLOAT
+  "Enable floating point textures via ARB_texture_float." OFF)
+mark_as_advanced(mesa_USE_TEXTURE_FLOAT)
+
+if (mesa_USE_TEXTURE_FLOAT)
+  if(NOT mesa_use_texture_float_warned_once)
+    message(WARNING
+      "You have enabled floating point textures for Mesa.  Please be aware of "
+      "the patent licencing issues associated with turning this on, see "
+      "https://cgit.freedesktop.org/mesa/mesa/tree/docs/patents.txt "
+      "for more details.  By enabling this you are accepting the associated "
+      "legal responsibility.")
+    set(mesa_use_texture_float_warned_once ON CACHE INTERNAL "")
+  endif()
+  set(mesa_texture_float_args "--enable-texture-float")
+else ()
+  set(mesa_use_texture_float_warned_once OFF CACHE INTERNAL "" FORCE)
+  set(mesa_texture_float_args "--disable-texture-float")
 endif ()
 
 string(REPLACE ";" "," mesa_drivers "${mesa_drivers}")
@@ -19,7 +41,7 @@ set(mesa_common_config_args
   --enable-opengl --disable-gles1 --disable-gles2
   --disable-va --disable-gbm --disable-xvmc --disable-vdpau
   --enable-shared-glapi
-  --disable-texture-float
+  ${mesa_texture_float_args}
   --disable-dri --with-dri-drivers=
   --enable-gallium-llvm --enable-llvm-shared-libs
   --with-llvm-prefix=${llvm_dir}
