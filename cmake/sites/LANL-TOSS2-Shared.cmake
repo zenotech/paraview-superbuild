@@ -22,7 +22,6 @@ set(ENABLE_hdf5        ON CACHE BOOL "")
 set(ENABLE_libxml2     ON CACHE BOOL "")
 set(ENABLE_llvm        ON CACHE BOOL "")
 set(ENABLE_matplotlib  ON CACHE BOOL "")
-set(ENABLE_mpi         ON CACHE BOOL "")
 set(ENABLE_numpy       ON CACHE BOOL "")
 set(ENABLE_osmesa      ON CACHE BOOL "")
 set(ENABLE_ospray      ON CACHE BOOL "")
@@ -39,17 +38,28 @@ set(USE_SYSTEM_freetype   ON CACHE BOOL "")
 set(USE_SYSTEM_hdf5       ON CACHE BOOL "")
 set(USE_SYSTEM_libxml2    ON CACHE BOOL "")
 set(USE_SYSTEM_matplotlib ON CACHE BOOL "")
-set(USE_SYSTEM_mpi        ON CACHE BOOL "")
 set(USE_SYSTEM_numpy      ON CACHE BOOL "")
 set(USE_SYSTEM_png        ON CACHE BOOL "")
 set(USE_SYSTEM_python     ON CACHE BOOL "")
 set(USE_SYSTEM_zlib       ON CACHE BOOL "")
 
+# Specific MPI options for dealing with Intel compiler and Intel MPI
+if(NOT "$ENV{LMPI}" STREQUAL "")
+  set(ENABLE_mpi     ON CACHE BOOL "")
+  set(USE_SYSTEM_mpi ON CACHE BOOL "")
+  if("$ENV{LCOMPILER}" STREQUAL "intel" AND
+     "$ENV{LMPI}"      STREQUAL "intel-mpi")
+    find_program(MPI_C_COMPILER       mpiicc)
+    find_program(MPI_CXX_COMPILER     mpiicpc)
+    find_program(MPI_Fortran_COMPILER mpiifort)
+  endif()
+endif()
+
 # Enable all architectures for OSPray
-set(OSPRAY_BUILD_ISA ALL CACHE STRING "")
+set(ospray_BUILD_ISA ALL CACHE STRING "")
 
 # Paraview details
-set(paraview_FROM_GIT OFF CACHE BOOL "")
+set(paraview_SOURCE_SELECTION 5.2.0-RC4 CACHE BOOL "")
 
 # Specify where the necessary tarballs have beel downloaded to
 set(superbuild_download_location /usr/projects/packages/hpc_paraview/superbuild/downloads CACHE STRING "")
