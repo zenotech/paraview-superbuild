@@ -259,7 +259,7 @@ foreach (fname IN LISTS all_binaries)
 endforeach ()
 
 # Add some leftover python symlinks
-if (python_enabled)
+if (python_enabled AND NOT python_built_by_superbuild)
   install(CODE
     "execute_process(
       COMMAND \"${CMAKE_COMMAND}\" -E create_symlink
