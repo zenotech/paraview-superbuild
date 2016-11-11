@@ -100,9 +100,9 @@ superbuild_set_revision(vortexfinder2
 # or disabled.
 #------------------------------------------------------------------------------
 
-superbuild_set_revision(portfwd
-  URL     "http://www.paraview.org/files/dependencies/portfwd-0.29.tar.gz"
-  URL_MD5 93161c91e12b0d67ca52dc13708a2f2f)
+superbuild_set_revision(socat
+  URL     "http://www.paraview.org/files/dependencies/socat-1.7.3.1.tar.bz2"
+  URL_MD5 334e46924f2b386299c9db2ac22bcd36)
 
 set(ispc_version "1.9.1")
 if (WIN32)

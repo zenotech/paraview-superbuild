@@ -10,7 +10,6 @@ set(ENABLE_freetype    ON CACHE BOOL "")
 set(ENABLE_genericio   ON CACHE BOOL "")
 set(ENABLE_hdf5        ON CACHE BOOL "")
 set(ENABLE_libxml2     ON CACHE BOOL "")
-set(ENABLE_matplotlib  ON CACHE BOOL "")
 set(ENABLE_mpi         ON CACHE BOOL "")
 set(ENABLE_numpy       ON CACHE BOOL "")
 set(ENABLE_osmesa      ON CACHE BOOL "")
@@ -21,6 +20,12 @@ set(ENABLE_python      ON CACHE BOOL "")
 set(ENABLE_silo        ON CACHE BOOL "")
 set(ENABLE_visitbridge ON CACHE BOOL "")
 set(ENABLE_zlib        ON CACHE BOOL "")
+
+# Use for connection forwarding
+find_program(SOCAT socat)
+if(NOT SOCAT)
+  set(ENABLE_socat ON CACHE BOOL "")
+endif()
 
 # These will get pulled from the compute node's userland
 set(USE_SYSTEM_freetype   ON CACHE BOOL "")

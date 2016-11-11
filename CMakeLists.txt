@@ -79,7 +79,7 @@ function (superbuild_find_projects var)
         mesa
         osmesa
         paraviewsdk
-        portfwd)
+        socat)
     endif ()
   endif ()
 

@@ -188,3 +188,7 @@ if (qt4_enabled)
 else ()
   set(qt4_plugin_paths)
 endif ()
+
+if (socat_built_by_superbuild)
+  include(socat.bundle)
+endif ()
