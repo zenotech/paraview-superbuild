@@ -192,3 +192,6 @@ if (paraview_install_development_files)
       WORKING_DIRECTORY <INSTALL_DIR>)
   endif ()
 endif ()
+
+superbuild_apply_patch(paraview fix-manyspheres
+  "Fix the sphere distributiuon for the manyspheres benchmark")

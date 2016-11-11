@@ -1,0 +1,27 @@
+--- src/Wrapping/Python/paraview/benchmark/manyspheres.py.old	2016-11-11 13:20:41.935859326 -0500
++++ src/Wrapping/Python/paraview/benchmark/manyspheres.py	2016-11-11 13:25:17.712689378 -0500
+@@ -127,8 +127,13 @@
+ np = controller.GetNumberOfProcesses()
+ p = controller.GetLocalProcessId()
+ 
+-ns=lambda p:num_spheres/np + (1 if p >= np-num_spheres%np else 0)
+-start=int(sum([ns(P) for P in range(0,p)]))
++ns=lambda rank:num_spheres/np + (1 if rank >= np-num_spheres%np else 0)
++
++# Not sure why but the builtin sum() gives wierd results here so we'll just
++# so it manually
++start=0
++for r in range(0,p):
++    start += int(ns(r))
+ end=start+ns(p)
+ 
+ ss = vtk.vtkSphereSource()
+@@ -136,7 +141,7 @@
+ ss.SetThetaResolution(res)
+ 
+ ap = vtk.vtkAppendPolyData()
+-print ('source',p,': generating',end - start,'spheres from',start,'to',end)
++print 'source %d: generating %d spheres from %d to %d' % (p, end-start, start, end)
+ for x in range(start,end):
+     i = x%edge
+     j = math.floor((x / edge))%edge
