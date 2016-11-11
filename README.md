@@ -189,7 +189,7 @@ The following flags affect ParaView directly:
     use with ParaView.
   * `PARAVIEW_BUILD_WEB_DOCUMENTATION` (default `OFF`): Have ParaView build
     its HTML documentation.
-  * `MESA_SWR_ENABLED` (default `ON`): If `mesa` is enabled, this enables
+  * `mesa_USE_SWR` (default `ON`): If `mesa` is enabled, this enables
     Intel's software rasterization backend (x86 only).
 
 The following flags affect Catalyst:

@@ -154,7 +154,7 @@ superbuild_add_project(paraview
 
     # mesa flags
     -DPARAVIEW_WITH_SUPERBUILD_MESA:BOOL=${paraview_mesa_sb_available}
-    -DPARAVIEW_WITH_SUPERBUILD_MESA_SWR:BOOL=${MESA_SWR_ENABLED}
+    -DPARAVIEW_WITH_SUPERBUILD_MESA_SWR:BOOL=${mesa_USE_SWR}
 
     # vrpn
     -DPARAVIEW_BUILD_PLUGIN_VRPlugin:BOOL=${vrpn_enabled}
