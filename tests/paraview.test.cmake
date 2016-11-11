@@ -142,7 +142,7 @@ if (mesa_enabled AND python_enabled)
     ${mesa_llvm_arg}
     "${CMAKE_CURRENT_LIST_DIR}/python/CheckOpenGLVersion.py"
     "mesa" "llvmpipe")
-  if (MESA_SWR_ENABLED)
+  if (mesa_USE_SWR)
     paraview_add_test("mesa-swr" "${pvpython_exe}"
       ${mesa_swr_arg}
       "${CMAKE_CURRENT_LIST_DIR}/python/CheckOpenGLVersion.py"

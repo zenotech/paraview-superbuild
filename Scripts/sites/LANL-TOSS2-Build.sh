@@ -59,9 +59,9 @@ cd ${BASENAME}
 # Turn on SWR
 if [ $SWR -eq 1 ]
 then
-  EXTRA_OPTS="${EXTRA_OPTS} -DMESA_SWR_ENABLED=ON"
+  EXTRA_OPTS="${EXTRA_OPTS} -Dmesa_USE_SWR=ON"
 else
-  EXTRA_OPTS="${EXTRA_OPTS} -DMESA_SWR_ENABLED=OFF"
+  EXTRA_OPTS="${EXTRA_OPTS} -Dmesa_USE_SWR=OFF"
 fi
 
 # Set the requested OSPray backend

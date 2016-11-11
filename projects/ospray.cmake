@@ -1,12 +1,13 @@
-set(ospray_BUILD_ISA "ALL" CACHE STRING
-  "Target ISA for OSPRay (SSE, AVX, AVX2, AVX512, or ALL).")
+set(ospray_isa_default "ALL")
+if (DEFINED OSPRAY_BUILD_ISA)
+  message(WARNING "The OSPRAY_BUILD_ISA setting is deprecated in favor of ospray_BUILD_ISA.")
+  set(ospray_isa_default "${OSPRAY_BUILD_ISA}")
+endif ()
+
+set(ospray_BUILD_ISA "${ospray_isa_default}"
+  CACHE STRING "Target ISA for OSPRay (SSE, AVX, AVX2, AVX512, or ALL).")
 mark_as_advanced(ospray_BUILD_ISA)
 set_property(CACHE ospray_BUILD_ISA PROPERTY STRINGS SSE AVX AVX2 AVX512 ALL)
-
-if (OSPRAY_BUILD_ISA)
-  message(WARNING "The OSPRAY_BUILD_ISA setting is deprecated in favor of ospray_BUILD_ISA.")
-  set(ospray_BUILD_ISA ${OSPRAY_BUILD_ISA} CACHE BOOL "Target ISA for OSPRay" FORCE)
-endif ()
 
 superbuild_add_project(ospray
   DEPENDS ispc tbb cxx11
