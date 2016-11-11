@@ -110,7 +110,16 @@ if (mpi_built_by_superbuild)
   endforeach ()
 
   install(CODE
-    "file(RENAME
+    "foreach (mpi_executable IN ITEMS ${mpi_executables})
+      configure_file(
+        \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${paraview_appname}/Contents/bin/\${mpi_executable}\"
+        \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${paraview_appname}/Contents/MacOS/\${mpi_executable}\"
+        COPYONLY)
+    endforeach ()
+    file(RENAME
+      \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${paraview_appname}/Contents/MacOS/mpiexec.hydra\"
+      \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${paraview_appname}/Contents/MacOS/mpiexec\")
+    file(RENAME
       \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${paraview_appname}/Contents/bin/mpiexec.hydra\"
       \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${paraview_appname}/Contents/bin/mpiexec\")"
     COMPONENT superbuild)

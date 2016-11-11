@@ -112,12 +112,21 @@ if (python_enabled)
 endif ()
 
 if (mpi_built_by_superbuild)
-  set(mpi_executables
+  set(mpi_executables_standalone
     mpiexec)
-  foreach (mpi_executable IN LISTS mpi_executables)
-    superbuild_unix_install_plugin("${mpi_executable}"
+  set(mpi_executables_paraview
+    hydra_nameserver
+    hydra_persist
+    hydra_pmi_proxy)
+  foreach (mpi_executable IN LISTS mpi_executables_standalone)
+    superbuild_unix_install_plugin("${superbuild_install_location}/bin/${mpi_executable}"
       "lib"
       "bin")
+  endforeach ()
+  foreach (mpi_executable IN LISTS mpi_executables_standalone mpi_executables_paraview)
+    superbuild_unix_install_plugin("${superbuild_install_location}/bin/${mpi_executable}"
+      "lib/paraview-${paraview_version}"
+      "lib/paraview-${paraview_version}")
   endforeach ()
 endif ()
 
