@@ -1,0 +1,10 @@
+--- socat-1.7.3.1/sysincludes.h.orig	2016-11-11 09:14:08.891107787 -0500
++++ socat-1.7.3.1/sysincludes.h	2016-11-11 09:15:25.705448506 -0500
+@@ -17,6 +17,7 @@
+ #include <math.h>	/* HUGE_VAL */
+ #include <assert.h>
+ #include <stdarg.h>	/* for msg() */
++#include <stddef.h>     /* for ptrdiff_t */
+ #include <string.h>	/* strerror(), strchr() */
+ #if HAVE_STRINGS_H
+ #include <strings.h>	/* strcasecmp(), bzero() for FD_ZERO */
