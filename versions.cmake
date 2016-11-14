@@ -42,17 +42,17 @@ superbuild_set_revision(acusolve
   GIT_REPOSITORY "https://kwgitlab.kitware.com/paraview/acusolvereaderplugin.git"
   GIT_TAG        origin/master)
 
-set(paraview_doc_ver_series "5.1")
+set(paraview_doc_ver_series "5.2")
 set(paraview_doc_ver "${paraview_doc_ver_series}.0")
 superbuild_set_revision(paraviewusersguide
   URL     "http://www.paraview.org/files/v${paraview_doc_ver_series}/ParaViewGuide-${paraview_doc_ver}.pdf"
-  URL_MD5 180d5065869789a119db60f38a8661f1)
+  URL_MD5 08b1d0dafbe50f2241da7a4a4e2b0b75)
 superbuild_set_revision(paraviewgettingstartedguide
   URL     "http://www.paraview.org/files/v${paraview_doc_ver_series}/ParaViewGettingStarted-${paraview_doc_ver}.pdf"
   URL_MD5 7ce54ce8a8b36c746035c2b228713074)
 superbuild_set_revision(paraviewtutorial
   URL     "http://www.paraview.org/files/v${paraview_doc_ver_series}/ParaViewTutorial.pdf"
-  URL_MD5 4b1c410cd461f68a3bac5839c22bee93)
+  URL_MD5 1b3d975eac73bca412414efb2af9974c)
 superbuild_set_revision(paraviewtutorialdata
   URL     "http://www.paraview.org/files/data/ParaViewTutorialData.tar.gz"
   URL_MD5 ff7ceab8cfc674b227c0bba392d1ed3c)
