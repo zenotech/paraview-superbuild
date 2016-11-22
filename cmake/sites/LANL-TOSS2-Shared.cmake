@@ -59,7 +59,7 @@ endif()
 set(ospray_BUILD_ISA ALL CACHE STRING "")
 
 # Paraview details
-set(paraview_SOURCE_SELECTION 5.2.0-RC4 CACHE BOOL "")
+set(paraview_SOURCE_SELECTION 5.2.0 CACHE BOOL "")
 
 # Specify where the necessary tarballs have beel downloaded to
 set(superbuild_download_location /usr/projects/packages/hpc_paraview/superbuild/downloads CACHE STRING "")

@@ -51,7 +51,7 @@ set(USE_SYSTEM_zlib       ON CACHE BOOL "")
 set(OSPRAY_BUILD_ISA ALL CACHE STRING "")
 
 # Paraview details
-set(paraview_FROM_GIT OFF CACHE BOOL "")
+set(paraview_SOURCE_SELECTION 5.2.0 CACHE BOOL "")
 
 # Specify where the necessary tarballs have beel downloaded to
 set(superbuild_download_location /usr/projects/packages/hpc_paraview/superbuild/downloads CACHE STRING "")
