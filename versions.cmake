@@ -1,10 +1,10 @@
 superbuild_set_revision(llvm
-  URL     "http://paraview.org/files/dependencies/llvm-3.8.1.src.tar.xz"
+  URL     "http://www.paraview.org/files/dependencies/llvm-3.8.1.src.tar.xz"
   URL_MD5 538467e6028bbc9259b1e6e015d25845)
 
 superbuild_set_selectable_source(mesa
   SELECT 13.0.0 DEFAULT
-    URL     "http://paraview.org/files/dependencies/mesa-13.0.0.tar.xz"
+    URL     "http://www.paraview.org/files/dependencies/mesa-13.0.0.tar.xz"
     URL_MD5 8c4ca7da1be2b8f9a877db09304335a4
   SELECT git CUSTOMIZABLE
     GIT_REPOSITORY "https://gitlab.kitware.com/third-party/mesa.git"
@@ -27,7 +27,7 @@ superbuild_set_revision(mxml
   URL_MD5 e21cad0f7aacd18f942aa0568a8dee19)
 
 superbuild_set_revision(silo
-  URL     "http://paraview.org/files/dependencies/silo-4.9.1-bsd.tar.gz"
+  URL     "http://www.paraview.org/files/dependencies/silo-4.9.1-bsd.tar.gz"
   URL_MD5 465d2a0a8958b088cde83fb2a5a7eeef)
 
 superbuild_set_revision(cgns
