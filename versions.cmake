@@ -57,6 +57,10 @@ superbuild_set_revision(paraviewtutorialdata
   URL     "http://www.paraview.org/files/data/ParaViewTutorialData.tar.gz"
   URL_MD5 ff7ceab8cfc674b227c0bba392d1ed3c)
 
+# Other than the `git` and `source` selections, the name of the selection
+# should be the version number of the selection. See
+# `superbuild_setup_variables` in `CMakeLists.txt` for the logic which relies
+# on this assumption.
 superbuild_set_selectable_source(paraview
   SELECT 5.2.0 DEFAULT
     URL     "http://www.paraview.org/files/v5.2/ParaView-v5.2.0.tar.gz"
