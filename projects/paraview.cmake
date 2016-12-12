@@ -183,11 +183,12 @@ if (paraview_install_development_files)
   find_program(SED_EXECUTABLE sed)
   mark_as_advanced(SED_EXECUTABLE)
   if (SED_EXECUTABLE)
-    superbuild_project_add_step("fixupcmakepaths"
+    superbuild_project_add_step("fixup-cmake-paths"
       COMMAND "${CMAKE_COMMAND}"
               -Dinstall_location:PATH=<INSTALL_DIR>
               -Dparaview_version:STRING=${paraview_version}
               -P "${CMAKE_CURRENT_LIST_DIR}/scripts/paraview.fixupcmakepaths.cmake"
+      COMMENT   "Fixing paths in generated CMake files for packaging."
       DEPENDEES install
       WORKING_DIRECTORY <INSTALL_DIR>)
   endif ()
