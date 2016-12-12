@@ -8,14 +8,21 @@ list(INSERT CMAKE_MODULE_PATH 0
 macro (superbuild_setup_variables)
   include(SuperbuildVersionMacros)
   if (paraview_SOURCE_SELECTION STREQUAL "git")
-    set(PARAVIEW_VERSION_DEFAULT "5.2.0-RC4" CACHE STRING
-      "The default version of ParaView to use if it can't be auto-determined")
+    # Assuming master; just use the latest version, but let the user set their
+    # own version in case it is actually a branch from some other version.
+    set(PARAVIEW_VERSION_DEFAULT "5.2.0"
+      CACHE STRING "The default version of ParaView to use if it cannot be detected")
+    mark_as_advanced(PARAVIEW_VERSION_DEFAULT)
+    set(paraview_default_version "${PARAVIEW_VERSION_DEFAULT}")
+  elseif (paraview_SOURCE_SELECTION STREQUAL "source")
+    # If it is a git repo, we'll get it that way, otherwise we will look at the
+    # `version.txt` in the checkout.
+    set(paraview_default_version "")
   else ()
-    set(PARAVIEW_VERSION_DEFAULT "${paraview_SOURCE_SELECTION}" CACHE STRING
-      "The default version of ParaView to use if it can't be auto-determined")
+    # The selection is the version number; use it.
+    set(paraview_default_version "${paraview_SOURCE_SELECTION}")
   endif()
-  mark_as_advanced(PARAVIEW_VERSION_DEFAULT)
-  superbuild_set_version_variables(paraview "${PARAVIEW_VERSION_DEFAULT}" "paraview-version.cmake")
+  superbuild_set_version_variables(paraview "${paraview_default_version}" "paraview-version.cmake" "version.txt")
   set(paraview_version "${paraview_version_major}.${paraview_version_minor}")
 endmacro ()
 
