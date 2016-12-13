@@ -128,6 +128,15 @@ The following packages enable other features within ParaView:
   * `vrpn`: Virtual reality support.
   * `xdmf3`: A meta file format built on top of HDF5.
 
+## Offline builds
+
+The superbuild has a `download-all` target which will download all of the files
+from the network that are necessary for the currently configured build. By
+default, they are placed into the `downloads` directory of the build tree.
+This directory may then be copied to a non-networked machine and pointed at
+using the `superbuild_download_location` variable (or placed in the default
+location).
+
 ## CMake Variables
 
 ### Style Guide
