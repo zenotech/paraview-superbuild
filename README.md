@@ -6,7 +6,7 @@ ParaView-Superbuild is a project to build ParaView. ParaView itself can be
 easily built using CMake. However, ParaView has several external dependencies,
 e.g. Qt, CGNS, FFMPEG, etc. and it can be very tedious to build all those
 dependencies. Also, if you want to generate redistributable binaries, you need
-to take extra case building and packaging these dependencies. To make our
+to take extra care when building and packaging these dependencies. To make our
 lives easier in supporting both these use-cases, the ParaView-Superbuild
 project was born.
 
@@ -36,7 +36,7 @@ scripts used to build `v5.2.0` of ParaView, you use the `v5.2.0` tag.
 Currently available tags are shown
 [here](https://gitlab.kitware.com/paraview/paraview-superbuild/tags).
 
-To checkout superbuild for specific tag
+To checkout superbuild for specific tag:
 
     $ cd paraview-superbuild
     $ git fetch origin # ensure you have the latest state from the main repo
@@ -44,14 +44,13 @@ To checkout superbuild for specific tag
     $ git submodule update
 
 At this point, your superbuild is setup to have all the *rules* that were used
-when building the selected version of ParaView. It must be noted, however,
-it's possible to build a certain version of ParaView using build configuration designed
-for a different version. e.g. using superbuild for `v5.2.0`, you can try to build
-the latest development version of ParaView, or a custom branch. This is done
-by first checking out the superbuild for the appropriate version and then
-setting the CMake variables that affect which ParaView source is used. There are
-several ways to do the latter.
-
+when building the selected version of ParaView. It must be noted, however, it's
+possible to build a certain version of ParaView using a build configuration
+designed for a different version, e.g., using superbuild for `v5.2.0`, you can
+try to build the latest development version of ParaView, or a custom branch.
+This is done by first checking out the superbuild for the appropriate version
+and then setting the CMake variables that affect which ParaView source is used.
+There are several ways to do the latter.
 
 1. If you want to use git to checkout ParaView source (default), then
    set `paraview_FROM_GIT` to `ON`, ensure `paraview_GIT_REPOSITORY` is pointing
@@ -80,9 +79,9 @@ described on this page are not relevant since the superbuild was refactored and
 changed considerably for 5.2. For older versions, refer to instructions on the
 [Wiki](http://www.paraview.org/Wiki/index.php?title=ParaView/Superbuild&oldid=59804).
 
-**ALSO NOTE:** Since this README is expected to be updated for each version, once you checkout
-a specfic version, you may want to refer to the README for that specific
-version.
+**ALSO NOTE:** Since this README is expected to be updated for each version,
+once you checkout a specfic version, you may want to refer to the README for
+that specific version.
 
 ## Projects and Features
 
@@ -241,9 +240,9 @@ If you have found a bug:
 
 # License
 
-Like ParaView, ParaView-Superbuild is distributed under the OSI-approved BSD 3-clause License.
-See [Copyright.txt][] for details. For additional licenses, refer to
-[ParaView Licenses][].
+Like ParaView, ParaView-Superbuild is distributed under the OSI-approved BSD
+3-clause License. See [Copyright.txt][] for details. For additional licenses,
+refer to [ParaView Licenses][].
 
 [Copyright.txt]: Copyright.txt
 [ParaView Licenses]: http://www.paraview.org/paraview-license/
