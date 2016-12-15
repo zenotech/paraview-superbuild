@@ -203,6 +203,14 @@ function (superbuild_add_packaging)
       PARAVIEWSDK_PACKAGE_FILE_NAME)
   endif ()
 
+  set(paraview_PLUGINS_AUTOLOAD ""
+    CACHE STRING "List of plugins to autoload")
+  foreach (paraview_plugin IN LISTS paraview_PLUGINS_AUTOLOAD)
+    set("paraview_plugin_${paraview_plugin}_auto_load" 1)
+    list(APPEND superbuild_export_variables
+      "paraview_plugin_${paraview_plugin}_auto_load")
+  endforeach ()
+
   set(default_package)
 
   foreach (generator IN LISTS generators)
