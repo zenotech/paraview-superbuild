@@ -56,3 +56,39 @@ function (paraview_add_plugin _name)
     "${${_name}_arguments}"
     PARENT_SCOPE)
 endfunction ()
+
+function (paraview_add_plugins_external)
+  set(paraview_PLUGINS_EXTERNAL ""
+    CACHE STRING "List of plugins to build externally")
+
+  set(plugin_cmake_args)
+  set(plugin_paths)
+  foreach (plugin IN LISTS paraview_PLUGINS_EXTERNAL)
+    set("paraview_PLUGIN_${plugin}_PATH" ""
+      CACHE PATH "Path to the source directory of the ${name} plugin")
+    if (NOT EXISTS "${paraview_PLUGIN_${plugin}_PATH}")
+      message(FATAL_ERROR
+        "The path for the ${plugin} plugin does not exist: "
+        "${paraview_PLUGIN_${plugin}_PATH}.")
+    endif ()
+
+    list(APPEND plugin_cmake_args
+      "-DPARAVIEW_BUILD_PLUGIN_${plugin}:BOOL=ON")
+    list(APPEND plugin_paths
+      "${paraview_PLUGIN_${plugin}_PATH}")
+  endforeach ()
+
+  superbuild_add_dummy_project(paraviewpluginsexternal)
+
+  superbuild_add_extra_cmake_args(${plugin_cmake_args})
+
+  if (NOT superbuild_build_phase)
+    set_property(GLOBAL
+      PROPERTY
+        paraview_plugin_dirs_external "${plugin_paths}")
+  endif ()
+
+  set(paraviewpluginsexternal_arguments
+    "${paraviewpluginsexternal_arguments}"
+    PARENT_SCOPE)
+endfunction ()

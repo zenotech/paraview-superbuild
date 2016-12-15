@@ -137,6 +137,21 @@ This directory may then be copied to a non-networked machine and pointed at
 using the `superbuild_download_location` variable (or placed in the default
 location).
 
+## External plugins
+
+The superbuild supports building more plugins into ParaView using the
+`paraviewexternalplugins` project. As an example, to build two external
+plugins `a` and `b`, the following settings should be used:
+
+  * `enable_paraviewexternalplugins:BOOL=ON`: Enables building using external
+    plugins.
+  * `paraview_PLUGINS_EXTERNAL:STRING=a;b`: The list of plugins to build.
+  * `paraview_PLUGIN_a_PATH:PATH=/path/to/plugin/a`: The path to plugin `a`'s
+    source directory. It must contain a `plugins.cmake` to be picked up by
+    ParaView.
+  * `paraview_PLUGIN_b_PATH:PATH=/path/to/plugin/b`: Same as above, but for
+    plugin `b`.
+
 ## CMake Variables
 
 ### Style Guide

@@ -45,8 +45,11 @@ set(paraview_all_plugins
 if (superbuild_build_phase)
   get_property(paraview_plugins GLOBAL
     PROPERTY paraview_plugins)
+  get_property(paraview_plugin_dirs_external GLOBAL
+    PROPERTY paraview_plugin_dirs_external)
 
-  set(paraview_plugin_dirs)
+  set(paraview_plugin_dirs
+    "${paraview_plugin_dirs_external}")
   foreach (paraview_plugin IN LISTS paraview_plugins)
     if (${paraview_plugin}_enabled AND TARGET "${paraview_plugin}")
       set(plugin_source_dir "<SOURCE_DIR>")
@@ -111,6 +114,7 @@ superbuild_add_project(paraview
     xdmf3 ospray vrpn tbb netcdf
     paraviewusersguide paraviewgettingstartedguide
     paraviewtutorial paraviewtutorialdata paraviewweb
+    paraviewpluginsexternal
     ${paraview_all_plugins}
     ${paraviews_platform_dependencies}
     ${PARAVIEW_EXTERNAL_PROJECTS}
