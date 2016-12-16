@@ -32,6 +32,7 @@ function (superbuild_find_projects var)
   set(projects
     cxx11
     paraview
+    paraviewpluginsexternal
     python)
 
   option(USE_NONFREE_COMPONENTS "Enable the non-free parts of the superbuild" OFF)
@@ -201,6 +202,14 @@ function (superbuild_add_packaging)
     list(APPEND superbuild_export_variables
       PARAVIEWSDK_PACKAGE_FILE_NAME)
   endif ()
+
+  set(paraview_PLUGINS_AUTOLOAD ""
+    CACHE STRING "List of plugins to autoload")
+  foreach (paraview_plugin IN LISTS paraview_PLUGINS_AUTOLOAD)
+    set("paraview_plugin_${paraview_plugin}_auto_load" 1)
+    list(APPEND superbuild_export_variables
+      "paraview_plugin_${paraview_plugin}_auto_load")
+  endforeach ()
 
   set(default_package)
 

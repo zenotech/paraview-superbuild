@@ -96,34 +96,15 @@ function (paraview_add_plugin output)
   file(WRITE "${output}" "${contents}")
 endfunction ()
 
-set(paraview_plugins
-  AcceleratedAlgorithms
-  AnalyzeNIfTIIO
-  ArrowGlyph
-  GeodesicMeasurement
-  GMVReader
-  H5PartReader
-  Moments
-  NonOrthogonalSource
-  SLACTools
-  StreamingParticles
-  SurfaceLIC
-  PacMan
-  ThickenLayeredCells)
-
-if (paraview_has_gui)
+file(STRINGS "${superbuild_install_location}/${paraview_plugin_path}/.plugins"
+  paraview_plugin_lines
+  REGEX "name=\"[A-Za-z0-9]+\"")
+set(paraview_plugins)
+foreach (paraview_plugin_line IN LISTS paraview_plugin_lines)
+  string(REGEX REPLACE ".*name=\"\([A-Za-z0-9]+\)\".*" "\\1" paraview_plugin "${paraview_plugin_line}")
   list(APPEND paraview_plugins
-    CatalystScriptGeneratorPlugin
-    SierraPlotTools)
-endif ()
-
-if (vortexfinder2_enabled)
-  list(APPEND paraview_plugins
-    BDATReader
-    BDATSeriesReader
-    GLGPUSupercurrentFilter
-    GLGPUVortexFilter)
-endif ()
+    "${paraview_plugin}")
+endforeach ()
 
 if (osmesa_built_by_superbuild OR mesa_built_by_superbuild)
   set(mesa_libraries glapi)

@@ -1,5 +1,6 @@
 set(paraview_doc_dir "doc")
 set(paraview_data_dir "data")
+set(paraview_plugin_path "bin")
 include(paraview.bundle.common)
 
 # Set NSIS install specific stuff.

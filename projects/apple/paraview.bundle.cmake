@@ -1,6 +1,7 @@
 include(paraview-appname)
 set(paraview_doc_dir "${paraview_appname}/Contents/doc")
 set(paraview_data_dir "${paraview_appname}/Contents/data")
+set(paraview_plugin_path "Applications/paraview.app/Contents/Plugins")
 include(paraview.bundle.common)
 
 if (NOT paraview_has_gui)
