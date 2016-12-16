@@ -114,7 +114,8 @@ endif ()
 
 if (matplotlib_enabled)
   paraview_add_ui_test("matplotlib" "TestMatplotlib"
-    "--test-baseline=${CMAKE_CURRENT_LIST_DIR}/baselines/Superbuild-TestMatplotlib.png")
+    "--test-baseline=${CMAKE_CURRENT_LIST_DIR}/baselines/Superbuild-TestMatplotlib.png"
+    "--test-threshold=15")
 endif ()
 
 if (ospray_enabled)
