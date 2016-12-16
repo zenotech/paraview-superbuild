@@ -2,6 +2,7 @@ include(paraview-version)
 
 set(paraview_doc_dir "share/paraview-${paraview_version}/doc")
 set(paraview_data_dir "share/paraview-${paraview_version}/data")
+set(paraview_plugin_path "lib/paraview-${paraview_version}")
 set(CPACK_PACKAGE_NAME "ParaView-Catalyst-${PARAVIEW_CATALYST_EDITION}")
 include(paraview.bundle.common)
 
