@@ -137,6 +137,39 @@ This directory may then be copied to a non-networked machine and pointed at
 using the `superbuild_download_location` variable (or placed in the default
 location).
 
+## Installing
+
+The superbuild supports the `install` target by selecting a template package
+using the `SUPERBUILD_DEFAULT_INSTALL` variable. The default and availability
+depends on the platform and selected projects, but valid values for this
+include:
+
+  * `paraview/ZIP`
+  * `paraview/DragNDrop`
+  * `paraview/TGZ`
+  * `catalyst/TGZ`
+  * `paraviewsdk/TGZ`
+
+The CMake cache editors (`ccmake` and `cmake-gui`) have dropdown options for
+the supported options.
+
+The selected package logic will be used to install ParaView and its
+dependencies into `CMAKE_INSTALL_PREFIX` rather than being placed into a
+package. For example, the `DragNDrop` generator creates `.app` bundles which
+will be created whereas the `TGZ` and `ZIP` generators use the standard
+`bin/`, `lib/`, etc. directories.
+
+### Caveats
+
+If using the `git` source selection for ParaView, the build will rerun when
+using the `install` target due to limitations in the external project
+mechanisms and the way CPack works. There are two ways to avoid this:
+
+  * the `SUPERBUILD_OFFLINE_BUILD` option may be set to `ON` to unlink the git
+    update step from the configure/build steps; or
+  * the initial build can just be run using the `install` target instead of
+    the usual `make && make install` pattern.
+
 ## External plugins
 
 The superbuild supports building more plugins into ParaView using the
