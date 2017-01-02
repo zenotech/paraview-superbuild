@@ -143,7 +143,7 @@ The superbuild supports building more plugins into ParaView using the
 `paraviewexternalplugins` project. As an example, to build two external
 plugins `a` and `b`, the following settings should be used:
 
-  * `enable_paraviewexternalplugins:BOOL=ON`: Enables building using external
+  * `ENABLE_paraviewpluginsexternal:BOOL=ON`: Enables building using external
     plugins.
   * `paraview_PLUGINS_EXTERNAL:STRING=a;b`: The list of plugins to build.
   * `paraview_PLUGIN_a_PATH:PATH=/path/to/plugin/a`: The path to plugin `a`'s
