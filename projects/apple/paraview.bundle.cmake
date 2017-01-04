@@ -25,13 +25,21 @@ foreach (paraview_plugin IN LISTS paraview_plugins)
   endforeach ()
 endforeach ()
 
+set(include_regexes)
+if (fortran_enabled)
+  list(APPEND include_regexes
+    ".*/libgfortran"
+    ".*/libquadmath")
+endif ()
+
 superbuild_apple_create_app(
   "\${CMAKE_INSTALL_PREFIX}"
   "${paraview_appname}"
   "${superbuild_install_location}/Applications/paraview.app/Contents/MacOS/paraview"
   CLEAN
   PLUGINS ${paraview_plugin_paths}
-  SEARCH_DIRECTORIES "${superbuild_install_location}/lib")
+  SEARCH_DIRECTORIES "${superbuild_install_location}/lib"
+  INCLUDE_REGEXES     ${include_regexes})
 
 set(plugins_file "${CMAKE_CURRENT_BINARY_DIR}/paraview.plugins")
 paraview_add_plugin("${plugins_file}" ${paraview_plugins})
@@ -60,7 +68,8 @@ foreach (executable IN LISTS paraview_executables)
     "\${CMAKE_INSTALL_PREFIX}"
     "${paraview_appname}"
     "${superbuild_install_location}/Applications/paraview.app/Contents/bin/${executable}"
-    SEARCH_DIRECTORIES "${superbuild_install_location}/lib")
+    SEARCH_DIRECTORIES "${superbuild_install_location}/lib"
+    INCLUDE_REGEXES     ${include_regexes})
 endforeach ()
 
 file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/qt.conf" "")
@@ -107,7 +116,8 @@ if (mpi_built_by_superbuild)
       "\${CMAKE_INSTALL_PREFIX}"
       "${paraview_appname}"
       "${superbuild_install_location}/bin/${mpi_executable}"
-      SEARCH_DIRECTORIES "${superbuild_install_location}/lib")
+      SEARCH_DIRECTORIES "${superbuild_install_location}/lib"
+      INCLUDE_REGEXES     ${include_regexes})
   endforeach ()
 
   install(CODE

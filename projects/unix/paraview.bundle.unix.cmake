@@ -7,6 +7,13 @@ if (QT_LIBRARY_DIR)
     "${QT_LIBRARY_DIR}")
 endif ()
 
+set(include_regexes)
+if (fortran_enabled)
+  list(APPEND include_regexes
+    ".*/libgfortran"
+    ".*/libquadmath")
+endif ()
+
 set(exclude_regexes)
 if (PARAVIEW_DEFAULT_SYSTEM_GL OR
     (mesa_built_by_superbuild OR osmesa_built_by_superbuild))
@@ -19,6 +26,7 @@ foreach (executable IN LISTS paraview_executables)
   superbuild_unix_install_program_fwd("${executable}"
     "lib/paraview-${paraview_version}"
     SEARCH_DIRECTORIES  "${library_paths}"
+    INCLUDE_REGEXES     ${include_regexes}
     EXCLUDE_REGEXES     ${exclude_regexes})
 endforeach ()
 
@@ -27,6 +35,7 @@ foreach (paraview_plugin IN LISTS paraview_plugins)
     "lib/paraview-${paraview_version}"
     "lib/paraview-${paraview_version}"
     SEARCH_DIRECTORIES  "${library_paths}"
+    INCLUDE_REGEXES     ${include_regexes}
     EXCLUDE_REGEXES     ${exclude_regexes}
     LOCATION            "lib/paraview-${paraview_version}/plugins/${paraview_plugin}/")
 endforeach ()
@@ -72,6 +81,7 @@ if (python_enabled)
     MODULES             paraview
                         vtk
                         ${python_modules}
+    INCLUDE_REGEXES     ${include_regexes}
     EXCLUDE_REGEXES     ${exclude_regexes}
     MODULE_DIRECTORIES  "${superbuild_install_location}/lib/python2.7/site-packages"
                         "${superbuild_install_location}/lib/paraview-${paraview_version}/site-packages"
@@ -81,6 +91,7 @@ if (python_enabled)
     MODULE_DESTINATION  "/site-packages/paraview"
     LIBDIR              "lib/paraview-${paraview_version}"
     MODULES             vtk
+    INCLUDE_REGEXES     ${include_regexes}
     EXCLUDE_REGEXES     ${exclude_regexes}
     MODULE_DIRECTORIES  "${superbuild_install_location}/lib/python2.7/site-packages"
                         "${superbuild_install_location}/lib/paraview-${paraview_version}/site-packages"
@@ -138,6 +149,7 @@ foreach (qt4_plugin_path IN LISTS qt4_plugin_paths)
     "lib/paraview-${paraview_version}"
     "lib/paraview-${paraview_version}/${qt4_plugin_group}/"
     SEARCH_DIRECTORIES  "${library_paths}"
+    INCLUDE_REGEXES     ${include_regexes}
     EXCLUDE_REGEXES     ${exclude_regexes})
 endforeach ()
 
