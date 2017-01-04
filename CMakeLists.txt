@@ -72,13 +72,14 @@ function (superbuild_find_projects var)
       adios
       cosmotools
       ffmpeg
+      fortran
       genericio
       libxml2
       mxml)
 
     if (NOT APPLE)
       list(APPEND projects
-        paraviewsdk
+        boxlib
         catalyst
         egl
         fontconfig
