@@ -1,5 +1,7 @@
+include(paraview-version)
 set(CPACK_PACKAGE_NAME "ParaViewSDK")
 set(package_filename "${PARAVIEWSDK_PACKAGE_FILE_NAME}")
+set(paraview_plugin_path "lib/paraview-${paraview_version}")
 include(paraview.bundle.common)
 
 set(plugins_file "${CMAKE_CURRENT_BINARY_DIR}/paraview.plugins")
