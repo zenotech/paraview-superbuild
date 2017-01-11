@@ -2,76 +2,79 @@
 
 # Introduction
 
-ParaView-Superbuild is a project to build ParaView. ParaView itself can be
-easily built using CMake. However, ParaView has several external dependencies,
-e.g. Qt, CGNS, FFMPEG, etc. and it can be very tedious to build all those
-dependencies. Also, if you want to generate redistributable binaries, you need
-to take extra care when building and packaging these dependencies. To make our
-lives easier in supporting both these use-cases, the ParaView-Superbuild
-project was born.
+ParaView-Superbuild, henceforth referred to as "superbuild", is a project to
+build ParaView and its dependencies. ParaView itself can be easily built using
+CMake as long as the required external dependencies are available on the build
+machine. However, ParaView's several external dependencies, e.g. Qt, CGNS,
+FFMPEG, etc. can be very tedious to build. Also, if you want to generate
+redistributable binaries, you need to take extra care when building and
+packaging these dependencies. To make our lives easier in supporting both these
+use-cases, the superbuild project was born.
 
-Although primarily designed to build the official ParaView binaries,
-ParaView-Superbuild has since been regularly used to build ParaView packages
+Although primarily designed to build the official ParaView binaries, the
+superbuild has since been regularly used to build and install ParaView
 on various supercomputing systems.
 
 # Obtaining the source
 
-To obtain the source locally, you can clone this repository using [Git](https://git-scm.org).
+To obtain the superbuild source locally, clone this repository using
+[Git](https://git-scm.org).
 
     $ git clone --recursive https://gitlab.kitware.com/paraview/paraview-superbuild.git
-    $ cd paraview-superbuild
 
 # Building
 
-The superbuild may be built with a Makefiles or Ninja CMake generator. The IDE
+The superbuild can be built with a Makefiles or Ninja CMake generator. The IDE
 generators (Xcode and Visual Studio) are not supported.
 
 ## Building a specific version
 
-The superbuild project uses same versioning scheme as ParaView, the state of
-the superbuild project gets tagged for every release of ParaView using the
-same tag name as the ParaView version. For example, to build using the build
-scripts used to build `v5.2.0` of ParaView, you use the `v5.2.0` tag.
+The superbuild project uses the same versioning scheme as ParaView,
+and gets tagged for every release of ParaView.  For example, to build
+ParaView version 5.2.0, checkout the `v5.2.0` tag of ParaView and
+superbuild.
 
 Currently available tags are shown
 [here](https://gitlab.kitware.com/paraview/paraview-superbuild/tags).
 
-To checkout superbuild for specific tag:
+To checkout a specific tag from the superbuild git repository:
 
     $ cd paraview-superbuild
     $ git fetch origin # ensure you have the latest state from the main repo
     $ git checkout v5.2.0 # replace `v5.2.0` with tag name of your choice
     $ git submodule update
 
-At this point, your superbuild is setup to have all the *rules* that were used
-when building the selected version of ParaView. It must be noted, however, it's
-possible to build a certain version of ParaView using a build configuration
-designed for a different version, e.g., using superbuild for `v5.2.0`, you can
-try to build the latest development version of ParaView, or a custom branch.
-This is done by first checking out the superbuild for the appropriate version
-and then setting the CMake variables that affect which ParaView source is used.
-There are several ways to do the latter.
+At this point, your superbuild has all of the *rules* that were used
+when building the selected version of ParaView. Also, note that it's
+possible to build a version of ParaView using a different superbuild
+version.  For example, you could use superbuild `v5.2.0`, to build the
+latest master (i.e., development) version of ParaView, or a custom
+branch.  This is done by first checking out the superbuild for the
+appropriate version and then setting the CMake variables that affect
+which ParaView source is to be used.  There are several ways to
+control how superbuild finds its source packages:
 
  1. If you want to use git to checkout ParaView source (default), then set
     `paraview_SOURCE_SELECTION` to `git`, ensure `paraview_GIT_REPOSITORY` is
     pointing to the ParaView git repository you want to clone (by default it is
     set to the offical ParaView repository) and then set the `paraview_GIT_TAG`
     to be a specific tagname or branch available for the selected git
-    repository, e.g., `master` for latest development code, `v5.2.0` for the
-    5.2.0 release, `release` for latest stable release, or even a specific
+    repository. Use `master` for latest development code, `v5.2.0` for the
+    5.2.0 release, `release` for latest stable release, or a specific ParaView
     commit SHA. In this setup, when building the superbuild, it will clone and
-    checkout the approriate revision from ParaView git repository on its own.
+    checkout the appropriate revision from the ParaView git repository automatically.
  2. Instead of letting superbuild do the cloning and updating of the ParaView
     source, you can also manually check it out and keep it updated as needed.
     To use this configuration, set `paraview_SOURCE_SELECTION` to `source`, and
-    set `paraview_SOURCE_DIR` to point to a custom ParaView source tree.
+    set `paraview_SOURCE_DIR` to point to a custom ParaView source tree. See 'offline
+    builds' below for instructions to download needed dependency packages.
  3. Another option is to use a source tarball of a ParaView release. For that,
     set `paraview_SOURCE_SELECTION` to the version to build such as `5.2.0`.
     The superbuild offers the lastest stable release as well as release
     candidate in preparation for the release. This is the best way to build a
     released version of ParaView.
 
-**NOTE:** If you switch to a version older than 5.2, the build instructions
+**NOTE:** If you switch to a superbuild version older than 5.2, the instructions
 described on this page are not relevant since the superbuild was refactored and
 changed considerably for 5.2. For older versions, refer to instructions on the
 [Wiki](http://www.paraview.org/Wiki/index.php?title=ParaView/Superbuild&oldid=59804).
@@ -88,11 +91,11 @@ downloading and adding the feature to the resulting package, but there are a
 few which are used just to enable features within ParaView itself.
 
 The `catalyst` and `paraview` projects are mutually exclusive (the libraries
-conflict in the install tree). The `catalyst` package is only available on
-Linux. One of these two projects must be enabled.
+conflict in the install tree). One of these two projects must be enabled.
+The `catalyst` package is only available on Linux.
 
 The `paraviewsdk` project enables the building of a package which includes
-headers and libraries suitable for developing against ParaView. Only available
+headers and libraries suitable for developing against ParaView. It is only available
 on Linux (at the moment).
 
 The `paraviewweb` project adds web services into the resulting package.
@@ -130,11 +133,12 @@ The following packages enable other features within ParaView:
 
 ## Offline builds
 
-The superbuild has a `download-all` target which will download all of the files
-from the network that are necessary for the currently configured build. By
-default, they are placed into the `downloads` directory of the build tree.
-This directory may then be copied to a non-networked machine and pointed at
-using the `superbuild_download_location` variable (or placed in the default
+The superbuild has a `download-all` target that will download all of
+the files from the network that are necessary for the currently
+configured build. By default, they are placed into the `downloads`
+directory of the build tree.  This superbuild-plus-downloads tree may
+then be copied to a non-networked machine and pointed at using the
+`superbuild_download_location` variable (or placed in the default
 location).
 
 ## Installing
@@ -176,7 +180,7 @@ The superbuild supports building more plugins into ParaView using the
 `paraviewexternalplugins` project. As an example, to build two external
 plugins `a` and `b`, the following settings should be used:
 
-  * `ENABLE_paraviewpluginsexternal:BOOL=ON`: Enables building using external
+  * `ENABLE_paraviewexternalplugins:BOOL=ON`: Enables building using external
     plugins.
   * `paraview_PLUGINS_EXTERNAL:STRING=a;b`: The list of plugins to build.
   * `paraview_PLUGIN_a_PATH:PATH=/path/to/plugin/a`: The path to plugin `a`'s
@@ -289,7 +293,7 @@ If you have found a bug:
 
 1. If you have a patch, please read the [CONTRIBUTING.md][] document.
 
-2. Otherwise, please join the one of the [ParaView Mailing Lists][] and ask
+2. Otherwise, please join one of the [ParaView Mailing Lists][] and ask
    about the expected and observed behaviors to determine if it is
    really a bug.
 
