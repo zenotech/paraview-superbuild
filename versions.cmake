@@ -2,17 +2,15 @@ superbuild_set_revision(llvm
   URL     "http://www.paraview.org/files/dependencies/llvm-3.8.1.src.tar.xz"
   URL_MD5 538467e6028bbc9259b1e6e015d25845)
 
-superbuild_set_selectable_source(mesa
-  SELECT 13.0.0 DEFAULT
-    URL     "http://www.paraview.org/files/dependencies/mesa-13.0.0.tar.xz"
-    URL_MD5 8c4ca7da1be2b8f9a877db09304335a4
-  SELECT git CUSTOMIZABLE
-    GIT_REPOSITORY "https://gitlab.kitware.com/third-party/mesa.git"
-    GIT_TAG        "origin/master")
-get_property(mesa_revision GLOBAL
-  PROPERTY mesa_revision)
-superbuild_set_revision(osmesa
-  ${mesa_revision})
+superbuild_set_revision(glproto
+  URL     "http://www.paraview.org/files/dependencies/glproto-1.4.17.tar.bz2"
+  URL_MD5 5565f1b0facf4a59c2778229c1f70d10)
+
+superbuild_set_revision(mesa
+    URL     "http://www.paraview.org/files/dependencies/mesa-13.0.3.tar.xz"
+    URL_MD5 24e3fa52c95139dfa9ff5085d0c2ead6)
+get_property(mesa_revision GLOBAL PROPERTY mesa_revision)
+superbuild_set_revision(osmesa ${mesa_revision})
 
 superbuild_set_revision(glu
   URL     "http://www.paraview.org/files/dependencies/glu-9.0.0.tar.gz"

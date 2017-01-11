@@ -1,6 +1,9 @@
 set(mesa_type_args --disable-gallium-osmesa --enable-glx)
-
+set(mesa_type_deps glproto)
 include(mesa.common)
+
+superbuild_apply_patch(mesa use-glproto-for-all-glx-impls
+  "Use GLProto for all GLX implementations")
 
 if (BUILD_SHARED_LIBS)
   set(mesa_library libGL.so)

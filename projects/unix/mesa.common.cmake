@@ -61,23 +61,14 @@ if (CMAKE_CXX_COMPILER_ID MATCHES "Intel")
     PROJECT_ONLY)
 endif ()
 
-if (mesa_SOURCE_SELECTION STREQUAL "git" OR
-    (current_project       STREQUAL "osmesa" AND
-     mesa_SOURCE_SELECTION STREQUAL "v12.0.3"))
-  set(mesa_use_autogen ON)
-endif ()
-
-if (mesa_use_autogen)
-  set(mesa_configure_cmd ./autogen.sh)
-else ()
-  set(mesa_configure_cmd ./configure)
-endif ()
+# We frequently need to patch the autoconf files so instead of making it patch
+# dependent we just always use autogen instead of configure
 
 superbuild_add_project(${project}
   CAN_USE_SYSTEM
-  DEPENDS llvm
+  DEPENDS llvm ${mesa_type_deps}
   CONFIGURE_COMMAND
-    ${mesa_configure_cmd}
+    ./autogen.sh
       ${mesa_common_config_args}
       ${mesa_shared_lib_args}
       ${mesa_type_args}
@@ -87,8 +78,6 @@ superbuild_add_project(${project}
     make install
   BUILD_IN_SOURCE 1)
 
-if (mesa_use_autogen)
-  # For compatibility on machines with a crufty autotools
-  superbuild_apply_patch(${project} revert-xz
-    "Revert autoconf dist-xz to dist-bzip2")
-endif ()
+# For compatibility on machines with a crufty autotools
+superbuild_apply_patch(${project} revert-xz
+  "Revert autoconf dist-xz to dist-bzip2")
