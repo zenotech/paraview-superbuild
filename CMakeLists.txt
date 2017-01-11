@@ -83,6 +83,7 @@ function (superbuild_find_projects var)
         egl
         fontconfig
         glu
+        glproto
         llvm
         mesa
         osmesa

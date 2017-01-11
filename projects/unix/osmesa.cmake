@@ -2,11 +2,6 @@ set(mesa_type_args --enable-gallium-osmesa --disable-glx)
 
 include(mesa.common)
 
-if (mesa_SOURCE_SELECTION STREQUAL "v12.0.3")
-  superbuild_apply_patch(osmesa install-headers
-  "Install OSMesa headers")
-endif ()
-
 if (BUILD_SHARED_LIBS)
   set(osmesa_library libOSMesa.so)
 else ()
