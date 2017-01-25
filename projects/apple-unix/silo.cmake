@@ -13,7 +13,7 @@ if (zlib_enabled)
       set(silo_zlib_args "--with-zlib=${silo_zlib_inc_dir},${silo_zlib_lib_dir}")
     endif ()
   else ()
-    set(silo_zlib_args "--with-hdf5=<INSTALL_DIR>/include,<INSTALL_DIR>/lib")
+    set(silo_zlib_args "--with-zlib=<INSTALL_DIR>/include,<INSTALL_DIR>/lib")
   endif ()
 endif ()
 
