@@ -120,3 +120,7 @@ superbuild_set_revision(paraviewwebvisualizer
 superbuild_set_revision(paraviewweblightviz
   URL     "http://www.paraview.org/files/dependencies/light-viz-1.16.4.tar.gz"
   URL_MD5 724849431759d30ec0077f99937f1537)
+
+superbuild_set_revision(boxlib
+  URL     "http://www.paraview.org/files/dependencies/boxlib-c114717e6c47188a0812804addcab61d7605ef89.tar.bz2"
+  URL_MD5 fb96e9b2c347c9b790d0eab4ba810e14)

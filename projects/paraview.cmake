@@ -96,6 +96,8 @@ if (UNIX)
   list(APPEND paraviews_platform_dependencies
     adios ffmpeg libxml2 freetype
 
+    boxlib
+
     # For cosmotools
     genericio cosmotools)
 endif ()
@@ -137,6 +139,7 @@ superbuild_add_project(paraview
     -DVISIT_BUILD_READER_CGNS:BOOL=OFF # force to off
     -DVISIT_BUILD_READER_GMV:BOOL=${paraview_visit_gmv}
     -DVISIT_BUILD_READER_Silo:BOOL=${silo_enabled}
+    -DVISIT_BUILD_READER_Boxlib3D:BOOL=${boxlib_enabled}
     -DPARAVIEW_INSTALL_DEVELOPMENT_FILES:BOOL=${paraview_install_development_files}
     -DPARAVIEW_ENABLE_MATPLOTLIB:BOOL=${matplotlib_enabled}
     -DPARAVIEW_FREEZE_PYTHON:BOOL=${PARAVIEW_FREEZE_PYTHON}
