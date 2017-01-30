@@ -50,7 +50,7 @@ if (qt4_enabled OR qt5_enabled)
 endif ()
 
 set(python_modules
-  cinema
+  cinema_python
   pygments
   six)
 
