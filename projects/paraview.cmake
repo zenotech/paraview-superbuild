@@ -113,7 +113,7 @@ superbuild_add_project(paraview
   DEPENDS_OPTIONAL
     cxx11 boost hdf5 matplotlib mpi numpy png
     python qt4 qt5 visitbridge zlib silo cgns
-    xdmf3 ospray vrpn tbb netcdf
+    xdmf3 ospray vrpn vtkm tbb netcdf
     paraviewusersguide paraviewgettingstartedguide
     paraviewtutorial paraviewtutorialdata paraviewweb
     paraviewpluginsexternal
@@ -166,6 +166,11 @@ superbuild_add_project(paraview
     # vrpn
     -DPARAVIEW_BUILD_PLUGIN_VRPlugin:BOOL=${vrpn_enabled}
     -DPARAVIEW_USE_VRPN:BOOL=${vrpn_enabled}
+
+    # vtkm
+    -DPARAVIEW_BUILD_PLUGIN_VTKmFilters:BOOL=${vtkm_enabled}
+    -DPARAVIEW_USE_VTKM:BOOL=${vtkm_enabled}
+    -DModule_vtkAcceleratorsVTKm:BOOL=${vtkm_enabled}
 
     # Web
     -DPARAVIEW_ENABLE_WEB:BOOL=${paraviewweb_enabled}

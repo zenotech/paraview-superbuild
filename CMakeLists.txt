@@ -64,6 +64,7 @@ function (superbuild_find_projects var)
     visitbridge
     vortexfinder2
     vrpn
+    vtkm
     xdmf3
     zlib)
 
