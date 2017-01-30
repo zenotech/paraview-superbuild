@@ -10,7 +10,8 @@ if (hdf5_built_by_superbuild)
 endif ()
 
 superbuild_add_project(cgns
-  DEPENDS_OPTIONAL zlib szip hdf5
+  DEPENDS hdf5
+  DEPENDS_OPTIONAL zlib szip
   CMAKE_ARGS
     -DCGNS_BUILD_SHARED:BOOL=${BUILD_SHARED_LIBS}
     -DCGNS_ENABLE_64BIT:BOOL=ON
