@@ -45,6 +45,7 @@ function (superbuild_find_projects var)
     freetype
     hdf5
     ispc
+    lapack
     netcdf
     matplotlib
     mpi
@@ -77,7 +78,8 @@ function (superbuild_find_projects var)
       fortran
       genericio
       libxml2
-      mxml)
+      mxml
+      scipy)
 
     if (NOT APPLE)
       list(APPEND projects

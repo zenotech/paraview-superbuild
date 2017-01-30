@@ -59,6 +59,11 @@ if (numpy_built_by_superbuild)
     numpy)
 endif ()
 
+if (scipy_built_by_superbuild)
+  list(APPEND python_modules
+    scipy)
+endif ()
+
 if (matplotlib_built_by_superbuild)
   list(APPEND python_modules
     matplotlib)
