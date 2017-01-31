@@ -90,13 +90,13 @@ if (UNIX)
     list(APPEND paraviews_platform_dependencies
       mesa osmesa egl glu
 
+      boxlib
+
       # Needed for fonts to work properly.
       fontconfig)
   endif ()
   list(APPEND paraviews_platform_dependencies
     adios ffmpeg libxml2 freetype
-
-    boxlib
 
     # For cosmotools
     genericio cosmotools)

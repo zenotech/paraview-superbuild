@@ -48,3 +48,8 @@ superbuild_add_project(silo
       ${silo_zlib_args}
       ${silo_szip_args}
       ${silo_hdf5_args})
+
+if (APPLE)
+  superbuild_apply_patch(silo zlib-apple
+    "Detect libz.dylib")
+endif ()
