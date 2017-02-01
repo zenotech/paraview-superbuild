@@ -56,6 +56,7 @@ function (superbuild_find_projects var)
     png
     python
     pythonsetuptools
+    qt
     qt4
     qt5
     silo
