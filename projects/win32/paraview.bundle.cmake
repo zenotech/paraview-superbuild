@@ -106,7 +106,7 @@ if (paraviewweb_enabled)
 endif ()
 
 foreach (qt4_plugin_path IN LISTS qt4_plugin_paths)
-  get_filename_component(qt4_plugin_group "${qt4_plugin_paths}" DIRECTORY)
+  get_filename_component(qt4_plugin_group "${qt4_plugin_path}" DIRECTORY)
   get_filename_component(qt4_plugin_group "${qt4_plugin_group}" NAME)
 
   superbuild_windows_install_plugin(

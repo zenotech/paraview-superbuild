@@ -142,7 +142,7 @@ if (mpi_built_by_superbuild)
 endif ()
 
 foreach (qt4_plugin_path IN LISTS qt4_plugin_paths)
-  get_filename_component(qt4_plugin_group "${qt4_plugin_paths}" DIRECTORY)
+  get_filename_component(qt4_plugin_group "${qt4_plugin_path}" DIRECTORY)
   get_filename_component(qt4_plugin_group "${qt4_plugin_group}" NAME)
 
   superbuild_unix_install_plugin("${qt4_plugin_path}"
