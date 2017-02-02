@@ -72,11 +72,13 @@ foreach (executable IN LISTS paraview_executables)
     INCLUDE_REGEXES     ${include_regexes})
 endforeach ()
 
-file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/qt.conf" "")
-install(
-  FILES       "${CMAKE_CURRENT_BINARY_DIR}/qt.conf"
-  DESTINATION "${paraview_appname}/Contents/Resources/qt.conf"
-  COMPONENT   superbuild)
+if (qt4_enabled)
+  file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/qt.conf" "")
+  install(
+    FILES       "${CMAKE_CURRENT_BINARY_DIR}/qt.conf"
+    DESTINATION "${paraview_appname}/Contents/Resources/qt.conf"
+    COMPONENT   superbuild)
+endif ()
 
 if (python_enabled)
   superbuild_apple_install_python(
