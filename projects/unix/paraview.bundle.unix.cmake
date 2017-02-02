@@ -158,4 +158,25 @@ foreach (qt4_plugin_path IN LISTS qt4_plugin_paths)
     EXCLUDE_REGEXES     ${exclude_regexes})
 endforeach ()
 
+if (qt5_enabled)
+  file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/qt.conf" "")
+  install(
+    FILES       "${CMAKE_CURRENT_BINARY_DIR}/qt.conf"
+    DESTINATION "lib/paraview-${paraview_version}"
+    COMPONENT   superbuild)
+endif ()
+
+foreach (qt5_plugin_path IN LISTS qt5_plugin_paths)
+  get_filename_component(qt5_plugin_group "${qt5_plugin_path}" DIRECTORY)
+  get_filename_component(qt5_plugin_group "${qt5_plugin_group}" NAME)
+  message(qt5_plugin_group "${qt5_plugin_group}")
+
+  superbuild_unix_install_plugin("${qt5_plugin_path}"
+    "lib/paraview-${paraview_version}"
+    "lib/paraview-${paraview_version}/plugins/${qt5_plugin_group}/"
+    SEARCH_DIRECTORIES  "${library_paths}"
+    INCLUDE_REGEXES     ${include_regexes}
+    EXCLUDE_REGEXES     ${exclude_regexes})
+endforeach ()
+
 paraview_install_extra_data()

@@ -170,4 +170,16 @@ foreach (qt4_plugin_path IN LISTS qt4_plugin_paths)
     SEARCH_DIRECTORIES  "${library_paths}")
 endforeach ()
 
+foreach (qt5_plugin_path IN LISTS qt5_plugin_paths)
+  get_filename_component(qt5_plugin_group "${qt5_plugin_path}" DIRECTORY)
+  get_filename_component(qt5_plugin_group "${qt5_plugin_group}" NAME)
+
+  superbuild_apple_install_module(
+    "\${CMAKE_INSTALL_PREFIX}"
+    "${paraview_appname}"
+    "${qt5_plugin_path}"
+    "Contents/Plugins/${qt5_plugin_group}"
+    SEARCH_DIRECTORIES  "${library_paths}")
+endforeach ()
+
 paraview_install_extra_data()

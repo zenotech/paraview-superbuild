@@ -120,4 +120,14 @@ foreach (qt4_plugin_path IN LISTS qt4_plugin_paths)
     "${library_paths}")
 endforeach ()
 
+foreach (qt5_plugin_path IN LISTS qt5_plugin_paths)
+  get_filename_component(qt5_plugin_group "${qt5_plugin_path}" DIRECTORY)
+  get_filename_component(qt5_plugin_group "${qt5_plugin_group}" NAME)
+
+  superbuild_windows_install_plugin(
+    "${qt5_plugin_path}"
+    "plugins/${qt5_plugin_group}"
+    "${library_paths}")
+endforeach ()
+
 paraview_install_extra_data()

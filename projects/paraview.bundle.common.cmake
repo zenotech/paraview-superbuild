@@ -171,6 +171,36 @@ else ()
   set(qt4_plugin_paths)
 endif ()
 
+if (qt5_enabled)
+  include(qt5.functions)
+
+  set(qt5_plugin_prefix)
+  if (NOT WIN32)
+    set(qt5_plugin_prefix "lib")
+  endif ()
+
+  set(qt5_plugins
+    sqldrivers/${qt5_plugin_prefix}qsqlite)
+
+  if (WIN32)
+    list(APPEND qt5_plugins
+      platforms/qwindows)
+  elseif (APPLE)
+    list(APPEND qt5_plugins
+      platforms/libqcocoa
+      printsupport/libcocoaprintersupport)
+  elseif (UNIX)
+    list(APPEND qt5_plugins
+      platforms/libqxcb
+      platforminputcontexts/libcomposeplatforminputcontextplugin
+      xcbglintegrations/libqxcb-glx-integration)
+  endif ()
+
+  superbuild_install_qt5_plugin_paths(qt5_plugin_paths ${qt5_plugins})
+else ()
+  set(qt5_plugin_paths)
+endif ()
+
 if (socat_built_by_superbuild)
   include(socat.bundle)
 endif ()
