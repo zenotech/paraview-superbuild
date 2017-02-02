@@ -28,6 +28,11 @@ if (QT_LIBRARY_DIR)
     "${QT_LIBRARY_DIR}")
 endif ()
 
+if (Qt5_DIR)
+  list(APPEND library_paths
+    "${Qt5_DIR}/../../../bin")
+endif ()
+
 # Install paraview executables to bin.
 foreach (executable IN LISTS paraview_executables)
   if (DEFINED "${executable}_description")

@@ -7,6 +7,11 @@ if (QT_LIBRARY_DIR)
     "${QT_LIBRARY_DIR}")
 endif ()
 
+if (Qt5_DIR)
+  list(APPEND library_paths
+    "${Qt5_DIR}/../..")
+endif ()
+
 set(include_regexes)
 if (fortran_enabled)
   list(APPEND include_regexes
