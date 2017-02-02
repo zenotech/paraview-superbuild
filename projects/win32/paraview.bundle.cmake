@@ -105,15 +105,6 @@ if (paraviewweb_enabled)
     COMPONENT   "superbuild")
 endif ()
 
-if (qt4_built_by_superbuild OR qt5_built_by_superbuild)
-  # TODO: get a list of Qt plugins.
-  foreach (qt_plugin IN LISTS qt_plugins)
-    superbuild_windows_install_plugin("${qt_plugin}.dll"
-      "bin"
-      "${library_paths}")
-  endforeach ()
-endif ()
-
 foreach (qt4_plugin_path IN LISTS qt4_plugin_paths)
   get_filename_component(qt4_plugin_group "${qt4_plugin_paths}" DIRECTORY)
   get_filename_component(qt4_plugin_group "${qt4_plugin_group}" NAME)
