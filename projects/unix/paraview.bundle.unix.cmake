@@ -7,6 +7,11 @@ if (QT_LIBRARY_DIR)
     "${QT_LIBRARY_DIR}")
 endif ()
 
+if (Qt5_DIR)
+  list(APPEND library_paths
+    "${Qt5_DIR}/../..")
+endif ()
+
 set(include_regexes)
 if (fortran_enabled)
   list(APPEND include_regexes
@@ -142,12 +147,33 @@ if (mpi_built_by_superbuild)
 endif ()
 
 foreach (qt4_plugin_path IN LISTS qt4_plugin_paths)
-  get_filename_component(qt4_plugin_group "${qt4_plugin_paths}" DIRECTORY)
+  get_filename_component(qt4_plugin_group "${qt4_plugin_path}" DIRECTORY)
   get_filename_component(qt4_plugin_group "${qt4_plugin_group}" NAME)
 
   superbuild_unix_install_plugin("${qt4_plugin_path}"
     "lib/paraview-${paraview_version}"
     "lib/paraview-${paraview_version}/${qt4_plugin_group}/"
+    SEARCH_DIRECTORIES  "${library_paths}"
+    INCLUDE_REGEXES     ${include_regexes}
+    EXCLUDE_REGEXES     ${exclude_regexes})
+endforeach ()
+
+if (qt5_enabled)
+  file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/qt.conf" "")
+  install(
+    FILES       "${CMAKE_CURRENT_BINARY_DIR}/qt.conf"
+    DESTINATION "lib/paraview-${paraview_version}"
+    COMPONENT   superbuild)
+endif ()
+
+foreach (qt5_plugin_path IN LISTS qt5_plugin_paths)
+  get_filename_component(qt5_plugin_group "${qt5_plugin_path}" DIRECTORY)
+  get_filename_component(qt5_plugin_group "${qt5_plugin_group}" NAME)
+  message(qt5_plugin_group "${qt5_plugin_group}")
+
+  superbuild_unix_install_plugin("${qt5_plugin_path}"
+    "lib/paraview-${paraview_version}"
+    "lib/paraview-${paraview_version}/plugins/${qt5_plugin_group}/"
     SEARCH_DIRECTORIES  "${library_paths}"
     INCLUDE_REGEXES     ${include_regexes}
     EXCLUDE_REGEXES     ${exclude_regexes})

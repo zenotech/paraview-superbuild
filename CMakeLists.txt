@@ -182,6 +182,11 @@ function (superbuild_add_packaging)
       QT_LIBRARY_DIR)
   endif ()
 
+  if (USE_SYSTEM_qt5)
+    list(APPEND superbuild_export_variables
+      Qt5_DIR)
+  endif ()
+
   if (NOT DEFINED PARAVIEW_CATALYST_EDITION)
     set(PARAVIEW_CATALYST_EDITION Full)
   endif ()
