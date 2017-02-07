@@ -24,7 +24,7 @@ if (PARAVIEW_DEFAULT_SYSTEM_GL OR
     (mesa_built_by_superbuild OR osmesa_built_by_superbuild))
   list(APPEND exclude_regexes
     ".*/libglapi"
-    ".*/libGL[^U]")
+    ".*/libGL")
 endif ()
 
 foreach (executable IN LISTS paraview_executables)
@@ -53,7 +53,6 @@ install(
   DESTINATION "lib/paraview-${paraview_version}"
   COMPONENT   superbuild
   RENAME      ".plugins")
-
 
 if (mesa_libraries)
   set(suffix)
@@ -169,7 +168,6 @@ endif ()
 foreach (qt5_plugin_path IN LISTS qt5_plugin_paths)
   get_filename_component(qt5_plugin_group "${qt5_plugin_path}" DIRECTORY)
   get_filename_component(qt5_plugin_group "${qt5_plugin_group}" NAME)
-  message(qt5_plugin_group "${qt5_plugin_group}")
 
   superbuild_unix_install_plugin("${qt5_plugin_path}"
     "lib/paraview-${paraview_version}"
