@@ -7,7 +7,7 @@ superbuild_add_project(socat
   BUILD_COMMAND
     $(MAKE)
   INSTALL_COMMAND
-   $(MAKE) install
+    $(MAKE) install
   BUILD_IN_SOURCE 1)
 
 superbuild_apply_patch(socat add-missing-stddef
