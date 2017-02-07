@@ -126,7 +126,7 @@ foreach (qt5_plugin_path IN LISTS qt5_plugin_paths)
 
   superbuild_windows_install_plugin(
     "${qt5_plugin_path}"
-    "plugins/${qt5_plugin_group}"
+    "bin/${qt5_plugin_group}"
     "${library_paths}")
 endforeach ()
 
