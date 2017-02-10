@@ -39,10 +39,10 @@ foreach (paraview_plugin IN LISTS paraview_plugins)
   superbuild_unix_install_plugin("lib${paraview_plugin}.so"
     "lib/paraview-${paraview_version}"
     "lib/paraview-${paraview_version}"
-    SEARCH_DIRECTORIES  "${library_paths}"
-    INCLUDE_REGEXES     ${include_regexes}
-    EXCLUDE_REGEXES     ${exclude_regexes}
-    LOCATION            "lib/paraview-${paraview_version}/plugins/${paraview_plugin}/")
+    LOADER_PATHS    "${library_paths}"
+    INCLUDE_REGEXES ${include_regexes}
+    EXCLUDE_REGEXES ${exclude_regexes}
+    LOCATION        "lib/paraview-${paraview_version}/plugins/${paraview_plugin}/")
 endforeach ()
 
 set(plugins_file "${CMAKE_CURRENT_BINARY_DIR}/paraview.plugins")
@@ -69,8 +69,8 @@ if (mesa_libraries)
       superbuild_unix_install_plugin("${lib_filename}"
         "lib/paraview-${paraview_version}${suffix}"
         "lib"
-        SEARCH_DIRECTORIES  "${library_paths}"
-        LOCATION            "lib/paraview-${paraview_version}${suffix}")
+        LOADER_PATHS  "${library_paths}"
+        LOCATION      "lib/paraview-${paraview_version}${suffix}")
     endforeach ()
   endforeach ()
 endif ()
@@ -89,7 +89,7 @@ if (python_enabled)
     EXCLUDE_REGEXES     ${exclude_regexes}
     MODULE_DIRECTORIES  "${superbuild_install_location}/lib/python2.7/site-packages"
                         "${superbuild_install_location}/lib/paraview-${paraview_version}/site-packages"
-    SEARCH_DIRECTORIES  "${library_paths}")
+    LOADER_PATHS        "${library_paths}")
 
   superbuild_unix_install_python(
     MODULE_DESTINATION  "/site-packages/paraview"
@@ -99,7 +99,7 @@ if (python_enabled)
     EXCLUDE_REGEXES     ${exclude_regexes}
     MODULE_DIRECTORIES  "${superbuild_install_location}/lib/python2.7/site-packages"
                         "${superbuild_install_location}/lib/paraview-${paraview_version}/site-packages"
-    SEARCH_DIRECTORIES  "${library_paths}")
+    LOADER_PATHS        "${library_paths}")
 
   if (matplotlib_built_by_superbuild)
     install(
@@ -152,9 +152,9 @@ foreach (qt4_plugin_path IN LISTS qt4_plugin_paths)
   superbuild_unix_install_plugin("${qt4_plugin_path}"
     "lib/paraview-${paraview_version}"
     "lib/paraview-${paraview_version}/${qt4_plugin_group}/"
-    SEARCH_DIRECTORIES  "${library_paths}"
-    INCLUDE_REGEXES     ${include_regexes}
-    EXCLUDE_REGEXES     ${exclude_regexes})
+    LOADER_PATHS    "${library_paths}"
+    INCLUDE_REGEXES ${include_regexes}
+    EXCLUDE_REGEXES ${exclude_regexes})
 endforeach ()
 
 if (qt5_enabled)
@@ -172,9 +172,9 @@ foreach (qt5_plugin_path IN LISTS qt5_plugin_paths)
   superbuild_unix_install_plugin("${qt5_plugin_path}"
     "lib/paraview-${paraview_version}"
     "lib/paraview-${paraview_version}/plugins/${qt5_plugin_group}/"
-    SEARCH_DIRECTORIES  "${library_paths}"
-    INCLUDE_REGEXES     ${include_regexes}
-    EXCLUDE_REGEXES     ${exclude_regexes})
+    LOADER_PATHS    "${library_paths}"
+    INCLUDE_REGEXES ${include_regexes}
+    EXCLUDE_REGEXES ${exclude_regexes})
 endforeach ()
 
 paraview_install_extra_data()
