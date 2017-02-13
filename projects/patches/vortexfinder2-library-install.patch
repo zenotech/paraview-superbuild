@@ -1,0 +1,41 @@
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index 04ea0cf..12a2ed8 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -4,7 +4,7 @@ include_directories (
+ )
+ 
+ configure_file (def.h.cmake def.h)
+-install (FILES ${CMAKE_CURRENT_BINARY_DIR}/def.h DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
++install (FILES ${CMAKE_CURRENT_BINARY_DIR}/def.h DESTINATION ${VTK_INSTALL_INCLUDE_DIR})
+ 
+ add_subdirectory (common)
+ add_subdirectory (io)
+diff --git a/src/common/CMakeLists.txt b/src/common/CMakeLists.txt
+index b651837..9940102 100644
+--- a/src/common/CMakeLists.txt
++++ b/src/common/CMakeLists.txt
+@@ -53,5 +53,5 @@ endif ()
+ 
+ target_link_libraries (glcommon PUBLIC ${deps})
+ 
+-install (FILES ${common_headers} DESTINATION ${CMAKE_INSTALL_PREFIX}/include/common)
+-install (TARGETS glcommon DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
++install (FILES ${common_headers} DESTINATION ${VTK_INSTALL_INCLUDE_DIR}/common)
++install (TARGETS glcommon DESTINATION ${VTK_INSTALL_LIBRARY_DIR})
+diff --git a/src/in_situ/CMakeLists.txt b/src/in_situ/CMakeLists.txt
+index 7a9928f..c9b773f 100644
+--- a/src/in_situ/CMakeLists.txt
++++ b/src/in_situ/CMakeLists.txt
+@@ -7,9 +7,9 @@ if (WITH_CUDA)
+ endif ()
+ 
+ install (TARGETS vf2gpu
+-  DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
++  DESTINATION ${VTK_INSTALL_LIBRARY_DIR}
+   PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ GROUP_WRITE WORLD_READ)
+ 
+ install (FILES vf2gpu.h
+-  DESTINATION ${CMAKE_INSTALL_PREFIX}/include
++  DESTINATION ${VTK_INSTALL_INCLUDE_DIR}
+   PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ GROUP_WRITE WORLD_READ)

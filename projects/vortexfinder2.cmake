@@ -7,3 +7,8 @@ paraview_add_plugin(vortexfinder2
 superbuild_add_extra_cmake_args(
   -DWITH_CXX11:BOOL=${cxx11_enabled}
   -DWITH_MACOS_RPATH:BOOL=FALSE)
+
+superbuild_apply_patch(vortexfinder2 library-install
+  "Use VTK's install library directory")
+superbuild_apply_patch(vortexfinder2 rpath-option
+  "Make @rpath/ usage optional")
