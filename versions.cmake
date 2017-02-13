@@ -40,7 +40,7 @@ superbuild_set_revision(acusolve
   GIT_REPOSITORY "https://kwgitlab.kitware.com/paraview/acusolvereaderplugin.git"
   GIT_TAG        origin/master)
 
-set(paraview_doc_ver_series "5.2")
+set(paraview_doc_ver_series "5.3")
 set(paraview_doc_ver "${paraview_doc_ver_series}.0")
 superbuild_set_revision(paraviewusersguide
   URL     "http://www.paraview.org/files/v${paraview_doc_ver_series}/ParaViewGuide-${paraview_doc_ver}.pdf"
