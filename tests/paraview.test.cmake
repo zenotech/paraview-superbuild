@@ -93,6 +93,10 @@ if (numpy_enabled)
   paraview_add_python_test("import-numpy" "import_numpy")
 endif ()
 
+if (scipy_enabled)
+  paraview_add_python_test("import-scipy" "import_scipy")
+endif ()
+
 if (matplotlib_enabled)
   paraview_add_python_test("import-matplotlib" "import_matplotlib")
 endif ()
