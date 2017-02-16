@@ -1,14 +1,14 @@
 superbuild_set_revision(llvm
-  URL     "http://www.paraview.org/files/dependencies/llvm-3.8.1.src.tar.xz"
-  URL_MD5 538467e6028bbc9259b1e6e015d25845)
+  URL     "http://www.paraview.org/files/dependencies/llvm-3.9.1.src.tar.xz"
+  URL_MD5 3259018a7437e157f3642df80f1983ea)
 
 superbuild_set_revision(glproto
   URL     "http://www.paraview.org/files/dependencies/glproto-1.4.17.tar.bz2"
   URL_MD5 5565f1b0facf4a59c2778229c1f70d10)
 
 superbuild_set_revision(mesa
-    URL     "http://www.paraview.org/files/dependencies/mesa-13.0.3.tar.xz"
-    URL_MD5 24e3fa52c95139dfa9ff5085d0c2ead6)
+    URL     "http://www.paraview.org/files/dependencies/mesa-17.0.0.tar.xz"
+    URL_MD5 932e4171a86b14940c06812356486155)
 get_property(mesa_revision GLOBAL PROPERTY mesa_revision)
 superbuild_set_revision(osmesa ${mesa_revision})
 
