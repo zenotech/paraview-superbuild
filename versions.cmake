@@ -81,9 +81,8 @@ superbuild_set_revision(vrpn
 
 superbuild_set_revision(vortexfinder2
   # https://github.com/hguo/vortexfinder2.git
-  # https://github.com/tjcorona/vortexfinder2.git
-  URL     "http://www.paraview.org/files/dependencies/vortexfinder2-36d381ae68d9693b4f25003d2c8bea3178d5bb19.tar.gz"
-  URL_MD5 778392312a85ddd65f81ee8d587d99be)
+  URL     "http://www.paraview.org/files/dependencies/vortexfinder2-f9a31847c052a44cc1e4b592b9e3f3fe078b7bf9.tar.bz2"
+  URL_MD5 da96a038e00d08e4571f64488e9e4d16)
 
 #------------------------------------------------------------------------------
 # Optional Plugins. Doesn't affect ParaView binaries at all even if missing
