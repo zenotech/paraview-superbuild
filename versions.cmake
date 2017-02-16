@@ -60,10 +60,10 @@ superbuild_set_revision(paraviewtutorialdata
 # `superbuild_setup_variables` in `CMakeLists.txt` for the logic which relies
 # on this assumption.
 superbuild_set_selectable_source(paraview
-  SELECT 5.3.0-RC1 DEFAULT
+  SELECT 5.3.0-RC1
     URL     "http://www.paraview.org/files/v5.3/ParaView-v5.3.0-RC1.tar.gz"
     URL_MD5 43a331c8dfdac3ef881c6f9cc25b3792
-  SELECT 5.2.0
+  SELECT 5.2.0 DEFAULT
     URL "http://www.paraview.org/files/v5.2/ParaView-v5.2.0.tar.gz"
     URL_MD5 4570d1a2a183026adb65b73c7125b8b0
   SELECT git CUSTOMIZABLE
