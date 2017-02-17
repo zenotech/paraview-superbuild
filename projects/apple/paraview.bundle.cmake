@@ -72,7 +72,7 @@ foreach (executable IN LISTS paraview_executables)
     INCLUDE_REGEXES     ${include_regexes})
 endforeach ()
 
-if (qt4_enabled)
+if (qt4_enabled OR qt5_enabled)
   file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/qt.conf" "")
   install(
     FILES       "${CMAKE_CURRENT_BINARY_DIR}/qt.conf"
