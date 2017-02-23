@@ -7,6 +7,16 @@ include(paraview.bundle.common)
 set(plugins_file "${CMAKE_CURRENT_BINARY_DIR}/paraview.plugins")
 paraview_add_plugin("${plugins_file}" ${paraview_plugins})
 
+foreach (paraview_plugin IN LISTS paraview_plugins)
+  superbuild_unix_install_plugin("lib${paraview_plugin}.so"
+    "lib/paraview-${paraview_version}"
+    "lib/paraview-${paraview_version}"
+    LOADER_PATHS    "${library_paths}"
+    INCLUDE_REGEXES ${include_regexes}
+    EXCLUDE_REGEXES ${exclude_regexes}
+    LOCATION        "lib/paraview-${paraview_version}/plugins/${paraview_plugin}/")
+endforeach ()
+
 get_filename_component(real_superbuild_install_location "${superbuild_install_location}" REALPATH)
 
 # Install ParaView CMake files
