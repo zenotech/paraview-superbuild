@@ -17,8 +17,8 @@ superbuild_set_revision(glu
   URL_MD5 bbc57d4fe3bd3fb095bdbef6fcb977c4)
 
 superbuild_set_revision(adios
-  URL     "http://www.paraview.org/files/dependencies/adios-1.8-439f0fb6.tar.bz2"
-  URL_MD5 a88701c77a7ead5daadd8d8aff70556a)
+  URL     "http://www.paraview.org/files/dependencies/adios-1.11.0.tar.gz"
+  URL_MD5 5eead5b2ccf962f5e6d5f254d29d5238)
 
 superbuild_set_revision(mxml
   URL     "http://www.paraview.org/files/dependencies/mxml-2.9.tar.gz"
