@@ -168,3 +168,12 @@ endif ()
 if (vortexfinder2_enabled)
   paraview_add_ui_test("loadvortexfinderplugins" "LoadVotexFinderPlugins")
 endif ()
+
+if (vtkm_enabled)
+  paraview_add_ui_test("vtkm-contour" "VTKmContour"
+    --test-plugin=VTKmFilters)
+  paraview_add_ui_test("vtkm-gradient" "VTKmGradient"
+    --test-plugin=VTKmFilters)
+  paraview_add_ui_test("vtkm-threshold" "VTKmThreshold"
+    --test-plugin=VTKmFilters)
+endif ()
