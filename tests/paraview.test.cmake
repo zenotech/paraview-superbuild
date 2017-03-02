@@ -102,12 +102,10 @@ if (matplotlib_enabled)
 endif ()
 
 # Test to load various data files to ensure reader support.
-if (cgns_enabled)
-  paraview_add_ui_test("data-csg.silo" "TestData-cs_silo"
-    "--data=${CMAKE_CURRENT_LIST_DIR}/data/csg.silo")
-  paraview_add_ui_test("data-5blocks.cgns" "TestData-5blocks_cgns"
-    "--data=${CMAKE_CURRENT_LIST_DIR}/data/5blocks.cgns")
-endif ()
+paraview_add_ui_test("data-csg.silo" "TestData-cs_silo"
+  "--data=${CMAKE_CURRENT_LIST_DIR}/data/csg.silo")
+paraview_add_ui_test("data-5blocks.cgns" "TestData-5blocks_cgns"
+  "--data=${CMAKE_CURRENT_LIST_DIR}/data/5blocks.cgns")
 
 # Disabling this test for now since the Data file is too big. We probably need
 # to add support for Data repository similar to ParaView/VTK soon.

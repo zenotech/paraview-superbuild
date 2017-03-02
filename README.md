@@ -118,7 +118,6 @@ The following packages enable other features within ParaView:
   * `adios`: Enable readers and writers for visualization data in the ADIOS
     file format.
   * `boxlib`: Enable reading the boxlib3D file format.
-  * `cgns`: Enable reading the cgns file format.
   * `cosmotools`: Enables Cosmo file format readers and related filters and
     algorithms.
   * `ffmpeg`: Video encoding library for macOS and Linux.
