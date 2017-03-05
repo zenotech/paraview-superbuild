@@ -115,8 +115,8 @@ superbuild_set_revision(ispc
   URL_MD5 "${ispc_md5}")
 
 superbuild_set_revision(vtkm
-  URL     "http://www.paraview.org/files/dependencies/vtkm-d32f3457d8049a79cc59fb02c3dfb7879ef90ee3.tar.bz2"
-  URL_MD5 20dfbed7381bd4d460ad63c429cc2bea)
+  URL     "http://www.paraview.org/files/dependencies/vtkm-e634946a2da8de78cf60b5707f6122b7a3e61864.tar.bz2"
+  URL_MD5 e2b82f349652e17622cbeb9a9d46868e)
 
 superbuild_set_revision(ospray
   URL     "http://www.paraview.org/files/dependencies/ospray-v1.1.2.tar.gz"
