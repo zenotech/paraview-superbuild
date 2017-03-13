@@ -1,6 +1,6 @@
 superbuild_set_revision(llvm
-  URL     "http://www.paraview.org/files/dependencies/llvm-3.9.1.src.tar.xz"
-  URL_MD5 3259018a7437e157f3642df80f1983ea)
+  URL     "http://www.paraview.org/files/dependencies/llvm-4.0.0.src.tar.xz"
+  URL_MD5 ea9139a604be702454f6acf160b4f3a2)
 
 superbuild_set_revision(glproto
   URL     "http://www.paraview.org/files/dependencies/glproto-1.4.17.tar.bz2"

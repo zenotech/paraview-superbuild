@@ -1,6 +1,6 @@
 if (CMAKE_CXX_COMPILER_ID MATCHES "Intel")
   superbuild_append_flags(
-    cxx_flags "-diag-disable=597,873,1098,1292,3373"
+    cxx_flags "-diag-disable=177,597,873,1098,1292,2026,3373"
     PROJECT_ONLY)
 endif ()
 
