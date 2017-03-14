@@ -1,5 +1,5 @@
 set(mesa_type_args --enable-gallium-osmesa --disable-glx)
-
+set(mesa_type_deps)
 include(mesa.common)
 
 if (BUILD_SHARED_LIBS)
