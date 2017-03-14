@@ -17,6 +17,12 @@ foreach (paraview_plugin IN LISTS paraview_plugins)
     LOCATION        "lib/paraview-${paraview_version}/plugins/${paraview_plugin}/")
 endforeach ()
 
+install(
+  FILES       "${plugins_file}"
+  DESTINATION "lib/paraview-${paraview_version}"
+  COMPONENT   superbuild
+  RENAME      ".plugins")
+
 get_filename_component(real_superbuild_install_location "${superbuild_install_location}" REALPATH)
 
 # Install ParaView CMake files
