@@ -206,7 +206,7 @@ if (paraview_install_development_files)
   endif ()
 endif ()
 
-if (paraview_SOURCE_SELECTION STREQUAL "5.2.0")
+if (paraview_SOURCE_SELECTION STREQUAL "5.3.0")
   superbuild_apply_patch(paraview fix-benchmarks
     "Fix various issues with the shipped benchmark scripts")
 endif ()
