@@ -108,9 +108,13 @@ superbuild_set_revision(ispc
   URL     "${ispc_file}"
   URL_MD5 "${ispc_md5}")
 
-superbuild_set_revision(vtkm
-  URL     "http://www.paraview.org/files/dependencies/vtkm-e634946a2da8de78cf60b5707f6122b7a3e61864.tar.bz2"
-  URL_MD5 e2b82f349652e17622cbeb9a9d46868e)
+superbuild_set_selectable_source(vtkm
+  SELECT git-stable DEFAULT
+    GIT_REPOSITORY     "https://gitlab.kitware.com/vtk/vtk-m.git"
+    GIT_TAG 2481dd62487217228bde311ed335acc32917cfc6
+  SELECT git-master CUSTOMIZABLE
+    GIT_REPOSITORY "https://gitlab.kitware.com/vtk/vtk-m.git"
+    GIT_TAG        "origin/master")
 
 superbuild_set_revision(ospray
   URL     "http://www.paraview.org/files/dependencies/ospray-v1.1.2.tar.gz"
