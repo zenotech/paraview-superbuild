@@ -27,5 +27,6 @@
   <pqevent object="pqClientMainWindow/menubar" command="activate" arguments="menuTools" />
   <pqevent object="pqClientMainWindow/menubar/menuTools" command="activate" arguments="actionToolsPythonShell" />
   <pqevent object="pqClientMainWindow/menubar/menu_File" command="activate" arguments="actionFileSaveAnimation" />
-  <pqevent object="pqAnimationSettingsDialog/cancelButton" command="activate" arguments="" />
+  <pqevent object="pqClientMainWindow/SaveAnimationDialog/widget/OKButton" command="activate" arguments="" />
+  <pqevent object="pqClientMainWindow/FileSaveAnimationDialog" command="cancelled" arguments="" />
 </pqevents>
