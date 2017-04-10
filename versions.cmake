@@ -25,8 +25,8 @@ superbuild_set_revision(mxml
   URL_MD5 e21cad0f7aacd18f942aa0568a8dee19)
 
 superbuild_set_revision(silo
-  URL     "http://www.paraview.org/files/dependencies/silo-4.9.1-bsd.tar.gz"
-  URL_MD5 465d2a0a8958b088cde83fb2a5a7eeef)
+  URL     "http://www.paraview.org/files/dependencies/silo-4.10.2-bsd-smalltest.tar.gz"
+  URL_MD5 d2a9023f63de361d91f94646d5d1974e)
 
 superbuild_set_revision(genericio
   URL     "http://www.paraview.org/files/dependencies/genericio-master-a15ffc76cfa9f9674f933e8cb5ffc97a97fd7b27.zip"
