@@ -72,6 +72,8 @@ endif ()
 if (paraviewweb_enabled)
   list(APPEND python_modules
     autobahn
+    constantly
+    incremental
     twisted
     zope)
 
