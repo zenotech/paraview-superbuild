@@ -41,6 +41,7 @@ function (superbuild_find_projects var)
   list(APPEND projects
     boost
     bzip2
+    embree
     freetype
     hdf5
     ispc
