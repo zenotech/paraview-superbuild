@@ -210,4 +210,6 @@ endif ()
 if (paraview_SOURCE_SELECTION STREQUAL "5.3.0")
   superbuild_apply_patch(paraview fix-benchmarks
     "Fix various issues with the shipped benchmark scripts")
+  superbuild_apply_patch(paraview fix-vtkconfig-part1
+    "Fix various issues with the VTKConfig.cmake (Part 1)")
 endif ()

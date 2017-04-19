@@ -12,8 +12,8 @@ foreach (paraview_plugin IN LISTS paraview_plugins)
     "lib/paraview-${paraview_version}"
     "lib/paraview-${paraview_version}"
     LOADER_PATHS    "${library_paths}"
-    INCLUDE_REGEXES ${include_regexes}
-    EXCLUDE_REGEXES ${exclude_regexes}
+    INCLUDE_REGEXES "${superbuild_install_location}"
+    EXCLUDE_REGEXES ".*"
     LOCATION        "lib/paraview-${paraview_version}/plugins/${paraview_plugin}/")
 endforeach ()
 
