@@ -146,6 +146,7 @@ superbuild_add_project(paraview
     -DVTK_USE_SYSTEM_NETCDF:BOOL=${netcdf_enabled}
     -DVTK_USE_SYSTEM_FREETYPE:BOOL=${freetype_enabled}
     -DVTK_USE_SYSTEM_HDF5:BOOL=${hdf5_enabled}
+    -DHDF5_NO_FIND_PACKAGE_CONFIG_FILE:BOOL=ON
     -DVTK_USE_SYSTEM_LIBXML2:BOOL=${libxml2_enabled}
     -DVTK_USE_SYSTEM_PNG:BOOL=${png_enabled}
     -DVTK_USE_SYSTEM_ZLIB:BOOL=${zlib_enabled}
