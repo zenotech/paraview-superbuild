@@ -41,7 +41,6 @@ function (superbuild_find_projects var)
   list(APPEND projects
     boost
     bzip2
-    cgns
     freetype
     hdf5
     ispc

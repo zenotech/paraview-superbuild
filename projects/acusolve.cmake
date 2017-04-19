@@ -6,7 +6,6 @@ set(acusolve_fixup_plugin_paths
   "<INSTALL_DIR>/lib/Qt=@executable_path/../Frameworks/Qt"
   "<INSTALL_DIR>/lib/=@executable_path/../Libraries/"
   "libhdf5.7.3.0.dylib=@executable_path/../Libraries/libhdf5.1.8.9.dylib"
-  "libhdf5_hl.7.3.0.dylib=@executable_path/../Libraries/libhdf5.1.8.9.dylib"
-  "libcgns.3.1.dylib=@executable_path/../Libraries/libcgns.3.1.dylib")
+  "libhdf5_hl.7.3.0.dylib=@executable_path/../Libraries/libhdf5.1.8.9.dylib")
 
 include(paraview.plugin)

@@ -112,7 +112,7 @@ superbuild_add_project(paraview
   DEFAULT_ON
   DEPENDS_OPTIONAL
     cxx11 boost hdf5 matplotlib mpi numpy png
-    python qt4 qt5 visitbridge zlib silo cgns
+    python qt4 qt5 visitbridge zlib silo
     xdmf3 ospray vrpn vtkm tbb netcdf
     paraviewusersguide paraviewgettingstartedguide
     paraviewtutorial paraviewtutorialdata paraviewweb
@@ -135,7 +135,6 @@ superbuild_add_project(paraview
     -DPARAVIEW_USE_MPI:BOOL=${mpi_enabled}
     -DPARAVIEW_USE_OSPRAY:BOOL=${ospray_enabled}
     -DPARAVIEW_USE_VISITBRIDGE:BOOL=${visitbridge_enabled}
-    -DPARAVIEW_ENABLE_CGNS:BOOL=${cgns_enabled}
     -DVISIT_BUILD_READER_CGNS:BOOL=OFF # force to off
     -DVISIT_BUILD_READER_GMV:BOOL=${paraview_visit_gmv}
     -DVISIT_BUILD_READER_Silo:BOOL=${silo_enabled}
