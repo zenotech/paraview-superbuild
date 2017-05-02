@@ -143,6 +143,7 @@ superbuild_add_project(paraview
     -DPARAVIEW_ENABLE_MATPLOTLIB:BOOL=${matplotlib_enabled}
     -DPARAVIEW_FREEZE_PYTHON:BOOL=${PARAVIEW_FREEZE_PYTHON}
     -DVTK_USE_SYSTEM_NETCDF:BOOL=${netcdf_enabled}
+    -DVTK_USE_SYSTEM_NETCDFCPP:BOOL=${netcdf_built_by_superbuild}
     -DVTK_USE_SYSTEM_FREETYPE:BOOL=${freetype_enabled}
     -DVTK_USE_SYSTEM_HDF5:BOOL=${hdf5_enabled}
     -DHDF5_NO_FIND_PACKAGE_CONFIG_FILE:BOOL=ON
