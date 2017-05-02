@@ -1,7 +1,7 @@
 if (superbuild_is_64bit)
-  set(silo_bin_location SiloWindows/MSVC9/x64/Release)
+  set(silo_bin_location SiloWindows/MSVC2012/x64/Release)
 else ()
-  set(silo_bin_location SiloWindows/MSVC9/Win32/Release)
+  set(silo_bin_location SiloWindows/MSVC2012/Win32/Release)
 endif ()
 
 configure_file(
@@ -18,6 +18,10 @@ configure_file(
 configure_file(
   "${source_location}/SiloWindows/include/silo.h"
   "${install_location}/include/silo.h"
+  COPYONLY)
+configure_file(
+  "${source_location}/src/silo/silo_exports.h"
+  "${install_location}/include/silo_exports.h"
   COPYONLY)
 configure_file(
   "${source_location}/SiloWindows/include/siloversion.h"
