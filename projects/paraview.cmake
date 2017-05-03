@@ -88,7 +88,7 @@ set(paraviews_platform_dependencies)
 if (UNIX)
   if (NOT APPLE)
     list(APPEND paraviews_platform_dependencies
-      mesa osmesa egl glu
+      mesa osmesa egl
 
       boxlib
 
