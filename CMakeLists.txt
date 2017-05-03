@@ -86,7 +86,6 @@ function (superbuild_find_projects var)
         catalyst
         egl
         fontconfig
-        glu
         glproto
         llvm
         mesa
