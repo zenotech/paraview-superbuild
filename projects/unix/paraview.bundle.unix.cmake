@@ -128,11 +128,11 @@ endif ()
 
 if (mpi_built_by_superbuild)
   set(mpi_executables_standalone
-    mpiexec)
+    mpiexec
+    hydra_pmi_proxy)
   set(mpi_executables_paraview
     hydra_nameserver
-    hydra_persist
-    hydra_pmi_proxy)
+    hydra_persist)
   foreach (mpi_executable IN LISTS mpi_executables_standalone)
     superbuild_unix_install_plugin("${superbuild_install_location}/bin/${mpi_executable}"
       "lib"
