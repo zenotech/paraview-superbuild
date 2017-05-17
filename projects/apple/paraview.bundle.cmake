@@ -73,7 +73,7 @@ foreach (executable IN LISTS paraview_executables)
 endforeach ()
 
 if (qt4_enabled OR qt5_enabled)
-  file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/qt.conf" "")
+  file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/qt.conf" "[Paths]\nPlugins = Plugins\n")
   install(
     FILES       "${CMAKE_CURRENT_BINARY_DIR}/qt.conf"
     DESTINATION "${paraview_appname}/Contents/Resources"
