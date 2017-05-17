@@ -76,7 +76,7 @@ if (qt4_enabled OR qt5_enabled)
   file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/qt.conf" "")
   install(
     FILES       "${CMAKE_CURRENT_BINARY_DIR}/qt.conf"
-    DESTINATION "${paraview_appname}/Contents/Resources/qt.conf"
+    DESTINATION "${paraview_appname}/Contents/Resources"
     COMPONENT   superbuild)
 endif ()
 
