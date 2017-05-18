@@ -52,6 +52,9 @@ superbuild_set_revision(paraviewtutorialdata
 # `superbuild_setup_variables` in `CMakeLists.txt` for the logic which relies
 # on this assumption.
 superbuild_set_selectable_source(paraview
+  SELECT 5.4.0-RC2
+    URL     "http://www.paraview.org/files/v5.4/ParaView-v5.4.0-RC2.tar.gz"
+    URL_MD5 4afcb4ebb85930a86deec040429bbabf
   SELECT 5.4.0-RC1
     URL     "http://www.paraview.org/files/v5.4/ParaView-v5.4.0-RC1.tar.gz"
     URL_MD5 5460ed37bfc5904e4571ec6cc8141173
