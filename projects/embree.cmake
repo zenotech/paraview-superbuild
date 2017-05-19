@@ -9,3 +9,6 @@ superbuild_add_project(embree
     -DEMBREE_GEOMETRY_SUBDIV:BOOL=OFF
     -DEMBREE_TUTORIALS:BOOL=OFF
     -DCMAKE_INSTALL_LIBDIR:STRING=lib)
+
+superbuild_apply_patch(embree improve-findtbb
+  "Improve FindTBB")

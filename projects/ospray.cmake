@@ -33,6 +33,9 @@ superbuild_add_project(ospray
     -DOSPRAY_MODULE_TACHYON:BOOL=OFF
     -DCMAKE_INSTALL_LIBDIR:STRING=lib)
 
+superbuild_apply_patch(ospray improve-findtbb
+  "Improve FindTBB")
+
 superbuild_apply_patch(ospray fix-cmake-install
   "Fix the search path for the root on Windows")
 
