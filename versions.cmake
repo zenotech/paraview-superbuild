@@ -114,9 +114,13 @@ superbuild_set_selectable_source(vtkm
     GIT_REPOSITORY "https://gitlab.kitware.com/vtk/vtk-m.git"
     GIT_TAG        "origin/master")
 
+superbuild_set_revision(embree
+  URL     "http://www.paraview.org/files/dependencies/embree-2.15.0.tar.gz"
+  URL_MD5 4e77e6f30f1ea99ee40be49b68f9f8cc)
+
 superbuild_set_revision(ospray
-  URL     "http://www.paraview.org/files/dependencies/ospray-v1.1.2.tar.gz"
-  URL_MD5 7f1911b845a27ac146bb3a97e0e6206e)
+  URL     "http://www.paraview.org/files/dependencies/ospray-pre.1.3.0.tar.gz"
+  URL_MD5 96f65f47e01ecb626d4c088bd7bb7d99)
 
 superbuild_set_revision(paraviewwebvisualizer
   URL     "http://www.paraview.org/files/dependencies/visualizer-2.1.1.tar.gz"
