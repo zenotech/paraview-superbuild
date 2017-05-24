@@ -244,6 +244,11 @@ The following flags affect ParaView directly:
     checkout of ParaView from git repository controlled by the
     `paraview_GIT_REPOSITORY` and `paraview_GIT_TAG` variables. By default, the
     `master` branch of the main repository is used.
+
+    **Note**: When using the `source` selection, incremental builds to the
+    superbuild may not rebuild ParaView even if the source tree has changed.
+    This is because the superbuild is "blind" to the source tree other than
+    its existence.
   * `CMAKE_BUILD_TYPE_paraview` (default is the same as the superbuild):
     ParaView may be built with a different build type (e.g., `Release` vs.
     `RelWithDebInfo`) as the rest of the superbuild using this variable.
