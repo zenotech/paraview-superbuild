@@ -130,4 +130,13 @@ foreach (qt5_plugin_path IN LISTS qt5_plugin_paths)
     "${library_paths}")
 endforeach ()
 
+if (qt5_enabled)
+  foreach (qt5_opengl_lib IN ITEMS opengl32sw libEGL libGLESv2)
+    superbuild_windows_install_plugin(
+      "${Qt5_DIR}/../../../bin/${qt5_opengl_lib}.dll"
+      "bin"
+      "${library_paths}")
+  endforeach ()
+endif ()
+
 paraview_install_extra_data()
