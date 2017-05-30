@@ -36,10 +36,10 @@ set(paraview_doc_ver_series "5.4")
 set(paraview_doc_ver "${paraview_doc_ver_series}.0")
 superbuild_set_revision(paraviewusersguide
   URL     "http://www.paraview.org/files/v${paraview_doc_ver_series}/ParaViewGuide-${paraview_doc_ver}.pdf"
-  URL_MD5 08b1d0dafbe50f2241da7a4a4e2b0b75)
+  URL_MD5 8e85c7ce67f35aa87fc101aafc6a56cd)
 superbuild_set_revision(paraviewgettingstartedguide
   URL     "http://www.paraview.org/files/v${paraview_doc_ver_series}/ParaViewGettingStarted-${paraview_doc_ver}.pdf"
-  URL_MD5 7ce54ce8a8b36c746035c2b228713074)
+  URL_MD5 1161cc4b4c2e6476449f6433bcc10120)
 superbuild_set_revision(paraviewtutorial
   URL     "http://www.paraview.org/files/v${paraview_doc_ver_series}/ParaViewTutorial.pdf"
   URL_MD5 1b3d975eac73bca412414efb2af9974c)
