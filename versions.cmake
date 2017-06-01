@@ -122,8 +122,8 @@ superbuild_set_revision(embree
   URL_MD5 4e77e6f30f1ea99ee40be49b68f9f8cc)
 
 superbuild_set_revision(ospray
-  URL     "http://www.paraview.org/files/dependencies/ospray-pre.1.3.0.tar.gz"
-  URL_MD5 96f65f47e01ecb626d4c088bd7bb7d99)
+  URL     "http://www.paraview.org/files/dependencies/ospray-1.3.0.tar.gz"
+  URL_MD5 d4d4505ec949d3e88242e9fc8243d50f)
 
 superbuild_set_revision(paraviewwebvisualizer
   URL     "http://www.paraview.org/files/dependencies/visualizer-2.1.4.tar.gz"
