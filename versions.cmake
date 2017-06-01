@@ -106,7 +106,10 @@ superbuild_set_revision(ispc
   URL_MD5 "${ispc_md5}")
 
 superbuild_set_selectable_source(vtkm
-  SELECT git-stable DEFAULT
+  SELECT stable DEFAULT
+    URL https://www.paraview.org/files/dependencies/vtkm-a181373382cf9a3c1de2708756f55797ec065ab6.tar.bz2
+    URL_MD5 903966d713d895fd61a4c78278ba7079
+  SELECT git-stable
     GIT_REPOSITORY     "https://gitlab.kitware.com/vtk/vtk-m.git"
     GIT_TAG a181373382cf9a3c1de2708756f55797ec065ab6
   SELECT git-master CUSTOMIZABLE
