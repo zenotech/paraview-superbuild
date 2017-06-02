@@ -36,8 +36,5 @@ superbuild_add_project(ospray
 superbuild_apply_patch(ospray improve-findtbb
   "Improve FindTBB")
 
-superbuild_apply_patch(ospray fix-cmake-install
-  "Fix the search path for the root on Windows")
-
 superbuild_add_extra_cmake_args(
   -DOSPRAY_INSTALL_DIR:PATH=<INSTALL_DIR>)
