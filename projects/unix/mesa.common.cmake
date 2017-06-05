@@ -44,10 +44,10 @@ set(mesa_common_config_args
   --enable-shared-glapi
   ${mesa_texture_float_args}
   --disable-dri --with-dri-drivers=
-  --enable-gallium-llvm --enable-llvm-shared-libs
+  --enable-llvm --enable-llvm-shared-libs
   --with-llvm-prefix=${llvm_dir}
   --with-gallium-drivers=${mesa_drivers}
-  --disable-egl --disable-gbm --with-egl-platforms=)
+  --disable-egl --disable-gbm --with-platforms=)
 
 if (BUILD_SHARED_LIBS)
   set(mesa_shared_lib_args --enable-shared --disable-static)
@@ -81,3 +81,7 @@ superbuild_add_project(${project}
 # For compatibility on machines with a crufty autotools
 superbuild_apply_patch(${project} revert-xz
   "Revert autoconf dist-xz to dist-bzip2")
+
+# Scale back unnecessary zlib version requirement
+superbuild_apply_patch(${project} zlib-version
+  "Scale back unnecessary zlib version requirement")
