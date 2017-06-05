@@ -7,8 +7,8 @@ superbuild_set_revision(glproto
   URL_MD5 5565f1b0facf4a59c2778229c1f70d10)
 
 superbuild_set_revision(mesa
-    URL     "http://www.paraview.org/files/dependencies/mesa-17.0.1.tar.xz"
-    URL_MD5 6a7e768241846c8c69bbadbf904dcc58)
+    URL     "http://www.paraview.org/files/dependencies/mesa-17.1.1.tar.xz"
+    URL_MD5 a4844bc6052578574f9629458bcbb749)
 get_property(mesa_revision GLOBAL PROPERTY mesa_revision)
 superbuild_set_revision(osmesa ${mesa_revision})
 
