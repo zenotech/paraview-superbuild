@@ -36,7 +36,7 @@ set(paraview_doc_ver_series "5.4")
 set(paraview_doc_ver "${paraview_doc_ver_series}.0")
 superbuild_set_revision(paraviewusersguide
   URL     "http://www.paraview.org/files/v${paraview_doc_ver_series}/ParaViewGuide-${paraview_doc_ver}.pdf"
-  URL_MD5 8e85c7ce67f35aa87fc101aafc6a56cd)
+  URL_MD5 f15e485941d26d4d804c5f8fa539465d)
 superbuild_set_revision(paraviewgettingstartedguide
   URL     "http://www.paraview.org/files/v${paraview_doc_ver_series}/ParaViewGettingStarted-${paraview_doc_ver}.pdf"
   URL_MD5 1161cc4b4c2e6476449f6433bcc10120)
