@@ -85,3 +85,7 @@ superbuild_apply_patch(${project} revert-xz
 # Scale back unnecessary zlib version requirement
 superbuild_apply_patch(${project} zlib-version
   "Scale back unnecessary zlib version requirement")
+
+# Scale back swr c++14 requirement
+superbuild_apply_patch(${project} swr-relax-c-requirement-from-c-14-to-c-11
+  "Scale back swr C++ requirement C++14 -> C++11")
