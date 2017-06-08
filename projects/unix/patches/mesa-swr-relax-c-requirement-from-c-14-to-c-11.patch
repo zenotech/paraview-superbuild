@@ -1,0 +1,117 @@
+From 7905de5d9be065469b7c0a0be42af1f4c6d6794a Mon Sep 17 00:00:00 2001
+From: Tim Rowley <timothy.o.rowley@intel.com>
+Date: Thu, 8 Jun 2017 10:38:52 -0500
+Subject: [PATCH] swr: relax c++ requirement from c++14 to c++11
+
+Remove c++14 generic lambda to keep compiler requirement at c++11.
+
+CC: mesa-stable@lists.freedesktop.org
+---
+ configure.ac                                    |  8 ++++----
+ src/gallium/drivers/swr/Makefile.am             |  4 ++--
+ src/gallium/drivers/swr/SConscript              |  2 +-
+ src/gallium/drivers/swr/rasterizer/core/state.h | 27 +++++++++++++------------
+ 4 files changed, 21 insertions(+), 20 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 5caf316..82a1bd6 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -2472,10 +2472,10 @@ if test -n "$with_gallium_drivers"; then
+         xswr)
+             llvm_require_version $LLVM_REQUIRED_SWR "swr"
+ 
+-            swr_require_cxx_feature_flags "C++14" "__cplusplus >= 201402L" \
+-                "-std=c++14" \
+-                SWR_CXX14_CXXFLAGS
+-            AC_SUBST([SWR_CXX14_CXXFLAGS])
++            swr_require_cxx_feature_flags "C++11" "__cplusplus >= 201103L" \
++                ",-std=c++11" \
++                SWR_CXX11_CXXFLAGS
++            AC_SUBST([SWR_CXX11_CXXFLAGS])
+ 
+             swr_require_cxx_feature_flags "AVX" "defined(__AVX__)" \
+                 ",-mavx,-march=core-avx" \
+diff --git a/src/gallium/drivers/swr/Makefile.am b/src/gallium/drivers/swr/Makefile.am
+index 7b2da07..6650abd 100644
+--- a/src/gallium/drivers/swr/Makefile.am
++++ b/src/gallium/drivers/swr/Makefile.am
+@@ -22,7 +22,7 @@
+ include Makefile.sources
+ include $(top_srcdir)/src/gallium/Automake.inc
+ 
+-AM_CXXFLAGS = $(GALLIUM_DRIVER_CFLAGS) $(SWR_CXX14_CXXFLAGS)
++AM_CXXFLAGS = $(GALLIUM_DRIVER_CFLAGS) $(SWR_CXX11_CXXFLAGS)
+ 
+ noinst_LTLIBRARIES = libmesaswr.la
+ 
+@@ -32,7 +32,7 @@ COMMON_CXXFLAGS = \
+ 	-fno-strict-aliasing \
+ 	$(GALLIUM_DRIVER_CFLAGS) \
+ 	$(LLVM_CXXFLAGS) \
+-	$(SWR_CXX14_CXXFLAGS) \
++	$(SWR_CXX11_CXXFLAGS) \
+ 	-I$(builddir)/rasterizer/codegen \
+ 	-I$(builddir)/rasterizer/jitter \
+ 	-I$(builddir)/rasterizer/archrast \
+diff --git a/src/gallium/drivers/swr/SConscript b/src/gallium/drivers/swr/SConscript
+index 5e3784b..cdb85e2 100644
+--- a/src/gallium/drivers/swr/SConscript
++++ b/src/gallium/drivers/swr/SConscript
+@@ -38,7 +38,7 @@ loadersource = env.ParseSourceList('Makefile.sources', [
+ 
+ if not env['msvc'] :
+     env.Append(CCFLAGS = [
+-        '-std=c++14',
++        '-std=c++11',
+     ])
+ 
+ swrroot = '#src/gallium/drivers/swr/'
+diff --git a/src/gallium/drivers/swr/rasterizer/core/state.h b/src/gallium/drivers/swr/rasterizer/core/state.h
+index 364a898..3db6370 100644
+--- a/src/gallium/drivers/swr/rasterizer/core/state.h
++++ b/src/gallium/drivers/swr/rasterizer/core/state.h
+@@ -971,26 +971,27 @@ public:
+ 
+ 
+ private:
++    template <typename MaskT>
++    INLINE __m128i expandThenBlend4(uint32_t* min, uint32_t* max) // @llvm_func_start
++    {
++        __m128i vMin = _mm_set1_epi32(*min);
++        __m128i vMax = _mm_set1_epi32(*max);
++        return _simd_blend4_epi32<MaskT::value>(vMin, vMax);
++    }  // @llvm_func_end
++
+     INLINE void CalcTileSampleOffsets(int numSamples)   // @llvm_func_start
+-    {                                                                      
+-        auto expandThenBlend4 = [](uint32_t* min, uint32_t* max, auto mask)
+-        {
+-            __m128i vMin = _mm_set1_epi32(*min);
+-            __m128i vMax = _mm_set1_epi32(*max);
+-            return _simd_blend4_epi32<decltype(mask)::value>(vMin, vMax);
+-        };
+-                                                                           
++    {
+         auto minXi = std::min_element(std::begin(_xi), &_xi[numSamples]);
+         auto maxXi = std::max_element(std::begin(_xi), &_xi[numSamples]);
+-        std::integral_constant<int, 0xA> xMask;
++        using xMask = std::integral_constant<int, 0xA>;
+         // BR(max),    BL(min),    UR(max),    UL(min)
+-        tileSampleOffsetsX = expandThenBlend4(minXi, maxXi, xMask);
+-        
++        tileSampleOffsetsX = expandThenBlend4<xMask>(minXi, maxXi);
++
+         auto minYi = std::min_element(std::begin(_yi), &_yi[numSamples]);
+         auto maxYi = std::max_element(std::begin(_yi), &_yi[numSamples]);
+-        std::integral_constant<int, 0xC> yMask;
++        using yMask = std::integral_constant<int, 0xC>;
+         // BR(max),    BL(min),    UR(max),    UL(min)
+-        tileSampleOffsetsY = expandThenBlend4(minYi, maxYi, yMask);
++        tileSampleOffsetsY = expandThenBlend4<yMask>(minYi, maxYi);
+     };  // @llvm_func_end
+     // scalar sample values
+     uint32_t _xi[SWR_MAX_NUM_MULTISAMPLES];
+-- 
+2.7.4
+
