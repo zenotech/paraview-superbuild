@@ -47,7 +47,7 @@ set(mesa_common_config_args
   --enable-llvm --enable-llvm-shared-libs
   --with-llvm-prefix=${llvm_dir}
   --with-gallium-drivers=${mesa_drivers}
-  --disable-egl --disable-gbm --with-platforms=)
+  --disable-egl --disable-gbm)
 
 if (BUILD_SHARED_LIBS)
   set(mesa_shared_lib_args --enable-shared --disable-static)
