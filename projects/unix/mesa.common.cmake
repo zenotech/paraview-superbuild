@@ -90,6 +90,18 @@ superbuild_apply_patch(${project} zlib-version
 superbuild_apply_patch(${project} swr-relax-c-requirement-from-c-14-to-c-11
   "Scale back swr C++ requirement C++14 -> C++11")
 
+# This mtime adjustment is necessary since the previous patch modifies a
+# dependency of a generated file.  We manually adjust the mtime to it's
+# previous state ihere to avoid having to regenerate it.
+superbuild_project_add_step(fix-mtime-inversion-from-cxx14-to-cxx11-patch
+  COMMAND touch
+    -m -t 201705250313
+    src/gallium/drivers/swr/rasterizer/core/state.h
+  COMMENT "Fixing an mtime inversion caused by the C++14->C++11 patch"
+  DEPENDEES ${project}-patch-swr-relax-c-requirement-from-c-14-to-c-11
+  DEPENDERS configure
+  WORKING_DIRECTORY <SOURCE_DIR>)
+
 # Fix some borked sed flags
 superbuild_apply_patch(${project} sed-flags
   "Fix incompatible sed flags in configure")
