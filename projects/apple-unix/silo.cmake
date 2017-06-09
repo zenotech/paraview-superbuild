@@ -31,13 +31,12 @@ if (hdf5_enabled)
       list(GET HDF5_C_LIBRARIES 0 silo_hdf5_lib)
       get_filename_component(silo_hdf5_lib_dir "${silo_hdf5_lib}" DIRECTORY)
       set(silo_hdf5_args "--with-hdf5=${silo_hdf5_inc_dir},${silo_hdf5_lib_dir}")
-    else ()
-      message(FATAL_ERROR
-        "Required HDF5 variables were not found for silo.")
     endif ()
   else ()
     set(silo_hdf5_args "--with-hdf5=<INSTALL_DIR>/include,<INSTALL_DIR>/lib")
   endif ()
+else ()
+  set(silo_hdf5_args "--without-hdf5")
 endif ()
 
 superbuild_add_project(silo
