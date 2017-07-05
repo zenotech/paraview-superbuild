@@ -161,12 +161,6 @@ function (superbuild_sanity_check)
   if (paraview_enabled AND catalyst_enabled)
     message(SEND_ERROR "Cannot enable ParaView and Catalyst at the same time.")
   endif ()
-
-  # Sanity check: Binaries for ispc only available for some compilers.
-  if (WIN32 AND ispc_enabled AND NOT MSVC12)
-    message(SEND_ERROR "The ispc project requires Visual Studio 2013.")
-  endif ()
-
 endfunction ()
 
 function (superbuild_add_packaging)
