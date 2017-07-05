@@ -103,7 +103,7 @@ superbuild_set_revision(ispc
 superbuild_set_selectable_source(vtkm
   SELECT git-stable DEFAULT
     GIT_REPOSITORY     "https://gitlab.kitware.com/vtk/vtk-m.git"
-    GIT_TAG a181373382cf9a3c1de2708756f55797ec065ab6
+    GIT_TAG 838cb9adb01891515782232e4b95cd21c4203dff
   SELECT git-master CUSTOMIZABLE
     GIT_REPOSITORY "https://gitlab.kitware.com/vtk/vtk-m.git"
     GIT_TAG        "origin/master")
