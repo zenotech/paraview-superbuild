@@ -2,11 +2,6 @@ set(library_paths
   "${superbuild_install_location}/lib"
   "${superbuild_install_location}/lib/paraview-${paraview_version}")
 
-if (QT_LIBRARY_DIR)
-  list(APPEND library_paths
-    "${QT_LIBRARY_DIR}")
-endif ()
-
 if (Qt5_DIR)
   list(APPEND library_paths
     "${Qt5_DIR}/../..")
@@ -144,18 +139,6 @@ if (mpi_built_by_superbuild)
       "lib/paraview-${paraview_version}")
   endforeach ()
 endif ()
-
-foreach (qt4_plugin_path IN LISTS qt4_plugin_paths)
-  get_filename_component(qt4_plugin_group "${qt4_plugin_path}" DIRECTORY)
-  get_filename_component(qt4_plugin_group "${qt4_plugin_group}" NAME)
-
-  superbuild_unix_install_plugin("${qt4_plugin_path}"
-    "lib/paraview-${paraview_version}"
-    "lib/paraview-${paraview_version}/${qt4_plugin_group}/"
-    LOADER_PATHS    "${library_paths}"
-    INCLUDE_REGEXES ${include_regexes}
-    EXCLUDE_REGEXES ${exclude_regexes})
-endforeach ()
 
 if (qt5_enabled)
   file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/qt.conf" "")

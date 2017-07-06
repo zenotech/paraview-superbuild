@@ -1,10 +1,6 @@
 # Set suffix to be used for generating archives. This ensures that the package
 # files have decent names that we can directly upload to the website.
 set(package_suffix_items)
-if (qt4_enabled)
-  list(APPEND package_suffix_items
-    Qt4)
-endif ()
 if (qt5_enabled)
   list(APPEND package_suffix_items
     Qt5)

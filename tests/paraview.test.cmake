@@ -32,7 +32,7 @@ endif ()
 superbuild_add_extract_test("paraview" "${glob_prefix}" "${generator}" "${paraview_extract_dir}"
   LABELS "ParaView")
 
-if (NOT (qt4_enabled OR qt5_enabled))
+if (NOT qt5_enabled)
   set(paraview_exe)
 endif ()
 

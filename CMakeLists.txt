@@ -57,8 +57,6 @@ function (superbuild_find_projects var)
     png
     python
     pythonsetuptools
-    qt
-    qt4
     qt5
     silo
     szip
@@ -128,7 +126,7 @@ function (superbuild_sanity_check)
   superbuild_qt_sanity_check()
 
   # Sanity check: Cannot have EGL and Qt enabled at the same time.
-  if (egl_enabled AND (qt4_enabled OR qt5_enabled))
+  if (egl_enabled AND qt5_enabled)
     message(SEND_ERROR "Cannot enable EGL and Qt at the same time.")
   endif ()
 
@@ -143,7 +141,7 @@ function (superbuild_sanity_check)
   endif ()
 
   # Sanity check: Cannot have OSMesa and Qt enabled at the same time if we're building ParaView.
-  if (osmesa_enabled AND (qt4_enabled OR qt5_enabled) AND paraview_enabled)
+  if (osmesa_enabled AND qt5_enabled AND paraview_enabled)
     message(SEND_ERROR "Cannot enable OSMesa and Qt at the same time.")
   endif ()
 
@@ -171,11 +169,6 @@ function (superbuild_add_packaging)
       TGZ)
   endif ()
   list(GET generators 0 default_generator)
-
-  if (USE_SYSTEM_qt4)
-    list(APPEND superbuild_export_variables
-      QT_LIBRARY_DIR)
-  endif ()
 
   if (USE_SYSTEM_qt5)
     list(APPEND superbuild_export_variables

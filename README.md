@@ -104,10 +104,10 @@ The `paraviewgettingstartedguide`, `paraviewtutorial`, `paraviewtutorialdata`,
 and `paraviewusersguide` packages add documentation to the package.
 
 ParaView supports multiple rendering engines including `egl`, `mesa`,
-`osmesa`, and `qt4`. All of these are incompatible with each other. If none of
+`osmesa`, and `qt5`. All of these are incompatible with each other. If none of
 these are chosen, a UI-less ParaView will be built (basically just
-`pvpython`). `qt5` is also available, but is not known to be ready. On Windows
-and macOS, only the `qt` packages are available.
+`pvpython`). On Windows and macOS, only the `qt5` rendering engine is
+available.
 
 The `python` package is available to enable Python support in the package. In
 addition, the `matplotlib` and `numpy` packages are available.
@@ -227,8 +227,8 @@ time.
   * `ENABLE_xxx` (generally, default `OFF`): If selected, the `xxx` project
     will be built within the superbuild. See above for descriptions of the
     various projects. `ENABLE_` flags are not shown for projects which must be
-    enabled due to a project depending on it (e.g., `qt4` requires `png`, so
-    enabling `qt4` will hide the `ENABLE_png` option).
+    enabled due to a project depending on it (e.g., `visitbridge` requires
+    `boost`, so enabling `visitbridge` will hide the `ENABLE_boost` option).
   * `USE_SYSTEM_xxx` (default `OFF`): If selected, the `xxx` project from the
     build environment is used instead of building it within the superbuild.
     Not all projects support system copies (the flag is not available if so).

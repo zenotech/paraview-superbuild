@@ -26,11 +26,6 @@ if (osmesa_enabled OR egl_enabled)
   set(paraview_visit_gmv OFF)
 endif ()
 
-set(paraview_use_qt OFF)
-if (qt4_enabled OR qt5_enabled)
-  set(paraview_use_qt ON)
-endif ()
-
 option(PARAVIEW_BUILD_WEB_DOCUMENTATION "Build documentation for the web" OFF)
 
 set(paraview_all_plugins
@@ -106,7 +101,7 @@ superbuild_add_project(paraview
   DEFAULT_ON
   DEPENDS_OPTIONAL
     cxx11 boost hdf5 matplotlib mpi numpy png
-    python qt4 qt5 visitbridge zlib silo
+    python qt5 visitbridge zlib silo
     xdmf3 ospray vrpn vtkm tbb netcdf
     paraviewusersguide paraviewgettingstartedguide
     paraviewtutorial paraviewtutorialdata paraviewweb
@@ -120,8 +115,8 @@ superbuild_add_project(paraview
     -DBUILD_TESTING:BOOL=OFF
     -DPARAVIEW_BUILD_PLUGIN_CoProcessingScriptGenerator:BOOL=ON
     -DPARAVIEW_BUILD_PLUGIN_EyeDomeLighting:BOOL=ON
-    -DPARAVIEW_BUILD_QT_GUI:BOOL=${paraview_use_qt}
-    -DPARAVIEW_ENABLE_QT_SUPPORT:BOOL=${paraview_use_qt}
+    -DPARAVIEW_BUILD_QT_GUI:BOOL=${qt5_enabled}
+    -DPARAVIEW_ENABLE_QT_SUPPORT:BOOL=${qt5_enabled}
     -DPARAVIEW_ENABLE_FFMPEG:BOOL=${ffmpeg_enabled}
     -DPARAVIEW_ENABLE_PYTHON:BOOL=${python_enabled}
     -DPARAVIEW_ENABLE_COSMOTOOLS:BOOL=${cosmotools_enabled}

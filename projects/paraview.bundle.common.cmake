@@ -43,7 +43,7 @@ if (python_enabled)
 endif ()
 
 set(paraview_has_gui FALSE)
-if (qt4_enabled OR qt5_enabled)
+if (qt5_enabled)
   list(APPEND paraview_executables
     paraview)
   set(paraview_has_gui TRUE)
@@ -156,27 +156,6 @@ function (paraview_install_extra_data)
     paraview_install_data(paraviewtutorialdata "data/")
   endif ()
 endfunction ()
-
-if (qt4_enabled)
-  include(qt4.functions)
-
-  set(qt4_plugin_prefix)
-  if (NOT WIN32)
-    set(qt4_plugin_prefix "lib")
-  endif ()
-
-  set(qt4_plugin_suffix)
-  if (WIN32)
-    set(qt4_plugin_suffix "4")
-  endif ()
-
-  set(qt4_plugins
-    sqldrivers/${qt4_plugin_prefix}qsqlite${qt4_plugin_suffix})
-
-  superbuild_install_qt4_plugin_paths(qt4_plugin_paths ${qt4_plugins})
-else ()
-  set(qt4_plugin_paths)
-endif ()
 
 if (qt5_enabled)
   include(qt5.functions)
