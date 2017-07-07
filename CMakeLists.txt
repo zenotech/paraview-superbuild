@@ -137,11 +137,6 @@ function (superbuild_sanity_check)
     message(SEND_ERROR "Cannot enable EGL and Mesa at the same time.")
   endif ()
 
-  # Sanity check: Must use OpenGL2 backed with EGL
-  if (egl_enabled AND NOT PARAVIEW_RENDERING_BACKEND STREQUAL "OpenGL2")
-    message(SEND_ERROR "Cannot enable EGL with the old VTK rendering backend at the same time.")
-  endif ()
-
   # Sanity check: Cannot have EGL and OSMesa at the same time.
   if (egl_enabled AND osmesa_enabled)
     message(SEND_ERROR "Cannot enable EGL and OSMesa at the same time.")

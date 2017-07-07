@@ -31,12 +31,6 @@ if (qt4_enabled OR qt5_enabled)
   set(paraview_use_qt ON)
 endif ()
 
-set(PARAVIEW_RENDERING_BACKEND "OpenGL2"
-  CACHE STRING "Rendering backend to use for ParaView")
-set_property(CACHE PARAVIEW_RENDERING_BACKEND
-  PROPERTY
-    STRINGS "OpenGL;OpenGL2")
-
 option(PARAVIEW_BUILD_WEB_DOCUMENTATION "Build documentation for the web" OFF)
 
 set(paraview_all_plugins
@@ -151,7 +145,6 @@ superbuild_add_project(paraview
     -DVTK_USE_SYSTEM_PNG:BOOL=${png_enabled}
     -DVTK_USE_SYSTEM_ZLIB:BOOL=${zlib_enabled}
     -DModule_vtkIOADIOS:BOOL=${adios_enabled}
-    -DVTK_RENDERING_BACKEND:STRING=${PARAVIEW_RENDERING_BACKEND}
     -DVTK_SMP_IMPLEMENTATION_TYPE:STRING=${paraview_smp_backend}
     -DVTK_LEGACY_SILENT:BOOL=ON
     -DVTK_OPENGL_HAS_OSMESA:BOOL=${osmesa_enabled}

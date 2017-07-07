@@ -104,9 +104,8 @@ The `paraviewgettingstartedguide`, `paraviewtutorial`, `paraviewtutorialdata`,
 and `paraviewusersguide` packages add documentation to the package.
 
 ParaView supports multiple rendering engines including `egl`, `mesa`,
-`osmesa`, and `qt4`. All of these are incompatible with each other. In
-addition, the `egl` renderer requires the `OpenGL2` rendering backend. If none
-of these are chosen, a UI-less ParaView will be built (basically just
+`osmesa`, and `qt4`. All of these are incompatible with each other. If none of
+these are chosen, a UI-less ParaView will be built (basically just
 `pvpython`). `qt5` is also available, but is not known to be ready. On Windows
 and macOS, only the `qt` packages are available.
 
@@ -252,8 +251,6 @@ The following flags affect ParaView directly:
   * `CMAKE_BUILD_TYPE_paraview` (default is the same as the superbuild):
     ParaView may be built with a different build type (e.g., `Release` vs.
     `RelWithDebInfo`) as the rest of the superbuild using this variable.
-  * `PARAVIEW_RENDERING_BACKEND` (default `OpenGL2`): The rendering backend to
-    use with ParaView.
   * `PARAVIEW_BUILD_WEB_DOCUMENTATION` (default `OFF`): Have ParaView build
     its HTML documentation.
   * `mesa_USE_SWR` (default `ON`): If `mesa` is enabled, this enables
