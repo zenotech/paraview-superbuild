@@ -142,8 +142,8 @@ function (superbuild_sanity_check)
     message(SEND_ERROR "Cannot enable EGL and OSMesa at the same time.")
   endif ()
 
-  # Sanity check: Cannot have OSMesa and Qt enabled at the same time.
-  if (osmesa_enabled AND (qt4_enabled OR qt5_enabled))
+  # Sanity check: Cannot have OSMesa and Qt enabled at the same time if we're building ParaView.
+  if (osmesa_enabled AND (qt4_enabled OR qt5_enabled) AND paraview_enabled)
     message(SEND_ERROR "Cannot enable OSMesa and Qt at the same time.")
   endif ()
 
