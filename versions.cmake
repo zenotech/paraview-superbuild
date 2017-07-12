@@ -109,8 +109,8 @@ superbuild_set_selectable_source(vtkm
     GIT_TAG        "origin/master")
 
 superbuild_set_revision(embree
-  URL     "http://www.paraview.org/files/dependencies/embree-2.15.0.tar.gz"
-  URL_MD5 4e77e6f30f1ea99ee40be49b68f9f8cc)
+  URL     "http://www.paraview.org/files/dependencies/embree-2.16.4.tar.gz"
+  URL_MD5 3d9674024198f2944a13dd0a476ff43c)
 
 superbuild_set_revision(ospray
   URL     "http://www.paraview.org/files/dependencies/ospray-1.3.0.tar.gz"

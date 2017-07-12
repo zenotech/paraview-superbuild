@@ -1,6 +1,5 @@
-diff --git a/common/cmake/FindTBB.cmake b/common/cmake/FindTBB.cmake
---- a/common/cmake/FindTBB.cmake
-+++ b/common/cmake/FindTBB.cmake
+--- a/common/cmake/FindTBB.cmake	2017-06-28 09:11:17.000000000 -0400
++++ b/common/cmake/FindTBB.cmake	2017-07-12 15:09:32.171067259 -0400
 @@ -14,13 +14,44 @@
  ## limitations under the License.                                           ##
  ## ======================================================================== ##
@@ -50,7 +49,7 @@ diff --git a/common/cmake/FindTBB.cmake b/common/cmake/FindTBB.cmake
  
    IF (CMAKE_SIZEOF_VOID_P EQUAL 8)
      SET(TBB_ARCH intel64)
-@@ -32,79 +63,103 @@
+@@ -32,79 +63,104 @@
      SET(TBB_VCVER vc10)
    ELSEIF (MSVC11)
      SET(TBB_VCVER vc11)
@@ -97,7 +96,7 @@ diff --git a/common/cmake/FindTBB.cmake b/common/cmake/FindTBB.cmake
 -  FIND_PATH(EMBREE_TBB_ROOT include/tbb/tbb.h
 +  FIND_PATH(TBB_ROOT include/tbb/task_scheduler_init.h
      DOC "Root of TBB installation"
--    PATHS ${PROJECT_SOURCE_DIR}/tbb /opt/intel/composerxe/tbb 
+-    PATHS ${PROJECT_SOURCE_DIR}/tbb /opt/intel/tbb
 -    NO_DEFAULT_PATH
 +    HINTS ${TBB_ROOT}
 +    PATHS
@@ -131,10 +130,11 @@ diff --git a/common/cmake/FindTBB.cmake b/common/cmake/FindTBB.cmake
 -      FIND_LIBRARY(TBB_LIBRARY_MALLOC tbbmalloc PATHS ${EMBREE_TBB_ROOT}/lib/intel64/gcc4.4 ${EMBREE_TBB_ROOT}/lib ${EMBREE_TBB_ROOT}/lib64  /usr/libx86_64-linux-gnu/ NO_DEFAULT_PATH)
 -    ENDIF()
 +    FIND_PATH(TBB_INCLUDE_DIR tbb/task_scheduler_init.h PATHS ${TBB_ROOT}/include NO_DEFAULT_PATH)
-+    FIND_LIBRARY(TBB_LIBRARY libtbb.so.2 HINTS ${TBB_ROOT}/lib/intel64/gcc4.4)
-+    FIND_LIBRARY(TBB_LIBRARY_DEBUG libtbb_debug.so.2 HINTS ${TBB_ROOT}/lib/intel64/gcc4.4)
-+    FIND_LIBRARY(TBB_LIBRARY_MALLOC libtbbmalloc.so.2 HINTS ${TBB_ROOT}/lib/intel64/gcc4.4)
-+    FIND_LIBRARY(TBB_LIBRARY_MALLOC_DEBUG libtbbmalloc_debug.so.2 HINTS ${TBB_ROOT}/lib/intel64/gcc4.4)
++    SET(TBB_HINTS HINTS ${TBB_ROOT}/lib/intel64/gcc4.4 ${TBB_ROOT}/lib ${TBB_ROOT}/lib64 PATHS /usr/libx86_64-linux-gnu/)
++    FIND_LIBRARY(TBB_LIBRARY libtbb.so.2 ${TBB_HINTS})
++    FIND_LIBRARY(TBB_LIBRARY_DEBUG libtbb_debug.so.2 ${TBB_HINTS})
++    FIND_LIBRARY(TBB_LIBRARY_MALLOC libtbbmalloc.so.2 ${TBB_HINTS})
++    FIND_LIBRARY(TBB_LIBRARY_MALLOC_DEBUG libtbbmalloc_debug.so.2 ${TBB_HINTS})
    ENDIF()
 -
  ENDIF()
