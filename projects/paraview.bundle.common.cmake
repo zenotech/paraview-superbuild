@@ -75,6 +75,7 @@ if (paraviewweb_enabled)
     constantly
     incremental
     twisted
+    wslink
     zope)
 
   if (WIN32)
