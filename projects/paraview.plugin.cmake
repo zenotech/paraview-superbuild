@@ -32,7 +32,7 @@ endif ()
 
 superbuild_add_project("${plugin_project}"
   DEPENDS paraview ${${plugin_project}_depends}
-  DEPENDS_OPTIONAL ${${plugin_project}_depends_optional} qt4 qt5
+  DEPENDS_OPTIONAL ${${plugin_project}_depends_optional} qt5
 
   CMAKE_ARGS
     -DParaView_DIR:PATH=${paraview_binary_dir}

@@ -23,11 +23,6 @@ set(pvpython_description "pvpython ${paraview_version_full} (Python Shell)")
 
 set(library_paths "lib")
 
-if (QT_LIBRARY_DIR)
-  list(APPEND library_paths
-    "${QT_LIBRARY_DIR}")
-endif ()
-
 if (Qt5_DIR)
   list(APPEND library_paths
     "${Qt5_DIR}/../../../bin")
@@ -109,16 +104,6 @@ if (paraviewweb_enabled)
     DESTINATION "share/paraview-${paraview_version}"
     COMPONENT   "superbuild")
 endif ()
-
-foreach (qt4_plugin_path IN LISTS qt4_plugin_paths)
-  get_filename_component(qt4_plugin_group "${qt4_plugin_path}" DIRECTORY)
-  get_filename_component(qt4_plugin_group "${qt4_plugin_group}" NAME)
-
-  superbuild_windows_install_plugin(
-    "${qt4_plugin_path}"
-    "plugins/${qt4_plugin_group}"
-    "${library_paths}")
-endforeach ()
 
 foreach (qt5_plugin_path IN LISTS qt5_plugin_paths)
   get_filename_component(qt5_plugin_group "${qt5_plugin_path}" DIRECTORY)
