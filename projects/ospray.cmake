@@ -5,9 +5,9 @@ if (DEFINED OSPRAY_BUILD_ISA)
 endif ()
 
 set(ospray_BUILD_ISA "${ospray_isa_default}"
-  CACHE STRING "Target ISA for OSPRay (SSE, AVX, AVX2, AVX512, or ALL).")
+  CACHE STRING "Target ISA for OSPRay (SSE, AVX, AVX2, AVX512KNL, AVX512SKX, or ALL).")
 mark_as_advanced(ospray_BUILD_ISA)
-set_property(CACHE ospray_BUILD_ISA PROPERTY STRINGS SSE AVX AVX2 AVX512 ALL)
+set_property(CACHE ospray_BUILD_ISA PROPERTY STRINGS SSE AVX AVX2 AVX512KNL AVX512SKX ALL)
 
 superbuild_add_project(ospray
   DEPENDS ispc tbb cxx11 embree
