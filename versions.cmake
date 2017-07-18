@@ -62,6 +62,20 @@ superbuild_set_revision(catalyst
   ${paraview_revision})
 unset(paraview_revision)
 
+superbuild_set_selectable_source(vtkm
+  SELECT for-5.4.0 DEFAULT
+    # keep this updated to the version needed to build the DEFAULT ParaView version.
+    URL             https://www.paraview.org/files/dependencies/vtkm-a181373382cf9a3c1de2708756f55797ec065ab6.tar.bz2
+    URL_MD5         903966d713d895fd61a4c78278ba7079
+  SELECT for-git CUSTOMIZABLE
+    # keep this updated to the version needed to build ParaView "master".
+    GIT_REPOSITORY  "https://gitlab.kitware.com/vtk/vtk-m.git"
+    GIT_TAG         "5b03e87fdf8986597ab5f2c39206dff35555b49f"
+  SELECT git-master CUSTOMIZABLE
+    # this is simply vtk-m's "master".
+    GIT_REPOSITORY  "https://gitlab.kitware.com/vtk/vtk-m.git"
+    GIT_TAG         "origin/master")
+
 superbuild_set_revision(vrpn
   # https://github.com/vrpn/vrpn.git
   URL     "http://www.paraview.org/files/dependencies/vrpn-a545ef6415f0026aabdbdb1d7fdbefeb91c47d4f.tar.bz2"
@@ -95,17 +109,6 @@ endif ()
 superbuild_set_revision(ispc
   URL     "${ispc_file}"
   URL_MD5 "${ispc_md5}")
-
-superbuild_set_selectable_source(vtkm
-  SELECT stable DEFAULT
-    URL https://www.paraview.org/files/dependencies/vtkm-a181373382cf9a3c1de2708756f55797ec065ab6.tar.bz2
-    URL_MD5 903966d713d895fd61a4c78278ba7079
-  SELECT git-stable
-    GIT_REPOSITORY     "https://gitlab.kitware.com/vtk/vtk-m.git"
-    GIT_TAG 838cb9adb01891515782232e4b95cd21c4203dff
-  SELECT git-master CUSTOMIZABLE
-    GIT_REPOSITORY "https://gitlab.kitware.com/vtk/vtk-m.git"
-    GIT_TAG        "origin/master")
 
 superbuild_set_revision(embree
   URL     "http://www.paraview.org/files/dependencies/embree-2.16.4.tar.gz"
