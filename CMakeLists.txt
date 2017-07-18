@@ -101,8 +101,7 @@ function (superbuild_find_projects var)
     paraviewusersguide)
 
   if (USE_NONFREE_COMPONENTS)
-    list(APPEND projects
-      acusolve)
+    # add non-free projects here.
   endif ()
 
   if (WIN32)

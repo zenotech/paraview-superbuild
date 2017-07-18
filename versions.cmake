@@ -28,10 +28,6 @@ superbuild_set_revision(genericio
   URL     "http://www.paraview.org/files/dependencies/genericio-master-a15ffc76cfa9f9674f933e8cb5ffc97a97fd7b27.zip"
   URL_MD5 daea4ea2076fb6a1b8ccded8e861e1be)
 
-superbuild_set_revision(acusolve
-  GIT_REPOSITORY "https://kwgitlab.kitware.com/paraview/acusolvereaderplugin.git"
-  GIT_TAG        origin/master)
-
 set(paraview_doc_ver_series "5.4")
 set(paraview_doc_ver "${paraview_doc_ver_series}.0")
 superbuild_set_revision(paraviewusersguide
@@ -101,7 +97,10 @@ superbuild_set_revision(ispc
   URL_MD5 "${ispc_md5}")
 
 superbuild_set_selectable_source(vtkm
-  SELECT git-stable DEFAULT
+  SELECT stable DEFAULT
+    URL https://www.paraview.org/files/dependencies/vtkm-a181373382cf9a3c1de2708756f55797ec065ab6.tar.bz2
+    URL_MD5 903966d713d895fd61a4c78278ba7079
+  SELECT git-stable
     GIT_REPOSITORY     "https://gitlab.kitware.com/vtk/vtk-m.git"
     GIT_TAG 838cb9adb01891515782232e4b95cd21c4203dff
   SELECT git-master CUSTOMIZABLE
