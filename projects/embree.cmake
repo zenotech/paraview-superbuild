@@ -27,3 +27,5 @@ superbuild_apply_patch(embree improve-findtbb
   "Improve FindTBB")
 superbuild_apply_patch(embree fix-cray
   "Fix compilation under Cray Wrapper")
+superbuild_apply_patch(embree fix-package-config
+  "Remove relative paths from package config")
