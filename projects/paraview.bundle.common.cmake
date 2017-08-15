@@ -73,8 +73,10 @@ if (paraviewweb_enabled)
   list(APPEND python_modules
     autobahn
     constantly
+    hyperlink
     incremental
     twisted
+    txaio
     wslink
     zope)
 
