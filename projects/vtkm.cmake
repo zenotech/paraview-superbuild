@@ -1,6 +1,6 @@
 superbuild_add_project(vtkm
   DEFAULT_ON
-  DEPENDS tbb cxx11
+  DEPENDS tbb
   CMAKE_ARGS
   -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
   -DVTKm_ENABLE_TBB:BOOL=${tbb_enabled}

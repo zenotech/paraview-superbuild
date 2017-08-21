@@ -124,6 +124,13 @@ function (superbuild_sanity_check)
 
   superbuild_qt_sanity_check()
 
+  # Sanity check: Cannot have paraview and have cxx11 disabled.
+  if (NOT cxx11_enabled AND paraview_enabled)
+    #While ParaView doesn't depend on cxx11 it needs to make sure that
+    #other projects that optionally depend on it are built with cxx11
+    message(SEND_ERROR "Cannot disable cxx11 when paraview is enabled.")
+  endif ()
+
   # Sanity check: Cannot have EGL and Qt enabled at the same time.
   if (egl_enabled AND qt5_enabled)
     message(SEND_ERROR "Cannot enable EGL and Qt at the same time.")
@@ -258,6 +265,9 @@ list(APPEND superbuild_project_roots
 
 # set the default arguments used for "git clone"
 set(_git_clone_arguments_default --progress)
+
+# set the default for cxx11 to be enabled for this project
+set(_superbuild_default_cxx11 ON)
 
 if (NOT EXISTS "${CMAKE_CURRENT_LIST_DIR}/superbuild/CMakeLists.txt")
   message(FATAL_ERROR "It appears as though the superbuild infrastructure "
