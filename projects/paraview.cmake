@@ -100,7 +100,7 @@ superbuild_add_project(paraview
   DEBUGGABLE
   DEFAULT_ON
   DEPENDS_OPTIONAL
-    cxx11 boost hdf5 matplotlib mpi numpy png
+    boost hdf5 matplotlib mpi numpy png
     python qt5 visitbridge zlib silo
     xdmf3 ospray vrpn vtkm tbb netcdf
     paraviewusersguide paraviewgettingstartedguide
