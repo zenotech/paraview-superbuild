@@ -201,3 +201,8 @@ if (paraview_SOURCE_SELECTION STREQUAL "5.3.0")
   superbuild_apply_patch(paraview fix-vtkconfig-part1
     "Fix various issues with the VTKConfig.cmake (Part 1)")
 endif ()
+
+if (APPLE)
+  superbuild_append_flags(cxx_flags "-stdlib=libc++" PROJECT_ONLY)
+  superbuild_append_flags(ld_flags "-stdlib=libc++" PROJECT_ONLY)
+endif ()

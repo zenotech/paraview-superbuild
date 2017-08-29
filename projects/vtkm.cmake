@@ -10,3 +10,8 @@ superbuild_add_project(vtkm
 
 superbuild_add_extra_cmake_args(
   -DVTKm_DIR:PATH=<INSTALL_DIR>/lib)
+
+if (APPLE)
+  superbuild_append_flags(cxx_flags "-stdlib=libc++" PROJECT_ONLY)
+  superbuild_append_flags(ld_flags "-stdlib=libc++" PROJECT_ONLY)
+endif ()
