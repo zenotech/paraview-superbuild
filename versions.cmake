@@ -70,7 +70,7 @@ superbuild_set_selectable_source(vtkm
   SELECT for-git CUSTOMIZABLE
     # keep this updated to the version needed to build ParaView "master".
     GIT_REPOSITORY  "https://gitlab.kitware.com/vtk/vtk-m.git"
-    GIT_TAG         "5b03e87fdf8986597ab5f2c39206dff35555b49f"
+    GIT_TAG         "fce4ddc9669fd9eac6ad9848b3594a4e41af11dc"
   SELECT git-master CUSTOMIZABLE
     # this is simply vtk-m's "master".
     GIT_REPOSITORY  "https://gitlab.kitware.com/vtk/vtk-m.git"
