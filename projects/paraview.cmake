@@ -67,6 +67,11 @@ if (tbb_enabled)
   set(paraview_smp_backend "TBB")
 endif ()
 
+set(paraview_enable_cuda "OFF")
+if(vtkm_enabled AND cuda_enabled)
+  set(paraview_enable_cuda "ON")
+endif()
+
 set(PARAVIEW_EXTERNAL_PROJECTS ""
   CACHE STRING "A list of projects for ParaView to depend on")
 mark_as_advanced(PARAVIEW_EXTERNAL_PROJECTS)
@@ -100,7 +105,7 @@ superbuild_add_project(paraview
   DEBUGGABLE
   DEFAULT_ON
   DEPENDS_OPTIONAL
-    boost hdf5 matplotlib mpi numpy png
+    cuda boost hdf5 matplotlib mpi numpy png
     python qt5 visitbridge zlib silo
     xdmf3 ospray vrpn vtkm tbb netcdf
     paraviewusersguide paraviewgettingstartedguide
@@ -160,6 +165,7 @@ superbuild_add_project(paraview
     -DPARAVIEW_BUILD_PLUGIN_VTKmFilters:BOOL=${vtkm_enabled}
     -DPARAVIEW_USE_VTKM:BOOL=${vtkm_enabled}
     -DModule_vtkAcceleratorsVTKm:BOOL=${vtkm_enabled}
+    -DVTKm_ENABLE_CUDA:BOOL=${paraview_enable_cuda}
 
     # Web
     -DPARAVIEW_ENABLE_WEB:BOOL=${paraviewweb_enabled}
