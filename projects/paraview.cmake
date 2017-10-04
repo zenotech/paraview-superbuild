@@ -101,6 +101,12 @@ if (PARAVIEW_DEFAULT_SYSTEM_GL AND mesa_enabled)
   set(paraview_mesa_sb_available TRUE)
 endif ()
 
+if (WIN32)
+  list(APPEND paraviews_platform_dependencies
+    openvr
+    )
+endif ()
+
 superbuild_add_project(paraview
   DEBUGGABLE
   DEFAULT_ON
@@ -120,6 +126,7 @@ superbuild_add_project(paraview
     -DBUILD_TESTING:BOOL=OFF
     -DPARAVIEW_BUILD_PLUGIN_CoProcessingScriptGenerator:BOOL=ON
     -DPARAVIEW_BUILD_PLUGIN_EyeDomeLighting:BOOL=ON
+    -DPARAVIEW_BUILD_PLUGIN_OpenVR:BOOL=${openvr_enabled}
     -DPARAVIEW_BUILD_QT_GUI:BOOL=${qt5_enabled}
     -DPARAVIEW_ENABLE_QT_SUPPORT:BOOL=${qt5_enabled}
     -DPARAVIEW_ENABLE_FFMPEG:BOOL=${ffmpeg_enabled}

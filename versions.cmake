@@ -104,6 +104,10 @@ superbuild_set_revision(ospray
   URL     "http://www.paraview.org/files/dependencies/ospray-1.3.0.tar.gz"
   URL_MD5 d4d4505ec949d3e88242e9fc8243d50f)
 
+superbuild_set_revision(openvr
+  URL     "http://www.paraview.org/files/dependencies/openvr_1.0.10_win_thin.zip"
+  URL_MD5 062a029869423808aebc32f85edf38e2)
+
 superbuild_set_revision(paraviewwebvisualizer
   URL     "http://www.paraview.org/files/dependencies/visualizer-2.3.0.tar.gz"
   URL_MD5 2559036cfe4d3a6e3d262f9b3f8e2c8f)
