@@ -1,0 +1,65 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 94de3ce..fdfc2d2 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -25,6 +25,9 @@ endif()
+ # Get platform.
+ if(WIN32)
+ 	set(PLATFORM_NAME "win")
++  if(BUILD_SHARED)
++     add_definitions(-DVR_BUILD_SHARED)
++  endif()
+ elseif(UNIX AND NOT APPLE)
+   if(CMAKE_SYSTEM_NAME MATCHES ".*Linux")
+     set(PLATFORM_NAME "linux")
+@@ -48,9 +51,9 @@ elseif(APPLE)
+ endif()
+ 
+ # Set output folder for static and shared libraries
+-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/${PLATFORM_NAME}${PROCESSOR_ARCH})
+-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/${PLATFORM_NAME}${PROCESSOR_ARCH})
+-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/${PLATFORM_NAME}${PROCESSOR_ARCH})
++set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin/${PLATFORM_NAME}${PROCESSOR_ARCH})
++set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin/${PLATFORM_NAME}${PROCESSOR_ARCH})
++set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin/${PLATFORM_NAME}${PROCESSOR_ARCH})
+ 
+ # Enable some properties.
+ if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_C_COMPILER_ID MATCHES "Clang")
+diff --git a/headers/openvr.h b/headers/openvr.h
+index f945dbc..c8e4811 100644
+--- a/headers/openvr.h
++++ b/headers/openvr.h
+@@ -1191,11 +1191,15 @@ static const uint32_t k_unScreenshotHandleInvalid = 0;
+ // figure out how to import from the VR API dll
+ #if defined(_WIN32)
+ 
++#ifdef VR_BUILD_SHARED
+ #ifdef VR_API_EXPORT
+ #define VR_INTERFACE extern "C" __declspec( dllexport )
+ #else
+ #define VR_INTERFACE extern "C" __declspec( dllimport )
+ #endif
++#else
++#define VR_INTERFACE extern "C"
++#endif
+ 
+ #elif defined(__GNUC__) || defined(COMPILER_GCC) || defined(__APPLE__)
+ 
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index 58954d6..ad80a4b 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -22,7 +22,7 @@ elseif(WIN32)
+ endif()
+ 
+ # Add include folders.
+-include_directories(${CMAKE_SOURCE_DIR}/src ${CMAKE_SOURCE_DIR}/headers ${CMAKE_SOURCE_DIR}/src/vrcommon)
++include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/../headers ${CMAKE_CURRENT_SOURCE_DIR}/vrcommon)
+ 
+ if(USE_CUSTOM_LIBCXX)
+ 	link_directories(
+@@ -94,3 +94,4 @@ endif()
+ target_link_libraries(${LIBNAME} ${EXTRA_LIBS})
+ 
+ install(TARGETS ${LIBNAME} DESTINATION lib)
++install (FILES ${CMAKE_SOURCE_DIR}/headers/openvr.h DESTINATION include)
