@@ -1,0 +1,6 @@
+superbuild_add_project(las
+  DEPENDS boost
+  CMAKE_ARGS
+    -DWITH_GDAL:BOOL=FALSE
+    -DWITH_GEOTIFF:BOOL=FALSE
+    -DWITH_LASZIP:BOOL=FALSE)

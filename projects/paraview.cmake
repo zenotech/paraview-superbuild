@@ -112,7 +112,7 @@ superbuild_add_project(paraview
   DEFAULT_ON
   DEPENDS_OPTIONAL
     cuda boost hdf5 matplotlib mpi numpy png
-    python qt5 visitbridge zlib silo
+    python qt5 visitbridge zlib silo las
     xdmf3 ospray vrpn vtkm tbb netcdf
     paraviewusersguide paraviewgettingstartedguide
     paraviewtutorial paraviewtutorialdata paraviewweb
@@ -133,6 +133,7 @@ superbuild_add_project(paraview
     -DPARAVIEW_ENABLE_PYTHON:BOOL=${python_enabled}
     -DPARAVIEW_ENABLE_COSMOTOOLS:BOOL=${cosmotools_enabled}
     -DPARAVIEW_ENABLE_XDMF3:BOOL=${xdmf3_enabled}
+    -DPARAVIEW_ENABLE_LAS:BOOL=${las_enabled}
     -DPARAVIEW_USE_MPI:BOOL=${mpi_enabled}
     -DPARAVIEW_USE_OSPRAY:BOOL=${ospray_enabled}
     -DPARAVIEW_USE_VISITBRIDGE:BOOL=${visitbridge_enabled}

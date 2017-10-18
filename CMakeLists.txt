@@ -60,6 +60,7 @@ function (superbuild_find_projects var)
     pythonsetuptools
     qt5
     silo
+    las
     szip
     tbb
     visitbridge
