@@ -4,3 +4,6 @@ superbuild_add_project(las
     -DWITH_GDAL:BOOL=FALSE
     -DWITH_GEOTIFF:BOOL=FALSE
     -DWITH_LASZIP:BOOL=FALSE)
+
+superbuild_apply_patch(las respect-with-geotiff
+  "find_package GeoTIFF only if WITH_GEOTIFF")
