@@ -255,6 +255,9 @@ function (superbuild_add_tests)
 endfunction ()
 
 set(boost_libraries
+  program_options
+  iostreams
+  filesystem
   date_time
   system
   thread)
