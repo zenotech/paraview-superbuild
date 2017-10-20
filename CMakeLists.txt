@@ -261,6 +261,8 @@ set(boost_libraries
   date_time
   system
   thread)
+set(boost_extra_options
+  "-sNO_BZIP2=1")
 
 list(APPEND superbuild_version_files
   "${CMAKE_CURRENT_LIST_DIR}/versions.cmake")
