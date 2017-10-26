@@ -60,7 +60,6 @@ function (superbuild_find_projects var)
     pythonsetuptools
     qt5
     silo
-    las
     szip
     tbb
     visitbridge
@@ -79,6 +78,7 @@ function (superbuild_find_projects var)
       genericio
       libxml2
       mxml
+      las
       scipy)
 
     if (NOT APPLE)
