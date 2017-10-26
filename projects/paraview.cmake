@@ -90,7 +90,7 @@ if (UNIX)
       fontconfig)
   endif ()
   list(APPEND paraviews_platform_dependencies
-    adios ffmpeg libxml2 freetype
+    adios ffmpeg libxml2 freetype las
 
     # For cosmotools
     genericio cosmotools)
@@ -112,7 +112,7 @@ superbuild_add_project(paraview
   DEFAULT_ON
   DEPENDS_OPTIONAL
     cuda boost hdf5 matplotlib mpi numpy png
-    python qt5 visitbridge zlib silo las
+    python qt5 visitbridge zlib silo
     xdmf3 ospray vrpn vtkm tbb netcdf
     paraviewusersguide paraviewgettingstartedguide
     paraviewtutorial paraviewtutorialdata paraviewweb
