@@ -78,6 +78,7 @@ function (superbuild_find_projects var)
       genericio
       libxml2
       mxml
+      las
       scipy)
 
     if (NOT APPLE)
@@ -254,9 +255,14 @@ function (superbuild_add_tests)
 endfunction ()
 
 set(boost_libraries
+  program_options
+  iostreams
+  filesystem
   date_time
   system
   thread)
+set(boost_extra_options
+  "-sNO_BZIP2=1")
 
 list(APPEND superbuild_version_files
   "${CMAKE_CURRENT_LIST_DIR}/versions.cmake")
