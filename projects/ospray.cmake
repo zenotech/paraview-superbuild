@@ -33,8 +33,5 @@ superbuild_add_project(ospray
     -DOSPRAY_MODULE_TACHYON:BOOL=OFF
     -DCMAKE_INSTALL_LIBDIR:STRING=lib)
 
-superbuild_apply_patch(ospray improve-findtbb
-  "Improve FindTBB")
-
 superbuild_add_extra_cmake_args(
   -DOSPRAY_INSTALL_DIR:PATH=<INSTALL_DIR>)

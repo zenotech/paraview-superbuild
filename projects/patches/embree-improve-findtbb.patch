@@ -1,10 +1,12 @@
---- a/common/cmake/FindTBB.cmake	2017-06-28 09:11:17.000000000 -0400
-+++ b/common/cmake/FindTBB.cmake	2017-07-12 15:09:32.171067259 -0400
+diff --git a/common/cmake/FindTBB.cmake b/common/cmake/FindTBB.cmake
+index faa53ad16..839f82bce 100644
+--- a/common/cmake/FindTBB.cmake
++++ b/common/cmake/FindTBB.cmake
 @@ -14,13 +14,44 @@
  ## limitations under the License.                                           ##
  ## ======================================================================== ##
  
-+SET(TBB_MAJOR_VERSION_REQUIRED "3.0")
++SET(TBB_VERSION_REQUIRED "3.0")
 +
 +IF (NOT TBB_ROOT)
 +  SET(TBB_ROOT $ENV{TBB_ROOT})
@@ -49,7 +51,7 @@
  
    IF (CMAKE_SIZEOF_VOID_P EQUAL 8)
      SET(TBB_ARCH intel64)
-@@ -32,79 +63,104 @@
+@@ -32,96 +63,112 @@ IF (WIN32)
      SET(TBB_VCVER vc10)
    ELSEIF (MSVC11)
      SET(TBB_VCVER vc11)
@@ -62,8 +64,7 @@
  
 -  SET(TBB_LIBDIR ${EMBREE_TBB_ROOT}/lib/${TBB_ARCH}/${TBB_VCVER})
 -  SET(TBB_BINDIR ${EMBREE_TBB_ROOT}/bin/${TBB_ARCH}/${TBB_VCVER})
-+  SET(TBB_LIBDIR ${TBB_ROOT}/lib/)
-+  SET(TBB_BINDIR ${TBB_ROOT}/bin/)
++  SET(TBB_LIBDIR ${TBB_ROOT}/lib)
  
 -  IF (EMBREE_TBB_ROOT STREQUAL "")
 -    FIND_PATH(TBB_INCLUDE_DIR tbb/task_scheduler_init.h)
@@ -79,16 +80,24 @@
 -  ENDIF()
 +  FIND_PATH(TBB_INCLUDE_DIR tbb/task_scheduler_init.h PATHS ${TBB_ROOT}/include NO_DEFAULT_PATH)
 +  FIND_LIBRARY(TBB_LIBRARY tbb
-+    PATHS ${TBB_LIBDIR} ${TBB_LIBDIR}/${TBB_ARCH}/${TBB_VCVER}
++    PATHS
++    ${TBB_LIBDIR}/${TBB_ARCH}/${TBB_VCVER}
++    ${TBB_LIBDIR}
 +    NO_DEFAULT_PATH)
 +  FIND_LIBRARY(TBB_LIBRARY_DEBUG tbb_debug
-+    PATHS ${TBB_LIBDIR} ${TBB_LIBDIR}/${TBB_ARCH}/${TBB_VCVER}
++    PATHS
++    ${TBB_LIBDIR}/${TBB_ARCH}/${TBB_VCVER}
++    ${TBB_LIBDIR}
 +    NO_DEFAULT_PATH)
 +  FIND_LIBRARY(TBB_LIBRARY_MALLOC tbbmalloc
-+    PATHS ${TBB_LIBDIR} ${TBB_LIBDIR}/${TBB_ARCH}/${TBB_VCVER}
++    PATHS
++    ${TBB_LIBDIR}/${TBB_ARCH}/${TBB_VCVER}
++    ${TBB_LIBDIR}
 +    NO_DEFAULT_PATH)
 +  FIND_LIBRARY(TBB_LIBRARY_MALLOC_DEBUG tbbmalloc_debug
-+    PATHS ${TBB_LIBDIR} ${TBB_LIBDIR}/${TBB_ARCH}/${TBB_VCVER}
++    PATHS
++    ${TBB_LIBDIR}/${TBB_ARCH}/${TBB_VCVER}
++    ${TBB_LIBDIR}
 +    NO_DEFAULT_PATH)
  
  ELSE ()
@@ -103,13 +112,32 @@
 +      ${PROJECT_SOURCE_DIR}/tbb
 +      /opt/intel/composerxe/tbb
 +      /opt/intel/compilers_and_libraries/tbb
++      /opt/intel/tbb
    )
 -  FIND_PATH(EMBREE_TBB_ROOT include/tbb/tbb.h)
- 
+-
 -  IF (EMBREE_TBB_ROOT STREQUAL "")
 -    FIND_PATH(TBB_INCLUDE_DIR tbb/task_scheduler_init.h)
 -    FIND_LIBRARY(TBB_LIBRARY tbb)
 -    FIND_LIBRARY(TBB_LIBRARY_MALLOC tbbmalloc)
+-    
+-  ELSEIF (EXISTS ${EMBREE_TBB_ROOT}/cmake/TBBBuild.cmake)
+-    OPTION(EMBREE_TBB_STATIC_LIB "Build TBB as a static library (building TBB as a static library is NOT recommended)")
+-    if (EMBREE_TBB_STATIC_LIB)
+-      include(${EMBREE_TBB_ROOT}/cmake/TBBBuild.cmake)
+-      tbb_build(TBB_ROOT ${EMBREE_TBB_ROOT} CONFIG_DIR TBB_DIR MAKE_ARGS extra_inc=big_iron.inc)
+-      SET(TBB_INCLUDE_DIR ${EMBREE_TBB_ROOT}/include)
+-      SET(TBB_LIBRARY ${PROJECT_BINARY_DIR}/tbb_cmake_build/tbb_cmake_build_subdir_release/libtbb.a)
+-      SET(TBB_LIBRARY_MALLOC ${PROJECT_BINARY_DIR}/tbb_cmake_build/tbb_cmake_build_subdir_release/libtbbmalloc.a)
+-    else()
+-      include(${EMBREE_TBB_ROOT}/cmake/TBBBuild.cmake)
+-      tbb_build(TBB_ROOT ${EMBREE_TBB_ROOT} CONFIG_DIR TBB_DIR)
+-      SET(TBB_INCLUDE_DIR ${EMBREE_TBB_ROOT}/include)
+-      SET(TBB_LIBRARY ${PROJECT_BINARY_DIR}/tbb_cmake_build/tbb_cmake_build_subdir_release/libtbb.so.2)
+-      SET(TBB_LIBRARY_MALLOC ${PROJECT_BINARY_DIR}/tbb_cmake_build/tbb_cmake_build_subdir_release/libtbbmalloc.so.2)
+-    endif()
+-    
++
 +  IF (APPLE)
 +    FIND_PATH(TBB_INCLUDE_DIR tbb/task_scheduler_init.h PATHS ${TBB_ROOT}/include NO_DEFAULT_PATH)
 +    FIND_LIBRARY(TBB_LIBRARY tbb PATHS ${TBB_ROOT}/lib NO_DEFAULT_PATH)
@@ -142,7 +170,7 @@
 +SET(TBB_ROOT_LAST ${TBB_ROOT} CACHE INTERNAL "Last value of TBB_ROOT to detect changes")
 +
 +SET(TBB_ERROR_MESSAGE
-+  "Threading Building Blocks (TBB) with minimum version ${TBB_MAJOR_VERSION_REQUIRED}.0 not found.
++  "Threading Building Blocks (TBB) with minimum version ${TBB_VERSION_REQUIRED} not found.
 +OSPRay uses TBB as default tasking system. Please make sure you have the TBB headers installed as well (the package is typically named 'libtbb-dev' or 'tbb-devel') and/or hint the location of TBB in TBB_ROOT.
 +Alternatively, you can try to use OpenMP as tasking system by setting OSPRAY_TASKING_SYSTEM=OpenMP")
 +
@@ -163,7 +191,7 @@
 +  STRING(REGEX MATCH "#define TBB_VERSION_MINOR ([0-9]+)" DUMMY "${TBB_STDDEF_H}")
 +  SET(TBB_VERSION "${TBB_VERSION_MAJOR}.${CMAKE_MATCH_1}")
 +
-+  IF (TBB_VERSION_MAJOR VERSION_LESS TBB_VERSION_REQUIRED)
++  IF (TBB_VERSION VERSION_LESS TBB_VERSION_REQUIRED)
 +    MESSAGE(FATAL_ERROR ${TBB_ERROR_MESSAGE})
 +  ENDIF()
 +
@@ -198,7 +226,7 @@
 -
 -IF (WIN32)
 -  INSTALL(PROGRAMS ${TBB_BINDIR}/tbb.dll ${TBB_BINDIR}/tbbmalloc.dll DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT examples)
--  INSTALL(PROGRAMS ${TBB_BINDIR}/tbb.dll ${TBB_BINDIR}/tbbmalloc.dll DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT lib)
+-  INSTALL(PROGRAMS ${TBB_LIBDIR}/tbb.lib ${TBB_LIBDIR}/tbbmalloc.lib DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT lib)
 -ELSEIF (EMBREE_ZIP_MODE)
 -  IF (APPLE)
 -    INSTALL(PROGRAMS ${EMBREE_TBB_ROOT}/lib/libtbb.dylib ${EMBREE_TBB_ROOT}/lib/libtbbmalloc.dylib DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT lib)

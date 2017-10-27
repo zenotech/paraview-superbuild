@@ -97,12 +97,12 @@ superbuild_set_revision(ispc
   URL_MD5 "${ispc_md5}")
 
 superbuild_set_revision(embree
-  URL     "http://www.paraview.org/files/dependencies/embree-2.16.4.tar.gz"
-  URL_MD5 3d9674024198f2944a13dd0a476ff43c)
+  URL     "http://www.paraview.org/files/dependencies/embree-2.17.0.tar.gz"
+  URL_MD5 3ea7a72546baee497ae8098bc12f3de6)
 
 superbuild_set_revision(ospray
-  URL     "http://www.paraview.org/files/dependencies/ospray-1.3.0.tar.gz"
-  URL_MD5 d4d4505ec949d3e88242e9fc8243d50f)
+  URL     "http://www.paraview.org/files/dependencies/ospray-1.4.0.tar.gz"
+  URL_MD5 2a3a4895c5ec2a42c7af86a51727fb53)
 
 superbuild_set_revision(openvr
   URL     "http://www.paraview.org/files/dependencies/openvr_1.0.10_win_thin.zip"
