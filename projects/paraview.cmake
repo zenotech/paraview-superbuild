@@ -154,7 +154,7 @@ superbuild_add_project(paraview
     -DVTK_USE_SYSTEM_ZLIB:BOOL=${zlib_enabled}
     -DModule_vtkIOADIOS:BOOL=${adios_enabled}
     -DVTK_SMP_IMPLEMENTATION_TYPE:STRING=${paraview_smp_backend}
-    -DVTK_LEGACY_SILENT:BOOL=ON
+    -DVTK_LEGACY_REMOVE:BOOL=ON
     -DVTK_OPENGL_HAS_OSMESA:BOOL=${osmesa_enabled}
     -DVTK_USE_OFFSCREEN:BOOL=${osmesa_enabled}
     -DVTK_USE_OFFSCREEN_EGL:BOOL=${egl_enabled}
