@@ -16,6 +16,10 @@ superbuild_apply_patch(las respect-with-geotiff
 superbuild_apply_patch(las enable-outside-boost-options
   "Enable outside boost options")
 
+if (WIN32)
+  superbuild_append_flags(cxx_flags "-DBOOST_ALL_NO_LIB" PROJECT_ONLY)
+endif()
+
 if (APPLE)
   superbuild_append_flags(cxx_flags "-stdlib=libc++" PROJECT_ONLY)
   superbuild_append_flags(ld_flags "-stdlib=libc++" PROJECT_ONLY)
