@@ -216,6 +216,11 @@ if (paraview_SOURCE_SELECTION STREQUAL "5.3.0")
     "Fix various issues with the VTKConfig.cmake (Part 1)")
 endif ()
 
+if (WIN32 AND las_enabled)
+  superbuild_append_flags(cxx_flags "-DBOOST_ALL_NO_LIB" PROJECT_ONLY)
+endif()
+
+
 if (APPLE)
   superbuild_append_flags(cxx_flags "-stdlib=libc++" PROJECT_ONLY)
   superbuild_append_flags(ld_flags "-stdlib=libc++" PROJECT_ONLY)
