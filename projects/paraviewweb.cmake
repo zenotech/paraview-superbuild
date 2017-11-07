@@ -5,4 +5,4 @@ if (WIN32)
 endif ()
 
 superbuild_add_dummy_project(paraviewweb
-  DEPENDS python paraviewwebvisualizer paraviewweblightviz ${paraviewweb_depends})
+  DEPENDS python paraviewwebvisualizer paraviewweblightviz paraviewwebdivvy ${paraviewweb_depends})

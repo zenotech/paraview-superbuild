@@ -55,6 +55,7 @@ function (superbuild_find_projects var)
     paraviewweb
     paraviewwebvisualizer
     paraviewweblightviz
+    paraviewwebdivvy
     png
     python
     pythonsetuptools
