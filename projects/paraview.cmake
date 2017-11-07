@@ -90,7 +90,7 @@ if (UNIX)
       fontconfig)
   endif ()
   list(APPEND paraviews_platform_dependencies
-    adios ffmpeg libxml2 freetype las
+    adios ffmpeg libxml2 freetype
 
     # For cosmotools
     genericio cosmotools)
@@ -112,7 +112,7 @@ superbuild_add_project(paraview
   DEFAULT_ON
   DEPENDS_OPTIONAL
     cuda boost hdf5 matplotlib mpi numpy png
-    python qt5 visitbridge zlib silo
+    python qt5 visitbridge zlib silo las
     xdmf3 ospray vrpn vtkm tbb netcdf
     paraviewusersguide paraviewgettingstartedguide
     paraviewtutorial paraviewtutorialdata paraviewweb
@@ -215,6 +215,11 @@ if (paraview_SOURCE_SELECTION STREQUAL "5.3.0")
   superbuild_apply_patch(paraview fix-vtkconfig-part1
     "Fix various issues with the VTKConfig.cmake (Part 1)")
 endif ()
+
+if (WIN32 AND las_enabled)
+  superbuild_append_flags(cxx_flags "-DBOOST_ALL_NO_LIB" PROJECT_ONLY)
+endif()
+
 
 if (APPLE)
   superbuild_append_flags(cxx_flags "-stdlib=libc++" PROJECT_ONLY)
