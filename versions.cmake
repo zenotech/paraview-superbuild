@@ -114,12 +114,12 @@ superbuild_set_revision(paraviewwebvisualizer
   URL_MD5 46d3d46346fc3a05e2a9971bd9c9ea40)
 
 superbuild_set_revision(paraviewweblightviz
-  URL     "http://www.paraview.org/files/dependencies/light-viz-1.17.0.tar.gz"
-  URL_MD5 e9ba9bcdf94fef99697d12a1c628a1ae)
+  URL     "http://www.paraview.org/files/dependencies/light-viz-1.17.1.tar.gz"
+  URL_MD5 b168ce62b763655c1595aaa31ba28051)
 
 superbuild_set_revision(paraviewwebdivvy
-  URL     "http://www.paraview.org/files/dependencies/divvy-1.3.5.tar.gz"
-  URL_MD5 9c945502fc98c94f386cb3f2c98dd74b)
+  URL     "http://www.paraview.org/files/dependencies/divvy-1.3.11.tar.gz"
+  URL_MD5 561957408186f55976fce9632ee90254)
 
 superbuild_set_revision(boxlib
   URL     "http://www.paraview.org/files/dependencies/boxlib-c114717e6c47188a0812804addcab61d7605ef89.tar.bz2"
