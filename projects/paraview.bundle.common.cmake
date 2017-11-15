@@ -34,12 +34,8 @@ set(paraview_executables
   pvserver)
 if (python_enabled)
   list(APPEND paraview_executables
+    pvbatch
     pvpython)
-
-  if (mpi_enabled)
-    list(APPEND paraview_executables
-      pvbatch)
-  endif ()
 endif ()
 
 set(paraview_has_gui FALSE)
