@@ -1,7 +1,7 @@
 include(paraview-version)
 set(CPACK_PACKAGE_NAME "ParaViewSDK")
 set(package_filename "${PARAVIEWSDK_PACKAGE_FILE_NAME}")
-set(paraview_plugin_path "lib/paraview-${paraview_version}")
+set(paraview_plugin_path "lib")
 include(paraview.bundle.common)
 
 set(plugins_file "${CMAKE_CURRENT_BINARY_DIR}/paraview.plugins")
@@ -9,17 +9,17 @@ paraview_add_plugin("${plugins_file}" ${paraview_plugins})
 
 foreach (paraview_plugin IN LISTS paraview_plugins)
   superbuild_unix_install_plugin("lib${paraview_plugin}.so"
-    "lib/paraview-${paraview_version}"
-    "lib/paraview-${paraview_version}"
+    "lib"
+    "lib"
     LOADER_PATHS    "${library_paths}"
     INCLUDE_REGEXES "${superbuild_install_location}"
     EXCLUDE_REGEXES ".*"
-    LOCATION        "lib/paraview-${paraview_version}/plugins/${paraview_plugin}/")
+    LOCATION        "lib/plugins/${paraview_plugin}/")
 endforeach ()
 
 install(
   FILES       "${plugins_file}"
-  DESTINATION "lib/paraview-${paraview_version}"
+  DESTINATION "lib"
   COMPONENT   superbuild
   RENAME      ".plugins")
 
@@ -43,31 +43,19 @@ set(binaries_to_install)
 foreach (paraview_executable IN LISTS paraview_executables)
   list(APPEND binaries_to_install
     "${superbuild_install_location}/bin/${paraview_executable}"
-    "${superbuild_install_location}/lib/paraview-${paraview_version}/${paraview_executable}")
+    "${superbuild_install_location}/lib/${paraview_executable}")
 endforeach ()
 
 if (python_enabled)
-  # Install ParaView Python libraries
+  # Install ParaView Python libraries and any non-ParaView Python libraries.
   install(
-    DIRECTORY   "${superbuild_install_location}/lib/paraview-${paraview_version}/site-packages"
+    DIRECTORY   "${superbuild_install_location}/lib/python2.7"
     DESTINATION "lib/python2.7"
     COMPONENT   superbuild
     USE_SOURCE_PERMISSIONS
     PATTERN "__pycache__" EXCLUDE
     PATTERN "*.pyo" EXCLUDE
     PATTERN "*.pyc" EXCLUDE)
-
-  # Install any non-ParaView Python libraries
-  if (EXISTS "${superbuild_install_location}/lib/python2.7")
-    install(
-      DIRECTORY   "${superbuild_install_location}/lib/python2.7"
-      DESTINATION lib
-      COMPONENT   superbuild
-      USE_SOURCE_PERMISSIONS
-      PATTERN "__pycache__" EXCLUDE
-      PATTERN "*.pyo" EXCLUDE
-      PATTERN "*.pyc" EXCLUDE)
-  endif ()
 
   # Install python binaries and symlinks
   if (python_built_by_superbuild)
@@ -113,7 +101,7 @@ list(REMOVE_DUPLICATES libraries_referenced_by_cmake)
 if (python_enabled)
   # Now grab extra python SOs
   file(GLOB_RECURSE paraview_python_modules
-    "${real_superbuild_install_location}/lib/paraview-${paraview_version}/site-packages/*${CMAKE_SHARED_MODULE_SUFFIX}")
+    "${real_superbuild_install_location}/lib/python2.7/site-packages/*${CMAKE_SHARED_MODULE_SUFFIX}")
   file(GLOB_RECURSE python_modules
     "${real_superbuild_install_location}/lib/python2.7/*${CMAKE_SHARED_MODULE_SUFFIX}")
 else ()
@@ -167,9 +155,6 @@ function (_install_superbuild_file type fname)
   get_filename_component(fname_dir "${fname}" DIRECTORY)
   get_filename_component(fname_inst "${fname_dir}" REALPATH)
   string(REPLACE "${real_superbuild_install_location}/" "" fname_inst "${fname_inst}")
-  string(REPLACE
-    "lib/paraview-${paraview_version}/site-packages" "lib/python2.7/site-packages"
-    fname_inst "${fname_inst}")
   install(
     "${type}"   "${fname}"
     DESTINATION "${fname_inst}"
@@ -187,7 +172,6 @@ endfunction ()
 include(GetPrerequisites)
 set(all_binaries)
 set(dependency_search_paths
-  "${real_superbuild_install_location}/lib/paraview-${paraview_version}"
   "${real_superbuild_install_location}/lib"
   "${real_superbuild_install_location}/lib/python2.7"
   "${real_superbuild_install_location}/lib/python2.7/site-packages"
@@ -275,21 +259,3 @@ endforeach ()
 foreach (fname IN LISTS all_binaries)
   install_superbuild_binary("${fname}")
 endforeach ()
-
-# Add some leftover python symlinks
-if (python_enabled AND NOT python_built_by_superbuild)
-  install(CODE
-    "execute_process(
-      COMMAND \"${CMAKE_COMMAND}\" -E create_symlink
-              ../python2.7/site-packages
-              \$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/lib/paraview-${paraview_version}/site-packages
-      ERROR_VARIABLE  out
-      OUTPUT_VARIABLE out
-      RESULT_VARIABLE res)
-
-    if (res)
-      message(FATAL_ERROR
-        \"Failed to create the site-packages symlink: \${out}\")
-    endif ()"
-    COMPONENT superbuild)
-endif ()
