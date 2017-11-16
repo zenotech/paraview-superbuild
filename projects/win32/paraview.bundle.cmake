@@ -94,11 +94,6 @@ if (paraviewweb_enabled)
                 "${superbuild_install_location}/bin/Lib/site-packages/pywin32.version.txt"
     DESTINATION "bin/Lib/site-packages"
     COMPONENT   "superbuild")
-
-  install(
-    FILES       "${superbuild_install_location}/bin/Lib/site-packages/paraview/web/defaultProxies.json"
-    DESTINATION "bin/Lib/site-packages/paraview/web"
-    COMPONENT   "superbuild")
   install(
     DIRECTORY   "${superbuild_install_location}/share/paraview/web"
     DESTINATION "share/paraview-${paraview_version}"

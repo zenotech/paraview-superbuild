@@ -28,10 +28,6 @@ endif ()
 
 if (paraviewweb_enabled)
   install(
-    FILES       "${superbuild_install_location}/lib/python2.7/site-packages/paraview/web/defaultProxies.json"
-    DESTINATION "lib/python2.7/site-packages/paraview/web"
-    COMPONENT   "${paraview_component}")
-  install(
     DIRECTORY   "${superbuild_install_location}/share/paraview/web"
     DESTINATION "share/paraview-${paraview_version}"
     COMPONENT   "${paraview_component}")
