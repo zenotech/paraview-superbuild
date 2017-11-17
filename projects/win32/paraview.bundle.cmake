@@ -64,7 +64,7 @@ if (python_enabled)
             ${python_modules}
     MODULE_DIRECTORIES  "${superbuild_install_location}/bin/Lib/site-packages"
                         "${superbuild_install_location}/lib/site-packages"
-                        "${superbuild_install_location}/lib/paraview-${paraview_version}/site-packages"
+                        "${superbuild_install_location}/lib/python2.7/site-packages"
     SEARCH_DIRECTORIES  "lib")
 
   if (matplotlib_enabled)
@@ -80,7 +80,7 @@ if (python_enabled)
     MODULE_DIRECTORIES
             "${superbuild_install_location}/bin/Lib/site-packages"
             "${superbuild_install_location}/lib/site-packages"
-            "${superbuild_install_location}/lib/paraview-${paraview_version}/site-packages"
+            "${superbuild_install_location}/lib/python2.7/site-packages"
     SEARCH_DIRECTORIES  "lib")
 endif ()
 
@@ -93,11 +93,6 @@ if (paraviewweb_enabled)
     FILES       "${superbuild_install_location}/bin/Lib/site-packages/pywin32.pth"
                 "${superbuild_install_location}/bin/Lib/site-packages/pywin32.version.txt"
     DESTINATION "bin/Lib/site-packages"
-    COMPONENT   "superbuild")
-
-  install(
-    FILES       "${superbuild_install_location}/lib/paraview-${paraview_version}/site-packages/paraview/web/defaultProxies.json"
-    DESTINATION "bin/Lib/site-packages/paraview/web"
     COMPONENT   "superbuild")
   install(
     DIRECTORY   "${superbuild_install_location}/share/paraview/web"
