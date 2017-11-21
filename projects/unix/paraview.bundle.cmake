@@ -2,7 +2,7 @@ include(paraview-version)
 
 set(paraview_doc_dir "share/paraview-${paraview_version}/doc")
 set(paraview_data_dir "share/paraview-${paraview_version}/data")
-set(paraview_plugin_path "lib")
+set(paraview_plugin_path "lib/paraview-${paraview_version}/plugins")
 include(paraview.bundle.common)
 
 set(paraview_component ParaView)

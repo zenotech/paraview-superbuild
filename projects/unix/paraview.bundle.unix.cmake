@@ -32,11 +32,11 @@ endforeach ()
 foreach (paraview_plugin IN LISTS paraview_plugins)
   superbuild_unix_install_plugin("lib${paraview_plugin}.so"
     "lib"
-    "lib"
+    "${paraview_plugin_path}/${paraview_plugin}"
     LOADER_PATHS    "${library_paths}"
     INCLUDE_REGEXES ${include_regexes}
     EXCLUDE_REGEXES ${exclude_regexes}
-    LOCATION        "lib/plugins/${paraview_plugin}/")
+    LOCATION        "${paraview_plugin_path}/${paraview_plugin}/")
 endforeach ()
 
 set(plugins_file "${CMAKE_CURRENT_BINARY_DIR}/paraview.plugins")
@@ -44,7 +44,7 @@ paraview_add_plugin("${plugins_file}" ${paraview_plugins})
 
 install(
   FILES       "${plugins_file}"
-  DESTINATION "lib"
+  DESTINATION ${paraview_plugin_path}
   COMPONENT   superbuild
   RENAME      ".plugins")
 
