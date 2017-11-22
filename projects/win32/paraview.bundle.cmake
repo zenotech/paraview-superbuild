@@ -1,6 +1,6 @@
 set(paraview_doc_dir "doc")
 set(paraview_data_dir "data")
-set(paraview_plugin_path "bin")
+set(paraview_plugin_path "bin/plugins")
 include(paraview.bundle.common)
 
 # Set NSIS install specific stuff.
@@ -41,8 +41,8 @@ endforeach()
 
 foreach (paraview_plugin IN LISTS paraview_plugins)
   superbuild_windows_install_plugin("${paraview_plugin}.dll"
-    "bin"
-    "${library_paths}")
+    "${paraview_plugin_path}/${paraview_plugin}"
+    "${paraview_plugin_path}/${paraview_plugin};${library_paths}")
 endforeach ()
 
 set(plugins_file "${CMAKE_CURRENT_BINARY_DIR}/paraview.plugins")
@@ -50,7 +50,7 @@ paraview_add_plugin("${plugins_file}" ${paraview_plugins})
 
 install(
   FILES       "${plugins_file}"
-  DESTINATION "bin"
+  DESTINATION "${paraview_plugin_path}"
   COMPONENT   superbuild
   RENAME      ".plugins")
 
