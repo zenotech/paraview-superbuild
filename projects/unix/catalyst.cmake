@@ -37,6 +37,7 @@ foreach (catalyst_edition IN LISTS catalyst_editions)
 endforeach ()
 
 set(catalyst_cmake_args
+  -G "${CMAKE_GENERATOR}"
   -DPARAVIEW_INSTALL_DEVELOPMENT_FILES:BOOL=TRUE
   -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
   -DCMAKE_PREFIX_PATH:PATH=<INSTALL_DIR>
@@ -46,7 +47,7 @@ set(catalyst_cmake_args
   -DCMAKE_SHARED_LINKER_FLAGS:STRING=${project_ld_flags})
 
 superbuild_add_project(catalyst
-  DEPENDS   mpi python
+  DEPENDS mpi python
   CONFIGURE_COMMAND
     ${pv_python_executable} <SOURCE_DIR>/Catalyst/catalyze.py
       ${catalyst_edition_args}
