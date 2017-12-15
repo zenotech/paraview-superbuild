@@ -103,8 +103,7 @@ endif ()
 
 if (WIN32)
   list(APPEND paraviews_platform_dependencies
-    openvr
-    )
+    openvr)
 endif ()
 
 superbuild_add_project(paraview
