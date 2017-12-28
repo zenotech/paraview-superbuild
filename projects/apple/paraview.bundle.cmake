@@ -86,19 +86,13 @@ if (python_enabled)
     "${paraview_appname}"
     MODULES paraview
             vtk
+            vtkmodules
             ${python_modules}
     MODULE_DIRECTORIES
             "${superbuild_install_location}/Applications/paraview.app/Contents/Python"
     SEARCH_DIRECTORIES
             "${superbuild_install_location}/Applications/paraview.app/Contents/Libraries"
             "${superbuild_install_location}/lib")
-
-  install(CODE
-    "file(REMOVE_RECURSE \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${paraview_appname}/Contents/Python/paraview/vtk\")
-    file(INSTALL
-      \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${paraview_appname}/Contents/Python/vtk\"
-      DESTINATION \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${paraview_appname}/Contents/Python/paraview/\")"
-    COMPONENT superbuild)
 
   if (matplotlib_enabled)
     install(

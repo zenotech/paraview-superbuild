@@ -61,6 +61,7 @@ if (python_enabled)
   superbuild_windows_install_python(
     MODULES paraview
             vtk
+            vtkmodules
             ${python_modules}
     MODULE_DIRECTORIES  "${superbuild_install_location}/bin/Lib/site-packages"
                         "${superbuild_install_location}/lib/site-packages"
