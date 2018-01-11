@@ -57,7 +57,6 @@ function (superbuild_find_projects var)
     paraviewweblightviz
     paraviewwebdivvy
     png
-    python
     pythonautobahn
     pythonconstantly
     pythonhyperlink
