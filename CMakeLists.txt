@@ -58,7 +58,16 @@ function (superbuild_find_projects var)
     paraviewwebdivvy
     png
     python
+    pythonautobahn
+    pythonconstantly
+    pythonhyperlink
+    pythonincremental
     pythonsetuptools
+    pythonsix
+    pythontwisted
+    pythontxaio
+    pythonwslink
+    pythonzopeinterface
     qt5
     silo
     las
@@ -80,6 +89,7 @@ function (superbuild_find_projects var)
       genericio
       libxml2
       mxml
+      pythonmpi4py
       scipy)
 
     if (NOT APPLE)
