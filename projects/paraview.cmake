@@ -108,6 +108,12 @@ if (WIN32)
     openvr)
 endif ()
 
+set(PARAVIEW_ENABLE_PYTHON ${python_enabled})
+if (python_enabled AND USE_SYSTEM_python AND NOT python_FIND_LIBRARIES)
+  set(PARAVIEW_ENABLE_PYTHON OFF)
+endif()
+
+
 superbuild_add_project(paraview
   DEBUGGABLE
   DEFAULT_ON
@@ -131,7 +137,7 @@ superbuild_add_project(paraview
     -DPARAVIEW_BUILD_QT_GUI:BOOL=${qt5_enabled}
     -DPARAVIEW_ENABLE_QT_SUPPORT:BOOL=${qt5_enabled}
     -DPARAVIEW_ENABLE_FFMPEG:BOOL=${ffmpeg_enabled}
-    -DPARAVIEW_ENABLE_PYTHON:BOOL=${python_enabled}
+    -DPARAVIEW_ENABLE_PYTHON:BOOL=${PARAVIEW_ENABLE_PYTHON}
     -DPARAVIEW_ENABLE_COSMOTOOLS:BOOL=${cosmotools_enabled}
     -DPARAVIEW_ENABLE_XDMF3:BOOL=${xdmf3_enabled}
     -DPARAVIEW_ENABLE_LAS:BOOL=${las_enabled}
