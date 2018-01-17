@@ -104,6 +104,7 @@ if (paraviewweb_enabled)
 endif ()
 
 foreach (qt5_plugin_path IN LISTS qt5_plugin_paths)
+  get_filename_component(qt5_plugin_group "${qt5_plugin_path}" DIRECTORY)
   get_filename_component(qt5_plugin_group "${qt5_plugin_group}" NAME)
 
   superbuild_windows_install_plugin(
