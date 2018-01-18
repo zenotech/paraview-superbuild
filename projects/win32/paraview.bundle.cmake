@@ -1,6 +1,6 @@
 set(paraview_doc_dir "doc")
 set(paraview_data_dir "data")
-set(paraview_plugin_path "bin")
+set(paraview_plugin_path "bin/plugins")
 include(paraview.bundle.common)
 
 # Set NSIS install specific stuff.
@@ -35,14 +35,14 @@ foreach (executable IN LISTS paraview_executables)
       "bin/${executable}.exe" "${${executable}_description}")
   endif ()
 
-  superbuild_windows_install_program("${executable}"
+  superbuild_windows_install_program("${executable}" "bin" SEARCH_DIRECTORIES
     "${library_paths}")
 endforeach()
 
 foreach (paraview_plugin IN LISTS paraview_plugins)
   superbuild_windows_install_plugin("${paraview_plugin}.dll"
-    "bin"
-    "${library_paths}")
+    "${paraview_plugin_path}/${paraview_plugin}" "bin/plugins/${paraview_plugin}" SEARCH_DIRECTORIES
+    "${paraview_plugin_path}/${paraview_plugin}" "${library_paths}" "${superbuild_install_location}/bin")
 endforeach ()
 
 set(plugins_file "${CMAKE_CURRENT_BINARY_DIR}/paraview.plugins")
@@ -50,7 +50,7 @@ paraview_add_plugin("${plugins_file}" ${paraview_plugins})
 
 install(
   FILES       "${plugins_file}"
-  DESTINATION "bin"
+  DESTINATION "${paraview_plugin_path}"
   COMPONENT   superbuild
   RENAME      ".plugins")
 
@@ -61,11 +61,13 @@ if (python_enabled)
   superbuild_windows_install_python(
     MODULES paraview
             vtk
+            vtkmodules
             ${python_modules}
     MODULE_DIRECTORIES  "${superbuild_install_location}/bin/Lib/site-packages"
                         "${superbuild_install_location}/lib/site-packages"
-                        "${superbuild_install_location}/lib/paraview-${paraview_version}/site-packages"
-    SEARCH_DIRECTORIES  "lib")
+                        "${superbuild_install_location}/lib/python2.7/site-packages"
+                        "${superbuild_install_location}/lib/paraview-${paraview_version_major}.${paraview_version_minor}/site-packages"
+    SEARCH_DIRECTORIES  "lib" "${superbuild_install_location}/bin")
 
   if (matplotlib_enabled)
     install(
@@ -80,8 +82,9 @@ if (python_enabled)
     MODULE_DIRECTORIES
             "${superbuild_install_location}/bin/Lib/site-packages"
             "${superbuild_install_location}/lib/site-packages"
-            "${superbuild_install_location}/lib/paraview-${paraview_version}/site-packages"
-    SEARCH_DIRECTORIES  "lib")
+            "${superbuild_install_location}/lib/python2.7/site-packages"
+            "${superbuild_install_location}/lib/paraview-${paraview_version_major}.${paraview_version_minor}/site-packages"
+    SEARCH_DIRECTORIES  "lib" "${superbuild_install_location}/bin")
 endif ()
 
 if (paraviewweb_enabled)
@@ -93,11 +96,6 @@ if (paraviewweb_enabled)
     FILES       "${superbuild_install_location}/bin/Lib/site-packages/pywin32.pth"
                 "${superbuild_install_location}/bin/Lib/site-packages/pywin32.version.txt"
     DESTINATION "bin/Lib/site-packages"
-    COMPONENT   "superbuild")
-
-  install(
-    FILES       "${superbuild_install_location}/lib/paraview-${paraview_version}/site-packages/paraview/web/defaultProxies.json"
-    DESTINATION "bin/Lib/site-packages/paraview/web"
     COMPONENT   "superbuild")
   install(
     DIRECTORY   "${superbuild_install_location}/share/paraview/web"
@@ -111,8 +109,9 @@ foreach (qt5_plugin_path IN LISTS qt5_plugin_paths)
 
   superbuild_windows_install_plugin(
     "${qt5_plugin_path}"
+    "bin"
     "bin/${qt5_plugin_group}"
-    "${library_paths}")
+    SEARCH_DIRECTORIES "${library_paths}")
 endforeach ()
 
 if (qt5_enabled)
@@ -120,7 +119,8 @@ if (qt5_enabled)
     superbuild_windows_install_plugin(
       "${Qt5_DIR}/../../../bin/${qt5_opengl_lib}.dll"
       "bin"
-      "${library_paths}")
+      "bin"
+      SEARCH_DIRECTORIES "${library_paths}")
   endforeach ()
 endif ()
 

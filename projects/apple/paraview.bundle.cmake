@@ -86,19 +86,13 @@ if (python_enabled)
     "${paraview_appname}"
     MODULES paraview
             vtk
+            vtkmodules
             ${python_modules}
     MODULE_DIRECTORIES
             "${superbuild_install_location}/Applications/paraview.app/Contents/Python"
     SEARCH_DIRECTORIES
             "${superbuild_install_location}/Applications/paraview.app/Contents/Libraries"
             "${superbuild_install_location}/lib")
-
-  install(CODE
-    "file(REMOVE_RECURSE \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${paraview_appname}/Contents/Python/paraview/vtk\")
-    file(INSTALL
-      \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${paraview_appname}/Contents/Python/vtk\"
-      DESTINATION \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${paraview_appname}/Contents/Python/paraview/\")"
-    COMPONENT superbuild)
 
   if (matplotlib_enabled)
     install(
@@ -148,10 +142,6 @@ set(CPACK_DMG_BACKGROUND_IMAGE "${CMAKE_CURRENT_LIST_DIR}/files/CMakeDMGBackgrou
 set(CPACK_DMG_DS_STORE_SETUP_SCRIPT "${CMAKE_CURRENT_BINARY_DIR}/CMakeDMGSetup.scpt")
 
 if (paraviewweb_enabled)
-  install(
-    FILES       "${superbuild_install_location}/Applications/paraview.app/Contents/Python/paraview/web/defaultProxies.json"
-    DESTINATION "${paraview_appname}/Contents/Python/paraview/web"
-    COMPONENT   "superbuild")
   install(
     DIRECTORY   "${superbuild_install_location}/share/paraview/web"
     DESTINATION "${paraview_appname}/Contents/Resources"

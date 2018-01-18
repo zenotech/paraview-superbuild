@@ -55,11 +55,21 @@ function (superbuild_find_projects var)
     paraviewweb
     paraviewwebvisualizer
     paraviewweblightviz
+    paraviewwebdivvy
     png
-    python
+    pythonautobahn
+    pythonconstantly
+    pythonhyperlink
+    pythonincremental
     pythonsetuptools
+    pythonsix
+    pythontwisted
+    pythontxaio
+    pythonwslink
+    pythonzopeinterface
     qt5
     silo
+    las
     szip
     tbb
     visitbridge
@@ -78,7 +88,7 @@ function (superbuild_find_projects var)
       genericio
       libxml2
       mxml
-      las
+      pythonmpi4py
       scipy)
 
     if (NOT APPLE)
@@ -88,6 +98,7 @@ function (superbuild_find_projects var)
         egl
         fontconfig
         glproto
+        gperf
         llvm
         mesa
         osmesa

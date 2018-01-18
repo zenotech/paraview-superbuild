@@ -90,7 +90,9 @@ if (UNIX)
       fontconfig)
   endif ()
   list(APPEND paraviews_platform_dependencies
-    adios ffmpeg libxml2 freetype las
+    adios ffmpeg libxml2 freetype
+
+    pythonmpi4py
 
     # For cosmotools
     genericio cosmotools)
@@ -103,16 +105,21 @@ endif ()
 
 if (WIN32)
   list(APPEND paraviews_platform_dependencies
-    openvr
-    )
+    openvr)
 endif ()
+
+set(PARAVIEW_ENABLE_PYTHON ${python_enabled})
+if (python_enabled AND USE_SYSTEM_python AND NOT python_FIND_LIBRARIES)
+  set(PARAVIEW_ENABLE_PYTHON OFF)
+endif()
+
 
 superbuild_add_project(paraview
   DEBUGGABLE
   DEFAULT_ON
   DEPENDS_OPTIONAL
     cuda boost hdf5 matplotlib mpi numpy png
-    python qt5 visitbridge zlib silo
+    python qt5 visitbridge zlib silo las
     xdmf3 ospray vrpn vtkm tbb netcdf
     paraviewusersguide paraviewgettingstartedguide
     paraviewtutorial paraviewtutorialdata paraviewweb
@@ -130,11 +137,12 @@ superbuild_add_project(paraview
     -DPARAVIEW_BUILD_QT_GUI:BOOL=${qt5_enabled}
     -DPARAVIEW_ENABLE_QT_SUPPORT:BOOL=${qt5_enabled}
     -DPARAVIEW_ENABLE_FFMPEG:BOOL=${ffmpeg_enabled}
-    -DPARAVIEW_ENABLE_PYTHON:BOOL=${python_enabled}
+    -DPARAVIEW_ENABLE_PYTHON:BOOL=${PARAVIEW_ENABLE_PYTHON}
     -DPARAVIEW_ENABLE_COSMOTOOLS:BOOL=${cosmotools_enabled}
     -DPARAVIEW_ENABLE_XDMF3:BOOL=${xdmf3_enabled}
     -DPARAVIEW_ENABLE_LAS:BOOL=${las_enabled}
     -DPARAVIEW_USE_MPI:BOOL=${mpi_enabled}
+    -DModule_vtkParallelMPI4Py:BOOL=${pythonmpi4py_enabled}
     -DPARAVIEW_USE_OSPRAY:BOOL=${ospray_enabled}
     -DPARAVIEW_USE_VISITBRIDGE:BOOL=${visitbridge_enabled}
     -DVISIT_BUILD_READER_CGNS:BOOL=OFF # force to off
@@ -155,9 +163,9 @@ superbuild_add_project(paraview
     -DModule_vtkIOADIOS:BOOL=${adios_enabled}
     -DVTK_SMP_IMPLEMENTATION_TYPE:STRING=${paraview_smp_backend}
     -DVTK_LEGACY_REMOVE:BOOL=ON
+    -DVTK_DEFAULT_RENDER_WINDOW_OFFSCREEN:BOOL=${osmesa_enabled}
+    -DVTK_OPENGL_HAS_EGL:BOOL=${egl_enabled}
     -DVTK_OPENGL_HAS_OSMESA:BOOL=${osmesa_enabled}
-    -DVTK_USE_OFFSCREEN:BOOL=${osmesa_enabled}
-    -DVTK_USE_OFFSCREEN_EGL:BOOL=${egl_enabled}
     -DVTK_USE_X:BOOL=${paraview_use_x}
     -DVTK_USE_CXX11_FEATURES:BOOL=${cxx11_enabled}
 
@@ -215,6 +223,11 @@ if (paraview_SOURCE_SELECTION STREQUAL "5.3.0")
   superbuild_apply_patch(paraview fix-vtkconfig-part1
     "Fix various issues with the VTKConfig.cmake (Part 1)")
 endif ()
+
+if (WIN32 AND las_enabled)
+  superbuild_append_flags(cxx_flags "-DBOOST_ALL_NO_LIB" PROJECT_ONLY)
+endif()
+
 
 if (APPLE)
   superbuild_append_flags(cxx_flags "-stdlib=libc++" PROJECT_ONLY)

@@ -48,6 +48,7 @@ superbuild_set_revision(paraviewtutorialdata
 # `superbuild_setup_variables` in `CMakeLists.txt` for the logic which relies
 # on this assumption.
 superbuild_set_selectable_source(paraview
+  # NOTE: When updating this selection, also update `README.md`.
   SELECT 5.4.1 DEFAULT
     URL     "http://www.paraview.org/files/v5.4/ParaView-v5.4.1.tar.gz"
     URL_MD5 4030c70477ec5a85aa72d6fc86a30753
@@ -109,12 +110,16 @@ superbuild_set_revision(openvr
   URL_MD5 062a029869423808aebc32f85edf38e2)
 
 superbuild_set_revision(paraviewwebvisualizer
-  URL     "http://www.paraview.org/files/dependencies/visualizer-2.4.1.tar.gz"
-  URL_MD5 77aef1aa2008079c16e064a1240213b5)
+  URL     "http://www.paraview.org/files/dependencies/visualizer-2.4.3.tar.gz"
+  URL_MD5 46d3d46346fc3a05e2a9971bd9c9ea40)
 
 superbuild_set_revision(paraviewweblightviz
-  URL     "http://www.paraview.org/files/dependencies/light-viz-1.16.4.tar.gz"
-  URL_MD5 724849431759d30ec0077f99937f1537)
+  URL     "http://www.paraview.org/files/dependencies/light-viz-1.17.1.tar.gz"
+  URL_MD5 b168ce62b763655c1595aaa31ba28051)
+
+superbuild_set_revision(paraviewwebdivvy
+  URL     "http://www.paraview.org/files/dependencies/divvy-1.3.11.tar.gz"
+  URL_MD5 561957408186f55976fce9632ee90254)
 
 superbuild_set_revision(boxlib
   URL     "http://www.paraview.org/files/dependencies/boxlib-c114717e6c47188a0812804addcab61d7605ef89.tar.bz2"

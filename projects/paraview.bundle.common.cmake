@@ -34,12 +34,8 @@ set(paraview_executables
   pvserver)
 if (python_enabled)
   list(APPEND paraview_executables
+    pvbatch
     pvpython)
-
-  if (mpi_enabled)
-    list(APPEND paraview_executables
-      pvbatch)
-  endif ()
 endif ()
 
 set(paraview_has_gui FALSE)
@@ -51,48 +47,36 @@ endif ()
 
 set(python_modules
   cinema_python
-  pygments
-  six)
+  pygments)
 
-if (numpy_built_by_superbuild)
-  list(APPEND python_modules
-    numpy)
-endif ()
-
-if (scipy_built_by_superbuild)
-  list(APPEND python_modules
-    scipy)
-endif ()
-
-if (matplotlib_built_by_superbuild)
-  list(APPEND python_modules
-    matplotlib)
-endif ()
-
-if (paraviewweb_enabled)
-  list(APPEND python_modules
-    autobahn
-    constantly
-    hyperlink
-    incremental
-    twisted
-    txaio
-    wslink
-    zope)
-
-  if (WIN32)
+macro (check_for_python_module project module)
+  if (${project}_built_by_superbuild)
     list(APPEND python_modules
-      adodbapi
-      isapi
-      pythoncom
-      win32com)
+      "${module}")
   endif ()
+endmacro ()
+
+check_for_python_module(numpy numpy)
+check_for_python_module(scipy scipy)
+check_for_python_module(matplotlib matplotlib)
+check_for_python_module(pythonsix six)
+check_for_python_module(pythonautobahn autobahn)
+check_for_python_module(pythonconstantly constantly)
+check_for_python_module(pythonhyperlink hyperlink)
+check_for_python_module(pythonincremental incremental)
+check_for_python_module(pythontwisted twisted)
+check_for_python_module(pythontxaio txaio)
+check_for_python_module(pythonwslink wslink)
+check_for_python_module(pythonzopeinterface zope)
+
+if (WIN32)
+  check_for_python_module(pywin32 adodbapi)
+  check_for_python_module(pywin32 isapi)
+  check_for_python_module(pywin32 pythoncom)
+  check_for_python_module(pywin32 win32com)
 endif ()
 
-if (mpi_enabled)
-  list(APPEND python_modules
-    mpi4py)
-endif ()
+check_for_python_module(pythonmpi4py mpi4py)
 
 function (paraview_add_plugin output)
   set(contents "<?xml version=\"1.0\"?>\n<Plugins>\n</Plugins>\n")
