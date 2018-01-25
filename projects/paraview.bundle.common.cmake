@@ -47,7 +47,8 @@ endif ()
 
 set(python_modules
   cinema_python
-  pygments)
+  pygments
+  mpi4py)
 
 macro (check_for_python_module project module)
   if (${project}_built_by_superbuild)
@@ -75,8 +76,6 @@ if (WIN32)
   check_for_python_module(pywin32 pythoncom)
   check_for_python_module(pywin32 win32com)
 endif ()
-
-check_for_python_module(pythonmpi4py mpi4py)
 
 function (paraview_add_plugin output)
   set(contents "<?xml version=\"1.0\"?>\n<Plugins>\n</Plugins>\n")
