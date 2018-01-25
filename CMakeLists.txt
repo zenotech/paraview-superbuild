@@ -61,6 +61,7 @@ function (superbuild_find_projects var)
     pythonconstantly
     pythonhyperlink
     pythonincremental
+    pythonpygments
     pythonsetuptools
     pythonsix
     pythontwisted
