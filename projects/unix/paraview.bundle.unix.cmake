@@ -78,6 +78,7 @@ if (python_enabled)
     LIBDIR              "lib"
     MODULES             paraview
                         vtk
+                        vtkmodules
                         ${python_modules}
     INCLUDE_REGEXES     ${include_regexes}
     EXCLUDE_REGEXES     ${exclude_regexes}

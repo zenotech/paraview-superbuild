@@ -92,8 +92,6 @@ if (UNIX)
   list(APPEND paraviews_platform_dependencies
     adios ffmpeg libxml2 freetype
 
-    pythonmpi4py
-
     # For cosmotools
     genericio cosmotools)
 endif ()
@@ -142,7 +140,6 @@ superbuild_add_project(paraview
     -DPARAVIEW_ENABLE_XDMF3:BOOL=${xdmf3_enabled}
     -DPARAVIEW_ENABLE_LAS:BOOL=${las_enabled}
     -DPARAVIEW_USE_MPI:BOOL=${mpi_enabled}
-    -DModule_vtkParallelMPI4Py:BOOL=${pythonmpi4py_enabled}
     -DPARAVIEW_USE_OSPRAY:BOOL=${ospray_enabled}
     -DPARAVIEW_USE_VISITBRIDGE:BOOL=${visitbridge_enabled}
     -DVISIT_BUILD_READER_CGNS:BOOL=OFF # force to off

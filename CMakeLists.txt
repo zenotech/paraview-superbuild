@@ -61,6 +61,7 @@ function (superbuild_find_projects var)
     pythonconstantly
     pythonhyperlink
     pythonincremental
+    pythonpygments
     pythonsetuptools
     pythonsix
     pythontwisted
@@ -88,7 +89,6 @@ function (superbuild_find_projects var)
       genericio
       libxml2
       mxml
-      pythonmpi4py
       scipy)
 
     if (NOT APPLE)
