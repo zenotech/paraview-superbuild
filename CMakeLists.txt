@@ -265,6 +265,18 @@ function (superbuild_add_tests)
   add_subdirectory("${CMAKE_SOURCE_DIR}/tests" "${CMAKE_BINARY_DIR}/tests")
 endfunction ()
 
+set(qt5_skip_modules
+  qtconnectivity
+  qtgamepad
+  qtlocation
+  qtmultimedia
+  qtsensors
+  qtserialport
+  qtwayland
+  qtwebchannel
+  qtwebengine
+  qtwebsockets)
+
 set(boost_libraries
   date_time
   filesystem
