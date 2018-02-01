@@ -59,15 +59,19 @@ function (superbuild_find_projects var)
     png
     pythonautobahn
     pythonconstantly
+    pythoncycler
+    pythondateutil
     pythonhyperlink
     pythonincremental
     pythonpygments
+    pythonpyparsing
     pythonsetuptools
     pythonsix
     pythontwisted
     pythontxaio
     pythonwslink
     pythonzopeinterface
+    pytz
     qt5
     silo
     las
