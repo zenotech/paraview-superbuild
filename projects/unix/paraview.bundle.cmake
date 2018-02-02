@@ -25,10 +25,3 @@ if (paraview_has_gui)
     COMPONENT   "${paraview_component}"
     USE_SOURCE_PERMISSIONS)
 endif ()
-
-if (paraviewweb_enabled)
-  install(
-    DIRECTORY   "${superbuild_install_location}/share/paraview/web"
-    DESTINATION "share/paraview-${paraview_version}"
-    COMPONENT   "${paraview_component}")
-endif ()

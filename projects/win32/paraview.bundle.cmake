@@ -97,10 +97,6 @@ if (paraviewweb_enabled)
                 "${superbuild_install_location}/bin/Lib/site-packages/pywin32.version.txt"
     DESTINATION "bin/Lib/site-packages"
     COMPONENT   "superbuild")
-  install(
-    DIRECTORY   "${superbuild_install_location}/share/paraview/web"
-    DESTINATION "share/paraview-${paraview_version}"
-    COMPONENT   "superbuild")
 endif ()
 
 foreach (qt5_plugin_path IN LISTS qt5_plugin_paths)
