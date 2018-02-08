@@ -162,12 +162,8 @@ if (mesa_enabled AND python_enabled)
   endif()
 endif ()
 
-if (python_enabled)
-  # This test needs Python since we test that the `CatalystScriptGeneratorPlugin` can
-  # be loaded.
-  paraview_add_ui_test("loaddistributedplugins" "LoadDistributedPlugins"
-    "--test-baseline=${CMAKE_CURRENT_LIST_DIR}/baselines/LoadDistributedPlugins.png")
-endif ()
+paraview_add_ui_test("loaddistributedplugins" "LoadDistributedPlugins"
+  "--test-baseline=${CMAKE_CURRENT_LIST_DIR}/baselines/LoadDistributedPlugins.png")
 
 if (vortexfinder2_enabled)
   paraview_add_ui_test("loadvortexfinderplugins" "LoadVotexFinderPlugins")
