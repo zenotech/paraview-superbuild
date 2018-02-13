@@ -29,6 +29,6 @@
   <pqevent object="pqClientMainWindow/pythonShellDock/pythonShell/consoleWidget" command="executeCommand" arguments="Render()" />
 
   <pqevent object="pqClientMainWindow/menubar/menu_File" command="activate" arguments="actionFileSaveAnimation" />
-  <pqevent object="pqClientMainWindow/SaveAnimationDialog/widget/OKButton" command="activate" arguments="" />
-  <pqevent object="pqClientMainWindow/FileSaveAnimationDialog" command="cancelled" arguments="" />
+  <pqevent object="pqClientMainWindow/SaveAnimationFileDialog" command="filesSelected" arguments="foo.avi" />
+  <pqevent object="pqClientMainWindow/SaveAnimationDialog/widget/CancelButton" command="activate" arguments="" />
 </pqevents>
