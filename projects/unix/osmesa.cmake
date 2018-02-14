@@ -1,4 +1,4 @@
-set(mesa_type_args --enable-gallium-osmesa --disable-glx --with-platforms=)
+set(mesa_type_args --disable-osmesa --enable-gallium-osmesa --disable-glx --with-platforms=)
 set(mesa_type_deps)
 include(mesa.common)
 
