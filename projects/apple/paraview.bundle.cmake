@@ -90,6 +90,7 @@ if (python_enabled)
             ${python_modules}
     MODULE_DIRECTORIES
             "${superbuild_install_location}/Applications/paraview.app/Contents/Python"
+            "${superbuild_install_location}/lib/python2.7/site-packages"
     SEARCH_DIRECTORIES
             "${superbuild_install_location}/Applications/paraview.app/Contents/Libraries"
             "${superbuild_install_location}/lib")
