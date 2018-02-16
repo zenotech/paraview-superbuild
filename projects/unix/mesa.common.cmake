@@ -12,12 +12,15 @@ set(mesa_SWR_ARCH "avx,avx2"
   CACHE STRING "backend architectures to be used by Sthe SWR driver")
 mark_as_advanced(mesa_USE_SWR_ARCH)
 set_property(CACHE mesa_SWR_ARCH PROPERTY STRINGS
-  "avx" "avx,avx2" "avx,avx2,knl" "avx,avx2,skx" "avx,avx2,knl,skx")
+  "avx" "avx2" "knl" "skx"
+  "avx,avx2" "avx2,knl" "knl,skx"
+  "avx,avx2,knl" "avx,avx2,skx"
+  "avx,avx2,knl,skx")
 
 set(mesa_drivers swrast)
 if (mesa_USE_SWR)
   list(APPEND mesa_drivers swr)
-  set(mesa_swr_arch "--with-swr-arch=${mesa_USE_SWR_ARCH}")
+  set(mesa_swr_arch "--with-swr-archs=${mesa_SWR_ARCH}")
 endif ()
 
 option(mesa_USE_TEXTURE_FLOAT
