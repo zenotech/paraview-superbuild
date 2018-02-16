@@ -8,9 +8,16 @@ endif ()
 option(mesa_USE_SWR "Enable the OpenSWR driver" "${mesa_swr_default}")
 mark_as_advanced(mesa_USE_SWR)
 
+set(mesa_SWR_ARCH "avx,avx2"
+  CACHE STRING "backend architectures to be used by Sthe SWR driver")
+mark_as_advanced(mesa_USE_SWR_ARCH)
+set_property(CACHE mesa_SWR_ARCH PROPERTY STRINGS
+  "avx" "avx,avx2" "avx,avx2,knl" "avx,avx2,skx" "avx,avx2,knl,skx")
+
 set(mesa_drivers swrast)
 if (mesa_USE_SWR)
   list(APPEND mesa_drivers swr)
+  set(mesa_swr_arch "--with-swr-arch=${mesa_USE_SWR_ARCH}")
 endif ()
 
 option(mesa_USE_TEXTURE_FLOAT
@@ -41,12 +48,13 @@ set(mesa_common_config_args
   --prefix=<INSTALL_DIR>
   --enable-opengl --disable-gles1 --disable-gles2
   --disable-va --disable-gbm --disable-xvmc --disable-vdpau
-  --enable-shared-glapi
+  --disable-shared-glapi
   ${mesa_texture_float_args}
   --disable-dri --with-dri-drivers=
-  --enable-llvm --enable-llvm-shared-libs
+  --enable-llvm
   --with-llvm-prefix=${llvm_dir}
   --with-gallium-drivers=${mesa_drivers}
+  ${mesa_swr_arch}
   --disable-egl --disable-gbm)
 
 if (BUILD_SHARED_LIBS)

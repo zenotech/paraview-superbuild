@@ -306,4 +306,8 @@ if (NOT EXISTS "${CMAKE_CURRENT_LIST_DIR}/superbuild/CMakeLists.txt")
                       "and `git submodule update`?")
 endif ()
 
+if(BUILD_SHARED_LIBS AND CMAKE_CXX_COMPILER_ID STREQUAL "Intel")
+  string(APPEND superbuild_ld_flags "-shared-intel")
+endif()
+
 add_subdirectory(superbuild)
