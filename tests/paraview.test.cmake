@@ -157,8 +157,8 @@ if (mesa_enabled AND python_enabled)
       "${CMAKE_CURRENT_LIST_DIR}/python/CheckOpenGLVersion.py"
       "mesa" "swr")
     # Mesa exits with failure.
-    set_tests_properties(paraview-mesa-swr
-      PROPERTIES PASS_REGULAR_EXPRESSION "SWR detected")
+    set_tests_properties(paraview-mesa-swr PROPERTIES
+      PASS_REGULAR_EXPRESSION "SWR (detected|could not initialize)")
   endif()
 endif ()
 
