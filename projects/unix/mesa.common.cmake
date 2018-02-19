@@ -77,7 +77,7 @@ endif ()
 
 superbuild_add_project(${project}
   CAN_USE_SYSTEM
-  DEPENDS llvm zlib ${mesa_type_deps}
+  DEPENDS llvm zlib ${mesa_type_deps} expat
   CONFIGURE_COMMAND
     ./autogen.sh
       ${mesa_common_config_args}
