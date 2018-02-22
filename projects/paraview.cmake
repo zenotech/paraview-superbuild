@@ -111,6 +111,9 @@ if (python_enabled AND USE_SYSTEM_python AND NOT python_FIND_LIBRARIES)
   set(PARAVIEW_ENABLE_PYTHON OFF)
 endif()
 
+if (expat_ENABLED)
+  list(APPEND paraviews_platform_dependencies expat)
+endif ()
 
 superbuild_add_project(paraview
   DEBUGGABLE
@@ -157,6 +160,7 @@ superbuild_add_project(paraview
     -DVTK_USE_SYSTEM_LIBXML2:BOOL=${libxml2_enabled}
     -DVTK_USE_SYSTEM_PNG:BOOL=${png_enabled}
     -DVTK_USE_SYSTEM_ZLIB:BOOL=${zlib_enabled}
+    -DVTK_USE_SYSTEM_EXPAT:BOOL=${expat_enabled}
     -DModule_vtkIOADIOS:BOOL=${adios_enabled}
     -DVTK_SMP_IMPLEMENTATION_TYPE:STRING=${paraview_smp_backend}
     -DVTK_LEGACY_REMOVE:BOOL=ON

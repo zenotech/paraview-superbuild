@@ -96,6 +96,7 @@ function (superbuild_find_projects var)
         boxlib
         catalyst
         egl
+        expat
         fontconfig
         glproto
         gperf

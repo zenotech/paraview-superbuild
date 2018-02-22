@@ -77,7 +77,7 @@ endif ()
 
 superbuild_add_project(${project}
   CAN_USE_SYSTEM
-  DEPENDS llvm zlib ${mesa_type_deps}
+  DEPENDS llvm zlib ${mesa_type_deps} expat
   CONFIGURE_COMMAND
     ./autogen.sh
       ${mesa_common_config_args}
@@ -96,3 +96,7 @@ superbuild_apply_patch(${project} revert-xz
 # Fix some borked sed flags
 superbuild_apply_patch(${project} sed-flags
   "Fix incompatible sed flags in configure")
+
+# Fix a segfault when swr is not supported
+superbuild_apply_patch(${project} fix-swr-unsupported-segfault
+  "Fix segfault when SWR is used on an unsupported architecture")
