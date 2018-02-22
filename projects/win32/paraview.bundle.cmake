@@ -54,6 +54,24 @@ install(
   COMPONENT   superbuild
   RENAME      ".plugins")
 
+if (nvidiaindex_enabled)
+  set(nvidiaindex_libraries
+    libdice
+    libnvindex
+    nvrtc-builtins64_90)
+
+  foreach (nvidiaindex_library IN LISTS nvidiaindex_libraries)
+    superbuild_windows_install_plugin("${nvidiaindex_library}.dll"
+      "bin" "bin"
+      SEARCH_DIRECTORIES "${superbuild_install_location}/bin"
+      # Yes, there are 8 slashes here. It goes through one CMake level here,
+      # another in the `install(CODE)` during the install, and then a regex
+      # level inside of Python. Since 2^3 is 8, we need 8 slashes to get one in
+      # the regex character class.
+      EXCLUDE_REGEXES ".*[/\\\\\\\\]nvcuda.dll")
+  endforeach ()
+endif ()
+
 if (python_enabled)
   include(python.functions)
   superbuild_install_superbuild_python()
