@@ -174,6 +174,9 @@ superbuild_add_project(paraview
     -DPARAVIEW_WITH_SUPERBUILD_MESA:BOOL=${paraview_mesa_sb_available}
     -DPARAVIEW_WITH_SUPERBUILD_MESA_SWR:BOOL=${mesa_USE_SWR}
 
+    # IndeX
+    -DPARAVIEW_BUILD_PLUGIN_pvNVIDIAIndeX:BOOL=${nvidiaindex_enabled}
+
     # vrpn
     -DPARAVIEW_BUILD_PLUGIN_VRPlugin:BOOL=${vrpn_enabled}
     -DPARAVIEW_USE_VRPN:BOOL=${vrpn_enabled}
