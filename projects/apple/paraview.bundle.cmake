@@ -142,6 +142,13 @@ configure_file(
 set(CPACK_DMG_BACKGROUND_IMAGE "${CMAKE_CURRENT_LIST_DIR}/files/CMakeDMGBackground.tif")
 set(CPACK_DMG_DS_STORE_SETUP_SCRIPT "${CMAKE_CURRENT_BINARY_DIR}/CMakeDMGSetup.scpt")
 
+if (paraviewweb_enabled)
+  install(
+    DIRECTORY   "${superbuild_install_location}/share/paraview/web"
+    DESTINATION "${paraview_appname}/Contents/Resources"
+    COMPONENT   "superbuild")
+endif ()
+
 foreach (qt5_plugin_path IN LISTS qt5_plugin_paths)
   get_filename_component(qt5_plugin_group "${qt5_plugin_path}" DIRECTORY)
   get_filename_component(qt5_plugin_group "${qt5_plugin_group}" NAME)
