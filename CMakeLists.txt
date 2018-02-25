@@ -39,38 +39,43 @@ function (superbuild_find_projects var)
   mark_as_advanced(USE_NONFREE_COMPONENTS)
 
   list(APPEND projects
-    cuda
     boost
     bzip2
+    cuda
     embree
     freetype
     hdf5
     ispc
     lapack
-    netcdf
+    las
     matplotlib
     mpi
+    netcdf
     numpy
     ospray
     paraviewweb
-    paraviewwebvisualizer
-    paraviewweblightviz
     paraviewwebdivvy
+    paraviewweblightviz
+    paraviewwebvisualizer
     png
     pythonautobahn
     pythonconstantly
+    pythoncycler
+    pythondateutil
     pythonhyperlink
     pythonincremental
     pythonpygments
+    pythonpyparsing
     pythonsetuptools
     pythonsix
     pythontwisted
     pythontxaio
     pythonwslink
+    pythonzope
     pythonzopeinterface
+    pytz
     qt5
     silo
-    las
     szip
     tbb
     visitbridge

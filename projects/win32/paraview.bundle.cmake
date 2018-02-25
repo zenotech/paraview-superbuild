@@ -75,16 +75,6 @@ if (python_enabled)
       DESTINATION "bin/Lib/site-packages/matplotlib/mpl-data"
       COMPONENT   superbuild)
   endif ()
-
-  superbuild_windows_install_python(
-    MODULES vtk
-    NAMESPACE "/paraview"
-    MODULE_DIRECTORIES
-            "${superbuild_install_location}/bin/Lib/site-packages"
-            "${superbuild_install_location}/lib/site-packages"
-            "${superbuild_install_location}/lib/python2.7/site-packages"
-            "${superbuild_install_location}/lib/paraview-${paraview_version_major}.${paraview_version_minor}/site-packages"
-    SEARCH_DIRECTORIES  "lib" "${superbuild_install_location}/bin")
 endif ()
 
 if (paraviewweb_enabled)

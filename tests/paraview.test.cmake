@@ -89,6 +89,11 @@ if (NOT WIN32)
   paraview_add_pvbatch_test("pvbatch" "basic_python")
 endif ()
 
+# Simple test to test paraviewweb.
+if (paraviewweb_enabled)
+  paraview_add_python_test("pvweb" "basic_paraviewweb")
+endif ()
+
 if (numpy_enabled)
   paraview_add_python_test("import-numpy" "import_numpy")
 endif ()
@@ -154,7 +159,7 @@ if (mesa_enabled AND python_enabled)
   if (mesa_USE_SWR)
     # Either don't add or add but explicitly disable this test for now
     # until the underlying VTK segfault is fixed.
-    if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.9)
+    if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.9)
       paraview_add_test("mesa-swr" "${pvpython_exe}"
         ${mesa_swr_arg}
         "${CMAKE_CURRENT_LIST_DIR}/python/CheckOpenGLVersion.py"
@@ -163,8 +168,8 @@ if (mesa_enabled AND python_enabled)
       set_tests_properties(paraview-mesa-swr PROPERTIES
         PASS_REGULAR_EXPRESSION "SWR (detected|could not initialize)"
         DISABLED TRUE)
-    endif()
-  endif()
+    endif ()
+  endif ()
 endif ()
 
 paraview_add_ui_test("loaddistributedplugins" "LoadDistributedPlugins"
