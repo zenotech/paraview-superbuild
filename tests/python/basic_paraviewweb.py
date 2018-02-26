@@ -1,9 +1,9 @@
-from paraview.web import wamp, protocols, pv_web_visualizer
-from vtk.web import server
+from paraview.web import test_server
+from wslink import server
 
 # Configure our current application
-pv_web_visualizer._VisualizerServer.authKey = 'paraviewweb-secret'
-pv_web_visualizer._VisualizerServer.dataDir = '.'
+test_server._TestServer.authKey = 'paraviewweb-secret'
+test_server._TestServer.dataDir = '.'
 
 # Setup static args
 class TestArgs:
@@ -41,5 +41,6 @@ args.lp = 'lp'
 args.nows = False
 args.nolp = False
 args.nobws = False
+args.fsEndpoints = ''
 # Start server
-server.start_webserver(options=args, protocol=pv_web_visualizer._VisualizerServer)
+server.start_webserver(options=args, protocol=test_server._TestServer)

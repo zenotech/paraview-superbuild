@@ -1,13 +1,29 @@
-if ( (NOT "${CMAKE_GENERATOR}" MATCHES "^NMake.*$") OR
-     (NOT "${CMAKE_GENERATOR}" MATCHES "^Visual Studio.*$"))
-  # Not use VS environment. We need to be pointed to nmake and devenv paths
-  # since they are needed when building tools (qt, python, etc.).
-  find_program(DEVENV_PATH NAMES devenv)
-  mark_as_advanced(DEVENV_PATH)
+find_program(MSBUILD_PATH NAMES msbuild)
+mark_as_advanced(MSBUILD_PATH)
 
-  if (NOT DEVENV_PATH)
-    message(FATAL_ERROR "Unable to find devenv; it is needed to build silo!")
+if (NOT MSBUILD_PATH)
+  message(FATAL_ERROR "Unable to find msbuild; it is needed to build silo!")
+endif ()
+
+# 11.0 and below unsupported anyways.
+if (NOT MSVC_VERSION VERSION_GREATER 1500)
+  if (silo_enabled)
+    message(FATAL_ERROR "At least Visual Studio 11.0 is required")
   endif ()
+elseif (NOT MSVC_VERSION VERSION_GREATER 1700)
+  set(silo_vs_version 11.0)
+  set(silo_vs_toolset v110)
+elseif (NOT MSVC_VERSION VERSION_GREATER 1800)
+  set(silo_vs_version 12.0)
+  set(silo_vs_toolset v120)
+elseif (NOT MSVC_VERSION VERSION_GREATER 1900)
+  set(silo_vs_version 14.0)
+  set(silo_vs_toolset v140)
+elseif (NOT MSVC_VERSION VERSION_GREATER 1910)
+  set(silo_vs_version 15.0)
+  set(silo_vs_toolset v141)
+elseif (silo_enabled)
+  message(FATAL_ERROR "Unrecognized MSVC version")
 endif ()
 
 superbuild_add_project(silo
@@ -23,7 +39,9 @@ superbuild_add_project(silo
       -Dsuperbuild_is_64bit:BOOL=${superbuild_is_64bit}
       -Dsource_location:PATH=<SOURCE_DIR>
       -Dinstall_location:PATH=<INSTALL_DIR>
-      -DDEVENV_PATH:FILEPATH=${DEVENV_PATH}
+      -DMSBUILD_PATH:FILEPATH=${MSBUILD_PATH}
+      -Dvs_version:STRING=${silo_vs_version}
+      -Dvs_toolset:STRING=${silo_vs_toolset}
       -P ${CMAKE_CURRENT_LIST_DIR}/scripts/silo.build.cmake
   INSTALL_COMMAND
     "${CMAKE_COMMAND}"
@@ -32,10 +50,10 @@ superbuild_add_project(silo
       -Dinstall_location:PATH=<INSTALL_DIR>
       -P ${CMAKE_CURRENT_LIST_DIR}/scripts/silo.install.cmake)
 
-superbuild_apply_patch(silo fix-vcproj-quotation
-  "Fix quotation in project files")
-superbuild_apply_patch(silo fix-zlib-link
-  "Fix zlib library name")
+superbuild_apply_patch(silo no-perl
+  "Remove the need for Perl during the build")
+superbuild_apply_patch(silo hdf5-deplibs
+  "Link to HDF5 properly")
 
 superbuild_add_extra_cmake_args(
   -DSILO_INCLUDE_DIR:PATH=<INSTALL_DIR>/include

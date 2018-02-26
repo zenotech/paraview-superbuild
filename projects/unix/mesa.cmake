@@ -1,4 +1,4 @@
-set(mesa_type_args --disable-gallium-osmesa --enable-glx)
+set(mesa_type_args --disable-osmesa --disable-gallium-osmesa --enable-glx --with-platforms=x11)
 set(mesa_type_deps glproto)
 include(mesa.common)
 

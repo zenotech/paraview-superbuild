@@ -1,4 +1,6 @@
-include("${bundle_suffix_file}")
+if (bundle_suffix)
+  set(bundle_suffix "-${bundle_suffix}")
+endif ()
 
 set(plugin_location "${tmp_location}/${plugin_name}${bundle_suffix}")
 

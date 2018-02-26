@@ -34,16 +34,12 @@ set(paraview_executables
   pvserver)
 if (python_enabled)
   list(APPEND paraview_executables
+    pvbatch
     pvpython)
-
-  if (mpi_enabled)
-    list(APPEND paraview_executables
-      pvbatch)
-  endif ()
 endif ()
 
 set(paraview_has_gui FALSE)
-if (qt4_enabled OR qt5_enabled)
+if (qt5_enabled)
   list(APPEND paraview_executables
     paraview)
   set(paraview_has_gui TRUE)
@@ -52,43 +48,38 @@ endif ()
 set(python_modules
   cinema_python
   pygments
-  six)
+  mpi4py)
 
-if (numpy_built_by_superbuild)
-  list(APPEND python_modules
-    numpy)
-endif ()
-
-if (scipy_built_by_superbuild)
-  list(APPEND python_modules
-    scipy)
-endif ()
-
-if (matplotlib_built_by_superbuild)
-  list(APPEND python_modules
-    matplotlib)
-endif ()
-
-if (paraviewweb_enabled)
-  list(APPEND python_modules
-    autobahn
-    constantly
-    incremental
-    twisted
-    zope)
-
-  if (WIN32)
+macro (check_for_python_module project module)
+  if (${project}_built_by_superbuild)
     list(APPEND python_modules
-      adodbapi
-      isapi
-      pythoncom
-      win32com)
+      "${module}")
   endif ()
-endif ()
+endmacro ()
 
-if (mpi_enabled)
-  list(APPEND python_modules
-    mpi4py)
+check_for_python_module(numpy numpy)
+check_for_python_module(scipy scipy)
+check_for_python_module(matplotlib matplotlib)
+check_for_python_module(pythonpygments pygments)
+check_for_python_module(pythonsix six)
+check_for_python_module(pythonautobahn autobahn)
+check_for_python_module(pythonconstantly constantly)
+check_for_python_module(pythoncycler cycler)
+check_for_python_module(pythondateutil dateutil)
+check_for_python_module(pythonhyperlink hyperlink)
+check_for_python_module(pythonincremental incremental)
+check_for_python_module(pythonpyparsing pyparsing)
+check_for_python_module(pythontwisted twisted)
+check_for_python_module(pythontxaio txaio)
+check_for_python_module(pythonwslink wslink)
+check_for_python_module(pythonzopeinterface zope)
+check_for_python_module(pytz pytz)
+
+if (WIN32)
+  check_for_python_module(pywin32 adodbapi)
+  check_for_python_module(pywin32 isapi)
+  check_for_python_module(pywin32 pythoncom)
+  check_for_python_module(pywin32 win32com)
 endif ()
 
 function (paraview_add_plugin output)
@@ -156,27 +147,6 @@ function (paraview_install_extra_data)
     paraview_install_data(paraviewtutorialdata "data/")
   endif ()
 endfunction ()
-
-if (qt4_enabled)
-  include(qt4.functions)
-
-  set(qt4_plugin_prefix)
-  if (NOT WIN32)
-    set(qt4_plugin_prefix "lib")
-  endif ()
-
-  set(qt4_plugin_suffix)
-  if (WIN32)
-    set(qt4_plugin_suffix "4")
-  endif ()
-
-  set(qt4_plugins
-    sqldrivers/${qt4_plugin_prefix}qsqlite${qt4_plugin_suffix})
-
-  superbuild_install_qt4_plugin_paths(qt4_plugin_paths ${qt4_plugins})
-else ()
-  set(qt4_plugin_paths)
-endif ()
 
 if (qt5_enabled)
   include(qt5.functions)

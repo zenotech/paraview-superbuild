@@ -11,5 +11,5 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR})
 include(Kitware-Camelot-Common)
 
 set(ENABLE_mesa    ON CACHE BOOL "")
-set(ENABLE_qt4     ON CACHE BOOL "")
-set(USE_SYSTEM_qt4 ON CACHE BOOL "")
+set(ENABLE_qt5     ON CACHE BOOL "")
+set(USE_SYSTEM_qt5 ON CACHE BOOL "")

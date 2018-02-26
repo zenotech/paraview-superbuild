@@ -1,0 +1,109 @@
+===============================================================================
+ Maui Job Information
+===============================================================================
+job name: 
+
+inputs file: inputs.3d
+
+number of MPI processes: 1
+
+CPU time used since start of simulation (CPU-hours): 0.00613698
+
+===============================================================================
+ Plotfile Information
+===============================================================================
+output data / time: Tue Jun  6 16:07:05 2017
+output dir:         /home/almgren/GitCode/Maui/Exec/KuhlDetonation
+
+
+===============================================================================
+ Build Information
+===============================================================================
+build date:    2017-06-06 15:58:48.931275
+build machine: Linux manda 4.4.0-75-generic #96~14.04.1-Ubuntu SMP Thu Apr 20 11:06:30 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux
+build dir:     /home/almgren/GitCode/Maui/Exec/KuhlDetonation
+AMReX dir:     /home/almgren/GitCode/amrex
+
+COMP:          gcc
+COMP version:  4.8
+FCOMP:         
+FCOMP version: 
+
+EOS: ../../Microphysics/EOS/Kuhl_EOS
+NETWORK: ../../Microphysics/networks/general_null
+
+Maui       git hash: d463ce9-dirty
+AMReX        git hash: 17.06-19-g591c3f7-dirty
+
+
+===============================================================================
+ Grid Information
+===============================================================================
+ level: 0
+   number of boxes = 1
+   maximum zones   = 16 16 16 
+
+ level: 1
+   number of boxes = 9
+   maximum zones   = 32 32 32 
+
+ Boundary conditions
+   -x: symmetry
+   +x: outflow
+   -y: symmetry
+   +y: outflow
+   -z: symmetry
+   +z: outflow
+
+
+===============================================================================
+ Species Information
+===============================================================================
+ index                         name              A              Z
+--------------------------------------------------------------------------------
+     0                            F          28.85              1
+     1                            A          26.93              1
+     2                            P          29.65              0
+
+
+===============================================================================
+ Inputs File Parameters
+===============================================================================
+max_step = 0
+stop_time = 0.01
+maui.add_ext_src = 1
+geometry.is_periodic = 0 0 0
+geometry.coord_sys = 0
+geometry.prob_lo = 0. 0. 0.
+geometry.prob_hi = 10. 10. 10.
+amr.n_cell = 32 32 32
+amr.n_cell = 16 16 16
+amr.checkpoint_files_output = 0
+amr.plot_files_output = 1
+maui.lo_bc = 3 3 3
+maui.hi_bc = 2 2 2
+maui.do_hydro(nvals = 1)  :: [1]
+maui.do_react = 0
+maui.ppm_type = 2
+maui.ppm_type = 1
+maui.allow_negative_energy = 1
+maui.small_dens = 1.e-6
+maui.small_temp = 200.e0
+maui.dt_cutoff = 5.e-20
+maui.cfl = 0.5
+maui.init_shrink = 0.01
+maui.change_max = 1.1
+maui.sum_interval = 1
+maui.v = 1
+amr.v = 1
+amr.max_level = 1
+amr.ref_ratio = 2 2 2 2
+amr.regrid_int = 2
+amr.blocking_factor = 4
+amr.max_grid_size = 256
+amr.check_file = chk
+amr.check_int = 100
+amr.plot_file = plt
+amr.plot_int = 100
+amr.derive_plot_vars = NONE
+amr.probin_file = probin

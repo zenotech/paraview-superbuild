@@ -26,17 +26,6 @@ if (osmesa_enabled OR egl_enabled)
   set(paraview_visit_gmv OFF)
 endif ()
 
-set(paraview_use_qt OFF)
-if (qt4_enabled OR qt5_enabled)
-  set(paraview_use_qt ON)
-endif ()
-
-set(PARAVIEW_RENDERING_BACKEND "OpenGL2"
-  CACHE STRING "Rendering backend to use for ParaView")
-set_property(CACHE PARAVIEW_RENDERING_BACKEND
-  PROPERTY
-    STRINGS "OpenGL;OpenGL2")
-
 option(PARAVIEW_BUILD_WEB_DOCUMENTATION "Build documentation for the web" OFF)
 
 set(paraview_all_plugins
@@ -78,6 +67,11 @@ if (tbb_enabled)
   set(paraview_smp_backend "TBB")
 endif ()
 
+set(paraview_enable_cuda "OFF")
+if(vtkm_enabled AND cuda_enabled)
+  set(paraview_enable_cuda "ON")
+endif()
+
 set(PARAVIEW_EXTERNAL_PROJECTS ""
   CACHE STRING "A list of projects for ParaView to depend on")
 mark_as_advanced(PARAVIEW_EXTERNAL_PROJECTS)
@@ -88,7 +82,7 @@ set(paraviews_platform_dependencies)
 if (UNIX)
   if (NOT APPLE)
     list(APPEND paraviews_platform_dependencies
-      mesa osmesa egl glu
+      mesa osmesa egl
 
       boxlib
 
@@ -107,12 +101,26 @@ if (PARAVIEW_DEFAULT_SYSTEM_GL AND mesa_enabled)
   set(paraview_mesa_sb_available TRUE)
 endif ()
 
+if (WIN32)
+  list(APPEND paraviews_platform_dependencies
+    openvr)
+endif ()
+
+set(PARAVIEW_ENABLE_PYTHON ${python_enabled})
+if (python_enabled AND USE_SYSTEM_python AND NOT python_FIND_LIBRARIES)
+  set(PARAVIEW_ENABLE_PYTHON OFF)
+endif()
+
+if (expat_ENABLED)
+  list(APPEND paraviews_platform_dependencies expat)
+endif ()
+
 superbuild_add_project(paraview
   DEBUGGABLE
   DEFAULT_ON
   DEPENDS_OPTIONAL
-    cxx11 boost hdf5 matplotlib mpi numpy png
-    python qt4 qt5 visitbridge zlib silo cgns
+    cuda boost hdf5 matplotlib mpi numpy png
+    python qt5 visitbridge zlib silo las
     xdmf3 ospray vrpn vtkm tbb netcdf
     paraviewusersguide paraviewgettingstartedguide
     paraviewtutorial paraviewtutorialdata paraviewweb
@@ -126,16 +134,17 @@ superbuild_add_project(paraview
     -DBUILD_TESTING:BOOL=OFF
     -DPARAVIEW_BUILD_PLUGIN_CoProcessingScriptGenerator:BOOL=ON
     -DPARAVIEW_BUILD_PLUGIN_EyeDomeLighting:BOOL=ON
-    -DPARAVIEW_BUILD_QT_GUI:BOOL=${paraview_use_qt}
-    -DPARAVIEW_ENABLE_QT_SUPPORT:BOOL=${paraview_use_qt}
+    -DPARAVIEW_BUILD_PLUGIN_OpenVR:BOOL=${openvr_enabled}
+    -DPARAVIEW_BUILD_QT_GUI:BOOL=${qt5_enabled}
+    -DPARAVIEW_ENABLE_QT_SUPPORT:BOOL=${qt5_enabled}
     -DPARAVIEW_ENABLE_FFMPEG:BOOL=${ffmpeg_enabled}
-    -DPARAVIEW_ENABLE_PYTHON:BOOL=${python_enabled}
+    -DPARAVIEW_ENABLE_PYTHON:BOOL=${PARAVIEW_ENABLE_PYTHON}
     -DPARAVIEW_ENABLE_COSMOTOOLS:BOOL=${cosmotools_enabled}
     -DPARAVIEW_ENABLE_XDMF3:BOOL=${xdmf3_enabled}
+    -DPARAVIEW_ENABLE_LAS:BOOL=${las_enabled}
     -DPARAVIEW_USE_MPI:BOOL=${mpi_enabled}
     -DPARAVIEW_USE_OSPRAY:BOOL=${ospray_enabled}
     -DPARAVIEW_USE_VISITBRIDGE:BOOL=${visitbridge_enabled}
-    -DPARAVIEW_ENABLE_CGNS:BOOL=${cgns_enabled}
     -DVISIT_BUILD_READER_CGNS:BOOL=OFF # force to off
     -DVISIT_BUILD_READER_GMV:BOOL=${paraview_visit_gmv}
     -DVISIT_BUILD_READER_Silo:BOOL=${silo_enabled}
@@ -144,19 +153,20 @@ superbuild_add_project(paraview
     -DPARAVIEW_ENABLE_MATPLOTLIB:BOOL=${matplotlib_enabled}
     -DPARAVIEW_FREEZE_PYTHON:BOOL=${PARAVIEW_FREEZE_PYTHON}
     -DVTK_USE_SYSTEM_NETCDF:BOOL=${netcdf_enabled}
+    -DVTK_USE_SYSTEM_NETCDFCPP:BOOL=${netcdf_built_by_superbuild}
     -DVTK_USE_SYSTEM_FREETYPE:BOOL=${freetype_enabled}
     -DVTK_USE_SYSTEM_HDF5:BOOL=${hdf5_enabled}
     -DHDF5_NO_FIND_PACKAGE_CONFIG_FILE:BOOL=ON
     -DVTK_USE_SYSTEM_LIBXML2:BOOL=${libxml2_enabled}
     -DVTK_USE_SYSTEM_PNG:BOOL=${png_enabled}
     -DVTK_USE_SYSTEM_ZLIB:BOOL=${zlib_enabled}
+    -DVTK_USE_SYSTEM_EXPAT:BOOL=${expat_enabled}
     -DModule_vtkIOADIOS:BOOL=${adios_enabled}
-    -DVTK_RENDERING_BACKEND:STRING=${PARAVIEW_RENDERING_BACKEND}
     -DVTK_SMP_IMPLEMENTATION_TYPE:STRING=${paraview_smp_backend}
-    -DVTK_LEGACY_SILENT:BOOL=ON
+    -DVTK_LEGACY_REMOVE:BOOL=ON
+    -DVTK_DEFAULT_RENDER_WINDOW_OFFSCREEN:BOOL=${osmesa_enabled}
+    -DVTK_OPENGL_HAS_EGL:BOOL=${egl_enabled}
     -DVTK_OPENGL_HAS_OSMESA:BOOL=${osmesa_enabled}
-    -DVTK_USE_OFFSCREEN:BOOL=${osmesa_enabled}
-    -DVTK_USE_OFFSCREEN_EGL:BOOL=${egl_enabled}
     -DVTK_USE_X:BOOL=${paraview_use_x}
     -DVTK_USE_CXX11_FEATURES:BOOL=${cxx11_enabled}
 
@@ -172,6 +182,7 @@ superbuild_add_project(paraview
     -DPARAVIEW_BUILD_PLUGIN_VTKmFilters:BOOL=${vtkm_enabled}
     -DPARAVIEW_USE_VTKM:BOOL=${vtkm_enabled}
     -DModule_vtkAcceleratorsVTKm:BOOL=${vtkm_enabled}
+    -DVTKm_ENABLE_CUDA:BOOL=${paraview_enable_cuda}
 
     # Web
     -DPARAVIEW_ENABLE_WEB:BOOL=${paraviewweb_enabled}
@@ -212,4 +223,14 @@ if (paraview_SOURCE_SELECTION STREQUAL "5.3.0")
     "Fix various issues with the shipped benchmark scripts")
   superbuild_apply_patch(paraview fix-vtkconfig-part1
     "Fix various issues with the VTKConfig.cmake (Part 1)")
+endif ()
+
+if (WIN32 AND las_enabled)
+  superbuild_append_flags(cxx_flags "-DBOOST_ALL_NO_LIB" PROJECT_ONLY)
+endif()
+
+
+if (APPLE)
+  superbuild_append_flags(cxx_flags "-stdlib=libc++" PROJECT_ONLY)
+  superbuild_append_flags(ld_flags "-stdlib=libc++" PROJECT_ONLY)
 endif ()

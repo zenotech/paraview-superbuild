@@ -72,11 +72,11 @@ foreach (executable IN LISTS paraview_executables)
     INCLUDE_REGEXES     ${include_regexes})
 endforeach ()
 
-if (qt4_enabled OR qt5_enabled)
-  file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/qt.conf" "")
+if (qt5_enabled)
+  file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/qt.conf" "[Paths]\nPlugins = Plugins\n")
   install(
     FILES       "${CMAKE_CURRENT_BINARY_DIR}/qt.conf"
-    DESTINATION "${paraview_appname}/Contents/Resources/qt.conf"
+    DESTINATION "${paraview_appname}/Contents/Resources"
     COMPONENT   superbuild)
 endif ()
 
@@ -86,19 +86,14 @@ if (python_enabled)
     "${paraview_appname}"
     MODULES paraview
             vtk
+            vtkmodules
             ${python_modules}
     MODULE_DIRECTORIES
             "${superbuild_install_location}/Applications/paraview.app/Contents/Python"
+            "${superbuild_install_location}/lib/python2.7/site-packages"
     SEARCH_DIRECTORIES
             "${superbuild_install_location}/Applications/paraview.app/Contents/Libraries"
             "${superbuild_install_location}/lib")
-
-  install(CODE
-    "file(REMOVE_RECURSE \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${paraview_appname}/Contents/Python/paraview/vtk\")
-    file(INSTALL
-      \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${paraview_appname}/Contents/Python/vtk\"
-      DESTINATION \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${paraview_appname}/Contents/Python/paraview/\")"
-    COMPONENT superbuild)
 
   if (matplotlib_enabled)
     install(
@@ -149,26 +144,10 @@ set(CPACK_DMG_DS_STORE_SETUP_SCRIPT "${CMAKE_CURRENT_BINARY_DIR}/CMakeDMGSetup.s
 
 if (paraviewweb_enabled)
   install(
-    FILES       "${superbuild_install_location}/Applications/paraview.app/Contents/Python/paraview/web/defaultProxies.json"
-    DESTINATION "${paraview_appname}/Contents/Python/paraview/web"
-    COMPONENT   "superbuild")
-  install(
     DIRECTORY   "${superbuild_install_location}/share/paraview/web"
     DESTINATION "${paraview_appname}/Contents/Resources"
     COMPONENT   "superbuild")
 endif ()
-
-foreach (qt4_plugin_path IN LISTS qt4_plugin_paths)
-  get_filename_component(qt4_plugin_group "${qt4_plugin_path}" DIRECTORY)
-  get_filename_component(qt4_plugin_group "${qt4_plugin_group}" NAME)
-
-  superbuild_apple_install_module(
-    "\${CMAKE_INSTALL_PREFIX}"
-    "${paraview_appname}"
-    "${qt4_plugin_path}"
-    "Contents/Plugins/${qt4_plugin_group}"
-    SEARCH_DIRECTORIES  "${library_paths}")
-endforeach ()
 
 foreach (qt5_plugin_path IN LISTS qt5_plugin_paths)
   get_filename_component(qt5_plugin_group "${qt5_plugin_path}" DIRECTORY)

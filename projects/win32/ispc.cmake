@@ -1,4 +1,4 @@
-if (NOT MSVC12)
+if (ispc_enabled AND NOT MSVC12)
   message(FATAL_ERROR "The ispc project requires Visual Studio 2013.")
 endif ()
 

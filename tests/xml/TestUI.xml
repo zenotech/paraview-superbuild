@@ -2,9 +2,7 @@
 <pqevents>
   <pqevent object="pqClientMainWindow/menubar" command="activate" arguments="menuTools" />
   <pqevent object="pqClientMainWindow/menubar/menuTools" command="activate" arguments="actionManage_Plugins" />
-  <pqevent object="pqClientMainWindow/PluginManagerDialog/localGroup/localPlugins" command="setCurrent" arguments="CatalystScriptGeneratorPlugin" />
   <pqevent object="pqClientMainWindow/PluginManagerDialog/localGroup/localPlugins" command="setCurrent" arguments="SurfaceLIC" />
-  <pqevent object="pqClientMainWindow/PluginManagerDialog/localGroup/localPlugins" command="setCurrent" arguments="H5PartReader" />
   <pqevent object="pqClientMainWindow/PluginManagerDialog/localGroup/localPlugins" command="setCurrent" arguments="ArrowGlyph" />
   <pqevent object="pqClientMainWindow/PluginManagerDialog/localGroup/localPlugins" command="setCurrent" arguments="AnalyzeNIfTIIO" />
   <pqevent object="pqClientMainWindow/PluginManagerDialog/localGroup/localPlugins" command="setCurrent" arguments="PacMan" />
@@ -24,9 +22,13 @@
   <pqevent object="pqClientMainWindow/pqHelpWindow/searchDock/1QWidget0/1QHelpSearchQueryWidget0/1QLineEdit0" command="set_string" arguments="paraview" />
   <pqevent object="pqClientMainWindow/pqHelpWindow/searchDock/1QWidget0/1QHelpSearchQueryWidget0/1QPushButton0" command="activate" arguments="" />
 
-  <pqevent object="pqClientMainWindow/menubar" command="activate" arguments="menuTools" />
-  <pqevent object="pqClientMainWindow/menubar/menuTools" command="activate" arguments="actionToolsPythonShell" />
+  <pqevent object="pqClientMainWindow/menubar" command="activate" arguments="menu_View" />
+  <pqevent object="pqClientMainWindow/menubar/menu_View" command="activate" arguments="Python Shell" />
+  <pqevent object="pqClientMainWindow/pythonShellDock/pythonShell/consoleWidget" command="executeCommand" arguments="Sphere()" />
+  <pqevent object="pqClientMainWindow/pythonShellDock/pythonShell/consoleWidget" command="executeCommand" arguments="Show()" />
+  <pqevent object="pqClientMainWindow/pythonShellDock/pythonShell/consoleWidget" command="executeCommand" arguments="Render()" />
+
   <pqevent object="pqClientMainWindow/menubar/menu_File" command="activate" arguments="actionFileSaveAnimation" />
-  <pqevent object="pqClientMainWindow/SaveAnimationDialog/widget/OKButton" command="activate" arguments="" />
-  <pqevent object="pqClientMainWindow/FileSaveAnimationDialog" command="cancelled" arguments="" />
+  <pqevent object="pqClientMainWindow/SaveAnimationFileDialog" command="filesSelected" arguments="foo.avi" />
+  <pqevent object="pqClientMainWindow/SaveAnimationDialog/widget/CancelButton" command="activate" arguments="" />
 </pqevents>
