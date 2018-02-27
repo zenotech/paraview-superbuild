@@ -1,27 +1,8 @@
 include(paraview-version)
+
 set(CPACK_PACKAGE_NAME "ParaViewSDK")
 set(package_filename "${PARAVIEWSDK_PACKAGE_FILE_NAME}")
-set(paraview_plugin_path "lib")
-include(paraview.bundle.common)
-
-set(plugins_file "${CMAKE_CURRENT_BINARY_DIR}/paraview.plugins")
-paraview_add_plugin("${plugins_file}" ${paraview_plugins})
-
-foreach (paraview_plugin IN LISTS paraview_plugins)
-  superbuild_unix_install_plugin("lib${paraview_plugin}.so"
-    "lib"
-    "lib"
-    LOADER_PATHS    "${library_paths}"
-    INCLUDE_REGEXES "${superbuild_install_location}"
-    EXCLUDE_REGEXES ".*"
-    LOCATION        "lib/plugins/${paraview_plugin}/")
-endforeach ()
-
-install(
-  FILES       "${plugins_file}"
-  DESTINATION "lib"
-  COMPONENT   superbuild
-  RENAME      ".plugins")
+include(paraview.bundle)
 
 get_filename_component(real_superbuild_install_location "${superbuild_install_location}" REALPATH)
 
@@ -49,8 +30,8 @@ endforeach ()
 if (python_enabled)
   # Install ParaView Python libraries and any non-ParaView Python libraries.
   install(
-    DIRECTORY   "${superbuild_install_location}/lib/python2.7"
-    DESTINATION "lib/python2.7"
+    DIRECTORY   "${superbuild_install_location}/lib/python2.7/"
+    DESTINATION "lib/python2.7/"
     COMPONENT   superbuild
     USE_SOURCE_PERMISSIONS
     PATTERN "__pycache__" EXCLUDE
