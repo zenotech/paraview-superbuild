@@ -114,16 +114,16 @@ superbuild_set_revision(openvr
   URL_MD5 062a029869423808aebc32f85edf38e2)
 
 superbuild_set_revision(paraviewwebvisualizer
-  URL     "https://www.paraview.org/files/dependencies/visualizer-3.0.3.tar.gz"
-  URL_MD5 8d8dab2b956e9965669a2e5e26274648)
+  URL     "https://www.paraview.org/files/dependencies/visualizer-3.0.10.tar.gz"
+  URL_MD5 2bd01f4a103db58a93bf7742a444c518)
 
 superbuild_set_revision(paraviewweblightviz
-  URL     "https://www.paraview.org/files/dependencies/light-viz-1.17.1.tar.gz"
-  URL_MD5 b168ce62b763655c1595aaa31ba28051)
+  URL     "https://www.paraview.org/files/dependencies/light-viz-1.17.2.tar.gz"
+  URL_MD5 644c7e68f2309742f461aeda69184163)
 
 superbuild_set_revision(paraviewwebdivvy
-  URL     "https://www.paraview.org/files/dependencies/divvy-1.3.11.tar.gz"
-  URL_MD5 561957408186f55976fce9632ee90254)
+  URL     "https://www.paraview.org/files/dependencies/divvy-1.3.13.tar.gz"
+  URL_MD5 41dec2a814da258a8093e7d93b830439)
 
 superbuild_set_revision(boxlib
   URL     "https://www.paraview.org/files/dependencies/boxlib-c114717e6c47188a0812804addcab61d7605ef89.tar.bz2"
