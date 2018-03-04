@@ -155,8 +155,6 @@ endfunction ()
 function (paraview_install_extra_data)
   if (paraview_doc_dir)
     paraview_install_pdf(paraviewgettingstartedguide "GettingStarted.pdf")
-    paraview_install_pdf(paraviewusersguide "Guide.pdf")
-    paraview_install_pdf(paraviewtutorial "Tutorial.pdf")
   endif ()
 
   if (paraview_data_dir)
