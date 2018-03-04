@@ -115,9 +115,7 @@ function (superbuild_find_projects var)
 
   list(APPEND projects
     paraviewgettingstartedguide
-    paraviewtutorial
-    paraviewtutorialdata
-    paraviewusersguide)
+    paraviewtutorialdata)
 
   if (USE_NONFREE_COMPONENTS)
     # add non-free projects here.
