@@ -34,15 +34,9 @@ superbuild_set_revision(genericio
 
 set(paraview_doc_ver_series "5.5")
 set(paraview_doc_ver "${paraview_doc_ver_series}.0")
-superbuild_set_revision(paraviewusersguide
-  URL     "http://www.paraview.org/files/v${paraview_doc_ver_series}/ParaViewGuide-${paraview_doc_ver}.pdf"
-  URL_MD5 5f515d76702cc2dc98631da040b14187)
 superbuild_set_revision(paraviewgettingstartedguide
   URL     "http://www.paraview.org/files/v${paraview_doc_ver_series}/ParaViewGettingStarted-${paraview_doc_ver}.pdf"
   URL_MD5 1bdadd4b5a62ba9f2de8eb0219ca858c)
-superbuild_set_revision(paraviewtutorial
-  URL     "http://www.paraview.org/files/v${paraview_doc_ver_series}/ParaViewTutorial.pdf"
-  URL_MD5 34af0c7af6609a1790b9078cbd7e29eb)
 superbuild_set_revision(paraviewtutorialdata
   URL     "http://www.paraview.org/files/data/ParaViewTutorialData.tar.gz"
   URL_MD5 ff7ceab8cfc674b227c0bba392d1ed3c)

@@ -122,8 +122,8 @@ superbuild_add_project(paraview
     cuda boost hdf5 matplotlib mpi numpy png
     python qt5 visitbridge zlib silo las
     xdmf3 ospray vrpn vtkm tbb netcdf
-    paraviewusersguide paraviewgettingstartedguide
-    paraviewtutorial paraviewtutorialdata paraviewweb
+    paraviewgettingstartedguide
+    paraviewtutorialdata paraviewweb
     paraviewpluginsexternal
     ${paraview_all_plugins}
     ${paraviews_platform_dependencies}
