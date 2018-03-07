@@ -25,3 +25,9 @@ superbuild_add_project(embree
 
 superbuild_apply_patch(embree improve-findtbb
   "Improve FindTBB")
+superbuild_apply_patch(embree rename-options-file
+  "Rename compiler options file")
+superbuild_apply_patch(embree craype-include
+  "Let CrayPE include other compiler options")
+superbuild_apply_patch(embree move-sse2-flags
+  "Move FLAGS_SSE2 out of CMAKE_CXX_FLAGS")

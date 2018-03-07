@@ -1,0 +1,110 @@
+From a94ed12e8f35d28cec3e72e47e129f9485c29fe4 Mon Sep 17 00:00:00 2001
+From: Chuck Atkins <chuck.atkins@kitware.com>
+Date: Mon, 5 Mar 2018 09:26:30 -0600
+Subject: [PATCH 3/3] Move SSE2 options from CMAKE_CXX_FLAGS to common target
+ properties
+
+---
+ common/algorithms/CMakeLists.txt |  4 ++--
+ common/cmake/msvc.cmake          |  2 +-
+ common/lexers/CMakeLists.txt     |  2 ++
+ common/math/CMakeLists.txt       |  2 ++
+ common/simd/CMakeLists.txt       |  3 ++-
+ common/sys/CMakeLists.txt        |  2 ++
+ common/tasking/CMakeLists.txt    | 10 ++++------
+ 7 files changed, 15 insertions(+), 10 deletions(-)
+
+diff --git a/common/algorithms/CMakeLists.txt b/common/algorithms/CMakeLists.txt
+index dc35c6237..0c6d98dc3 100644
+--- a/common/algorithms/CMakeLists.txt
++++ b/common/algorithms/CMakeLists.txt
+@@ -28,5 +28,5 @@ ADD_LIBRARY(algorithms OBJECT
+ )
+ 
+ SET_PROPERTY(TARGET algorithms PROPERTY FOLDER common)
+-
+- 
++SET_PROPERTY(TARGET algorithms APPEND PROPERTY
++  COMPILE_FLAGS " ${FLAGS_LOWEST}")
+diff --git a/common/cmake/msvc.cmake b/common/cmake/msvc.cmake
+index 939ec325a..55bd7d2be 100644
+--- a/common/cmake/msvc.cmake
++++ b/common/cmake/msvc.cmake
+@@ -33,7 +33,7 @@ MACRO(DISABLE_STACK_PROTECTOR_FOR_FILE file)
+     SET_SOURCE_FILES_PROPERTIES(${file} PROPERTIES COMPILE_FLAGS "/GS-")
+   ENDIF()
+ ENDMACRO()
+-SET(COMMON_CXX_FLAGS "${COMMON_CXX_FLAGS} ${FLAGS_SSE2}")
++SET(COMMON_CXX_FLAGS "${COMMON_CXX_FLAGS}")
+ 
+ SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} ${COMMON_CXX_FLAGS}")
+ SET(CMAKE_EXE_LINKER_FLAGS_DEBUG "${CMAKE_EXE_LINKER_FLAGS_DEBUG} /DEBUG")        # generate debug information
+diff --git a/common/lexers/CMakeLists.txt b/common/lexers/CMakeLists.txt
+index 77809eddd..a637ad5e9 100644
+--- a/common/lexers/CMakeLists.txt
++++ b/common/lexers/CMakeLists.txt
+@@ -20,3 +20,5 @@ ADD_LIBRARY(lexers STATIC
+ )
+ TARGET_LINK_LIBRARIES(lexers sys math)
+ SET_PROPERTY(TARGET lexers PROPERTY FOLDER common)
++SET_PROPERTY(TARGET lexers APPEND PROPERTY
++  COMPILE_FLAGS " ${FLAGS_LOWEST}")
+diff --git a/common/math/CMakeLists.txt b/common/math/CMakeLists.txt
+index 8a56adea1..872e427ce 100644
+--- a/common/math/CMakeLists.txt
++++ b/common/math/CMakeLists.txt
+@@ -16,3 +16,5 @@
+ 
+ ADD_LIBRARY(math STATIC constants.cpp)
+ SET_PROPERTY(TARGET math PROPERTY FOLDER common)
++SET_PROPERTY(TARGET math APPEND PROPERTY
++  COMPILE_FLAGS " ${FLAGS_LOWEST}")
+diff --git a/common/simd/CMakeLists.txt b/common/simd/CMakeLists.txt
+index bc5c1f208..fc462098e 100644
+--- a/common/simd/CMakeLists.txt
++++ b/common/simd/CMakeLists.txt
+@@ -16,4 +16,5 @@
+ 
+ ADD_LIBRARY(simd STATIC sse.cpp)
+ SET_PROPERTY(TARGET simd PROPERTY FOLDER common)
+-
++SET_PROPERTY(TARGET simd APPEND PROPERTY
++  COMPILE_FLAGS " ${FLAGS_LOWEST}")
+diff --git a/common/sys/CMakeLists.txt b/common/sys/CMakeLists.txt
+index c953ffb8f..9701a6e5e 100644
+--- a/common/sys/CMakeLists.txt
++++ b/common/sys/CMakeLists.txt
+@@ -32,3 +32,5 @@ ADD_LIBRARY(sys STATIC
+ 
+ TARGET_LINK_LIBRARIES(sys ${CMAKE_THREAD_LIBS_INIT} ${CMAKE_DL_LIBS})
+ SET_PROPERTY(TARGET sys PROPERTY FOLDER common)
++SET_PROPERTY(TARGET sys APPEND PROPERTY
++  COMPILE_FLAGS " ${FLAGS_LOWEST}")
+diff --git a/common/tasking/CMakeLists.txt b/common/tasking/CMakeLists.txt
+index 1e779310e..0b4003676 100644
+--- a/common/tasking/CMakeLists.txt
++++ b/common/tasking/CMakeLists.txt
+@@ -16,16 +16,14 @@
+ 
+ IF (TASKING_INTERNAL)
+   ADD_LIBRARY(tasking STATIC taskschedulerinternal.cpp)
+-ENDIF()
+-
+-IF (TASKING_TBB)
++ELSEIF (TASKING_TBB)
+   ADD_LIBRARY(tasking STATIC taskschedulertbb.cpp)
+   TARGET_LINK_LIBRARIES(tasking sys math ${TBB_LIBRARIES})
+-ENDIF()
+-
+-IF (TASKING_PPL)
++ELSEIF (TASKING_PPL)
+   ADD_LIBRARY(tasking STATIC taskschedulerppl.cpp)
+   TARGET_LINK_LIBRARIES(tasking sys math ${PPL_LIBRARIES})
+ ENDIF()
+ 
+ SET_PROPERTY(TARGET tasking PROPERTY FOLDER common)
++SET_PROPERTY(TARGET tasking APPEND PROPERTY
++  COMPILE_FLAGS " ${FLAGS_LOWEST}")
+-- 
+2.14.3
+
