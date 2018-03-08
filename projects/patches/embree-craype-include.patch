@@ -1,0 +1,152 @@
+From 0eae5cd681d0321e8eea04cdd18f0a09ac684349 Mon Sep 17 00:00:00 2001
+From: Chuck Atkins <chuck.atkins@kitware.com>
+Date: Mon, 5 Mar 2018 09:23:31 -0600
+Subject: [PATCH 2/3] Have Cray options include underlying compiler options
+
+---
+ common/cmake/clang.cmake      | 20 +++++++++++---------
+ common/cmake/crayprgenv.cmake | 10 +++++++---
+ common/cmake/gnu.cmake        | 18 ++++++++++++------
+ common/cmake/intel.cmake      | 32 +++++++++++++++++++-------------
+ 4 files changed, 49 insertions(+), 31 deletions(-)
+
+diff --git a/common/cmake/clang.cmake b/common/cmake/clang.cmake
+index 439588580..58dc39c94 100644
+--- a/common/cmake/clang.cmake
++++ b/common/cmake/clang.cmake
+@@ -13,16 +13,18 @@
+ ## See the License for the specific language governing permissions and      ##
+ ## limitations under the License.                                           ##
+ ## ======================================================================== ##
++MACRO(_SET_IF_EMPTY VAR VALUE)
++  IF(NOT ${VAR})
++    SET(${VAR} "${VALUE}")
++  ENDIF()
++ENDMACRO()
+ 
+-SET(FLAGS_SSE2  "-msse2")
+-SET(FLAGS_SSE3  "-msse3")
+-SET(FLAGS_SSSE3 "-mssse3")
+-SET(FLAGS_SSE41 "-msse4.1")
+-SET(FLAGS_SSE42 "-msse4.2")
+-SET(FLAGS_AVX   "-mavx")
+-SET(FLAGS_AVX2  "-mf16c -mavx2 -mfma -mlzcnt -mbmi -mbmi2")
+-SET(FLAGS_AVX512KNL "-march=knl")
+-SET(FLAGS_AVX512SKX "-march=skx")
++_SET_IF_EMPTY(FLAGS_SSE2  "-msse2")
++_SET_IF_EMPTY(FLAGS_SSE42 "-msse4.2")
++_SET_IF_EMPTY(FLAGS_AVX   "-mavx")
++_SET_IF_EMPTY(FLAGS_AVX2  "-mf16c -mavx2 -mfma -mlzcnt -mbmi -mbmi2")
++_SET_IF_EMPTY(FLAGS_AVX512KNL "-march=knl")
++_SET_IF_EMPTY(FLAGS_AVX512SKX "-march=skx")
+ 
+ IF (WIN32)
+ 
+diff --git a/common/cmake/crayprgenv.cmake b/common/cmake/crayprgenv.cmake
+index 87abed619..c466330da 100644
+--- a/common/cmake/crayprgenv.cmake
++++ b/common/cmake/crayprgenv.cmake
+@@ -13,10 +13,14 @@
+ ## See the License for the specific language governing permissions and      ##
+ ## limitations under the License.                                           ##
+ ## ======================================================================== ##
+-
+-SET(FLAGS_SSE2      "-target-cpu=xeon")
+-SET(FLAGS_SSE42     "-target-cpu=interlagos")
++SET(FLAGS_SSE2      "-target-cpu=x86_64")
++SET(FLAGS_SSE42     "NOT_SUPPORTED")
+ SET(FLAGS_AVX       "-target-cpu=sandybridge")
+ SET(FLAGS_AVX2      "-target-cpu=haswell")
+ SET(FLAGS_AVX512KNL "-target-cpu=mic-knl")
+ SET(FLAGS_AVX512SKX "-target-cpu=x86-skylake")
++
++SET_PROPERTY(CACHE EMBREE_ISA_SSE42 PROPERTY VALUE OFF)
++
++STRING(TOLOWER "${CMAKE_CXX_COMPILER_ID}" _lower_compiler_id)
++INCLUDE("${CMAKE_CURRENT_LIST_DIR}/${_lower_compiler_id}.cmake" OPTIONAL)
+diff --git a/common/cmake/gnu.cmake b/common/cmake/gnu.cmake
+index 80620a75f..191c134ae 100644
+--- a/common/cmake/gnu.cmake
++++ b/common/cmake/gnu.cmake
+@@ -14,12 +14,18 @@
+ ## limitations under the License.                                           ##
+ ## ======================================================================== ##
+ 
+-SET(FLAGS_SSE2  "-msse2")
+-SET(FLAGS_SSE42 "-msse4.2")
+-SET(FLAGS_AVX   "-mavx")
+-SET(FLAGS_AVX2  "-mf16c -mavx2 -mfma -mlzcnt -mbmi -mbmi2")
+-SET(FLAGS_AVX512KNL "-mavx512f -mavx512pf -mavx512er -mavx512cd -mf16c -mavx2 -mfma -mlzcnt -mbmi -mbmi2")
+-SET(FLAGS_AVX512SKX "-mavx512f -mavx512dq -mavx512cd -mavx512bw -mavx512vl -mf16c -mavx2 -mfma -mlzcnt -mbmi -mbmi2")
++MACRO(_SET_IF_EMPTY VAR VALUE)
++  IF(NOT ${VAR})
++    SET(${VAR} "${VALUE}")
++  ENDIF()
++ENDMACRO()
++
++_SET_IF_EMPTY(FLAGS_SSE2  "-msse2")
++_SET_IF_EMPTY(FLAGS_SSE42 "-msse4.2")
++_SET_IF_EMPTY(FLAGS_AVX   "-mavx")
++_SET_IF_EMPTY(FLAGS_AVX2  "-mf16c -mavx2 -mfma -mlzcnt -mbmi -mbmi2")
++_SET_IF_EMPTY(FLAGS_AVX512KNL "-mavx512f -mavx512pf -mavx512er -mavx512cd -mf16c -mavx2 -mfma -mlzcnt -mbmi -mbmi2")
++_SET_IF_EMPTY(FLAGS_AVX512SKX "-mavx512f -mavx512dq -mavx512cd -mavx512bw -mavx512vl -mf16c -mavx2 -mfma -mlzcnt -mbmi -mbmi2")
+ 
+ OPTION(EMBREE_IGNORE_CMAKE_CXX_FLAGS "When enabled Embree ignores default CMAKE_CXX_FLAGS." ON)
+ IF (EMBREE_IGNORE_CMAKE_CXX_FLAGS)
+diff --git a/common/cmake/intel.cmake b/common/cmake/intel.cmake
+index 1d99d2e7b..4c414032c 100644
+--- a/common/cmake/intel.cmake
++++ b/common/cmake/intel.cmake
+@@ -14,14 +14,20 @@
+ ## limitations under the License.                                           ##
+ ## ======================================================================== ##
+ 
++MACRO(_SET_IF_EMPTY VAR VALUE)
++  IF(NOT ${VAR})
++    SET(${VAR} "${VALUE}")
++  ENDIF()
++ENDMACRO()
++
+ IF (WIN32)
+ 
+-  SET(FLAGS_SSE2  "/QxSSE2")
+-  SET(FLAGS_SSE42 "/QxSSE4.2")
+-  SET(FLAGS_AVX   "/arch:AVX")
+-  SET(FLAGS_AVX2  "/QxCORE-AVX2")
+-  SET(FLAGS_AVX512KNL "/QxMIC-AVX512")
+-  SET(FLAGS_AVX512SKX "/QxCORE-AVX512")
++  _SET_IF_EMPTY(FLAGS_SSE2  "/QxSSE2")
++  _SET_IF_EMPTY(FLAGS_SSE42 "/QxSSE4.2")
++  _SET_IF_EMPTY(FLAGS_AVX   "/arch:AVX")
++  _SET_IF_EMPTY(FLAGS_AVX2  "/QxCORE-AVX2")
++  _SET_IF_EMPTY(FLAGS_AVX512KNL "/QxMIC-AVX512")
++  _SET_IF_EMPTY(FLAGS_AVX512SKX "/QxCORE-AVX512")
+ 
+   SET(COMMON_CXX_FLAGS "")
+   SET(COMMON_CXX_FLAGS "${COMMON_CXX_FLAGS} /EHsc")        # catch C++ exceptions only and extern "C" functions never throw a C++ exception
+@@ -79,15 +85,15 @@ IF (WIN32)
+ ELSE()
+ 
+   IF (APPLE)
+-    SET(FLAGS_SSE2 "-xssse3") # on MacOSX ICC does not support SSE2
++    _SET_IF_EMPTY(FLAGS_SSE2 "-xssse3") # on MacOSX ICC does not support SSE2
+   ELSE()
+-    SET(FLAGS_SSE2 "-xsse2")
++    _SET_IF_EMPTY(FLAGS_SSE2 "-xsse2")
+   ENDIF()
+-  SET(FLAGS_SSE42  "-xsse4.2")
+-  SET(FLAGS_AVX    "-xAVX")
+-  SET(FLAGS_AVX2   "-xCORE-AVX2")
+-  SET(FLAGS_AVX512KNL "-xMIC-AVX512")
+-  SET(FLAGS_AVX512SKX "-xCORE-AVX512")
++  _SET_IF_EMPTY(FLAGS_SSE42  "-xsse4.2")
++  _SET_IF_EMPTY(FLAGS_AVX    "-xAVX")
++  _SET_IF_EMPTY(FLAGS_AVX2   "-xCORE-AVX2")
++  _SET_IF_EMPTY(FLAGS_AVX512KNL "-xMIC-AVX512")
++  _SET_IF_EMPTY(FLAGS_AVX512SKX "-xCORE-AVX512")
+ 
+   OPTION(EMBREE_IGNORE_CMAKE_CXX_FLAGS "When enabled Embree ignores default CMAKE_CXX_FLAGS." ON)
+   IF (EMBREE_IGNORE_CMAKE_CXX_FLAGS)
+-- 
+2.14.3
+
