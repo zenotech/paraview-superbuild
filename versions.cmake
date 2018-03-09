@@ -132,3 +132,14 @@ superbuild_set_revision(boxlib
 superbuild_set_revision(las
   URL     "https://www.paraview.org/files/dependencies/libLAS-1.8.1.tar.bz2"
   URL_MD5 2e6a975dafdf57f59a385ccb87eb5919)
+
+set(nvidiaindex_version "2.1.20180215")
+if (WIN32)
+  superbuild_set_revision(nvidiaindex
+    URL     "http://www.paraview.org/files/dependencies/nvidia-index-libs-${nvidiaindex_version}-vs2013-x64.tar.bz2"
+    URL_MD5 11bc04708dd97c8a41eb81b92b1b60d8)
+elseif (UNIX AND NOT APPLE)
+  superbuild_set_revision(nvidiaindex
+    URL     "http://www.paraview.org/files/dependencies/nvidia-index-libs-${nvidiaindex_version}-linux.tar.bz2"
+    URL_MD5 617908b181c27bea59d0817ae29fc8f3)
+endif ()
