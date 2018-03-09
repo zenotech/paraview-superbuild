@@ -115,6 +115,16 @@ if (expat_ENABLED)
   list(APPEND paraviews_platform_dependencies expat)
 endif ()
 
+cmake_dependent_option(PARAVIEW_INITIALIZE_MPI_ON_CLIENT
+  "Initialize MPI on client-processes by default. Can be overridden using command line arguments" ON
+  "mpi_enabled" OFF)
+mark_as_advanced(PARAVIEW_INITIALIZE_MPI_ON_CLIENT)
+
+if (mpi_enabled)
+  list(APPEND paraview_extra_cmake_options
+    -DPARAVIEW_INITIALIZE_MPI_ON_CLIENT:BOOL=${PARAVIEW_INITIALIZE_MPI_ON_CLIENT})
+endif()
+
 superbuild_add_project(paraview
   DEBUGGABLE
   DEFAULT_ON
