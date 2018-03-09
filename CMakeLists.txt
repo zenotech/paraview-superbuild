@@ -128,6 +128,11 @@ function (superbuild_find_projects var)
       pywin32)
   endif ()
 
+  if (WIN32 OR (UNIX AND NOT APPLE))
+    list(APPEND projects
+      nvidiaindex)
+  endif ()
+
   set("${var}"
     ${projects}
     PARENT_SCOPE)
