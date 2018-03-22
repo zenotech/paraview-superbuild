@@ -108,6 +108,9 @@ superbuild_set_revision(embree
 superbuild_set_revision(ospray
   URL     "https://www.paraview.org/files/dependencies/ospray-1.4.0.tar.gz"
   URL_MD5 2a3a4895c5ec2a42c7af86a51727fb53)
+superbuild_set_revision(ospraymaterials
+  URL     "https://www.paraview.org/files/data/OSPRayMaterials.tar.gz"
+  URL_MD5 6f1d5d96e91b14222c462c890185dbc3)
 
 superbuild_set_revision(openvr
   URL     "https://www.paraview.org/files/dependencies/openvr_1.0.10_win_thin.zip"

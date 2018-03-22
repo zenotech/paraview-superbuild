@@ -114,6 +114,7 @@ function (superbuild_find_projects var)
   endif ()
 
   list(APPEND projects
+    ospraymaterials
     paraviewgettingstartedguide
     paraviewtutorial
     paraviewtutorialdata

@@ -143,6 +143,15 @@ function (paraview_install_data project dir)
   endif ()
 endfunction ()
 
+function (paraview_install_materials project dir)
+  if (${project}_enabled)
+    install(
+      DIRECTORY   "${superbuild_install_location}/${dir}"
+      DESTINATION "${paraview_materials_dir}"
+      COMPONENT   superbuild)
+  endif ()
+endfunction ()
+
 function (paraview_install_extra_data)
   if (paraview_doc_dir)
     paraview_install_pdf(paraviewgettingstartedguide "GettingStarted.pdf")
@@ -152,6 +161,10 @@ function (paraview_install_extra_data)
 
   if (paraview_data_dir)
     paraview_install_data(paraviewtutorialdata "data/")
+  endif ()
+
+  if (paraview_materials_dir)
+    paraview_install_materials(ospraymaterials "materials/")
   endif ()
 endfunction ()
 
