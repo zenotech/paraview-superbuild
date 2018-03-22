@@ -58,7 +58,7 @@ if (nvidiaindex_enabled)
   set(nvidiaindex_libraries
     libdice
     libnvindex
-    nvrtc-builtins64_90)
+    nvrtc-builtins64_80)
 
   foreach (nvidiaindex_library IN LISTS nvidiaindex_libraries)
     superbuild_windows_install_plugin("${nvidiaindex_library}.dll"
