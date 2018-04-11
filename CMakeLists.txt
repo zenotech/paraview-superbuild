@@ -198,7 +198,8 @@ function (superbuild_add_packaging)
       DragNDrop)
   else ()
     set(generators
-      TGZ)
+      TGZ
+      TXZ)
   endif ()
   list(GET generators 0 default_generator)
 
@@ -265,6 +266,9 @@ function (superbuild_add_packaging)
   if (paraviewsdk_enabled)
     set(default_package paraviewsdk)
     superbuild_add_extra_package_test(paraviewsdk "TGZ"
+      LABELS  "ParaView"
+      TIMEOUT 6400)
+    superbuild_add_extra_package_test(paraviewsdk "TXZ"
       LABELS  "ParaView"
       TIMEOUT 6400)
   endif ()

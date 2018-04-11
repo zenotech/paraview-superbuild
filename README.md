@@ -152,8 +152,11 @@ include:
   * `paraview/ZIP`
   * `paraview/DragNDrop`
   * `paraview/TGZ`
+  * `paraview/TXZ`
   * `catalyst/TGZ`
+  * `catalyst/TXZ`
   * `paraviewsdk/TGZ`
+  * `paraviewsdk/TXZ`
 
 The CMake cache editors (`ccmake` and `cmake-gui`) have dropdown options for
 the supported options.
@@ -161,7 +164,7 @@ the supported options.
 The selected package logic will be used to install ParaView and its
 dependencies into `CMAKE_INSTALL_PREFIX` rather than being placed into a
 package. For example, the `DragNDrop` generator creates `.app` bundles which
-will be created whereas the `TGZ` and `ZIP` generators use the standard
+will be created whereas the `TGZ`, `TXZ`, and `ZIP` generators use the standard
 `bin/`, `lib/`, etc. directories.
 
 ### Caveats
