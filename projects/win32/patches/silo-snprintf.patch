@@ -1,0 +1,15 @@
+diff --git a/src/silo/silo_win32_compatibility.h b/src/silo/silo_win32_compatibility.h
+index 28bf300..df1d214 100644
+--- a/src/silo/silo_win32_compatibility.h
++++ b/src/silo/silo_win32_compatibility.h
+@@ -12,7 +12,9 @@
+ #define pclose    _pclose
+ #define popen     _popen
+ #define read      _read
+-#define snprintf  _snprintf
++#if _MSC_VER<1900 /* VS2015 onwards, snprintf is supported*/
++# define snprintf  _snprintf
++#endif
+ #define stat      _stat
+ #define write     _write
+ 
