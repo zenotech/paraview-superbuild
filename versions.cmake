@@ -86,16 +86,23 @@ superbuild_set_revision(socat
   URL     "https://www.paraview.org/files/dependencies/socat-1.7.3.1.tar.bz2"
   URL_MD5 334e46924f2b386299c9db2ac22bcd36)
 
-set(ispc_version "1.9.1")
+set(ispc_version "1.9.2")
 if (WIN32)
-  set(ispc_file "https://www.paraview.org/files/dependencies/ispc-v${ispc_version}-windows-vs2013.zip")
-  set(ispc_md5 "ae836b2cb4b7610e92a84fb1feaef72f")
+  if (MSVC12)
+    # for VS2013, we use older version of ISPC
+    set(ispc_version "1.9.1")
+    set(ispc_file "https://www.paraview.org/files/dependencies/ispc-v${ispc_version}-windows-vs2013.zip")
+    set(ispc_md5 "ae836b2cb4b7610e92a84fb1feaef72f")
+  else ()
+    set(ispc_file "https://www.paraview.org/files/dependencies/ispc-v${ispc_version}-windows.zip")
+    set(ispc_md5 "3bcfab1e48b64be2cd160e14eaa2f9ab")
+  endif()
 elseif (APPLE)
   set(ispc_file "https://www.paraview.org/files/dependencies/ispc-v${ispc_version}-osx.tar.gz")
-  set(ispc_md5 "6f9b6524d7a96c1be728b1b0a9158360")
+  set(ispc_md5 "387cce62a6c63def5e6eb1c0a468a3db")
 else ()
   set(ispc_file "https://www.paraview.org/files/dependencies/ispc-v${ispc_version}-linux.tar.gz")
-  set(ispc_md5 "5d801d90bafaf9800cfbeab18a33a58f")
+  set(ispc_md5 "0178a33a065ae65d0be00be23871cf9f")
 endif ()
 superbuild_set_revision(ispc
   URL     "${ispc_file}"
