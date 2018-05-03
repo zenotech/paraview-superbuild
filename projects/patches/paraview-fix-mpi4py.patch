@@ -1,0 +1,44 @@
+From c2f8322a78954328c131b4bf0553ffeeaa0b3154 Mon Sep 17 00:00:00 2001
+From: Andrew Bauer <andy.bauer@kitware.com>
+Date: Thu, 3 May 2018 12:38:16 -0400
+Subject: [PATCH] Fixing issue with missing MPI_CONVERSION_FN_NULL for mpi4py
+
+---
+ ThirdParty/mpi4py/vtkmpi4py/CMakeLists.txt              | 6 ++++++
+ ThirdParty/mpi4py/vtkmpi4py/src/lib-mpi/config/mpi-20.h | 2 ++
+ 2 files changed, 8 insertions(+)
+
+diff --git a/ThirdParty/mpi4py/vtkmpi4py/CMakeLists.txt b/ThirdParty/mpi4py/vtkmpi4py/CMakeLists.txt
+index 02b0dcb..a50480f 100644
+--- a/VTK/ThirdParty/mpi4py/vtkmpi4py/CMakeLists.txt
++++ b/VTK/ThirdParty/mpi4py/vtkmpi4py/CMakeLists.txt
+@@ -50,6 +50,12 @@ if (NOT f2c_defined)
+                   -DPyMPI_MISSING_MPI_Status_c2f)
+ endif()
+ 
++# SGI's MPT mpi library is missing MPI_CONVERSION_FN_NULL
++check_function_exists(MPI_CONVERSION_FN_NULL conversion_fn_defined)
++if (NOT conversion_fn_defined)
++  add_definitions(-DPyMPI_MISSING_MPI_CONVERSION_FN_NULL)
++endif()
++
+ # -----------------------------------------------------------------------------
+ # Note: In ParaView FindPythonLibs.cmake module is additionally defined in VTK
+ # and overides the default module from CMake. As a consequence PYTHON_ADD_MODULE
+diff --git a/ThirdParty/mpi4py/vtkmpi4py/src/lib-mpi/config/mpi-20.h b/ThirdParty/mpi4py/vtkmpi4py/src/lib-mpi/config/mpi-20.h
+index 98bfe13..7894682 100644
+--- a/VTK/ThirdParty/mpi4py/vtkmpi4py/src/lib-mpi/config/mpi-20.h
++++ b/VTK/ThirdParty/mpi4py/vtkmpi4py/src/lib-mpi/config/mpi-20.h
+@@ -290,7 +290,9 @@
+ #define PyMPI_HAVE_MPI_File_call_errhandler 1
+ #define PyMPI_HAVE_MPI_Datarep_conversion_function 1
+ #define PyMPI_HAVE_MPI_Datarep_extent_function 1
++#ifndef PyMPI_MISSING_MPI_CONVERSION_FN_NULL
+ #define PyMPI_HAVE_MPI_CONVERSION_FN_NULL 1
++#endif
+ #define PyMPI_HAVE_MPI_MAX_DATAREP_STRING 1
+ #define PyMPI_HAVE_MPI_Register_datarep 1
+ #define PyMPI_HAVE_MPI_ERR_FILE 1
+-- 
+2.7.4
+
