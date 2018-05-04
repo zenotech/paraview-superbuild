@@ -238,6 +238,11 @@ if (paraview_SOURCE_SELECTION STREQUAL "5.3.0")
     "Fix various issues with the VTKConfig.cmake (Part 1)")
 endif ()
 
+if (paraview_SOURCE_SELECTION STREQUAL "5.5.0")
+  superbuild_apply_patch(paraview fix-mpi4py
+    "Fix issue with building VTK's mpi4py")
+endif ()
+
 if (WIN32 AND las_enabled)
   superbuild_append_flags(cxx_flags "-DBOOST_ALL_NO_LIB" PROJECT_ONLY)
 endif()
