@@ -172,6 +172,19 @@ set(dependency_search_paths
   "${real_superbuild_install_location}/lib/python2.7/site-packages"
   "${real_superbuild_install_location}/lib/python2.7/lib-dynload")
 foreach (fname IN LISTS libraries_to_install binaries_to_install)
+  get_filename_component(fname_dir "${fname}" DIRECTORY)
+  get_filename_component(fname_dir_real "${fname_dir}" REALPATH)
+
+  # Verify that what we're installing is from the temporary install tree
+  string(SUBSTRING "${fname_dir}" 0 ${real_sbinst_len} fname_dir_prefix)
+  if (NOT (fname_dir_prefix STREQUAL real_superbuild_install_location))
+    continue()
+  endif ()
+  string(SUBSTRING "${fname_dir_real}" 0 ${real_sbinst_len} fname_dir_real_prefix)
+  if (NOT (fname_dir_real_prefix STREQUAL real_superbuild_install_location))
+    continue()
+  endif ()
+
   # Install static libraries separately.
   if (fname MATCHES "\\${CMAKE_STATIC_LIBRARY_SUFFIX}$")
     install_superbuild_static_library("${fname}")
@@ -207,21 +220,39 @@ foreach (fname IN LISTS libraries_to_install binaries_to_install)
     endif ()
   endif ()
 
-  list(APPEND bins_and_deps "${fname}")
-  execute_process(
-    COMMAND ldd "${fname}"
-    COMMAND grep -iv "not found"
-    COMMAND awk [=[($2 == "=>") && ($3 ~ /^\//) {print $3}]=]
-    ERROR_QUIET
-    OUTPUT_VARIABLE ldd_out
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-  )
-  string(REPLACE "\n" ";" ldd_out "${ldd_out}")
-  list(APPEND bins_and_deps ${ldd_out})
+  # The TBB libraries are special.
+  if (fname MATCHES "libtbb(|_malloc)")
+    install_superbuild_binary("${fname}")
+    continue ()
+  endif ()
+
+  list_append_unique(all_binaries
+    "${fname}")
+
+  # We still want to install a symlink but only perform dependency resolution
+  # on actual files.
+  if (IS_SYMLINK "${fname}")
+    continue ()
+  endif ()
+
+  get_prerequisites("${fname}" dependencies 1 1 "" "${dependency_search_paths}")
+
+  if (NOT dependencies)
+    continue ()
+  endif ()
+
+  foreach (dep IN LISTS dependencies)
+    if (IS_SYMLINK "${dep}")
+      # Symlinks better not cross the root directory. Bad install, bad.
+      get_filename_component(resolved_dep "${dep}" REALPATH)
+      list(APPEND all_binaries "${resolved_dep}")
+    endif ()
+    list(APPEND all_binaries "${dep}")
+  endforeach ()
 endforeach ()
-if (bins_and_deps)
-  list(REMOVE_DUPLICATES bins_and_deps)
+if (all_binaries)
+  list(REMOVE_DUPLICATES all_binaries)
 endif ()
-foreach (f IN LISTS bins_and_deps)
+foreach (f IN LISTS all_binaries)
   install_superbuild_binary("${f}")
 endforeach ()
