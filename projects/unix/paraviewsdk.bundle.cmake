@@ -171,7 +171,12 @@ set(dependency_search_paths
   "${real_superbuild_install_location}/lib/python2.7"
   "${real_superbuild_install_location}/lib/python2.7/site-packages"
   "${real_superbuild_install_location}/lib/python2.7/lib-dynload")
+if(libraries_to_install)
+  list(SORT libraries_to_install)
+endif()
+set(fname_dep_map)
 foreach (fname IN LISTS libraries_to_install binaries_to_install)
+  get_filename_component(fname "${fname}" ABSOLUTE)
   get_filename_component(fname_dir "${fname}" DIRECTORY)
   get_filename_component(fname_dir_real "${fname_dir}" REALPATH)
 
@@ -220,14 +225,12 @@ foreach (fname IN LISTS libraries_to_install binaries_to_install)
     endif ()
   endif ()
 
+  install_superbuild_binary("${fname}")
+
   # The TBB libraries are special.
   if (fname MATCHES "libtbb(|_malloc)")
-    install_superbuild_binary("${fname}")
     continue ()
   endif ()
-
-  list_append_unique(all_binaries
-    "${fname}")
 
   # We still want to install a symlink but only perform dependency resolution
   # on actual files.
@@ -235,24 +238,38 @@ foreach (fname IN LISTS libraries_to_install binaries_to_install)
     continue ()
   endif ()
 
+  message("Gathering dependencies for ${fname}")
   get_prerequisites("${fname}" dependencies 1 1 "" "${dependency_search_paths}")
 
   if (NOT dependencies)
     continue ()
   endif ()
 
+  get_filename_component(fname_base "${fname}" NAME_WE)
+  list(APPEND fname_dep_map ${fname_base}_deps)
+  set(${fname_base}_deps)
   foreach (dep IN LISTS dependencies)
     if (IS_SYMLINK "${dep}")
       # Symlinks better not cross the root directory. Bad install, bad.
       get_filename_component(resolved_dep "${dep}" REALPATH)
-      list(APPEND all_binaries "${resolved_dep}")
+      list(APPEND ${fname_base}_deps "${resolved_dep}")
     endif ()
-    list(APPEND all_binaries "${dep}")
+    list(APPEND ${fname_base}_deps "${dep}")
   endforeach ()
 endforeach ()
-if (all_binaries)
-  list(REMOVE_DUPLICATES all_binaries)
-endif ()
-foreach (f IN LISTS all_binaries)
-  install_superbuild_binary("${f}")
+
+message("Combining and collapsing dependencies")
+set(all_deps)
+foreach (fname_dep_var IN LISTS fname_dep_map)
+  foreach (dep IN LISTS ${fname_dep_var})
+    list(APPEND all_deps "${dep}")
+  endforeach ()
+  if (all_deps)
+    list(REMOVE_DUPLICATES all_deps)
+  endif ()
 endforeach ()
+
+message("Building install rules for dependencies")
+foreach(dep IN LISTS all_deps)
+  install_superbuild_binary("${dep}")
+endforeach()
