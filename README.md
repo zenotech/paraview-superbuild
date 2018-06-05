@@ -100,8 +100,8 @@ on Linux (at the moment).
 
 The `paraviewweb` project adds web services into the resulting package.
 
-The `paraviewgettingstartedguide`, `paraviewtutorial`, `paraviewtutorialdata`,
-and `paraviewusersguide` packages add documentation to the package.
+The `paraviewgettingstartedguide`, and `paraviewtutorialdata` packages add
+startup documentation and example data to the package.
 
 ParaView supports multiple rendering engines including `egl`, `mesa`,
 `osmesa`, and `qt5`. All of these are incompatible with each other. If none of
