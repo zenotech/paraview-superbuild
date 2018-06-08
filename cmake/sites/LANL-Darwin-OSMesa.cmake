@@ -23,6 +23,7 @@ set(ENABLE_hdf5        ON CACHE BOOL "")
 set(ENABLE_libxml2     ON CACHE BOOL "")
 set(ENABLE_llvm        ON CACHE BOOL "")
 set(ENABLE_matplotlib  ON CACHE BOOL "")
+set(ENABLE_mpi         ON CACHE BOOL "")
 set(ENABLE_numpy       ON CACHE BOOL "")
 set(ENABLE_osmesa      ON CACHE BOOL "")
 set(ENABLE_ospray      ON CACHE BOOL "")
@@ -32,7 +33,6 @@ set(ENABLE_png         ON CACHE BOOL "")
 set(ENABLE_python      ON CACHE BOOL "")
 set(ENABLE_silo        ON CACHE BOOL "")
 set(ENABLE_visitbridge ON CACHE BOOL "")
-set(ENABLE_vtkm        ON CACHE BOOL "")
 set(ENABLE_zlib        ON CACHE BOOL "")
 
 # These will get pulled from the compute node's userland
@@ -51,7 +51,6 @@ set(USE_SYSTEM_zlib       ON CACHE BOOL "")
 set(ospray_BUILD_ISA ALL CACHE STRING "")
 set(mesa_SWR_ARCH "avx,avx2,knl,skx" CACHE STRING "")
 
-set(superbuild_download_location ${CMAKE_BINARY_DIR}/../downloads CACHE STRING "")
 set(SUPERBUILD_PROJECT_PARALLELISM 10 CACHE STRING "")
 
 set(PARAVIEW_EXTRA_CMAKE_ARGUMENTS
