@@ -6,4 +6,4 @@ superbuild_add_project(paraviewtutorialdata
   INSTALL_COMMAND
     "${CMAKE_COMMAND}" -E copy_directory
       <SOURCE_DIR>
-      <INSTALL_DIR>/data)
+      <INSTALL_DIR>/examples)

@@ -1,5 +1,5 @@
 set(paraview_doc_dir "doc")
-set(paraview_data_dir "data")
+set(paraview_data_dir "examples")
 set(paraview_materials_dir "materials")
 set(paraview_plugin_path "bin/plugins")
 include(paraview.bundle.common)

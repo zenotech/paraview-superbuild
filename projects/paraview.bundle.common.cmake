@@ -158,7 +158,7 @@ function (paraview_install_extra_data)
   endif ()
 
   if (paraview_data_dir)
-    paraview_install_data(paraviewtutorialdata "data/")
+    paraview_install_data(paraviewtutorialdata "examples/")
   endif ()
 
   if (paraview_materials_dir)
