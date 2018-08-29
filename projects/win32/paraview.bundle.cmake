@@ -73,6 +73,17 @@ if (nvidiaindex_enabled)
   endforeach ()
 endif ()
 
+if (ospray_enabled)
+  set(osprayextra_libraries
+    ospray_module_ispc)
+
+  foreach (osprayextra_library IN LISTS osprayextra_libraries)
+    superbuild_windows_install_plugin("${osprayextra_library}.dll"
+      "bin" "bin"
+      SEARCH_DIRECTORIES "${superbuild_install_location}/bin")
+  endforeach ()
+endif ()
+
 if (python_enabled)
   include(python.functions)
   superbuild_install_superbuild_python()
