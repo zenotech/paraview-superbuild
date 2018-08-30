@@ -91,6 +91,25 @@ if (nvidiaindex_enabled)
   endforeach ()
 endif ()
 
+if (ospray_enabled)
+  set(osprayextra_libraries
+    ospray_module_ispc)
+
+  foreach (osprayextra_library IN LISTS osprayextra_libraries)
+    file(GLOB lib_filenames
+      RELATIVE "${superbuild_install_location}/lib"
+      "${superbuild_install_location}/lib/lib${osprayextra_library}.so*")
+
+    foreach (lib_filename IN LISTS lib_filenames)
+      superbuild_unix_install_plugin("${lib_filename}"
+        "lib"
+        "lib"
+        LOADER_PATHS  "${library_paths}"
+        LOCATION      "lib")
+    endforeach ()
+  endforeach ()
+endif ()
+
 if (python_enabled)
   include(python.functions)
   superbuild_install_superbuild_python(
