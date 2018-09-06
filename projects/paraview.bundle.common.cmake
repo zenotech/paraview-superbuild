@@ -58,6 +58,7 @@ macro (check_for_python_module project module)
 endmacro ()
 
 check_for_python_module(numpy numpy)
+check_for_python_module(numpy pkg_resources)
 check_for_python_module(scipy scipy)
 check_for_python_module(matplotlib matplotlib)
 check_for_python_module(pythonpygments pygments)
