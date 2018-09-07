@@ -104,7 +104,8 @@ if (python_enabled)
                         "${superbuild_install_location}/lib/site-packages"
                         "${superbuild_install_location}/lib/python2.7/site-packages"
                         "${superbuild_install_location}/lib/paraview-${paraview_version_major}.${paraview_version_minor}/site-packages"
-    SEARCH_DIRECTORIES  "lib" "${superbuild_install_location}/bin")
+    SEARCH_DIRECTORIES  "${superbuild_install_location}/lib"
+                        "${superbuild_install_location}/bin")
 
   if (matplotlib_enabled)
     install(
