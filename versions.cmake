@@ -131,8 +131,8 @@ superbuild_set_revision(paraviewwebdivvy
   URL_MD5 e9a0453a057588791e00efede43cfb91)
 
 superbuild_set_revision(boxlib
-  URL     "https://www.paraview.org/files/dependencies/boxlib-c114717e6c47188a0812804addcab61d7605ef89.tar.bz2"
-  URL_MD5 fb96e9b2c347c9b790d0eab4ba810e14)
+  URL     "https://www.paraview.org/files/dependencies/boxlib-dc773687851f563b981d623b90465fce9a071bfd.tar.bz2"
+  URL_MD5 236edb84f6f3debb34655f5014aef065)
 
 superbuild_set_revision(las
   URL     "https://www.paraview.org/files/dependencies/libLAS-1.8.1.tar.bz2"
