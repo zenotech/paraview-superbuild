@@ -3,8 +3,8 @@ superbuild_set_revision(expat
   URL_MD5 789e297f547980fc9ecc036f9a070d49)
 
 superbuild_set_revision(llvm
-  URL     "https://www.paraview.org/files/dependencies/llvm-5.0.1.src.tar.xz"
-  URL_MD5 3a4ec6dcbc71579eeaec7cb157fe2168)
+  URL     "https://www.paraview.org/files/dependencies/llvm-7.0.0.src.tar.xz"
+  URL_MD5 e0140354db83cdeb8668531b431398f0)
 
 superbuild_set_revision(glproto
   URL     "https://www.paraview.org/files/dependencies/glproto-1.4.17.tar.bz2"
