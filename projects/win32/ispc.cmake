@@ -1,4 +1,4 @@
-if (ispc_enabled AND NOT MSVC14 AND NOT MSVC12)
+if (ispc_enabled AND (MSVC_VERSION VERSION_LESS 1800 OR NOT MSVC_VERSION VERSION_LESS 2000))
   message(FATAL_ERROR "The ispc project requires Visual Studio 2013 or 2015.")
 endif ()
 
