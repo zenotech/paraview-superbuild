@@ -4,10 +4,9 @@ if (APPLE)
 endif ()
 
 if (superbuild_build_phase AND "x${CMAKE_CXX_COMPILER_ID}" STREQUAL "xMSVC")
-  if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS "18.0" OR
-      NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS "19.0")
+  if (MSVC_VERSION VERSION_LESS 1800 OR NOT MSVC_VERSION VERSION_LESS 2000)
     message(FATAL_ERROR
-      "NVIDIA IndeX only provides libraries for MSVC 2013.")
+      "NVIDIA IndeX only provides libraries for MSVC 2013, MSVC 2015.")
   endif ()
 endif ()
 
