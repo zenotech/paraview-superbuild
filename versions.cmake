@@ -32,8 +32,8 @@ superbuild_set_revision(genericio
   URL     "https://www.paraview.org/files/dependencies/genericio-master-a15ffc76cfa9f9674f933e8cb5ffc97a97fd7b27.zip"
   URL_MD5 daea4ea2076fb6a1b8ccded8e861e1be)
 
-set(paraview_doc_ver_series "5.5")
-set(paraview_doc_ver "${paraview_doc_ver_series}.2")
+set(paraview_doc_ver_series "5.6")
+set(paraview_doc_ver "${paraview_doc_ver_series}.0-RC1")
 superbuild_set_revision(paraviewgettingstartedguide
   URL     "https://www.paraview.org/files/v${paraview_doc_ver_series}/ParaViewGettingStarted-${paraview_doc_ver}.pdf"
   URL_MD5 1bdadd4b5a62ba9f2de8eb0219ca858c)
@@ -47,9 +47,9 @@ superbuild_set_revision(paraviewtutorialdata
 # on this assumption.
 superbuild_set_selectable_source(paraview
   # NOTE: When updating this selection, also update `README.md` and CMakeLists.txt.
-  SELECT 5.5.2 DEFAULT
-    URL     "http://www.paraview.org/files/v5.5/ParaView-v5.5.2.tar.gz"
-    URL_MD5 7eb93c31a1e5deb7098c3b4275e53a4a
+  SELECT 5.6.0-RC1 DEFAULT
+    URL     "http://www.paraview.org/files/v5.6/ParaView-v5.6.0-RC1.tar.xz"
+    URL_MD5 944c09cfd423089b57aa1bc577070aed
   SELECT git CUSTOMIZABLE
     GIT_REPOSITORY "https://gitlab.kitware.com/paraview/paraview.git"
     GIT_TAG        "origin/master"
@@ -131,8 +131,8 @@ superbuild_set_revision(paraviewwebdivvy
   URL_MD5 e9a0453a057588791e00efede43cfb91)
 
 superbuild_set_revision(boxlib
-  URL     "https://www.paraview.org/files/dependencies/boxlib-c114717e6c47188a0812804addcab61d7605ef89.tar.bz2"
-  URL_MD5 fb96e9b2c347c9b790d0eab4ba810e14)
+  URL     "https://www.paraview.org/files/dependencies/boxlib-dc773687851f563b981d623b90465fce9a071bfd.tar.bz2"
+  URL_MD5 236edb84f6f3debb34655f5014aef065)
 
 superbuild_set_revision(las
   URL     "https://www.paraview.org/files/dependencies/libLAS-1.8.1.tar.bz2"
