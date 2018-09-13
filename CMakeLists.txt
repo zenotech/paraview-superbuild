@@ -10,7 +10,7 @@ macro (superbuild_setup_variables)
   if (paraview_SOURCE_SELECTION STREQUAL "git")
     # Assuming master; just use the latest version, but let the user set their
     # own version in case it is actually a branch from some other version.
-    set(PARAVIEW_VERSION_DEFAULT "5.4.1"
+    set(PARAVIEW_VERSION_DEFAULT "5.5.0"
       CACHE STRING "The default version of ParaView to use if it cannot be detected")
     mark_as_advanced(PARAVIEW_VERSION_DEFAULT)
     set(paraview_default_version "${PARAVIEW_VERSION_DEFAULT}")
@@ -39,37 +39,43 @@ function (superbuild_find_projects var)
   mark_as_advanced(USE_NONFREE_COMPONENTS)
 
   list(APPEND projects
-    cuda
     boost
     bzip2
+    cuda
     embree
     freetype
     hdf5
     ispc
     lapack
-    netcdf
+    las
     matplotlib
     mpi
+    netcdf
     numpy
     ospray
     paraviewweb
-    paraviewwebvisualizer
-    paraviewweblightviz
     paraviewwebdivvy
+    paraviewweblightviz
+    paraviewwebvisualizer
     png
     pythonautobahn
     pythonconstantly
+    pythoncycler
+    pythondateutil
     pythonhyperlink
     pythonincremental
+    pythonpygments
+    pythonpyparsing
     pythonsetuptools
     pythonsix
     pythontwisted
     pythontxaio
     pythonwslink
+    pythonzope
     pythonzopeinterface
+    pytz
     qt5
     silo
-    las
     szip
     tbb
     visitbridge
@@ -88,7 +94,6 @@ function (superbuild_find_projects var)
       genericio
       libxml2
       mxml
-      pythonmpi4py
       scipy)
 
     if (NOT APPLE)
@@ -96,6 +101,7 @@ function (superbuild_find_projects var)
         boxlib
         catalyst
         egl
+        expat
         fontconfig
         glproto
         gperf
@@ -108,10 +114,9 @@ function (superbuild_find_projects var)
   endif ()
 
   list(APPEND projects
+    ospraymaterials
     paraviewgettingstartedguide
-    paraviewtutorial
-    paraviewtutorialdata
-    paraviewusersguide)
+    paraviewtutorialdata)
 
   if (USE_NONFREE_COMPONENTS)
     # add non-free projects here.
@@ -122,6 +127,11 @@ function (superbuild_find_projects var)
       ftjam
       openvr
       pywin32)
+  endif ()
+
+  if (WIN32 OR (UNIX AND NOT APPLE))
+    list(APPEND projects
+      nvidiaindex)
   endif ()
 
   set("${var}"
@@ -186,7 +196,8 @@ function (superbuild_add_packaging)
       DragNDrop)
   else ()
     set(generators
-      TGZ)
+      TGZ
+      TXZ)
   endif ()
   list(GET generators 0 default_generator)
 
@@ -202,6 +213,7 @@ function (superbuild_add_packaging)
   include(paraview.suffix)
   list(APPEND superbuild_export_variables
     mesa_USE_SWR
+    mesa_SWR_ARCH
     PARAVIEW_DEFAULT_SYSTEM_GL
     PARAVIEW_PACKAGE_SUFFIX
     PARAVIEW_CATALYST_EDITION)
@@ -254,6 +266,9 @@ function (superbuild_add_packaging)
     superbuild_add_extra_package_test(paraviewsdk "TGZ"
       LABELS  "ParaView"
       TIMEOUT 6400)
+    superbuild_add_extra_package_test(paraviewsdk "TXZ"
+      LABELS  "ParaView"
+      TIMEOUT 6400)
   endif ()
 
   if (default_package)
@@ -264,6 +279,18 @@ endfunction ()
 function (superbuild_add_tests)
   add_subdirectory("${CMAKE_SOURCE_DIR}/tests" "${CMAKE_BINARY_DIR}/tests")
 endfunction ()
+
+set(qt5_skip_modules
+  qtconnectivity
+  qtgamepad
+  qtlocation
+  qtmultimedia
+  qtsensors
+  qtserialport
+  qtwayland
+  qtwebchannel
+  qtwebengine
+  qtwebsockets)
 
 set(boost_libraries
   date_time
@@ -287,6 +314,9 @@ set(_git_clone_arguments_default --progress)
 
 # set the default for cxx11 to be enabled for this project
 set(_superbuild_default_cxx11 ON)
+
+# set the default for qt5 to be 5.8
+set(_superbuild_qt5_default_selection "5.8")
 
 if (NOT EXISTS "${CMAKE_CURRENT_LIST_DIR}/superbuild/CMakeLists.txt")
   message(FATAL_ERROR "It appears as though the superbuild infrastructure "

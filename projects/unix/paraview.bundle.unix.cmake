@@ -69,6 +69,47 @@ if (mesa_libraries)
   endforeach ()
 endif ()
 
+if (nvidiaindex_enabled)
+  set(nvidiaindex_libraries
+    dice
+    nvindex
+    nvrtc-builtins)
+
+  foreach (nvidiaindex_library IN LISTS nvidiaindex_libraries)
+    file(GLOB lib_filenames
+      RELATIVE "${superbuild_install_location}/lib"
+      "${superbuild_install_location}/lib/lib${nvidiaindex_library}.so*")
+
+    foreach (lib_filename IN LISTS lib_filenames)
+      superbuild_unix_install_plugin("${lib_filename}"
+        "lib"
+        "lib"
+        LOADER_PATHS  "${library_paths}"
+        LOCATION      "lib"
+        EXCLUDE_REGEXES ".*/libcuda.so.*")
+    endforeach ()
+  endforeach ()
+endif ()
+
+if (ospray_enabled)
+  set(osprayextra_libraries
+    ospray_module_ispc)
+
+  foreach (osprayextra_library IN LISTS osprayextra_libraries)
+    file(GLOB lib_filenames
+      RELATIVE "${superbuild_install_location}/lib"
+      "${superbuild_install_location}/lib/lib${osprayextra_library}.so*")
+
+    foreach (lib_filename IN LISTS lib_filenames)
+      superbuild_unix_install_plugin("${lib_filename}"
+        "lib"
+        "lib"
+        LOADER_PATHS  "${library_paths}"
+        LOCATION      "lib")
+    endforeach ()
+  endforeach ()
+endif ()
+
 if (python_enabled)
   include(python.functions)
   superbuild_install_superbuild_python(
@@ -78,6 +119,7 @@ if (python_enabled)
     LIBDIR              "lib"
     MODULES             paraview
                         vtk
+                        vtkmodules
                         ${python_modules}
     INCLUDE_REGEXES     ${include_regexes}
     EXCLUDE_REGEXES     ${exclude_regexes}

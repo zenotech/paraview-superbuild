@@ -7,14 +7,13 @@
   <pqevent object="pqClientMainWindow/PluginManagerDialog/localGroup/loadSelected_Local" command="activate" arguments="" />
   <pqevent object="pqClientMainWindow/PluginManagerDialog/localGroup/localPlugins" command="setCurrent" arguments="SurfaceLIC" />
   <pqevent object="pqClientMainWindow/PluginManagerDialog/localGroup/loadSelected_Local" command="activate" arguments="" />
-  <pqevent object="pqClientMainWindow/PluginManagerDialog/localGroup/localPlugins" command="setCurrent" arguments="CatalystScriptGeneratorPlugin" />
   <pqevent object="pqClientMainWindow/PluginManagerDialog/localGroup/loadSelected_Local" command="activate" arguments="" />
   <pqevent object="pqClientMainWindow/PluginManagerDialog/buttonBox/1QPushButton0" command="activate" arguments="" />
-  <pqevent object="pqClientMainWindow/menubar" command="activate" arguments="CoProcessing" />
-  <pqevent object="pqClientMainWindow/CoProcessing" command="activate" arguments="Export State" />
+  <pqevent object="pqClientMainWindow/menubar" command="activate" arguments="menu_Catalyst" />
+  <pqevent object="pqClientMainWindow/menubar/menu_Catalyst" command="activate" arguments="Export State" />
   <pqevent object="pqClientMainWindow/ExportStateWizard" command="key" arguments="16777216" />
   <pqevent object="pqClientMainWindow/menubar" command="activate" arguments="menuSources" />
-  <pqevent object="pqClientMainWindow/menubar/menuSources" command="activate" arguments="SphereSource" />
+  <pqevent object="pqClientMainWindow/menubar/menuSources/Alphabetical" command="activate" arguments="SphereSource" />
   <pqevent object="pqClientMainWindow/propertiesDock/propertiesPanel/Accept" command="activate" arguments="" />
   <pqevent object="pqClientMainWindow/menubar" command="activate" arguments="menuFilters" />
   <pqevent object="pqClientMainWindow/menubar/menuFilters/Alphabetical" command="activate" arguments="PolyDataNormals" />

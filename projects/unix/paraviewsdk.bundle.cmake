@@ -1,29 +1,12 @@
+set_property(GLOBAL PROPERTY superbuild_install_no_external_dependencies TRUE)
 include(paraview-version)
+
 set(CPACK_PACKAGE_NAME "ParaViewSDK")
 set(package_filename "${PARAVIEWSDK_PACKAGE_FILE_NAME}")
-set(paraview_plugin_path "lib")
-include(paraview.bundle.common)
-
-set(plugins_file "${CMAKE_CURRENT_BINARY_DIR}/paraview.plugins")
-paraview_add_plugin("${plugins_file}" ${paraview_plugins})
-
-foreach (paraview_plugin IN LISTS paraview_plugins)
-  superbuild_unix_install_plugin("lib${paraview_plugin}.so"
-    "lib"
-    "lib"
-    LOADER_PATHS    "${library_paths}"
-    INCLUDE_REGEXES "${superbuild_install_location}"
-    EXCLUDE_REGEXES ".*"
-    LOCATION        "lib/plugins/${paraview_plugin}/")
-endforeach ()
-
-install(
-  FILES       "${plugins_file}"
-  DESTINATION "lib"
-  COMPONENT   superbuild
-  RENAME      ".plugins")
+include(paraview.bundle)
 
 get_filename_component(real_superbuild_install_location "${superbuild_install_location}" REALPATH)
+string(LENGTH "${real_superbuild_install_location}" real_sbinst_len)
 
 # Install ParaView CMake files
 install(
@@ -49,8 +32,8 @@ endforeach ()
 if (python_enabled)
   # Install ParaView Python libraries and any non-ParaView Python libraries.
   install(
-    DIRECTORY   "${superbuild_install_location}/lib/python2.7"
-    DESTINATION "lib/python2.7"
+    DIRECTORY   "${superbuild_install_location}/lib/python2.7/"
+    DESTINATION "lib/python2.7/"
     COMPONENT   superbuild
     USE_SOURCE_PERMISSIONS
     PATTERN "__pycache__" EXCLUDE
@@ -153,8 +136,20 @@ endfunction ()
 
 function (_install_superbuild_file type fname)
   get_filename_component(fname_dir "${fname}" DIRECTORY)
-  get_filename_component(fname_inst "${fname_dir}" REALPATH)
-  string(REPLACE "${real_superbuild_install_location}/" "" fname_inst "${fname_inst}")
+  get_filename_component(fname_dir_real "${fname_dir}" REALPATH)
+
+  # Verify that what we're installing is from the temporary install tree
+  string(SUBSTRING "${fname_dir}" 0 ${real_sbinst_len} fname_dir_prefix)
+  if (NOT (fname_dir_prefix STREQUAL real_superbuild_install_location))
+    return()
+  endif ()
+  string(SUBSTRING "${fname_dir_real}" 0 ${real_sbinst_len} fname_dir_real_prefix)
+  if (NOT (fname_dir_real_prefix STREQUAL real_superbuild_install_location))
+    return()
+  endif ()
+
+  math(EXPR real_sbinst_len_plus_one "${real_sbinst_len} + 1")
+  string(SUBSTRING "${fname_dir}" ${real_sbinst_len_plus_one} -1 fname_inst)
   install(
     "${type}"   "${fname}"
     DESTINATION "${fname_inst}"
@@ -176,9 +171,23 @@ set(dependency_search_paths
   "${real_superbuild_install_location}/lib/python2.7"
   "${real_superbuild_install_location}/lib/python2.7/site-packages"
   "${real_superbuild_install_location}/lib/python2.7/lib-dynload")
+if(libraries_to_install)
+  list(SORT libraries_to_install)
+endif()
+set(fname_dep_map)
 foreach (fname IN LISTS libraries_to_install binaries_to_install)
-  if (NOT ("${fname}" MATCHES "^(${real_superbuild_install_location}|${superbuild_install_location})/"))
-    continue ()
+  get_filename_component(fname "${fname}" ABSOLUTE)
+  get_filename_component(fname_dir "${fname}" DIRECTORY)
+  get_filename_component(fname_dir_real "${fname_dir}" REALPATH)
+
+  # Verify that what we're installing is from the temporary install tree
+  string(SUBSTRING "${fname_dir}" 0 ${real_sbinst_len} fname_dir_prefix)
+  if (NOT (fname_dir_prefix STREQUAL real_superbuild_install_location))
+    continue()
+  endif ()
+  string(SUBSTRING "${fname_dir_real}" 0 ${real_sbinst_len} fname_dir_real_prefix)
+  if (NOT (fname_dir_real_prefix STREQUAL real_superbuild_install_location))
+    continue()
   endif ()
 
   # Install static libraries separately.
@@ -216,14 +225,12 @@ foreach (fname IN LISTS libraries_to_install binaries_to_install)
     endif ()
   endif ()
 
+  install_superbuild_binary("${fname}")
+
   # The TBB libraries are special.
   if (fname MATCHES "libtbb(|_malloc)")
-    install_superbuild_binary("${fname}")
     continue ()
   endif ()
-
-  list_append_unique(all_binaries
-    "${fname}")
 
   # We still want to install a symlink but only perform dependency resolution
   # on actual files.
@@ -231,31 +238,38 @@ foreach (fname IN LISTS libraries_to_install binaries_to_install)
     continue ()
   endif ()
 
+  message("Gathering dependencies for ${fname}")
   get_prerequisites("${fname}" dependencies 1 1 "" "${dependency_search_paths}")
 
   if (NOT dependencies)
     continue ()
   endif ()
 
-  # Drop any dependency outside the superbuild.
-  list(FILTER dependencies INCLUDE REGEX "^(${real_superbuild_install_location}|${superbuild_install_location})/")
-
+  get_filename_component(fname_base "${fname}" NAME_WE)
+  list(APPEND fname_dep_map ${fname_base}_deps)
+  set(${fname_base}_deps)
   foreach (dep IN LISTS dependencies)
     if (IS_SYMLINK "${dep}")
       # Symlinks better not cross the root directory. Bad install, bad.
       get_filename_component(resolved_dep "${dep}" REALPATH)
-
-      list_append_unique(all_binaries
-        "${resolved_dep}")
+      list(APPEND ${fname_base}_deps "${resolved_dep}")
     endif ()
-
-    list_append_unique(all_binaries
-      "${dep}")
+    list(APPEND ${fname_base}_deps "${dep}")
   endforeach ()
 endforeach ()
 
-# Now install all dependencies in the same location they exist in the
-# superbuild install tree.
-foreach (fname IN LISTS all_binaries)
-  install_superbuild_binary("${fname}")
+message("Combining and collapsing dependencies")
+set(all_deps)
+foreach (fname_dep_var IN LISTS fname_dep_map)
+  foreach (dep IN LISTS ${fname_dep_var})
+    list(APPEND all_deps "${dep}")
+  endforeach ()
+  if (all_deps)
+    list(REMOVE_DUPLICATES all_deps)
+  endif ()
 endforeach ()
+
+message("Building install rules for dependencies")
+foreach(dep IN LISTS all_deps)
+  install_superbuild_binary("${dep}")
+endforeach()

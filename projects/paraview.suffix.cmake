@@ -16,6 +16,23 @@ else ()
   list(APPEND package_suffix_items
     "${CMAKE_SYSTEM_NAME}")
 endif ()
+
+# On Windows, we put add MSVC compiler version in the package name
+if (WIN32 AND MSVC)
+  if (MSVC_VERSION LESS 1800) # 1800 == VS2013
+    message(FATAL_ERROR "Visual Studio 2013 or newer is required.")
+  elseif (MSVC_VERSION LESS 1900) # 1900 == VS2015
+    list(APPEND package_suffix_items
+      "msvc2013")
+  elseif (MSVC_VERSION LESS 1910) # 1910 == VS2017
+    list(APPEND package_suffix_items
+      "msvc2015")
+  else()
+    list(APPEND package_suffix_items
+      "msvc2017")
+  endif()
+endif()
+
 # XXX(package): Temporary as the transition to the CentOS6 builder takes place.
 if (ENV{HOSTNAME} STREQUAL "pvbinsdash")
   list(APPEND package_suffix_items

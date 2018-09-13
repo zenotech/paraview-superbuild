@@ -1,6 +1,7 @@
 include(paraview-appname)
 set(paraview_doc_dir "${paraview_appname}/Contents/doc")
-set(paraview_data_dir "${paraview_appname}/Contents/data")
+set(paraview_data_dir "${paraview_appname}/Contents/examples")
+set(paraview_materials_dir "${paraview_appname}/Contents/materials")
 set(paraview_plugin_path "Applications/paraview.app/Contents/Plugins")
 include(paraview.bundle.common)
 
@@ -90,6 +91,7 @@ if (python_enabled)
             ${python_modules}
     MODULE_DIRECTORIES
             "${superbuild_install_location}/Applications/paraview.app/Contents/Python"
+            "${superbuild_install_location}/lib/python2.7/site-packages"
     SEARCH_DIRECTORIES
             "${superbuild_install_location}/Applications/paraview.app/Contents/Libraries"
             "${superbuild_install_location}/lib")

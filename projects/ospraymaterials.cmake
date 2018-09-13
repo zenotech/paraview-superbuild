@@ -1,4 +1,4 @@
-superbuild_add_project(paraviewtutorialdata
+superbuild_add_project(ospraymaterials
   CONFIGURE_COMMAND
     ""
   BUILD_COMMAND
@@ -6,4 +6,4 @@ superbuild_add_project(paraviewtutorialdata
   INSTALL_COMMAND
     "${CMAKE_COMMAND}" -E copy_directory
       <SOURCE_DIR>
-      <INSTALL_DIR>/examples)
+      <INSTALL_DIR>/materials)

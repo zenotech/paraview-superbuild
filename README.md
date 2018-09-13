@@ -100,8 +100,8 @@ on Linux (at the moment).
 
 The `paraviewweb` project adds web services into the resulting package.
 
-The `paraviewgettingstartedguide`, `paraviewtutorial`, `paraviewtutorialdata`,
-and `paraviewusersguide` packages add documentation to the package.
+The `paraviewgettingstartedguide`, and `paraviewtutorialdata` packages add
+startup documentation and example data to the package.
 
 ParaView supports multiple rendering engines including `egl`, `mesa`,
 `osmesa`, and `qt5`. All of these are incompatible with each other. If none of
@@ -152,8 +152,11 @@ include:
   * `paraview/ZIP`
   * `paraview/DragNDrop`
   * `paraview/TGZ`
+  * `paraview/TXZ`
   * `catalyst/TGZ`
+  * `catalyst/TXZ`
   * `paraviewsdk/TGZ`
+  * `paraviewsdk/TXZ`
 
 The CMake cache editors (`ccmake` and `cmake-gui`) have dropdown options for
 the supported options.
@@ -161,7 +164,7 @@ the supported options.
 The selected package logic will be used to install ParaView and its
 dependencies into `CMAKE_INSTALL_PREFIX` rather than being placed into a
 package. For example, the `DragNDrop` generator creates `.app` bundles which
-will be created whereas the `TGZ` and `ZIP` generators use the standard
+will be created whereas the `TGZ`, `TXZ`, and `ZIP` generators use the standard
 `bin/`, `lib/`, etc. directories.
 
 ### Caveats
@@ -256,6 +259,14 @@ The following flags affect ParaView directly:
     its HTML documentation.
   * `mesa_USE_SWR` (default `ON`): If `mesa` is enabled, this enables
     Intel's software rasterization backend (x86 only).
+  * `PARAVIEW_INITIALIZE_MPI_ON_CLIENT` (default `ON`): If `mpi` is enabled, this
+    enables MPI to be initialized automatically when running the GUI or pvpython.
+    Some readers use MPI IO and thus must have MPI initialized in order to be
+    used so this is the default for general ease of use. For some MPI implementations,
+    a code that initializes MPI must be run with the appropriate mpi launcher
+    (e.g. mpirun) which in this case it may be desirable to disable this option.
+    Note that the `--mpi` or `--no-mpi` command line options to paraview and
+    pvpython can be used to override this option.
 
 The following flags affect Catalyst:
 

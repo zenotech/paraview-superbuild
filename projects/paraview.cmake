@@ -92,8 +92,6 @@ if (UNIX)
   list(APPEND paraviews_platform_dependencies
     adios ffmpeg libxml2 freetype
 
-    pythonmpi4py
-
     # For cosmotools
     genericio cosmotools)
 endif ()
@@ -113,6 +111,19 @@ if (python_enabled AND USE_SYSTEM_python AND NOT python_FIND_LIBRARIES)
   set(PARAVIEW_ENABLE_PYTHON OFF)
 endif()
 
+if (expat_ENABLED)
+  list(APPEND paraviews_platform_dependencies expat)
+endif ()
+
+cmake_dependent_option(PARAVIEW_INITIALIZE_MPI_ON_CLIENT
+  "Initialize MPI on client-processes by default. Can be overridden using command line arguments" ON
+  "mpi_enabled" OFF)
+mark_as_advanced(PARAVIEW_INITIALIZE_MPI_ON_CLIENT)
+
+if (mpi_enabled)
+  list(APPEND paraview_extra_cmake_options
+    -DPARAVIEW_INITIALIZE_MPI_ON_CLIENT:BOOL=${PARAVIEW_INITIALIZE_MPI_ON_CLIENT})
+endif()
 
 superbuild_add_project(paraview
   DEBUGGABLE
@@ -121,8 +132,8 @@ superbuild_add_project(paraview
     cuda boost hdf5 matplotlib mpi numpy png
     python qt5 visitbridge zlib silo las
     xdmf3 ospray vrpn vtkm tbb netcdf
-    paraviewusersguide paraviewgettingstartedguide
-    paraviewtutorial paraviewtutorialdata paraviewweb
+    paraviewgettingstartedguide
+    paraviewtutorialdata paraviewweb
     paraviewpluginsexternal
     ${paraview_all_plugins}
     ${paraviews_platform_dependencies}
@@ -142,7 +153,6 @@ superbuild_add_project(paraview
     -DPARAVIEW_ENABLE_XDMF3:BOOL=${xdmf3_enabled}
     -DPARAVIEW_ENABLE_LAS:BOOL=${las_enabled}
     -DPARAVIEW_USE_MPI:BOOL=${mpi_enabled}
-    -DModule_vtkParallelMPI4Py:BOOL=${pythonmpi4py_enabled}
     -DPARAVIEW_USE_OSPRAY:BOOL=${ospray_enabled}
     -DPARAVIEW_USE_VISITBRIDGE:BOOL=${visitbridge_enabled}
     -DVISIT_BUILD_READER_CGNS:BOOL=OFF # force to off
@@ -160,6 +170,7 @@ superbuild_add_project(paraview
     -DVTK_USE_SYSTEM_LIBXML2:BOOL=${libxml2_enabled}
     -DVTK_USE_SYSTEM_PNG:BOOL=${png_enabled}
     -DVTK_USE_SYSTEM_ZLIB:BOOL=${zlib_enabled}
+    -DVTK_USE_SYSTEM_EXPAT:BOOL=${expat_enabled}
     -DModule_vtkIOADIOS:BOOL=${adios_enabled}
     -DVTK_SMP_IMPLEMENTATION_TYPE:STRING=${paraview_smp_backend}
     -DVTK_LEGACY_REMOVE:BOOL=ON
@@ -172,6 +183,9 @@ superbuild_add_project(paraview
     # mesa flags
     -DPARAVIEW_WITH_SUPERBUILD_MESA:BOOL=${paraview_mesa_sb_available}
     -DPARAVIEW_WITH_SUPERBUILD_MESA_SWR:BOOL=${mesa_USE_SWR}
+
+    # IndeX
+    -DPARAVIEW_BUILD_PLUGIN_pvNVIDIAIndeX:BOOL=${nvidiaindex_enabled}
 
     # vrpn
     -DPARAVIEW_BUILD_PLUGIN_VRPlugin:BOOL=${vrpn_enabled}
@@ -222,6 +236,11 @@ if (paraview_SOURCE_SELECTION STREQUAL "5.3.0")
     "Fix various issues with the shipped benchmark scripts")
   superbuild_apply_patch(paraview fix-vtkconfig-part1
     "Fix various issues with the VTKConfig.cmake (Part 1)")
+endif ()
+
+if (paraview_SOURCE_SELECTION STREQUAL "5.5.0")
+  superbuild_apply_patch(paraview fix-mpi4py
+    "Fix issue with building VTK's mpi4py")
 endif ()
 
 if (WIN32 AND las_enabled)

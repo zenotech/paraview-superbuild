@@ -1,0 +1,15 @@
+diff --git a/components/ospcommon/CMakeLists.txt b/components/ospcommon/CMakeLists.txt
+index a6641df..9392fa1 100644
+--- a/components/ospcommon/CMakeLists.txt
++++ b/components/ospcommon/CMakeLists.txt
+@@ -197,7 +197,9 @@ else()
+ 
+   ## Build Test Apps ##
+ 
+-  add_library(ospray_test_main STATIC testing/catch_main.cpp)
++  if (OSPRAY_ENABLE_TESTING)
++    add_library(ospray_test_main STATIC testing/catch_main.cpp)
++  endif()
+ 
+   # containers/AlignedVector
+   ospray_create_test(test_AlignedVector

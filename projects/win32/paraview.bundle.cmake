@@ -1,5 +1,6 @@
 set(paraview_doc_dir "doc")
-set(paraview_data_dir "data")
+set(paraview_data_dir "examples")
+set(paraview_materials_dir "materials")
 set(paraview_plugin_path "bin/plugins")
 include(paraview.bundle.common)
 
@@ -54,6 +55,35 @@ install(
   COMPONENT   superbuild
   RENAME      ".plugins")
 
+if (nvidiaindex_enabled)
+  set(nvidiaindex_libraries
+    libdice
+    libnvindex
+    nvrtc-builtins64_80)
+
+  foreach (nvidiaindex_library IN LISTS nvidiaindex_libraries)
+    superbuild_windows_install_plugin("${nvidiaindex_library}.dll"
+      "bin" "bin"
+      SEARCH_DIRECTORIES "${superbuild_install_location}/bin"
+      # Yes, there are 8 slashes here. It goes through one CMake level here,
+      # another in the `install(CODE)` during the install, and then a regex
+      # level inside of Python. Since 2^3 is 8, we need 8 slashes to get one in
+      # the regex character class.
+      EXCLUDE_REGEXES ".*[/\\\\\\\\]nvcuda.dll")
+  endforeach ()
+endif ()
+
+if (ospray_enabled)
+  set(osprayextra_libraries
+    ospray_module_ispc)
+
+  foreach (osprayextra_library IN LISTS osprayextra_libraries)
+    superbuild_windows_install_plugin("${osprayextra_library}.dll"
+      "bin" "bin"
+      SEARCH_DIRECTORIES "${superbuild_install_location}/bin")
+  endforeach ()
+endif ()
+
 if (python_enabled)
   include(python.functions)
   superbuild_install_superbuild_python()
@@ -75,16 +105,6 @@ if (python_enabled)
       DESTINATION "bin/Lib/site-packages/matplotlib/mpl-data"
       COMPONENT   superbuild)
   endif ()
-
-  superbuild_windows_install_python(
-    MODULES vtk
-    NAMESPACE "/paraview"
-    MODULE_DIRECTORIES
-            "${superbuild_install_location}/bin/Lib/site-packages"
-            "${superbuild_install_location}/lib/site-packages"
-            "${superbuild_install_location}/lib/python2.7/site-packages"
-            "${superbuild_install_location}/lib/paraview-${paraview_version_major}.${paraview_version_minor}/site-packages"
-    SEARCH_DIRECTORIES  "lib" "${superbuild_install_location}/bin")
 endif ()
 
 if (paraviewweb_enabled)
