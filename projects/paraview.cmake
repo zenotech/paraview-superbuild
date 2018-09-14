@@ -125,6 +125,9 @@ if (mpi_enabled)
     -DPARAVIEW_INITIALIZE_MPI_ON_CLIENT:BOOL=${PARAVIEW_INITIALIZE_MPI_ON_CLIENT})
 endif()
 
+option(PARAVIEW_ENABLE_MOTIONFX "Enable MotionFX reader, if supported on platform" ON)
+mark_as_advanced(PARAVIEW_ENABLE_MOTIONFX)
+
 superbuild_add_project(paraview
   DEBUGGABLE
   DEFAULT_ON
@@ -152,6 +155,7 @@ superbuild_add_project(paraview
     -DPARAVIEW_ENABLE_COSMOTOOLS:BOOL=${cosmotools_enabled}
     -DPARAVIEW_ENABLE_XDMF3:BOOL=${xdmf3_enabled}
     -DPARAVIEW_ENABLE_LAS:BOOL=${las_enabled}
+    -DPARAVIEW_ENABLE_MOTIONFX:BOOL=${PARAVIEW_ENABLE_MOTIONFX}
     -DPARAVIEW_USE_MPI:BOOL=${mpi_enabled}
     -DPARAVIEW_USE_OSPRAY:BOOL=${ospray_enabled}
     -DPARAVIEW_USE_VISITBRIDGE:BOOL=${visitbridge_enabled}
