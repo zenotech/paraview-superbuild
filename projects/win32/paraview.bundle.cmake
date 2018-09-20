@@ -58,8 +58,15 @@ install(
 if (nvidiaindex_enabled)
   set(nvidiaindex_libraries
     libdice
-    libnvindex
-    nvrtc-builtins64_80)
+    libnvindex)
+
+  # Need different nvrtc-builtins library depending on whether we are building
+  # with IndeX 2.1 or 2.2.
+  if (nvidiaindex_SOURCE_SELECTION STREQUAL "2.1")
+    list(APPEND nvidiaindex_libraries nvrtc-builtins64_80)
+  elseif (nvidiaindex_SOURCE_SELECTION STREQUAL "2.2")
+    list(APPEND nvidiaindex_libraries nvrtc-builtins64_90)
+  endif()
 
   foreach (nvidiaindex_library IN LISTS nvidiaindex_libraries)
     superbuild_windows_install_plugin("${nvidiaindex_library}.dll"
