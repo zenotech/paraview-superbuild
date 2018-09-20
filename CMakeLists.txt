@@ -214,6 +214,7 @@ function (superbuild_add_packaging)
   list(APPEND superbuild_export_variables
     mesa_USE_SWR
     mesa_SWR_ARCH
+    nvidiaindex_SOURCE_SELECTION
     PARAVIEW_DEFAULT_SYSTEM_GL
     PARAVIEW_PACKAGE_SUFFIX
     PARAVIEW_CATALYST_EDITION)
