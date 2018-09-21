@@ -111,6 +111,8 @@ if (ospray_enabled)
 endif ()
 
 if (python_enabled)
+  file(GLOB egg_dirs
+    "${superbuild_install_location}/lib/python2.7/site-packages/*.egg/")
   include(python.functions)
   superbuild_install_superbuild_python(
     LIBSUFFIX "/python2.7")
@@ -124,6 +126,7 @@ if (python_enabled)
     INCLUDE_REGEXES     ${include_regexes}
     EXCLUDE_REGEXES     ${exclude_regexes}
     MODULE_DIRECTORIES  "${superbuild_install_location}/lib/python2.7/site-packages"
+                        ${egg_dirs}
     LOADER_PATHS        "${library_paths}")
 
   if (matplotlib_built_by_superbuild)
