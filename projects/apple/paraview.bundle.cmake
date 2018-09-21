@@ -82,6 +82,8 @@ if (qt5_enabled)
 endif ()
 
 if (python_enabled)
+  file(GLOB egg_dirs
+    "${superbuild_install_location}/lib/python2.7/site-packages/*.egg/")
   superbuild_apple_install_python(
     "\${CMAKE_INSTALL_PREFIX}"
     "${paraview_appname}"
@@ -92,6 +94,7 @@ if (python_enabled)
     MODULE_DIRECTORIES
             "${superbuild_install_location}/Applications/paraview.app/Contents/Python"
             "${superbuild_install_location}/lib/python2.7/site-packages"
+            ${egg_dirs}
     SEARCH_DIRECTORIES
             "${superbuild_install_location}/Applications/paraview.app/Contents/Libraries"
             "${superbuild_install_location}/lib")
