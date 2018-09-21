@@ -141,15 +141,15 @@ superbuild_set_revision(las
 if (WIN32)
   set(nvidiaindex_platform "windows-x64")
   set(nvidiaindex_2_1_md5 "f6efc09092771eb0bfb375a503a95c04")
-  set(nvidiaindex_2_2_md5 "d6f6804445ea1834cb9b5fee801f5536")
+  set(nvidiaindex_2_2_md5 "4e7b3d5f13cf026d82fb81688a170b28")
 elseif (UNIX AND NOT APPLE)
   set(nvidiaindex_platform "linux")
   set(nvidiaindex_2_1_md5 "9fd5af702af6a6a6f2aba3a960703fb3")
-  set(nvidiaindex_2_2_md5 "5dd4eb4c4957f51f6f58a9e33b95fb85")
+  set(nvidiaindex_2_2_md5 "3824325866c00db9c451fc7758f5adce")
 endif ()
 superbuild_set_selectable_source(nvidiaindex
   SELECT 2.2 DEFAULT
-    URL     "http://www.paraview.org/files/dependencies/nvidia-index-libs-2.2.20180912-${nvidiaindex_platform}.tar.bz2"
+    URL     "http://www.paraview.org/files/dependencies/nvidia-index-libs-2.2.20180921-${nvidiaindex_platform}.tar.bz2"
     URL_MD5 "${nvidiaindex_2_2_md5}"
   SELECT 2.1
     URL     "http://www.paraview.org/files/dependencies/nvidia-index-libs-2.1.20180314-${nvidiaindex_platform}.tar.bz2"
