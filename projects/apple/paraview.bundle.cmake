@@ -143,7 +143,7 @@ configure_file(
   "${CMAKE_CURRENT_BINARY_DIR}/CMakeDMGSetup.scpt"
   @ONLY)
 
-set(CPACK_DMG_BACKGROUND_IMAGE "${CMAKE_CURRENT_LIST_DIR}/files/CMakeDMGBackground.tif")
+set(CPACK_DMG_BACKGROUND_IMAGE "${CMAKE_CURRENT_LIST_DIR}/files/ParaViewDMGBackground.tif")
 set(CPACK_DMG_DS_STORE_SETUP_SCRIPT "${CMAKE_CURRENT_BINARY_DIR}/CMakeDMGSetup.scpt")
 
 if (paraviewweb_enabled)
