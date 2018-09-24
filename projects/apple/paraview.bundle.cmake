@@ -137,14 +137,14 @@ if (mpi_built_by_superbuild)
     COMPONENT superbuild)
 endif ()
 
-# Configure CMakeDMGSetup.scpt to replace the app name in the script.
+# Configure ParaViewDMGSetup.scpt to replace the app name in the script.
 configure_file(
-  "${CMAKE_CURRENT_LIST_DIR}/files/CMakeDMGSetup.scpt.in"
-  "${CMAKE_CURRENT_BINARY_DIR}/CMakeDMGSetup.scpt"
+  "${CMAKE_CURRENT_LIST_DIR}/files/ParaViewDMGSetup.scpt.in"
+  "${CMAKE_CURRENT_BINARY_DIR}/ParaViewDMGSetup.scpt"
   @ONLY)
 
-set(CPACK_DMG_BACKGROUND_IMAGE "${CMAKE_CURRENT_LIST_DIR}/files/CMakeDMGBackground.tif")
-set(CPACK_DMG_DS_STORE_SETUP_SCRIPT "${CMAKE_CURRENT_BINARY_DIR}/CMakeDMGSetup.scpt")
+set(CPACK_DMG_BACKGROUND_IMAGE "${CMAKE_CURRENT_LIST_DIR}/files/ParaViewDMGBackground.tif")
+set(CPACK_DMG_DS_STORE_SETUP_SCRIPT "${CMAKE_CURRENT_BINARY_DIR}/ParaViewDMGSetup.scpt")
 
 if (paraviewweb_enabled)
   install(
