@@ -35,5 +35,6 @@ superbuild_add_project(ospray
     -DCMAKE_INSTALL_LIBDIR:STRING=lib)
 
 superbuild_apply_patch(ospray disable-testing "Really disable testing")
+superbuild_apply_patch(ospray fixup-cray-isa "Fixup cray isa")
 superbuild_add_extra_cmake_args(
   -DOSPRAY_INSTALL_DIR:PATH=<INSTALL_DIR>)
