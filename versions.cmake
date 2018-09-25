@@ -119,8 +119,8 @@ superbuild_set_revision(openvr
   URL_MD5 062a029869423808aebc32f85edf38e2)
 
 superbuild_set_revision(paraviewwebvisualizer
-  URL     "https://www.paraview.org/files/dependencies/visualizer-3.1.9.tar.gz"
-  URL_MD5 d36aebc039e9a3926acaae0bc27f1ce5)
+  URL     "https://www.paraview.org/files/dependencies/visualizer-3.1.10.tar.gz"
+  URL_MD5 999c4031749bbaac7e01149fe3b0c777)
 
 superbuild_set_revision(paraviewweblightviz
   URL     "https://www.paraview.org/files/dependencies/light-viz-1.18.1.tar.gz"
