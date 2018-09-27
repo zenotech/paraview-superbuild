@@ -29,6 +29,8 @@ superbuild_add_project(embree
     -DEMBREE_TUTORIALS:BOOL=OFF
     -DCMAKE_INSTALL_LIBDIR:STRING=lib)
 
+superbuild_apply_patch(embree no-sse42-on-cray "Disable SSE 42 on Cray.")
+
 if (MSVC_VERSION EQUAL 1900)
   superbuild_append_flags(cxx_flags "-d2SSAOptimizer-" PROJECT_ONLY)
 endif()
