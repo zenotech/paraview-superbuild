@@ -26,6 +26,11 @@ if (osmesa_enabled OR egl_enabled)
   set(paraview_visit_gmv OFF)
 endif ()
 
+set(paraview_mpi4py OFF)
+if (python_enabled AND mpi_enabled)
+  set(paraview_mpi4py ON)
+endif ()
+
 option(PARAVIEW_BUILD_WEB_DOCUMENTATION "Build documentation for the web" OFF)
 
 set(paraview_all_plugins
@@ -176,6 +181,7 @@ superbuild_add_project(paraview
     -DVTK_USE_SYSTEM_ZLIB:BOOL=${zlib_enabled}
     -DVTK_USE_SYSTEM_EXPAT:BOOL=${expat_enabled}
     -DModule_vtkIOADIOS:BOOL=${adios_enabled}
+    -DModule_vtkmpi4py:BOOL=${paraview_mpi4py}
     -DVTK_SMP_IMPLEMENTATION_TYPE:STRING=${paraview_smp_backend}
     -DVTK_LEGACY_REMOVE:BOOL=ON
     -DVTK_DEFAULT_RENDER_WINDOW_OFFSCREEN:BOOL=${osmesa_enabled}
