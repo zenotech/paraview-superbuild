@@ -7,6 +7,7 @@ endif ()
 superbuild_add_dummy_project(paraviewweb
   DEPENDS
     python
+    paraviewweblite
     paraviewwebvisualizer
     paraviewweblightviz
     paraviewwebdivvy
