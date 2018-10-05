@@ -54,6 +54,7 @@ function (superbuild_find_projects var)
     numpy
     ospray
     paraviewweb
+    paraviewweblite
     paraviewwebdivvy
     paraviewweblightviz
     paraviewwebvisualizer
