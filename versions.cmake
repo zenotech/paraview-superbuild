@@ -123,7 +123,7 @@ superbuild_set_revision(paraviewwebvisualizer
   URL_MD5 999c4031749bbaac7e01149fe3b0c777)
 
 superbuild_set_revision(paraviewweblite
-  URL     "https://registry.npmjs.org/paraview-lite/-/paraview-lite-1.0.0.tgz"
+  URL     "https://www.paraview.org/files/dependencies/paraview-lite-1.0.0.tgz"
   URL_MD5 f7e9a5ff2b3a1c3773865c5d55fc79a8)
 
 superbuild_set_revision(paraviewweblightviz
