@@ -59,7 +59,7 @@ endif ()
 
 superbuild_add_project(${project}
   CAN_USE_SYSTEM
-  DEPENDS llvm zlib ${mesa_type_deps} expat
+  DEPENDS llvm zlib ${mesa_type_deps} expat pythonmako
   CONFIGURE_COMMAND
     ./autogen.sh
       ${mesa_common_config_args}
