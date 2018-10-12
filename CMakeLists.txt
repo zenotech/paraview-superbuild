@@ -65,6 +65,7 @@ function (superbuild_find_projects var)
     pythondateutil
     pythonhyperlink
     pythonincremental
+    pythonmako
     pythonpygments
     pythonpyparsing
     pythonsetuptools
