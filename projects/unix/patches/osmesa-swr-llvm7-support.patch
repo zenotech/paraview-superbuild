@@ -1,63 +1,93 @@
-diff -N -u -r mesa-18.2.2.old/configure.ac mesa-18.2.2/configure.ac
---- mesa-18.2.2.old/configure.ac	2018-10-05 06:15:58.000000000 -0400
-+++ mesa-18.2.2/configure.ac	2018-10-09 14:00:49.938043753 -0400
-@@ -2719,6 +2719,11 @@
-             ;;
-         xswr)
-             llvm_require_version $LLVM_REQUIRED_SWR "swr"
-+            llvm_add_default_components "swr"
-+            if test $LLVM_VERSION_MAJOR -ge 7; then
-+                llvm_add_component "ipo" "swr"
-+                llvm_add_component "ObjCARCOpts" "swr"
-+            fi
- 
-             if test "x$HAVE_CXX11" != "xyes"; then
-                 AC_MSG_ERROR([swr requires c++11 support])
-diff -N -u -r mesa-18.2.2.old/src/gallium/drivers/swr/rasterizer/jitter/blend_jit.cpp mesa-18.2.2/src/gallium/drivers/swr/rasterizer/jitter/blend_jit.cpp
---- mesa-18.2.2.old/src/gallium/drivers/swr/rasterizer/jitter/blend_jit.cpp	2018-10-05 06:15:58.000000000 -0400
-+++ mesa-18.2.2/src/gallium/drivers/swr/rasterizer/jitter/blend_jit.cpp	2018-10-09 14:00:49.938043753 -0400
-@@ -870,7 +870,11 @@
+diff --git a/src/gallium/drivers/swr/rasterizer/codegen/gen_llvm_ir_macros.py b/src/gallium/drivers/swr/rasterizer/codegen/gen_llvm_ir_macros.py
+index 2e7f1a88a0..d34e88d1bc 100644
+--- a/src/gallium/drivers/swr/rasterizer/codegen/gen_llvm_ir_macros.py
++++ b/src/gallium/drivers/swr/rasterizer/codegen/gen_llvm_ir_macros.py
+@@ -57,7 +57,6 @@ intrinsics = [
+     ['VHSUBPS',     ['a', 'b'], 'a'],
+     ['VPTESTC',     ['a', 'b'], 'mInt32Ty'],
+     ['VPTESTZ',     ['a', 'b'], 'mInt32Ty'],
+-    ['VFMADDPS',    ['a', 'b', 'c'], 'a'],
+     ['VPHADDD',     ['a', 'b'], 'a'],
+     ['PDEP32',      ['a', 'b'], 'a'],
+     ['RDTSC',       [], 'mInt64Ty'],
+@@ -71,6 +70,7 @@ llvm_intrinsics = [
+     ['STACKRESTORE', 'stackrestore', ['a'], []],
+     ['VMINPS', 'minnum', ['a', 'b'], ['a']],
+     ['VMAXPS', 'maxnum', ['a', 'b'], ['a']],
++    ['VFMADDPS', 'fmuladd', ['a', 'b', 'c'], ['a']],
+     ['DEBUGTRAP', 'debugtrap', [], []],
+     ['POPCNT', 'ctpop', ['a'], ['a']],
+     ['LOG2', 'log2', ['a'], ['a']],
+diff --git a/src/gallium/drivers/swr/rasterizer/jitter/blend_jit.cpp b/src/gallium/drivers/swr/rasterizer/jitter/blend_jit.cpp
+index f89c502db7..d5328c8e4e 100644
+--- a/src/gallium/drivers/swr/rasterizer/jitter/blend_jit.cpp
++++ b/src/gallium/drivers/swr/rasterizer/jitter/blend_jit.cpp
+@@ -870,7 +870,6 @@ struct BlendJit : public Builder
          passes.add(createCFGSimplificationPass());
          passes.add(createEarlyCSEPass());
          passes.add(createInstructionCombiningPass());
-+#if LLVM_VERSION_MAJOR >= 7
-+        passes.add(createInstSimplifyLegacyPass());
-+#else
-         passes.add(createInstructionSimplifierPass());
-+#endif
+-        passes.add(createInstructionSimplifierPass());
          passes.add(createConstantPropagationPass());
          passes.add(createSCCPPass());
          passes.add(createAggressiveDCEPass());
-diff -N -u -r mesa-18.2.2.old/src/gallium/drivers/swr/rasterizer/jitter/fetch_jit.cpp mesa-18.2.2/src/gallium/drivers/swr/rasterizer/jitter/fetch_jit.cpp
---- mesa-18.2.2.old/src/gallium/drivers/swr/rasterizer/jitter/fetch_jit.cpp	2018-10-05 06:15:58.000000000 -0400
-+++ mesa-18.2.2/src/gallium/drivers/swr/rasterizer/jitter/fetch_jit.cpp	2018-10-09 14:00:49.939043774 -0400
-@@ -294,7 +294,11 @@
+diff --git a/src/gallium/drivers/swr/rasterizer/jitter/builder_misc.cpp b/src/gallium/drivers/swr/rasterizer/jitter/builder_misc.cpp
+index 4116dad443..26d8688f5e 100644
+--- a/src/gallium/drivers/swr/rasterizer/jitter/builder_misc.cpp
++++ b/src/gallium/drivers/swr/rasterizer/jitter/builder_misc.cpp
+@@ -755,15 +755,8 @@ namespace SwrJit
+     Value* Builder::FMADDPS(Value* a, Value* b, Value* c)
+     {
+         Value* vOut;
+-        // use FMADs if available
+-        if (JM()->mArch.AVX2())
+-        {
+-            vOut = VFMADDPS(a, b, c);
+-        }
+-        else
+-        {
+-            vOut = FADD(FMUL(a, b), c);
+-        }
++        // This maps to LLVM fmuladd intrinsic
++        vOut = VFMADDPS(a, b, c);
+         return vOut;
+     }
+
+diff --git a/src/gallium/drivers/swr/rasterizer/jitter/fetch_jit.cpp b/src/gallium/drivers/swr/rasterizer/jitter/fetch_jit.cpp
+index b4d326ebdc..3ad0fabe81 100644
+--- a/src/gallium/drivers/swr/rasterizer/jitter/fetch_jit.cpp
++++ b/src/gallium/drivers/swr/rasterizer/jitter/fetch_jit.cpp
+@@ -294,7 +294,6 @@ Function* FetchJit::Create(const FETCH_COMPILE_STATE& fetchState)
      optPasses.add(createCFGSimplificationPass());
      optPasses.add(createEarlyCSEPass());
      optPasses.add(createInstructionCombiningPass());
-+#if LLVM_VERSION_MAJOR >= 7
-+    optPasses.add(createInstSimplifyLegacyPass());
-+#else
-     optPasses.add(createInstructionSimplifierPass());
-+#endif
+-    optPasses.add(createInstructionSimplifierPass());
      optPasses.add(createConstantPropagationPass());
      optPasses.add(createSCCPPass());
      optPasses.add(createAggressiveDCEPass());
-diff -N -u -r mesa-18.2.2.old/src/gallium/drivers/swr/rasterizer/jitter/functionpasses/lower_x86.cpp mesa-18.2.2/src/gallium/drivers/swr/rasterizer/jitter/functionpasses/lower_x86.cpp
---- mesa-18.2.2.old/src/gallium/drivers/swr/rasterizer/jitter/functionpasses/lower_x86.cpp	2018-10-05 06:15:58.000000000 -0400
-+++ mesa-18.2.2/src/gallium/drivers/swr/rasterizer/jitter/functionpasses/lower_x86.cpp	2018-10-09 14:00:49.940043795 -0400
-@@ -76,7 +76,11 @@
+diff --git a/src/gallium/drivers/swr/rasterizer/jitter/functionpasses/lower_x86.cpp b/src/gallium/drivers/swr/rasterizer/jitter/functionpasses/lower_x86.cpp
+index 7605823c04..c34959d35e 100644
+--- a/src/gallium/drivers/swr/rasterizer/jitter/functionpasses/lower_x86.cpp
++++ b/src/gallium/drivers/swr/rasterizer/jitter/functionpasses/lower_x86.cpp
+@@ -76,7 +76,6 @@ namespace SwrJit
          {"meta.intrinsic.VCVTPS2PH", Intrinsic::x86_vcvtps2ph_256},
          {"meta.intrinsic.VPTESTC", Intrinsic::x86_avx_ptestc_256},
          {"meta.intrinsic.VPTESTZ", Intrinsic::x86_avx_ptestz_256},
-+#if LLVM_VERSION_MAJOR >= 7
-+        {"meta.intrinsic.VFMADDPS", Intrinsic::fma},
-+#else
-         {"meta.intrinsic.VFMADDPS", Intrinsic::x86_fma_vfmadd_ps_256},
-+#endif
+-        {"meta.intrinsic.VFMADDPS", Intrinsic::x86_fma_vfmadd_ps_256},
          {"meta.intrinsic.VPHADDD", Intrinsic::x86_avx2_phadd_d},
          {"meta.intrinsic.PDEP32", Intrinsic::x86_bmi_pdep_32},
          {"meta.intrinsic.RDTSC", Intrinsic::x86_rdtsc},
+diff --git a/src/gallium/drivers/swr/rasterizer/jitter/streamout_jit.cpp b/src/gallium/drivers/swr/rasterizer/jitter/streamout_jit.cpp
+index 8f86af2a4b..11ad36521b 100644
+--- a/src/gallium/drivers/swr/rasterizer/jitter/streamout_jit.cpp
++++ b/src/gallium/drivers/swr/rasterizer/jitter/streamout_jit.cpp
+@@ -306,7 +306,6 @@ struct StreamOutJit : public Builder
+         passes.add(createCFGSimplificationPass());
+         passes.add(createEarlyCSEPass());
+         passes.add(createInstructionCombiningPass());
+-        passes.add(createInstructionSimplifierPass());
+         passes.add(createConstantPropagationPass());
+         passes.add(createSCCPPass());
+         passes.add(createAggressiveDCEPass());
 diff -N -u -r mesa-18.2.2.old/src/gallium/drivers/swr/rasterizer/jitter/gen_builder.hpp mesa-18.2.2/src/gallium/drivers/swr/rasterizer/jitter/gen_builder.hpp
 --- mesa-18.2.2.old/src/gallium/drivers/swr/rasterizer/jitter/gen_builder.hpp	2018-10-05 06:17:03.000000000 -0400
 +++ mesa-18.2.2/src/gallium/drivers/swr/rasterizer/jitter/gen_builder.hpp	1969-12-31 19:00:00.000000000 -0500
