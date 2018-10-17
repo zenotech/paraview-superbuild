@@ -80,5 +80,5 @@ superbuild_apply_patch(${project} sed-flags
   "Fix incompatible sed flags in configure")
 
 # Fix a segfault when swr is not supported
-superbuild_apply_patch(${project} swr-rasterizer-jitter-fix-llvm-7-build-break
-  "Fix llvm7 build failure")
+superbuild_apply_patch(${project} swr-llvm7-support
+  "Fix llvm7 build failure for swr")
