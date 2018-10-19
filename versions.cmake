@@ -123,8 +123,8 @@ superbuild_set_revision(paraviewwebvisualizer
   URL_MD5 999c4031749bbaac7e01149fe3b0c777)
 
 superbuild_set_revision(paraviewweblite
-  URL     "https://www.paraview.org/files/dependencies/paraview-lite-1.1.1.tgz"
-  URL_MD5 c9967db631bc094916386d5b91374545)
+  URL     "https://www.paraview.org/files/dependencies/paraview-lite-1.1.2.tgz"
+  URL_MD5 9a27dc4f9833fd691cb90c26f8b4b335)
 
 superbuild_set_revision(paraviewweblightviz
   URL     "https://www.paraview.org/files/dependencies/light-viz-1.18.1.tar.gz"
