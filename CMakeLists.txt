@@ -320,6 +320,10 @@ set(_superbuild_default_cxx11 ON)
 # set the default for qt5 to be 5.8
 set(_superbuild_qt5_default_selection "5.8")
 
+# Build UCS4 binaries by default. This is more compatible with Linux
+# distributions.
+set(_python_unicode_default "UCS4")
+
 if (NOT EXISTS "${CMAKE_CURRENT_LIST_DIR}/superbuild/CMakeLists.txt")
   message(FATAL_ERROR "It appears as though the superbuild infrastructure "
                       "is missing; did you forget to do `git submodule init` "
