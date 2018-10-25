@@ -83,6 +83,19 @@ changed considerably for 5.2. For older versions, refer to instructions on the
 once you checkout a specfic version, you may want to refer to the README for
 that specific version.
 
+## Incremental builds
+
+The superbuild is kind of naïve for changes to project sources within the
+superbuild. This is due to the superbuild not tracking all source files for
+each project and instead only "stamp files" to indicate the steps performed.
+
+When changing the source of a subproject, the best solution is to delete the
+"stamp file" for the build step of that project:
+
+   $ rm superbuild/$project/stamp/$project-build
+
+and to rerun the superbuild's build step.
+
 ## Projects and Features
 
 The superbuild contains multiple projects which may be used to enable
