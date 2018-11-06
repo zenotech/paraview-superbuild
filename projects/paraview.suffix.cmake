@@ -1,6 +1,10 @@
 # Set suffix to be used for generating archives. This ensures that the package
 # files have decent names that we can directly upload to the website.
 set(package_suffix_items)
+if (osmesa_enabled)
+  list(APPEND package_suffix_items
+    "osmesa")
+endif()
 if (mpi_enabled)
   list(APPEND package_suffix_items
     MPI)
