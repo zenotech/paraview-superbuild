@@ -137,6 +137,7 @@ endfunction ()
 function (_install_superbuild_file type fname)
   get_filename_component(fname_dir "${fname}" DIRECTORY)
   get_filename_component(fname_dir_real "${fname_dir}" REALPATH)
+  get_filename_component(fname_file "${fname}" NAME)
 
   # Verify that what we're installing is from the temporary install tree
   string(SUBSTRING "${fname_dir}" 0 ${real_sbinst_len} fname_dir_prefix)
@@ -150,10 +151,16 @@ function (_install_superbuild_file type fname)
 
   math(EXPR real_sbinst_len_plus_one "${real_sbinst_len} + 1")
   string(SUBSTRING "${fname_dir}" ${real_sbinst_len_plus_one} -1 fname_inst)
+  string(REPLACE "PROGRAMS" "PROGRAM" type "${type}")
   install(
-    "${type}"   "${fname}"
-    DESTINATION "${fname_inst}"
-    COMPONENT   superbuild)
+    CODE "
+      if (NOT EXISTS \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${fname_inst}/${fname_file}\")
+        file(
+          INSTALL DESTINATION \"\${CMAKE_INSTALL_PREFIX}/${fname_inst}\"
+          TYPE ${type}
+          FILES \"${fname}\")
+      endif ()"
+    COMPONENT superbuild)
 endfunction ()
 
 function (install_superbuild_static_library fname)
