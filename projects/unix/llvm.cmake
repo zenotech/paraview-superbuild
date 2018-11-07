@@ -23,5 +23,7 @@ superbuild_add_project(llvm
 
 superbuild_apply_patch(${project} workaround-intel-build-failures
   "Fix build failures with the Intel compiler")
+superbuild_apply_patch(${project} fix-libxml2
+  "Fix -lxml2-not-found problem")
 
 set(llvm_dir "<INSTALL_DIR>")
