@@ -16,6 +16,7 @@ superbuild_add_project(llvm
     -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
     -DLLVM_ENABLE_RTTI=ON
     -DLLVM_INSTALL_UTILS=ON
+    -DLLVM_ENABLE_LIBXML2=OFF
     -DLLVM_TARGETS_TO_BUILD:STRING=X86 # FIXME: When using this on PowerPC,
                                        #        this will need to be updated.
     -DPYTHON_EXECUTABLE=${superbuild_python_executable})
