@@ -253,6 +253,11 @@ if (paraview_SOURCE_SELECTION STREQUAL "5.5.0")
     "Fix issue with building VTK's mpi4py")
 endif ()
 
+if (paraview_SOURCE_SELECTION STREQUAL "5.6.0")
+  superbuild_apply_patch(paraview fix-catalyst-adapter-deps
+    "Fix issue with catalyst adapters and dependency search")
+endif ()
+
 if (WIN32 AND las_enabled)
   superbuild_append_flags(cxx_flags "-DBOOST_ALL_NO_LIB" PROJECT_ONLY)
 endif()
