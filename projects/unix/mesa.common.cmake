@@ -98,5 +98,5 @@ superbuild_apply_patch(${project} sed-flags
   "Fix incompatible sed flags in configure")
 
 # Fix a segfault when swr is not supported
-superbuild_apply_patch(${project} fix-swr-unsupported-segfault
-  "Fix segfault when SWR is used on an unsupported architecture")
+# superbuild_apply_patch(${project} fix-swr-unsupported-segfault
+#  "Fix segfault when SWR is used on an unsupported architecture")
