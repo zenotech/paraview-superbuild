@@ -10,8 +10,8 @@ file(INSTALL ${files}
 
 # Make a fake CUDA library. The installer will skip it, but one needs to be
 # found for the fixup_bundle scripts.
-if (WIN32)
-  file(WRITE "${install_dir}/${dir}/nvcuda.dll" "")
-else ()
-  file(WRITE "${install_dir}/${dir}/libcuda.so.1" "")
-endif ()
+#if (WIN32)
+#  file(WRITE "${install_dir}/${dir}/nvcuda.dll" "")
+#else ()
+#  file(WRITE "${install_dir}/${dir}/libcuda.so.1" "")
+#endif ()
