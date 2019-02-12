@@ -1,20 +1,11 @@
-commit 8c4a262e363b4e01868425a6b445acd516e6273c
-Author: Paul Ferrell <pferrell@lanl.gov>
-Date: Thu, 31 Jan 2019 13:45:56 -0700
-
-The calls to cmake in BuildAdaptors were passing CMAKE_PREFIX_PATH to cmake calls without quoting
-it. That worked fine for when CMAKE_PREFIX_PATH wasn't set or was a single item, but when it was a
-list it broke the builds of the adaptors.
-
 diff --git a/CoProcessing/Adaptors/BuildAdaptors.cmake b/CoProcessing/Adaptors/BuildAdaptors.cmake
-index 9291893..4ff7547 100644
+index 82ddbe95af..4ff75472d1 100644
 --- a/CoProcessing/Adaptors/BuildAdaptors.cmake
 +++ b/CoProcessing/Adaptors/BuildAdaptors.cmake
-@@ -70,7 +70,7 @@ function(build_adaptor name languages)
+@@ -70,6 +70,7 @@ function(build_adaptor name languages)
                              -DCMAKE_CXX_FLAGS:STRING=${CMAKE_CXX_FLAGS}
                              -DCMAKE_LIBRARY_OUTPUT_DIRECTORY:PATH=${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
                              -DCMAKE_RUNTIME_OUTPUT_DIRECTORY:PATH=${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
--                            -DCMAKE_PREFIX_PATH:STRING=${CMAKE_PREFIX_PATH}
 +                            -DCMAKE_PREFIX_PATH:STRING="${CMAKE_PREFIX_PATH}"
                              ${language_options}
                              ${extra_params}
