@@ -30,7 +30,7 @@ foreach (executable IN LISTS paraview_executables)
 endforeach ()
 
 foreach (paraview_plugin IN LISTS paraview_plugins)
-  superbuild_unix_install_plugin("lib${paraview_plugin}.so"
+  superbuild_unix_install_plugin("${paraview_plugin}.so"
     "lib"
     "${paraview_plugin_path}/${paraview_plugin}"
     LOADER_PATHS    "${library_paths}"
