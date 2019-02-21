@@ -11,7 +11,7 @@ include(paraview.bundle.unix)
 
 if (paraview_has_gui)
   install(
-    DIRECTORY   "${superbuild_install_location}/share/appdata"
+    DIRECTORY   "${superbuild_install_location}/share/metainfo"
     DESTINATION "share"
     COMPONENT   "${paraview_component}"
     USE_SOURCE_PERMISSIONS)

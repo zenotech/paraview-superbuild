@@ -26,15 +26,3 @@ foreach (cmake_file IN LISTS cmake_files)
     message(FATAL_ERROR "Failed to patch ${cmake_file}")
   endif ()
 endforeach ()
-
-set(cmake_file "${pv_cmake_dir}/Modules/vtkCommonCore.cmake")
-execute_process(
-  COMMAND
-    ${sed_cmd_prefix}
-    -e "s|${install_location}|\${VTK_INSTALL_PREFIX}|g"
-    ${sed_cmd_suffix}
-    "${cmake_file}"
-  RESULT_VARIABLE RES)
-if (NOT RES EQUAL 0)
-  message(FATAL_ERROR "Failed to patch ${cmake_file}")
-endif ()
