@@ -3,7 +3,7 @@ if (CMAKE_CXX_COMPILER_ID MATCHES "Intel")
     cxx_flags "-diag-disable=177,597,873,1098,1292,2026,3373,3884"
     PROJECT_ONLY)
 endif ()
-set(BUILD_TYPE "x86")
+set(BUILD_TYPE "X86")
 if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "aarch64")
    set(BUILD_TYPE "AArch64")
 endif()
