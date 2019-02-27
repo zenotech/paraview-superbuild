@@ -21,18 +21,6 @@ if (WIN32 OR APPLE OR osmesa_enabled OR egl_enabled)
   set(paraview_use_x OFF)
 endif()
 
-set(paraview_visit_gmv ON)
-if (osmesa_enabled OR egl_enabled)
-  set(paraview_visit_gmv OFF)
-endif ()
-
-set(paraview_mpi4py OFF)
-if (python_enabled AND mpi_enabled)
-  set(paraview_mpi4py ON)
-endif ()
-
-option(PARAVIEW_BUILD_WEB_DOCUMENTATION "Build documentation for the web" OFF)
-
 set(paraview_all_plugins
   vortexfinder2)
 
@@ -133,6 +121,12 @@ endif()
 option(PARAVIEW_ENABLE_MOTIONFX "Enable MotionFX reader, if supported on platform" ON)
 mark_as_advanced(PARAVIEW_ENABLE_MOTIONFX)
 
+if(adios_enabled)
+  set(adios_module_flag "YES")
+else()
+  set(adios_module_flag "NO")
+endif()
+
 superbuild_add_project(paraview
   DEBUGGABLE
   DEFAULT_ON
@@ -148,14 +142,11 @@ superbuild_add_project(paraview
     ${PARAVIEW_EXTERNAL_PROJECTS}
 
   CMAKE_ARGS
-    -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
-    -DBUILD_TESTING:BOOL=OFF
+    -DPARAVIEW_BUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
+    -DPARAVIEW_BUILD_TESTING:BOOL=OFF
     -DCMAKE_INSTALL_LIBDIR:PATH=lib
-    -DPARAVIEW_BUILD_PLUGIN_CoProcessingScriptGenerator:BOOL=ON
-    -DPARAVIEW_BUILD_PLUGIN_EyeDomeLighting:BOOL=ON
-    -DPARAVIEW_BUILD_PLUGIN_OpenVR:BOOL=${openvr_enabled}
+    -DPARAVIEW_PLUGIN_ENABLE_OpenVR:BOOL=${openvr_enabled}
     -DPARAVIEW_BUILD_QT_GUI:BOOL=${qt5_enabled}
-    -DPARAVIEW_ENABLE_QT_SUPPORT:BOOL=${qt5_enabled}
     -DPARAVIEW_ENABLE_FFMPEG:BOOL=${ffmpeg_enabled}
     -DPARAVIEW_ENABLE_PYTHON:BOOL=${PARAVIEW_ENABLE_PYTHON}
     -DPARAVIEW_PYTHON_VERSION:STRING=2
@@ -165,57 +156,45 @@ superbuild_add_project(paraview
     -DPARAVIEW_ENABLE_MOTIONFX:BOOL=${PARAVIEW_ENABLE_MOTIONFX}
     -DPARAVIEW_USE_MPI:BOOL=${mpi_enabled}
     -DPARAVIEW_USE_OSPRAY:BOOL=${ospray_enabled}
-    -DPARAVIEW_USE_VISITBRIDGE:BOOL=${visitbridge_enabled}
-    -DVISIT_BUILD_READER_CGNS:BOOL=OFF # force to off
-    -DVISIT_BUILD_READER_GMV:BOOL=${paraview_visit_gmv}
+    -DPARAVIEW_ENABLE_VISITBRIDGE:BOOL=${visitbridge_enabled}
     -DVISIT_BUILD_READER_Silo:BOOL=${silo_enabled}
     -DVISIT_BUILD_READER_Boxlib3D:BOOL=${boxlib_enabled}
     -DPARAVIEW_INSTALL_DEVELOPMENT_FILES:BOOL=${paraview_install_development_files}
-    -DPARAVIEW_ENABLE_MATPLOTLIB:BOOL=${matplotlib_enabled}
     -DPARAVIEW_FREEZE_PYTHON:BOOL=${PARAVIEW_FREEZE_PYTHON}
-    -DVTK_USE_SYSTEM_NETCDF:BOOL=${netcdf_enabled}
-    -DVTK_USE_SYSTEM_NETCDFCPP:BOOL=${netcdf_built_by_superbuild}
-    -DVTK_USE_SYSTEM_FREETYPE:BOOL=${freetype_enabled}
-    -DVTK_USE_SYSTEM_HDF5:BOOL=${hdf5_enabled}
+    -DVTK_MODULE_USE_EXTERNAL_VTK_netcdf:BOOL=${netcdf_enabled}
+    -DVTK_MODULE_USE_EXTERNAL_VTK_freetype:BOOL=${freetype_enabled}
+    -DVTK_MODULE_USE_EXTERNAL_VTK_hdf5:BOOL=${hdf5_enabled}
     -DHDF5_NO_FIND_PACKAGE_CONFIG_FILE:BOOL=ON
-    -DVTK_USE_SYSTEM_LIBXML2:BOOL=${libxml2_enabled}
-    -DVTK_USE_SYSTEM_PNG:BOOL=${png_enabled}
-    -DVTK_USE_SYSTEM_ZLIB:BOOL=${zlib_enabled}
-    -DVTK_USE_SYSTEM_EXPAT:BOOL=${expat_enabled}
-    -DModule_vtkIOADIOS:BOOL=${adios_enabled}
-    -DModule_vtkmpi4py:BOOL=${paraview_mpi4py}
+    -DVTK_MODULE_USE_EXTERNAL_VTK_libxml2:BOOL=${libxml2_enabled}
+    -DVTK_MODULE_USE_EXTERNAL_VTK_png:BOOL=${png_enabled}
+    -DVTK_MODULE_USE_EXTERNAL_VTK_zlib:BOOL=${zlib_enabled}
+    -DVTK_MODULE_USE_EXTERNAL_VTK_expat:BOOL=${expat_enabled}
+    -DVTK_MODULE_ENABLE_VTK_IOADIOS:BOOL=${adios_module_flag}
     -DVTK_SMP_IMPLEMENTATION_TYPE:STRING=${paraview_smp_backend}
     -DVTK_LEGACY_REMOVE:BOOL=ON
     -DVTK_DEFAULT_RENDER_WINDOW_OFFSCREEN:BOOL=${osmesa_enabled}
     -DVTK_OPENGL_HAS_EGL:BOOL=${egl_enabled}
     -DVTK_OPENGL_HAS_OSMESA:BOOL=${osmesa_enabled}
     -DVTK_USE_X:BOOL=${paraview_use_x}
-    -DVTK_USE_CXX11_FEATURES:BOOL=${cxx11_enabled}
 
     # mesa flags
     -DPARAVIEW_WITH_SUPERBUILD_MESA:BOOL=${paraview_mesa_sb_available}
     -DPARAVIEW_WITH_SUPERBUILD_MESA_SWR:BOOL=${mesa_USE_SWR}
 
     # IndeX
-    -DPARAVIEW_BUILD_PLUGIN_pvNVIDIAIndeX:BOOL=${nvidiaindex_enabled}
+    -DPARAVIEW_PLUGIN_ENABLE_pvNVIDIAIndeX:BOOL=${nvidiaindex_enabled}
 
     # vrpn
-    -DPARAVIEW_BUILD_PLUGIN_VRPlugin:BOOL=${vrpn_enabled}
-    -DPARAVIEW_USE_VRPN:BOOL=${vrpn_enabled}
+    -DPARAVIEW_PLUGIN_ENABLE_VRPlugin:BOOL=${vrpn_enabled}
+    -DPARAVIEW_PLUGIN_VRPlugin_USE_VRPN:BOOL=${vrpn_enabled}
 
     # vtkm
-    -DPARAVIEW_BUILD_PLUGIN_VTKmFilters:BOOL=${vtkm_enabled}
+    -DPARAVIEW_PLUGIN_ENABLE_VTKmFilters:BOOL=${vtkm_enabled}
     -DPARAVIEW_USE_VTKM:BOOL=${vtkm_enabled}
-    -DModule_vtkAcceleratorsVTKm:BOOL=${vtkm_enabled}
-    -DVTKm_ENABLE_CUDA:BOOL=${paraview_enable_cuda}
+    -DVTK_VTKM_ENABLE_CUDA:BOOL=${paraview_enable_cuda}
 
     # Web
     -DPARAVIEW_ENABLE_WEB:BOOL=${paraviewweb_enabled}
-    -DPARAVIEW_BUILD_WEB_DOCUMENTATION:BOOL=${PARAVIEW_BUILD_WEB_DOCUMENTATION}
-
-    # specify the apple app install prefix. No harm in specifying it for all
-    # platforms.
-    -DMACOSX_APP_INSTALL_PREFIX:PATH=<INSTALL_DIR>/Applications
 
     # add additional plugin directories
     -DPARAVIEW_EXTERNAL_PLUGIN_DIRS:STRING=${paraview_plugin_dirs}
