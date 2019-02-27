@@ -1,7 +1,9 @@
+include(paraview-version)
+
 set(paraview_doc_dir "doc")
 set(paraview_data_dir "examples")
 set(paraview_materials_dir "materials")
-set(paraview_plugin_path "bin/plugins")
+set(paraview_plugin_path "bin/paraview-${paraview_version}/plugins")
 include(paraview.bundle.common)
 
 # Set NSIS install specific stuff.
@@ -42,7 +44,7 @@ endforeach()
 
 foreach (paraview_plugin IN LISTS paraview_plugins)
   superbuild_windows_install_plugin("${paraview_plugin}.dll"
-    "${paraview_plugin_path}/${paraview_plugin}" "bin/plugins/${paraview_plugin}" SEARCH_DIRECTORIES
+    "${paraview_plugin_path}/${paraview_plugin}" "${paraview_plugin_path}/${paraview_plugin}" SEARCH_DIRECTORIES
     "${paraview_plugin_path}/${paraview_plugin}" "${library_paths}" "${superbuild_install_location}/bin")
 endforeach ()
 
