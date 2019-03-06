@@ -130,8 +130,10 @@ endif()
 superbuild_add_project(paraview
   DEBUGGABLE
   DEFAULT_ON
+  DEPENDS
+    hdf5
   DEPENDS_OPTIONAL
-    cuda boost hdf5 matplotlib mpi numpy png
+    cuda boost matplotlib mpi numpy png
     python qt5 visitbridge zlib silo las
     xdmf3 ospray vrpn vtkm tbb netcdf
     paraviewgettingstartedguide
