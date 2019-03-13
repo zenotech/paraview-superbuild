@@ -2,7 +2,7 @@ include(paraview-appname)
 set(paraview_doc_dir "${paraview_appname}/Contents/doc")
 set(paraview_data_dir "${paraview_appname}/Contents/examples")
 set(paraview_materials_dir "${paraview_appname}/Contents/materials")
-set(paraview_plugin_path "Applications/paraview.app/Contents/Plugins")
+set(paraview_plugin_path "lib/paraview-${paraview_version}/plugins")
 include(paraview.bundle.common)
 
 if (NOT paraview_has_gui)
@@ -68,7 +68,7 @@ foreach (executable IN LISTS paraview_executables)
   superbuild_apple_install_utility(
     "\${CMAKE_INSTALL_PREFIX}"
     "${paraview_appname}"
-    "${superbuild_install_location}/Applications/paraview.app/Contents/bin/${executable}"
+    "${superbuild_install_location}/bin/${executable}"
     SEARCH_DIRECTORIES "${superbuild_install_location}/lib"
     INCLUDE_REGEXES     ${include_regexes})
 endforeach ()
