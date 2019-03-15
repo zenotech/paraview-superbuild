@@ -53,6 +53,7 @@ function (superbuild_find_projects var)
     netcdf
     numpy
     ospray
+    openimagedenoise
     paraviewweb
     paraviewwebglance
     paraviewweblite
