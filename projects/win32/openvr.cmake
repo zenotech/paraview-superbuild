@@ -13,6 +13,6 @@ superbuild_apply_patch(openvr improve-install
   "Improve OpenVR Install")
 
 superbuild_add_extra_cmake_args(
-  -DOPENVR_INCLUDE_DIR:PATH=<INSTALL_DIR>/include
-  -DOPENVR_LIBRARY:FILEPATH=<INSTALL_DIR>/lib/${CMAKE_STATIC_LIBRARY_PREFIX}openvr_api64${CMAKE_STATIC_LIBRARY_SUFFIX}
+  -DOpenVR_INCLUDE_DIR:PATH=<INSTALL_DIR>/include
+  -DOpenVR_LIBRARY:FILEPATH=<INSTALL_DIR>/lib/${CMAKE_STATIC_LIBRARY_PREFIX}openvr_api64${CMAKE_STATIC_LIBRARY_SUFFIX}
   )
