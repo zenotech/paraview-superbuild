@@ -1,0 +1,12 @@
+diff --git a/ParaViewCore/VTKExtensions/Rendering/vtkIceTCompositePass.cxx b/ParaViewCore/VTKExtensions/Rendering/vtkIceTCompositePass.cxx
+index 636e0e8..8cd79f5 100644
+--- a/ParaViewCore/VTKExtensions/Rendering/vtkIceTCompositePass.cxx
++++ b/ParaViewCore/VTKExtensions/Rendering/vtkIceTCompositePass.cxx
+@@ -960,6 +960,7 @@ void vtkIceTCompositePass::PushIceTDepthBufferToScreen(const vtkRenderState* ren
+   ostate->vtkglColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+ 
+   GLboolean prevDepthTest = ostate->GetEnumState(GL_DEPTH_TEST);
++  ostate->vtkglEnable(GL_DEPTH_TEST);
+ 
+   GLboolean prevDepthMask;
+   ostate->vtkglGetBooleanv(GL_DEPTH_WRITEMASK, &prevDepthMask);
