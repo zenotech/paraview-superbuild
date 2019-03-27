@@ -240,6 +240,8 @@ endif ()
 if (paraview_SOURCE_SELECTION STREQUAL "5.6.0")
   superbuild_apply_patch(paraview fix-catalyst-adapter-deps
     "Fix issue with catalyst adapters and dependency search")
+  superbuild_apply_patch(paraview fix-eye-dome-lighting
+    "Fix eye dome lighting in parallel")
 endif ()
 
 if (WIN32 AND las_enabled)
