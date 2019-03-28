@@ -33,6 +33,12 @@ if (fortran_enabled)
     ".*/libquadmath")
 endif ()
 
+set(additional_libraries)
+if (ospray_enabled)
+  list(APPEND additional_libraries
+    "${superbuild_install_location}/lib/libospray_module_ispc.dylib")
+endif ()
+
 superbuild_apple_create_app(
   "\${CMAKE_INSTALL_PREFIX}"
   "${paraview_appname}"
@@ -40,6 +46,7 @@ superbuild_apple_create_app(
   CLEAN
   PLUGINS ${paraview_plugin_paths}
   SEARCH_DIRECTORIES "${superbuild_install_location}/lib"
+  ADDITIONAL_LIBRARIES ${additional_libraries}
   INCLUDE_REGEXES     ${include_regexes})
 
 set(plugins_file "${CMAKE_CURRENT_BINARY_DIR}/paraview.plugins")
