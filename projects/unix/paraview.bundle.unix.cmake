@@ -156,7 +156,7 @@ if (mpi_built_by_superbuild)
   endforeach ()
 endif ()
 
-if (qt5_enabled)
+if (qt5_enabled AND qt5_plugin_paths)
   file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/qt.conf" "")
   install(
     FILES       "${CMAKE_CURRENT_BINARY_DIR}/qt.conf"
