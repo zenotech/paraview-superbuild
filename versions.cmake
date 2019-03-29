@@ -107,8 +107,8 @@ superbuild_set_revision(embree
   URL_MD5 f414fefe6167ba58102fd0eb06c9ee5b)
 
 superbuild_set_revision(ospray
-  URL     "https://www.paraview.org/files/dependencies/ospray-1.8.2.tar.gz"
-  URL_MD5 8fb04c82927fef9a39903290477912af)
+  URL     "https://www.paraview.org/files/dependencies/ospray-1.8.4.tar.gz"
+  URL_MD5 359a56552d981d057bfbd3e97f4fc0b7)
 
 superbuild_set_revision(ospraymaterials
   URL     "https://www.paraview.org/files/data/OSPRayMaterials-0.1.tar.gz"

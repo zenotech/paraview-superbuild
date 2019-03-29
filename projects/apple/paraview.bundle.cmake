@@ -17,7 +17,7 @@ foreach (paraview_plugin IN LISTS paraview_plugins)
     continue ()
   endif ()
 
-  foreach (path IN ITEMS "" "paraview-${paraview_version}")
+  foreach (path IN ITEMS "" "paraview-${paraview_version}" "paraview-${paraview_version}/plugins/${paraview_plugin}")
     if (EXISTS "${superbuild_install_location}/lib/${path}/lib${paraview_plugin}.dylib")
       list(APPEND paraview_plugin_paths
         "${superbuild_install_location}/lib/${path}/lib${paraview_plugin}.dylib")
