@@ -106,6 +106,11 @@ foreach (paraview_plugin_line IN LISTS paraview_plugin_lines)
     "${paraview_plugin}")
 endforeach ()
 
+if (vortexfinder2_enabled)
+  list(APPEND paraview_plugins
+    VortexFinder)
+endif ()
+
 if (osmesa_built_by_superbuild OR mesa_built_by_superbuild)
   set(mesa_libraries)
   if (mesa_built_by_superbuild)
