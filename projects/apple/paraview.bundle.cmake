@@ -22,6 +22,10 @@ foreach (paraview_plugin IN LISTS paraview_plugins)
       list(APPEND paraview_plugin_paths
         "${superbuild_install_location}/lib/${path}/lib${paraview_plugin}.dylib")
       break ()
+    elseif (EXISTS "${superbuild_install_location}/lib/${path}/${paraview_plugin}.so")
+      list(APPEND paraview_plugin_paths
+        "${superbuild_install_location}/lib/${path}/${paraview_plugin}.so")
+      break ()
     endif ()
   endforeach ()
 endforeach ()
