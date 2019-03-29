@@ -36,5 +36,8 @@ superbuild_add_project(ospray
     -DOSPRAY_MODULE_TACHYON:BOOL=OFF
     -DCMAKE_INSTALL_LIBDIR:STRING=lib)
 
+# https://github.com/ospray/ospray/pull/312
+superbuild_apply_patch(ospray plugin-paths "Open plugins relative to libospray")
+
 superbuild_add_extra_cmake_args(
   -DOSPRAY_INSTALL_DIR:PATH=<INSTALL_DIR>)
