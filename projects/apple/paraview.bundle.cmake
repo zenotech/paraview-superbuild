@@ -17,10 +17,14 @@ foreach (paraview_plugin IN LISTS paraview_plugins)
     continue ()
   endif ()
 
-  foreach (path IN ITEMS "" "paraview-${paraview_version}")
+  foreach (path IN ITEMS "" "paraview-${paraview_version}" "paraview-${paraview_version}/plugins/${paraview_plugin}")
     if (EXISTS "${superbuild_install_location}/lib/${path}/lib${paraview_plugin}.dylib")
       list(APPEND paraview_plugin_paths
         "${superbuild_install_location}/lib/${path}/lib${paraview_plugin}.dylib")
+      break ()
+    elseif (EXISTS "${superbuild_install_location}/lib/${path}/${paraview_plugin}.so")
+      list(APPEND paraview_plugin_paths
+        "${superbuild_install_location}/lib/${path}/${paraview_plugin}.so")
       break ()
     endif ()
   endforeach ()
@@ -33,6 +37,12 @@ if (fortran_enabled)
     ".*/libquadmath")
 endif ()
 
+set(additional_libraries)
+if (ospray_enabled)
+  list(APPEND additional_libraries
+    "${superbuild_install_location}/lib/libospray_module_ispc.dylib")
+endif ()
+
 superbuild_apple_create_app(
   "\${CMAKE_INSTALL_PREFIX}"
   "${paraview_appname}"
@@ -40,6 +50,7 @@ superbuild_apple_create_app(
   CLEAN
   PLUGINS ${paraview_plugin_paths}
   SEARCH_DIRECTORIES "${superbuild_install_location}/lib"
+  ADDITIONAL_LIBRARIES ${additional_libraries}
   INCLUDE_REGEXES     ${include_regexes})
 
 set(plugins_file "${CMAKE_CURRENT_BINARY_DIR}/paraview.plugins")
