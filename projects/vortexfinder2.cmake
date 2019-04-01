@@ -1,5 +1,6 @@
 superbuild_add_project(vortexfinder2
   DEPENDS paraview
+  DEPENDS_OPTIONAL qt5
   CMAKE_ARGS
     -DWITH_PARAVIEW:BOOL=ON
     -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
