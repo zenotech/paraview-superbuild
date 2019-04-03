@@ -10,7 +10,6 @@ superbuild_add_dummy_project(paraviewweb
     paraviewwebglance
     paraviewweblite
     paraviewwebvisualizer
-    paraviewweblightviz
     paraviewwebdivvy
     pythonwslink
     pythonautobahn
