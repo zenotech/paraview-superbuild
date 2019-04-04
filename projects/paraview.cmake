@@ -21,8 +21,7 @@ if (WIN32 OR APPLE OR osmesa_enabled OR egl_enabled)
   set(paraview_use_x OFF)
 endif()
 
-set(paraview_all_plugins
-  vortexfinder2)
+set(paraview_all_plugins)
 
 if (superbuild_build_phase)
   get_property(paraview_plugins GLOBAL

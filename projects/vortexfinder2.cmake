@@ -1,10 +1,17 @@
-paraview_add_plugin(vortexfinder2
-  PLUGIN_NAME VortexFinder2
-  DEPENDS boost qt5 cxx11)
+superbuild_add_project(vortexfinder2
+  DEPENDS paraview
+  DEPENDS_OPTIONAL qt5
+  CMAKE_ARGS
+    -DWITH_PARAVIEW:BOOL=ON
+    -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
+    -DCMAKE_MACOSX_RPATH:BOOL=FALSE
+    -DCMAKE_INSTALL_NAME_DIR:PATH=<INSTALL_DIR>/lib
+    -DCMAKE_INSTALL_LIBDIR:STRING=lib
+    -DPARAVIEW_DO_UNIX_STYLE_INSTALL:BOOL=ON
+    -DWITH_MACOS_RPATH:BOOL=FALSE)
 
-superbuild_add_extra_cmake_args(
-  -DWITH_MACOS_RPATH:BOOL=FALSE)
-
-# https://github.com/hguo/vortexfinder2/pull/9
-superbuild_apply_patch(vortexfinder2 loader-path
-  "Use @loader_path on macOS")
+if (APPLE)
+  # On Apple, only libc++ has the <tuple> header in older SDKs. For the use of
+  # libc++.
+  superbuild_append_flags(cxx_flags -stdlib=libc++ PROJECT_ONLY)
+endif ()
