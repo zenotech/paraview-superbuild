@@ -123,6 +123,12 @@ function (superbuild_find_projects var)
 
   if (USE_NONFREE_COMPONENTS)
     # add non-free projects here.
+    if (WIN32 OR (UNIX AND NOT APPLE))
+      # These are publicly available, but are behind logins or license
+      # acceptances. Rehosted internally at Kitware for build machines.
+      list(APPEND projects
+        nvidiamdl)
+    endif ()
   endif ()
 
   if (WIN32)

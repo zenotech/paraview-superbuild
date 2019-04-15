@@ -167,3 +167,7 @@ superbuild_set_selectable_source(nvidiaindex
   SELECT 2.1
     URL     "http://www.paraview.org/files/dependencies/nvidia-index-libs-2.1.20180314-${nvidiaindex_platform}.tar.bz2"
     URL_MD5 "${nvidiaindex_2_1_md5}")
+
+superbuild_set_revision(nvidiamdl
+  URL     "http://www.paraview.org/files/dependencies/internal/mdl-sdk-314800.830.tar.bz2"
+  URL_MD5 "d500a122918741eb418887d66e03325b")
