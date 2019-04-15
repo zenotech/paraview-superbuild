@@ -127,7 +127,8 @@ function (superbuild_find_projects var)
       # These are publicly available, but are behind logins or license
       # acceptances. Rehosted internally at Kitware for build machines.
       list(APPEND projects
-        nvidiamdl)
+        nvidiamdl
+        nvidiaoptix)
     endif ()
   endif ()
 
