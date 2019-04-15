@@ -182,3 +182,7 @@ superbuild_set_revision(nvidiaoptix
 superbuild_set_revision(nvidiamdl
   URL     "http://www.paraview.org/files/dependencies/internal/mdl-sdk-314800.830.tar.bz2"
   URL_MD5 "d500a122918741eb418887d66e03325b")
+
+superbuild_set_revision(visrtx
+  GIT_REPOSITORY "https://github.com/NVIDIA/VisRTX.git"
+  GIT_TAG        "44fb1a93e44e3af4312f5ee20ba38ab138948acc") # 0.1.5 + patches

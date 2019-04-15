@@ -129,6 +129,10 @@ function (superbuild_find_projects var)
       list(APPEND projects
         nvidiamdl
         nvidiaoptix)
+
+      # These are open source, but require closed SDKs.
+      list(APPEND projects
+        visrtx)
     endif ()
   endif ()
 
