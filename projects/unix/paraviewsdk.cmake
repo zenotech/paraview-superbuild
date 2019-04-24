@@ -9,5 +9,5 @@ endfunction ()
 
 if (paraviewsdk_enabled)
   paraviewsdk_check_system_usage(qt5)
-  paraviewsdk_check_system_usage(mpi)
+  #paraviewsdk_check_system_usage(mpi)
 endif ()
