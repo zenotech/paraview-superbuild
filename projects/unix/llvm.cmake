@@ -3,7 +3,10 @@ if (CMAKE_CXX_COMPILER_ID MATCHES "Intel")
     cxx_flags "-diag-disable=177,597,873,1098,1292,2026,3373,3884"
     PROJECT_ONLY)
 endif ()
-
+set(BUILD_TYPE "X86")
+if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "aarch64")
+   set(BUILD_TYPE "AArch64")
+endif()
 superbuild_add_project(llvm
   CAN_USE_SYSTEM
   DEPENDS python cxx11
@@ -13,7 +16,7 @@ superbuild_add_project(llvm
     -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
     -DLLVM_ENABLE_RTTI=ON
     -DLLVM_INSTALL_UTILS=ON
-    -DLLVM_TARGETS_TO_BUILD:STRING=X86 # FIXME: When using this on PowerPC,
+    -DLLVM_TARGETS_TO_BUILD:STRING=${BUILD_TYPE} # FIXME: When using this on PowerPC,
                                        #        this will need to be updated.
     -DPYTHON_EXECUTABLE=${superbuild_python_executable})
 
