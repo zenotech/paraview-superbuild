@@ -22,7 +22,7 @@ if (PARAVIEW_DEFAULT_SYSTEM_GL OR
 endif ()
 
 foreach (executable IN LISTS paraview_executables)
-  superbuild_unix_install_program_fwd("${executable}"
+  superbuild_unix_install_program("${superbuild_install_location}/bin/${executable}"
     "lib"
     SEARCH_DIRECTORIES  "${library_paths}"
     INCLUDE_REGEXES     ${include_regexes}
