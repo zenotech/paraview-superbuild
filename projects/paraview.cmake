@@ -88,9 +88,9 @@ if (UNIX)
     genericio cosmotools)
 endif ()
 
-set(paraview_mesa_sb_available FALSE)
+set(paraview_mesa_libdir "<LIBDIR>")
 if (PARAVIEW_DEFAULT_SYSTEM_GL AND mesa_enabled)
-  set(paraview_mesa_sb_available TRUE)
+  set(paraview_mesa_libdir "<LIBDIR>/mesa")
 endif ()
 
 if (WIN32)
@@ -181,8 +181,8 @@ superbuild_add_project(paraview
     -DVTK_USE_X:BOOL=${paraview_use_x}
 
     # mesa flags
-    -DPARAVIEW_WITH_SUPERBUILD_MESA:BOOL=${paraview_mesa_sb_available}
-    -DPARAVIEW_WITH_SUPERBUILD_MESA_SWR:BOOL=${mesa_USE_SWR}
+    -DPARAVIEW_BUILD_MESA_LAUNCHER:BOOL=${mesa_enabled}
+    -DPARAVIEW_MESA_LIBDIR:STRING=${paraview_mesa_libdir}
 
     # IndeX
     -DPARAVIEW_PLUGIN_ENABLE_pvNVIDIAIndeX:BOOL=${nvidiaindex_enabled}

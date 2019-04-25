@@ -37,6 +37,10 @@ if (python_enabled)
     pvbatch
     pvpython)
 endif ()
+if (mesa_enabled)
+  list(APPEND paraview_executables
+    paraview-mesa)
+endif ()
 
 set(paraview_has_gui FALSE)
 if (qt5_enabled)
