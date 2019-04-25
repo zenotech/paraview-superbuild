@@ -110,6 +110,30 @@ if (ospray_enabled)
   endforeach ()
 endif ()
 
+if (visrtx_enabled)
+  set(visrtxextra_libraries
+    libVisRTX
+    dds
+    nv_freeimage
+    libmdl_sdk)
+
+  foreach (visrtxextra_library IN LISTS visrtxextra_libraries)
+    file(GLOB lib_filenames
+      RELATIVE "${superbuild_install_location}/lib"
+      "${superbuild_install_location}/lib/${visrtxextra_library}.so*")
+
+    foreach (lib_filename IN LISTS lib_filenames)
+      superbuild_unix_install_plugin("${lib_filename}"
+        "lib"
+        "lib"
+        LOADER_PATHS  "${library_paths}"
+        LOCATION      "lib"
+        SEARCH_DIRECTORIES "/usr/lib64/libglvnd" "/usr/lib/libglvnd"
+        EXCLUDE_REGEXES ".*/libGLX.so.*")
+    endforeach ()
+  endforeach ()
+endif ()
+
 if (python_enabled)
   file(GLOB egg_dirs
     "${superbuild_install_location}/lib/python2.7/site-packages/*.egg/")

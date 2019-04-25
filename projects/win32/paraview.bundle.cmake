@@ -98,6 +98,20 @@ if (ospray_enabled)
   endforeach ()
 endif ()
 
+if (visrtx_enabled)
+  set(visrtxextra_libraries
+    VisRTX
+    dds
+    nv_freeimage
+    mdl_sdk)
+
+  foreach (visrtxextra_library IN LISTS visrtxextra_libraries)
+    superbuild_windows_install_plugin("${visrtxextra_library}.dll"
+      "bin" "bin"
+      SEARCH_DIRECTORIES "${superbuild_install_location}/bin")
+  endforeach ()
+endif ()
+
 if (python_enabled)
   include(python.functions)
   superbuild_install_superbuild_python()
