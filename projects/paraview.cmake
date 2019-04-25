@@ -108,7 +108,7 @@ if (python_enabled AND USE_SYSTEM_python AND NOT python_FIND_LIBRARIES)
   set(PARAVIEW_ENABLE_PYTHON OFF)
 endif()
 
-if (expat_ENABLED)
+if (expat_enabled)
   list(APPEND paraviews_platform_dependencies expat)
 endif ()
 
