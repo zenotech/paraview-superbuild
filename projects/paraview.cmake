@@ -98,6 +98,11 @@ if (WIN32)
     openvr)
 endif ()
 
+if (USE_NONFREE_COMPONENTS AND (WIN32 OR (UNIX AND NOT APPLE)))
+  list(APPEND paraviews_platform_dependencies
+    visrtx)
+endif ()
+
 set(PARAVIEW_ENABLE_PYTHON ${python_enabled})
 if (python_enabled AND USE_SYSTEM_python AND NOT python_FIND_LIBRARIES)
   set(PARAVIEW_ENABLE_PYTHON OFF)
@@ -125,6 +130,11 @@ if(adios_enabled)
 else()
   set(adios_module_flag "NO")
 endif()
+
+set(paraview_use_raytracing OFF)
+if (ospray_enabled OR visrtx_enabled)
+  set(paraview_use_raytracing ON)
+endif ()
 
 superbuild_add_project(paraview
   DEBUGGABLE
@@ -157,8 +167,6 @@ superbuild_add_project(paraview
     -DPARAVIEW_ENABLE_LAS:BOOL=${las_enabled}
     -DPARAVIEW_ENABLE_MOTIONFX:BOOL=${PARAVIEW_ENABLE_MOTIONFX}
     -DPARAVIEW_USE_MPI:BOOL=${mpi_enabled}
-    -DPARAVIEW_USE_OSPRAY:BOOL=${ospray_enabled}
-    -DVTKOSPRAY_ENABLE_DENOISER:BOOL=${openimagedenoise_enabled}
     -DPARAVIEW_ENABLE_VISITBRIDGE:BOOL=${visitbridge_enabled}
     -DVISIT_BUILD_READER_Silo:BOOL=${silo_enabled}
     -DVISIT_BUILD_READER_Boxlib3D:BOOL=${boxlib_enabled}
@@ -183,6 +191,12 @@ superbuild_add_project(paraview
     # mesa flags
     -DPARAVIEW_BUILD_MESA_LAUNCHER:BOOL=${mesa_enabled}
     -DPARAVIEW_MESA_LIBDIR:STRING=${paraview_mesa_libdir}
+
+    # raytracing flags
+    -DPARAVIEW_USE_RAYTRACING:BOOL=${paraview_use_raytracing}
+    -DVTKOSPRAY_ENABLE_DENOISER:BOOL=${openimagedenoise_enabled}
+    -DVTK_ENABLE_OSPRAY:BOOL=${ospray_enabled}
+    -DVTK_ENABLE_VISRTX:BOOL=${visrtx_enabled}
 
     # IndeX
     -DPARAVIEW_PLUGIN_ENABLE_pvNVIDIAIndeX:BOOL=${nvidiaindex_enabled}
