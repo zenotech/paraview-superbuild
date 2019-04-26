@@ -190,10 +190,20 @@ if (qt5_enabled)
   if (WIN32)
     list(APPEND qt5_plugins
       platforms/qwindows)
+
+    if (NOT qt5_version VERSION_LESS "5.10")
+      list(APPEND qt5_plugins
+        styles/qwindowsvistastyle)
+    endif ()
   elseif (APPLE)
     list(APPEND qt5_plugins
       platforms/libqcocoa
       printsupport/libcocoaprintersupport)
+
+    if (NOT qt5_version VERSION_LESS "5.10")
+      list(APPEND qt5_plugins
+        styles/libqmacstyle)
+    endif ()
   elseif (UNIX)
     list(APPEND qt5_plugins
       platforms/libqxcb
