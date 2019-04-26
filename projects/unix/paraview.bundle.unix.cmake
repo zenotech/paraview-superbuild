@@ -157,10 +157,10 @@ if (mpi_built_by_superbuild)
 endif ()
 
 if (qt5_enabled AND qt5_plugin_paths)
-  file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/qt.conf" "")
+  file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/qt.conf" "[Paths]\nPrefix = ..\n")
   install(
     FILES       "${CMAKE_CURRENT_BINARY_DIR}/qt.conf"
-    DESTINATION "lib"
+    DESTINATION "bin"
     COMPONENT   superbuild)
 endif ()
 
@@ -170,7 +170,7 @@ foreach (qt5_plugin_path IN LISTS qt5_plugin_paths)
 
   superbuild_unix_install_plugin("${qt5_plugin_path}"
     "lib"
-    "lib/plugins/${qt5_plugin_group}/"
+    "plugins/${qt5_plugin_group}/"
     LOADER_PATHS    "${library_paths}"
     INCLUDE_REGEXES ${include_regexes}
     EXCLUDE_REGEXES ${exclude_regexes})
