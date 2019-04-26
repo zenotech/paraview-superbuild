@@ -207,7 +207,13 @@ function (superbuild_add_packaging)
   if (USE_SYSTEM_qt5)
     list(APPEND superbuild_export_variables
       Qt5_DIR)
+    find_package(Qt5 QUIET REQUIRED COMPONENTS Core)
+    set(qt5_version "${Qt5Core_VERSION_MAJOR}.${Qt5Core_VERSION_MINOR}")
+  else ()
+    set(qt5_version "${qt5_SOURCE_SELECTION}")
   endif ()
+  list(APPEND superbuild_export_variables
+    qt5_version)
 
   if (NOT DEFINED PARAVIEW_CATALYST_EDITION)
     set(PARAVIEW_CATALYST_EDITION Full)
