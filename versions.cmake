@@ -158,10 +158,10 @@ elseif (UNIX AND NOT APPLE)
   set(nvidiaindex_2_3_md5 "19c7141b26587b013c851e8f94ca0c61")
 endif ()
 superbuild_set_selectable_source(nvidiaindex
-  SELECT 2.3 DEFAULT
+  SELECT 2.3
     URL     "http://www.paraview.org/files/dependencies/nvidia-index-libs-2.3.20190425-${nvidiaindex_platform}.tar.bz2"
     URL_MD5 "${nvidiaindex_2_3_md5}"
-  SELECT 2.2
+  SELECT 2.2 DEFAULT
     URL     "http://www.paraview.org/files/dependencies/nvidia-index-libs-2.2.20181218-${nvidiaindex_platform}.tar.bz2"
     URL_MD5 "${nvidiaindex_2_2_md5}"
   SELECT 2.1
