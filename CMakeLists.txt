@@ -51,6 +51,7 @@ function (superbuild_find_projects var)
     matplotlib
     mpi
     netcdf
+    nlohmannjson
     numpy
     ospray
     openimagedenoise
@@ -324,6 +325,9 @@ set(_git_clone_arguments_default --progress)
 
 # set the default for cxx11 to be enabled for this project
 set(_superbuild_default_cxx11 ON)
+
+# Enable nlohmann_json by default
+set(_superbuild_default_nlohmannjson ON)
 
 # set the default for qt5 to be 5.8
 set(_superbuild_qt5_default_selection "5.8")
