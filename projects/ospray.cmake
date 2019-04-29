@@ -9,8 +9,13 @@ set(ospray_BUILD_ISA "${ospray_isa_default}"
 mark_as_advanced(ospray_BUILD_ISA)
 set_property(CACHE ospray_BUILD_ISA PROPERTY STRINGS SSE AVX AVX2 AVX512KNL AVX512SKX ALL)
 
+set (ospray_depends ispc tbb cxx11 embree ospraymaterials)
+if (NOT APPLE)
+  list(APPEND ospray_depends openimagedenoise)
+endif ()
+
 superbuild_add_project(ospray
-  DEPENDS ispc tbb cxx11 embree ospraymaterials openimagedenoise
+  DEPENDS ${ospray_depends}
   CMAKE_ARGS
     -DTBB_ROOT:PATH=<INSTALL_DIR>
     -DOSPRAY_ISPC_DIRECTORY:PATH=<INSTALL_DIR>/bin
