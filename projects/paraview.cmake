@@ -145,6 +145,7 @@ superbuild_add_project(paraview
     cuda boost matplotlib mpi numpy png
     python qt5 visitbridge zlib silo las
     xdmf3 ospray vrpn vtkm tbb netcdf
+    nlohmannjson
     paraviewgettingstartedguide
     paraviewtutorialdata paraviewweb
     paraviewpluginsexternal
@@ -212,6 +213,9 @@ superbuild_add_project(paraview
 
     # Web
     -DPARAVIEW_ENABLE_WEB:BOOL=${paraviewweb_enabled}
+
+    # ParFlow
+    -DPARAVIEW_PLUGIN_ENABLE_ParFlow:BOOL=${nlohmannjson_enabled}
 
     # add additional plugin directories
     -DPARAVIEW_EXTERNAL_PLUGIN_DIRS:STRING=${paraview_plugin_dirs}
