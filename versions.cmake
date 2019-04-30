@@ -167,3 +167,22 @@ superbuild_set_selectable_source(nvidiaindex
   SELECT 2.1
     URL     "http://www.paraview.org/files/dependencies/nvidia-index-libs-2.1.20180314-${nvidiaindex_platform}.tar.bz2"
     URL_MD5 "${nvidiaindex_2_1_md5}")
+
+if (WIN32)
+  set(nvidiaoptix_platform "win64")
+  set(nvidiaoptix_md5 "1cc3026f4a1fc945e7158e8a66f8f9bd")
+elseif (UNIX AND NOT APPLE)
+  set(nvidiaoptix_platform "linux64")
+  set(nvidiaoptix_md5 "b5e9cdcb691ad7813e4e24986579a1ef")
+endif ()
+superbuild_set_revision(nvidiaoptix
+  URL     "http://www.paraview.org/files/dependencies/internal/NVIDIA-OptiX-SDK-6.0.0-${nvidiaoptix_platform}-25650775.tar.gz"
+  URL_MD5 "${nvidiaoptix_md5}")
+
+superbuild_set_revision(nvidiamdl
+  URL     "http://www.paraview.org/files/dependencies/internal/mdl-sdk-314800.830.tar.bz2"
+  URL_MD5 "d500a122918741eb418887d66e03325b")
+
+superbuild_set_revision(visrtx
+  GIT_REPOSITORY "https://github.com/NVIDIA/VisRTX.git"
+  GIT_TAG        "44fb1a93e44e3af4312f5ee20ba38ab138948acc") # 0.1.5 + patches
