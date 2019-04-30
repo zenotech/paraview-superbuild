@@ -25,8 +25,7 @@ install(
 set(binaries_to_install)
 foreach (paraview_executable IN LISTS paraview_executables)
   list(APPEND binaries_to_install
-    "${superbuild_install_location}/bin/${paraview_executable}"
-    "${superbuild_install_location}/lib/${paraview_executable}")
+    "${superbuild_install_location}/bin/${paraview_executable}")
 endforeach ()
 
 if (python_enabled)
