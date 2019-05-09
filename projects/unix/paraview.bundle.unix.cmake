@@ -117,6 +117,12 @@ if (python_enabled)
   superbuild_install_superbuild_python(
     LIBSUFFIX "/python2.7")
 
+  # Add extra paths to MODULE_DIRECTORIES here (.../local/lib/python2.7/dist-packages)
+  # is a workaround to an issue when building against system python.  When we move to
+  # Python3, we should make sure all the python modules get installed to the same
+  # location to begin with.
+  #
+  # Related issue: https://gitlab.kitware.com/paraview/paraview-superbuild/issues/120
   superbuild_unix_install_python(
     LIBDIR              "lib"
     MODULES             paraview
@@ -126,6 +132,7 @@ if (python_enabled)
     INCLUDE_REGEXES     ${include_regexes}
     EXCLUDE_REGEXES     ${exclude_regexes}
     MODULE_DIRECTORIES  "${superbuild_install_location}/lib/python2.7/site-packages"
+                        "${superbuild_install_location}/local/lib/python2.7/dist-packages"
                         ${egg_dirs}
     LOADER_PATHS        "${library_paths}")
 
