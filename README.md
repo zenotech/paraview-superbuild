@@ -280,6 +280,9 @@ The following flags affect ParaView directly:
     (e.g. mpirun) which in this case it may be desirable to disable this option.
     Note that the `--mpi` or `--no-mpi` command line options to paraview and
     pvpython can be used to override this option.
+  * `PARAVIEW_EXTRA_CMAKE_ARGUMENTS` (default `""`: Extra CMake arguments to
+    pass to ParaView's configure step. This can be used to set CMake variables
+    for the build that are otherwise not exposed in the superbuild itself.
 
 The following flags affect Catalyst:
 
