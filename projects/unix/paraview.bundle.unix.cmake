@@ -156,7 +156,6 @@ if (python_enabled)
     INCLUDE_REGEXES     ${include_regexes}
     EXCLUDE_REGEXES     ${exclude_regexes}
     MODULE_DIRECTORIES  "${superbuild_install_location}/lib/python2.7/site-packages"
-                        "${superbuild_install_location}/local/lib/python2.7/dist-packages"
                         ${egg_dirs}
     LOADER_PATHS        "${library_paths}")
 
