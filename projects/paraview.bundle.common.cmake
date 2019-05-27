@@ -54,6 +54,10 @@ set(python_modules
   pygments
   mpi4py)
 
+if (nlohmannjson_enabled)
+  list(APPEND python_modules parflow)
+endif()
+
 macro (check_for_python_module project module)
   if (${project}_built_by_superbuild)
     list(APPEND python_modules
