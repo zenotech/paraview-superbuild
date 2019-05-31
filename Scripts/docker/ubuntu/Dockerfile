@@ -39,7 +39,7 @@
 #     "master", "v5.6.0", <branch-name>, etc...
 #
 
-ARG BASE_IMAGE=nvidia/opengl:1.0-glvnd-devel-ubuntu16.04
+ARG BASE_IMAGE=nvidia/opengl:1.0-glvnd-devel-ubuntu18.04
 FROM ${BASE_IMAGE}
 
 ARG RENDERING=egl
