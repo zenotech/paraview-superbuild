@@ -64,6 +64,15 @@ if (tbb_built_by_superbuild)
     USE_SOURCE_PERMISSIONS)
 endif ()
 
+# Extra ospray headers that are in the public interface
+if (ospray_built_by_superbuild)
+  install(
+    DIRECTORY   "${superbuild_install_location}/include/ospray"
+    DESTINATION "include/paraview-${paraview_version}"
+    COMPONENT   superbuild
+    USE_SOURCE_PERMISSIONS)
+endif ()
+
 ############################################################
 # The rest of this deals with installing dependencies
 ############################################################
