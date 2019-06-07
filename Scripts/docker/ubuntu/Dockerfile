@@ -38,6 +38,13 @@
 #
 #     "master", "v5.6.0", <branch-name>, etc...
 #
+#   DEV_BUILD
+#
+#     false
+#     true
+#
+#     (default is "false" -> build tree and cmake are removed)
+#
 
 ARG BASE_IMAGE=nvidia/opengl:1.0-glvnd-devel-ubuntu18.04
 FROM ${BASE_IMAGE}
@@ -46,6 +53,7 @@ ARG RENDERING=egl
 ARG PARAVIEW_TAG=v5.6.0
 ARG SUPERBUILD_TAG=v5.6.0
 ARG SUPERBUILD_REPO=https://gitlab.kitware.com/paraview/paraview-superbuild.git
+ARG DEV_BUILD=false
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
         autoconf \
@@ -82,6 +90,6 @@ RUN mkdir -p /home/pv-user/cmake/3.13.4 && cd /home/pv-user/cmake/3.13.4 && \
     mkdir build && cd build && \
     /home/pv-user/cmake/3.13.4/bin/cmake -C /home/pv-user/pvsb/src/cmake/sites/Docker-Ubuntu-18_04.cmake "-GUnix Makefiles" ../src && \
     make -j"$(nproc)" install && \
-    rm -rf /home/pv-user/pvsb && rm -rf /home/pv-user/cmake
+    if [ "${DEV_BUILD}" != "true" ] ; then rm -rf /home/pv-user/pvsb && rm -rf /home/pv-user/cmake ; fi
 
 WORKDIR /opt/paraview
