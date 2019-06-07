@@ -124,6 +124,10 @@ if (matplotlib_enabled)
   paraview_add_python_test("import-matplotlib" "import_matplotlib")
 endif ()
 
+if (mpi_enabled AND python_enabled)
+  paraview_add_python_test("import-mpi4py" "import_mpi4py")
+endif ()
+
 # Test to load various data files to ensure reader support.
 paraview_add_ui_test("data-csg.silo" "TestData-cs_silo"
   "--data=${CMAKE_CURRENT_LIST_DIR}/data/csg.silo")
