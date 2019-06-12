@@ -134,6 +134,10 @@ superbuild_set_revision(paraviewwebglance
   URL     "https://registry.npmjs.org/paraview-glance/-/paraview-glance-3.0.3.tgz"
   URL_MD5 4eacd4ef01f86dcb53d84ef1fb75938f)
 
+superbuild_set_revision(paraviewwebflow
+  URL     "https://registry.npmjs.org/paraview-flow/-/paraview-flow-1.0.5.tgz"
+  URL_MD5 b4f04d98226720b3a554f8f09d5e48b0)
+
 superbuild_set_revision(paraviewwebdivvy
   URL     "https://www.paraview.org/files/dependencies/divvy-1.3.14.tar.gz"
   URL_MD5 e9a0453a057588791e00efede43cfb91)
