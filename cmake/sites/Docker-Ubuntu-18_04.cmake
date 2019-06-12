@@ -22,6 +22,8 @@ if("$ENV{RENDERING}" STREQUAL "egl")
   set(EGL_gldispatch_LIBRARY "/usr/lib/x86_64-linux-gnu/libGLdispatch.so" CACHE FILEPATH "")
   set(EGL_opengl_LIBRARY "/usr/lib/x86_64-linux-gnu/libOpenGL.so" CACHE FILEPATH "")
 
+  set(PARAVIEW_EXTRA_CMAKE_ARGUMENTS "-DOpenGL_GL_PREFERENCE:STRING=GLVND" CACHE STRING "")
+
   # If we're going to have support for EGL, index would be nice too
   set(ENABLE_nvidiaindex OFF CACHE BOOL "")
 else()
