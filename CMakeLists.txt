@@ -340,8 +340,8 @@ set(_superbuild_default_cxx11 ON)
 # Enable nlohmann_json by default
 set(_superbuild_default_nlohmannjson ON)
 
-# set the default for qt5 to be 5.8
-set(_superbuild_qt5_default_selection "5.8")
+# set the default for qt5 to be 5.9
+set(_superbuild_qt5_default_selection "5.9")
 
 # Build UCS4 binaries by default. This is more compatible with Linux
 # distributions.
