@@ -59,6 +59,7 @@ function (superbuild_find_projects var)
     paraviewwebglance
     paraviewweblite
     paraviewwebdivvy
+    paraviewwebflow
     paraviewwebvisualizer
     png
     pythonautobahn
