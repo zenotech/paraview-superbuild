@@ -249,6 +249,9 @@ time.
   * `USE_SYSTEM_xxx` (default `OFF`): If selected, the `xxx` project from the
     build environment is used instead of building it within the superbuild.
     Not all projects support system copies (the flag is not available if so).
+  * `SUPERBUILD_DEBUG_CONFIGURE_STEPS` (default `OFF`): If set, the superbuild
+    will log configure steps for each `xxx` project into
+    `superbuild/xxx/stamp/xxx-configure-*.log` files.
 
 The following flags affect ParaView directly:
 
