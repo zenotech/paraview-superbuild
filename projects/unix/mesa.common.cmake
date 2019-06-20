@@ -71,6 +71,10 @@ superbuild_add_project(${project}
     make install
   BUILD_IN_SOURCE 1)
 
+superbuild_append_flags(ld_flags
+  "-Wl,-rpath,<INSTALL_DIR>/lib/mesa:<INSTALL_DIR>/lib"
+  PROJECT_ONLY)
+
 # For compatibility on machines with a crufty autotools
 superbuild_apply_patch(${project} revert-xz
   "Revert autoconf dist-xz to dist-bzip2")
