@@ -3,8 +3,10 @@ mark_as_advanced(embree_BUILD_ISA)
 
 #by default, turn off very old and very new SIMD instruction sets
 #because they are problematic on our dashboards
-set(embree_allow_sse2 "-DEMBREE_ISA_SSE2:BOOL=OFF")
-set(embree_allow_sse42 "-DEMBREE_ISA_SSE42:BOOL=OFF")
+if (APPLE)
+  set(embree_allow_sse2 "-DEMBREE_ISA_SSE2:BOOL=OFF")
+  set(embree_allow_sse42 "-DEMBREE_ISA_SSE42:BOOL=OFF")
+endif()
 set(embree_allow_skx "-DEMBREE_ISA_AVX512SKX:BOOL=OFF")
 
 #build the list of SIMD instruction sets we will enable
