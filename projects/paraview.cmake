@@ -82,7 +82,7 @@ if (UNIX)
       fontconfig)
   endif ()
   list(APPEND paraviews_platform_dependencies
-    adios ffmpeg libxml2 freetype
+    adios ffmpeg libxml2 freetype mili
 
     # For cosmotools
     genericio cosmotools)
@@ -170,8 +170,9 @@ superbuild_add_project(paraview
     -DPARAVIEW_ENABLE_MOTIONFX:BOOL=${PARAVIEW_ENABLE_MOTIONFX}
     -DPARAVIEW_USE_MPI:BOOL=${mpi_enabled}
     -DPARAVIEW_ENABLE_VISITBRIDGE:BOOL=${visitbridge_enabled}
-    -DVISIT_BUILD_READER_Silo:BOOL=${silo_enabled}
     -DVISIT_BUILD_READER_Boxlib3D:BOOL=${boxlib_enabled}
+    -DVISIT_BUILD_READER_Mili:BOOL=${mili_enabled}
+    -DVISIT_BUILD_READER_Silo:BOOL=${silo_enabled}
     -DPARAVIEW_INSTALL_DEVELOPMENT_FILES:BOOL=${paraview_install_development_files}
     -DPARAVIEW_FREEZE_PYTHON:BOOL=${PARAVIEW_FREEZE_PYTHON}
     -DVTK_MODULE_USE_EXTERNAL_VTK_netcdf:BOOL=${netcdf_enabled}
