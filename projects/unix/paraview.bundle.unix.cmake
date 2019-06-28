@@ -136,12 +136,14 @@ endif ()
 
 if (python_enabled)
   file(GLOB egg_dirs
-    "${superbuild_install_location}/lib/python2.7/site-packages/*.egg/")
-  include(python.functions)
-  superbuild_install_superbuild_python(
-    LIBSUFFIX "/python2.7")
+    "${superbuild_install_location}/lib/python${superbuild_python_version}/site-packages/*.egg/")
+  if (python2_built_by_superbuild)
+    include(python2.functions)
+    superbuild_install_superbuild_python2(
+      LIBSUFFIX "/python${superbuild_python_version}")
+  endif ()
 
-  # Add extra paths to MODULE_DIRECTORIES here (.../local/lib/python2.7/dist-packages)
+  # Add extra paths to MODULE_DIRECTORIES here (.../local/lib/python${superbuild_python_version}/dist-packages)
   # is a workaround to an issue when building against system python.  When we move to
   # Python3, we should make sure all the python modules get installed to the same
   # location to begin with.
@@ -155,14 +157,14 @@ if (python_enabled)
                         ${python_modules}
     INCLUDE_REGEXES     ${include_regexes}
     EXCLUDE_REGEXES     ${exclude_regexes}
-    MODULE_DIRECTORIES  "${superbuild_install_location}/lib/python2.7/site-packages"
+    MODULE_DIRECTORIES  "${superbuild_install_location}/lib/python${superbuild_python_version}/site-packages"
                         ${egg_dirs}
     LOADER_PATHS        "${library_paths}")
 
   if (matplotlib_built_by_superbuild)
     install(
-      DIRECTORY   "${superbuild_install_location}/lib/python2.7/site-packages/matplotlib/mpl-data/"
-      DESTINATION "lib/python2.7/site-packages/matplotlib/mpl-data"
+      DIRECTORY   "${superbuild_install_location}/lib/python${superbuild_python_version}/site-packages/matplotlib/mpl-data/"
+      DESTINATION "lib/python${superbuild_python_version}/site-packages/matplotlib/mpl-data"
       COMPONENT   superbuild)
   endif ()
 endif ()
