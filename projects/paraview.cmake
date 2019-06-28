@@ -104,7 +104,9 @@ if (USE_NONFREE_COMPONENTS AND (WIN32 OR (UNIX AND NOT APPLE)))
 endif ()
 
 set(PARAVIEW_ENABLE_PYTHON ${python_enabled})
-if (python_enabled AND USE_SYSTEM_python AND NOT python_FIND_LIBRARIES)
+if (python_enabled AND
+    ((USE_SYSTEM_python2 AND NOT python2_FIND_LIBRARIES) OR
+     (USE_SYSTEM_python3 AND NOT python3_FIND_LIBRARIES)))
   set(PARAVIEW_ENABLE_PYTHON OFF)
 endif()
 
@@ -143,7 +145,7 @@ superbuild_add_project(paraview
     hdf5
   DEPENDS_OPTIONAL
     cuda boost matplotlib mpi numpy png
-    python qt5 visitbridge zlib silo las
+    python python2 python3 qt5 visitbridge zlib silo las
     xdmf3 ospray vrpn vtkm tbb netcdf
     nlohmannjson
     paraviewgettingstartedguide
@@ -163,7 +165,7 @@ superbuild_add_project(paraview
     -DPARAVIEW_BUILD_QT_GUI:BOOL=${qt5_enabled}
     -DPARAVIEW_ENABLE_FFMPEG:BOOL=${ffmpeg_enabled}
     -DPARAVIEW_ENABLE_PYTHON:BOOL=${PARAVIEW_ENABLE_PYTHON}
-    -DPARAVIEW_PYTHON_VERSION:STRING=2
+    -DPARAVIEW_PYTHON_VERSION:STRING=${python_version}
     -DPARAVIEW_ENABLE_COSMOTOOLS:BOOL=${cosmotools_enabled}
     -DPARAVIEW_ENABLE_XDMF3:BOOL=${xdmf3_enabled}
     -DPARAVIEW_ENABLE_LAS:BOOL=${las_enabled}
