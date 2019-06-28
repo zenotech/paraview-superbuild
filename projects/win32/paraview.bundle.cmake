@@ -113,8 +113,8 @@ if (visrtx_enabled)
 endif ()
 
 if (python_enabled)
-  include(python.functions)
-  superbuild_install_superbuild_python()
+  include(python2.functions)
+  superbuild_install_superbuild_python2()
 
   superbuild_windows_install_python(
     MODULES paraview
@@ -123,7 +123,7 @@ if (python_enabled)
             ${python_modules}
     MODULE_DIRECTORIES  "${superbuild_install_location}/bin/Lib/site-packages"
                         "${superbuild_install_location}/lib/site-packages"
-                        "${superbuild_install_location}/lib/python2.7/site-packages"
+                        "${superbuild_install_location}/lib/python${superbuild_python_version}/site-packages"
                         "${superbuild_install_location}/lib/paraview-${paraview_version_major}.${paraview_version_minor}/site-packages"
     SEARCH_DIRECTORIES  "${superbuild_install_location}/lib"
                         "${superbuild_install_location}/bin")
