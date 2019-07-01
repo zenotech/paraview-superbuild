@@ -98,6 +98,7 @@ function (superbuild_find_projects var)
       fortran
       genericio
       libxml2
+      mili
       mxml
       scipy)
 
