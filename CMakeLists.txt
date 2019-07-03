@@ -5,10 +5,6 @@ project(paraview-superbuild)
 list(INSERT CMAKE_MODULE_PATH 0
   "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
-# Force source selection setting here.
-set(paraview_SOURCE_SELECTION "5.7.0-RC1" CACHE STRING "Force version to 5.7.0-RC1" FORCE)
-set(paraview_FROM_SOURCE_DIR OFF CACHE BOOL "Force source dir off" FORCE)
-
 macro (superbuild_setup_variables)
   include(SuperbuildVersionMacros)
   if (paraview_SOURCE_SELECTION STREQUAL "git")
