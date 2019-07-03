@@ -5,12 +5,16 @@ project(paraview-superbuild)
 list(INSERT CMAKE_MODULE_PATH 0
   "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
+# Force source selection setting here.
+set(paraview_SOURCE_SELECTION "5.7.0-RC1" CACHE STRING "Force version to 5.7.0-RC1" FORCE)
+set(paraview_FROM_SOURCE_DIR OFF CACHE BOOL "Force source dir off" FORCE)
+
 macro (superbuild_setup_variables)
   include(SuperbuildVersionMacros)
   if (paraview_SOURCE_SELECTION STREQUAL "git")
     # Assuming master; just use the latest version, but let the user set their
     # own version in case it is actually a branch from some other version.
-    set(PARAVIEW_VERSION_DEFAULT "5.6.0"
+    set(PARAVIEW_VERSION_DEFAULT "5.7.0"
       CACHE STRING "The default version of ParaView to use if it cannot be detected")
     mark_as_advanced(PARAVIEW_VERSION_DEFAULT)
     set(paraview_default_version "${PARAVIEW_VERSION_DEFAULT}")
