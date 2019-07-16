@@ -33,7 +33,9 @@ function (superbuild_find_projects var)
     cxx11
     paraview
     paraviewpluginsexternal
-    python)
+    python
+    python2
+    python3)
 
   option(USE_NONFREE_COMPONENTS "Enable the non-free parts of the superbuild" OFF)
   mark_as_advanced(USE_NONFREE_COMPONENTS)
