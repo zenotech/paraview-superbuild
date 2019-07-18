@@ -125,6 +125,11 @@ if (mpi_enabled)
     -DPARAVIEW_INITIALIZE_MPI_ON_CLIENT:BOOL=${PARAVIEW_INITIALIZE_MPI_ON_CLIENT})
 endif()
 
+if(APPLE)
+  list(APPEND paraview_extra_cmake_options
+  -DPARAVIEW_DO_UNIX_STYLE_INSTALLS:BOOL=ON)
+endif()
+
 superbuild_add_project(paraview
   DEBUGGABLE
   DEFAULT_ON
@@ -214,21 +219,6 @@ superbuild_add_project(paraview
 
 if (DEFINED CMAKE_BUILD_TYPE_save)
   set(CMAKE_BUILD_TYPE "${CMAKE_BUILD_TYPE_save}")
-endif ()
-
-if (paraview_install_development_files)
-  find_program(SED_EXECUTABLE sed)
-  mark_as_advanced(SED_EXECUTABLE)
-  if (SED_EXECUTABLE)
-    superbuild_project_add_step("fixup-cmake-paths"
-      COMMAND "${CMAKE_COMMAND}"
-              -Dinstall_location:PATH=<INSTALL_DIR>
-              -Dparaview_version:STRING=${paraview_version}
-              -P "${CMAKE_CURRENT_LIST_DIR}/scripts/paraview.fixupcmakepaths.cmake"
-      COMMENT   "Fixing paths in generated CMake files for packaging."
-      DEPENDEES install
-      WORKING_DIRECTORY <INSTALL_DIR>)
-  endif ()
 endif ()
 
 if (paraview_SOURCE_SELECTION STREQUAL "5.3.0")
