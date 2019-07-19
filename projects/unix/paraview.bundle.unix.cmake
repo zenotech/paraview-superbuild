@@ -141,6 +141,10 @@ if (python_enabled)
     include(python2.functions)
     superbuild_install_superbuild_python2(
       LIBSUFFIX "/python${superbuild_python_version}")
+  elseif (python3_built_by_superbuild)
+    include(python3.functions)
+    superbuild_install_superbuild_python3(
+      LIBSUFFIX "/python${superbuild_python_version}")
   endif ()
 
   # Add extra paths to MODULE_DIRECTORIES here (.../local/lib/python${superbuild_python_version}/dist-packages)
