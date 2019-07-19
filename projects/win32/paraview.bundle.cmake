@@ -25,10 +25,15 @@ set(pvpython_description "pvpython ${paraview_version_full} (Python Shell)")
 #set(CPACK_NSIS_MUI_FINISHPAGE_RUN "bin/paraview.exe")
 
 set(library_paths "lib")
-
 if (Qt5_DIR)
   list(APPEND library_paths
     "${Qt5_DIR}/../../../bin")
+endif ()
+
+set(exclude_regexes)
+if (python3_enabled AND NOT python3_built_by_superbuild)
+    list(APPEND exclude_regexes
+        ".*python3[0-9]+.dll")
 endif ()
 
 # Install paraview executables to bin.
@@ -38,14 +43,16 @@ foreach (executable IN LISTS paraview_executables)
       "bin/${executable}.exe" "${${executable}_description}")
   endif ()
 
-  superbuild_windows_install_program("${executable}" "bin" SEARCH_DIRECTORIES
-    "${library_paths}")
+  superbuild_windows_install_program("${executable}" "bin"
+    SEARCH_DIRECTORIES "${library_paths}"
+    EXCLUDE_REGEXES    ${exclude_regexes})
 endforeach()
 
 foreach (paraview_plugin IN LISTS paraview_plugins)
   superbuild_windows_install_plugin("${paraview_plugin}.dll"
-    "${paraview_plugin_path}/${paraview_plugin}" "${paraview_plugin_path}/${paraview_plugin}" SEARCH_DIRECTORIES
-    "${paraview_plugin_path}/${paraview_plugin}" "${library_paths}" "${superbuild_install_location}/bin")
+    "${paraview_plugin_path}/${paraview_plugin}" "${paraview_plugin_path}/${paraview_plugin}"
+    SEARCH_DIRECTORIES "${paraview_plugin_path}/${paraview_plugin}" "${library_paths}" "${superbuild_install_location}/bin"
+    EXCLUDE_REGEXES ${exclude_regexes})
 endforeach ()
 
 set(plugins_file "${CMAKE_CURRENT_BINARY_DIR}/paraview.plugins")
@@ -113,8 +120,10 @@ if (visrtx_enabled)
 endif ()
 
 if (python_enabled)
-  include(python2.functions)
-  superbuild_install_superbuild_python2()
+  if (python2_built_by_superbuild)
+    include(python2.functions)
+    superbuild_install_superbuild_python2()
+  endif ()
 
   superbuild_windows_install_python(
     MODULES paraview
@@ -126,9 +135,10 @@ if (python_enabled)
                         "${superbuild_install_location}/lib/python${superbuild_python_version}/site-packages"
                         "${superbuild_install_location}/lib/paraview-${paraview_version_major}.${paraview_version_minor}/site-packages"
     SEARCH_DIRECTORIES  "${superbuild_install_location}/lib"
-                        "${superbuild_install_location}/bin")
+                        "${superbuild_install_location}/bin"
+    EXCLUDE_REGEXES     ${exclude_regexes})
 
-  if (matplotlib_enabled)
+  if (matplotlib_built_by_superbuild)
     install(
       DIRECTORY   "${superbuild_install_location}/bin/Lib/site-packages/matplotlib/mpl-data/"
       DESTINATION "bin/Lib/site-packages/matplotlib/mpl-data"
@@ -137,15 +147,17 @@ if (python_enabled)
 endif ()
 
 if (paraviewweb_enabled)
-  install(
-    DIRECTORY   "${superbuild_install_location}/bin/Lib/site-packages/win32"
-    DESTINATION "bin/Lib/site-packages"
-    COMPONENT   "superbuild")
-  install(
-    FILES       "${superbuild_install_location}/bin/Lib/site-packages/pywin32.pth"
-                "${superbuild_install_location}/bin/Lib/site-packages/pywin32.version.txt"
-    DESTINATION "bin/Lib/site-packages"
-    COMPONENT   "superbuild")
+  if (pywin32_built_by_superbuild)
+      install(
+        DIRECTORY   "${superbuild_install_location}/bin/Lib/site-packages/win32"
+        DESTINATION "bin/Lib/site-packages"
+        COMPONENT   "superbuild")
+      install(
+        FILES       "${superbuild_install_location}/bin/Lib/site-packages/pywin32.pth"
+                    "${superbuild_install_location}/bin/Lib/site-packages/pywin32.version.txt"
+        DESTINATION "bin/Lib/site-packages"
+        COMPONENT   "superbuild")
+  endif ()
   install(
     DIRECTORY   "${superbuild_install_location}/share/paraview/web"
     DESTINATION "share/paraview-${paraview_version}"
