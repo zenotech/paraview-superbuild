@@ -49,7 +49,6 @@ function (superbuild_find_projects var)
     freetype
     hdf5
     ispc
-    lapack
     las
     matplotlib
     mpi
@@ -65,12 +64,14 @@ function (superbuild_find_projects var)
     paraviewwebflow
     paraviewwebvisualizer
     png
+    pythonattrs
     pythonautobahn
     pythonconstantly
     pythoncycler
     pythondateutil
     pythonhyperlink
     pythonincremental
+    pythonkiwisolver
     pythonmako
     pythonpygments
     pythonpyparsing
@@ -97,9 +98,11 @@ function (superbuild_find_projects var)
   if (UNIX)
     list(APPEND projects
       cosmotools
+      ffi
       ffmpeg
       fortran
       genericio
+      lapack
       libxml2
       mili
       scipy)
