@@ -16,14 +16,6 @@ superbuild_set_revision(mesa
 get_property(mesa_revision GLOBAL PROPERTY mesa_revision)
 superbuild_set_revision(osmesa ${mesa_revision})
 
-superbuild_set_revision(adios
-  URL     "https://www.paraview.org/files/dependencies/adios-1.11.0.tar.gz"
-  URL_MD5 5eead5b2ccf962f5e6d5f254d29d5238)
-
-superbuild_set_revision(mxml
-  URL     "https://www.paraview.org/files/dependencies/mxml-2.9.tar.gz"
-  URL_MD5 e21cad0f7aacd18f942aa0568a8dee19)
-
 superbuild_set_revision(silo
   URL     "https://www.paraview.org/files/dependencies/silo-4.10.2-bsd-smalltest.tar.gz"
   URL_MD5 d2a9023f63de361d91f94646d5d1974e)

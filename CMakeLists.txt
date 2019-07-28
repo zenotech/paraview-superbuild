@@ -94,14 +94,12 @@ function (superbuild_find_projects var)
 
   if (UNIX)
     list(APPEND projects
-      adios
       cosmotools
       ffmpeg
       fortran
       genericio
       libxml2
       mili
-      mxml
       scipy)
 
     if (NOT APPLE)

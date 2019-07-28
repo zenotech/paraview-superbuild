@@ -82,7 +82,7 @@ if (UNIX)
       fontconfig)
   endif ()
   list(APPEND paraviews_platform_dependencies
-    adios ffmpeg libxml2 freetype mili
+    ffmpeg libxml2 freetype mili
 
     # For cosmotools
     genericio cosmotools)
@@ -126,12 +126,6 @@ endif()
 
 option(PARAVIEW_ENABLE_MOTIONFX "Enable MotionFX reader, if supported on platform" ON)
 mark_as_advanced(PARAVIEW_ENABLE_MOTIONFX)
-
-if(adios_enabled)
-  set(adios_module_flag "YES")
-else()
-  set(adios_module_flag "NO")
-endif()
 
 set(paraview_use_raytracing OFF)
 if (ospray_enabled OR visrtx_enabled)
@@ -185,7 +179,6 @@ superbuild_add_project(paraview
     -DVTK_MODULE_USE_EXTERNAL_VTK_png:BOOL=${png_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_zlib:BOOL=${zlib_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_expat:BOOL=${expat_enabled}
-    -DVTK_MODULE_ENABLE_VTK_IOADIOS:BOOL=${adios_module_flag}
     -DVTK_SMP_IMPLEMENTATION_TYPE:STRING=${paraview_smp_backend}
     -DVTK_LEGACY_REMOVE:BOOL=ON
     -DVTK_DEFAULT_RENDER_WINDOW_OFFSCREEN:BOOL=${osmesa_enabled}
