@@ -41,6 +41,7 @@ function (superbuild_find_projects var)
   mark_as_advanced(USE_NONFREE_COMPONENTS)
 
   list(APPEND projects
+    adios2
     boost
     bzip2
     cuda

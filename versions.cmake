@@ -190,3 +190,7 @@ superbuild_set_revision(mili
 superbuild_set_revision(zfp
   URL     "https://www.paraview.org/files/dependencies/zfp-0.5.5.tar.gz"
   URL_MD5 "bc7e5fb1cd4345d17f7b9d470a1f23e7")
+
+superbuild_set_revision(adios2
+  URL     "https://www.paraview.org/files/dependencies/adios2-v2.4.0.tar.gz"
+  URL_MD5 "4b0e66392b5c91cc4822be9ce800a2e8")
