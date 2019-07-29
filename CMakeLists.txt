@@ -41,6 +41,7 @@ function (superbuild_find_projects var)
   mark_as_advanced(USE_NONFREE_COMPONENTS)
 
   list(APPEND projects
+    adios2
     boost
     bzip2
     cuda
@@ -90,18 +91,17 @@ function (superbuild_find_projects var)
     vrpn
     vtkm
     xdmf3
+    zfp
     zlib)
 
   if (UNIX)
     list(APPEND projects
-      adios
       cosmotools
       ffmpeg
       fortran
       genericio
       libxml2
       mili
-      mxml
       scipy)
 
     if (NOT APPLE)
