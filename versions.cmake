@@ -186,3 +186,7 @@ superbuild_set_revision(visrtx
 superbuild_set_revision(mili
   URL     "https://www.paraview.org/files/dependencies/mili-15.1.tar.gz"
   URL_MD5 "8848db9a5e692c010806d64b8c5e46a4")
+
+superbuild_set_revision(zfp
+  URL     "https://www.paraview.org/files/dependencies/zfp-0.5.5.tar.gz"
+  URL_MD5 "bc7e5fb1cd4345d17f7b9d470a1f23e7")
