@@ -1,7 +1,6 @@
-diff --git a/components/ospcommon/common.cpp b/components/ospcommon/common.cpp
-index 70ba1c4..03adfd8 100644
---- a/components/ospcommon/common.cpp
-+++ b/components/ospcommon/common.cpp
+diff -pur src/components/ospcommon/common.cpp src2/components/ospcommon/common.cpp
+--- src/components/ospcommon/common.cpp	2019-07-30 09:29:49.000000000 -0400
++++ src2/components/ospcommon/common.cpp	2019-07-30 09:30:25.000000000 -0400
 @@ -75,6 +75,14 @@ namespace ospcommon {
    {
      return LibraryRepository::getInstance()->getSymbol(name);
@@ -10,30 +9,28 @@ index 70ba1c4..03adfd8 100644
 +  {
 +    return LibraryRepository::getInstance()->getSymbolsLibrary(name);
 +  }
-+  bool libraryExists(const std::string& name)
++  void *getLibrary(const std::string& name)
 +  {
-+    return LibraryRepository::getInstance()->libraryExists(name);
++    return LibraryRepository::getInstance()->getLibrary(name);
 +  }
  
  } // ::ospcommon
  
-diff --git a/components/ospcommon/common.h b/components/ospcommon/common.h
-index 0e0ca66..3a36b1d 100644
---- a/components/ospcommon/common.h
-+++ b/components/ospcommon/common.h
+diff -pur src/components/ospcommon/common.h src2/components/ospcommon/common.h
+--- src/components/ospcommon/common.h	2019-07-30 09:29:49.000000000 -0400
++++ src2/components/ospcommon/common.h	2019-07-30 09:30:25.000000000 -0400
 @@ -89,6 +89,8 @@ namespace ospcommon {
    OSPCOMMON_INTERFACE void loadLibrary(const std::string &name);
    OSPCOMMON_INTERFACE void loadDefaultLibrary();
    OSPCOMMON_INTERFACE void *getSymbol(const std::string &name);
 +  OSPCOMMON_INTERFACE std::string getSymbolsLibrary(const std::string &name);
-+  OSPCOMMON_INTERFACE bool libraryExists(const std::string &name);
++  OSPCOMMON_INTERFACE void *getLibrary(const std::string &name);
  
  #ifdef _WIN32
  #  define osp_snprintf sprintf_s
-diff --git a/components/ospcommon/library.cpp b/components/ospcommon/library.cpp
-index 1d2e582..9aa6f99 100644
---- a/components/ospcommon/library.cpp
-+++ b/components/ospcommon/library.cpp
+diff -pur src/components/ospcommon/library.cpp src2/components/ospcommon/library.cpp
+--- src/components/ospcommon/library.cpp	2019-07-30 09:29:49.000000000 -0400
++++ src2/components/ospcommon/library.cpp	2019-07-30 09:30:25.000000000 -0400
 @@ -316,6 +316,7 @@ namespace ospcommon {
    {
      for (auto &l : repo)
@@ -63,10 +60,23 @@ index 1d2e582..9aa6f99 100644
  
    void LibraryRepository::addDefaultLibrary()
    {
-diff --git a/components/ospcommon/library.h b/components/ospcommon/library.h
-index 3c7cae0..307a7ff 100644
---- a/components/ospcommon/library.h
-+++ b/components/ospcommon/library.h
+@@ -361,6 +376,13 @@ namespace ospcommon {
+     repo["ospray"] = new Library(RTLD_DEFAULT);
+ #endif
+   }
++  void* LibraryRepository::getLibrary(const std::string &name) const
++  {
++    auto lib = repo.find(name);
++    if (lib != repo.end())
++      return lib->second;
++    return nullptr;
++  }
+ 
+   bool LibraryRepository::libraryExists(const std::string &name) const
+   {
+diff -pur src/components/ospcommon/library.h src2/components/ospcommon/library.h
+--- src/components/ospcommon/library.h	2019-07-30 09:29:49.000000000 -0400
++++ src2/components/ospcommon/library.h	2019-07-30 09:30:25.000000000 -0400
 @@ -14,6 +14,8 @@
  // limitations under the License.                                           //
  // ======================================================================== //
@@ -76,7 +86,7 @@ index 3c7cae0..307a7ff 100644
  #include "common.h"
  // std
  #include <map>
-@@ -54,6 +56,9 @@ namespace ospcommon {
+@@ -54,10 +56,14 @@ namespace ospcommon {
        /* returns address of a symbol from any library in the repo */
        void* getSymbol(const std::string& sym) const;
  
@@ -86,10 +96,14 @@ index 3c7cae0..307a7ff 100644
        /* add the default library to the repo */
        void addDefaultLibrary();
  
-diff --git a/ospray/api/objectFactory.h b/ospray/api/objectFactory.h
-index 593f8b1..c902bb2 100644
---- a/ospray/api/objectFactory.h
-+++ b/ospray/api/objectFactory.h
+       bool libraryExists(const std::string &name) const;
++      void* getLibrary(const std::string &name) const;
+ 
+     private:
+       static std::unique_ptr<LibraryRepository> instance;
+diff -pur src/ospray/api/objectFactory.h src2/ospray/api/objectFactory.h
+--- src/ospray/api/objectFactory.h	2019-07-30 09:29:49.000000000 -0400
++++ src2/ospray/api/objectFactory.h	2019-07-30 09:30:25.000000000 -0400
 @@ -17,6 +17,7 @@
  #pragma once
  
@@ -98,25 +112,31 @@ index 593f8b1..c902bb2 100644
  
  #include <map>
  
-@@ -31,10 +32,11 @@ namespace ospray {
+@@ -31,10 +32,15 @@ namespace ospray {
  
      // Function pointers corresponding to each subtype.
      static std::map<std::string, creationFunctionPointer> symbolRegistry;
 +    static std::map<std::string, std::string> symbolsLibRegistry;
++    static std::map<std::string, void* > libRegistry;
      const auto type_string = stringForType(OSP_TYPE);
++    const auto symsLib = symbolsLibRegistry[type];
  
      // Find the creation function for the subtype if not already known.
 -    if (symbolRegistry.count(type) == 0) {
-+    if (symbolRegistry.count(type) == 0 || !libraryExists(symbolsLibRegistry[type])) {
++    if (symbolRegistry.count(type) == 0 ||
++	libRegistry[symsLib] != getLibrary(symsLib)) {
++
        postStatusMsg(2) << "#ospray: trying to look up "
                         << type_string << " type '" << type
                         << "' for the first time";
-@@ -46,6 +48,8 @@ namespace ospray {
+@@ -46,6 +52,10 @@ namespace ospray {
        // Look for the named function.
        symbolRegistry[type] =
            (creationFunctionPointer)getSymbol(creationFunctionName);
 +      symbolsLibRegistry[type] =
 +          getSymbolsLibrary(creationFunctionName);
++      libRegistry[symbolsLibRegistry[type]] =
++          getLibrary(symbolsLibRegistry[type]);
  
        // The named function may not be found if the requested subtype is not
        // known.
