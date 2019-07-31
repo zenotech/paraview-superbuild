@@ -31,9 +31,14 @@ if (Qt5_DIR)
 endif ()
 
 set(exclude_regexes)
-if (python3_enabled AND NOT python3_built_by_superbuild)
+if (python3_enabled)
+  if (python3_built_by_superbuild)
+    list(APPEND library_paths
+      "${superbuild_install_location}/Python")
+  else()
     list(APPEND exclude_regexes
         ".*python3[0-9]+.dll")
+  endif()
 endif ()
 
 # Install paraview executables to bin.
@@ -123,41 +128,54 @@ if (python_enabled)
   if (python2_built_by_superbuild)
     include(python2.functions)
     superbuild_install_superbuild_python2()
+  elseif (python3_built_by_superbuild)
+    include(python3.functions)
+    superbuild_install_superbuild_python3()
   endif ()
+
+  if (python3_enabled)
+    set(python_prefix "Python")
+  else()
+    set(python_prefix "bin")
+  endif()
 
   superbuild_windows_install_python(
     MODULES paraview
             vtk
             vtkmodules
             ${python_modules}
-    MODULE_DIRECTORIES  "${superbuild_install_location}/bin/Lib/site-packages"
+    MODULE_DIRECTORIES  "${superbuild_install_location}/${python_prefix}/Lib/site-packages"
+                        "${superbuild_install_location}/bin/Lib/site-packages"
                         "${superbuild_install_location}/lib/site-packages"
                         "${superbuild_install_location}/lib/python${superbuild_python_version}/site-packages"
                         "${superbuild_install_location}/lib/paraview-${paraview_version_major}.${paraview_version_minor}/site-packages"
     SEARCH_DIRECTORIES  "${superbuild_install_location}/lib"
                         "${superbuild_install_location}/bin"
+                        "${superbuild_install_location}/${python_prefix}"
     EXCLUDE_REGEXES     ${exclude_regexes})
+
 
   if (matplotlib_built_by_superbuild)
     install(
-      DIRECTORY   "${superbuild_install_location}/bin/Lib/site-packages/matplotlib/mpl-data/"
+      DIRECTORY   "${superbuild_install_location}/${python_prefix}/Lib/site-packages/matplotlib/mpl-data/"
       DESTINATION "bin/Lib/site-packages/matplotlib/mpl-data"
       COMPONENT   superbuild)
+  endif ()
+
+  if (pywin32_built_by_superbuild)
+      install(
+        DIRECTORY   "${superbuild_install_location}/${python_prefix}/Lib/site-packages/win32"
+        DESTINATION "bin/Lib/site-packages"
+        COMPONENT   "superbuild")
+      install(
+        FILES       "${superbuild_install_location}/${python_prefix}/Lib/site-packages/pywin32.pth"
+                    "${superbuild_install_location}/${python_prefix}/Lib/site-packages/pywin32.version.txt"
+        DESTINATION "bin/Lib/site-packages"
+        COMPONENT   "superbuild")
   endif ()
 endif ()
 
 if (paraviewweb_enabled)
-  if (pywin32_built_by_superbuild)
-      install(
-        DIRECTORY   "${superbuild_install_location}/bin/Lib/site-packages/win32"
-        DESTINATION "bin/Lib/site-packages"
-        COMPONENT   "superbuild")
-      install(
-        FILES       "${superbuild_install_location}/bin/Lib/site-packages/pywin32.pth"
-                    "${superbuild_install_location}/bin/Lib/site-packages/pywin32.version.txt"
-        DESTINATION "bin/Lib/site-packages"
-        COMPONENT   "superbuild")
-  endif ()
   install(
     DIRECTORY   "${superbuild_install_location}/share/paraview/web"
     DESTINATION "share/paraview-${paraview_version}"
