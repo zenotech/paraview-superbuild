@@ -115,7 +115,7 @@ if (visrtx_enabled)
     VisRTX
     dds
     nv_freeimage
-    mdl_sdk)
+    libmdl_sdk)
 
   foreach (visrtxextra_library IN LISTS visrtxextra_libraries)
     superbuild_windows_install_plugin("${visrtxextra_library}.dll"
