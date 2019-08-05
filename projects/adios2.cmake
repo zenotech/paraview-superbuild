@@ -1,9 +1,9 @@
 superbuild_add_project(adios2
   CAN_USE_SYSTEM
   DEPENDS
-    cxx11
+    cxx11 zfp
   DEPENDS_OPTIONAL
-    mpi zfp
+    mpi
   CMAKE_ARGS
     -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
     -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
