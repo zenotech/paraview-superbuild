@@ -10,6 +10,10 @@ else()
   list(APPEND adios2_extra_args -DPC_LIBFABRIC_FOUND:STRING=IGNORE)
 endif()
 
+if(UNIX)
+  list(APPEND adios2_extra_deps ffi)
+endif()
+
 superbuild_add_project(adios2
   CAN_USE_SYSTEM
   DEPENDS
