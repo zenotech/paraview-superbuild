@@ -116,6 +116,7 @@ function (superbuild_find_projects var)
         fontconfig
         glproto
         gperf
+        libfabric
         llvm
         mesa
         osmesa

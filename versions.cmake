@@ -194,3 +194,7 @@ superbuild_set_revision(zfp
 superbuild_set_revision(adios2
   URL     "https://www.paraview.org/files/dependencies/adios2-v2.4.0.tar.gz"
   URL_MD5 "4b0e66392b5c91cc4822be9ce800a2e8")
+
+superbuild_set_revision(libfabric
+  URL     "http://www.paraview.org/files/dependencies/libfabric-1.8.0.tar.bz2"
+  URL_MD5 "c19c257856cb6e5094e73bf727e2d76c")
