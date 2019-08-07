@@ -50,8 +50,8 @@ ARG BASE_IMAGE=nvidia/opengl:1.0-glvnd-devel-ubuntu18.04
 FROM ${BASE_IMAGE}
 
 ARG RENDERING=egl
-ARG PARAVIEW_TAG=v5.7.0-RC1
-ARG SUPERBUILD_TAG=v5.7.0-RC1
+ARG PARAVIEW_TAG=v5.7.0-RC2
+ARG SUPERBUILD_TAG=v5.7.0-RC2
 ARG SUPERBUILD_REPO=https://gitlab.kitware.com/paraview/paraview-superbuild.git
 ARG DEV_BUILD=false
 
