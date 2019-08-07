@@ -17,6 +17,11 @@ else ()
     "${CMAKE_SYSTEM_NAME}")
 endif ()
 
+if (python_enabled)
+  list(APPEND package_suffix_items
+    "Python${superbuild_python_version}")
+endif ()
+
 # On Windows, we put add MSVC compiler version in the package name
 if (WIN32 AND MSVC)
   if (MSVC_VERSION LESS 1800) # 1800 == VS2013
