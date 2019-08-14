@@ -24,8 +24,9 @@ if("$ENV{RENDERING}" STREQUAL "egl")
 
   set(PARAVIEW_EXTRA_CMAKE_ARGUMENTS "-DOpenGL_GL_PREFERENCE:STRING=GLVND" CACHE STRING "")
 
-  # If we're going to have support for EGL, index would be nice too
+  # If we have support for EGL, index and rtx would be nice eventually too
   set(ENABLE_nvidiaindex OFF CACHE BOOL "")
+  set(ENABLE_visrtx OFF CACHE BOOL "")
 else()
   message('Builing with OSMESA rendering')
   set(ENABLE_osmesa ON CACHE BOOL "")
@@ -51,7 +52,17 @@ set(ENABLE_paraviewtutorialdata OFF CACHE BOOL "")
 
 # Python related
 set(ENABLE_python ON CACHE BOOL "")
-set(USE_SYSTEM_python ON CACHE BOOL "")
+if("$ENV{PYTHON_VERSION}" STREQUAL "2")
+  set(ENABLE_python2 ON CACHE BOOL "")
+  set(USE_SYSTEM_python2 ON CACHE BOOL "")
+  set(ENABLE_python3 OFF CACHE BOOL "")
+  set(USE_SYSTEM_python3 OFF CACHE BOOL "")
+else()
+  set(ENABLE_python2 OFF CACHE BOOL "")
+  set(USE_SYSTEM_python2 OFF CACHE BOOL "")
+  set(ENABLE_python3 ON CACHE BOOL "")
+  set(USE_SYSTEM_python3 ON CACHE BOOL "")
+endif()
 set(USE_SYSTEM_pythonsetuptools ON CACHE BOOL "")
 set(ENABLE_matplotlib ON CACHE BOOL "")
 set(ENABLE_scipy ON CACHE BOOL "")

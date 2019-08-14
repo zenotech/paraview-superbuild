@@ -36,6 +36,22 @@ The option for this are the same as for `SUPERBUILD_TAG`, above.
 
 In order to allow you to preserve both the superbuild build tree as well as the version of `CMake` used during the build, this option accepts a value of `"true"`.  Any other value (including the default of `"false"`) results in the build tree and `CMake` installation getting cleaned out to reduce the final size of the built image.  This option can be helpful if you want to use the resulting `Docker` image to develop plugins against a particular version of ParaView.
 
+#### `PYTHON_VERSION`
+
+While the ParaView Superbuild supports building ParaView with either Python 2 or 3, this option is available to choose the version of system python to install in the container and use in the ParaView build.  The available options are simply `2` or `3`, with `2` being the default.  Due to how ubuntu handles python 2 and 3 packages, we have chosen to embed environment variables in the resulting image that indicate the name of the `pip` program.  These environment variables are defined as follows:
+
+```
+ENV SYSTEM_PYTHON_2_PIP pip
+ENV SYSTEM_PYTHON_3_PIP pip3
+ENV SYSTEM_PYTHON_PIP "SYSTEM_PYTHON_${PYTHON_VERSION}_PIP"
+```
+
+where `${PYTHON_VERSION}` is interpreted from the user-supplied python version.  In this way, a user of the resulting container can determine the appropriate program to use for installing packages by interpolating the `SYSTEM_PYTHON_PIP` environment variable as follows:
+
+```bash
+PIP_CMD="${!SYSTEM_PYTHON_PIP}"
+```
+
 ### Build command-line examples
 
 The simplest build just accepts all the defaults:

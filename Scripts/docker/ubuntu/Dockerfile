@@ -45,6 +45,13 @@
 #
 #     (default is "false" -> build tree and cmake are removed)
 #
+#   PYTHON_VERSION
+#
+#     2
+#     3
+#
+#     (default is "2")
+#
 
 ARG BASE_IMAGE=nvidia/opengl:1.0-glvnd-devel-ubuntu18.04
 FROM ${BASE_IMAGE}
@@ -54,6 +61,16 @@ ARG PARAVIEW_TAG=v5.7.0-RC2
 ARG SUPERBUILD_TAG=v5.7.0-RC2
 ARG SUPERBUILD_REPO=https://gitlab.kitware.com/paraview/paraview-superbuild.git
 ARG DEV_BUILD=false
+ARG PYTHON_VERSION=2
+
+# The following environment variables help with the Python 2 vs 3 option while
+# we still support both of them.  In order for this approach to work, we need
+# the RUN command to use bash instead of sh for variable indirection.
+SHELL ["/bin/bash", "-c"]
+
+ENV SYSTEM_PYTHON_2_PIP pip
+ENV SYSTEM_PYTHON_3_PIP pip3
+ENV SYSTEM_PYTHON_PIP "SYSTEM_PYTHON_${PYTHON_VERSION}_PIP"
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
         autoconf \
@@ -66,12 +83,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         git \
         libtool \
         openssl \
-        python2.7-dev \
-        python-pip \
-        python-setuptools \
         pkg-config && \
+    if [ "${PYTHON_VERSION}" = "2" ]; then apt-get install -y --no-install-recommends python2.7-dev python-pip python-setuptools; fi && \
+    if [ "${PYTHON_VERSION}" = "3" ]; then apt-get install -y --no-install-recommends python3-dev python3-pip python3-setuptools; fi && \
     rm -rf /var/lib/apt/lists/* && \
-    pip install mako
+    ${!SYSTEM_PYTHON_PIP} install mako
 
 # Create a non-root user
 RUN groupadd pv-user && \
