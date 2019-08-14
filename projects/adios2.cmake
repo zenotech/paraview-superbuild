@@ -44,5 +44,7 @@ superbuild_add_project(adios2
     -DEVPATH_TRANSPORT_MODULES:BOOL=OFF
     ${adios2_extra_args})
 
-superbuild_apply_patch(adios2 cmake-update-findmpi
-  "Fix issues with FindMPI in downstream dependees")
+if(adios2_SOURCE_SELECTION STREQUAL "v2.4.0")
+  superbuild_apply_patch(adios2 cmake-update-findmpi
+    "Fix issues with FindMPI in downstream dependees")
+endif()
