@@ -191,9 +191,13 @@ superbuild_set_revision(zfp
   URL     "https://www.paraview.org/files/dependencies/zfp-0.5.5.tar.gz"
   URL_MD5 "bc7e5fb1cd4345d17f7b9d470a1f23e7")
 
-superbuild_set_revision(adios2
-  URL     "https://www.paraview.org/files/dependencies/adios2-v2.4.0.tar.gz"
-  URL_MD5 "4b0e66392b5c91cc4822be9ce800a2e8")
+superbuild_set_selectable_source(adios2
+  SELECT v2.4.0 DEFAULT
+    URL     "https://www.paraview.org/files/dependencies/adios2-v2.4.0.tar.gz"
+    URL_MD5 "4b0e66392b5c91cc4822be9ce800a2e8"
+  SELECT git CUSTOMIZABLE
+    GIT_REPOSITORY "https://github.com/ornladios/ADIOS2.git"
+    GIT_TAG        "origin/master")
 
 superbuild_set_revision(libfabric
   URL     "http://www.paraview.org/files/dependencies/libfabric-1.8.0.tar.bz2"
