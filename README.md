@@ -92,7 +92,7 @@ each project and instead only "stamp files" to indicate the steps performed.
 When changing the source of a subproject, the best solution is to delete the
 "stamp file" for the build step of that project:
 
-   $ rm superbuild/$project/stamp/$project-build
+    $ rm superbuild/$project/stamp/$project-build
 
 and to rerun the superbuild's build step.
 
@@ -325,14 +325,14 @@ easiest way to build all available packages is to run `ctest -R cpack`.
 
 If you have found a bug:
 
-1. If you have a patch, please read the [CONTRIBUTING.md][] document.
+ 1. If you have a patch, please read the [CONTRIBUTING.md][] document.
 
-2. Otherwise, please join one of the [ParaView Mailing Lists][] and ask
-   about the expected and observed behaviors to determine if it is
-   really a bug.
+ 2. Otherwise, please join one of the [ParaView Mailing Lists][] and ask
+    about the expected and observed behaviors to determine if it is
+    really a bug.
 
-3. Finally, if the issue is not resolved by the above steps, open
-   an entry in the [ParaView Issue Tracker][].
+ 3. Finally, if the issue is not resolved by the above steps, open
+    an entry in the [ParaView Issue Tracker][].
 
 [ParaView Issue Tracker]: http://www.paraview.org/Bug
 
