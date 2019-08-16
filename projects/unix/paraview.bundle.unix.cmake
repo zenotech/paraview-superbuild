@@ -29,6 +29,13 @@ foreach (executable IN LISTS paraview_executables)
     EXCLUDE_REGEXES     ${exclude_regexes})
 endforeach ()
 
+if (EXISTS "${superbuild_install_location}/bin/paraview.conf")
+  install(
+    FILES       "${superbuild_install_location}/bin/paraview.conf"
+    DESTINATION "bin"
+    COMPONENT   "runtime")
+endif ()
+
 foreach (paraview_plugin IN LISTS paraview_plugins)
   superbuild_unix_install_plugin("${paraview_plugin}.so"
     "lib"
