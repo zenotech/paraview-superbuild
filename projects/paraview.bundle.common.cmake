@@ -111,7 +111,17 @@ function (paraview_add_plugin output)
   file(WRITE "${output}" "${contents}")
 endfunction ()
 
-file(STRINGS "${superbuild_install_location}/${paraview_plugin_path}/.plugins"
+set(plugin_file_dir
+  "${superbuild_install_location}/${paraview_plugin_path}/")
+if (EXISTS "${plugin_file_dir}/paraview.plugins.xml")
+  set(plugin_file
+    "${plugin_file_dir}/paraview.plugins.xml")
+elseif (EXISTS "${plugin_file_dir}/.plugins")
+  set(plugin_file
+    "${plugin_file_dir}/.plugins")
+endif ()
+
+file(STRINGS "${plugin_file}"
   paraview_plugin_lines
   REGEX "name=\"[A-Za-z0-9]+\"")
 set(paraview_plugins)
