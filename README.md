@@ -155,6 +155,15 @@ then be copied to a non-networked machine and pointed at using the
 `superbuild_download_location` variable (or placed in the default
 location).
 
+Note that the `nvidiaoptix` and `nvidiamdl` project sources are not available
+at their URLs in the superbuild outside of Kitware due to their sources being
+behind click-wrapping. They may be manually downloaded from these web pages:
+
+  * `nvidiaoptix`: https://developer.nvidia.com/designworks/optix/download
+    Though older versions are available here:
+    https://developer.nvidia.com/designworks/optix/downloads/legacy
+  * `nvidiamdl`: https://developer.nvidia.com/mdl-sdk
+
 ## Installing
 
 The superbuild supports the `install` target by selecting a template package
