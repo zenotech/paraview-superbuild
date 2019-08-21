@@ -188,8 +188,8 @@ superbuild_set_revision(nvidiamdl
   URL_MD5 "d500a122918741eb418887d66e03325b")
 
 superbuild_set_revision(visrtx
-  GIT_REPOSITORY "https://github.com/NVIDIA/VisRTX.git"
-  GIT_TAG        "0e2497d6a7dcbb03d159980c067bd7b12fd2ab72") # 0.1.5 + patches
+  URL     "http://www.paraview.org/files/dependencies/visrtx-v0.1.6.tar.gz"
+  URL_MD5 "c5fef9abd9d56bbbf2c222f0b0943e41")
 
 superbuild_set_revision(mili
   URL     "https://www.paraview.org/files/dependencies/mili-15.1.tar.gz"
