@@ -53,7 +53,7 @@ superbuild_apple_create_app(
   ADDITIONAL_LIBRARIES ${additional_libraries}
   INCLUDE_REGEXES     ${include_regexes})
 
-set(plugins_file "${CMAKE_CURRENT_BINARY_DIR}/paraview.plugins")
+set(plugins_file "${CMAKE_CURRENT_BINARY_DIR}/paraview.plugins.xml")
 paraview_add_plugin("${plugins_file}" ${paraview_plugins})
 
 if (EXISTS "${superbuild_install_location}/bin/paraview.conf")
@@ -66,8 +66,7 @@ endif ()
 install(
   FILES       "${plugins_file}"
   DESTINATION "${paraview_appname}/Contents/Plugins"
-  COMPONENT   superbuild
-  RENAME      ".plugins")
+  COMPONENT   superbuild)
 
 install(
   FILES       "${superbuild_install_location}/Applications/paraview.app/Contents/Resources/pvIcon.icns"
