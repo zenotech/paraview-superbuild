@@ -101,6 +101,5 @@ set(ENABLE_fontconfig ON CACHE BOOL "")
 
 # FIXME: We should be able to have these, but they didn't work at some point
 set(ENABLE_vrpn OFF CACHE BOOL "")
-set(ENABLE_boxlib OFF CACHE BOOL "")
 
 set(CTEST_USE_LAUNCHERS TRUE CACHE BOOL "")

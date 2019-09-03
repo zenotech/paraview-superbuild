@@ -152,12 +152,6 @@ if (ospray_enabled)
     "--test-baseline=${CMAKE_CURRENT_LIST_DIR}/baselines/OSPRay.png")
 endif ()
 
-if (boxlib_enabled)
-  paraview_add_ui_test("boxlib3d" "Boxlib3d"
-    "--data=${CMAKE_CURRENT_LIST_DIR}/data/boxlib3d_small/Header.boxlib3d"
-    "--test-baseline=${CMAKE_CURRENT_LIST_DIR}/baselines/Boxlib3d.png")
-endif ()
-
 paraview_add_ui_test("finddata" "TestFindData"
   "--test-baseline=${CMAKE_CURRENT_LIST_DIR}/baselines/Superbuild-TestFindData.png")
 
