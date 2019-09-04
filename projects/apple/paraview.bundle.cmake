@@ -56,9 +56,9 @@ superbuild_apple_create_app(
 set(plugins_file "${CMAKE_CURRENT_BINARY_DIR}/paraview.plugins.xml")
 paraview_add_plugin("${plugins_file}" ${paraview_plugins})
 
-if (EXISTS "${superbuild_install_location}/bin/paraview.conf")
+if (EXISTS "${superbuild_install_location}/Applications/paraview.app/Contents/Resources/paraview.conf")
   install(
-    FILES       "${superbuild_install_location}/bin/paraview.conf"
+    FILES       "${superbuild_install_location}/Applications/paraview.app/Contents/Resources/paraview.conf")
     DESTINATION "${paraview_appname}/Contents/Resources/"
     COMPONENT   "runtime")
 endif ()
