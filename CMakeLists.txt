@@ -109,7 +109,6 @@ function (superbuild_find_projects var)
 
     if (NOT APPLE)
       list(APPEND projects
-        boxlib
         catalyst
         egl
         expat
