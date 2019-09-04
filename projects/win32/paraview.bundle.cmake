@@ -67,14 +67,13 @@ foreach (paraview_plugin IN LISTS paraview_plugins)
     EXCLUDE_REGEXES ${exclude_regexes})
 endforeach ()
 
-set(plugins_file "${CMAKE_CURRENT_BINARY_DIR}/paraview.plugins")
+set(plugins_file "${CMAKE_CURRENT_BINARY_DIR}/paraview.plugins.xml")
 paraview_add_plugin("${plugins_file}" ${paraview_plugins})
 
 install(
   FILES       "${plugins_file}"
   DESTINATION "${paraview_plugin_path}"
-  COMPONENT   superbuild
-  RENAME      ".plugins")
+  COMPONENT   superbuild)
 
 if (nvidiaindex_enabled)
   set(nvidiaindex_libraries

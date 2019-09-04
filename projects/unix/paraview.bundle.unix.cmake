@@ -46,14 +46,13 @@ foreach (paraview_plugin IN LISTS paraview_plugins)
     LOCATION        "${paraview_plugin_path}/${paraview_plugin}/")
 endforeach ()
 
-set(plugins_file "${CMAKE_CURRENT_BINARY_DIR}/paraview.plugins")
+set(plugins_file "${CMAKE_CURRENT_BINARY_DIR}/paraview.plugins.xml")
 paraview_add_plugin("${plugins_file}" ${paraview_plugins})
 
 install(
   FILES       "${plugins_file}"
   DESTINATION ${paraview_plugin_path}
-  COMPONENT   superbuild
-  RENAME      ".plugins")
+  COMPONENT   superbuild)
 
 if (mesa_libraries)
   set(suffix)
