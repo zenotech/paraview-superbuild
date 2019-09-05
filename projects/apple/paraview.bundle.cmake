@@ -56,17 +56,22 @@ superbuild_apple_create_app(
 set(plugins_file "${CMAKE_CURRENT_BINARY_DIR}/paraview.plugins.xml")
 paraview_add_plugin("${plugins_file}" ${paraview_plugins})
 
-if (EXISTS "${superbuild_install_location}/bin/paraview.conf")
-  install(
-    FILES       "${superbuild_install_location}/bin/paraview.conf"
-    DESTINATION "${paraview_appname}/Contents/Resources/"
-    COMPONENT   "runtime")
-endif ()
-
 install(
   FILES       "${plugins_file}"
   DESTINATION "${paraview_appname}/Contents/Plugins"
   COMPONENT   superbuild)
+
+if (EXISTS "${superbuild_install_location}/Applications/paraview.app/Contents/Resources/paraview.conf")
+  # TODO: @ben.boeckel, you may want to clean this up in future, for now
+  # hardcoding the path so the binaries start working again.
+  file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/paraview.conf"
+             "../Plugins/paraview.plugins.xml\n")
+  install(
+    FILES       "${CMAKE_CURRENT_BINARY_DIR}/paraview.conf"
+    DESTINATION "${paraview_appname}/Contents/Resources/"
+    COMPONENT   superbuild)
+endif ()
+
 
 install(
   FILES       "${superbuild_install_location}/Applications/paraview.app/Contents/Resources/pvIcon.icns"
