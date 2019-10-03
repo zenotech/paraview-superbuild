@@ -8,3 +8,7 @@ superbuild_add_project(vrpn
     # with newer CMake binaries. This is easier than a patch.
     -DCMAKE_POLICY_DEFAULT_CMP0053:STRING=NEW
     -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS})
+
+# Backported from upstream commit 70d47fec7e3be85f5f05c8ac5be99dacbd8be257.
+superbuild_apply_patch(vrpn wait3-removal
+  "Remove wait3 usage")
