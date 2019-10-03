@@ -92,7 +92,7 @@ each project and instead only "stamp files" to indicate the steps performed.
 When changing the source of a subproject, the best solution is to delete the
 "stamp file" for the build step of that project:
 
-   $ rm superbuild/$project/stamp/$project-build
+    $ rm superbuild/$project/stamp/$project-build
 
 and to rerun the superbuild's build step.
 
@@ -153,6 +153,15 @@ directory of the build tree.  This superbuild-plus-downloads tree may
 then be copied to a non-networked machine and pointed at using the
 `superbuild_download_location` variable (or placed in the default
 location).
+
+Note that the `nvidiaoptix` and `nvidiamdl` project sources are not available
+at their URLs in the superbuild outside of Kitware due to their sources being
+behind click-wrapping. They may be manually downloaded from these web pages:
+
+  * `nvidiaoptix`: https://developer.nvidia.com/designworks/optix/download
+    Though older versions are available here:
+    https://developer.nvidia.com/designworks/optix/downloads/legacy
+  * `nvidiamdl`: https://developer.nvidia.com/mdl-sdk
 
 ## Installing
 
@@ -324,14 +333,14 @@ easiest way to build all available packages is to run `ctest -R cpack`.
 
 If you have found a bug:
 
-1. If you have a patch, please read the [CONTRIBUTING.md][] document.
+ 1. If you have a patch, please read the [CONTRIBUTING.md][] document.
 
-2. Otherwise, please join one of the [ParaView Mailing Lists][] and ask
-   about the expected and observed behaviors to determine if it is
-   really a bug.
+ 2. Otherwise, please join one of the [ParaView Mailing Lists][] and ask
+    about the expected and observed behaviors to determine if it is
+    really a bug.
 
-3. Finally, if the issue is not resolved by the above steps, open
-   an entry in the [ParaView Issue Tracker][].
+ 3. Finally, if the issue is not resolved by the above steps, open
+    an entry in the [ParaView Issue Tracker][].
 
 [ParaView Issue Tracker]: http://www.paraview.org/Bug
 
