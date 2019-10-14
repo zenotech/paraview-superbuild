@@ -62,10 +62,9 @@ install(
   COMPONENT   superbuild)
 
 if (EXISTS "${superbuild_install_location}/Applications/paraview.app/Contents/Resources/paraview.conf")
-  # TODO: @ben.boeckel, you may want to clean this up in future, for now
-  # hardcoding the path so the binaries start working again.
-  file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/paraview.conf"
-             "../Plugins/paraview.plugins.xml\n")
+  file(READ "${superbuild_install_location}/Applications/paraview.app/Contents/Resources/paraview.conf" conf_contents)
+  string(REGEX REPLACE "[^\n]*/" "../Plugins/" pkg_conf_contents "${conf_contents}")
+  file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/paraview.conf" "${pkg_conf_contents}")
   install(
     FILES       "${CMAKE_CURRENT_BINARY_DIR}/paraview.conf"
     DESTINATION "${paraview_appname}/Contents/Resources/"
