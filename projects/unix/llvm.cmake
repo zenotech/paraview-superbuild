@@ -1,3 +1,30 @@
+set(llvm_TARGETS_TO_BUILD ""
+  CACHE STRING "Codegen architectures for llvm (leave empty for host cpu)")
+mark_as_advanced(llvm_TARGETS_TO_BUILD)
+
+# This lookup table is taken from a subset of architectures targeted by the
+# superbuild from the llvm source in cmake/config-ix.cmake
+if (NOT llvm_TARGETS_TO_BUILD)
+  if ((CMAKE_SYSTEM_PROCESSOR MATCHES "i[2-6]86") OR
+      (CMAKE_SYSTEM_PROCESSOR STREQUAL "x86") OR
+      (CMAKE_SYSTEM_PROCESSOR STREQUAL "amd64") OR
+      (CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64"))
+    set_property(CACHE llvm_TARGETS_TO_BUILD PROPERTY VALUE "X86")
+  elseif (CMAKE_SYSTEM_PROCESSOR MATCHES "sparc")
+    set_property(CACHE llvm_TARGETS_TO_BUILD PROPERTY VALUE "Sparc")
+  elseif ((CMAKE_SYSTEM_PROCESSOR MATCHES "powerpc") OR
+          (CMAKE_SYSTEM_PROCESSOR MATCHES "ppc64le"))
+    set_property(CACHE llvm_TARGETS_TO_BUILD PROPERTY VALUE "PowerPC")
+  elseif ((CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64") OR
+          (CMAKE_SYSTEM_PROCESSOR MATCHES "arm64"))
+    set_property(CACHE llvm_TARGETS_TO_BUILD PROPERTY VALUE "AArch64")
+  elseif (CMAKE_SYSTEM_PROCESSOR MATCHES "arm")
+    set_property(CACHE llvm_TARGETS_TO_BUILD PROPERTY VALUE "ARM")
+  else ()
+    message(FATAL_ERROR "Unsupported llvm target: ${CMAKE_SYSTEM_PROCESSOR}")
+  endif ()
+endif ()
+
 if (CMAKE_CXX_COMPILER_ID MATCHES "Intel")
   superbuild_append_flags(
     c_flags   "-diag-disable=11074,11076"
@@ -6,20 +33,6 @@ if (CMAKE_CXX_COMPILER_ID MATCHES "Intel")
     cxx_flags "-diag-disable=68,177,188,191,597,654,873,1098,1125,1292,1875,2026,3373,3656,3884,11074,11076"
     PROJECT_ONLY)
 endif ()
-
-# Check the target processor to configure LLVM properly. Possible
-# targets are: AArch64, AMDGPU, ARM, BPF, Hexagon, Mips, MSP430,
-# NVPTX, PowerPC, Sparc, SystemZ, X86, XCore.
-# See https://llvm.org/docs/GettingStarted.html.
-string(TOLOWER "${CMAKE_SYSTEM_PROCESSOR}" cmake_system_processor)
-if (cmake_system_processor MATCHES "x.*64")
-  set(target_architecture "X86")
-elseif (cmake_system_processor MATCHES "ppc64")
-  set(target_architecture "PowerPC")
-else()
-  message(FATAL_ERROR
-    "Could not configure LLVM for the target system processor '${CMAKE_SYSTEM_PROCESSOR}'.")
-endif()
 
 superbuild_add_project(llvm
   CAN_USE_SYSTEM
@@ -31,7 +44,7 @@ superbuild_add_project(llvm
     -DLLVM_ENABLE_RTTI=ON
     -DLLVM_INSTALL_UTILS=ON
     -DLLVM_ENABLE_LIBXML2=OFF
-    -DLLVM_TARGETS_TO_BUILD:STRING=${target_architecture}
+    -DLLVM_TARGETS_TO_BUILD:STRING=${llvm_TARGETS_TO_BUILD}
     -DPYTHON_EXECUTABLE=${superbuild_python_executable})
 
 
