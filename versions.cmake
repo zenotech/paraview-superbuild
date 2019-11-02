@@ -115,24 +115,24 @@ superbuild_set_revision(openvr
   URL_MD5 062a029869423808aebc32f85edf38e2)
 
 superbuild_set_revision(paraviewwebvisualizer
-  URL     "https://www.paraview.org/files/dependencies/visualizer-3.1.10.tar.gz"
-  URL_MD5 999c4031749bbaac7e01149fe3b0c777)
+  URL     "https://www.paraview.org/files/dependencies/pvw-visualizer-3.2.0.tgz"
+  URL_MD5 363e2dff0ed5efe96aadb783cdca6ba0)
 
 superbuild_set_revision(paraviewweblite
-  URL     "https://www.paraview.org/files/dependencies/paraview-lite-1.2.1.tgz"
-  URL_MD5 1bc268619117f8539fcce1dfb6a43722)
+  URL     "https://www.paraview.org/files/dependencies/paraview-lite-1.4.3.tgz"
+  URL_MD5 2e5b5ce704c0bcacf31f9bd79c779f7d)
 
 superbuild_set_revision(paraviewwebglance
-  URL     "https://registry.npmjs.org/paraview-glance/-/paraview-glance-3.0.3.tgz"
-  URL_MD5 4eacd4ef01f86dcb53d84ef1fb75938f)
+  URL     "https://www.paraview.org/files/dependencies/paraview-glance-3.5.10.tgz"
+  URL_MD5 b8307fcdbabacd8fd3ca471eab33353a)
 
 superbuild_set_revision(paraviewwebflow
-  URL     "https://registry.npmjs.org/paraview-flow/-/paraview-flow-1.0.5.tgz"
-  URL_MD5 b4f04d98226720b3a554f8f09d5e48b0)
+  URL     "https://www.paraview.org/files/dependencies/paraview-flow-1.0.7.tgz"
+  URL_MD5 50843ec3338687011a1d42018fde325d)
 
 superbuild_set_revision(paraviewwebdivvy
-  URL     "https://www.paraview.org/files/dependencies/divvy-1.3.14.tar.gz"
-  URL_MD5 e9a0453a057588791e00efede43cfb91)
+  URL     "https://www.paraview.org/files/dependencies/pvw-divvy-1.3.16.tgz"
+  URL_MD5 481b18eb7b087a45e0269b7496b6b4db)
 
 superbuild_set_revision(las
   URL     "https://www.paraview.org/files/dependencies/libLAS-1.8.1.tar.bz2"
