@@ -86,6 +86,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         pkg-config && \
     if [ "${PYTHON_VERSION}" = "2" ]; then apt-get install -y --no-install-recommends python2.7-dev python-pip python-setuptools; fi && \
     if [ "${PYTHON_VERSION}" = "3" ]; then apt-get install -y --no-install-recommends python3-dev python3-pip python3-setuptools; fi && \
+    if [ "${PYTHON_VERSION}" = "3" ]; then update-alternatives --install /usr/bin/python python /usr/bin/python3 1; fi && \
     rm -rf /var/lib/apt/lists/* && \
     ${!SYSTEM_PYTHON_PIP} install mako
 
