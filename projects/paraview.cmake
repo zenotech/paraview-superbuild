@@ -42,18 +42,6 @@ if (superbuild_build_phase)
   string(REPLACE ";" "${_superbuild_list_separator}" paraview_plugin_dirs "${paraview_plugin_dirs}")
 endif ()
 
-if (NOT CMAKE_CONFIGURATION_TYPES AND NOT WIN32)
-  set(PARAVIEW_BUILD_TYPE ""
-    CACHE STRING "ParaView's build mode")
-  mark_as_advanced(PARAVIEW_BUILD_TYPE)
-  if (NOT PARAVIEW_BUILD_TYPE)
-    set(PARAVIEW_BUILD_TYPE "${CMAKE_BUILD_TYPE}")
-  endif ()
-
-  set(CMAKE_BUILD_TYPE_save "${CMAKE_BUILD_TYPE}")
-  set(CMAKE_BUILD_TYPE "${PARAVIEW_BUILD_TYPE}")
-endif ()
-
 set(paraview_smp_backend "Sequential")
 if (tbb_enabled)
   set(paraview_smp_backend "TBB")
@@ -218,10 +206,6 @@ superbuild_add_project(paraview
     ${paraview_extra_cmake_options}
 
     ${PARAVIEW_EXTRA_CMAKE_ARGUMENTS})
-
-if (DEFINED CMAKE_BUILD_TYPE_save)
-  set(CMAKE_BUILD_TYPE "${CMAKE_BUILD_TYPE_save}")
-endif ()
 
 if (paraview_install_development_files)
   find_program(SED_EXECUTABLE sed)
