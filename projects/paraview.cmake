@@ -118,13 +118,31 @@ if (ospray_enabled OR visrtx_enabled)
   set(paraview_use_raytracing ON)
 endif ()
 
+# add an option to override ParaView shared-libs flag.
+set(BUILD_SHARED_LIBS_paraview "<same>"
+  CACHE STRING "The shared/static build flag for the paraview project.")
+set_property(CACHE "BUILD_SHARED_LIBS_paraview"
+  PROPERTY
+    STRINGS "<same>;ON;OFF")
+get_property(build_shared_options
+  CACHE     "BUILD_SHARED_LIBS_paraview"
+  PROPERTY  STRINGS)
+if (NOT BUILD_SHARED_LIBS_paraview IN_LIST build_shared_options)
+  string(REPLACE ";" ", " build_shared_options "${build_shared_options}")
+  message(FATAL_ERROR "BUILD_SHARED_LIBS_paraview must be one of: ${build_shared_options}.")
+endif ()
+
+if (BUILD_SHARED_LIBS_paraview STREQUAL "<same>")
+  set(paraview_build_shared_libs "${BUILD_SHARED_LIBS}")
+else ()
+  set(paraview_build_shared_libs "${BUILD_SHARED_LIBS_paraview}")
+endif ()
+
 superbuild_add_project(paraview
   DEBUGGABLE
   DEFAULT_ON
-  DEPENDS
-    hdf5
   DEPENDS_OPTIONAL
-    adios2 cuda boost matplotlib mpi numpy png
+    adios2 cuda boost hdf5 matplotlib mpi numpy png
     python python2 python3 qt5 visitbridge zlib silo las
     xdmf3 ospray vrpn vtkm tbb netcdf
     nlohmannjson
@@ -136,7 +154,7 @@ superbuild_add_project(paraview
     ${PARAVIEW_EXTERNAL_PROJECTS}
 
   CMAKE_ARGS
-    -DPARAVIEW_BUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
+    -DPARAVIEW_BUILD_SHARED_LIBS:BOOL=${paraview_build_shared_libs}
     -DPARAVIEW_BUILD_TESTING:BOOL=OFF
     -DCMAKE_INSTALL_LIBDIR:PATH=lib
     -DCMAKE_INSTALL_NAME_DIR:PATH=<INSTALL_DIR>/lib

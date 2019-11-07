@@ -279,6 +279,12 @@ The following flags affect ParaView directly:
   * `CMAKE_BUILD_TYPE_paraview` (default is the same as the superbuild):
     ParaView may be built with a different build type (e.g., `Release` vs.
     `RelWithDebInfo`) as the rest of the superbuild using this variable.
+  * `BUILD_SHARED_LIBS_paraview` (default is the same as the superbuild):
+    ParaView may be built with a different selection for BUILD_SHARED_LIBS flag
+    than the rest of the superbuild using this variable. For example,
+    to build ParaView static while building other projects in the superbuild
+    (e.g. MPI, Python, etc.) as shared, set `BUILD_SHARED_LIBS` to `ON`
+    and `BUILD_SHARED_LIBS_paraview` to `OFF`.
   * `PARAVIEW_BUILD_WEB_DOCUMENTATION` (default `OFF`): Have ParaView build
     its HTML documentation.
   * `mesa_USE_SWR` (default `ON`): If `mesa` is enabled, this enables
