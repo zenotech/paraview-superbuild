@@ -42,18 +42,6 @@ if (superbuild_build_phase)
   string(REPLACE ";" "${_superbuild_list_separator}" paraview_plugin_dirs "${paraview_plugin_dirs}")
 endif ()
 
-if (NOT CMAKE_CONFIGURATION_TYPES AND NOT WIN32)
-  set(PARAVIEW_BUILD_TYPE ""
-    CACHE STRING "ParaView's build mode")
-  mark_as_advanced(PARAVIEW_BUILD_TYPE)
-  if (NOT PARAVIEW_BUILD_TYPE)
-    set(PARAVIEW_BUILD_TYPE "${CMAKE_BUILD_TYPE}")
-  endif ()
-
-  set(CMAKE_BUILD_TYPE_save "${CMAKE_BUILD_TYPE}")
-  set(CMAKE_BUILD_TYPE "${PARAVIEW_BUILD_TYPE}")
-endif ()
-
 set(paraview_smp_backend "Sequential")
 if (tbb_enabled)
   set(paraview_smp_backend "TBB")
@@ -130,13 +118,31 @@ if (ospray_enabled OR visrtx_enabled)
   set(paraview_use_raytracing ON)
 endif ()
 
+# add an option to override ParaView shared-libs flag.
+set(BUILD_SHARED_LIBS_paraview "<same>"
+  CACHE STRING "The shared/static build flag for the paraview project.")
+set_property(CACHE "BUILD_SHARED_LIBS_paraview"
+  PROPERTY
+    STRINGS "<same>;ON;OFF")
+get_property(build_shared_options
+  CACHE     "BUILD_SHARED_LIBS_paraview"
+  PROPERTY  STRINGS)
+if (NOT BUILD_SHARED_LIBS_paraview IN_LIST build_shared_options)
+  string(REPLACE ";" ", " build_shared_options "${build_shared_options}")
+  message(FATAL_ERROR "BUILD_SHARED_LIBS_paraview must be one of: ${build_shared_options}.")
+endif ()
+
+if (BUILD_SHARED_LIBS_paraview STREQUAL "<same>")
+  set(paraview_build_shared_libs "${BUILD_SHARED_LIBS}")
+else ()
+  set(paraview_build_shared_libs "${BUILD_SHARED_LIBS_paraview}")
+endif ()
+
 superbuild_add_project(paraview
   DEBUGGABLE
   DEFAULT_ON
-  DEPENDS
-    hdf5
   DEPENDS_OPTIONAL
-    adios2 cuda boost matplotlib mpi numpy png
+    adios2 cuda boost hdf5 matplotlib mpi numpy png
     python python2 python3 qt5 visitbridge zlib silo las
     xdmf3 ospray vrpn vtkm tbb netcdf
     nlohmannjson
@@ -148,7 +154,7 @@ superbuild_add_project(paraview
     ${PARAVIEW_EXTERNAL_PROJECTS}
 
   CMAKE_ARGS
-    -DPARAVIEW_BUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
+    -DPARAVIEW_BUILD_SHARED_LIBS:BOOL=${paraview_build_shared_libs}
     -DPARAVIEW_BUILD_TESTING:BOOL=OFF
     -DCMAKE_INSTALL_LIBDIR:PATH=lib
     -DCMAKE_INSTALL_NAME_DIR:PATH=<INSTALL_DIR>/lib
@@ -218,10 +224,6 @@ superbuild_add_project(paraview
     ${paraview_extra_cmake_options}
 
     ${PARAVIEW_EXTRA_CMAKE_ARGUMENTS})
-
-if (DEFINED CMAKE_BUILD_TYPE_save)
-  set(CMAKE_BUILD_TYPE "${CMAKE_BUILD_TYPE_save}")
-endif ()
 
 if (paraview_install_development_files)
   find_program(SED_EXECUTABLE sed)
