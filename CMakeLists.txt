@@ -322,10 +322,13 @@ set(qt5_skip_modules
   qtwebsockets)
 
 set(boost_libraries
+  atomic
+  chrono
   date_time
   filesystem
   iostreams
   program_options
+  regex
   system
   thread)
 set(boost_extra_options
