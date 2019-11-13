@@ -19,6 +19,7 @@ From: ubuntu:18.04
     SUPERBUILD_REPO=https://gitlab.kitware.com/paraview/paraview-superbuild.git
     DEV_BUILD=false
     PYTHON_VERSION=2
+    BUILD_TYPE=Release
 
     # First install some packages we need
     echo "\ndeb http://us.archive.ubuntu.com/ubuntu/ bionic universe\n" >> /etc/apt/sources.list
@@ -54,6 +55,7 @@ From: ubuntu:18.04
     export PARAVIEW_TAG=${PARAVIEW_TAG}
     export RENDERING=${RENDERING}
     export PYTHON_VERSION=${PYTHON_VERSION}
+    export BUILD_TYPE=${BUILD_TYPE}
 
     # Configure/build/install ParaView
     /home/pv-user/cmake/3.13.4/bin/cmake -C /home/pv-user/pvsb/src/cmake/sites/Docker-Ubuntu-18_04.cmake "-GUnix Makefiles" ../src

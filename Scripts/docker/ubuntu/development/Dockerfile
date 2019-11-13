@@ -38,19 +38,16 @@
 #
 #     "master", "v5.6.0", <branch-name>, etc...
 #
-#   DEV_BUILD
-#
-#     false
-#     true
-#
-#     (default is "false" -> build tree and cmake are removed)
-#
 #   PYTHON_VERSION
 #
 #     2
 #     3
 #
 #     (default is "2")
+#
+#   BUILD_TYPE
+#
+#     "Release", or "Debug" (Default: "Release")
 #
 
 ARG BASE_IMAGE=nvidia/opengl:1.0-glvnd-devel-ubuntu18.04
@@ -60,8 +57,8 @@ ARG RENDERING=egl
 ARG PARAVIEW_TAG=v5.7.0
 ARG SUPERBUILD_TAG=v5.7.0
 ARG SUPERBUILD_REPO=https://gitlab.kitware.com/paraview/paraview-superbuild.git
-ARG DEV_BUILD=false
 ARG PYTHON_VERSION=2
+ARG BUILD_TYPE=Release
 
 # The following environment variables help with the Python 2 vs 3 option while
 # we still support both of them.  In order for this approach to work, we need
@@ -98,15 +95,24 @@ RUN groupadd pv-user && \
 
 USER pv-user
 
-# Get CMake, then clone the ParaView superbuild project
+# Get CMake
 RUN mkdir -p /home/pv-user/cmake/3.13.4 && cd /home/pv-user/cmake/3.13.4 && \
-    curl -L https://cmake.org/files/v3.13/cmake-3.13.4-Linux-x86_64.tar.gz | tar --strip-components=1 -xzv && \
-    mkdir -p /home/pv-user/pvsb && cd /home/pv-user/pvsb && \
+    curl -L https://cmake.org/files/v3.13/cmake-3.13.4-Linux-x86_64.tar.gz | tar --strip-components=1 -xzv
+
+# Clone the superbuild
+RUN mkdir -p /home/pv-user/pvsb/build && cd /home/pv-user/pvsb && \
     git clone --recursive ${SUPERBUILD_REPO} src && \
-    cd src && git checkout ${SUPERBUILD_TAG} && git submodule update && cd .. && \
-    mkdir build && cd build && \
-    /home/pv-user/cmake/3.13.4/bin/cmake -C /home/pv-user/pvsb/src/cmake/sites/Docker-Ubuntu-18_04.cmake "-GUnix Makefiles" ../src && \
-    make -j"$(nproc)" install && \
-    if [ "${DEV_BUILD}" != "true" ] ; then rm -rf /home/pv-user/pvsb && rm -rf /home/pv-user/cmake ; fi
+    cd src && git checkout ${SUPERBUILD_TAG} && git submodule update
+
+WORKDIR /home/pv-user/pvsb/build
+
+# Configure
+RUN /home/pv-user/cmake/3.13.4/bin/cmake -C /home/pv-user/pvsb/src/cmake/sites/Docker-Ubuntu-18_04.cmake "-GUnix Makefiles" ../src
+
+# Build
+RUN make -j"$(nproc)"
+
+# Install
+RUN make -j"$(nproc)" install
 
 WORKDIR /opt/paraview

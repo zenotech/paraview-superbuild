@@ -1,16 +1,29 @@
 # Introduction
 
-The goal of this document is to describe the `Dockerfile` in this directory and how to use it to build, deploy, and run a variety of ParaView Docker images.
+The goal of this document is to describe the various Docker images that can be built using the files within this directory and how to build, deploy, and run them.
+
+There are two different `Dockerfiles` included here, one for building development images, the other for building runtime images on top of the development images.
 
 The basic idea of the `Dockerfile` is that it will first install some packages needed for running the ParaView Superbuild, then clone the superbuild and use the `CMake` initial cache located in `cmake/sites/Docker-Ubuntu-18_04.cmake` to provide the build options.
 
+Images built from the development `Dockerfile` are useful for building custom plugins against a target version of ParaView, as well as for debugging broken builds.  In the development images, cmake is left in place, as well as the entire filesystem used during the superbuild (including build tree, downloads, etc.).  Additionally, the `Dockerfile` is split into many run commands, so that if part of the build fails, you can get into the container resulting from the previous step and investigate.
+
+Images built from the runtime `Dockerfile` are multi-stage builds that rely both on the base container of the development images, as well as the development images themselves.  These images only take the paraview install tree from the development image, resulting the smallest possible runtime container.
+
 ## Building images
 
-This section describes building the ParaView `Docker` images using the `Dockerfile` in this directory.
+This section describes building the ParaView `Docker` images using the `Dockerfiles` in this directory.  The basic idea is to first build the development image, experiment with it until you are convinced you have a working build, then build the runtime image on top of it.  Here is a simple example of building both images:
 
-### Description of build arguments
+```
+cd Scripts/docker/ubuntu/development
+docker build -t pv-release-egl-py2-devel .
+cd ../runtime
+docker build --build-arg PV_DEV_BASE_IMAGE=pv-release-egl-py2-devel -t pv-release-egl-py2-runtime
+```
 
-The `Dockerfile` accepts several build arguments (provided in the form `--build-arg OPTION=VALUE`) allowing the user to specify the following build options:
+### Description of development build arguments
+
+The development `Dockerfile` accepts several build arguments (provided in the form `--build-arg OPTION=VALUE`) allowing the user to specify the following build options:
 
 #### `BASE_IMAGE`
 
@@ -51,6 +64,22 @@ where `${PYTHON_VERSION}` is interpreted from the user-supplied python version. 
 ```bash
 PIP_CMD="${!SYSTEM_PYTHON_PIP}"
 ```
+
+### Description of runtime build arguments
+
+The runtime `Dockerfile` accepts only three arguments, and this section describes the constraints on those options.  The runtime build uses the development image built previously as the first stage in the build, so that we can later take the build tree from that image.  The second stage starts from a clean base image, and applies a subset of the packages and steps used to build the development image, so that the libraries needed by ParaView will be found in the expected locations.
+
+#### `BASE_IMAGE`
+
+This argument must be the same as was used for the `BASE_IMAGE` for the development build.
+
+#### 'PV_DEV_BASE_IMAGE'
+
+This argument should be the tag used when creating the development image previously.
+
+#### 'PYTHON_VERSION'
+
+This argument must be the same as the one used to create the development image previously.
 
 ### Build command-line examples
 
