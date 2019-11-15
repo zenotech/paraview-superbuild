@@ -353,6 +353,17 @@ set(_superbuild_default_nlohmannjson ON)
 # set the default for qt5 to be 5.9
 set(_superbuild_qt5_default_selection "5.9")
 
+# ParaView's superbuild does not support static-everywhere builds. But let
+# people around the check if they want it.
+if (NOT PARAVIEW_I_WANT_EVERYTHING_STATIC)
+  set(_superbuild_no_static_everywhere ON)
+endif ()
+if (NOT BUILD_SHARED_LIBS AND _superbuild_no_static_everywhere)
+  message(FATAL_ERROR
+    "Setting BUILD_SHARED_LIBS=OFF is almost certainly what you want. Maybe "
+    "you want the `BUILD_SHARED_LIBS_paraview=OFF` option?")
+endif ()
+
 # Build UCS4 binaries by default. This is more compatible with Linux
 # distributions.
 set(_python_unicode_default "UCS4")
