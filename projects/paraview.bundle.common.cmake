@@ -121,15 +121,17 @@ elseif (EXISTS "${plugin_file_dir}/.plugins")
     "${plugin_file_dir}/.plugins")
 endif ()
 
-file(STRINGS "${plugin_file}"
-  paraview_plugin_lines
-  REGEX "name=\"[A-Za-z0-9]+\"")
 set(paraview_plugins)
-foreach (paraview_plugin_line IN LISTS paraview_plugin_lines)
-  string(REGEX REPLACE ".*name=\"\([A-Za-z0-9]+\)\".*" "\\1" paraview_plugin "${paraview_plugin_line}")
-  list(APPEND paraview_plugins
-    "${paraview_plugin}")
-endforeach ()
+if (paraview_is_shared)
+  file(STRINGS "${plugin_file}"
+    paraview_plugin_lines
+    REGEX "name=\"[A-Za-z0-9]+\"")
+  foreach (paraview_plugin_line IN LISTS paraview_plugin_lines)
+    string(REGEX REPLACE ".*name=\"\([A-Za-z0-9]+\)\".*" "\\1" paraview_plugin "${paraview_plugin_line}")
+    list(APPEND paraview_plugins
+      "${paraview_plugin}")
+  endforeach ()
+endif ()
 
 if (vortexfinder2_enabled)
   list(APPEND paraview_plugins
