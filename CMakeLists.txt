@@ -238,6 +238,12 @@ function (superbuild_add_packaging)
     set(PARAVIEW_CATALYST_EDITION Full)
   endif ()
 
+  if (BUILD_SHARED_LIBS_paraview STREQUAL "<same>")
+    set(paraview_is_shared "${BUILD_SHARED_LIBS}")
+  else ()
+    set(paraview_is_shared "${BUILD_SHARED_LIBS_paraview}")
+  endif ()
+
   include(paraview.suffix)
   list(APPEND superbuild_export_variables
     mesa_USE_SWR
@@ -245,7 +251,8 @@ function (superbuild_add_packaging)
     nvidiaindex_SOURCE_SELECTION
     PARAVIEW_DEFAULT_SYSTEM_GL
     PARAVIEW_PACKAGE_SUFFIX
-    PARAVIEW_CATALYST_EDITION)
+    PARAVIEW_CATALYST_EDITION
+    paraview_is_shared)
 
   if (paraview_enabled)
     set(PARAVIEW_PACKAGE_FILE_NAME ""
