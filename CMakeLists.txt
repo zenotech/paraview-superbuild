@@ -365,6 +365,7 @@ set(_superbuild_qt5_default_selection "5.9")
 if (NOT PARAVIEW_I_WANT_EVERYTHING_STATIC)
   set(_superbuild_no_static_everywhere ON)
 endif ()
+option(BUILD_SHARED_LIBS "Build shared or static libs" ON)
 if (NOT BUILD_SHARED_LIBS AND _superbuild_no_static_everywhere)
   message(FATAL_ERROR
     "Setting BUILD_SHARED_LIBS=OFF is almost certainly what you want. Maybe "
