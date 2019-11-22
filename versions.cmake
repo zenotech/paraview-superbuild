@@ -202,3 +202,8 @@ superbuild_set_selectable_source(adios2
 superbuild_set_revision(libfabric
   URL     "http://www.paraview.org/files/dependencies/libfabric-1.8.0.tar.bz2"
   URL_MD5 "c19c257856cb6e5094e73bf727e2d76c")
+
+superbuild_set_revision(protobuf
+  GIT_REPOSITORY "https://github.com/protocolbuffers/protobuf"
+  GIT_TAG 2.7.0
+  SOURCE_SUBDIR cmake)

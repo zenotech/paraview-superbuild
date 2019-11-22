@@ -64,6 +64,7 @@ function (superbuild_find_projects var)
     paraviewwebflow
     paraviewwebvisualizer
     png
+    protobuf
     pythonattrs
     pythonautobahn
     pythonconstantly
