@@ -368,8 +368,8 @@ endif ()
 option(BUILD_SHARED_LIBS "Build shared or static libs" ON)
 if (NOT BUILD_SHARED_LIBS AND _superbuild_no_static_everywhere)
   message(FATAL_ERROR
-    "Setting BUILD_SHARED_LIBS=OFF is almost certainly what you want. Maybe "
-    "you want the `BUILD_SHARED_LIBS_paraview=OFF` option?")
+    "Setting BUILD_SHARED_LIBS=OFF is almost certainly what you don't want. "
+    "Maybe you want the `BUILD_SHARED_LIBS_paraview=OFF` option?")
 endif ()
 
 # Build UCS4 binaries by default. This is more compatible with Linux
