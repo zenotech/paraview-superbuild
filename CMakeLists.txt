@@ -167,10 +167,6 @@ function (superbuild_sanity_check)
     message(WARNING "ParaView is disabled...")
   endif ()
 
-  include(qt.functions)
-
-  superbuild_qt_sanity_check()
-
   # Sanity check: Cannot have paraview and have cxx11 disabled.
   if (NOT cxx11_enabled AND paraview_enabled)
     #While ParaView doesn't depend on cxx11 it needs to make sure that
