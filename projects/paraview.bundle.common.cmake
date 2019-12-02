@@ -37,6 +37,10 @@ if (python_enabled)
     pvbatch
     pvpython)
 endif ()
+if (mesa_enabled)
+  list(APPEND paraview_executables
+    paraview-mesa)
+endif ()
 
 set(paraview_has_gui FALSE)
 if (qt5_enabled)
@@ -50,6 +54,10 @@ set(python_modules
   pygments
   mpi4py)
 
+if (nlohmannjson_enabled)
+  list(APPEND python_modules parflow)
+endif()
+
 macro (check_for_python_module project module)
   if (${project}_built_by_superbuild)
     list(APPEND python_modules
@@ -58,8 +66,12 @@ macro (check_for_python_module project module)
 endmacro ()
 
 check_for_python_module(numpy numpy)
+check_for_python_module(numpy pkg_resources)
 check_for_python_module(scipy scipy)
+check_for_python_module(pythonkiwisolver kiwisolver)
 check_for_python_module(matplotlib matplotlib)
+check_for_python_module(matplotlib mpl_toolkits)
+check_for_python_module(pythonattrs attr)
 check_for_python_module(pythonpygments pygments)
 check_for_python_module(pythonsix six)
 check_for_python_module(pythonautobahn autobahn)
@@ -79,7 +91,11 @@ if (WIN32)
   check_for_python_module(pywin32 adodbapi)
   check_for_python_module(pywin32 isapi)
   check_for_python_module(pywin32 pythoncom)
+  check_for_python_module(pywin32 pythonwin)
+  check_for_python_module(pywin32 pywin32_system32)
+  check_for_python_module(pywin32 win32)
   check_for_python_module(pywin32 win32com)
+  check_for_python_module(pywin32 win32comext)
 endif ()
 
 function (paraview_add_plugin output)
@@ -95,15 +111,32 @@ function (paraview_add_plugin output)
   file(WRITE "${output}" "${contents}")
 endfunction ()
 
-file(STRINGS "${superbuild_install_location}/${paraview_plugin_path}/.plugins"
-  paraview_plugin_lines
-  REGEX "name=\"[A-Za-z0-9]+\"")
+set(plugin_file_dir
+  "${superbuild_install_location}/${paraview_plugin_path}/")
+if (EXISTS "${plugin_file_dir}/paraview.plugins.xml")
+  set(plugin_file
+    "${plugin_file_dir}/paraview.plugins.xml")
+elseif (EXISTS "${plugin_file_dir}/.plugins")
+  set(plugin_file
+    "${plugin_file_dir}/.plugins")
+endif ()
+
 set(paraview_plugins)
-foreach (paraview_plugin_line IN LISTS paraview_plugin_lines)
-  string(REGEX REPLACE ".*name=\"\([A-Za-z0-9]+\)\".*" "\\1" paraview_plugin "${paraview_plugin_line}")
+if (paraview_is_shared)
+  file(STRINGS "${plugin_file}"
+    paraview_plugin_lines
+    REGEX "name=\"[A-Za-z0-9]+\"")
+  foreach (paraview_plugin_line IN LISTS paraview_plugin_lines)
+    string(REGEX REPLACE ".*name=\"\([A-Za-z0-9]+\)\".*" "\\1" paraview_plugin "${paraview_plugin_line}")
+    list(APPEND paraview_plugins
+      "${paraview_plugin}")
+  endforeach ()
+endif ()
+
+if (vortexfinder2_enabled)
   list(APPEND paraview_plugins
-    "${paraview_plugin}")
-endforeach ()
+    VortexFinder)
+endif ()
 
 if (osmesa_built_by_superbuild OR mesa_built_by_superbuild)
   set(mesa_libraries)
@@ -180,10 +213,20 @@ if (qt5_enabled)
   if (WIN32)
     list(APPEND qt5_plugins
       platforms/qwindows)
+
+    if (NOT qt5_version VERSION_LESS "5.10")
+      list(APPEND qt5_plugins
+        styles/qwindowsvistastyle)
+    endif ()
   elseif (APPLE)
     list(APPEND qt5_plugins
       platforms/libqcocoa
       printsupport/libcocoaprintersupport)
+
+    if (NOT qt5_version VERSION_LESS "5.10")
+      list(APPEND qt5_plugins
+        styles/libqmacstyle)
+    endif ()
   elseif (UNIX)
     list(APPEND qt5_plugins
       platforms/libqxcb

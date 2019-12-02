@@ -1,0 +1,18 @@
+diff -u -U5 -r libLAS-1.8.1/CMakeLists.txt libLAS-1.8.1.allow-rpath/CMakeLists.txt
+--- libLAS-1.8.1/CMakeLists.txt	2016-08-22 09:07:43.000000000 -0400
++++ libLAS-1.8.1.allow-rpath/CMakeLists.txt	2019-06-19 14:16:23.676522239 -0400
+@@ -75,14 +75,10 @@
+ set(CMAKE_MODULE_PATH "${libLAS_SOURCE_DIR}/cmake/modules" ${CMAKE_MODULE_PATH})
+ if (CMAKE_MAJOR_VERSION GREATER 2)
+     cmake_policy(SET CMP0042 OLD)
+ endif()
+ 
+-if (CMAKE_SYSTEM_NAME MATCHES "Linux")
+-set(CMAKE_SKIP_RPATH ON)
+-endif()
+-
+ ###############################################################################
+ # General build settings
+ 
+ # Default to debug mode until final 1.6.0 release
+ if(NOT MSVC_IDE)

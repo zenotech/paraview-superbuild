@@ -9,7 +9,7 @@ option(mesa_USE_SWR "Enable the OpenSWR driver" "${mesa_swr_default}")
 mark_as_advanced(mesa_USE_SWR)
 
 set(mesa_SWR_ARCH "avx,avx2"
-  CACHE STRING "backend architectures to be used by Sthe SWR driver")
+  CACHE STRING "backend architectures to be used by the SWR driver")
 mark_as_advanced(mesa_USE_SWR_ARCH)
 set_property(CACHE mesa_SWR_ARCH PROPERTY STRINGS
   "avx" "avx2" "knl" "skx"
@@ -23,26 +23,6 @@ if (mesa_USE_SWR)
   set(mesa_swr_arch "--with-swr-archs=${mesa_SWR_ARCH}")
 endif ()
 
-option(mesa_USE_TEXTURE_FLOAT
-  "Enable floating point textures via ARB_texture_float." OFF)
-mark_as_advanced(mesa_USE_TEXTURE_FLOAT)
-
-if (mesa_USE_TEXTURE_FLOAT)
-  if (NOT mesa_use_texture_float_warned_once)
-    message(WARNING
-      "You have enabled floating point textures for Mesa.  Please be aware of "
-      "the patent licencing issues associated with turning this on, see "
-      "https://cgit.freedesktop.org/mesa/mesa/tree/docs/patents.txt "
-      "for more details.  By enabling this you are accepting the associated "
-      "legal responsibility.")
-    set(mesa_use_texture_float_warned_once ON CACHE INTERNAL "")
-  endif ()
-  set(mesa_texture_float_args "--enable-texture-float")
-else ()
-  set(mesa_use_texture_float_warned_once OFF CACHE INTERNAL "")
-  set(mesa_texture_float_args "--disable-texture-float")
-endif ()
-
 string(REPLACE ";" "," mesa_drivers "${mesa_drivers}")
 
 # FIXME: need to use static llvm libs when appropriate
@@ -52,7 +32,6 @@ set(mesa_common_config_args
   --enable-opengl --disable-gles1 --disable-gles2
   --disable-va --disable-gbm --disable-xvmc --disable-vdpau
   --disable-shared-glapi
-  ${mesa_texture_float_args}
   --disable-dri --with-dri-drivers=
   --enable-llvm
   --with-llvm-prefix=${llvm_dir}
@@ -68,7 +47,10 @@ endif ()
 
 if (CMAKE_CXX_COMPILER_ID MATCHES "Intel")
   superbuild_append_flags(
-    cxx_flags "-diag-disable=177,873"
+    c_flags "-diag-disable=279,557,10006"
+    PROJECT_ONLY)
+  superbuild_append_flags(
+    cxx_flags "-diag-disable=177,279,557,873,10006"
     PROJECT_ONLY)
 endif ()
 
@@ -77,7 +59,7 @@ endif ()
 
 superbuild_add_project(${project}
   CAN_USE_SYSTEM
-  DEPENDS llvm zlib ${mesa_type_deps} expat
+  DEPENDS llvm zlib ${mesa_type_deps} expat pythonmako
   CONFIGURE_COMMAND
     ./autogen.sh
       ${mesa_common_config_args}
@@ -89,6 +71,10 @@ superbuild_add_project(${project}
     make install
   BUILD_IN_SOURCE 1)
 
+superbuild_append_flags(ld_flags
+  "-Wl,-rpath,<INSTALL_DIR>/lib/mesa:<INSTALL_DIR>/lib"
+  PROJECT_ONLY)
+
 # For compatibility on machines with a crufty autotools
 superbuild_apply_patch(${project} revert-xz
   "Revert autoconf dist-xz to dist-bzip2")
@@ -98,5 +84,5 @@ superbuild_apply_patch(${project} sed-flags
   "Fix incompatible sed flags in configure")
 
 # Fix a segfault when swr is not supported
-# superbuild_apply_patch(${project} fix-swr-unsupported-segfault
-#  "Fix segfault when SWR is used on an unsupported architecture")
+superbuild_apply_patch(${project} swr-llvm7-support
+  "Fix llvm7 build failure for swr")

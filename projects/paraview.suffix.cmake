@@ -1,10 +1,10 @@
 # Set suffix to be used for generating archives. This ensures that the package
 # files have decent names that we can directly upload to the website.
 set(package_suffix_items)
-if (qt5_enabled)
+if (osmesa_enabled)
   list(APPEND package_suffix_items
-    Qt5)
-endif ()
+    "osmesa")
+endif()
 if (mpi_enabled)
   list(APPEND package_suffix_items
     MPI)
@@ -15,6 +15,11 @@ if (APPLE)
 else ()
   list(APPEND package_suffix_items
     "${CMAKE_SYSTEM_NAME}")
+endif ()
+
+if (python_enabled)
+  list(APPEND package_suffix_items
+    "Python${superbuild_python_version}")
 endif ()
 
 # On Windows, we put add MSVC compiler version in the package name

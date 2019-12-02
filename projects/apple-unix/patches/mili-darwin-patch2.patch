@@ -1,0 +1,25 @@
+From 0a84aedbaff5c0ac5a32b09e5ea1170667ffa472 Mon Sep 17 00:00:00 2001
+From: Cory Quammen <cory.quammen@kitware.com>
+Date: Mon, 10 Jun 2019 00:10:37 -0400
+Subject: [PATCH] Darwin patch 2
+
+---
+ Makefile.Library | 5 -----
+ 1 file changed, 5 deletions(-)
+
+diff --git a/Makefile.Library b/Makefile.Library
+index fc5e230..7be7b74 100755
+--- a/Makefile.Library
++++ b/Makefile.Library
+@@ -386,8 +386,3 @@ install-chmod:
+ 	done
+ 
+ uninstall:
+-
+-ifneq ($(OS_NAME),Linux)
+-include $(OBJS:.o=.d)
+-endif
+-
+-- 
+2.10.1
+

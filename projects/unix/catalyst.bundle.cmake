@@ -21,8 +21,10 @@ install(
   USE_SOURCE_PERMISSIONS
   COMPONENT   "catalyst")
 
-list(APPEND paraview_executables
-  paraview-config)
+# Disable paraview-config that doesn't appear to be used anywhere
+# TODO - package paraview-config
+#list(APPEND paraview_executables
+#  paraview-config)
 
 # Catalyst never has paraview.
 list(REMOVE_ITEM paraview_executables

@@ -9,11 +9,14 @@ set(ospray_BUILD_ISA "${ospray_isa_default}"
 mark_as_advanced(ospray_BUILD_ISA)
 set_property(CACHE ospray_BUILD_ISA PROPERTY STRINGS SSE AVX AVX2 AVX512KNL AVX512SKX ALL)
 
+set (ospray_depends ispc tbb cxx11 embree ospraymaterials openimagedenoise)
+
 superbuild_add_project(ospray
-  DEPENDS ispc tbb cxx11 embree ospraymaterials
+  DEPENDS ${ospray_depends}
   CMAKE_ARGS
     -DTBB_ROOT:PATH=<INSTALL_DIR>
     -DOSPRAY_ISPC_DIRECTORY:PATH=<INSTALL_DIR>/bin
+    -DCMAKE_INSTALL_NAME_DIR:PATH=<INSTALL_DIR>/lib
     -DOSPRAY_BUILD_ISA:STRING=${ospray_BUILD_ISA}
     -DOSPRAY_APPS_BENCHMARK:BOOL=OFF
     -DOSPRAY_APPS_ENABLE_SCRIPTING:BOOL=OFF
@@ -27,6 +30,7 @@ superbuild_add_project(ospray
     -DOSPRAY_COMMANDLINE_TACHYON_SUPPORT:BOOL=OFF
     -DOSPRAY_ENABLE_APPS:BOOL=OFF
     -DOSPRAY_ENABLE_TESTING:BOOL=OFF
+    -DOSPRAY_ENABLE_TUTORIALS:BOOL=OFF
     -DOSPRAY_MODULE_DISPLAY_WALD:BOOL=OFF
     -DOSPRAY_MODULE_LOADERS:BOOL=OFF
     -DOSPRAY_MODULE_OPENGL_UTIL:BOOL=OFF
@@ -34,6 +38,9 @@ superbuild_add_project(ospray
     -DOSPRAY_MODULE_TACHYON:BOOL=OFF
     -DCMAKE_INSTALL_LIBDIR:STRING=lib)
 
-superbuild_apply_patch(ospray disable-testing "Really disable testing")
 superbuild_add_extra_cmake_args(
   -DOSPRAY_INSTALL_DIR:PATH=<INSTALL_DIR>)
+superbuild_apply_patch(ospray type-conversion
+    "Fix type conversion error on icc 18.")
+superbuild_apply_patch(ospray fix-stale-constructor-call
+    "Fixup constructor calls")

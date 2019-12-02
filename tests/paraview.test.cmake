@@ -2,6 +2,7 @@ set(paraview_extract_dir "${CMAKE_CURRENT_BINARY_DIR}/paraview/test-extraction")
 if (WIN32)
   set(generator "ZIP")
   set(paraview_exe "${paraview_extract_dir}/bin/paraview.exe")
+  set(paraview_mesa_exe "${paraview_extract_dir}/bin/paraview-mesa.exe")
   set(pvpython_exe "${paraview_extract_dir}/bin/pvpython.exe")
   set(pvserver_exe "${paraview_extract_dir}/bin/pvserver.exe")
   set(pvbatch_exe  "${paraview_extract_dir}/bin/pvbatch.exe")
@@ -9,12 +10,14 @@ elseif (APPLE)
   set(generator "DragNDrop")
   include(paraview-appname)
   set(paraview_exe "${paraview_extract_dir}/${paraview_appname}/Contents/MacOS/paraview")
+  set(paraview_mesa_exe "${paraview_extract_dir}/${paraview_appname}/Contents/bin/paraview-mesa")
   set(pvpython_exe "${paraview_extract_dir}/${paraview_appname}/Contents/bin/pvpython")
   set(pvserver_exe "${paraview_extract_dir}/${paraview_appname}/Contents/bin/pvserver")
   set(pvbatch_exe  "${paraview_extract_dir}/${paraview_appname}/Contents/bin/pvbatch")
 else ()
   set(generator "TGZ")
   set(paraview_exe "${paraview_extract_dir}/bin/paraview")
+  set(paraview_mesa_exe "${paraview_extract_dir}/bin/paraview-mesa")
   set(pvpython_exe "${paraview_extract_dir}/bin/pvpython")
   set(pvserver_exe "${paraview_extract_dir}/bin/pvserver")
   set(pvbatch_exe  "${paraview_extract_dir}/bin/pvbatch")
@@ -43,6 +46,10 @@ endif ()
 
 if (NOT mpi_enabled)
   set(pvbatch_exe)
+endif ()
+
+if (NOT mesa_enabled)
+  set(paraview_mesa_exe)
 endif ()
 
 function (paraview_add_test name exe)
@@ -117,6 +124,10 @@ if (matplotlib_enabled)
   paraview_add_python_test("import-matplotlib" "import_matplotlib")
 endif ()
 
+if (mpi_enabled AND python_enabled)
+  paraview_add_python_test("import-mpi4py" "import_mpi4py")
+endif ()
+
 # Test to load various data files to ensure reader support.
 paraview_add_ui_test("data-csg.silo" "TestData-cs_silo"
   "--data=${CMAKE_CURRENT_LIST_DIR}/data/csg.silo")
@@ -141,12 +152,6 @@ if (ospray_enabled)
     "--test-baseline=${CMAKE_CURRENT_LIST_DIR}/baselines/OSPRay.png")
 endif ()
 
-if (boxlib_enabled)
-  paraview_add_ui_test("boxlib3d" "Boxlib3d"
-    "--data=${CMAKE_CURRENT_LIST_DIR}/data/boxlib3d_small/Header.boxlib3d"
-    "--test-baseline=${CMAKE_CURRENT_LIST_DIR}/baselines/Boxlib3d.png")
-endif ()
-
 paraview_add_ui_test("finddata" "TestFindData"
   "--test-baseline=${CMAKE_CURRENT_LIST_DIR}/baselines/Superbuild-TestFindData.png")
 
@@ -159,20 +164,24 @@ if (mesa_enabled AND python_enabled)
   set(mesa_llvm_arg)
   set(mesa_swr_arg)
   if (PARAVIEW_DEFAULT_SYSTEM_GL)
-    set(mesa_llvm_arg "--mesa-llvm")
-    set(mesa_swr_arg "--mesa-swr")
+    set(mesa_llvm_arg --backend llvmpipe)
+    set(mesa_swr_arg --backend swr)
   endif ()
 
-  paraview_add_test("mesa-llvm" "${pvpython_exe}"
+  paraview_add_test("mesa-llvm" "${paraview_mesa_exe}"
     ${mesa_llvm_arg}
+    pvpython
+    --
     "${CMAKE_CURRENT_LIST_DIR}/python/CheckOpenGLVersion.py"
     "mesa" "llvmpipe")
   if (mesa_USE_SWR)
     # Either don't add or add but explicitly disable this test for now
     # until the underlying VTK segfault is fixed.
     if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.9)
-      paraview_add_test("mesa-swr" "${pvpython_exe}"
+      paraview_add_test("mesa-swr" "${paraview_mesa_exe}"
         ${mesa_swr_arg}
+        pvpython
+        --
         "${CMAKE_CURRENT_LIST_DIR}/python/CheckOpenGLVersion.py"
         "mesa" "swr")
       # Mesa exits with failure.
@@ -187,7 +196,7 @@ paraview_add_ui_test("loaddistributedplugins" "LoadDistributedPlugins"
   "--test-baseline=${CMAKE_CURRENT_LIST_DIR}/baselines/LoadDistributedPlugins.png")
 
 if (vortexfinder2_enabled)
-  paraview_add_ui_test("loadvortexfinderplugins" "LoadVotexFinderPlugins")
+  paraview_add_ui_test("loadvortexfinderplugins" "LoadVortexFinderPlugins")
 endif ()
 
 if (vtkm_enabled)

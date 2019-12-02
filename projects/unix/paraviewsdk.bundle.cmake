@@ -25,15 +25,14 @@ install(
 set(binaries_to_install)
 foreach (paraview_executable IN LISTS paraview_executables)
   list(APPEND binaries_to_install
-    "${superbuild_install_location}/bin/${paraview_executable}"
-    "${superbuild_install_location}/lib/${paraview_executable}")
+    "${superbuild_install_location}/bin/${paraview_executable}")
 endforeach ()
 
 if (python_enabled)
   # Install ParaView Python libraries and any non-ParaView Python libraries.
   install(
-    DIRECTORY   "${superbuild_install_location}/lib/python2.7/"
-    DESTINATION "lib/python2.7/"
+    DIRECTORY   "${superbuild_install_location}/lib/python${superbuild_python_version}/"
+    DESTINATION "lib/python${superbuild_python_version}/"
     COMPONENT   superbuild
     USE_SOURCE_PERMISSIONS
     PATTERN "__pycache__" EXCLUDE
@@ -43,7 +42,7 @@ if (python_enabled)
   # Install python binaries and symlinks
   if (python_built_by_superbuild)
     install(
-      PROGRAMS    "${superbuild_install_location}/bin/python2.7-config"
+      PROGRAMS    "${superbuild_install_location}/bin/python${superbuild_python_version}-config"
                   "${superbuild_install_location}/bin/python2"
                   "${superbuild_install_location}/bin/python2-config"
                   "${superbuild_install_location}/bin/python"
@@ -51,7 +50,7 @@ if (python_enabled)
       DESTINATION bin
       COMPONENT   superbuild)
     list(APPEND binaries_to_install
-      "${superbuild_install_location}/bin/python2.7")
+      "${superbuild_install_location}/bin/python${superbuild_python_version}")
   endif()
 endif()
 
@@ -84,9 +83,9 @@ list(REMOVE_DUPLICATES libraries_referenced_by_cmake)
 if (python_enabled)
   # Now grab extra python SOs
   file(GLOB_RECURSE paraview_python_modules
-    "${real_superbuild_install_location}/lib/python2.7/site-packages/*${CMAKE_SHARED_MODULE_SUFFIX}")
+    "${real_superbuild_install_location}/lib/python${superbuild_python_version}/site-packages/*${CMAKE_SHARED_MODULE_SUFFIX}")
   file(GLOB_RECURSE python_modules
-    "${real_superbuild_install_location}/lib/python2.7/*${CMAKE_SHARED_MODULE_SUFFIX}")
+    "${real_superbuild_install_location}/lib/python${superbuild_python_version}/*${CMAKE_SHARED_MODULE_SUFFIX}")
 else ()
   set(paraview_python_modules)
   set(python_modules)
@@ -137,6 +136,7 @@ endfunction ()
 function (_install_superbuild_file type fname)
   get_filename_component(fname_dir "${fname}" DIRECTORY)
   get_filename_component(fname_dir_real "${fname_dir}" REALPATH)
+  get_filename_component(fname_file "${fname}" NAME)
 
   # Verify that what we're installing is from the temporary install tree
   string(SUBSTRING "${fname_dir}" 0 ${real_sbinst_len} fname_dir_prefix)
@@ -150,10 +150,16 @@ function (_install_superbuild_file type fname)
 
   math(EXPR real_sbinst_len_plus_one "${real_sbinst_len} + 1")
   string(SUBSTRING "${fname_dir}" ${real_sbinst_len_plus_one} -1 fname_inst)
+  string(REPLACE "PROGRAMS" "PROGRAM" type "${type}")
   install(
-    "${type}"   "${fname}"
-    DESTINATION "${fname_inst}"
-    COMPONENT   superbuild)
+    CODE "
+      if (NOT EXISTS \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${fname_inst}/${fname_file}\")
+        file(
+          INSTALL DESTINATION \"\${CMAKE_INSTALL_PREFIX}/${fname_inst}\"
+          TYPE ${type}
+          FILES \"${fname}\")
+      endif ()"
+    COMPONENT superbuild)
 endfunction ()
 
 function (install_superbuild_static_library fname)
@@ -168,9 +174,9 @@ include(GetPrerequisites)
 set(all_binaries)
 set(dependency_search_paths
   "${real_superbuild_install_location}/lib"
-  "${real_superbuild_install_location}/lib/python2.7"
-  "${real_superbuild_install_location}/lib/python2.7/site-packages"
-  "${real_superbuild_install_location}/lib/python2.7/lib-dynload")
+  "${real_superbuild_install_location}/lib/python${superbuild_python_version}"
+  "${real_superbuild_install_location}/lib/python${superbuild_python_version}/site-packages"
+  "${real_superbuild_install_location}/lib/python${superbuild_python_version}/lib-dynload")
 if(libraries_to_install)
   list(SORT libraries_to_install)
 endif()

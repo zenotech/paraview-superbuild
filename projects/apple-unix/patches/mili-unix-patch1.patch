@@ -1,0 +1,83 @@
+From 3c35a9e2a5cfb39adcc182f7f88be79c732ea339 Mon Sep 17 00:00:00 2001
+From: Cory Quammen <cory.quammen@kitware.com>
+Date: Mon, 24 Jun 2019 14:49:33 -0400
+Subject: Unix patch 1
+
+---
+ configure | 27 ++++++++++++++-------------
+ 1 file changed, 14 insertions(+), 13 deletions(-)
+
+diff --git a/configure b/configure
+index 39db8f3..ef656f1 100755
+--- a/configure
++++ b/configure
+@@ -5731,14 +5731,14 @@ done
+     # Determine if 'gmake' is available for building the code.
+     #
+     # Extract the first word of "gmake", so it can be a program name with args.
+-set dummy gmake; ac_word=$2
++set dummy make; ac_word=$2
+ { $as_echo "$as_me:$LINENO: checking for $ac_word" >&5
+ $as_echo_n "checking for $ac_word... " >&6; }
+-if test "${ac_cv_prog_FOUND_GMAKE+set}" = set; then
++if test "${ac_cv_prog_FOUND_MAKE+set}" = set; then
+   $as_echo_n "(cached) " >&6
+ else
+-  if test -n "$FOUND_GMAKE"; then
+-  ac_cv_prog_FOUND_GMAKE="$FOUND_GMAKE" # Let the user override the test.
++  if test -n "$FOUND_MAKE"; then
++  ac_cv_prog_FOUND_MAKE="$FOUND_MAKE" # Let the user override the test.
+ else
+ as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+ for as_dir in $PATH
+@@ -5747,7 +5747,7 @@ do
+   test -z "$as_dir" && as_dir=.
+   for ac_exec_ext in '' $ac_executable_extensions; do
+   if { test -f "$as_dir/$ac_word$ac_exec_ext" && $as_test_x "$as_dir/$ac_word$ac_exec_ext"; }; then
+-    ac_cv_prog_FOUND_GMAKE=""yes""
++    ac_cv_prog_FOUND_MAKE=""yes""
+     $as_echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
+     break 2
+   fi
+@@ -5755,22 +5755,22 @@ done
+ done
+ IFS=$as_save_IFS
+ 
+-  test -z "$ac_cv_prog_FOUND_GMAKE" && ac_cv_prog_FOUND_GMAKE=""no""
++  test -z "$ac_cv_prog_FOUND_MAKE" && ac_cv_prog_FOUND_MAKE=""no""
+ fi
+ fi
+-FOUND_GMAKE=$ac_cv_prog_FOUND_GMAKE
+-if test -n "$FOUND_GMAKE"; then
+-  { $as_echo "$as_me:$LINENO: result: $FOUND_GMAKE" >&5
+-$as_echo "$FOUND_GMAKE" >&6; }
++FOUND_MAKE=$ac_cv_prog_FOUND_MAKE
++if test -n "$FOUND_MAKE"; then
++  { $as_echo "$as_me:$LINENO: result: $FOUND_MAKE" >&5
++$as_echo "$FOUND_MAKE" >&6; }
+ else
+   { $as_echo "$as_me:$LINENO: result: no" >&5
+ $as_echo "no" >&6; }
+ fi
+ 
+ 
+-    if test "$FOUND_GMAKE" = "no"; then
+-      { { $as_echo "$as_me:$LINENO: error: \"**** 'gmake' is REQUIRED to build the code!\"" >&5
+-$as_echo "$as_me: error: \"**** 'gmake' is REQUIRED to build the code!\"" >&2;}
++    if test "$FOUND_MAKE" = "no"; then
++      { { $as_echo "$as_me:$LINENO: error: \"**** 'make' is REQUIRED to build the code!\"" >&5
++$as_echo "$as_me: error: \"**** 'make' is REQUIRED to build the code!\"" >&2;}
+    { (exit 1); exit 1; }; }
+     fi
+ 
+@@ -5948,6 +5948,7 @@ fi
+     if test "$bits64_ENABLE" = "True"; then
+       HOSTDIR="$HOSTDIR""_64bit"
+     fi
++    HOSTDIR="MILI-build"
+     if test ! -d "$HOSTDIR"; then
+       { $as_echo "$as_me:$LINENO: result: Creating directory:  $PATH_NAME" >&5
+ $as_echo "Creating directory:  $PATH_NAME" >&6; }
+-- 
+2.10.1
+

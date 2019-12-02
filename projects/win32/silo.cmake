@@ -55,7 +55,9 @@ superbuild_apply_patch(silo no-perl
 superbuild_apply_patch(silo hdf5-deplibs
   "Link to HDF5 properly")
 superbuild_apply_patch(silo snprintf
-  "Remove snprint redefinition for VS201 and newer")
+  "Remove snprint redefinition for VS2015 and newer")
+superbuild_apply_patch(silo hdf5-1.10
+  "Support HDF5 1.10")
 
 superbuild_add_extra_cmake_args(
   -DSILO_INCLUDE_DIR:PATH=<INSTALL_DIR>/include

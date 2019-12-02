@@ -10,6 +10,7 @@ superbuild_add_project(expat
     <SOURCE_DIR>/configure
     --prefix=<INSTALL_DIR>
     ${expat_args_shared}
+    --without-docbook
   BUILD_COMMAND
     $(MAKE)
   INSTALL_COMMAND

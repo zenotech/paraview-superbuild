@@ -21,15 +21,7 @@ if (WIN32 OR APPLE OR osmesa_enabled OR egl_enabled)
   set(paraview_use_x OFF)
 endif()
 
-set(paraview_visit_gmv ON)
-if (osmesa_enabled OR egl_enabled)
-  set(paraview_visit_gmv OFF)
-endif ()
-
-option(PARAVIEW_BUILD_WEB_DOCUMENTATION "Build documentation for the web" OFF)
-
-set(paraview_all_plugins
-  vortexfinder2)
+set(paraview_all_plugins)
 
 if (superbuild_build_phase)
   get_property(paraview_plugins GLOBAL
@@ -48,18 +40,6 @@ if (superbuild_build_phase)
     endif ()
   endforeach ()
   string(REPLACE ";" "${_superbuild_list_separator}" paraview_plugin_dirs "${paraview_plugin_dirs}")
-endif ()
-
-if (NOT CMAKE_CONFIGURATION_TYPES AND NOT WIN32)
-  set(PARAVIEW_BUILD_TYPE ""
-    CACHE STRING "ParaView's build mode")
-  mark_as_advanced(PARAVIEW_BUILD_TYPE)
-  if (NOT PARAVIEW_BUILD_TYPE)
-    set(PARAVIEW_BUILD_TYPE "${CMAKE_BUILD_TYPE}")
-  endif ()
-
-  set(CMAKE_BUILD_TYPE_save "${CMAKE_BUILD_TYPE}")
-  set(CMAKE_BUILD_TYPE "${PARAVIEW_BUILD_TYPE}")
 endif ()
 
 set(paraview_smp_backend "Sequential")
@@ -84,21 +64,19 @@ if (UNIX)
     list(APPEND paraviews_platform_dependencies
       mesa osmesa egl
 
-      boxlib
-
       # Needed for fonts to work properly.
       fontconfig)
   endif ()
   list(APPEND paraviews_platform_dependencies
-    adios ffmpeg libxml2 freetype
+    ffmpeg libxml2 freetype mili
 
     # For cosmotools
     genericio cosmotools)
 endif ()
 
-set(paraview_mesa_sb_available FALSE)
+set(paraview_mesa_libdir "<LIBDIR>")
 if (PARAVIEW_DEFAULT_SYSTEM_GL AND mesa_enabled)
-  set(paraview_mesa_sb_available TRUE)
+  set(paraview_mesa_libdir "<LIBDIR>/mesa")
 endif ()
 
 if (WIN32)
@@ -106,12 +84,19 @@ if (WIN32)
     openvr)
 endif ()
 
+if (USE_NONFREE_COMPONENTS AND (WIN32 OR (UNIX AND NOT APPLE)))
+  list(APPEND paraviews_platform_dependencies
+    visrtx)
+endif ()
+
 set(PARAVIEW_ENABLE_PYTHON ${python_enabled})
-if (python_enabled AND USE_SYSTEM_python AND NOT python_FIND_LIBRARIES)
+if (python_enabled AND
+    ((USE_SYSTEM_python2 AND NOT python2_FIND_LIBRARIES) OR
+     (USE_SYSTEM_python3 AND NOT python3_FIND_LIBRARIES)))
   set(PARAVIEW_ENABLE_PYTHON OFF)
 endif()
 
-if (expat_ENABLED)
+if (expat_enabled)
   list(APPEND paraviews_platform_dependencies expat)
 endif ()
 
@@ -129,14 +114,42 @@ if(APPLE)
   list(APPEND paraview_extra_cmake_options
   -DPARAVIEW_DO_UNIX_STYLE_INSTALLS:BOOL=ON)
 endif()
+option(PARAVIEW_ENABLE_MOTIONFX "Enable MotionFX reader, if supported on platform" ON)
+mark_as_advanced(PARAVIEW_ENABLE_MOTIONFX)
+
+set(paraview_use_raytracing OFF)
+if (ospray_enabled OR visrtx_enabled)
+  set(paraview_use_raytracing ON)
+endif ()
+
+# add an option to override ParaView shared-libs flag.
+set(BUILD_SHARED_LIBS_paraview "<same>"
+  CACHE STRING "The shared/static build flag for the paraview project.")
+set_property(CACHE "BUILD_SHARED_LIBS_paraview"
+  PROPERTY
+    STRINGS "<same>;ON;OFF")
+get_property(build_shared_options
+  CACHE     "BUILD_SHARED_LIBS_paraview"
+  PROPERTY  STRINGS)
+if (NOT BUILD_SHARED_LIBS_paraview IN_LIST build_shared_options)
+  string(REPLACE ";" ", " build_shared_options "${build_shared_options}")
+  message(FATAL_ERROR "BUILD_SHARED_LIBS_paraview must be one of: ${build_shared_options}.")
+endif ()
+
+if (BUILD_SHARED_LIBS_paraview STREQUAL "<same>")
+  set(paraview_build_shared_libs "${BUILD_SHARED_LIBS}")
+else ()
+  set(paraview_build_shared_libs "${BUILD_SHARED_LIBS_paraview}")
+endif ()
 
 superbuild_add_project(paraview
   DEBUGGABLE
   DEFAULT_ON
   DEPENDS_OPTIONAL
-    cuda boost hdf5 matplotlib mpi numpy png
-    python qt5 visitbridge zlib silo las
+    adios2 cuda boost hdf5 matplotlib mpi numpy png protobuf
+    python python2 python3 qt5 visitbridge zlib silo las
     xdmf3 ospray vrpn vtkm tbb netcdf
+    nlohmannjson
     paraviewgettingstartedguide
     paraviewtutorialdata paraviewweb
     paraviewpluginsexternal
@@ -145,70 +158,70 @@ superbuild_add_project(paraview
     ${PARAVIEW_EXTERNAL_PROJECTS}
 
   CMAKE_ARGS
-    -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
-    -DBUILD_TESTING:BOOL=OFF
-    -DPARAVIEW_BUILD_PLUGIN_CoProcessingScriptGenerator:BOOL=ON
-    -DPARAVIEW_BUILD_PLUGIN_EyeDomeLighting:BOOL=ON
-    -DPARAVIEW_BUILD_PLUGIN_OpenVR:BOOL=${openvr_enabled}
+    -DPARAVIEW_BUILD_SHARED_LIBS:BOOL=${paraview_build_shared_libs}
+    -DPARAVIEW_BUILD_TESTING:BOOL=OFF
+    -DCMAKE_INSTALL_LIBDIR:PATH=lib
+    -DCMAKE_INSTALL_NAME_DIR:PATH=<INSTALL_DIR>/lib
+    -DCMAKE_MACOSX_RPATH:BOOL=OFF
+    -DPARAVIEW_PLUGIN_ENABLE_OpenVR:BOOL=${openvr_enabled}
     -DPARAVIEW_BUILD_QT_GUI:BOOL=${qt5_enabled}
-    -DPARAVIEW_ENABLE_QT_SUPPORT:BOOL=${qt5_enabled}
     -DPARAVIEW_ENABLE_FFMPEG:BOOL=${ffmpeg_enabled}
     -DPARAVIEW_ENABLE_PYTHON:BOOL=${PARAVIEW_ENABLE_PYTHON}
+    -DPARAVIEW_PYTHON_VERSION:STRING=${python_version}
     -DPARAVIEW_ENABLE_COSMOTOOLS:BOOL=${cosmotools_enabled}
     -DPARAVIEW_ENABLE_XDMF3:BOOL=${xdmf3_enabled}
     -DPARAVIEW_ENABLE_LAS:BOOL=${las_enabled}
+    -DPARAVIEW_ENABLE_ADIOS2:BOOL=${adios2_enabled}
+    -DPARAVIEW_ENABLE_MOTIONFX:BOOL=${PARAVIEW_ENABLE_MOTIONFX}
     -DPARAVIEW_USE_MPI:BOOL=${mpi_enabled}
-    -DPARAVIEW_USE_OSPRAY:BOOL=${ospray_enabled}
-    -DPARAVIEW_USE_VISITBRIDGE:BOOL=${visitbridge_enabled}
-    -DVISIT_BUILD_READER_CGNS:BOOL=OFF # force to off
-    -DVISIT_BUILD_READER_GMV:BOOL=${paraview_visit_gmv}
+    -DPARAVIEW_ENABLE_VISITBRIDGE:BOOL=${visitbridge_enabled}
+    -DVISIT_BUILD_READER_Mili:BOOL=${mili_enabled}
     -DVISIT_BUILD_READER_Silo:BOOL=${silo_enabled}
-    -DVISIT_BUILD_READER_Boxlib3D:BOOL=${boxlib_enabled}
     -DPARAVIEW_INSTALL_DEVELOPMENT_FILES:BOOL=${paraview_install_development_files}
-    -DPARAVIEW_ENABLE_MATPLOTLIB:BOOL=${matplotlib_enabled}
     -DPARAVIEW_FREEZE_PYTHON:BOOL=${PARAVIEW_FREEZE_PYTHON}
-    -DVTK_USE_SYSTEM_NETCDF:BOOL=${netcdf_enabled}
-    -DVTK_USE_SYSTEM_NETCDFCPP:BOOL=${netcdf_built_by_superbuild}
-    -DVTK_USE_SYSTEM_FREETYPE:BOOL=${freetype_enabled}
-    -DVTK_USE_SYSTEM_HDF5:BOOL=${hdf5_enabled}
+    -DVTK_MODULE_USE_EXTERNAL_ParaView_protobuf:BOOL=${protobuf_enabled}
+    -DVTK_MODULE_USE_EXTERNAL_VTK_netcdf:BOOL=${netcdf_enabled}
+    -DVTK_MODULE_USE_EXTERNAL_VTK_freetype:BOOL=${freetype_enabled}
+    -DVTK_MODULE_USE_EXTERNAL_VTK_hdf5:BOOL=${hdf5_enabled}
     -DHDF5_NO_FIND_PACKAGE_CONFIG_FILE:BOOL=ON
-    -DVTK_USE_SYSTEM_LIBXML2:BOOL=${libxml2_enabled}
-    -DVTK_USE_SYSTEM_PNG:BOOL=${png_enabled}
-    -DVTK_USE_SYSTEM_ZLIB:BOOL=${zlib_enabled}
-    -DVTK_USE_SYSTEM_EXPAT:BOOL=${expat_enabled}
-    -DModule_vtkIOADIOS:BOOL=${adios_enabled}
+    -DVTK_MODULE_USE_EXTERNAL_VTK_libxml2:BOOL=${libxml2_enabled}
+    -DVTK_MODULE_USE_EXTERNAL_VTK_png:BOOL=${png_enabled}
+    -DVTK_MODULE_USE_EXTERNAL_VTK_zlib:BOOL=${zlib_enabled}
+    -DVTK_MODULE_USE_EXTERNAL_VTK_expat:BOOL=${expat_enabled}
     -DVTK_SMP_IMPLEMENTATION_TYPE:STRING=${paraview_smp_backend}
     -DVTK_LEGACY_REMOVE:BOOL=ON
     -DVTK_DEFAULT_RENDER_WINDOW_OFFSCREEN:BOOL=${osmesa_enabled}
     -DVTK_OPENGL_HAS_EGL:BOOL=${egl_enabled}
     -DVTK_OPENGL_HAS_OSMESA:BOOL=${osmesa_enabled}
     -DVTK_USE_X:BOOL=${paraview_use_x}
-    -DVTK_USE_CXX11_FEATURES:BOOL=${cxx11_enabled}
 
     # mesa flags
-    -DPARAVIEW_WITH_SUPERBUILD_MESA:BOOL=${paraview_mesa_sb_available}
-    -DPARAVIEW_WITH_SUPERBUILD_MESA_SWR:BOOL=${mesa_USE_SWR}
+    -DPARAVIEW_BUILD_MESA_LAUNCHER:BOOL=${mesa_enabled}
+    -DPARAVIEW_MESA_LIBDIR:STRING=${paraview_mesa_libdir}
+
+    # raytracing flags
+    -DPARAVIEW_USE_RAYTRACING:BOOL=${paraview_use_raytracing}
+    -DVTKOSPRAY_ENABLE_DENOISER:BOOL=${openimagedenoise_enabled}
+    -DVTK_ENABLE_OSPRAY:BOOL=${ospray_enabled}
+    -DVTK_ENABLE_VISRTX:BOOL=${visrtx_enabled}
 
     # IndeX
-    -DPARAVIEW_BUILD_PLUGIN_pvNVIDIAIndeX:BOOL=${nvidiaindex_enabled}
+    -DPARAVIEW_PLUGIN_ENABLE_pvNVIDIAIndeX:BOOL=${nvidiaindex_enabled}
 
     # vrpn
-    -DPARAVIEW_BUILD_PLUGIN_VRPlugin:BOOL=${vrpn_enabled}
-    -DPARAVIEW_USE_VRPN:BOOL=${vrpn_enabled}
+    -DPARAVIEW_PLUGIN_ENABLE_VRPlugin:BOOL=${vrpn_enabled}
+    -DPARAVIEW_PLUGIN_VRPlugin_USE_VRPN:BOOL=${vrpn_enabled}
 
     # vtkm
-    -DPARAVIEW_BUILD_PLUGIN_VTKmFilters:BOOL=${vtkm_enabled}
+    -DPARAVIEW_PLUGIN_ENABLE_VTKmFilters:BOOL=${vtkm_enabled}
     -DPARAVIEW_USE_VTKM:BOOL=${vtkm_enabled}
-    -DModule_vtkAcceleratorsVTKm:BOOL=${vtkm_enabled}
-    -DVTKm_ENABLE_CUDA:BOOL=${paraview_enable_cuda}
+    -DVTK_VTKM_ENABLE_CUDA:BOOL=${paraview_enable_cuda}
 
     # Web
     -DPARAVIEW_ENABLE_WEB:BOOL=${paraviewweb_enabled}
-    -DPARAVIEW_BUILD_WEB_DOCUMENTATION:BOOL=${PARAVIEW_BUILD_WEB_DOCUMENTATION}
 
-    # specify the apple app install prefix. No harm in specifying it for all
-    # platforms.
-    -DMACOSX_APP_INSTALL_PREFIX:PATH=<INSTALL_DIR>/Applications
+    # ParFlow
+    -DPARAVIEW_PLUGIN_ENABLE_ParFlow:BOOL=${nlohmannjson_enabled}
 
     # add additional plugin directories
     -DPARAVIEW_EXTERNAL_PLUGIN_DIRS:STRING=${paraview_plugin_dirs}
@@ -231,6 +244,13 @@ endif ()
 if (paraview_SOURCE_SELECTION STREQUAL "5.5.0")
   superbuild_apply_patch(paraview fix-mpi4py
     "Fix issue with building VTK's mpi4py")
+endif ()
+
+if (paraview_SOURCE_SELECTION STREQUAL "5.6.0")
+  superbuild_apply_patch(paraview fix-catalyst-adapter-deps
+    "Fix issue with catalyst adapters and dependency search")
+  superbuild_apply_patch(paraview fix-eye-dome-lighting
+    "Fix eye dome lighting in parallel")
 endif ()
 
 if (WIN32 AND las_enabled)

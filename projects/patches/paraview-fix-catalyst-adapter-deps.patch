@@ -1,0 +1,12 @@
+diff --git a/CoProcessing/Adaptors/BuildAdaptors.cmake b/CoProcessing/Adaptors/BuildAdaptors.cmake
+index 82ddbe95af..4ff75472d1 100644
+--- a/CoProcessing/Adaptors/BuildAdaptors.cmake
++++ b/CoProcessing/Adaptors/BuildAdaptors.cmake
+@@ -70,6 +70,7 @@ function(build_adaptor name languages)
+                             -DCMAKE_CXX_FLAGS:STRING=${CMAKE_CXX_FLAGS}
+                             -DCMAKE_LIBRARY_OUTPUT_DIRECTORY:PATH=${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
+                             -DCMAKE_RUNTIME_OUTPUT_DIRECTORY:PATH=${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
++                            -DCMAKE_PREFIX_PATH:STRING="${CMAKE_PREFIX_PATH}"
+                             ${language_options}
+                             ${extra_params}
+                             --no-warn-unused-cli

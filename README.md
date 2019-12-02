@@ -31,7 +31,7 @@ generators (Xcode and Visual Studio) are not supported.
 
 The superbuild project uses the same versioning scheme as ParaView,
 and gets tagged for every release of ParaView.  For example, to build
-ParaView version 5.4.1, checkout the `v5.4.1` tag of ParaView and
+ParaView version 5.4.1, checkout the `v5.7.0` tag of ParaView and
 superbuild.
 
 Currently available tags are shown
@@ -41,13 +41,13 @@ To checkout a specific tag from the superbuild git repository:
 
     $ cd paraview-superbuild
     $ git fetch origin # ensure you have the latest state from the main repo
-    $ git checkout v5.4.1 # replace `v5.4.1` with tag name of your choice
+    $ git checkout v5.7.0 # replace `v5.7.0` with tag name of your choice
     $ git submodule update
 
 At this point, your superbuild has all of the *rules* that were used
 when building the selected version of ParaView. Also, note that it's
 possible to build a version of ParaView using a different superbuild
-version.  For example, you could use superbuild `v5.4.1`, to build the
+version.  For example, you could use superbuild `v5.7.0`, to build the
 latest master (i.e., development) version of ParaView, or a custom
 branch.  This is done by first checking out the superbuild for the
 appropriate version and then setting the CMake variables that affect
@@ -59,8 +59,8 @@ control how superbuild finds its source packages:
     pointing to the ParaView git repository you want to clone (by default it is
     set to the offical ParaView repository) and then set the `paraview_GIT_TAG`
     to be a specific tagname or branch available for the selected git
-    repository. Use `master` for latest development code, `v5.4.1` for the
-    5.4.1 release, `release` for latest stable release, or a specific ParaView
+    repository. Use `master` for latest development code, `v5.7.0` for the
+    5.7.0 release, `release` for latest stable release, or a specific ParaView
     commit SHA. In this setup, when building the superbuild, it will clone and
     checkout the appropriate revision from the ParaView git repository automatically.
  2. Instead of letting superbuild do the cloning and updating of the ParaView
@@ -69,7 +69,7 @@ control how superbuild finds its source packages:
     set `paraview_SOURCE_DIR` to point to a custom ParaView source tree. See 'offline
     builds' below for instructions to download needed dependency packages.
  3. Another option is to use a source tarball of a ParaView release. For that,
-    set `paraview_SOURCE_SELECTION` to the version to build such as `5.4.1`.
+    set `paraview_SOURCE_SELECTION` to the version to build such as `5.7.0`.
     The superbuild offers the lastest stable release as well as release
     candidate in preparation for the release. This is the best way to build a
     released version of ParaView.
@@ -82,6 +82,19 @@ changed considerably for 5.2. For older versions, refer to instructions on the
 **ALSO NOTE:** Since this README is expected to be updated for each version,
 once you checkout a specfic version, you may want to refer to the README for
 that specific version.
+
+## Incremental builds
+
+The superbuild is kind of naïve for changes to project sources within the
+superbuild. This is due to the superbuild not tracking all source files for
+each project and instead only "stamp files" to indicate the steps performed.
+
+When changing the source of a subproject, the best solution is to delete the
+"stamp file" for the build step of that project:
+
+    $ rm superbuild/$project/stamp/$project-build
+
+and to rerun the superbuild's build step.
 
 ## Projects and Features
 
@@ -116,7 +129,6 @@ The following packages enable other features within ParaView:
 
   * `adios`: Enable readers and writers for visualization data in the ADIOS
     file format.
-  * `boxlib`: Enable reading the boxlib3D file format.
   * `las`: Enable reading the LAS file format
   * `cosmotools`: Enables Cosmo file format readers and related filters and
     algorithms.
@@ -129,7 +141,7 @@ The following packages enable other features within ParaView:
     project.
   * `vortexfinder2`: A collection of tools to visualize and analyze vortices.
   * `vrpn`: Virtual reality support.
-  * 'vtkm': VTK-m Accelerator Filters
+  * `vtkm`: VTK-m Accelerator Filters
   * `xdmf3`: A meta file format built on top of HDF5.
 
 ## Offline builds
@@ -141,6 +153,15 @@ directory of the build tree.  This superbuild-plus-downloads tree may
 then be copied to a non-networked machine and pointed at using the
 `superbuild_download_location` variable (or placed in the default
 location).
+
+Note that the `nvidiaoptix` and `nvidiamdl` project sources are not available
+at their URLs in the superbuild outside of Kitware due to their sources being
+behind click-wrapping. They may be manually downloaded from these web pages:
+
+  * `nvidiaoptix`: https://developer.nvidia.com/designworks/optix/download
+    Though older versions are available here:
+    https://developer.nvidia.com/designworks/optix/downloads/legacy
+  * `nvidiamdl`: https://developer.nvidia.com/mdl-sdk
 
 ## Installing
 
@@ -236,10 +257,13 @@ time.
   * `USE_SYSTEM_xxx` (default `OFF`): If selected, the `xxx` project from the
     build environment is used instead of building it within the superbuild.
     Not all projects support system copies (the flag is not available if so).
+  * `SUPERBUILD_DEBUG_CONFIGURE_STEPS` (default `OFF`): If set, the superbuild
+    will log configure steps for each `xxx` project into
+    `superbuild/xxx/stamp/xxx-configure-*.log` files.
 
 The following flags affect ParaView directly:
 
-  * `paraview_SOURCE_SELECTION` (default `5.4.1`): The source to use for
+  * `paraview_SOURCE_SELECTION` (default `5.7.0`): The source to use for
     ParaView itself. The version numbers use the source tarballs from the
     website for the release. The `source` selection uses the
     `paraview_SOURCE_DIR` variable to look at a checked out ParaView source
@@ -255,6 +279,12 @@ The following flags affect ParaView directly:
   * `CMAKE_BUILD_TYPE_paraview` (default is the same as the superbuild):
     ParaView may be built with a different build type (e.g., `Release` vs.
     `RelWithDebInfo`) as the rest of the superbuild using this variable.
+  * `BUILD_SHARED_LIBS_paraview` (default is the same as the superbuild):
+    ParaView may be built with a different selection for BUILD_SHARED_LIBS flag
+    than the rest of the superbuild using this variable. For example,
+    to build ParaView static while building other projects in the superbuild
+    (e.g. MPI, Python, etc.) as shared, set `BUILD_SHARED_LIBS` to `ON`
+    and `BUILD_SHARED_LIBS_paraview` to `OFF`.
   * `PARAVIEW_BUILD_WEB_DOCUMENTATION` (default `OFF`): Have ParaView build
     its HTML documentation.
   * `mesa_USE_SWR` (default `ON`): If `mesa` is enabled, this enables
@@ -267,6 +297,9 @@ The following flags affect ParaView directly:
     (e.g. mpirun) which in this case it may be desirable to disable this option.
     Note that the `--mpi` or `--no-mpi` command line options to paraview and
     pvpython can be used to override this option.
+  * `PARAVIEW_EXTRA_CMAKE_ARGUMENTS` (default `""`: Extra CMake arguments to
+    pass to ParaView's configure step. This can be used to set CMake variables
+    for the build that are otherwise not exposed in the superbuild itself.
 
 The following flags affect Catalyst:
 
@@ -306,14 +339,14 @@ easiest way to build all available packages is to run `ctest -R cpack`.
 
 If you have found a bug:
 
-1. If you have a patch, please read the [CONTRIBUTING.md][] document.
+ 1. If you have a patch, please read the [CONTRIBUTING.md][] document.
 
-2. Otherwise, please join one of the [ParaView Mailing Lists][] and ask
-   about the expected and observed behaviors to determine if it is
-   really a bug.
+ 2. Otherwise, please join one of the [ParaView Mailing Lists][] and ask
+    about the expected and observed behaviors to determine if it is
+    really a bug.
 
-3. Finally, if the issue is not resolved by the above steps, open
-   an entry in the [ParaView Issue Tracker][].
+ 3. Finally, if the issue is not resolved by the above steps, open
+    an entry in the [ParaView Issue Tracker][].
 
 [ParaView Issue Tracker]: http://www.paraview.org/Bug
 

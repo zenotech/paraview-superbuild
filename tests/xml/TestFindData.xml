@@ -4,12 +4,12 @@
   <pqevent object="pqClientMainWindow/propertiesDock/propertiesPanel/Accept" command="activate" arguments="" />
 
   <pqevent object="pqClientMainWindow/menubar/menu_Edit" command="activate" arguments="actionQuery" />
-  <pqevent object="pqClientMainWindow/FindDataDialog/createSelectionFrame/queryClauseWidget/criteria" command="set_string" arguments="Query" />
-  <pqevent object="pqClientMainWindow/FindDataDialog/createSelectionFrame/queryClauseWidget/valueStackedWidget/singleValue/value" command="set_string" arguments="(id%500 &gt; 0) &amp; (id%500 &lt; 100)" />
+  <pqevent object="pqClientMainWindow/FindDataDialog/createSelectionFrame/queryClauseWidget/1QScrollArea0/qt_scrollarea_viewport/1QWidget0/queryClause0/criteria" command="set_string" arguments="Query" />
+  <pqevent object="pqClientMainWindow/FindDataDialog/createSelectionFrame/queryClauseWidget/1QScrollArea0/qt_scrollarea_viewport/1QWidget0/queryClause0/valueStackedWidget/singleValue/value" command="set_string" arguments="(id%500 &gt; 0) &amp; (id%500 &lt; 100)" />
   <pqevent object="pqClientMainWindow/FindDataDialog/createSelectionFrame/runQuery" command="activate" arguments="" />
   <pqevent object="pqClientMainWindow/FindDataDialog/buttonBox/1QPushButton0" command="activate" arguments="" />
 
-  <pqevent object="pqClientMainWindow/centralwidget/MultiViewWidget/CoreWidget/qt_tabwidget_stackedwidget/MultiViewWidget1/Frame.0/actionToggleInteractionMode" command="activate" arguments="" />
+  <pqevent object="pqClientMainWindow/centralwidget/MultiViewWidget/CoreWidget/qt_tabwidget_stackedwidget/MultiViewWidget1/Container/Frame.0/actionToggleInteractionMode" command="activate" arguments="" />
   <pqevent object="pqClientMainWindow/cameraToolbar/actionNegativeX" command="activate" arguments="" />
   <pqevent object="pqClientMainWindow/cameraToolbar/actionResetCamera" command="activate" arguments="" />
   <pqevent object="pqClientMainWindow/axesToolbar/actionShowOrientationAxes" command="set_boolean" arguments="false" />

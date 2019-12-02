@@ -1,0 +1,27 @@
+diff --git a/mkl-dnn/cmake/OpenMP.cmake b/mkl-dnn/cmake/OpenMP.cmake
+index dc0c3db..8609d58 100644
+--- a/mkl-dnn/cmake/OpenMP.cmake
++++ b/mkl-dnn/cmake/OpenMP.cmake
+@@ -17,6 +17,8 @@
+ # Manage OpenMP-related compiler flags
+ #===============================================================================
+ 
++include(CheckCXXCompilerFlag)
++
+ if(OpenMP_cmake_included)
+     return()
+ endif()
+@@ -38,8 +40,11 @@ if (NOT MKLDNN_THREADING MATCHES "OMP")
+         set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -qopenmp-simd")
+         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -qopenmp-simd")
+     else()
+-        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fopenmp-simd")
+-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp-simd")
++        check_cxx_compiler_flag("-fopenmp-simd" openmp_simd_avail)
++        if (openmp_simd_avail)
++            set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fopenmp-simd")
++            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp-simd")
++        endif()
+     endif()
+     return()
+ endif()

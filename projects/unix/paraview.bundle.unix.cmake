@@ -22,15 +22,22 @@ if (PARAVIEW_DEFAULT_SYSTEM_GL OR
 endif ()
 
 foreach (executable IN LISTS paraview_executables)
-  superbuild_unix_install_program_fwd("${executable}"
+  superbuild_unix_install_program("${superbuild_install_location}/bin/${executable}"
     "lib"
     SEARCH_DIRECTORIES  "${library_paths}"
     INCLUDE_REGEXES     ${include_regexes}
     EXCLUDE_REGEXES     ${exclude_regexes})
 endforeach ()
 
+if (EXISTS "${superbuild_install_location}/bin/paraview.conf")
+  install(
+    FILES       "${superbuild_install_location}/bin/paraview.conf"
+    DESTINATION "bin"
+    COMPONENT   "runtime")
+endif ()
+
 foreach (paraview_plugin IN LISTS paraview_plugins)
-  superbuild_unix_install_plugin("lib${paraview_plugin}.so"
+  superbuild_unix_install_plugin("${paraview_plugin}.so"
     "lib"
     "${paraview_plugin_path}/${paraview_plugin}"
     LOADER_PATHS    "${library_paths}"
@@ -39,14 +46,13 @@ foreach (paraview_plugin IN LISTS paraview_plugins)
     LOCATION        "${paraview_plugin_path}/${paraview_plugin}/")
 endforeach ()
 
-set(plugins_file "${CMAKE_CURRENT_BINARY_DIR}/paraview.plugins")
+set(plugins_file "${CMAKE_CURRENT_BINARY_DIR}/paraview.plugins.xml")
 paraview_add_plugin("${plugins_file}" ${paraview_plugins})
 
 install(
   FILES       "${plugins_file}"
   DESTINATION ${paraview_plugin_path}
-  COMPONENT   superbuild
-  RENAME      ".plugins")
+  COMPONENT   superbuild)
 
 if (mesa_libraries)
   set(suffix)
@@ -110,11 +116,49 @@ if (ospray_enabled)
   endforeach ()
 endif ()
 
-if (python_enabled)
-  include(python.functions)
-  superbuild_install_superbuild_python(
-    LIBSUFFIX "/python2.7")
+if (visrtx_enabled)
+  set(visrtxextra_libraries
+    libVisRTX
+    dds
+    nv_freeimage
+    libmdl_sdk)
 
+  foreach (visrtxextra_library IN LISTS visrtxextra_libraries)
+    file(GLOB lib_filenames
+      RELATIVE "${superbuild_install_location}/lib"
+      "${superbuild_install_location}/lib/${visrtxextra_library}.so*")
+
+    foreach (lib_filename IN LISTS lib_filenames)
+      superbuild_unix_install_plugin("${lib_filename}"
+        "lib"
+        "lib"
+        LOADER_PATHS  "${library_paths}"
+        LOCATION      "lib"
+        SEARCH_DIRECTORIES "/usr/lib64/libglvnd" "/usr/lib/libglvnd"
+        EXCLUDE_REGEXES ".*/libGLX.so.*")
+    endforeach ()
+  endforeach ()
+endif ()
+
+if (python_enabled)
+  file(GLOB egg_dirs
+    "${superbuild_install_location}/lib/python${superbuild_python_version}/site-packages/*.egg/")
+  if (python2_built_by_superbuild)
+    include(python2.functions)
+    superbuild_install_superbuild_python2(
+      LIBSUFFIX "/python${superbuild_python_version}")
+  elseif (python3_built_by_superbuild)
+    include(python3.functions)
+    superbuild_install_superbuild_python3(
+      LIBSUFFIX "/python${superbuild_python_version}")
+  endif ()
+
+  # Add extra paths to MODULE_DIRECTORIES here (.../local/lib/python${superbuild_python_version}/dist-packages)
+  # is a workaround to an issue when building against system python.  When we move to
+  # Python3, we should make sure all the python modules get installed to the same
+  # location to begin with.
+  #
+  # Related issue: https://gitlab.kitware.com/paraview/paraview-superbuild/issues/120
   superbuild_unix_install_python(
     LIBDIR              "lib"
     MODULES             paraview
@@ -123,13 +167,14 @@ if (python_enabled)
                         ${python_modules}
     INCLUDE_REGEXES     ${include_regexes}
     EXCLUDE_REGEXES     ${exclude_regexes}
-    MODULE_DIRECTORIES  "${superbuild_install_location}/lib/python2.7/site-packages"
+    MODULE_DIRECTORIES  "${superbuild_install_location}/lib/python${superbuild_python_version}/site-packages"
+                        ${egg_dirs}
     LOADER_PATHS        "${library_paths}")
 
   if (matplotlib_built_by_superbuild)
     install(
-      DIRECTORY   "${superbuild_install_location}/lib/python2.7/site-packages/matplotlib/mpl-data/"
-      DESTINATION "lib/python2.7/site-packages/matplotlib/mpl-data"
+      DIRECTORY   "${superbuild_install_location}/lib/python${superbuild_python_version}/site-packages/matplotlib/mpl-data/"
+      DESTINATION "lib/python${superbuild_python_version}/site-packages/matplotlib/mpl-data"
       COMPONENT   superbuild)
   endif ()
 endif ()
@@ -153,11 +198,11 @@ if (mpi_built_by_superbuild)
   endforeach ()
 endif ()
 
-if (qt5_enabled)
-  file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/qt.conf" "")
+if (qt5_enabled AND qt5_plugin_paths)
+  file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/qt.conf" "[Paths]\nPrefix = ..\n")
   install(
     FILES       "${CMAKE_CURRENT_BINARY_DIR}/qt.conf"
-    DESTINATION "lib"
+    DESTINATION "bin"
     COMPONENT   superbuild)
 endif ()
 
@@ -167,7 +212,7 @@ foreach (qt5_plugin_path IN LISTS qt5_plugin_paths)
 
   superbuild_unix_install_plugin("${qt5_plugin_path}"
     "lib"
-    "lib/plugins/${qt5_plugin_group}/"
+    "plugins/${qt5_plugin_group}/"
     LOADER_PATHS    "${library_paths}"
     INCLUDE_REGEXES ${include_regexes}
     EXCLUDE_REGEXES ${exclude_regexes})

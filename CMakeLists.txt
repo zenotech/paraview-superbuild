@@ -10,7 +10,7 @@ macro (superbuild_setup_variables)
   if (paraview_SOURCE_SELECTION STREQUAL "git")
     # Assuming master; just use the latest version, but let the user set their
     # own version in case it is actually a branch from some other version.
-    set(PARAVIEW_VERSION_DEFAULT "5.5.0"
+    set(PARAVIEW_VERSION_DEFAULT "5.7.0"
       CACHE STRING "The default version of ParaView to use if it cannot be detected")
     mark_as_advanced(PARAVIEW_VERSION_DEFAULT)
     set(paraview_default_version "${PARAVIEW_VERSION_DEFAULT}")
@@ -33,12 +33,15 @@ function (superbuild_find_projects var)
     cxx11
     paraview
     paraviewpluginsexternal
-    python)
+    python
+    python2
+    python3)
 
   option(USE_NONFREE_COMPONENTS "Enable the non-free parts of the superbuild" OFF)
   mark_as_advanced(USE_NONFREE_COMPONENTS)
 
   list(APPEND projects
+    adios2
     boost
     bzip2
     cuda
@@ -46,24 +49,31 @@ function (superbuild_find_projects var)
     freetype
     hdf5
     ispc
-    lapack
     las
     matplotlib
     mpi
     netcdf
+    nlohmannjson
     numpy
     ospray
+    openimagedenoise
     paraviewweb
+    paraviewwebglance
+    paraviewweblite
     paraviewwebdivvy
-    paraviewweblightviz
+    paraviewwebflow
     paraviewwebvisualizer
     png
+    protobuf
+    pythonattrs
     pythonautobahn
     pythonconstantly
     pythoncycler
     pythondateutil
     pythonhyperlink
     pythonincremental
+    pythonkiwisolver
+    pythonmako
     pythonpygments
     pythonpyparsing
     pythonsetuptools
@@ -83,28 +93,30 @@ function (superbuild_find_projects var)
     vrpn
     vtkm
     xdmf3
+    zfp
     zlib)
 
   if (UNIX)
     list(APPEND projects
-      adios
       cosmotools
+      ffi
       ffmpeg
       fortran
       genericio
+      lapack
       libxml2
-      mxml
+      mili
       scipy)
 
     if (NOT APPLE)
       list(APPEND projects
-        boxlib
         catalyst
         egl
         expat
         fontconfig
         glproto
         gperf
+        libfabric
         llvm
         mesa
         osmesa
@@ -120,6 +132,17 @@ function (superbuild_find_projects var)
 
   if (USE_NONFREE_COMPONENTS)
     # add non-free projects here.
+    if (WIN32 OR (UNIX AND NOT APPLE))
+      # These are publicly available, but are behind logins or license
+      # acceptances. Rehosted internally at Kitware for build machines.
+      list(APPEND projects
+        nvidiamdl
+        nvidiaoptix)
+
+      # These are open source, but require closed SDKs.
+      list(APPEND projects
+        visrtx)
+    endif ()
   endif ()
 
   if (WIN32)
@@ -143,10 +166,6 @@ function (superbuild_sanity_check)
   if (NOT paraview_enabled AND NOT catalyst_enabled)
     message(WARNING "ParaView is disabled...")
   endif ()
-
-  include(qt.functions)
-
-  superbuild_qt_sanity_check()
 
   # Sanity check: Cannot have paraview and have cxx11 disabled.
   if (NOT cxx11_enabled AND paraview_enabled)
@@ -204,19 +223,33 @@ function (superbuild_add_packaging)
   if (USE_SYSTEM_qt5)
     list(APPEND superbuild_export_variables
       Qt5_DIR)
+    find_package(Qt5 QUIET REQUIRED COMPONENTS Core)
+    set(qt5_version "${Qt5Core_VERSION_MAJOR}.${Qt5Core_VERSION_MINOR}")
+  else ()
+    set(qt5_version "${qt5_SOURCE_SELECTION}")
   endif ()
+  list(APPEND superbuild_export_variables
+    qt5_version)
 
   if (NOT DEFINED PARAVIEW_CATALYST_EDITION)
     set(PARAVIEW_CATALYST_EDITION Full)
+  endif ()
+
+  if (BUILD_SHARED_LIBS_paraview STREQUAL "<same>")
+    set(paraview_is_shared "${BUILD_SHARED_LIBS}")
+  else ()
+    set(paraview_is_shared "${BUILD_SHARED_LIBS_paraview}")
   endif ()
 
   include(paraview.suffix)
   list(APPEND superbuild_export_variables
     mesa_USE_SWR
     mesa_SWR_ARCH
+    nvidiaindex_SOURCE_SELECTION
     PARAVIEW_DEFAULT_SYSTEM_GL
     PARAVIEW_PACKAGE_SUFFIX
-    PARAVIEW_CATALYST_EDITION)
+    PARAVIEW_CATALYST_EDITION
+    paraview_is_shared)
 
   if (paraview_enabled)
     set(PARAVIEW_PACKAGE_FILE_NAME ""
@@ -293,10 +326,13 @@ set(qt5_skip_modules
   qtwebsockets)
 
 set(boost_libraries
+  atomic
+  chrono
   date_time
   filesystem
   iostreams
   program_options
+  regex
   system
   thread)
 set(boost_extra_options
@@ -315,8 +351,27 @@ set(_git_clone_arguments_default --progress)
 # set the default for cxx11 to be enabled for this project
 set(_superbuild_default_cxx11 ON)
 
-# set the default for qt5 to be 5.8
-set(_superbuild_qt5_default_selection "5.8")
+# Enable nlohmann_json by default
+set(_superbuild_default_nlohmannjson ON)
+
+# set the default for qt5 to be 5.9
+set(_superbuild_qt5_default_selection "5.9")
+
+# ParaView's superbuild does not support static-everywhere builds. But let
+# people around the check if they want it.
+if (NOT PARAVIEW_I_WANT_EVERYTHING_STATIC)
+  set(_superbuild_no_static_everywhere ON)
+endif ()
+option(BUILD_SHARED_LIBS "Build shared or static libs" ON)
+if (NOT BUILD_SHARED_LIBS AND _superbuild_no_static_everywhere)
+  message(FATAL_ERROR
+    "Setting BUILD_SHARED_LIBS=OFF is almost certainly what you don't want. "
+    "Maybe you want the `BUILD_SHARED_LIBS_paraview=OFF` option?")
+endif ()
+
+# Build UCS4 binaries by default. This is more compatible with Linux
+# distributions.
+set(_python_unicode_default "UCS4")
 
 if (NOT EXISTS "${CMAKE_CURRENT_LIST_DIR}/superbuild/CMakeLists.txt")
   message(FATAL_ERROR "It appears as though the superbuild infrastructure "

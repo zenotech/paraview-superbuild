@@ -1,6 +1,6 @@
 from __future__ import print_function
 import sys
-from paraview.vtk.vtkPVClientServerCoreRendering import vtkPVOpenGLInformation
+from paraview.modules.vtkPVClientServerCoreRendering import vtkPVOpenGLInformation
 
 if len(sys.argv) == 1:
     print("Usage: %s [strings to match]" % sys.argv[0])

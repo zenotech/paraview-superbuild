@@ -1,28 +1,20 @@
 superbuild_set_revision(expat
-  URL     "http://www.paraview.org/files/dependencies/expat-2.2.5.tar.bz2"
-  URL_MD5 789e297f547980fc9ecc036f9a070d49)
+  URL     "http://www.paraview.org/files/dependencies/expat-2.2.6.tar.bz2"
+  URL_MD5 ca047ae951b40020ac831c28859161b2)
 
 superbuild_set_revision(llvm
-  URL     "https://www.paraview.org/files/dependencies/llvm-5.0.1.src.tar.xz"
-  URL_MD5 3a4ec6dcbc71579eeaec7cb157fe2168)
+  URL     "https://www.paraview.org/files/dependencies/llvm-7.0.0.src.tar.xz"
+  URL_MD5 e0140354db83cdeb8668531b431398f0)
 
 superbuild_set_revision(glproto
   URL     "https://www.paraview.org/files/dependencies/glproto-1.4.17.tar.bz2"
   URL_MD5 5565f1b0facf4a59c2778229c1f70d10)
 
 superbuild_set_revision(mesa
-    URL     "https://www.paraview.org/files/dependencies/mesa-18.0.0-rc4.tar.xz"
-    URL_MD5 195889b71ee88785d55b03d99e0034d3)
+  URL     "https://www.paraview.org/files/dependencies/mesa-18.2.2.tar.xz"
+  URL_MD5 5931dd76a7533c7c5e702a4e5c00d3bb)
 get_property(mesa_revision GLOBAL PROPERTY mesa_revision)
 superbuild_set_revision(osmesa ${mesa_revision})
-
-superbuild_set_revision(adios
-  URL     "https://www.paraview.org/files/dependencies/adios-1.11.0.tar.gz"
-  URL_MD5 5eead5b2ccf962f5e6d5f254d29d5238)
-
-superbuild_set_revision(mxml
-  URL     "https://www.paraview.org/files/dependencies/mxml-2.9.tar.gz"
-  URL_MD5 e21cad0f7aacd18f942aa0568a8dee19)
 
 superbuild_set_revision(silo
   URL     "https://www.paraview.org/files/dependencies/silo-4.10.2-bsd-smalltest.tar.gz"
@@ -32,11 +24,11 @@ superbuild_set_revision(genericio
   URL     "https://www.paraview.org/files/dependencies/genericio-master-a15ffc76cfa9f9674f933e8cb5ffc97a97fd7b27.zip"
   URL_MD5 daea4ea2076fb6a1b8ccded8e861e1be)
 
-set(paraview_doc_ver_series "5.5")
-set(paraview_doc_ver "${paraview_doc_ver_series}.2")
+set(paraview_doc_ver_series "5.7")
+set(paraview_doc_ver "${paraview_doc_ver_series}.0")
 superbuild_set_revision(paraviewgettingstartedguide
   URL     "https://www.paraview.org/files/v${paraview_doc_ver_series}/ParaViewGettingStarted-${paraview_doc_ver}.pdf"
-  URL_MD5 1bdadd4b5a62ba9f2de8eb0219ca858c)
+  URL_MD5 392a29c111c5867b51e78bcb83e64198)
 superbuild_set_revision(paraviewtutorialdata
   URL     "https://www.paraview.org/files/data/ParaViewTutorialData.tar.gz"
   URL_MD5 ff7ceab8cfc674b227c0bba392d1ed3c)
@@ -47,9 +39,9 @@ superbuild_set_revision(paraviewtutorialdata
 # on this assumption.
 superbuild_set_selectable_source(paraview
   # NOTE: When updating this selection, also update `README.md` and CMakeLists.txt.
-  SELECT 5.5.2 DEFAULT
-    URL     "http://www.paraview.org/files/v5.5/ParaView-v5.5.2.tar.gz"
-    URL_MD5 7eb93c31a1e5deb7098c3b4275e53a4a
+  SELECT 5.7.0 DEFAULT
+    URL     "http://www.paraview.org/files/v5.7/ParaView-v5.7.0.tar.xz"
+    URL_MD5 5f86cb2ab2e1efb415271f375f67e41b
   SELECT git CUSTOMIZABLE
     GIT_REPOSITORY "https://gitlab.kitware.com/paraview/paraview.git"
     GIT_TAG        "origin/master"
@@ -68,8 +60,8 @@ superbuild_set_revision(vrpn
 
 superbuild_set_revision(vortexfinder2
   # https://github.com/hguo/vortexfinder2.git
-  URL     "https://www.paraview.org/files/dependencies/vortexfinder2-f9a31847c052a44cc1e4b592b9e3f3fe078b7bf9.tar.bz2"
-  URL_MD5 da96a038e00d08e4571f64488e9e4d16)
+  URL     "https://www.paraview.org/files/dependencies/vortexfinder2-bb76f80ad08223d49fb42e828c1416daa19f7ecb.tar.bz2"
+  URL_MD5 47d12a5103d66b5db782c43c5255b26b)
 
 #------------------------------------------------------------------------------
 # Optional Plugins. Doesn't affect ParaView binaries at all even if missing
@@ -107,32 +99,40 @@ superbuild_set_revision(embree
   URL_MD5 f414fefe6167ba58102fd0eb06c9ee5b)
 
 superbuild_set_revision(ospray
-  URL     "https://www.paraview.org/files/dependencies/ospray-1.6.1.tar.gz"
-  URL_MD5 58cfed6a24e8023389f63f65455466aa)
+  URL     "https://www.paraview.org/files/dependencies/ospray-1.8.4.tar.gz"
+  URL_MD5 359a56552d981d057bfbd3e97f4fc0b7)
 
 superbuild_set_revision(ospraymaterials
-  URL     "https://www.paraview.org/files/data/OSPRayMaterials.tar.gz"
-  URL_MD5 6f1d5d96e91b14222c462c890185dbc3)
+  URL     "https://www.paraview.org/files/data/OSPRayMaterials-0.2.tar.gz"
+  URL_MD5 3b2716318ec8bf719373f25737b0bddc)
+
+superbuild_set_revision(openimagedenoise
+  URL     "https://www.paraview.org/files/dependencies/oidn-0.8.1.src.tar.gz"
+  URL_MD5 4951edc5422682b639595c9fc8dbadcc)
 
 superbuild_set_revision(openvr
   URL     "https://www.paraview.org/files/dependencies/openvr_1.0.10_win_thin.zip"
   URL_MD5 062a029869423808aebc32f85edf38e2)
 
 superbuild_set_revision(paraviewwebvisualizer
-  URL     "https://www.paraview.org/files/dependencies/visualizer-3.1.9.tar.gz"
-  URL_MD5 d36aebc039e9a3926acaae0bc27f1ce5)
+  URL     "https://www.paraview.org/files/dependencies/pvw-visualizer-3.2.0.tgz"
+  URL_MD5 363e2dff0ed5efe96aadb783cdca6ba0)
 
-superbuild_set_revision(paraviewweblightviz
-  URL     "https://www.paraview.org/files/dependencies/light-viz-1.18.1.tar.gz"
-  URL_MD5 091c2ffbe7480f52f93bd25616267c2b)
+superbuild_set_revision(paraviewweblite
+  URL     "https://www.paraview.org/files/dependencies/paraview-lite-1.4.3.tgz"
+  URL_MD5 2e5b5ce704c0bcacf31f9bd79c779f7d)
+
+superbuild_set_revision(paraviewwebglance
+  URL     "https://www.paraview.org/files/dependencies/paraview-glance-3.5.10.tgz"
+  URL_MD5 b8307fcdbabacd8fd3ca471eab33353a)
+
+superbuild_set_revision(paraviewwebflow
+  URL     "https://www.paraview.org/files/dependencies/paraview-flow-1.0.7.tgz"
+  URL_MD5 50843ec3338687011a1d42018fde325d)
 
 superbuild_set_revision(paraviewwebdivvy
-  URL     "https://www.paraview.org/files/dependencies/divvy-1.3.14.tar.gz"
-  URL_MD5 e9a0453a057588791e00efede43cfb91)
-
-superbuild_set_revision(boxlib
-  URL     "https://www.paraview.org/files/dependencies/boxlib-c114717e6c47188a0812804addcab61d7605ef89.tar.bz2"
-  URL_MD5 fb96e9b2c347c9b790d0eab4ba810e14)
+  URL     "https://www.paraview.org/files/dependencies/pvw-divvy-1.3.16.tgz"
+  URL_MD5 481b18eb7b087a45e0269b7496b6b4db)
 
 superbuild_set_revision(las
   URL     "https://www.paraview.org/files/dependencies/libLAS-1.8.1.tar.bz2"
@@ -142,15 +142,68 @@ if (WIN32)
   set(nvidiaindex_platform "windows-x64")
   set(nvidiaindex_2_1_md5 "f6efc09092771eb0bfb375a503a95c04")
   set(nvidiaindex_2_2_md5 "93bb894e7951227862ea308f7d6e2e18")
+  set(nvidiaindex_2_3_md5 "f7374dfe3eec789b07957e4924fa029f")
 elseif (UNIX AND NOT APPLE)
   set(nvidiaindex_platform "linux")
   set(nvidiaindex_2_1_md5 "9fd5af702af6a6a6f2aba3a960703fb3")
   set(nvidiaindex_2_2_md5 "b97518f8b5d05497455e90ba5a0712f1")
+  set(nvidiaindex_2_3_md5 "9c57d22f065f2ac7c978e6e6e06ebb69")
 endif ()
 superbuild_set_selectable_source(nvidiaindex
-  SELECT 2.2 DEFAULT
+  SELECT 2.3 DEFAULT
+    URL     "http://www.paraview.org/files/dependencies/nvidia-index-libs-2.3.20190820-${nvidiaindex_platform}.tar.bz2"
+    URL_MD5 "${nvidiaindex_2_3_md5}"
+  SELECT 2.2
     URL     "http://www.paraview.org/files/dependencies/nvidia-index-libs-2.2.20181218-${nvidiaindex_platform}.tar.bz2"
     URL_MD5 "${nvidiaindex_2_2_md5}"
   SELECT 2.1
     URL     "http://www.paraview.org/files/dependencies/nvidia-index-libs-2.1.20180314-${nvidiaindex_platform}.tar.bz2"
     URL_MD5 "${nvidiaindex_2_1_md5}")
+
+# These two packages are only available at these URLs from inside Kitware. They
+# are available from NVIDIA at these URLs:
+#   - https://developer.nvidia.com/designworks/optix/download
+#   - https://developer.nvidia.com/mdl-sdk
+if (WIN32)
+  set(nvidiaoptix_platform "win64")
+  set(nvidiaoptix_md5 "1cc3026f4a1fc945e7158e8a66f8f9bd")
+elseif (UNIX AND NOT APPLE)
+  set(nvidiaoptix_platform "linux64")
+  set(nvidiaoptix_md5 "b5e9cdcb691ad7813e4e24986579a1ef")
+endif ()
+superbuild_set_revision(nvidiaoptix
+  URL     "http://www.paraview.org/files/dependencies/internal/NVIDIA-OptiX-SDK-6.0.0-${nvidiaoptix_platform}-25650775.tar.gz"
+  URL_MD5 "${nvidiaoptix_md5}")
+
+superbuild_set_revision(nvidiamdl
+  URL     "http://www.paraview.org/files/dependencies/internal/mdl-sdk-314800.830.tar.bz2"
+  URL_MD5 "d500a122918741eb418887d66e03325b")
+
+superbuild_set_revision(visrtx
+  URL     "http://www.paraview.org/files/dependencies/visrtx-v0.1.6.tar.gz"
+  URL_MD5 "c5fef9abd9d56bbbf2c222f0b0943e41")
+
+superbuild_set_revision(mili
+  URL     "https://www.paraview.org/files/dependencies/mili-15.1.tar.gz"
+  URL_MD5 "8848db9a5e692c010806d64b8c5e46a4")
+
+superbuild_set_revision(zfp
+  URL     "https://www.paraview.org/files/dependencies/zfp-0.5.5.tar.gz"
+  URL_MD5 "bc7e5fb1cd4345d17f7b9d470a1f23e7")
+
+superbuild_set_selectable_source(adios2
+  SELECT v2.5.0 DEFAULT
+    URL     "https://www.paraview.org/files/dependencies/adios2-v2.5.0.tar.gz"
+    URL_MD5 "a50a6bcd02a0a296484a213dca7f9a11"
+  SELECT git CUSTOMIZABLE
+    GIT_REPOSITORY "https://github.com/ornladios/ADIOS2.git"
+    GIT_TAG        "origin/master")
+
+superbuild_set_revision(libfabric
+  URL     "http://www.paraview.org/files/dependencies/libfabric-1.8.0.tar.bz2"
+  URL_MD5 "c19c257856cb6e5094e73bf727e2d76c")
+
+superbuild_set_revision(protobuf
+  GIT_REPOSITORY "https://github.com/protocolbuffers/protobuf"
+  GIT_TAG 2.7.0
+  SOURCE_SUBDIR cmake)
