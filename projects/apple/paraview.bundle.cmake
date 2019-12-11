@@ -108,10 +108,7 @@ if (python_enabled)
   superbuild_apple_install_python(
     "\${CMAKE_INSTALL_PREFIX}"
     "${paraview_appname}"
-    MODULES paraview
-            vtk
-            vtkmodules
-            ${python_modules}
+    MODULES ${python_modules}
     MODULE_DIRECTORIES
             "${superbuild_install_location}/Applications/paraview.app/Contents/Python"
             "${superbuild_install_location}/lib/python${superbuild_python_version}/site-packages"

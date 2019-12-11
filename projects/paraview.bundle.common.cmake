@@ -54,6 +54,19 @@ set(python_modules
   pygments
   mpi4py)
 
+if (paraview_is_shared)
+  list(APPEND python_modules
+    paraview
+    vtk
+    vtkmodules)
+else()
+  list(APPEND python_modules
+    _paraview
+    _vtk
+    _paraview_modules_static
+    _vtkmodules_static)
+endif()
+
 if (nlohmannjson_enabled)
   list(APPEND python_modules parflow)
 endif()
