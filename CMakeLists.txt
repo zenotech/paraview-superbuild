@@ -121,7 +121,8 @@ function (superbuild_find_projects var)
         mesa
         osmesa
         paraviewsdk
-        socat)
+        socat
+        utillinux)
     endif ()
   endif ()
 
