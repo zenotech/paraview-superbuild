@@ -358,6 +358,9 @@ set(_superbuild_default_nlohmannjson ON)
 # set the default for qt5 to be 5.9
 set(_superbuild_qt5_default_selection "5.9")
 
+# Force qt SVG support, so ParaView can use SVG icons
+set(qt5_ENABLE_SVG ON CACHE INTERNAL "ParaView requires SVG support")
+
 # ParaView's superbuild does not support static-everywhere builds. But let
 # people around the check if they want it.
 if (NOT PARAVIEW_I_WANT_EVERYTHING_STATIC)

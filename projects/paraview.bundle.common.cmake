@@ -220,7 +220,10 @@ if (qt5_enabled)
     set(qt5_plugin_prefix "lib")
   endif ()
 
+  # Add SVG support, so ParaView can use SVG icons
   set(qt5_plugins
+    iconengines/${qt5_plugin_prefix}qsvgicon
+    imageformats/${qt5_plugin_prefix}qsvg
     sqldrivers/${qt5_plugin_prefix}qsqlite)
 
   if (WIN32)
