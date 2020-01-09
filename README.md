@@ -31,7 +31,7 @@ generators (Xcode and Visual Studio) are not supported.
 
 The superbuild project uses the same versioning scheme as ParaView,
 and gets tagged for every release of ParaView.  For example, to build
-ParaView version 5.4.1, checkout the `v5.7.0` tag of ParaView and
+ParaView version 5.7.1, checkout the `v5.7.0` tag of ParaView and
 superbuild.
 
 Currently available tags are shown
