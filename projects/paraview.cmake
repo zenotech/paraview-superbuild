@@ -56,8 +56,6 @@ set(PARAVIEW_EXTERNAL_PROJECTS ""
   CACHE STRING "A list of projects for ParaView to depend on")
 mark_as_advanced(PARAVIEW_EXTERNAL_PROJECTS)
 
-option(PARAVIEW_FREEZE_PYTHON "Freeze Python packages and modules into the application" OFF)
-
 set(paraviews_platform_dependencies)
 if (UNIX)
   if (NOT APPLE)
@@ -89,11 +87,11 @@ if (USE_NONFREE_COMPONENTS AND (WIN32 OR (UNIX AND NOT APPLE)))
     visrtx)
 endif ()
 
-set(PARAVIEW_ENABLE_PYTHON ${python_enabled})
+set(PARAVIEW_USE_PYTHON ${python_enabled})
 if (python_enabled AND
     ((USE_SYSTEM_python2 AND NOT python2_FIND_LIBRARIES) OR
      (USE_SYSTEM_python3 AND NOT python3_FIND_LIBRARIES)))
-  set(PARAVIEW_ENABLE_PYTHON OFF)
+  set(PARAVIEW_USE_PYTHON OFF)
 endif()
 
 if (expat_enabled)
@@ -154,41 +152,40 @@ superbuild_add_project(paraview
     ${PARAVIEW_EXTERNAL_PROJECTS}
 
   CMAKE_ARGS
-    -DPARAVIEW_BUILD_SHARED_LIBS:BOOL=${paraview_build_shared_libs}
-    -DPARAVIEW_BUILD_TESTING:BOOL=OFF
     -DCMAKE_INSTALL_LIBDIR:PATH=lib
     -DCMAKE_INSTALL_NAME_DIR:PATH=<INSTALL_DIR>/lib
     -DCMAKE_MACOSX_RPATH:BOOL=OFF
-    -DPARAVIEW_PLUGIN_ENABLE_OpenVR:BOOL=${openvr_enabled}
-    -DPARAVIEW_BUILD_QT_GUI:BOOL=${qt5_enabled}
-    -DPARAVIEW_ENABLE_FFMPEG:BOOL=${ffmpeg_enabled}
-    -DPARAVIEW_ENABLE_PYTHON:BOOL=${PARAVIEW_ENABLE_PYTHON}
-    -DPARAVIEW_PYTHON_VERSION:STRING=${python_version}
-    -DPARAVIEW_ENABLE_COSMOTOOLS:BOOL=${cosmotools_enabled}
-    -DPARAVIEW_ENABLE_XDMF3:BOOL=${xdmf3_enabled}
-    -DPARAVIEW_ENABLE_LAS:BOOL=${las_enabled}
+    -DHDF5_NO_FIND_PACKAGE_CONFIG_FILE:BOOL=ON
+    -DPARAVIEW_BUILD_LEGACY_REMOVE:BOOL=ON
+    -DPARAVIEW_BUILD_SHARED_LIBS:BOOL=${paraview_build_shared_libs}
+    -DPARAVIEW_BUILD_TESTING:BOOL=OFF
     -DPARAVIEW_ENABLE_ADIOS2:BOOL=${adios2_enabled}
+    -DPARAVIEW_ENABLE_COSMOTOOLS:BOOL=${cosmotools_enabled}
+    -DPARAVIEW_ENABLE_FFMPEG:BOOL=${ffmpeg_enabled}
+    -DPARAVIEW_ENABLE_LAS:BOOL=${las_enabled}
     -DPARAVIEW_ENABLE_MOTIONFX:BOOL=${PARAVIEW_ENABLE_MOTIONFX}
-    -DPARAVIEW_USE_MPI:BOOL=${mpi_enabled}
     -DPARAVIEW_ENABLE_VISITBRIDGE:BOOL=${visitbridge_enabled}
+    -DPARAVIEW_ENABLE_XDMF3:BOOL=${xdmf3_enabled}
+    -DPARAVIEW_INSTALL_DEVELOPMENT_FILES:BOOL=${paraview_install_development_files}
+    -DPARAVIEW_PLUGIN_ENABLE_OpenVR:BOOL=${openvr_enabled}
+    -DPARAVIEW_PYTHON_VERSION:STRING=${python_version}
+    -DPARAVIEW_USE_MPI:BOOL=${mpi_enabled}
+    -DPARAVIEW_USE_PYTHON:BOOL=${PARAVIEW_USE_PYTHON}
+    -DPARAVIEW_USE_QT:BOOL=${qt5_enabled}
     -DVISIT_BUILD_READER_Mili:BOOL=${mili_enabled}
     -DVISIT_BUILD_READER_Silo:BOOL=${silo_enabled}
-    -DPARAVIEW_INSTALL_DEVELOPMENT_FILES:BOOL=${paraview_install_development_files}
-    -DPARAVIEW_FREEZE_PYTHON:BOOL=${PARAVIEW_FREEZE_PYTHON}
+    -DVTK_DEFAULT_RENDER_WINDOW_OFFSCREEN:BOOL=${osmesa_enabled}
     -DVTK_MODULE_USE_EXTERNAL_ParaView_protobuf:BOOL=${protobuf_enabled}
-    -DVTK_MODULE_USE_EXTERNAL_VTK_netcdf:BOOL=${netcdf_enabled}
+    -DVTK_MODULE_USE_EXTERNAL_VTK_expat:BOOL=${expat_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_freetype:BOOL=${freetype_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_hdf5:BOOL=${hdf5_enabled}
-    -DHDF5_NO_FIND_PACKAGE_CONFIG_FILE:BOOL=ON
     -DVTK_MODULE_USE_EXTERNAL_VTK_libxml2:BOOL=${libxml2_enabled}
+    -DVTK_MODULE_USE_EXTERNAL_VTK_netcdf:BOOL=${netcdf_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_png:BOOL=${png_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_zlib:BOOL=${zlib_enabled}
-    -DVTK_MODULE_USE_EXTERNAL_VTK_expat:BOOL=${expat_enabled}
-    -DVTK_SMP_IMPLEMENTATION_TYPE:STRING=${paraview_smp_backend}
-    -DVTK_LEGACY_REMOVE:BOOL=ON
-    -DVTK_DEFAULT_RENDER_WINDOW_OFFSCREEN:BOOL=${osmesa_enabled}
     -DVTK_OPENGL_HAS_EGL:BOOL=${egl_enabled}
     -DVTK_OPENGL_HAS_OSMESA:BOOL=${osmesa_enabled}
+    -DVTK_SMP_IMPLEMENTATION_TYPE:STRING=${paraview_smp_backend}
     -DVTK_USE_X:BOOL=${paraview_use_x}
 
     # mesa flags
@@ -196,7 +193,7 @@ superbuild_add_project(paraview
     -DPARAVIEW_MESA_LIBDIR:STRING=${paraview_mesa_libdir}
 
     # raytracing flags
-    -DPARAVIEW_USE_RAYTRACING:BOOL=${paraview_use_raytracing}
+    -DPARAVIEW_ENABLE_RAYTRACING:BOOL=${paraview_use_raytracing}
     -DVTKOSPRAY_ENABLE_DENOISER:BOOL=${openimagedenoise_enabled}
     -DVTK_ENABLE_OSPRAY:BOOL=${ospray_enabled}
     -DVTK_ENABLE_VISRTX:BOOL=${visrtx_enabled}
@@ -221,6 +218,14 @@ superbuild_add_project(paraview
 
     # add additional plugin directories
     -DPARAVIEW_EXTERNAL_PLUGIN_DIRS:STRING=${paraview_plugin_dirs}
+
+    # deprecated/legacy options for ParaView 5.7
+    # FIXME: remove these once 5.8 is out and we remove the 5.7
+    # from supported versions.
+    -DPARAVIEW_BUILD_QT_GUI:BOOL=${qt5_enabled}
+    -DPARAVIEW_ENABLE_PYTHON:BOOL=${PARAVIEW_ENABLE_PYTHON}
+    -DPARAVIEW_USE_RAYTRACING:BOOL=${paraview_use_raytracing}
+    -DVTK_LEGACY_REMOVE:BOOL=ON
 
     ${paraview_extra_cmake_options}
 
