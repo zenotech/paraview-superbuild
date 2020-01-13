@@ -1,0 +1,16 @@
+diff -Nru5 gdal-98353693d6f1d607954220b2f8b040375e3d1744/ogr/ogrsf_frmts/gml/CMakeLists.txt gdal-98353693d6f1d607954220b2f8b040375e3d1744.no-sqlite/ogr/ogrsf_frmts/gml/CMakeLists.txt
+--- gdal-98353693d6f1d607954220b2f8b040375e3d1744/ogr/ogrsf_frmts/gml/CMakeLists.txt	2016-12-08 12:42:59.000000000 -0500
++++ gdal-98353693d6f1d607954220b2f8b040375e3d1744.no-sqlite/ogr/ogrsf_frmts/gml/CMakeLists.txt	2017-04-14 10:14:27.425063396 -0400
+@@ -42,11 +42,11 @@
+ 
+ # ifeq ($(HAVE_XERCES),yes)
+ # CPPFLAGS +=  -DHAVE_XERCES
+ # endif
+ 
+-find_package(Sqlite3)
++#find_package(Sqlite3)
+ if(SQLITE3_FOUND)
+     include_directories(${SQLITE3_INCLUDE_DIR})
+     add_definitions(-DHAVE_SQLITE)
+ 	set(GDAL_HAVE_SQLITE ON CACHE INTERNAL "GDAL_HAVE_SQLITE")
+ endif(SQLITE3_FOUND)

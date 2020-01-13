@@ -140,7 +140,7 @@ superbuild_add_project(paraview
   DEBUGGABLE
   DEFAULT_ON
   DEPENDS_OPTIONAL
-    adios2 cuda boost hdf5 matplotlib mpi numpy png protobuf
+    adios2 cuda boost gdal hdf5 matplotlib mpi numpy png protobuf
     python python2 python3 qt5 visitbridge zlib silo las
     xdmf3 ospray vrpn vtkm tbb netcdf
     nlohmannjson
@@ -162,6 +162,7 @@ superbuild_add_project(paraview
     -DPARAVIEW_ENABLE_ADIOS2:BOOL=${adios2_enabled}
     -DPARAVIEW_ENABLE_COSMOTOOLS:BOOL=${cosmotools_enabled}
     -DPARAVIEW_ENABLE_FFMPEG:BOOL=${ffmpeg_enabled}
+    -DPARAVIEW_ENABLE_GDAL:BOOL=${gdal_enabled}
     -DPARAVIEW_ENABLE_LAS:BOOL=${las_enabled}
     -DPARAVIEW_ENABLE_MOTIONFX:BOOL=${PARAVIEW_ENABLE_MOTIONFX}
     -DPARAVIEW_ENABLE_VISITBRIDGE:BOOL=${visitbridge_enabled}

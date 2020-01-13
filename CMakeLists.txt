@@ -47,6 +47,7 @@ function (superbuild_find_projects var)
     cuda
     embree
     freetype
+    gdal
     hdf5
     ispc
     las
@@ -102,6 +103,7 @@ function (superbuild_find_projects var)
       ffi
       ffmpeg
       fortran
+      gdal
       genericio
       lapack
       libxml2
