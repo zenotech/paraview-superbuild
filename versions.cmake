@@ -49,11 +49,6 @@ superbuild_set_selectable_source(paraview
     GIT_TAG        "origin/master"
   SELECT source CUSTOMIZABLE
     SOURCE_DIR "source-paraview")
-get_property(paraview_revision GLOBAL
-  PROPERTY paraview_revision)
-superbuild_set_revision(catalyst
-  ${paraview_revision})
-unset(paraview_revision)
 
 superbuild_set_revision(vrpn
   # https://github.com/vrpn/vrpn.git

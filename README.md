@@ -103,9 +103,7 @@ different features within the resulting ParaView build. Most projects involve
 downloading and adding the feature to the resulting package, but there are a
 few which are used just to enable features within ParaView itself.
 
-The `catalyst` and `paraview` projects are mutually exclusive (the libraries
-conflict in the install tree). One of these two projects must be enabled.
-The `catalyst` package is only available on Linux.
+The `paraview` project must be enabled to build ParaView.
 
 The `paraviewsdk` project enables the building of a package which includes
 headers and libraries suitable for developing against ParaView. It is only available
@@ -174,8 +172,6 @@ include:
   * `paraview/DragNDrop`
   * `paraview/TGZ`
   * `paraview/TXZ`
-  * `catalyst/TGZ`
-  * `catalyst/TXZ`
   * `paraviewsdk/TGZ`
   * `paraviewsdk/TXZ`
 
@@ -300,13 +296,6 @@ The following flags affect ParaView directly:
   * `PARAVIEW_EXTRA_CMAKE_ARGUMENTS` (default `""`: Extra CMake arguments to
     pass to ParaView's configure step. This can be used to set CMake variables
     for the build that are otherwise not exposed in the superbuild itself.
-
-The following flags affect Catalyst:
-
-  * `PARAVIEW_CATALYST_EDITION` (default `Essentials`): The edition of
-    Catalyst to build (also available: `Extras` and `Rendering-Base`).
-  * `PARAVIEW_CATALYST_PYTHON` (default `ON`): Enable Python support in
-    Catalyst.
 
 ### Packaging Variables
 
