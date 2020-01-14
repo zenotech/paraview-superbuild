@@ -297,6 +297,23 @@ The following flags affect ParaView directly:
     pass to ParaView's configure step. This can be used to set CMake variables
     for the build that are otherwise not exposed in the superbuild itself.
 
+#### ParaView editions
+
+A typical ParaView build includes several modules and dependencies. While these
+are necessary for a fully functional application, there are cases (e.g. in situ
+use-cases) where a build with limited set of features is adequate. ParaView build supports
+this using the `PARAVIEW_BUILD_EDITION` setting. Supported values for this setting are:
+
+* `CORE`: Build modules necessary for core ParaView functionality.
+  This does not include rendering.
+* `RENDERING`: Build modules necessary for supporting rendering including views
+  and representations. This includes everything in `CORE`.
+* `CATALYST`: Build all modules necessary for in situ use cases without
+  rendering and optional components like NetCDF- and HDF5-based readers and
+  writers.
+* `CATALYST_RENDERING`: Same as `CATALYST` but with rendering supported added.
+* `CANONICAL` (default): Build modules necessary for standard ParaView build.
+
 ### Packaging Variables
 
   * `PARAVIEW_PACKAGE_SUFFIX` (default based on selected options): The suffix
