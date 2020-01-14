@@ -24,7 +24,7 @@ superbuild_set_revision(genericio
   URL     "https://www.paraview.org/files/dependencies/genericio-master-a15ffc76cfa9f9674f933e8cb5ffc97a97fd7b27.zip"
   URL_MD5 daea4ea2076fb6a1b8ccded8e861e1be)
 
-set(paraview_doc_ver_series "5.7")
+set(paraview_doc_ver_series "5.8")
 set(paraview_doc_ver "${paraview_doc_ver_series}.0")
 superbuild_set_revision(paraviewgettingstartedguide
   URL     "https://www.paraview.org/files/v${paraview_doc_ver_series}/ParaViewGettingStarted-${paraview_doc_ver}.pdf"
@@ -41,9 +41,9 @@ superbuild_set_selectable_source(paraview
   # NOTE: When updating this selection, also update `README.md` and CMakeLists.txt.
   # NOTE: When 5.8.0 is added, remove 5.7.0 and also remove deprecated vars in
   #       `paraview.cmake`
-  SELECT 5.7.0 DEFAULT
-    URL     "http://www.paraview.org/files/v5.7/ParaView-v5.7.0.tar.xz"
-    URL_MD5 5f86cb2ab2e1efb415271f375f67e41b
+  SELECT 5.8.0-RC1 DEFAULT
+    URL     "http://www.paraview.org/files/v5.8/ParaView-v5.8.0-RC1.tar.xz"
+    URL_MD5 eac4f96d20da17cc2f80c1c35152d14b
   SELECT git CUSTOMIZABLE
     GIT_REPOSITORY "https://gitlab.kitware.com/paraview/paraview.git"
     GIT_TAG        "origin/master"
