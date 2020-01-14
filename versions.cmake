@@ -39,8 +39,6 @@ superbuild_set_revision(paraviewtutorialdata
 # on this assumption.
 superbuild_set_selectable_source(paraview
   # NOTE: When updating this selection, also update `README.md` and CMakeLists.txt.
-  # NOTE: When 5.8.0 is added, remove 5.7.0 and also remove deprecated vars in
-  #       `paraview.cmake`
   SELECT 5.8.0-RC1 DEFAULT
     URL     "http://www.paraview.org/files/v5.8/ParaView-v5.8.0-RC1.tar.xz"
     URL_MD5 eac4f96d20da17cc2f80c1c35152d14b

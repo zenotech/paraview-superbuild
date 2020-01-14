@@ -219,14 +219,6 @@ superbuild_add_project(paraview
     # add additional plugin directories
     -DPARAVIEW_EXTERNAL_PLUGIN_DIRS:STRING=${paraview_plugin_dirs}
 
-    # deprecated/legacy options for ParaView 5.7
-    # FIXME: remove these once 5.8 is out and we remove the 5.7
-    # from supported versions.
-    -DPARAVIEW_BUILD_QT_GUI:BOOL=${qt5_enabled}
-    -DPARAVIEW_ENABLE_PYTHON:BOOL=${PARAVIEW_ENABLE_PYTHON}
-    -DPARAVIEW_USE_RAYTRACING:BOOL=${paraview_use_raytracing}
-    -DVTK_LEGACY_REMOVE:BOOL=ON
-
     ${paraview_extra_cmake_options}
 
     ${PARAVIEW_EXTRA_CMAKE_ARGUMENTS})
