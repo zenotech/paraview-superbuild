@@ -1,0 +1,26 @@
+diff -Nr -U5 gdal-98353693d6f1d607954220b2f8b040375e3d1744/alg/CMakeLists.txt gdal-98353693d6f1d607954220b2f8b040375e3d1744.no-geos/alg/CMakeLists.txt
+--- gdal-98353693d6f1d607954220b2f8b040375e3d1744/alg/CMakeLists.txt	2016-12-08 12:42:59.000000000 -0500
++++ gdal-98353693d6f1d607954220b2f8b040375e3d1744.no-geos/alg/CMakeLists.txt	2017-04-13 08:39:31.959865767 -0400
+@@ -29,20 +29,20 @@
+ set(LIB_NAME "alg")
+ project ("lib${LIB_NAME}")
+ 
+ include_directories(${GDAL_ROOT_SOURCE_DIR}/frmts/gtiff)
+ 
+-find_package(GEOS)
++#find_package(GEOS)
+ if(GEOS_FOUND)
+ 	get_filename_component(GEOS_ROOT ${GEOS_INCLUDE_DIR} PATH)
+     include_directories(${GEOS_INCLUDE_DIR})
+     include_directories(${GEOS_ROOT}/capi)	
+ 	add_definitions(-DHAVE_GEOS=1)
+ 	set(GDAL_HAVE_GEOS ON PARENT_SCOPE)
+ endif(GEOS_FOUND)
+ 
+-find_package(Armadillo)
++#find_package(Armadillo)
+ if(ARMADILLO_FOUND)
+ 	include_directories(${GEOS_INCLUDE_DIRS})
+ 	add_definitions(-DHAVE_ARMADILLO)
+ 	set(GDAL_HAVE_ARMADILLO ON PARENT_SCOPE)
+ endif(ARMADILLO_FOUND)

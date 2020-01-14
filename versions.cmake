@@ -209,3 +209,8 @@ superbuild_set_revision(protobuf
   GIT_REPOSITORY "https://github.com/protocolbuffers/protobuf"
   GIT_TAG 2.7.0
   SOURCE_SUBDIR cmake)
+
+superbuild_set_revision(gdal
+  # https://github.com/judajake/gdal-svn.git
+  URL     "https://www.paraview.org/files/dependencies/gdal-98353693d6f1d607954220b2f8b040375e3d1744.tar.bz2"
+  URL_MD5 5aa285dcc856f98ce44020ae1ae192cb)
