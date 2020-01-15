@@ -2,6 +2,12 @@ set(PARAVIEW_EXTRA_CMAKE_ARGUMENTS ""
   CACHE STRING "Extra arguments to be passed to ParaView when configuring.")
 mark_as_advanced(PARAVIEW_EXTRA_CMAKE_ARGUMENTS)
 
+set(PARAVIEW_BUILD_EDITION "CANONICAL"
+  CACHE STRING "Build selected ParaView Edition")
+set_property(CACHE PARAVIEW_BUILD_EDITION
+  PROPERTY
+    STRINGS "CORE;RENDERING;CATALYST;CATALYST_RENDERING;CANONICAL")
+
 option(PARAVIEW_DEFAULT_SYSTEM_GL "Default to using the system OpenGL" OFF)
 
 set (paraview_extra_cmake_options)
@@ -159,6 +165,7 @@ superbuild_add_project(paraview
     -DPARAVIEW_BUILD_LEGACY_REMOVE:BOOL=ON
     -DPARAVIEW_BUILD_SHARED_LIBS:BOOL=${paraview_build_shared_libs}
     -DPARAVIEW_BUILD_TESTING:BOOL=OFF
+    -DPARAVIEW_BUILD_EDITION:STRING=${PARAVIEW_BUILD_EDITION}
     -DPARAVIEW_ENABLE_ADIOS2:BOOL=${adios2_enabled}
     -DPARAVIEW_ENABLE_COSMOTOOLS:BOOL=${cosmotools_enabled}
     -DPARAVIEW_ENABLE_FFMPEG:BOOL=${ffmpeg_enabled}
@@ -219,14 +226,6 @@ superbuild_add_project(paraview
 
     # add additional plugin directories
     -DPARAVIEW_EXTERNAL_PLUGIN_DIRS:STRING=${paraview_plugin_dirs}
-
-    # deprecated/legacy options for ParaView 5.7
-    # FIXME: remove these once 5.8 is out and we remove the 5.7
-    # from supported versions.
-    -DPARAVIEW_BUILD_QT_GUI:BOOL=${qt5_enabled}
-    -DPARAVIEW_ENABLE_PYTHON:BOOL=${PARAVIEW_ENABLE_PYTHON}
-    -DPARAVIEW_USE_RAYTRACING:BOOL=${paraview_use_raytracing}
-    -DVTK_LEGACY_REMOVE:BOOL=ON
 
     ${paraview_extra_cmake_options}
 
