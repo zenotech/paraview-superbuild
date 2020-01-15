@@ -39,8 +39,6 @@ superbuild_set_revision(paraviewtutorialdata
 # on this assumption.
 superbuild_set_selectable_source(paraview
   # NOTE: When updating this selection, also update `README.md` and CMakeLists.txt.
-  # NOTE: When 5.8.0 is added, remove 5.7.0 and also remove deprecated vars in
-  #       `paraview.cmake`
   SELECT 5.8.0-RC1 DEFAULT
     URL     "http://www.paraview.org/files/v5.8/ParaView-v5.8.0-RC1.tar.xz"
     URL_MD5 eac4f96d20da17cc2f80c1c35152d14b
@@ -49,11 +47,6 @@ superbuild_set_selectable_source(paraview
     GIT_TAG        "origin/master"
   SELECT source CUSTOMIZABLE
     SOURCE_DIR "source-paraview")
-get_property(paraview_revision GLOBAL
-  PROPERTY paraview_revision)
-superbuild_set_revision(catalyst
-  ${paraview_revision})
-unset(paraview_revision)
 
 superbuild_set_revision(vrpn
   # https://github.com/vrpn/vrpn.git
