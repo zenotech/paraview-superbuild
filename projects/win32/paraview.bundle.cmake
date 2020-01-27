@@ -80,14 +80,15 @@ if (nvidiaindex_enabled)
     libdice
     libnvindex)
 
-  # Need different nvrtc-builtins library depending on whether we are building
-  # with IndeX 2.1 or 2.2.
+  # Need different nvrtc-builtins library depending on the version of IndeX.
   if (nvidiaindex_SOURCE_SELECTION STREQUAL "2.1")
     list(APPEND nvidiaindex_libraries nvrtc-builtins64_80)
   elseif (nvidiaindex_SOURCE_SELECTION STREQUAL "2.2")
     list(APPEND nvidiaindex_libraries nvrtc-builtins64_90)
   elseif (nvidiaindex_SOURCE_SELECTION STREQUAL "2.3")
     list(APPEND nvidiaindex_libraries nvrtc-builtins64_101)
+  elseif (nvidiaindex_SOURCE_SELECTION STREQUAL "2.4")
+    list(APPEND nvidiaindex_libraries nvrtc-builtins64_102)
   else ()
     message(FATAL_ERROR
       "Unknown nvrtc-builtins64 library for ${nvidiaindex_SOURCE_SELECTION}.")
