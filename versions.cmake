@@ -147,6 +147,8 @@ elseif (UNIX AND NOT APPLE)
   set(nvidiaindex_2_4_md5 "cc795e80048fab1ba1c9f25603d22779")
 endif ()
 superbuild_set_selectable_source(nvidiaindex
+  # XXX(index): Adding a new version? The Windows bundle script needs to know
+  # too (nvrtc-builtins).
   SELECT 2.4 DEFAULT
     URL     "http://www.paraview.org/files/dependencies/nvidia-index-libs-2.4.20200124-${nvidiaindex_platform}.tar.bz2"
     URL_MD5 "${nvidiaindex_2_4_md5}"
