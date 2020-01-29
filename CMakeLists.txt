@@ -117,6 +117,7 @@ function (superbuild_find_projects var)
         fontconfig
         glproto
         gperf
+        launchers
         libfabric
         llvm
         mesa
@@ -201,6 +202,14 @@ function (superbuild_sanity_check)
     message(SEND_ERROR "Cannot enable OSMesa and Mesa at the same time.")
   endif ()
 
+  # Sanity check: report cases where it doesn't make any sense to enable launchers.
+  if (launchers_enabled AND NOT (mesa_enabled OR mpi_enabled))
+    message(SEND_ERROR "Launchers cannot be enabled since neither MPI or MESA is enabled.")
+  endif ()
+
+  if (launchers_enabled AND mpi_enabled AND USE_SYSTEM_mpi AND NOT mesa_enabled)
+    message(SEND_ERROR "Launchers cannot be enabled since MESA is not enabled and USE_SYSTEM_mpi is ON.")
+  endif ()
 endfunction ()
 
 function (superbuild_add_packaging)

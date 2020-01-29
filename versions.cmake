@@ -214,3 +214,6 @@ superbuild_set_revision(gdal
   # https://github.com/judajake/gdal-svn.git
   URL     "https://www.paraview.org/files/dependencies/gdal-98353693d6f1d607954220b2f8b040375e3d1744.tar.bz2"
   URL_MD5 5aa285dcc856f98ce44020ae1ae192cb)
+
+superbuild_set_revision(launchers
+  SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/launchers")
