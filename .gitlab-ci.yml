@@ -1,0 +1,182 @@
+# CI strategy for ParaView-Superbuild
+#
+# Builders:
+#
+# - CentOS 7
+#   * .gitlab/ci/docker/centos7
+#     - "Full" superbuild
+#     - GLX
+#     - devtoolset-7
+#   * .gitlab/ci/docker/centos7
+#     - "Full" superbuild
+#     - EGL, no GLX
+#     - devtoolset-7
+#   * .gitlab/ci/docker/centos7
+#     - OSMesa superbuild
+#     - devtoolset-7
+
+.build_rules_settings: &build_rules_settings
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "release"'
+    - if: '$CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "release"'
+      when: delayed
+      start_in: 30 minutes
+    - when: manual
+
+.test_rules_settings: &test_rules_settings
+    - when: on_success
+    - when: manual
+
+.centos7: &centos7
+    # image: "kitware/cmb:ci-superbuild-centos7-20191127"
+    image: "utkarshayachit/paraview:ci-superbuild-centos7-20200201"
+
+    variables:
+        GIT_SUBMODULE_STRATEGY: recursive
+        LAUNCHER: "scl enable devtoolset-7 --"
+        CMAKE: cmake
+        CTEST: ctest
+        CMAKE_CONFIGURATION: centos7
+        SCCACHE_REDIS: redis://minmus:6379
+
+.centos7_egl: &centos7_egl
+    extends: .centos7
+
+    variables:
+        CMAKE_CONFIGURATION: centos7_egl
+
+.centos7_osmesa: &centos7_osmesa
+    extends: .centos7
+
+    variables:
+        CMAKE_CONFIGURATION: centos7_osmesa
+
+.cmake_build_unix: &cmake_build_unix
+    stage: build
+    rules: *build_rules_settings
+    tags:
+        - build
+        - paraview
+        - docker
+        - linux
+    interruptible: true
+    script:
+        - export GIT_CEILING_DIRECTORIES=$PWD
+        - .gitlab/ci/sccache.sh
+        - .gitlab/ci/cmake.sh
+        - .gitlab/ci/ninja.sh
+        - export PATH=$PWD/.gitlab:$PWD/.gitlab/cmake/bin:$PATH
+        - sccache --start-server
+        - sccache --show-stats
+        - "$CMAKE --version"
+        - "ninja --version"
+        - "$LAUNCHER $CTEST -VV -S .gitlab/ci/ctest_configure.cmake"
+        - "$LAUNCHER $CTEST -V -S .gitlab/ci/ctest_build.cmake"
+        - sccache --show-stats
+    cache:
+        key: centos7
+        paths:
+            # Cache downloaded tarballs
+            - build/downloads/
+    artifacts:
+        expire_in: 3 hours
+        when: always
+        paths:
+            # The artifacts for debugging
+            - build/CMakeCache.txt
+            - build/superbuild/*.cmake
+
+            # logs for suppressed outputs
+            - build/superbuild/numpy/stamp/numpy-*.log
+            - build/superbuild/paraview/stamp/paraview-*.log
+            - build/superbuild/python3/stamp/python3-*.log
+            - build/superbuild/pythonzope/stamp/pythonzope-*.log
+            - build/superbuild/pythonzopeinterface/stamp/pythonzopeinterface-*.log
+            - build/superbuild/qt5/stamp/qt5-*.log
+            - build/superbuild/scipy/stamp/scipy-*.log
+
+            # The artifacts of the build
+            - build/install
+
+            # Files requires for packaging test.
+            - build/superbuild/CMakeFiles/cmake/
+            - build/superbuild/superbuild_testing_trampoline.cmake
+            - build/cpack/
+
+            # CTest files.
+            - build/CTestCustom*.cmake
+            - build/CTestTestfile.cmake
+            - build/superbuild/CTestTestfile.cmake
+            - build/Testing/
+
+            # CDash files.
+            - build/DartConfiguration.tcl
+
+.cmake_test_unix: &cmake_test_unix
+    stage: test
+    rules: *test_rules_settings
+    tags:
+        - paraview
+        - docker
+        - linux
+    interruptible: true
+    script:
+        - .gitlab/ci/cmake.sh
+        - .gitlab/ci/ninja.sh
+        - export PATH=$PATH:$PWD/.gitlab:$PWD/.gitlab/cmake/bin
+        - "$LAUNCHER $CTEST -V -S .gitlab/ci/ctest_test.cmake"
+    artifacts:
+        expire_in: 3 hours
+        # Tests failing should still upload the artifact for further testing.
+        when: always
+        paths:
+            # Debugging logs
+            - build/Testing/Temporary/Last*.log
+
+            # tarballs
+            - build/*.tar.*
+
+stages:
+    - build
+    - test
+
+build:centos7:
+    <<:
+        - *centos7
+        - *cmake_build_unix
+
+test:centos7:
+    <<:
+        - *centos7
+        - *cmake_test_unix
+    dependencies:
+        - build:centos7
+    needs:
+        - build:centos7
+
+build:centos7-egl:
+    <<:
+        - *centos7_egl
+        - *cmake_build_unix
+
+test:centos7-egl:
+    <<:
+        - *centos7_egl
+        - *cmake_test_unix
+    dependencies:
+        - build:centos7-egl
+    needs:
+        - build:centos7-egl
+
+build:centos7-osmesa:
+    <<:
+        - *centos7_osmesa
+        - *cmake_build_unix
+
+test:centos7-osmesa:
+    <<:
+        - *centos7_osmesa
+        - *cmake_test_unix
+    dependencies:
+        - build:centos7-osmesa
+    needs:
+        - build:centos7-osmesa
