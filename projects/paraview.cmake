@@ -8,8 +8,6 @@ set_property(CACHE PARAVIEW_BUILD_EDITION
   PROPERTY
     STRINGS "CORE;RENDERING;CATALYST;CATALYST_RENDERING;CANONICAL")
 
-option(PARAVIEW_DEFAULT_SYSTEM_GL "Default to using the system OpenGL" OFF)
-
 set (paraview_extra_cmake_options)
 if (PV_NIGHTLY_SUFFIX)
   list(APPEND paraview_extra_cmake_options
@@ -76,11 +74,6 @@ if (UNIX)
 
     # For cosmotools
     genericio cosmotools)
-endif ()
-
-set(paraview_mesa_libdir "<LIBDIR>")
-if (PARAVIEW_DEFAULT_SYSTEM_GL AND mesa_enabled)
-  set(paraview_mesa_libdir "<LIBDIR>/mesa")
 endif ()
 
 if (WIN32)
@@ -195,10 +188,6 @@ superbuild_add_project(paraview
     -DVTK_OPENGL_HAS_OSMESA:BOOL=${osmesa_enabled}
     -DVTK_SMP_IMPLEMENTATION_TYPE:STRING=${paraview_smp_backend}
     -DVTK_USE_X:BOOL=${paraview_use_x}
-
-    # mesa flags
-    -DPARAVIEW_BUILD_MESA_LAUNCHER:BOOL=${mesa_enabled}
-    -DPARAVIEW_MESA_LIBDIR:STRING=${paraview_mesa_libdir}
 
     # raytracing flags
     -DPARAVIEW_ENABLE_RAYTRACING:BOOL=${paraview_use_raytracing}
