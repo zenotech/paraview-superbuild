@@ -264,3 +264,8 @@ if (APPLE)
   superbuild_append_flags(cxx_flags "-stdlib=libc++" PROJECT_ONLY)
   superbuild_append_flags(ld_flags "-stdlib=libc++" PROJECT_ONLY)
 endif ()
+
+if (ospray_enabled AND tbb_enabled)
+  superbuild_add_extra_cmake_args(
+    -DTBB_ROOT:PATH=<INSTALL_DIR>)
+endif()
