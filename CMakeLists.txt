@@ -222,8 +222,7 @@ function (superbuild_add_packaging)
       DragNDrop)
   else ()
     set(generators
-      TGZ
-      TXZ)
+      TGZ)
   endif ()
   list(GET generators 0 default_generator)
 
