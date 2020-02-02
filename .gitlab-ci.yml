@@ -71,6 +71,7 @@
         - export GIT_CEILING_DIRECTORIES=$PWD
         - "$LAUNCHER $CTEST -VV -S .gitlab/ci/ctest_configure.cmake"
         - "$LAUNCHER $CTEST -V -S .gitlab/ci/ctest_build.cmake"
+        - "$LAUNCHER $CTEST -V -S .gitlab/ci/ctest_package.cmake"
         - sccache --show-stats
     cache:
         key: centos7
@@ -94,46 +95,15 @@
             - build/superbuild/qt5/stamp/qt5-*.log
             - build/superbuild/scipy/stamp/scipy-*.log
 
-            # The artifacts of the build
-            - build/install
-
-            # Files requires for packaging test.
-            - build/superbuild/CMakeFiles/cmake/
-            - build/superbuild/superbuild_testing_trampoline.cmake
-            - build/cpack/
-
-            # CTest files.
-            - build/CTestCustom*.cmake
-            - build/CTestTestfile.cmake
-            - build/superbuild/CTestTestfile.cmake
-            - build/Testing/
-
-            # CDash files.
-            - build/DartConfiguration.tcl
-
-.cmake_package_unix: &cmake_package_unix
-    stage: package
-    only: *only_settings
-    tags:
-        - paraview
-        - docker
-        - linux
-    interruptible: true
-    script:
-        - *setup_tools
-        - "$LAUNCHER $CTEST -V -S .gitlab/ci/ctest_package.cmake"
-    artifacts:
-        expire_in: 3 hours
-        # Tests failing should still upload the artifact for further testing.
-        when: always
-        paths:
             # tarballs
             - build/*.tar.*
 
             # Files requires for packaging test.
             - build/superbuild/CMakeFiles/cmake/
             - build/superbuild/superbuild_testing_trampoline.cmake
-            - build/cpack/
+
+            # Files required for other tests.
+            - build/tests
 
             # CTest files.
             - build/CTestCustom*.cmake
@@ -165,7 +135,6 @@
 
 stages:
     - build
-    - package
     - test
 
 build:centos7:
@@ -173,70 +142,39 @@ build:centos7:
         - *centos7
         - *cmake_build_unix
 
-package:centos7:
-    <<:
-        - *centos7
-        - *cmake_package_unix
-    dependencies:
-        - build:centos7
-    needs:
-        - build:centos7
-
 test:centos7:
     <<:
         - *centos7
         - *cmake_test_unix
     dependencies:
-        - package:centos7
+        - build:centos7
     needs:
         - build:centos7
-        - package:centos7
-
 
 build:centos7-egl:
     <<:
         - *centos7_egl
         - *cmake_build_unix
 
-package:centos7-egl:
-    <<:
-        - *centos7_egl
-        - *cmake_package_unix
-    dependencies:
-        - build:centos7-egl
-    needs:
-        - build:centos7-egl
-
 test:centos7-egl:
     <<:
         - *centos7_egl
         - *cmake_test_unix
     dependencies:
-        - package:centos7-egl
+        - build:centos7-egl
     needs:
         - build:centos7-egl
-        - package:centos7-egl
 
 build:centos7-osmesa:
     <<:
         - *centos7_osmesa
         - *cmake_build_unix
 
-package:centos7-osmesa:
-    <<:
-        - *centos7_osmesa
-        - *cmake_package_unix
-    dependencies:
-        - build:centos7-osmesa
-    needs:
-        - build:centos7-osmesa
-
 test:centos7-osmesa:
     <<:
         - *centos7_osmesa
         - *cmake_test_unix
     dependencies:
-        - package:centos7-osmesa
+        - build:centos7-osmesa
     needs:
         - build:centos7-osmesa
-        - package:centos7-osmesa
