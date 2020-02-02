@@ -32,6 +32,7 @@
 
     variables:
         GIT_SUBMODULE_STRATEGY: recursive
+        GIT_CLONE_PATH: "$CI_BUILDS_DIR/source"
         LAUNCHER: "scl enable devtoolset-7 --"
         CMAKE: cmake
         CTEST: ctest
