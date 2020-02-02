@@ -6,22 +6,10 @@ ctest_read_custom_files("${CTEST_BINARY_DIRECTORY}")
 # Pick up from where the configure left off.
 ctest_start(APPEND)
 
-include(ProcessorCount)
-ProcessorCount(nproc)
-
-set(test_exclusions
-  # exclude package generation tests
-  "cpack-"
-)
-string(REPLACE ";" "|" test_exclusions "${test_exclusions}")
-if (test_exclusions)
-  set(test_exclusions "(${test_exclusions})")
-endif ()
-
-ctest_test(APPEND
-  PARALLEL_LEVEL "${nproc}"
+ctest_test(
   RETURN_VALUE test_result
-  EXCLUDE "${test_exclusions}")
+  INCLUDE "cpack-")
+
 ctest_submit(PARTS Test)
 
 if (test_result)

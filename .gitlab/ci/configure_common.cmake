@@ -1,4 +1,5 @@
 set(USE_NONFREE_COMPONENTS          ON CACHE BOOL "")
+set(BUILD_TESTING                   ON CACHE BOOL "")
 
 set(ENABLE_adios2                   ON CACHE BOOL "")
 set(ENABLE_cosmotools               ON CACHE BOOL "")
@@ -50,7 +51,6 @@ set(qt5_SOURCE_SELECTION            "5.10" CACHE STRING "")
 # the gold linker seems to fail with internal error on centos7 builds
 # disabling
 set(qt5_EXTRA_CONFIGURATION_OPTIONS "-no-use-gold-linker" CACHE STRING "")
-
 
 # output suppressions
 set(SUPPRESS_numpy_OUTPUT               ON CACHE BOOL "")
