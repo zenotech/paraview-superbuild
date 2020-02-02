@@ -28,7 +28,8 @@
     - export PATH=$PWD/.gitlab:$PWD/.gitlab/cmake/bin:$PATH
     - "$CMAKE --version"
     - "ninja --version"
-
+    - export CC=$PWD/.gitlab/shortcuts/gcc
+    - export CXX=$PWD/.gitlab/shortcuts/g++
 
 .centos7: &centos7
     # image: "kitware/cmb:ci-superbuild-centos7-20191127"
