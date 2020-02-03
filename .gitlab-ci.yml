@@ -31,12 +31,17 @@
     - export CC=$PWD/.gitlab/shortcuts/gcc
     - export CXX=$PWD/.gitlab/shortcuts/g++
 
+.submodule_update: &submodule_update
+    - git submodule foreach --recursive $CMAKE -Dusername:STRING="$CI_PROJECT_NAMESPACE" -Durl_prefix:STRING="https://$CI_SERVER_HOST" -P $PWD/.gitlab/ci/fetch_submodule.cmake
+    - git submodule sync --recursive
+    - git submodule update --init --recursive
+
 .centos7: &centos7
     # image: "kitware/cmb:ci-superbuild-centos7-20191127"
     image: "utkarshayachit/paraview:ci-superbuild-centos7-20200201"
 
     variables:
-        GIT_SUBMODULE_STRATEGY: recursive
+        GIT_SUBMODULE_STRATEGY: none
         GIT_CLONE_PATH: "$CI_BUILDS_DIR/gitlab-kitware-sciviz-ci"
         LAUNCHER: "scl enable devtoolset-7 --"
         CMAKE: cmake
@@ -67,6 +72,7 @@
     interruptible: true
     script:
         - *setup_tools
+        - *submodule_update
         - sccache --start-server
         - sccache --show-stats
         - export GIT_CEILING_DIRECTORIES=$PWD
@@ -125,6 +131,7 @@
     interruptible: true
     script:
         - *setup_tools
+        - *submodule_update
         - "$LAUNCHER $CTEST -V -S .gitlab/ci/ctest_test.cmake"
     artifacts:
         expire_in: 1 hours
@@ -179,3 +186,19 @@ test:centos7-osmesa:
         - build:centos7-osmesa
     needs:
         - build:centos7-osmesa
+
+.build:temp:
+    <<:
+        - *centos7
+    stage: build
+    only: *only_settings
+    tags:
+        - build
+        - paraview
+        - docker
+        - linux
+    interruptible: true
+    script:
+        - *setup_tools
+        - *submodule_update
+        - "env"
