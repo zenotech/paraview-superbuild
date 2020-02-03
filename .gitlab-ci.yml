@@ -21,13 +21,13 @@
     - tags@paraview/paraview-superbuild
 
 .setup_tools: &setup_tools
-    - export GIT_CEILING_DIRECTORIES=$PWD
     - .gitlab/ci/sccache.sh
     - .gitlab/ci/cmake.sh
     - .gitlab/ci/ninja.sh
     - export PATH=$PWD/.gitlab:$PWD/.gitlab/cmake/bin:$PATH
     - "$CMAKE --version"
     - "ninja --version"
+    - export GIT_CEILING_DIRECTORIES=$PWD
     - export CC=$PWD/.gitlab/shortcuts/gcc
     - export CXX=$PWD/.gitlab/shortcuts/g++
 
@@ -48,6 +48,12 @@
         CTEST: ctest
         CMAKE_CONFIGURATION: centos7
         SCCACHE_REDIS: redis://minmus:6379
+
+    before_script:
+        - *setup_tools
+        - *submodule_update
+        - sccache --start-server
+        - sccache --show-stats
 
 .centos7_egl: &centos7_egl
     extends: .centos7
@@ -71,15 +77,10 @@
         - linux
     interruptible: true
     script:
-        - *setup_tools
-        - *submodule_update
-        - sccache --start-server
-        - sccache --show-stats
-        - export GIT_CEILING_DIRECTORIES=$PWD
         - "$LAUNCHER $CTEST -VV -S .gitlab/ci/ctest_configure.cmake"
         - "$LAUNCHER $CTEST -V -S .gitlab/ci/ctest_build.cmake"
         - "$LAUNCHER $CTEST -V -S .gitlab/ci/ctest_package.cmake"
-        - sccache --show-stats
+        - sccache --show-status
     cache:
         key: centos7
         paths:
@@ -130,8 +131,6 @@
         - linux
     interruptible: true
     script:
-        - *setup_tools
-        - *submodule_update
         - "$LAUNCHER $CTEST -V -S .gitlab/ci/ctest_test.cmake"
     artifacts:
         expire_in: 1 hours
