@@ -3,6 +3,7 @@ include(paraview-version)
 set(paraview_doc_dir "doc")
 set(paraview_data_dir "examples")
 set(paraview_materials_dir "materials")
+set(paraview_kernels_nvidia_index_dir "kernels_nvidia_index")
 set(paraview_plugin_path "bin/paraview-${paraview_version}/plugins")
 include(paraview.bundle.common)
 

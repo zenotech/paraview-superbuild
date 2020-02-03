@@ -198,6 +198,15 @@ function (paraview_install_materials project dir)
   endif ()
 endfunction ()
 
+function (paraview_install_kernels_nvidia_index project dir)
+  if (${project}_enabled)
+    install(
+      DIRECTORY   "${superbuild_install_location}/${dir}"
+      DESTINATION "${paraview_kernels_nvidia_index_dir}"
+      COMPONENT   superbuild)
+  endif ()
+endfunction ()
+
 function (paraview_install_extra_data)
   if (paraview_doc_dir)
     paraview_install_pdf(paraviewgettingstartedguide "GettingStarted.pdf")
@@ -209,6 +218,11 @@ function (paraview_install_extra_data)
 
   if (paraview_materials_dir)
     paraview_install_materials(ospraymaterials "materials/")
+  endif ()
+
+  if (paraview_kernels_nvidia_index_dir)
+    paraview_install_kernels_nvidia_index(
+      nvidiaindex "share/paraview-${paraview_version}/kernels_nvidia_index/")
   endif ()
 endfunction ()
 
