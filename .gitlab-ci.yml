@@ -20,7 +20,7 @@
     - branches@paraview/paraview-superbuild
     - tags@paraview/paraview-superbuild
 
-.setup_tools: &setup_tools
+.script_setup_tools: &script_setup_tools
     - .gitlab/ci/sccache.sh
     - .gitlab/ci/cmake.sh
     - .gitlab/ci/ninja.sh
@@ -31,41 +31,38 @@
     - export CC=$PWD/.gitlab/shortcuts/gcc
     - export CXX=$PWD/.gitlab/shortcuts/g++
 
-.submodule_update: &submodule_update
+.script_submodule_update: &script_submodule_update
     - git submodule foreach --recursive $CMAKE -Dusername:STRING="$CI_PROJECT_NAMESPACE" -Durl_prefix:STRING="https://$CI_SERVER_HOST" -P $PWD/.gitlab/ci/fetch_submodule.cmake
     - git submodule sync --recursive
     - git submodule update --init --recursive
 
-.centos7: &centos7
-    # image: "kitware/cmb:ci-superbuild-centos7-20191127"
-    image: "utkarshayachit/paraview:ci-superbuild-centos7-20200201"
-
+.linux: &linux
     variables:
-        GIT_SUBMODULE_STRATEGY: none
         GIT_CLONE_PATH: "$CI_BUILDS_DIR/gitlab-kitware-sciviz-ci"
-        LAUNCHER: "scl enable devtoolset-7 --"
-        CMAKE: cmake
+        GIT_SUBMODULE_STRATEGY: none
+        SCCACHE_REDIS: redis://redis.kitware.com:6379
         CTEST: ctest
-        CMAKE_CONFIGURATION: centos7
-        SCCACHE_REDIS: redis://minmus:6379
+        CMAKE: cmake
 
     before_script:
-        - *setup_tools
-        - *submodule_update
+        - *script_setup_tools
+        - *script_submodule_update
         - sccache --start-server
         - sccache --show-stats
 
-.centos7_egl: &centos7_egl
-    extends: .centos7
-
+.centos7: &centos7
+    image: "utkarshayachit/paraview:ci-superbuild-centos7-20200201"
     variables:
-        CMAKE_CONFIGURATION: centos7_egl
+        LAUNCHER: "scl enable devtoolset-7 --"
 
-.centos7_osmesa: &centos7_osmesa
-    extends: .centos7
+    before_script:
+        - *script_setup_tools
+        - *script_submodule_update
+        - sccache --start-server
+        - sccache --show-stats
 
-    variables:
-        CMAKE_CONFIGURATION: centos7_osmesa
+.fedora31: &fedora31
+    image: "utkarshayachit/paraview:ci-superbuild-fedora31-20200218"
 
 .cmake_build_unix: &cmake_build_unix
     stage: build
@@ -80,9 +77,9 @@
         - "$LAUNCHER $CTEST -VV -S .gitlab/ci/ctest_configure.cmake"
         - "$LAUNCHER $CTEST -V -S .gitlab/ci/ctest_build.cmake"
         - "$LAUNCHER $CTEST -V -S .gitlab/ci/ctest_package.cmake"
-        - sccache --show-status
+        - sccache --show-stats
     cache:
-        key: centos7
+        key: linux
         paths:
             # Cache downloaded tarballs
             - build/downloads/
@@ -122,13 +119,22 @@
             # CDash files.
             - build/DartConfiguration.tcl
 
-.cmake_test_unix: &cmake_test_unix
-    stage: test
-    only: *only_settings
+.cmake_test_tags: &cmake_test_tags
     tags:
         - paraview
         - docker
         - linux
+
+.cmake_test_x11_tags: &cmake_test_x11_tags
+    tags:
+        - paraview
+        - docker
+        - linux
+        - x11
+
+.cmake_test_unix: &cmake_test_unix
+    stage: test
+    only: *only_settings
     interruptible: true
     script:
         - "$LAUNCHER $CTEST -V -S .gitlab/ci/ctest_test.cmake"
@@ -144,60 +150,112 @@ stages:
     - build
     - test
 
-build:centos7:
-    <<:
-        - *centos7
-        - *cmake_build_unix
-
-test:centos7:
-    <<:
-        - *centos7
-        - *cmake_test_unix
-    dependencies:
-        - build:centos7
-    needs:
-        - build:centos7
-
-build:centos7-egl:
-    <<:
-        - *centos7_egl
-        - *cmake_build_unix
-
-test:centos7-egl:
-    <<:
-        - *centos7_egl
-        - *cmake_test_unix
-    dependencies:
-        - build:centos7-egl
-    needs:
-        - build:centos7-egl
-
-build:centos7-osmesa:
-    <<:
-        - *centos7_osmesa
-        - *cmake_build_unix
-
-test:centos7-osmesa:
-    <<:
-        - *centos7_osmesa
-        - *cmake_test_unix
-    dependencies:
-        - build:centos7-osmesa
-    needs:
-        - build:centos7-osmesa
-
-.build:temp:
-    <<:
-        - *centos7
+.build_dummy: &build_dummy
     stage: build
     only: *only_settings
     tags:
         - build
-        - paraview
         - docker
         - linux
+        - paraview
     interruptible: true
     script:
-        - *setup_tools
-        - *submodule_update
         - "env"
+
+.test_dummy: &test_dummy
+    stage: test
+    only: *only_settings
+    tags:
+        - docker
+        - linux
+        - paraview
+        - x11
+    interruptible: true
+    script:
+        - "env"
+
+.build:dummy:
+    extends:
+        - .linux
+        - .centos7
+    <<:
+        - *build_dummy
+    variables:
+        CMAKE_CONFIGURATION: linux
+
+.test:dummy:
+    extends:
+        - .linux
+        - .fedora31
+    <<:
+        - *test_dummy
+    variables:
+        CMAKE_CONFIGURATION: linux
+    dependencies:
+        - build:dummy
+    needs:
+        - build:dummy
+
+build:linux:
+    extends:
+        - .linux
+        - .centos7
+        - .cmake_build_unix
+    variables:
+        CMAKE_CONFIGURATION: linux
+
+test:linux:
+    extends:
+        - .linux
+        - .fedora31
+        - .cmake_test_unix
+        - .cmake_test_x11_tags
+    variables:
+        CMAKE_CONFIGURATION: linux
+    dependencies:
+        - build:linux
+    needs:
+        - build:linux
+
+
+build:linux_egl:
+    extends:
+        - .linux
+        - .centos7
+        - .cmake_build_unix
+    variables:
+        CMAKE_CONFIGURATION: linux_egl
+
+test:linux_egl:
+    extends:
+        - .linux
+        - .fedora31
+        - .cmake_test_unix
+        - .cmake_test_x11_tags
+    variables:
+        CMAKE_CONFIGURATION: linux_egl
+    dependencies:
+        - build:linux_egl
+    needs:
+        - build:linux_egl
+
+build:linux_osmesa:
+    extends:
+        - .linux
+        - .centos7
+        - .cmake_build_unix
+    variables:
+        CMAKE_CONFIGURATION: linux_osmesa
+
+test:linux_osmesa:
+    extends:
+        - .linux
+        - .centos7
+        - .cmake_test_unix
+        - .cmake_test_tags
+    variables:
+        CMAKE_CONFIGURATION: linux_osmesa
+    dependencies:
+        - build:linux_osmesa
+    needs:
+        - build:linux_osmesa
