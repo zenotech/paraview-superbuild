@@ -14,12 +14,18 @@ if (fortran_enabled)
 endif ()
 
 set(exclude_regexes)
-if (PARAVIEW_DEFAULT_SYSTEM_GL OR
+if (launchers_enabled OR
     (mesa_built_by_superbuild OR osmesa_built_by_superbuild))
   list(APPEND exclude_regexes
     ".*/libglapi"
     ".*/libGL")
 endif ()
+
+if (launchers_enabled AND mpi_built_by_superbuild)
+  list(APPEND exclude_regexes
+    ".*/libmpi"
+    ".*/libmpicxx")
+endif()
 
 foreach (executable IN LISTS paraview_executables)
   superbuild_unix_install_program("${superbuild_install_location}/bin/${executable}"
@@ -27,6 +33,21 @@ foreach (executable IN LISTS paraview_executables)
     SEARCH_DIRECTORIES  "${library_paths}"
     INCLUDE_REGEXES     ${include_regexes}
     EXCLUDE_REGEXES     ${exclude_regexes})
+
+  if (launchers_enabled)
+    superbuild_unix_install_program("${superbuild_install_location}/bin/${executable}-launcher"
+      "lib"
+      SEARCH_DIRECTORIES  "${library_paths}"
+      INCLUDE_REGEXES     ${include_regexes}
+      EXCLUDE_REGEXES     ${exclude_regexes})
+
+    # rename executables.
+    install(CODE "
+       set(_prefix \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/bin\")
+       file(RENAME \"\${_prefix}/${executable}\" \"\${_prefix}/${executable}-real\")
+       file(RENAME \"\${_prefix}/${executable}-launcher\" \"\${_prefix}/${executable}\")"
+      COMPONENT superbuild)
+  endif()
 endforeach ()
 
 if (EXISTS "${superbuild_install_location}/bin/paraview.conf")
@@ -56,7 +77,7 @@ install(
 
 if (mesa_libraries)
   set(suffix)
-  if (PARAVIEW_DEFAULT_SYSTEM_GL)
+  if (launchers_enabled)
     set(suffix "/mesa")
   endif ()
 
@@ -74,6 +95,26 @@ if (mesa_libraries)
     endforeach ()
   endforeach ()
 endif ()
+
+if (launchers_enabled AND mpi_built_by_superbuild)
+  set(mpi_libraries
+    mpi
+    mpicxx)
+  set(suffix "/mpi")
+  foreach (mpi_library IN LISTS mpi_libraries)
+    file(GLOB lib_filenames
+      RELATIVE "${superbuild_install_location}/lib"
+      "${superbuild_install_location}/lib/lib${mpi_library}.so*")
+
+    foreach (lib_filename IN LISTS lib_filenames)
+      superbuild_unix_install_plugin("${lib_filename}"
+        "lib${suffix}"
+        "lib"
+        LOADER_PATHS  "${library_paths}"
+        LOCATION      "lib${suffix}")
+    endforeach ()
+  endforeach ()
+endif()
 
 if (nvidiaindex_enabled)
   set(nvidiaindex_libraries

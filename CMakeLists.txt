@@ -117,6 +117,7 @@ function (superbuild_find_projects var)
         fontconfig
         glproto
         gperf
+        launchers
         libfabric
         llvm
         mesa
@@ -201,6 +202,14 @@ function (superbuild_sanity_check)
     message(SEND_ERROR "Cannot enable OSMesa and Mesa at the same time.")
   endif ()
 
+  # Sanity check: report cases where it doesn't make any sense to enable launchers.
+  if (launchers_enabled AND NOT (mesa_enabled OR mpi_enabled))
+    message(SEND_ERROR "Launchers cannot be enabled since neither MPI or MESA is enabled.")
+  endif ()
+
+  if (launchers_enabled AND mpi_enabled AND USE_SYSTEM_mpi AND NOT mesa_enabled)
+    message(SEND_ERROR "Launchers cannot be enabled since MESA is not enabled and USE_SYSTEM_mpi is ON.")
+  endif ()
 endfunction ()
 
 function (superbuild_add_packaging)
@@ -244,7 +253,6 @@ function (superbuild_add_packaging)
     mesa_USE_SWR
     mesa_SWR_ARCH
     nvidiaindex_SOURCE_SELECTION
-    PARAVIEW_DEFAULT_SYSTEM_GL
     PARAVIEW_PACKAGE_SUFFIX
     PARAVIEW_CATALYST_EDITION
     paraview_is_shared)
@@ -371,5 +379,12 @@ if (NOT EXISTS "${CMAKE_CURRENT_LIST_DIR}/superbuild/CMakeLists.txt")
                       "is missing; did you forget to do `git submodule init` "
                       "and `git submodule update`?")
 endif ()
+
+# Warn about deprecated PARAVIEW_DEFAULT_SYSTEM_GL.
+if (DEFINED PARAVIEW_DEFAULT_SYSTEM_GL)
+  message(WARNING "The 'PARAVIEW_DEFAULT_SYSTEM_GL' variable is deprecated. "
+    "Use the 'launchers' project instead.")
+  set(_superbuild_default_launchers "${PARAVIEW_DEFAULT_SYSTEM_GL}")
+endif()
 
 add_subdirectory(superbuild)
