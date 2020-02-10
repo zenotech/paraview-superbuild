@@ -36,6 +36,11 @@
     - git submodule sync --recursive
     - git submodule update --init --recursive
 
+.script_checkout_paraview: &script_checkout_paraview
+    # fixme: make this work for "release" branch too
+    - rm -rf $CI_BUILDS_DIR/source-paraview
+    - git clone --recursive --shallow-submodules -b master https://gitlab.kitware.com/paraview/paraview.git $CI_BUILDS_DIR/source-paraview
+
 .linux: &linux
     variables:
         GIT_CLONE_PATH: "$CI_BUILDS_DIR/gitlab-kitware-sciviz-ci"
@@ -51,15 +56,9 @@
         - sccache --show-stats
 
 .centos7: &centos7
-    image: "utkarshayachit/paraview:ci-superbuild-centos7-20200201"
+    image: "utkarshayachit/paraview:ci-superbuild-centos7-20200210"
     variables:
         LAUNCHER: "scl enable devtoolset-7 --"
-
-    before_script:
-        - *script_setup_tools
-        - *script_submodule_update
-        - sccache --start-server
-        - sccache --show-stats
 
 .fedora31: &fedora31
     image: "utkarshayachit/paraview:ci-superbuild-fedora31-20200218"
@@ -72,8 +71,10 @@
         - paraview
         - docker
         - linux
+    timeout:  3 hours
     interruptible: true
     script:
+        - *script_checkout_paraview
         - "$LAUNCHER $CTEST -VV -S .gitlab/ci/ctest_configure.cmake"
         - "$LAUNCHER $CTEST -V -S .gitlab/ci/ctest_build.cmake"
         - "$LAUNCHER $CTEST -V -S .gitlab/ci/ctest_package.cmake"
@@ -216,7 +217,6 @@ test:linux:
         - build:linux
     needs:
         - build:linux
-
 
 build:linux_egl:
     extends:
