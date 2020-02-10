@@ -56,6 +56,7 @@ FROM ${BASE_IMAGE}
 ARG RENDERING=egl
 ARG PARAVIEW_TAG=v5.8.0-RC2
 ARG SUPERBUILD_TAG=v5.8.0-RC2
+ARG PARAVIEW_VERSION_STRING=paraview-5.8
 ARG SUPERBUILD_REPO=https://gitlab.kitware.com/paraview/paraview-superbuild.git
 ARG PYTHON_VERSION=2
 ARG BUILD_TYPE=Release
@@ -96,8 +97,11 @@ RUN groupadd pv-user && \
 USER pv-user
 
 # Get CMake
-RUN mkdir -p /home/pv-user/cmake/3.13.4 && cd /home/pv-user/cmake/3.13.4 && \
-    curl -L https://cmake.org/files/v3.13/cmake-3.13.4-Linux-x86_64.tar.gz | tar --strip-components=1 -xzv
+RUN mkdir -p /home/pv-user/cmake/3.16.4 && cd /home/pv-user/cmake/3.16.4 && \
+    curl -L https://cmake.org/files/v3.16/cmake-3.16.4-Linux-x86_64.tar.gz | tar --strip-components=1 -xzv
+
+# Make it easy to find CMake when build external projects and plugins
+env CMAKE_EXECUTABLE /home/pv-user/cmake/3.16.4/bin/cmake
 
 # Clone the superbuild
 RUN mkdir -p /home/pv-user/pvsb/build && cd /home/pv-user/pvsb && \
@@ -107,12 +111,15 @@ RUN mkdir -p /home/pv-user/pvsb/build && cd /home/pv-user/pvsb && \
 WORKDIR /home/pv-user/pvsb/build
 
 # Configure
-RUN /home/pv-user/cmake/3.13.4/bin/cmake -C /home/pv-user/pvsb/src/cmake/sites/Docker-Ubuntu-18_04.cmake "-GUnix Makefiles" ../src
+RUN ${CMAKE_EXECUTABLE} -C /home/pv-user/pvsb/src/cmake/sites/Docker-Ubuntu-18_04.cmake "-GUnix Makefiles" ../src
 
 # Build
-RUN make -j"$(nproc)"
+RUN ${CMAKE_EXECUTABLE} --build .
 
 # Install
-RUN make -j"$(nproc)" install
+RUN ${CMAKE_EXECUTABLE} --install .
+
+# Make it easy to find ParaView when build external projects and plugins
+env PARAVIEW_DIRECTORY /home/pv-user/pvsb/build/install/lib/cmake/${PARAVIEW_VERSION_STRING}
 
 WORKDIR /opt/paraview
