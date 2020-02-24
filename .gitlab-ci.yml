@@ -82,7 +82,7 @@
             # Cache downloaded tarballs
             - build/downloads/
     artifacts:
-        expire_in: 3 hours
+        expire_in: 24 hours
         when: always
         paths:
             # The artifacts for debugging
@@ -137,7 +137,7 @@
     script:
         - "$LAUNCHER ctest -V -S .gitlab/ci/ctest_test.cmake"
     artifacts:
-        expire_in: 1 hours
+        expire_in: 24 hours
         # Tests failing should still upload the artifact for further testing.
         when: always
         paths:
