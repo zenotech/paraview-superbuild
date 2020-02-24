@@ -210,3 +210,26 @@ test:linux_osmesa:
         - build:linux_osmesa
     needs:
         - build:linux_osmesa
+
+# this builds ParaView statically while keeping the other dependencies
+# as shared.
+build:linux_osmesa_static:
+    extends:
+        - .linux
+        - .centos7
+        - .cmake_build_unix
+    variables:
+        CMAKE_CONFIGURATION: linux_osmesa_static
+
+test:linux_osmesa_static:
+    extends:
+        - .linux
+        - .centos7
+        - .cmake_test_unix
+        - .cmake_test_tags
+    variables:
+        CMAKE_CONFIGURATION: linux_osmesa_static
+    dependencies:
+        - build:linux_osmesa_static
+    needs:
+        - build:linux_osmesa_static
