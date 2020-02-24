@@ -25,14 +25,14 @@
     - .gitlab/ci/cmake.sh
     - .gitlab/ci/ninja.sh
     - export PATH=$PWD/.gitlab:$PWD/.gitlab/cmake/bin:$PATH
-    - "$CMAKE --version"
+    - "cmake --version"
     - "ninja --version"
     - export GIT_CEILING_DIRECTORIES=$PWD
     - export CC=$PWD/.gitlab/shortcuts/gcc
     - export CXX=$PWD/.gitlab/shortcuts/g++
 
 .script_submodule_update: &script_submodule_update
-    - git submodule foreach --recursive $CMAKE -Dusername:STRING="$CI_PROJECT_NAMESPACE" -Durl_prefix:STRING="https://$CI_SERVER_HOST" -P $PWD/.gitlab/ci/fetch_submodule.cmake
+    - git submodule foreach --recursive cmake -Dusername:STRING="$CI_PROJECT_NAMESPACE" -Durl_prefix:STRING="https://$CI_SERVER_HOST" -P $PWD/.gitlab/ci/fetch_submodule.cmake
     - git submodule sync --recursive
     - git submodule update --init --recursive
 
@@ -45,9 +45,6 @@
     variables:
         GIT_CLONE_PATH: "$CI_BUILDS_DIR/gitlab-kitware-sciviz-ci"
         GIT_SUBMODULE_STRATEGY: none
-        SCCACHE_REDIS: redis://redis.kitware.com:6379
-        CTEST: ctest
-        CMAKE: cmake
 
     before_script:
         - *script_setup_tools
@@ -75,9 +72,9 @@
     interruptible: true
     script:
         - *script_checkout_paraview
-        - "$LAUNCHER $CTEST -VV -S .gitlab/ci/ctest_configure.cmake"
-        - "$LAUNCHER $CTEST -V -S .gitlab/ci/ctest_build.cmake"
-        - "$LAUNCHER $CTEST -V -S .gitlab/ci/ctest_package.cmake"
+        - "$LAUNCHER ctest -VV -S .gitlab/ci/ctest_configure.cmake"
+        - "$LAUNCHER ctest -V -S .gitlab/ci/ctest_build.cmake"
+        - "$LAUNCHER ctest -V -S .gitlab/ci/ctest_package.cmake"
         - sccache --show-stats
     cache:
         key: linux
@@ -138,7 +135,7 @@
     only: *only_settings
     interruptible: true
     script:
-        - "$LAUNCHER $CTEST -V -S .gitlab/ci/ctest_test.cmake"
+        - "$LAUNCHER ctest -V -S .gitlab/ci/ctest_test.cmake"
     artifacts:
         expire_in: 1 hours
         # Tests failing should still upload the artifact for further testing.
@@ -150,52 +147,6 @@
 stages:
     - build
     - test
-
-.build_dummy: &build_dummy
-    stage: build
-    only: *only_settings
-    tags:
-        - build
-        - docker
-        - linux
-        - paraview
-    interruptible: true
-    script:
-        - "env"
-
-.test_dummy: &test_dummy
-    stage: test
-    only: *only_settings
-    tags:
-        - docker
-        - linux
-        - paraview
-        - x11
-    interruptible: true
-    script:
-        - "env"
-
-.build:dummy:
-    extends:
-        - .linux
-        - .centos7
-    <<:
-        - *build_dummy
-    variables:
-        CMAKE_CONFIGURATION: linux
-
-.test:dummy:
-    extends:
-        - .linux
-        - .fedora31
-    <<:
-        - *test_dummy
-    variables:
-        CMAKE_CONFIGURATION: linux
-    dependencies:
-        - build:dummy
-    needs:
-        - build:dummy
 
 build:linux:
     extends:
