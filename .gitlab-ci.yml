@@ -53,12 +53,12 @@
         - sccache --show-stats
 
 .centos7: &centos7
-    image: "utkarshayachit/paraview:ci-superbuild-centos7-20200210"
+    image: "kitware/paraview:ci-superbuild-centos7-20200210"
     variables:
         LAUNCHER: "scl enable devtoolset-7 --"
 
 .fedora31: &fedora31
-    image: "utkarshayachit/paraview:ci-superbuild-fedora31-20200218"
+    image: "kitware/paraview:ci-superbuild-fedora31-20200218"
 
 .cmake_build_unix: &cmake_build_unix
     stage: build
