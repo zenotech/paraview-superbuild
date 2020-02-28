@@ -1,0 +1,238 @@
+# CI strategy for ParaView-Superbuild
+#
+# Builders:
+#
+# - CentOS 7
+#   * .gitlab/ci/docker/centos7
+#     - "Full" superbuild
+#     - GLX
+#     - devtoolset-7
+#   * .gitlab/ci/docker/centos7
+#     - "Full" superbuild
+#     - EGL, no GLX
+#     - devtoolset-7
+#   * .gitlab/ci/docker/centos7
+#     - OSMesa superbuild
+#     - devtoolset-7
+
+.only_settings: &only_settings
+    - merge_requests
+    - branches@paraview/paraview-superbuild
+    - tags@paraview/paraview-superbuild
+
+.script_setup_tools: &script_setup_tools
+    - .gitlab/ci/sccache.sh
+    - .gitlab/ci/cmake.sh
+    - .gitlab/ci/ninja.sh
+    - export PATH=$PWD/.gitlab:$PWD/.gitlab/cmake/bin:$PATH
+    - "cmake --version"
+    - "ninja --version"
+    - export GIT_CEILING_DIRECTORIES=$PWD
+    - export CC=$PWD/.gitlab/shortcuts/gcc
+    - export CXX=$PWD/.gitlab/shortcuts/g++
+
+.script_submodule_update: &script_submodule_update
+    - git submodule foreach --recursive cmake -Dusername:STRING="$CI_PROJECT_NAMESPACE" -Durl_prefix:STRING="https://$CI_SERVER_HOST" -P $PWD/.gitlab/ci/fetch_submodule.cmake
+    - git submodule sync --recursive
+    - git submodule update --init --recursive
+
+.script_checkout_paraview: &script_checkout_paraview
+    # fixme: make this work for "release" branch too
+    - rm -rf $CI_BUILDS_DIR/source-paraview
+    # full clone of paraview with shallow-submodule. full clone needed so that `git describe` works correctly
+    - git clone --recursive --shallow-submodules -b master https://gitlab.kitware.com/paraview/paraview.git $CI_BUILDS_DIR/source-paraview
+    # let's print ParaView version for reference even when the artifacts disappear
+    - git -C $CI_BUILDS_DIR/source-paraview describe
+
+.linux: &linux
+    variables:
+        GIT_CLONE_PATH: "$CI_BUILDS_DIR/gitlab-kitware-sciviz-ci"
+        GIT_SUBMODULE_STRATEGY: none
+
+    before_script:
+        - *script_setup_tools
+        - *script_submodule_update
+        - sccache --start-server
+        - sccache --show-stats
+
+.centos7: &centos7
+    image: "kitware/paraview:ci-superbuild-centos7-20200210"
+    variables:
+        LAUNCHER: "scl enable devtoolset-7 --"
+
+.fedora31: &fedora31
+    image: "kitware/paraview:ci-superbuild-fedora31-20200218"
+
+.cmake_build_unix: &cmake_build_unix
+    stage: build
+    only: *only_settings
+    tags:
+        - build
+        - paraview
+        - docker
+        - linux
+    timeout:  3 hours
+    interruptible: true
+    script:
+        - *script_checkout_paraview
+        - "$LAUNCHER ctest -V -S .gitlab/ci/ctest_configure.cmake"
+        - "$LAUNCHER ctest -V -S .gitlab/ci/ctest_build.cmake"
+        - "$LAUNCHER ctest -V -S .gitlab/ci/ctest_package.cmake"
+        - sccache --show-stats
+    cache:
+        key: linux
+        paths:
+            # Cache downloaded tarballs
+            - build/downloads/
+    artifacts:
+        expire_in: 24 hours
+        when: always
+        paths:
+            # The artifacts for debugging
+            - build/CMakeCache.txt
+            - build/superbuild/*.cmake
+
+            # logs for suppressed outputs
+            - build/superbuild/numpy/stamp/numpy-*.log
+            - build/superbuild/paraview/stamp/paraview-*.log
+            - build/superbuild/python3/stamp/python3-*.log
+            - build/superbuild/pythonzope/stamp/pythonzope-*.log
+            - build/superbuild/pythonzopeinterface/stamp/pythonzopeinterface-*.log
+            - build/superbuild/qt5/stamp/qt5-*.log
+            - build/superbuild/scipy/stamp/scipy-*.log
+
+            # tarballs
+            - build/*.tar.*
+
+            # Files requires for packaging test.
+            - build/superbuild/CMakeFiles/cmake/
+            - build/superbuild/superbuild_testing_trampoline.cmake
+
+            # Files required for other tests.
+            - build/tests
+
+            # CTest files.
+            - build/CTestCustom*.cmake
+            - build/CTestTestfile.cmake
+            - build/superbuild/CTestTestfile.cmake
+            - build/Testing/
+
+            # CDash files.
+            - build/DartConfiguration.tcl
+
+.cmake_test_tags: &cmake_test_tags
+    tags:
+        - paraview
+        - docker
+        - linux
+
+.cmake_test_x11_tags: &cmake_test_x11_tags
+    tags:
+        - paraview
+        - docker
+        - linux
+        - x11
+
+.cmake_test_unix: &cmake_test_unix
+    stage: test
+    only: *only_settings
+    interruptible: true
+    script:
+        - "$LAUNCHER ctest -V -S .gitlab/ci/ctest_test.cmake"
+    artifacts:
+        expire_in: 24 hours
+        # Tests failing should still upload the artifact for further testing.
+        when: always
+        paths:
+            # Debugging logs
+            - build/Testing/Temporary/Last*.log
+
+stages:
+    - build
+    - test
+
+build:linux:
+    extends:
+        - .linux
+        - .centos7
+        - .cmake_build_unix
+    variables:
+        CMAKE_CONFIGURATION: linux
+
+test:linux:
+    extends:
+        - .linux
+        - .fedora31
+        - .cmake_test_unix
+        - .cmake_test_x11_tags
+    variables:
+        CMAKE_CONFIGURATION: linux
+    dependencies:
+        - build:linux
+    needs:
+        - build:linux
+
+build:linux_egl:
+    extends:
+        - .linux
+        - .centos7
+        - .cmake_build_unix
+    variables:
+        CMAKE_CONFIGURATION: linux_egl
+
+test:linux_egl:
+    extends:
+        - .linux
+        - .fedora31
+        - .cmake_test_unix
+        - .cmake_test_x11_tags
+    variables:
+        CMAKE_CONFIGURATION: linux_egl
+    dependencies:
+        - build:linux_egl
+    needs:
+        - build:linux_egl
+
+build:linux_osmesa:
+    extends:
+        - .linux
+        - .centos7
+        - .cmake_build_unix
+    variables:
+        CMAKE_CONFIGURATION: linux_osmesa
+
+test:linux_osmesa:
+    extends:
+        - .linux
+        - .centos7
+        - .cmake_test_unix
+        - .cmake_test_tags
+    variables:
+        CMAKE_CONFIGURATION: linux_osmesa
+    dependencies:
+        - build:linux_osmesa
+    needs:
+        - build:linux_osmesa
+
+# this builds ParaView statically while keeping the other dependencies
+# as shared.
+build:linux_osmesa_static:
+    extends:
+        - .linux
+        - .centos7
+        - .cmake_build_unix
+    variables:
+        CMAKE_CONFIGURATION: linux_osmesa_static
+
+test:linux_osmesa_static:
+    extends:
+        - .linux
+        - .centos7
+        - .cmake_test_unix
+        - .cmake_test_tags
+    variables:
+        CMAKE_CONFIGURATION: linux_osmesa_static
+    dependencies:
+        - build:linux_osmesa_static
+    needs:
+        - build:linux_osmesa_static

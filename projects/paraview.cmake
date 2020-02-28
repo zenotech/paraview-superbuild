@@ -139,7 +139,7 @@ superbuild_add_project(paraview
   DEBUGGABLE
   DEFAULT_ON
   DEPENDS_OPTIONAL
-    adios2 cuda boost gdal hdf5 matplotlib mpi numpy png protobuf
+    adios2 cuda boost fortran gdal hdf5 matplotlib mpi numpy png protobuf
     python python2 python3 qt5 visitbridge zlib silo las
     xdmf3 ospray vrpn vtkm tbb netcdf
     nlohmannjson
@@ -171,6 +171,7 @@ superbuild_add_project(paraview
     -DPARAVIEW_PLUGIN_ENABLE_OpenVR:BOOL=${openvr_enabled}
     -DPARAVIEW_PYTHON_VERSION:STRING=${python_version}
     -DPARAVIEW_USE_MPI:BOOL=${mpi_enabled}
+    -DPARAVIEW_USE_FORTRAN:BOOL=${fortran_enabled}
     -DPARAVIEW_USE_PYTHON:BOOL=${PARAVIEW_USE_PYTHON}
     -DPARAVIEW_USE_QT:BOOL=${qt5_enabled}
     -DVISIT_BUILD_READER_Mili:BOOL=${mili_enabled}
@@ -263,3 +264,8 @@ if (APPLE)
   superbuild_append_flags(cxx_flags "-stdlib=libc++" PROJECT_ONLY)
   superbuild_append_flags(ld_flags "-stdlib=libc++" PROJECT_ONLY)
 endif ()
+
+if (ospray_enabled AND tbb_enabled)
+  superbuild_add_extra_cmake_args(
+    -DTBB_ROOT:PATH=<INSTALL_DIR>)
+endif()

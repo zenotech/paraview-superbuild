@@ -5,6 +5,10 @@ if (osmesa_enabled)
   list(APPEND package_suffix_items
     "osmesa")
 endif()
+if (egl_enabled)
+  list(APPEND package_suffix_items
+    "egl")
+endif()
 if (mpi_enabled)
   list(APPEND package_suffix_items
     MPI)
