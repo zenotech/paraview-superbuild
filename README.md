@@ -161,6 +161,20 @@ behind click-wrapping. They may be manually downloaded from these web pages:
     https://developer.nvidia.com/designworks/optix/downloads/legacy
   * `nvidiamdl`: https://developer.nvidia.com/mdl-sdk
 
+### Overriding downloaded archives
+
+On rare occasions, you may want to replace a downloaded archive with a different
+version. You may replace the archive with a newer version preserving its
+name, however, on doing so, the hash verification will most likely fail during
+the build step. To skip the hash verification for archives that have been
+manually changed, set the `xxx_SKIP_VERIFICATION` option, where `xxx`
+is the name of the project. `xxx_SKIP_VERIFICATION` must be passed on command line
+when invoking CMake using `-Dxxx_SKIP_VERIFICATION:BOOL=TRUE`.
+
+Alternatively, you can edit the `versions.cmake` files in the source repository
+and modify the `URL_MDF5` or `URL_HASH` values for the specific project with
+updated hashes.
+
 ## Installing
 
 The superbuild supports the `install` target by selecting a template package
