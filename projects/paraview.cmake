@@ -169,6 +169,8 @@ superbuild_add_project(paraview
     -DPARAVIEW_ENABLE_XDMF3:BOOL=${xdmf3_enabled}
     -DPARAVIEW_INSTALL_DEVELOPMENT_FILES:BOOL=${paraview_install_development_files}
     -DPARAVIEW_PLUGIN_ENABLE_OpenVR:BOOL=${openvr_enabled}
+    # No netcdftime module in the package.
+    -DPARAVIEW_PLUGIN_ENABLE_NetCDFTimeAnnotationPlugin:BOOL=OFF
     -DPARAVIEW_PYTHON_VERSION:STRING=${python_version}
     -DPARAVIEW_USE_MPI:BOOL=${mpi_enabled}
     -DPARAVIEW_USE_FORTRAN:BOOL=${fortran_enabled}
