@@ -37,12 +37,7 @@
     - git submodule update --init --recursive
 
 .script_checkout_paraview: &script_checkout_paraview
-    # fixme: make this work for "release" branch too
-    - rm -rf $CI_BUILDS_DIR/source-paraview
-    # full clone of paraview with shallow-submodule. full clone needed so that `git describe` works correctly
-    - git clone --recursive --shallow-submodules -b master https://gitlab.kitware.com/paraview/paraview.git $CI_BUILDS_DIR/source-paraview
-    # let's print ParaView version for reference even when the artifacts disappear
-    - git -C $CI_BUILDS_DIR/source-paraview describe
+    - .gitlab/ci/checkout_paraview.sh
 
 .linux: &linux
     variables:
