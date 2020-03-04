@@ -27,14 +27,22 @@ endif ()
 
 set(build_name_prefix)
 if (DEFINED "ENV{CI_MERGE_REQUEST_IID}")
-  set(build_name_prefix "mr:!$ENV{CI_MERGE_REQUEST_IID}-")
+  set(build_name_prefix "mr-!$ENV{CI_MERGE_REQUEST_IID}-")
 elseif (DEFINED "ENV{CI_COMMIT_TAG}")
-  set(build_name_prefix "tag:$ENV{CI_COMMIT_TAG}-")
+  set(build_name_prefix "tag-$ENV{CI_COMMIT_TAG}-")
 elseif (DEFINED "ENV{CI_COMMIT_BRANCH}-")
-  set(build_name_prefix "branch:$ENV{CI_COMMIT_BRANCH}-")
+  set(build_name_prefix "branch-$ENV{CI_COMMIT_BRANCH}-")
+elseif (DEFINED "ENV{CI_COMMIT_REF_NAME}")
+  set(build_name_prefix "branch-$ENV{CI_COMMIT_REF_NAME}-")
 endif()
 
-set(CTEST_BUILD_NAME "$ENV{CI_PROJECT_NAME}-${build_name_prefix}$ENV{CMAKE_CONFIGURATION}")
+# add information about ParaView revision being built to the build name
+# as it's hard to figure that out otherwise.
+if (DEFINED "ENV{PARAVIEW_COMMIT_SHORT_SHA}")
+  set(build_name_prefix "${build_name_prefix}paraview-$ENV{PARAVIEW_COMMIT_SHORT_SHA}-")
+endif()
+
+set(CTEST_BUILD_NAME "$ENV{CI_PROJECT_NAME}-${build_name_prefix}[$ENV{CMAKE_CONFIGURATION}]")
 
 # Default to Release builds.
 if (NOT "$ENV{CMAKE_BUILD_TYPE}" STREQUAL "")
