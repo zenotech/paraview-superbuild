@@ -12,6 +12,13 @@ ctest_test(
 
 ctest_submit(PARTS Test)
 
+# upload generated packages to CDash
+file(GLOB files "${CTEST_BINARY_DIRECTORY}/*.tar.*")
+if (files)
+  ctest_upload(FILES ${files})
+  ctest_submit(PARTS Upload)
+endif()
+
 if (test_result)
   message(FATAL_ERROR
     "Failed to test")
