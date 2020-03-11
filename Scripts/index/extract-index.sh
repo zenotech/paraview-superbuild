@@ -4,7 +4,7 @@ set -e
 set -x
 
 usage () {
-    echo "Usage: $0 <version> <index tarball> [count]" >&2
+    echo "Usage: $0 <version> <index tarball> [suffix]" >&2
     exit 0
 }
 
@@ -15,7 +15,7 @@ readonly tarball="$1"
 shift || usage
 
 if [ -n "$1" ]; then
-    count_suffix=".$1"
+    count_suffix="$1"
     shift
 else
     count_suffix=
