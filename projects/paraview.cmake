@@ -138,6 +138,7 @@ endif ()
 superbuild_add_project(paraview
   DEBUGGABLE
   DEFAULT_ON
+  DEPENDS cxx11
   DEPENDS_OPTIONAL
     adios2 cuda boost fortran gdal hdf5 matplotlib mpi numpy png protobuf
     python python2 python3 qt5 visitbridge zlib silo las
@@ -260,12 +261,6 @@ endif ()
 if (WIN32 AND las_enabled)
   superbuild_append_flags(cxx_flags "-DBOOST_ALL_NO_LIB" PROJECT_ONLY)
 endif()
-
-
-if (APPLE)
-  superbuild_append_flags(cxx_flags "-stdlib=libc++" PROJECT_ONLY)
-  superbuild_append_flags(ld_flags "-stdlib=libc++" PROJECT_ONLY)
-endif ()
 
 if (ospray_enabled AND tbb_enabled)
   superbuild_add_extra_cmake_args(
