@@ -373,6 +373,10 @@ endif ()
 # distributions.
 set(_python_unicode_default "UCS4")
 
+# The projects end up with "errors" in their output that CDash ends up seeing
+# and thinking things went wrong.
+set(_superbuild_suppress_matplotlib_output ON)
+
 if (NOT EXISTS "${CMAKE_CURRENT_LIST_DIR}/superbuild/CMakeLists.txt")
   message(FATAL_ERROR "It appears as though the superbuild infrastructure "
                       "is missing; did you forget to do `git submodule init` "
