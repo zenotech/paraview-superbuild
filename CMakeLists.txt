@@ -270,6 +270,17 @@ function (superbuild_add_packaging)
       PARAVIEWSDK_PACKAGE_FILE_NAME)
   endif ()
 
+  if (zfp_enabled)
+    # ZFP will look for OpenMP and enable it if OPENMP_FOUND is set to
+    # true. Do the same here and export a variable to the packaging step
+    # if it is found.
+    find_package(OpenMP COMPONENTS C)
+    if (OPENMP_FOUND)
+      set(CMAKE_INSTALL_OPENMP_LIBRARIES 1 CACHE BOOL "Install OpenMP runtime libraries")
+      list(APPEND superbuild_export_variables CMAKE_INSTALL_OPENMP_LIBRARIES)
+    endif()
+  endif()
+
   set(paraview_PLUGINS_AUTOLOAD ""
     CACHE STRING "List of plugins to autoload")
   foreach (paraview_plugin IN LISTS paraview_PLUGINS_AUTOLOAD)
