@@ -185,6 +185,10 @@ superbuild_set_revision(visrtx
   URL     "http://www.paraview.org/files/dependencies/visrtx-v0.1.6.tar.gz"
   URL_MD5 "c5fef9abd9d56bbbf2c222f0b0943e41")
 
+superbuild_set_revision(rapidjson
+  URL     "https://www.paraview.org/files/dependencies/rapidjson-1.1.0.tar.gz"
+  URL_MD5 "badd12c511e081fec6c89c43a7027bce")
+
 superbuild_set_revision(mili
   URL     "https://www.paraview.org/files/dependencies/mili-15.1.tar.gz"
   URL_MD5 "8848db9a5e692c010806d64b8c5e46a4")

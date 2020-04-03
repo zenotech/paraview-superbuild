@@ -108,6 +108,7 @@ function (superbuild_find_projects var)
       lapack
       libxml2
       mili
+      rapidjson
       scipy)
 
     if (NOT APPLE)
