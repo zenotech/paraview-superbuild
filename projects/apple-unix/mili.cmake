@@ -1,5 +1,6 @@
 superbuild_add_project(mili
   CAN_USE_SYSTEM
+  DEPENDS rapidjson # VisIt's Mili reader needs rapidjson
   BUILD_IN_SOURCE 1
   CONFIGURE_COMMAND
     <SOURCE_DIR>/configure
