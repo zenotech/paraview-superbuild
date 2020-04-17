@@ -270,6 +270,8 @@ time.
   * `SUPERBUILD_DEBUG_CONFIGURE_STEPS` (default `OFF`): If set, the superbuild
     will log configure steps for each `xxx` project into
     `superbuild/xxx/stamp/xxx-configure-*.log` files.
+  * `CMAKE_BUILD_TYPE` (default `Release`): The build type to use for the
+    build. Can be `Release`, `RelWithDebInfo`, or (on not-Windows) `Debug`.
 
 The following flags affect ParaView directly:
 
@@ -288,7 +290,9 @@ The following flags affect ParaView directly:
     its existence.
   * `CMAKE_BUILD_TYPE_paraview` (default is the same as the superbuild):
     ParaView may be built with a different build type (e.g., `Release` vs.
-    `RelWithDebInfo`) as the rest of the superbuild using this variable.
+    `RelWithDebInfo`) as the rest of the superbuild using this variable. In
+    addition to `<SAME>` which uses `CMAKE_BUILD_TYPE`, any valid value for
+    `CMAKE_BUILD_TYPE` is also valid.
   * `BUILD_SHARED_LIBS_paraview` (default is the same as the superbuild):
     ParaView may be built with a different selection for BUILD_SHARED_LIBS flag
     than the rest of the superbuild using this variable. For example,
