@@ -114,8 +114,8 @@ superbuild_set_revision(paraviewwebvisualizer
   URL_MD5 363e2dff0ed5efe96aadb783cdca6ba0)
 
 superbuild_set_revision(paraviewweblite
-  URL     "https://www.paraview.org/files/dependencies/paraview-lite-1.4.3.tgz"
-  URL_MD5 2e5b5ce704c0bcacf31f9bd79c779f7d)
+  URL     "https://www.paraview.org/files/dependencies/paraview-lite-1.4.4.tgz"
+  URL_MD5 25bacf49b298c255c0c940ace9fce794)
 
 superbuild_set_revision(paraviewwebglance
   URL     "https://www.paraview.org/files/dependencies/paraview-glance-4.4.2.tgz"
@@ -126,8 +126,8 @@ superbuild_set_revision(paraviewwebflow
   URL_MD5 50843ec3338687011a1d42018fde325d)
 
 superbuild_set_revision(paraviewwebdivvy
-  URL     "https://www.paraview.org/files/dependencies/pvw-divvy-1.3.16.tgz"
-  URL_MD5 481b18eb7b087a45e0269b7496b6b4db)
+  URL     "https://www.paraview.org/files/dependencies/pvw-divvy-1.3.17.tgz"
+  URL_MD5 b04375b53d65e03cb9ee82bb86b77696)
 
 superbuild_set_revision(las
   URL     "https://www.paraview.org/files/dependencies/libLAS-1.8.1.tar.bz2"
