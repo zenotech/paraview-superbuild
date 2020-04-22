@@ -227,7 +227,7 @@ function (superbuild_add_packaging)
   endif ()
   list(GET generators 0 default_generator)
 
-  if (USE_SYSTEM_qt5)
+  if (qt5_enabled AND (USE_SYSTEM_qt5 OR APPLE OR WIN32))
     list(APPEND superbuild_export_variables
       Qt5_DIR)
     find_package(Qt5 QUIET REQUIRED COMPONENTS Core)
