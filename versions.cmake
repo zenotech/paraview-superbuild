@@ -138,19 +138,19 @@ if (WIN32)
   set(nvidiaindex_2_1_md5 "f6efc09092771eb0bfb375a503a95c04")
   set(nvidiaindex_2_2_md5 "93bb894e7951227862ea308f7d6e2e18")
   set(nvidiaindex_2_3_md5 "f7374dfe3eec789b07957e4924fa029f")
-  set(nvidiaindex_2_4_md5 "5e558630494c86e30fa40fa42d78924c")
+  set(nvidiaindex_2_4_md5 "a11b9056683c52efe9f1d706e2926235")
 elseif (UNIX AND NOT APPLE)
   set(nvidiaindex_platform "linux")
   set(nvidiaindex_2_1_md5 "9fd5af702af6a6a6f2aba3a960703fb3")
   set(nvidiaindex_2_2_md5 "b97518f8b5d05497455e90ba5a0712f1")
   set(nvidiaindex_2_3_md5 "9c57d22f065f2ac7c978e6e6e06ebb69")
-  set(nvidiaindex_2_4_md5 "cc795e80048fab1ba1c9f25603d22779")
+  set(nvidiaindex_2_4_md5 "39bb55a5bb5f8ba1e8f44fa68dc703d3")
 endif ()
 superbuild_set_selectable_source(nvidiaindex
   # XXX(index): Adding a new version? The Windows bundle script needs to know
   # too (nvrtc-builtins).
   SELECT 2.4 DEFAULT
-    URL     "http://www.paraview.org/files/dependencies/nvidia-index-libs-2.4.20200124-${nvidiaindex_platform}.tar.bz2"
+    URL     "http://www.paraview.org/files/dependencies/nvidia-index-libs-2.4.20200424-${nvidiaindex_platform}.tar.bz2"
     URL_MD5 "${nvidiaindex_2_4_md5}"
   SELECT 2.3
     URL     "http://www.paraview.org/files/dependencies/nvidia-index-libs-2.3.20190820-${nvidiaindex_platform}.tar.bz2"
