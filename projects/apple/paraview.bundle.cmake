@@ -103,6 +103,12 @@ if (qt5_enabled)
 endif ()
 
 if (python_enabled)
+  if (python3_built_by_superbuild)
+    include(python3.functions)
+    superbuild_install_superbuild_python3(
+      BUNDLE "${paraview_appname}")
+  endif ()
+
   file(GLOB egg_dirs
     "${superbuild_install_location}/lib/python${superbuild_python_version}/site-packages/*.egg/")
   superbuild_apple_install_python(
