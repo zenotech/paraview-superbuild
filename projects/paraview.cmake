@@ -88,8 +88,8 @@ endif ()
 
 set(PARAVIEW_USE_PYTHON ${python_enabled})
 if (python_enabled AND
-    ((USE_SYSTEM_python2 AND NOT python2_FIND_LIBRARIES) OR
-     (USE_SYSTEM_python3 AND NOT python3_FIND_LIBRARIES)))
+    ((python2_enabled AND USE_SYSTEM_python2 AND NOT python2_FIND_LIBRARIES) OR
+     (python3_enabled AND USE_SYSTEM_python3 AND NOT python3_FIND_LIBRARIES)))
   set(PARAVIEW_USE_PYTHON OFF)
 endif()
 
