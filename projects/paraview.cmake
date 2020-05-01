@@ -69,8 +69,7 @@ endif ()
 
 set(PARAVIEW_USE_PYTHON ${python_enabled})
 if (python_enabled AND
-    ((python2_enabled AND USE_SYSTEM_python2 AND NOT python2_FIND_LIBRARIES) OR
-     (python3_enabled AND USE_SYSTEM_python3 AND NOT python3_FIND_LIBRARIES)))
+    (python3_enabled AND USE_SYSTEM_python3 AND NOT python3_FIND_LIBRARIES))
   set(PARAVIEW_USE_PYTHON OFF)
 endif()
 
@@ -122,7 +121,7 @@ superbuild_add_project(paraview
   DEPENDS cxx11
   DEPENDS_OPTIONAL
     adios2 cuda boost fortran gdal hdf5 matplotlib mpi numpy png protobuf
-    python python2 python3 qt5 visitbridge zlib silo las
+    python python3 qt5 visitbridge zlib silo las
     xdmf3 ospray vrpn vtkm tbb netcdf
     nlohmannjson
     paraviewgettingstartedguide

@@ -184,11 +184,7 @@ endif ()
 if (python_enabled)
   file(GLOB egg_dirs
     "${superbuild_install_location}/lib/python${superbuild_python_version}/site-packages/*.egg/")
-  if (python2_built_by_superbuild)
-    include(python2.functions)
-    superbuild_install_superbuild_python2(
-      LIBSUFFIX "/python${superbuild_python_version}")
-  elseif (python3_built_by_superbuild)
+  if (python3_built_by_superbuild)
     include(python3.functions)
     superbuild_install_superbuild_python3(
       LIBSUFFIX "/python${superbuild_python_version}")
