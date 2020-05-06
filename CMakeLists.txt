@@ -32,7 +32,6 @@ function (superbuild_find_projects var)
   set(projects
     cxx11
     paraview
-    paraviewpluginsexternal
     python
     python2
     python3)

@@ -27,25 +27,6 @@ endif()
 
 set(paraview_all_plugins)
 
-if (superbuild_build_phase)
-  get_property(paraview_plugins GLOBAL
-    PROPERTY paraview_plugins)
-  get_property(paraview_plugin_dirs_external GLOBAL
-    PROPERTY paraview_plugin_dirs_external)
-
-  set(paraview_plugin_dirs
-    "${paraview_plugin_dirs_external}")
-  foreach (paraview_plugin IN LISTS paraview_plugins)
-    if (${paraview_plugin}_enabled AND TARGET "${paraview_plugin}")
-      set(plugin_source_dir "<SOURCE_DIR>")
-      _ep_replace_location_tags("${paraview_plugin}" plugin_source_dir)
-      list(APPEND paraview_plugin_dirs
-        "${plugin_source_dir}")
-    endif ()
-  endforeach ()
-  string(REPLACE ";" "${_superbuild_list_separator}" paraview_plugin_dirs "${paraview_plugin_dirs}")
-endif ()
-
 set(paraview_smp_backend "Sequential")
 if (tbb_enabled)
   set(paraview_smp_backend "TBB")
@@ -216,9 +197,6 @@ superbuild_add_project(paraview
 
     # ParFlow
     -DPARAVIEW_PLUGIN_ENABLE_ParFlow:BOOL=${nlohmannjson_enabled}
-
-    # add additional plugin directories
-    -DPARAVIEW_EXTERNAL_PLUGIN_DIRS:STRING=${paraview_plugin_dirs}
 
     ${paraview_extra_cmake_options}
 
