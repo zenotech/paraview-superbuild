@@ -3,6 +3,7 @@ include(paraview-version)
 set(paraview_doc_dir "doc")
 set(paraview_data_dir "examples")
 set(paraview_materials_dir "materials")
+set(paraview_kernels_nvidia_index_dir "kernels_nvidia_index")
 set(paraview_plugin_path "bin/paraview-${paraview_version}/plugins")
 include(paraview.bundle.common)
 
@@ -80,14 +81,15 @@ if (nvidiaindex_enabled)
     libdice
     libnvindex)
 
-  # Need different nvrtc-builtins library depending on whether we are building
-  # with IndeX 2.1 or 2.2.
+  # Need different nvrtc-builtins library depending on the version of IndeX.
   if (nvidiaindex_SOURCE_SELECTION STREQUAL "2.1")
     list(APPEND nvidiaindex_libraries nvrtc-builtins64_80)
   elseif (nvidiaindex_SOURCE_SELECTION STREQUAL "2.2")
     list(APPEND nvidiaindex_libraries nvrtc-builtins64_90)
   elseif (nvidiaindex_SOURCE_SELECTION STREQUAL "2.3")
     list(APPEND nvidiaindex_libraries nvrtc-builtins64_101)
+  elseif (nvidiaindex_SOURCE_SELECTION STREQUAL "2.4")
+    list(APPEND nvidiaindex_libraries nvrtc-builtins64_102)
   else ()
     message(FATAL_ERROR
       "Unknown nvrtc-builtins64 library for ${nvidiaindex_SOURCE_SELECTION}.")
@@ -146,10 +148,7 @@ if (python_enabled)
   endif()
 
   superbuild_windows_install_python(
-    MODULES paraview
-            vtk
-            vtkmodules
-            ${python_modules}
+    MODULES ${python_modules}
     MODULE_DIRECTORIES  "${superbuild_install_location}/${python_prefix}/Lib/site-packages"
                         "${superbuild_install_location}/bin/Lib/site-packages"
                         "${superbuild_install_location}/lib/site-packages"

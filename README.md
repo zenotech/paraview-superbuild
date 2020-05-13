@@ -31,7 +31,7 @@ generators (Xcode and Visual Studio) are not supported.
 
 The superbuild project uses the same versioning scheme as ParaView,
 and gets tagged for every release of ParaView.  For example, to build
-ParaView version 5.4.1, checkout the `v5.7.0` tag of ParaView and
+ParaView version 5.7.1, checkout the `v5.7.0` tag of ParaView and
 superbuild.
 
 Currently available tags are shown
@@ -103,9 +103,7 @@ different features within the resulting ParaView build. Most projects involve
 downloading and adding the feature to the resulting package, but there are a
 few which are used just to enable features within ParaView itself.
 
-The `catalyst` and `paraview` projects are mutually exclusive (the libraries
-conflict in the install tree). One of these two projects must be enabled.
-The `catalyst` package is only available on Linux.
+The `paraview` project must be enabled to build ParaView.
 
 The `paraviewsdk` project enables the building of a package which includes
 headers and libraries suitable for developing against ParaView. It is only available
@@ -174,8 +172,6 @@ include:
   * `paraview/DragNDrop`
   * `paraview/TGZ`
   * `paraview/TXZ`
-  * `catalyst/TGZ`
-  * `catalyst/TXZ`
   * `paraviewsdk/TGZ`
   * `paraviewsdk/TXZ`
 
@@ -263,7 +259,7 @@ time.
 
 The following flags affect ParaView directly:
 
-  * `paraview_SOURCE_SELECTION` (default `5.7.0`): The source to use for
+  * `paraview_SOURCE_SELECTION` (default `5.8.0-RC1`): The source to use for
     ParaView itself. The version numbers use the source tarballs from the
     website for the release. The `source` selection uses the
     `paraview_SOURCE_DIR` variable to look at a checked out ParaView source
@@ -301,12 +297,22 @@ The following flags affect ParaView directly:
     pass to ParaView's configure step. This can be used to set CMake variables
     for the build that are otherwise not exposed in the superbuild itself.
 
-The following flags affect Catalyst:
+#### ParaView editions
 
-  * `PARAVIEW_CATALYST_EDITION` (default `Essentials`): The edition of
-    Catalyst to build (also available: `Extras` and `Rendering-Base`).
-  * `PARAVIEW_CATALYST_PYTHON` (default `ON`): Enable Python support in
-    Catalyst.
+A typical ParaView build includes several modules and dependencies. While these
+are necessary for a fully functional application, there are cases (e.g. in situ
+use-cases) where a build with limited set of features is adequate. ParaView build supports
+this using the `PARAVIEW_BUILD_EDITION` setting. Supported values for this setting are:
+
+* `CORE`: Build modules necessary for core ParaView functionality.
+  This does not include rendering.
+* `RENDERING`: Build modules necessary for supporting rendering including views
+  and representations. This includes everything in `CORE`.
+* `CATALYST`: Build all modules necessary for in situ use cases without
+  rendering and optional components like NetCDF- and HDF5-based readers and
+  writers.
+* `CATALYST_RENDERING`: Same as `CATALYST` but with rendering supported added.
+* `CANONICAL` (default): Build modules necessary for standard ParaView build.
 
 ### Packaging Variables
 

@@ -10,7 +10,7 @@ macro (superbuild_setup_variables)
   if (paraview_SOURCE_SELECTION STREQUAL "git")
     # Assuming master; just use the latest version, but let the user set their
     # own version in case it is actually a branch from some other version.
-    set(PARAVIEW_VERSION_DEFAULT "5.7.0"
+    set(PARAVIEW_VERSION_DEFAULT "5.8.0"
       CACHE STRING "The default version of ParaView to use if it cannot be detected")
     mark_as_advanced(PARAVIEW_VERSION_DEFAULT)
     set(paraview_default_version "${PARAVIEW_VERSION_DEFAULT}")
@@ -110,7 +110,6 @@ function (superbuild_find_projects var)
 
     if (NOT APPLE)
       list(APPEND projects
-        catalyst
         egl
         expat
         fontconfig
@@ -121,7 +120,8 @@ function (superbuild_find_projects var)
         mesa
         osmesa
         paraviewsdk
-        socat)
+        socat
+        utillinux)
     endif ()
   endif ()
 
@@ -199,10 +199,6 @@ function (superbuild_sanity_check)
     message(SEND_ERROR "Cannot enable OSMesa and Mesa at the same time.")
   endif ()
 
-  # Sanity check: Cannot have ParaView and Catalyst enabled at the same time.
-  if (paraview_enabled AND catalyst_enabled)
-    message(SEND_ERROR "Cannot enable ParaView and Catalyst at the same time.")
-  endif ()
 endfunction ()
 
 function (superbuild_add_packaging)
@@ -284,14 +280,6 @@ function (superbuild_add_packaging)
         LABELS  "ParaView"
         TIMEOUT 6400)
     endif ()
-    if (catalyst_enabled OR (paraview_enabled AND UNIX AND NOT APPLE))
-      if (NOT default_package)
-        set(default_package catalyst)
-      endif ()
-      superbuild_add_extra_package_test(catalyst "${generator}"
-        LABELS  "ParaView"
-        TIMEOUT 6400)
-    endif ()
   endforeach ()
 
   if (paraviewsdk_enabled)
@@ -356,6 +344,9 @@ set(_superbuild_default_nlohmannjson ON)
 
 # set the default for qt5 to be 5.9
 set(_superbuild_qt5_default_selection "5.9")
+
+# Force qt SVG support, so ParaView can use SVG icons
+set(qt5_ENABLE_SVG ON CACHE INTERNAL "ParaView requires SVG support")
 
 # ParaView's superbuild does not support static-everywhere builds. But let
 # people around the check if they want it.

@@ -54,6 +54,19 @@ set(python_modules
   pygments
   mpi4py)
 
+if (paraview_is_shared)
+  list(APPEND python_modules
+    paraview
+    vtk
+    vtkmodules)
+else()
+  list(APPEND python_modules
+    _paraview
+    _vtk
+    _paraview_modules_static
+    _vtkmodules_static)
+endif()
+
 if (nlohmannjson_enabled)
   list(APPEND python_modules parflow)
 endif()
@@ -185,6 +198,15 @@ function (paraview_install_materials project dir)
   endif ()
 endfunction ()
 
+function (paraview_install_kernels_nvidia_index project dir)
+  if (${project}_enabled)
+    install(
+      DIRECTORY   "${superbuild_install_location}/${dir}"
+      DESTINATION "${paraview_kernels_nvidia_index_dir}"
+      COMPONENT   superbuild)
+  endif ()
+endfunction ()
+
 function (paraview_install_extra_data)
   if (paraview_doc_dir)
     paraview_install_pdf(paraviewgettingstartedguide "GettingStarted.pdf")
@@ -197,6 +219,11 @@ function (paraview_install_extra_data)
   if (paraview_materials_dir)
     paraview_install_materials(ospraymaterials "materials/")
   endif ()
+
+  if (paraview_kernels_nvidia_index_dir)
+    paraview_install_kernels_nvidia_index(
+      nvidiaindex "share/paraview-${paraview_version}/kernels_nvidia_index/")
+  endif ()
 endfunction ()
 
 if (qt5_enabled)
@@ -207,7 +234,10 @@ if (qt5_enabled)
     set(qt5_plugin_prefix "lib")
   endif ()
 
+  # Add SVG support, so ParaView can use SVG icons
   set(qt5_plugins
+    iconengines/${qt5_plugin_prefix}qsvgicon
+    imageformats/${qt5_plugin_prefix}qsvg
     sqldrivers/${qt5_plugin_prefix}qsqlite)
 
   if (WIN32)

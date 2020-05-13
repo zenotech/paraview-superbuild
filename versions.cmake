@@ -24,7 +24,7 @@ superbuild_set_revision(genericio
   URL     "https://www.paraview.org/files/dependencies/genericio-master-a15ffc76cfa9f9674f933e8cb5ffc97a97fd7b27.zip"
   URL_MD5 daea4ea2076fb6a1b8ccded8e861e1be)
 
-set(paraview_doc_ver_series "5.7")
+set(paraview_doc_ver_series "5.8")
 set(paraview_doc_ver "${paraview_doc_ver_series}.0")
 superbuild_set_revision(paraviewgettingstartedguide
   URL     "https://www.paraview.org/files/v${paraview_doc_ver_series}/ParaViewGettingStarted-${paraview_doc_ver}.pdf"
@@ -39,19 +39,14 @@ superbuild_set_revision(paraviewtutorialdata
 # on this assumption.
 superbuild_set_selectable_source(paraview
   # NOTE: When updating this selection, also update `README.md` and CMakeLists.txt.
-  SELECT 5.7.0 DEFAULT
-    URL     "http://www.paraview.org/files/v5.7/ParaView-v5.7.0.tar.xz"
-    URL_MD5 5f86cb2ab2e1efb415271f375f67e41b
+  SELECT 5.8.0 DEFAULT
+    URL     "http://www.paraview.org/files/v5.8/ParaView-v5.8.0.tar.xz"
+    URL_MD5 93df5221af66c451d6a1c2253a53fe6b
   SELECT git CUSTOMIZABLE
     GIT_REPOSITORY "https://gitlab.kitware.com/paraview/paraview.git"
     GIT_TAG        "origin/master"
   SELECT source CUSTOMIZABLE
     SOURCE_DIR "source-paraview")
-get_property(paraview_revision GLOBAL
-  PROPERTY paraview_revision)
-superbuild_set_revision(catalyst
-  ${paraview_revision})
-unset(paraview_revision)
 
 superbuild_set_revision(vrpn
   # https://github.com/vrpn/vrpn.git
@@ -123,8 +118,8 @@ superbuild_set_revision(paraviewweblite
   URL_MD5 2e5b5ce704c0bcacf31f9bd79c779f7d)
 
 superbuild_set_revision(paraviewwebglance
-  URL     "https://www.paraview.org/files/dependencies/paraview-glance-3.5.10.tgz"
-  URL_MD5 b8307fcdbabacd8fd3ca471eab33353a)
+  URL     "https://www.paraview.org/files/dependencies/paraview-glance-4.4.2.tgz"
+  URL_MD5 49aa62fc8d8b1b942e7fc8cb5e66d4db)
 
 superbuild_set_revision(paraviewwebflow
   URL     "https://www.paraview.org/files/dependencies/paraview-flow-1.0.7.tgz"
@@ -143,14 +138,21 @@ if (WIN32)
   set(nvidiaindex_2_1_md5 "f6efc09092771eb0bfb375a503a95c04")
   set(nvidiaindex_2_2_md5 "93bb894e7951227862ea308f7d6e2e18")
   set(nvidiaindex_2_3_md5 "f7374dfe3eec789b07957e4924fa029f")
+  set(nvidiaindex_2_4_md5 "5e558630494c86e30fa40fa42d78924c")
 elseif (UNIX AND NOT APPLE)
   set(nvidiaindex_platform "linux")
   set(nvidiaindex_2_1_md5 "9fd5af702af6a6a6f2aba3a960703fb3")
   set(nvidiaindex_2_2_md5 "b97518f8b5d05497455e90ba5a0712f1")
   set(nvidiaindex_2_3_md5 "9c57d22f065f2ac7c978e6e6e06ebb69")
+  set(nvidiaindex_2_4_md5 "cc795e80048fab1ba1c9f25603d22779")
 endif ()
 superbuild_set_selectable_source(nvidiaindex
-  SELECT 2.3 DEFAULT
+  # XXX(index): Adding a new version? The Windows bundle script needs to know
+  # too (nvrtc-builtins).
+  SELECT 2.4 DEFAULT
+    URL     "http://www.paraview.org/files/dependencies/nvidia-index-libs-2.4.20200124-${nvidiaindex_platform}.tar.bz2"
+    URL_MD5 "${nvidiaindex_2_4_md5}"
+  SELECT 2.3
     URL     "http://www.paraview.org/files/dependencies/nvidia-index-libs-2.3.20190820-${nvidiaindex_platform}.tar.bz2"
     URL_MD5 "${nvidiaindex_2_3_md5}"
   SELECT 2.2

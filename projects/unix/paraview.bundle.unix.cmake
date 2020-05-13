@@ -161,10 +161,7 @@ if (python_enabled)
   # Related issue: https://gitlab.kitware.com/paraview/paraview-superbuild/issues/120
   superbuild_unix_install_python(
     LIBDIR              "lib"
-    MODULES             paraview
-                        vtk
-                        vtkmodules
-                        ${python_modules}
+    MODULES             ${python_modules}
     INCLUDE_REGEXES     ${include_regexes}
     EXCLUDE_REGEXES     ${exclude_regexes}
     MODULE_DIRECTORIES  "${superbuild_install_location}/lib/python${superbuild_python_version}/site-packages"
