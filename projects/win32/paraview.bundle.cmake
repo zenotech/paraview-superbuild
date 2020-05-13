@@ -109,7 +109,11 @@ endif ()
 
 if (ospray_enabled)
   set(osprayextra_libraries
-    ospray_module_ispc)
+    openvkl_module_ispc_driver
+    ospray_module_denoiser
+    ospray_module_ispc
+    ospray_module_mpi
+    rkcommon)
 
   foreach (osprayextra_library IN LISTS osprayextra_libraries)
     superbuild_windows_install_plugin("${osprayextra_library}.dll"
