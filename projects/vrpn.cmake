@@ -7,7 +7,7 @@ superbuild_add_project(vrpn
     # We want the new parser; without this, some FindJava syntax errors pop up
     # with newer CMake binaries. This is easier than a patch.
     -DCMAKE_POLICY_DEFAULT_CMP0053:STRING=NEW
-    -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
+    -DBUILD_SHARED_LIBS:BOOL=OFF
     -DBUILD_TESTING:BOOL=OFF
     -DPYTHON_ENABLE_MODULE_vrpn-python:BOOL=OFF
     -DVRPN_BUILD_JAVA:BOOL=OFF
