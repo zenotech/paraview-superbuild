@@ -43,7 +43,7 @@ Before you begin, perform initial setup:
     "Subscribe to this project" on the right of ParaView-Superbuild.
 
 [GitLab Access]: https://gitlab.kitware.com/users/sign_in
-[Fork ParaView-Superbuild]: https://gitlab.kitware.com/paraview/paraview-superbuild/fork/new
+[Fork ParaView-Superbuild]: https://gitlab.kitware.com/paraview/paraview-superbuild/-/fork/new
 [developer setup script]: /Utilities/SetupForDevelopment.sh
 
 Workflow
@@ -142,7 +142,7 @@ left, and use the "**New Merge Request**" button in the upper right to
 reach the URL printed at the end of the [previous step](#share-a-topic).
 It should be of the form:
 
-    https://gitlab.kitware.com/<username>/paraview-superbuild/merge_requests/new
+    https://gitlab.kitware.com/<username>/paraview-superbuild/-/merge_requests/new
 
 Follow these steps:
 

@@ -35,7 +35,7 @@ ParaView version 5.7.1, checkout the `v5.7.0` tag of ParaView and
 superbuild.
 
 Currently available tags are shown
-[here](https://gitlab.kitware.com/paraview/paraview-superbuild/tags).
+[here](https://gitlab.kitware.com/paraview/paraview-superbuild/-/tags).
 
 To checkout a specific tag from the superbuild git repository:
 
