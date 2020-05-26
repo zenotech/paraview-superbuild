@@ -195,7 +195,7 @@ if (python_enabled)
   # Python3, we should make sure all the python modules get installed to the same
   # location to begin with.
   #
-  # Related issue: https://gitlab.kitware.com/paraview/paraview-superbuild/issues/120
+  # Related issue: https://gitlab.kitware.com/paraview/paraview-superbuild/-/issues/120
   superbuild_unix_install_python(
     LIBDIR              "lib"
     MODULES             ${python_modules}
