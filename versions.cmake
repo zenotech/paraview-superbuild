@@ -1,6 +1,6 @@
 superbuild_set_revision(expat
-  URL     "http://www.paraview.org/files/dependencies/expat-2.2.6.tar.bz2"
-  URL_MD5 ca047ae951b40020ac831c28859161b2)
+  URL     "http://www.paraview.org/files/dependencies/expat-2.2.9.tar.bz2"
+  URL_MD5 875a2c2ff3e8eb9e5a5cd62db2033ab5)
 
 superbuild_set_revision(llvm
   URL     "https://www.paraview.org/files/dependencies/llvm-7.0.0.src.tar.xz"
