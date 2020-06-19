@@ -14,11 +14,6 @@ if (PV_NIGHTLY_SUFFIX)
     -DPV_NIGHTLY_SUFFIX:STRING=${PV_NIGHTLY_SUFFIX})
 endif ()
 
-set(paraview_install_development_files FALSE)
-if ((UNIX AND NOT APPLE) OR paraviewsdk_enabled OR vortexfinder2_enabled)
-  set(paraview_install_development_files TRUE)
-endif ()
-
 # Without an offscreen rendering backend, X should be used.
 set(paraview_use_x ON)
 if (WIN32 OR APPLE OR osmesa_enabled OR egl_enabled)
@@ -148,7 +143,7 @@ superbuild_add_project(paraview
     -DPARAVIEW_ENABLE_MOTIONFX:BOOL=${PARAVIEW_ENABLE_MOTIONFX}
     -DPARAVIEW_ENABLE_VISITBRIDGE:BOOL=${visitbridge_enabled}
     -DPARAVIEW_ENABLE_XDMF3:BOOL=${xdmf3_enabled}
-    -DPARAVIEW_INSTALL_DEVELOPMENT_FILES:BOOL=${paraview_install_development_files}
+    -DPARAVIEW_INSTALL_DEVELOPMENT_FILES:BOOL=ON
     -DPARAVIEW_PLUGIN_ENABLE_OpenVR:BOOL=${openvr_enabled}
     # No netcdftime module in the package.
     -DPARAVIEW_PLUGIN_ENABLE_NetCDFTimeAnnotationPlugin:BOOL=OFF
@@ -200,21 +195,6 @@ superbuild_add_project(paraview
     ${paraview_extra_cmake_options}
 
     ${PARAVIEW_EXTRA_CMAKE_ARGUMENTS})
-
-if (paraview_install_development_files)
-  find_program(SED_EXECUTABLE sed)
-  mark_as_advanced(SED_EXECUTABLE)
-  if (SED_EXECUTABLE)
-    superbuild_project_add_step("fixup-cmake-paths"
-      COMMAND "${CMAKE_COMMAND}"
-              -Dinstall_location:PATH=<INSTALL_DIR>
-              -Dparaview_version:STRING=${paraview_version}
-              -P "${CMAKE_CURRENT_LIST_DIR}/scripts/paraview.fixupcmakepaths.cmake"
-      COMMENT   "Fixing paths in generated CMake files for packaging."
-      DEPENDEES install
-      WORKING_DIRECTORY <INSTALL_DIR>)
-  endif ()
-endif ()
 
 if (paraview_SOURCE_SELECTION STREQUAL "5.3.0")
   superbuild_apply_patch(paraview fix-benchmarks
