@@ -156,6 +156,10 @@ if (vortexfinder2_enabled)
   list(APPEND paraview_plugins
     VortexFinder)
 endif ()
+if (surfacetrackercut_enabled)
+  list(APPEND paraview_plugins
+    SurfaceTrackerCut)
+endif()
 
 if (osmesa_built_by_superbuild OR mesa_built_by_superbuild)
   set(mesa_libraries)
