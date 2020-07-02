@@ -1,0 +1,16 @@
+--- silo-4.10.2-bsd-smalltest/config/config.guess.original	2020-07-02 15:17:44.000000000 -0400
++++ silo-4.10.2-bsd-smalltest/config/config.guess	2020-07-02 15:18:46.000000000 -0400
+@@ -947,10 +947,13 @@
+ 	  PA7*) echo hppa1.1-unknown-linux-gnu ;;
+ 	  PA8*) echo hppa2.0-unknown-linux-gnu ;;
+ 	  *)    echo hppa-unknown-linux-gnu ;;
+ 	esac
+ 	exit ;;
++    ppc64le:Linux:*:*)
++        echo powerpc64-unknown-linux-gnu
++        exit ;;
+     ppc64:Linux:*:*)
+ 	echo powerpc64-unknown-linux-gnu
+ 	exit ;;
+     ppc:Linux:*:*)
+ 	echo powerpc-unknown-linux-gnu
