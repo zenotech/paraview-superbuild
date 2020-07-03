@@ -121,7 +121,6 @@ superbuild_add_project(paraview
     nlohmannjson
     paraviewgettingstartedguide
     paraviewtutorialdata paraviewweb
-    paraviewpluginsexternal
     ${paraview_all_plugins}
     ${paraviews_platform_dependencies}
     ${PARAVIEW_EXTERNAL_PROJECTS}
