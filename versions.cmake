@@ -207,5 +207,5 @@ superbuild_set_revision(libfabric
 
 superbuild_set_revision(protobuf
   GIT_REPOSITORY "https://github.com/protocolbuffers/protobuf"
-  GIT_TAG 2.7.0
+  GIT_TAG v3.11.4
   SOURCE_SUBDIR cmake)
