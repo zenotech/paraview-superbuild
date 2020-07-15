@@ -12,6 +12,8 @@ ProcessorCount(nproc)
 set(test_exclusions
   # exclude package generation tests
   "cpack-"
+  # https://gitlab.kitware.com/paraview/paraview/-/issues/20061
+  "paraview-pvweb-visualizer"
 )
 string(REPLACE ";" "|" test_exclusions "${test_exclusions}")
 if (test_exclusions)
