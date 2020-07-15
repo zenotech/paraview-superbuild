@@ -52,13 +52,13 @@ set(qt5_SOURCE_SELECTION            "5.10" CACHE STRING "")
 set(qt5_EXTRA_CONFIGURATION_OPTIONS "-no-use-gold-linker" CACHE STRING "")
 
 # output suppressions
+set(SUPPRESS_boost_OUTPUT               ON CACHE BOOL "")
 set(SUPPRESS_numpy_OUTPUT               ON CACHE BOOL "")
 set(SUPPRESS_paraview_OUTPUT            ON CACHE BOOL "")
 set(SUPPRESS_python3_OUTPUT             ON CACHE BOOL "")
 set(SUPPRESS_pythonzope_OUTPUT          ON CACHE BOOL "")
 set(SUPPRESS_pythonzopeinterface_OUTPUT ON CACHE BOOL "")
 set(SUPPRESS_qt5_OUTPUT                 ON CACHE BOOL "")
-set(SUPPRESS_scipy_OUTPUT               ON CACHE BOOL "")
 set(SUPPRESS_scipy_OUTPUT               ON CACHE BOOL "")
 
 set(paraview_SOURCE_SELECTION           "source" CACHE STRING "")
