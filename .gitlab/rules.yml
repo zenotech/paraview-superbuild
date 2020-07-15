@@ -1,0 +1,30 @@
+# Rules for where jobs can run
+
+.run_automatically:
+    rules:
+        - if: '$CI_PROJECT_PATH == "paraview/paraview-superbuild"'
+          when: always
+        - if: '$CI_MERGE_REQUEST_ID'
+          when: always
+        - when: never
+
+.run_manually:
+    rules:
+        - if: '$CI_PROJECT_PATH == "paraview/paraview-superbuild"'
+          when: delayed
+          start_in: 30 minutes
+        - if: '$CI_MERGE_REQUEST_ID'
+          when: manual
+        - when: never
+
+.merged_only:
+    rules:
+        - if: '$CI_PROJECT_PATH == "paraview/paraview-superbuild"'
+          when: always
+        - when: never
+
+.upload_only:
+    rules:
+      - if: '$GIRDER_UPLOAD_ENABLE == "true"'
+        when: always
+      - when: never

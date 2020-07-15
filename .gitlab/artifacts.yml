@@ -1,0 +1,53 @@
+# Lists of paths for artifacts of various stages.
+
+.cmake_build_artifacts:
+    artifacts:
+        expire_in: 1d
+        when: always
+        paths:
+            # The artifacts for debugging
+            - build/CMakeCache.txt
+            - build/superbuild/*.cmake
+
+            # logs for suppressed outputs
+            - build/superbuild/*/stamp/*.log
+
+            # Packages
+            - build/ParaView-*.tar.*
+            - build/ParaView-*.dmg
+            - build/ParaView-*.zip
+
+            # Files requires for packaging test.
+            - build/superbuild/CMakeFiles/cmake/
+            - build/superbuild/superbuild_testing_trampoline.cmake
+
+            # Files required for other tests.
+            - build/tests/
+
+            # CTest files.
+            - build/CTestCustom*.cmake
+            - build/CTestTestfile.cmake
+            - build/superbuild/CTestTestfile.cmake
+            - build/Testing/
+
+            # CDash files.
+            - build/DartConfiguration.tcl
+
+.cmake_test_artifacts:
+    artifacts:
+        expire_in: 1d
+        # Tests failing should still upload the artifact for further testing.
+        when: always
+        paths:
+            # Debugging logs
+            - build/Testing/Temporary/Last*.log
+
+.cmake_package_artifacts:
+    artifacts:
+        expire_in: 4d
+        # Tests failing should still upload the artifact for further testing.
+        when: always
+        paths:
+            - build/ParaView-*.tar.*
+            - build/ParaView-*.dmg
+            - build/ParaView-*.zip
