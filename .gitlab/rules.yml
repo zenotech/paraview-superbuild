@@ -25,6 +25,6 @@
 
 .upload_only:
     rules:
-      - if: '$GIRDER_UPLOAD_ENABLE == "true"'
+      - if: '$RSYNC_UPLOAD_ENABLE == "true"'
         when: always
       - when: never

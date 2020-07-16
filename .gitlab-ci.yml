@@ -6,9 +6,13 @@ include:
     # OS builds.
     - local: .gitlab/os-linux.yml
 
+    # Post-build steps
+    - local: .gitlab/upload.yml
+
 stages:
     - build
     - test
+    - upload
 
 ################################################################################
 # Job declarations
@@ -51,6 +55,17 @@ test:linux-plain:
     needs:
         - build:linux-plain
 
+upload:linux-plain:
+    extends:
+        - .rsync_upload
+        - .upload_only
+    dependencies:
+        - test:linux-plain
+    needs:
+        - test:linux-plain
+    variables:
+        RSYNC_DESTINATION: paraview_nightly_bin
+
 ## EGL build
 
 build:linux-egl:
@@ -74,6 +89,17 @@ test:linux-egl:
     needs:
         - build:linux-egl
 
+upload:linux-egl:
+    extends:
+        - .rsync_upload
+        - .upload_only
+    dependencies:
+        - test:linux-egl
+    needs:
+        - test:linux-egl
+    variables:
+        RSYNC_DESTINATION: paraview_nightly_bin
+
 ## OSMesa shared build
 
 build:linux-osmesa-shared:
@@ -95,6 +121,17 @@ test:linux-osmesa-shared:
         - build:linux-osmesa-shared
     needs:
         - build:linux-osmesa-shared
+
+upload:linux-osmesa-shared:
+    extends:
+        - .rsync_upload
+        - .upload_only
+    dependencies:
+        - test:linux-osmesa-shared
+    needs:
+        - test:linux-osmesa-shared
+    variables:
+        RSYNC_DESTINATION: paraview_nightly_bin
 
 ## OSMesa static build
 #
@@ -120,3 +157,14 @@ test:linux-osmesa-static:
         - build:linux-osmesa-static
     needs:
         - build:linux-osmesa-static
+
+upload:linux-osmesa-static:
+    extends:
+        - .rsync_upload
+        - .upload_only
+    dependencies:
+        - test:linux-osmesa-shared
+    needs:
+        - test:linux-osmesa-shared
+    variables:
+        RSYNC_DESTINATION: paraview_nightly_bin
