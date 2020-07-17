@@ -49,6 +49,11 @@ if (qt5_enabled)
   set(paraview_has_gui TRUE)
 endif ()
 
+if (vrpn_enabled)
+  list(APPEND paraview_executables
+    vrpn_server)
+endif()
+
 set(python_modules
   cinema_python
   pygments
