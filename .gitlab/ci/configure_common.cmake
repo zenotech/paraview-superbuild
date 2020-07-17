@@ -66,4 +66,11 @@ set(SUPPRESS_scipy_OUTPUT               ON CACHE BOOL "")
 set(paraview_SOURCE_SELECTION           "source" CACHE STRING "")
 set(paraview_SOURCE_DIR                 "$ENV{CI_BUILDS_DIR}/source-paraview" CACHE PATH "")
 
+# Default to Release builds.
+if ("$ENV{CMAKE_BUILD_TYPE}" STREQUAL "")
+  set(CMAKE_BUILD_TYPE "Release" CACHE STRING "")
+else ()
+  set(CMAKE_BUILD_TYPE "$ENV{CMAKE_BUILD_TYPE}" CACHE STRING "")
+endif ()
+
 include("${CMAKE_CURRENT_LIST_DIR}/configure_sccache.cmake")
