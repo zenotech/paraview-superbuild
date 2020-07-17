@@ -64,7 +64,8 @@ set(SUPPRESS_qt5_OUTPUT                 ON CACHE BOOL "")
 set(SUPPRESS_scipy_OUTPUT               ON CACHE BOOL "")
 
 set(paraview_SOURCE_SELECTION           "source" CACHE STRING "")
-set(paraview_SOURCE_DIR                 "$ENV{CI_BUILDS_DIR}/source-paraview" CACHE PATH "")
+file(TO_CMAKE_PATH "$ENV{CI_BUILDS_DIR}/source-paraview" paraview_source_dir)
+set(paraview_SOURCE_DIR                 "${paraview_source_dir}" CACHE PATH "")
 
 # Default to Release builds.
 if ("$ENV{CMAKE_BUILD_TYPE}" STREQUAL "")
