@@ -23,11 +23,8 @@ else
 fi
 readonly pv_branch
 
-# since we do shallow clones, we need to cleanup old checkouts
-rm -rf "$CI_BUILDS_DIR/source-paraview"
-
 # full clone of paraview with shallow-submodule. full clone needed so that `git describe` works correctly
-git clone --recursive --shallow-submodules -b "$pv_branch" "$url" "$CI_BUILDS_DIR/source-paraview"
+git clone --recursive --shallow-submodules -b "$pv_branch" "$url" "$CI_PROJECT_DIR/source-paraview"
 
 # let's print ParaView version for reference even when the artifacts disappear
-git -C "$CI_BUILDS_DIR/source-paraview describe"
+git -C "$CI_PROJECT_DIR/source-paraview" describe
