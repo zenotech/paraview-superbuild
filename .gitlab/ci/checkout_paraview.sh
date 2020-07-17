@@ -14,10 +14,10 @@ readonly url="${PARAVIEW_URL:-https://gitlab.kitware.com/paraview/paraview.git}"
 readonly pv_branch="${PARAVIEW_BRANCH:-$sb_branch}"
 
 # since we do shallow clones, we need to cleanup old checkouts
-rm -rf $CI_BUILDS_DIR/source-paraview
+rm -rf "$CI_BUILDS_DIR/source-paraview"
 
 # full clone of paraview with shallow-submodule. full clone needed so that `git describe` works correctly
-git clone --recursive --shallow-submodules -b $pv_branch $url $CI_BUILDS_DIR/source-paraview
+git clone --recursive --shallow-submodules -b "$pv_branch" "$url" "$CI_BUILDS_DIR/source-paraview"
 
 # let's print ParaView version for reference even when the artifacts disappear
-git -C $CI_BUILDS_DIR/source-paraview describe
+git -C "$CI_BUILDS_DIR/source-paraview describe"
