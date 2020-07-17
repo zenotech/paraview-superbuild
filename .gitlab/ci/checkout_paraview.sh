@@ -7,11 +7,21 @@ set -e
 #   CI_COMMIT_TAG is set when building a tag, and
 #   CI_MERGE_REQUEST_TARGET_BRANCH_NAME is set when building an MR.
 # We check them one after the other to pick the default branch name.
-readonly sb_branch="${CI_COMMIT_BRANCH:-${CI_COMMIT_TAG:-${CI_MERGE_REQUEST_TARGET_BRANCH_NAME:-master}}}"
 readonly url="${PARAVIEW_URL:-https://gitlab.kitware.com/paraview/paraview.git}"
 
 # figure out which ParaView branch to checkout.
-readonly pv_branch="${PARAVIEW_BRANCH:-$sb_branch}"
+if [ -n "$PARAVIEW_BRANCH" ]; then
+    pv_branch="$PARAVIEW_BRANCH"
+elif [ -n "$CI_COMMIT_TAG" ]; then
+    pv_branch="$CI_COMMIT_TAG"
+elif [ -n "$CI_MERGE_REQUEST_TARGET_BRANCH_NAME" ]; then
+    pv_branch="$CI_MERGE_REQUEST_TARGET_BRANCH_NAME"
+elif [ -n "$CI_COMMIT_BRANCH" ]; then
+    pv_branch="$CI_COMMIT_BRANCH"
+else
+    pv_branch="master"
+fi
+readonly pv_branch
 
 # since we do shallow clones, we need to cleanup old checkouts
 rm -rf "$CI_BUILDS_DIR/source-paraview"
