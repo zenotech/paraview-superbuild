@@ -42,7 +42,7 @@ build:linux-plain:
         - .cmake_build_linux
         - .cmake_build_artifacts
         - .linux_builder_tags
-        - .run_automatically
+        - .run_manually
 
 test:linux-plain:
     extends:
@@ -75,7 +75,7 @@ build:linux-egl:
         - .cmake_build_linux
         - .cmake_build_artifacts
         - .linux_builder_tags
-        - .run_automatically
+        - .run_manually
 
 test:linux-egl:
     extends:
@@ -109,7 +109,7 @@ build:linux-osmesa-shared:
         - .cmake_build_linux
         - .cmake_build_artifacts
         - .linux_builder_tags
-        - .run_automatically
+        - .run_manually
 
 test:linux-osmesa-shared:
     extends:
@@ -145,7 +145,7 @@ build:linux-osmesa-static:
         - .cmake_build_linux
         - .cmake_build_artifacts
         - .linux_builder_tags
-        - .run_automatically
+        - .run_manually
 
 test:linux-osmesa-static:
     extends:
@@ -169,7 +169,7 @@ build:windows-vs2019-mpi:
         - .cmake_build_windows
         - .cmake_build_artifacts
         - .windows_builder_tags
-        - .run_automatically
+        - .run_manually
     timeout: 2 hours
 
 test:windows-vs2019-mpi:
@@ -203,7 +203,7 @@ build:windows-vs2019-nompi:
         - .cmake_build_windows
         - .cmake_build_artifacts
         - .windows_builder_tags
-        - .run_automatically
+        - .run_manually
     timeout: 2 hours
 
 test:windows-vs2019-nompi:
