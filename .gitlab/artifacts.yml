@@ -13,6 +13,7 @@
             - build/superbuild/*/stamp/*.log
 
             # Packages
+            - build/ParaView-*.exe
             - build/ParaView-*.tar.*
             - build/ParaView-*.dmg
             - build/ParaView-*.zip
@@ -48,6 +49,7 @@
         # Tests failing should still upload the artifact for further testing.
         when: always
         paths:
+            - build/ParaView-*.exe
             - build/ParaView-*.tar.*
             - build/ParaView-*.dmg
             - build/ParaView-*.zip

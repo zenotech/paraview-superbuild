@@ -19,13 +19,8 @@ if ($env:PARAVIEW_BRANCH) {
     $pv_branch = "master"
 }
 
-# since we do shallow clones, we need to cleanup old checkouts
-if (Test-Path "$env:CI_BUILDS_DIR\source-paraview") {
-    Remove-Item -Recurse "$env:CI_BUILDS_DIR\source-paraview"
-}
-
 # full clone of paraview with shallow-submodule. full clone needed so that `git describe` works correctly
-git clone --recursive --shallow-submodules -b "$pv_branch" "$url" "$env:CI_BUILDS_DIR\source-paraview"
+git clone --recursive --shallow-submodules -b "$pv_branch" "$url" "$env:CI_PROJECT_DIR\source-paraview"
 
 # let's print ParaView version for reference even when the artifacts disappear
-git -C "$CI_BUILDS_DIR\source-paraview" describe
+git -C "$CI_PROJECT_DIR\source-paraview" describe
