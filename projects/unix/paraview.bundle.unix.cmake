@@ -50,6 +50,15 @@ foreach (executable IN LISTS paraview_executables)
   endif()
 endforeach ()
 
+# install other executables, if any
+foreach (executable IN LISTS other_executables)
+  superbuild_unix_install_program("${superbuild_install_location}/bin/${executable}"
+    "lib"
+    SEARCH_DIRECTORIES  "${library_paths}"
+    INCLUDE_REGEXES     ${include_regexes}
+    EXCLUDE_REGEXES     ${exclude_regexes})
+endforeach ()
+
 if (EXISTS "${superbuild_install_location}/bin/paraview.conf")
   install(
     FILES       "${superbuild_install_location}/bin/paraview.conf"

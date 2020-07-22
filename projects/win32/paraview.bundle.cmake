@@ -43,7 +43,7 @@ if (python3_enabled)
 endif ()
 
 # Install paraview executables to bin.
-foreach (executable IN LISTS paraview_executables)
+foreach (executable IN LISTS paraview_executables other_executables)
   if (DEFINED "${executable}_description")
     list(APPEND CPACK_NSIS_MENU_LINKS
       "bin/${executable}.exe" "${${executable}_description}")

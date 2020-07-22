@@ -85,7 +85,7 @@ install(
 list(REMOVE_ITEM paraview_executables
   paraview)
 
-foreach (executable IN LISTS paraview_executables)
+foreach (executable IN LISTS paraview_executables other_executables)
   superbuild_apple_install_utility(
     "\${CMAKE_INSTALL_PREFIX}"
     "${paraview_appname}"
