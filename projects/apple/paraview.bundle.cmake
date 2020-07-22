@@ -39,8 +39,19 @@ endif ()
 
 set(additional_libraries)
 if (ospray_enabled)
-  list(APPEND additional_libraries
-    "${superbuild_install_location}/lib/libospray_module_ispc.dylib")
+  set(osprayextra_libraries
+    openvkl_module_ispc_driver
+    ospray_module_denoiser
+    ospray_module_ispc
+    ospray_module_mpi
+    rkcommon)
+
+  foreach (osprayextra_library IN LISTS osprayextra_libraries)
+    if (EXISTS "${superbuild_install_location}/lib/lib${osprayextra_library}.dylib")
+      list(APPEND additional_libraries
+        "${superbuild_install_location}/lib/lib${osprayextra_library}.dylib")
+    endif ()
+  endforeach ()
 endif ()
 
 superbuild_apple_create_app(
@@ -85,7 +96,7 @@ install(
 list(REMOVE_ITEM paraview_executables
   paraview)
 
-foreach (executable IN LISTS paraview_executables)
+foreach (executable IN LISTS paraview_executables other_executables)
   superbuild_apple_install_utility(
     "\${CMAKE_INSTALL_PREFIX}"
     "${paraview_appname}"

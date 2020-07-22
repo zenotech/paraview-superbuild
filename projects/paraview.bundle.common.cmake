@@ -45,8 +45,9 @@ if (qt5_enabled)
   set(paraview_has_gui TRUE)
 endif ()
 
+set(other_executables)
 if (vrpn_enabled)
-  list(APPEND paraview_executables
+  list(APPEND other_executables
     vrpn_server)
 endif()
 

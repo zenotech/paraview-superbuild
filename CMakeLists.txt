@@ -54,8 +54,11 @@ function (superbuild_find_projects var)
     netcdf
     nlohmannjson
     numpy
-    ospray
     openimagedenoise
+    openvkl
+    ospcommon
+    ospray
+    ospraymodulempi
     paraviewweb
     paraviewwebglance
     paraviewweblite
@@ -84,6 +87,7 @@ function (superbuild_find_projects var)
     pythonzopeinterface
     pytz
     qt5
+    rkcommon
     silo
     szip
     tbb

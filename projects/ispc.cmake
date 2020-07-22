@@ -3,5 +3,5 @@ superbuild_add_project(ispc
   BUILD_COMMAND ""
   INSTALL_COMMAND
     "${CMAKE_COMMAND}" -E copy_if_different
-      <SOURCE_DIR>/ispc${CMAKE_EXECUTABLE_SUFFIX}
+      <SOURCE_DIR>/bin/ispc${CMAKE_EXECUTABLE_SUFFIX}
       <INSTALL_DIR>/bin/ispc${CMAKE_EXECUTABLE_SUFFIX})

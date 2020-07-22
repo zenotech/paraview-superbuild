@@ -43,7 +43,7 @@ if (python3_enabled)
 endif ()
 
 # Install paraview executables to bin.
-foreach (executable IN LISTS paraview_executables)
+foreach (executable IN LISTS paraview_executables other_executables)
   if (DEFINED "${executable}_description")
     list(APPEND CPACK_NSIS_MENU_LINKS
       "bin/${executable}.exe" "${${executable}_description}")
@@ -109,7 +109,11 @@ endif ()
 
 if (ospray_enabled)
   set(osprayextra_libraries
-    ospray_module_ispc)
+    openvkl_module_ispc_driver
+    ospray_module_denoiser
+    ospray_module_ispc
+    ospray_module_mpi
+    rkcommon)
 
   foreach (osprayextra_library IN LISTS osprayextra_libraries)
     superbuild_windows_install_plugin("${osprayextra_library}.dll"
