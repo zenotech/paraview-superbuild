@@ -116,6 +116,7 @@
             # Cache downloaded tarballs.
             - build/downloads/
     interruptible: true
+    timeout: 3 hours
 
 .cmake_test_linux:
     stage: test
