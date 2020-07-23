@@ -22,6 +22,8 @@ superbuild_project_add_step("custom-build"
     "Building mili"
   DEPENDEES
     configure
+  DEPENDERS
+    build
   WORKING_DIRECTORY
     ${_build_subdir}
 )
@@ -54,6 +56,8 @@ superbuild_project_add_step("custom-install"
     "Installing mili"
   DEPENDEES
     build
+  DEPENDERS
+    install
 )
 
 if (UNIX)
