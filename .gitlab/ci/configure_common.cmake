@@ -9,6 +9,7 @@ set(ENABLE_fortran                  ON CACHE BOOL "")
 set(ENABLE_gdal                     ON CACHE BOOL "")
 set(ENABLE_matplotlib               ON CACHE BOOL "")
 set(ENABLE_mesa                     ON CACHE BOOL "")
+set(ENABLE_mili                     ON CACHE BOOL "")
 set(ENABLE_mpi                      ON CACHE BOOL "")
 set(ENABLE_launchers                ON CACHE BOOL "")
 set(ENABLE_netcdf                   ON CACHE BOOL "")
@@ -42,9 +43,6 @@ set(ENABLE_vrpn                     ON CACHE BOOL "")
 set(ENABLE_vtkm                     ON CACHE BOOL "")
 set(ENABLE_xdmf3                    ON CACHE BOOL "")
 set(ENABLE_zfp                      ON CACHE BOOL "")
-
-# install rules seem busted or something
-#set(ENABLE_mili                     ON CACHE BOOL "")
 
 # qt5 things
 set(qt5_SOURCE_SELECTION            "5.10" CACHE STRING "")
