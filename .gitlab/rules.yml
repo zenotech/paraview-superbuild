@@ -3,9 +3,9 @@
 .run_automatically:
     rules:
         - if: '$CI_PROJECT_PATH == "paraview/paraview-superbuild"'
-          when: always
+          when: on_success
         - if: '$CI_MERGE_REQUEST_ID'
-          when: always
+          when: on_success
         - when: never
 
 .run_manually:
@@ -20,11 +20,11 @@
 .merged_only:
     rules:
         - if: '$CI_PROJECT_PATH == "paraview/paraview-superbuild"'
-          when: always
+          when: on_success
         - when: never
 
 .upload_only:
     rules:
       - if: '$RSYNC_UPLOAD_ENABLE == "true"'
-        when: always
+        when: on_success
       - when: never
