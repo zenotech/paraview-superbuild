@@ -12,5 +12,5 @@
 
     script:
         - ls build/
-        - dnf install -y --setopt=install_weak_deps=False rsync
+        - dnf install -y --setopt=install_weak_deps=False rsync openssh-clients
         - rsync -tv --recursive -e "ssh -i $RSYNC_BINARY_KEY -o StrictHostKeyChecking=no" build/ kitware@public.kitware.com:$RSYNC_DESTINATION/
