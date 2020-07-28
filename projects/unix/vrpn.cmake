@@ -15,7 +15,3 @@ superbuild_add_project(vrpn
     -DVRPN_BUILD_PYTHON_HANDCODED_3X:BOOL=OFF
     -DVRPN_BUILD_TEST_RPC_GENERATION:BOOL=OFF
     )
-
-# Backported from upstream commit 70d47fec7e3be85f5f05c8ac5be99dacbd8be257.
-superbuild_apply_patch(vrpn wait3-removal
-  "Remove wait3 usage")
