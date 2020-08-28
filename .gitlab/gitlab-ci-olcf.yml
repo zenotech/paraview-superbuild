@@ -55,6 +55,7 @@ stages:
     - .base
   stage: cleanup
   tags: [nobatch]
+  when: always
   script:
     - cd ${CI_PROJECT_DIR}
     - rm -rf ${EXTERNAL_WORKDIR}
