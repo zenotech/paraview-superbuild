@@ -38,7 +38,7 @@ stages:
     - cmake "-Dparaview_SOURCE_SELECTION:STRING=git" "-DENABLE_zfp:BOOL=ON" "-DCMAKE_BUILD_TYPE:STRING=Release" "-DENABLE_netcdf:BOOL=ON" "-DENABLE_visitbridge:BOOL=ON" "-DENABLE_ffmpeg:BOOL=ON" "-DENABLE_qt5:BOOL=OFF" "-DENABLE_mpi:BOOL=ON" "-DUSE_SYSTEM_mpi:BOOL=ON" "-DENABLE_paraview:BOOL=ON" "-DENABLE_xdmf3:BOOL=ON" "-DBUILD_SHARED_LIBS:BOOL=ON" "-DENABLE_vtkm:BOOL=OFF" "-DENABLE_python:BOOL=ON" "-DENABLE_python3:BOOL=ON" "-DUSE_SYSTEM_python3:BOOL=OFF" "-DENABLE_numpy:BOOL=ON" "USE_SYSTEM_numpy:BOOL=OFF" "-DENABLE_scipy:BOOL=OFF" "-DENABLE_matplotlib:BOOL=ON" "-DENABLE_vrpn:BOOL=ON" "-DENABLE_cosmotools:BOOL=ON" "-DENABLE_osmesa:BOOL=ON" "-Dmesa_USE_SWR:BOOL=OFF" "-DENABLE_tbb:BOOL=OFF" "-DENABLE_silo:BOOL=ON" "-DENABLE_boost:BOOL=ON" "-DENABLE_vortexfinder2:BOOL=OFF" "-DENABLE_las:BOOL=ON" "-DBUILD_TESTING:BOOL=ON" "-DENABLE_adios2:BOOL=ON" "-DENABLE_ospray:BOOL=OFF" "-DENABLE_fontconfig:BOOL=ON" "-DENABLE_bzip2:BOOL=ON" ../src
     - make -j80
     - cd superbuild/paraview/build
-    - cmake  "-DMPIEXEC_EXECUTABLE=`which jsrun`" "-DPARAVIEW_BUILD_TESTING:BOOL=ON" .
+    - cmake  "-DPARAVIEW_SERIAL_TESTS_USE_MPIEXEC:BOOL=ON" "-DMPIEXEC_EXECUTABLE=`which jsrun`" "-DPARAVIEW_BUILD_TESTING:BOOL=ON" .
     - make -j80
   variables:
     SCHEDULER_PARAMETERS: "-P CSC340 -W 1:30 -nnodes 1"
