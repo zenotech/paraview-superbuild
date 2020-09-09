@@ -74,8 +74,10 @@ stages:
 
 .ascent-gcc-test:
   script:
+    - export SUPERBUILD_COMMIT_SHA=`git -C ${EXTERNAL_WORKDIR}/src rev-parse --short HEAD`
+    - export PARAVIEW_COMMIT_SHA=`git -C ${EXTERNAL_WORKDIR}/build/superbuild/paraview/src rev-parse --short HEAD`
     - cd ${EXTERNAL_WORKDIR}/build/superbuild/paraview/build
-    - cmake "-DBUILDNAME=ascent-gcc-osmesa" .
+    - cmake "-DBUILDNAME=${SUPERBUILD_COMMIT_SHA}-${PARAVIEW_COMMIT_SHA}-ascent-gcc-osmesa" .
     - make -j80
     - ctest -D Experimental || exit_code=$?
     - if [ $exit_code -ne 0 ]; then echo "ctest failed"; fi
