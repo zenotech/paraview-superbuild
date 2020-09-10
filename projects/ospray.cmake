@@ -10,7 +10,7 @@ mark_as_advanced(ospray_BUILD_ISA)
 set_property(CACHE ospray_BUILD_ISA PROPERTY STRINGS SSE AVX AVX2 AVX512KNL AVX512SKX ALL)
 
 set (ospray_depends ispc tbb cxx11 embree ospraymaterials openimagedenoise
-  ospcommon openvkl)
+  rkcommon openvkl)
 
 superbuild_add_project(ospray
   DEPENDS ${ospray_depends}

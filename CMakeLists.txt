@@ -56,7 +56,6 @@ function (superbuild_find_projects var)
     numpy
     openimagedenoise
     openvkl
-    ospcommon
     ospray
     ospraymodulempi
     paraviewweb
