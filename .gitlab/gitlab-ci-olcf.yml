@@ -1,0 +1,106 @@
+stages:
+  - init
+  - build
+  - test
+  - cleanup
+
+################################################################################
+# Job templates
+################################################################################
+
+.base:
+  variables:
+    GITLAB_SITE: "OLCF GitLab"
+    EXTERNAL_WORKDIR: /gpfs/wolf/proj-shared/csc340/paraview/ci/${CI_PIPELINE_ID}_${CI_BUILD_LABEL}
+
+# Use a work directory on the shared filesystem accessible to compute nodes
+.init-step:
+  extends:
+    - .base
+  stage: init
+  tags: [nobatch]
+  script:
+    - mkdir -pv ${EXTERNAL_WORKDIR}/src
+    - cd ${EXTERNAL_WORKDIR}
+    - rm -rfv src
+    - git clone --recursive -b ${CI_COMMIT_BRANCH} ${CI_REPOSITORY_URL} --depth=1 src
+
+
+.build-step:
+  extends:
+    - .base
+  stage: build
+  tags: [batch]
+  script:
+    - rm -rfv build
+    - mkdir -pv ${EXTERNAL_WORKDIR}/build
+    - cd ${EXTERNAL_WORKDIR}/build
+    - cmake "-Dparaview_SOURCE_SELECTION:STRING=git" "-DENABLE_zfp:BOOL=ON" "-DCMAKE_BUILD_TYPE:STRING=Release" "-DENABLE_netcdf:BOOL=ON" "-DENABLE_visitbridge:BOOL=ON" "-DENABLE_ffmpeg:BOOL=ON" "-DENABLE_qt5:BOOL=OFF" "-DENABLE_mpi:BOOL=ON" "-DUSE_SYSTEM_mpi:BOOL=ON" "-DENABLE_paraview:BOOL=ON" "-DENABLE_xdmf3:BOOL=ON" "-DBUILD_SHARED_LIBS:BOOL=ON" "-DENABLE_vtkm:BOOL=OFF" "-DENABLE_python:BOOL=ON" "-DENABLE_python3:BOOL=ON" "-DUSE_SYSTEM_python3:BOOL=OFF" "-DENABLE_numpy:BOOL=ON" "USE_SYSTEM_numpy:BOOL=OFF" "-DENABLE_scipy:BOOL=OFF" "-DENABLE_matplotlib:BOOL=ON" "-DENABLE_vrpn:BOOL=ON" "-DENABLE_cosmotools:BOOL=ON" "-DENABLE_osmesa:BOOL=ON" "-Dmesa_USE_SWR:BOOL=OFF" "-DENABLE_tbb:BOOL=OFF" "-DENABLE_silo:BOOL=ON" "-DENABLE_boost:BOOL=ON" "-DENABLE_vortexfinder2:BOOL=OFF" "-DENABLE_las:BOOL=ON" "-DBUILD_TESTING:BOOL=ON" "-DENABLE_adios2:BOOL=ON" "-DENABLE_ospray:BOOL=OFF" "-DENABLE_fontconfig:BOOL=ON" "-DENABLE_bzip2:BOOL=ON" ../src
+    - make -j80
+    - cd superbuild/paraview/build
+    - cmake  "-DPARAVIEW_SERIAL_TESTS_USE_MPIEXEC:BOOL=ON" "-DMPIEXEC_EXECUTABLE=`which jsrun`" "-DPARAVIEW_BUILD_TESTING:BOOL=ON" .
+    - make -j80
+  variables:
+    SCHEDULER_PARAMETERS: "-P CSC340 -W 1:30 -nnodes 1"
+
+.test-step:
+  extends:
+    - .base
+  stage: test
+  variables:
+    SCHEDULER_PARAMETERS: "-P CSC340 -W 1:00 -nnodes 1"
+
+.cleanup-step:
+  extends:
+    - .base
+  stage: cleanup
+  tags: [nobatch]
+  when: always
+  script:
+    - cd ${CI_PROJECT_DIR}
+    - rm -rf ${EXTERNAL_WORKDIR}
+
+
+################################################################################
+# GCC + SMPI
+################################################################################
+.ascent-gcc:
+  variables:
+    CI_BUILD_LABEL: ascent-gcc
+  before_script:
+    - module purge
+    - module load cmake git gcc/7.4.0 spectrum-mpi
+    - export CC=gcc CXX=g++ FC=mpifort
+
+.ascent-gcc-test:
+  script:
+    - export SUPERBUILD_COMMIT_SHA=`git -C ${EXTERNAL_WORKDIR}/src rev-parse --short HEAD`
+    - export PARAVIEW_COMMIT_SHA=`git -C ${EXTERNAL_WORKDIR}/build/superbuild/paraview/src rev-parse --short HEAD`
+    - cd ${EXTERNAL_WORKDIR}/build/superbuild/paraview/build
+    - cmake "-DBUILDNAME=${SUPERBUILD_COMMIT_SHA}-${PARAVIEW_COMMIT_SHA}-ascent-gcc-osmesa" .
+    - make -j80
+    - ctest -D Experimental
+        -E 'Catalyst::Legacy::WaveletMiniApp.cpimport|Catalyst::Legacy::WaveletMiniApp.cpprogrammablefilter|Catalyst::Legacy::WaveletMiniApp.PythonScriptTest|Catalyst::Legacy::WaveletMiniApp.TestInput|Catalyst::WaveletMiniApp.LiveOnly|Catalyst::WaveletMiniApp.ValidateChangingInput|Catalyst::WaveletMiniApp::MultiplePipelines::pipeline1.pipeline2|Catalyst::WaveletMiniApp::MultiplePipelines::Validate::pipeline1.pipeline2|pv.TestDevelopmentInstall' || exit_code=$?
+    - if [ $exit_code -ne 0 ]; then echo "ctest failed"; fi
+
+ascent-gcc-init:
+  extends:
+    - .ascent-gcc
+    - .init-step
+
+ascent-gcc-build:
+  extends:
+    - .ascent-gcc
+    - .build-step
+
+ascent-gcc-test:
+  extends:
+    - .ascent-gcc
+    - .test-step
+    - .ascent-gcc-test
+  tags: [batch]
+
+ascent-gcc-cleanup:
+  extends:
+    - .ascent-gcc
+    - .cleanup-step
