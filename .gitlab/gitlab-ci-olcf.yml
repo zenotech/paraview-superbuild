@@ -79,7 +79,7 @@ stages:
     - cd ${EXTERNAL_WORKDIR}/build/superbuild/paraview/build
     - cmake "-DBUILDNAME=${SUPERBUILD_COMMIT_SHA}-${PARAVIEW_COMMIT_SHA}-ascent-gcc-osmesa" .
     - make -j80
-    - ctest -D Experimental
+    - ctest -D Nightly
         -E 'Catalyst::Legacy::WaveletMiniApp.cpimport|Catalyst::Legacy::WaveletMiniApp.cpprogrammablefilter|Catalyst::Legacy::WaveletMiniApp.PythonScriptTest|Catalyst::Legacy::WaveletMiniApp.TestInput|Catalyst::WaveletMiniApp.LiveOnly|Catalyst::WaveletMiniApp.ValidateChangingInput|Catalyst::WaveletMiniApp::MultiplePipelines::pipeline1.pipeline2|Catalyst::WaveletMiniApp::MultiplePipelines::Validate::pipeline1.pipeline2|pv.TestDevelopmentInstall' || exit_code=$?
     - if [ $exit_code -ne 0 ]; then echo "ctest failed"; fi
 
