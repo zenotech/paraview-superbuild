@@ -1,5 +1,5 @@
 superbuild_add_project(openvkl
-  DEPENDS ispc tbb cxx11 ospcommon embree rkcommon
+  DEPENDS ispc tbb cxx11 embree rkcommon
   CMAKE_ARGS
     -DBUILD_BENCHMARKS:BOOL=OFF
     -DBUILD_EXAMPLES:BOOL=OFF

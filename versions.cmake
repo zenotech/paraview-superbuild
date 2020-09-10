@@ -85,10 +85,6 @@ superbuild_set_revision(embree
   URL     "https://www.paraview.org/files/dependencies/embree-v3.9.0.tar.gz"
   URL_MD5 a5c220ca9033ff4856895de7e1a6deaa)
 
-superbuild_set_revision(ospcommon
-  URL     "https://www.paraview.org/files/dependencies/ospcommon-v1.3.0.tar.gz"
-  URL_MD5 47fdc436c2f393a53ee467611dd796ae)
-
 superbuild_set_revision(openvkl
   URL     "https://www.paraview.org/files/dependencies/openvkl-v0.10.0.tar.gz"
   URL_MD5 ac8541bf6d7a067c91dd8b1c76a83fb3)
