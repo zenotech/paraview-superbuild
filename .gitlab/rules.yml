@@ -2,19 +2,19 @@
 
 .run_automatically:
     rules:
-        - if: '$CI_PROJECT_PATH == "paraview/paraview-superbuild"'
-          when: on_success
         - if: '$CI_MERGE_REQUEST_ID'
+          when: on_success
+        - if: '$CI_PROJECT_PATH == "paraview/paraview-superbuild"'
           when: on_success
         - when: never
 
 .run_manually:
     rules:
+        - if: '$CI_MERGE_REQUEST_ID'
+          when: manual
         - if: '$CI_PROJECT_PATH == "paraview/paraview-superbuild"'
           when: delayed
           start_in: 30 minutes
-        - if: '$CI_MERGE_REQUEST_ID'
-          when: manual
         - when: never
 
 .merged_only:
