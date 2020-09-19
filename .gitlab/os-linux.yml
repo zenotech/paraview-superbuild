@@ -90,8 +90,8 @@
 
 .before_script_linux_paraview: &before_script_linux_paraview
     - .gitlab/ci/checkout_paraview.sh
-    - export PARAVIEW_COMMIT_SHA=`git -C $CI_BUILDS_DIR/source-paraview rev-parse HEAD`
-    - export PARAVIEW_COMMIT_SHORT_SHA=`git -C $CI_BUILDS_DIR/source-paraview rev-parse --short HEAD`
+    - export PARAVIEW_COMMIT_SHA=`git -C $CI_PROJECT_DIR/source-paraview rev-parse HEAD`
+    - export PARAVIEW_COMMIT_SHORT_SHA=`git -C $CI_PROJECT_DIR/source-paraview rev-parse --short HEAD`
 
 .cmake_build_linux:
     stage: build

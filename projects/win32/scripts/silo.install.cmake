@@ -4,26 +4,17 @@ else ()
   set(silo_bin_location SiloWindows/MSVC2012/Win32/Release)
 endif ()
 
-configure_file(
-  "${source_location}/${silo_bin_location}/silohdf5.lib"
-  "${install_location}/lib/silohdf5.lib"
-  COPYONLY)
-configure_file(
-  "${source_location}/${silo_bin_location}/silohdf5.dll"
-  "${install_location}/bin/silohdf5.dll"
-  COPYONLY)
+file(
+  INSTALL "${source_location}/${silo_bin_location}/silohdf5.lib"
+  DESTINATION "${install_location}/lib")
+file(
+  INSTALL "${source_location}/${silo_bin_location}/silohdf5.dll"
+  DESTINATION "${install_location}/bin")
 
 # There's a config.h file in this directory that we shouldn't install. That
 # causes build problems with other projects.
-configure_file(
-  "${source_location}/SiloWindows/include/silo.h"
-  "${install_location}/include/silo.h"
-  COPYONLY)
-configure_file(
-  "${source_location}/src/silo/silo_exports.h"
-  "${install_location}/include/silo_exports.h"
-  COPYONLY)
-configure_file(
-  "${source_location}/SiloWindows/include/siloversion.h"
-  "${install_location}/include/siloversion.h"
-  COPYONLY)
+file(
+  INSTALL "${source_location}/SiloWindows/include/silo.h"
+          "${source_location}/src/silo/silo_exports.h"
+          "${source_location}/SiloWindows/include/siloversion.h"
+  DESTINATION "${install_location}/include")

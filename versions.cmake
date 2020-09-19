@@ -1,3 +1,8 @@
+superbuild_set_revision(boost
+  URL     "https://www.paraview.org/files/dependencies/boost_1_71_0.tar.bz2"
+  URL_MD5 4cdf9b5c2dc01fb2b7b733d5af30e558)
+set(boost_no_junction_patch_necessary TRUE)
+
 superbuild_set_revision(expat
   URL     "http://www.paraview.org/files/dependencies/expat-2.2.9.tar.bz2"
   URL_MD5 875a2c2ff3e8eb9e5a5cd62db2033ab5)

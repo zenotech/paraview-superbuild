@@ -5,6 +5,7 @@ include:
 
     # OS builds.
     - local: .gitlab/os-linux.yml
+    - local: .gitlab/os-windows.yml
 
     # Post-build steps
     - local: .gitlab/upload.yml
@@ -41,7 +42,7 @@ build:linux-plain:
         - .cmake_build_linux
         - .cmake_build_artifacts
         - .linux_builder_tags
-        - .run_automatically
+        - .run_manually
 
 test:linux-plain:
     extends:
@@ -74,7 +75,7 @@ build:linux-egl:
         - .cmake_build_linux
         - .cmake_build_artifacts
         - .linux_builder_tags
-        - .run_automatically
+        - .run_manually
 
 test:linux-egl:
     extends:
@@ -108,7 +109,7 @@ build:linux-osmesa-shared:
         - .cmake_build_linux
         - .cmake_build_artifacts
         - .linux_builder_tags
-        - .run_automatically
+        - .run_manually
 
 test:linux-osmesa-shared:
     extends:
@@ -144,7 +145,7 @@ build:linux-osmesa-static:
         - .cmake_build_linux
         - .cmake_build_artifacts
         - .linux_builder_tags
-        - .run_automatically
+        - .run_manually
 
 test:linux-osmesa-static:
     extends:
@@ -157,3 +158,73 @@ test:linux-osmesa-static:
         - build:linux-osmesa-static
     needs:
         - build:linux-osmesa-static
+
+# Windows
+
+## MPI build
+
+build:windows-vs2019-mpi:
+    extends:
+        - .windows_vs2019_mpi
+        - .cmake_build_windows
+        - .cmake_build_artifacts
+        - .windows_builder_tags
+        - .run_manually
+    timeout: 2 hours
+
+test:windows-vs2019-mpi:
+    extends:
+        - .windows_vs2019_mpi
+        - .cmake_test_windows
+        - .cmake_package_artifacts
+        - .windows_builder_tags
+        - .run_automatically
+    dependencies:
+        - build:windows-vs2019-mpi
+    needs:
+        - build:windows-vs2019-mpi
+
+upload:windows-vs2019-mpi:
+    extends:
+        - .rsync_upload
+        - .upload_only
+    dependencies:
+        - test:windows-vs2019-mpi
+    needs:
+        - test:windows-vs2019-mpi
+    variables:
+        RSYNC_DESTINATION: paraview_nightly_bin
+
+## non-MPI build
+
+build:windows-vs2019-nompi:
+    extends:
+        - .windows_vs2019_nompi
+        - .cmake_build_windows
+        - .cmake_build_artifacts
+        - .windows_builder_tags
+        - .run_manually
+    timeout: 2 hours
+
+test:windows-vs2019-nompi:
+    extends:
+        - .windows_vs2019_nompi
+        - .cmake_test_windows
+        - .cmake_package_artifacts
+        - .windows_builder_tags
+        - .run_automatically
+    dependencies:
+        - build:windows-vs2019-nompi
+    needs:
+        - build:windows-vs2019-nompi
+
+upload:windows-vs2019-nompi:
+    extends:
+        - .rsync_upload
+        - .upload_only
+    dependencies:
+        - test:windows-vs2019-nompi
+    needs:
+        - test:windows-vs2019-nompi
+    variables:
+        RSYNC_DESTINATION: paraview_nightly_bin

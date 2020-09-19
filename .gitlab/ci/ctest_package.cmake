@@ -13,7 +13,11 @@ ctest_test(
 ctest_submit(PARTS Test)
 
 # upload generated packages to CDash
-file(GLOB files "${CTEST_BINARY_DIRECTORY}/*.tar.*")
+file(GLOB files
+  "${CTEST_BINARY_DIRECTORY}/*.dmg"
+  "${CTEST_BINARY_DIRECTORY}/*.exe"
+  "${CTEST_BINARY_DIRECTORY}/*.tar.*"
+  "${CTEST_BINARY_DIRECTORY}/*.zip")
 if (files)
   ctest_upload(FILES ${files})
   ctest_submit(PARTS Upload)

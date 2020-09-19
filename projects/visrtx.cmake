@@ -5,3 +5,6 @@ superbuild_add_project(visrtx
     -DCMAKE_MACOSX_RPATH:BOOL=FALSE
     -DCMAKE_INSTALL_NAME_DIR:PATH=<INSTALL_DIR>/lib
     -DCMAKE_INSTALL_LIBDIR:STRING=lib)
+
+superbuild_apply_patch(visrtx cuda-11
+  "Support CUDA 11")
