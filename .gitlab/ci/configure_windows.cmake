@@ -1,5 +1,6 @@
 set(PACKAGE_SYSTEM_QT ON CACHE BOOL "")
 
+set(ENABLE_lookingglass ON  CACHE BOOL "")
 set(ENABLE_nvidiaindex ON CACHE BOOL "")
 set(ENABLE_openimagedenoise OFF CACHE BOOL "")
 set(ENABLE_visrtx ON CACHE BOOL "")
