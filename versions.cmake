@@ -1,7 +1,9 @@
-superbuild_set_revision(boost
-  URL     "https://www.paraview.org/files/dependencies/boost_1_71_0.tar.bz2"
-  URL_MD5 4cdf9b5c2dc01fb2b7b733d5af30e558)
-set(boost_no_junction_patch_necessary TRUE)
+if (NOT APPLE)
+  superbuild_set_revision(boost
+    URL     "https://www.paraview.org/files/dependencies/boost_1_71_0.tar.bz2"
+    URL_MD5 4cdf9b5c2dc01fb2b7b733d5af30e558)
+  set(boost_no_junction_patch_necessary TRUE)
+endif()
 
 superbuild_set_revision(expat
   URL     "http://www.paraview.org/files/dependencies/expat-2.2.9.tar.bz2"
@@ -141,6 +143,10 @@ superbuild_set_revision(paraviewwebdivvy
 superbuild_set_revision(las
   URL     "https://www.paraview.org/files/dependencies/libLAS-1.8.1.tar.bz2"
   URL_MD5 2e6a975dafdf57f59a385ccb87eb5919)
+
+superbuild_set_revision(lookingglass
+  URL     "https://www.paraview.org/files/dependencies/HoloPlayCore-0.1.1-Open.tar.gz"
+  URL_MD5 0b1bbf0644715f82b91390fc191b2882)
 
 if (WIN32)
   set(nvidiaindex_platform "windows-x64")

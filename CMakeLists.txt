@@ -49,6 +49,7 @@ function (superbuild_find_projects var)
     hdf5
     ispc
     las
+    lookingglass
     matplotlib
     mpi
     netcdf
