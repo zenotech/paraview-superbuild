@@ -1,4 +1,4 @@
-if (NOT APPLE)
+if (NOT APPLE OR paraview_superbuild_new_boost)
   superbuild_set_revision(boost
     URL     "https://www.paraview.org/files/dependencies/boost_1_71_0.tar.bz2"
     URL_MD5 4cdf9b5c2dc01fb2b7b733d5af30e558)
