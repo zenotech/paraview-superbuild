@@ -53,6 +53,8 @@ set(qt5_EXTRA_CONFIGURATION_OPTIONS "-no-use-gold-linker" CACHE STRING "")
 # output suppressions
 set(SUPPRESS_boost_OUTPUT               ON CACHE BOOL "")
 set(SUPPRESS_embree_OUTPUT              ON CACHE BOOL "")
+set(SUPPRESS_ffmpeg_OUTPUT              ON CACHE BOOL "")
+set(SUPPRESS_freetype_OUTPUT            ON CACHE BOOL "")
 set(SUPPRESS_gdal_OUTPUT                ON CACHE BOOL "")
 set(SUPPRESS_numpy_OUTPUT               ON CACHE BOOL "")
 set(SUPPRESS_openimagedenoise_OUTPUT    ON CACHE BOOL "")
