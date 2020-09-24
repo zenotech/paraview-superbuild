@@ -205,7 +205,7 @@ foreach (qt5_plugin_path IN LISTS qt5_plugin_paths)
     "${paraview_appname}"
     "${qt5_plugin_path}"
     "Contents/Plugins/${qt5_plugin_group}"
-    SEARCH_DIRECTORIES  "${library_paths}"
+    SEARCH_DIRECTORIES  "${superbuild_install_location}/lib"
     INCLUDE_REGEXES     ${include_regexes}
     IGNORE_REGEXES      ${ignore_regexes})
 endforeach ()
