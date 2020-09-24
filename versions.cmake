@@ -145,8 +145,8 @@ superbuild_set_revision(las
   URL_MD5 2e6a975dafdf57f59a385ccb87eb5919)
 
 superbuild_set_revision(lookingglass
-  URL     "https://www.paraview.org/files/dependencies/HoloPlayCore-0.1.1-Open.tar.gz"
-  URL_MD5 0b1bbf0644715f82b91390fc191b2882)
+  URL     "https://www.paraview.org/files/dependencies/HoloPlayCore-0.1.1-Open-20200923.tar.gz"
+  URL_MD5 b435316fa1f8454ba180e72608c3c28f)
 
 if (WIN32)
   set(nvidiaindex_platform "windows-x64")
