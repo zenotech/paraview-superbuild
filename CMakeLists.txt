@@ -71,11 +71,13 @@ function (superbuild_find_projects var)
     pythonautobahn
     pythonconstantly
     pythoncycler
+    pythoncython
     pythondateutil
     pythonhyperlink
     pythonincremental
     pythonkiwisolver
     pythonmako
+    pythonpandas
     pythonpygments
     pythonpyparsing
     pythonsetuptools
