@@ -245,6 +245,21 @@ if (mpi_built_by_superbuild)
   endforeach ()
 endif ()
 
+if (mpi_enabled) # Catalyst is built if MPI is available.
+  set(adaptors
+    "catalyst.so.2")
+
+  foreach (adaptor IN LISTS adaptors)
+    superbuild_unix_install_plugin("${superbuild_install_location}/lib/lib${adaptor}"
+      "lib"
+      "lib"
+      HAS_SYMLINKS
+      LOADER_PATHS    "${library_paths}"
+      INCLUDE_REGEXES ${include_regexes}
+      EXCLUDE_REGEXES ${exclude_regexes})
+  endforeach ()
+endif ()
+
 if (qt5_enabled AND qt5_plugin_paths)
   file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/qt.conf" "[Paths]\nPrefix = ..\n")
   install(
