@@ -155,6 +155,7 @@ if (python_enabled)
     SEARCH_DIRECTORIES  "${superbuild_install_location}/lib"
                         "${superbuild_install_location}/bin"
                         "${superbuild_install_location}/Python"
+                        "${superbuild_install_location}/Python/Lib/site-packages/pywin32_system32"
     EXCLUDE_REGEXES     ${exclude_regexes})
 
 
@@ -168,6 +169,10 @@ if (python_enabled)
   if (pywin32_built_by_superbuild)
       install(
         DIRECTORY   "${superbuild_install_location}/Python/Lib/site-packages/win32"
+        DESTINATION "bin/Lib/site-packages"
+        COMPONENT   "superbuild")
+      install(
+        DIRECTORY   "${superbuild_install_location}/Python/Lib/site-packages/pywin32_system32"
         DESTINATION "bin/Lib/site-packages"
         COMPONENT   "superbuild")
       install(
