@@ -76,45 +76,45 @@ superbuild_set_revision(socat
 
 if (WIN32)
   set(ispc_suffix "-windows.zip")
-  set(ispc_md5 ec76fdd4a31dbfa90ffd70768bd21384)
+  set(ispc_md5 ad96f833c1429a292c40c4f4821985fe)
 elseif (APPLE)
   set(ispc_suffix "-macOS.tar.gz")
-  set(ispc_md5 d56d35cff940c89efe16297b236bca91)
+  set(ispc_md5 c856ed3af19b948e83f4277b1a19766f)
 else()
   set(ispc_suffix "-linux.tar.gz")
-  set(ispc_md5 7f0150e33a8f64a1942134b77f3c5046)
+  set(ispc_md5 7ce4350f079c7eb8a1ce9d9908f5d85d)
 endif()
 superbuild_set_revision(ispc
-  URL     "https://www.paraview.org/files/dependencies/ispc-v1.12.0${ispc_suffix}"
+  URL     "https://www.paraview.org/files/dependencies/ispc-v1.14.1${ispc_suffix}"
   URL_MD5 "${ispc_md5}")
 
 superbuild_set_revision(embree
-  URL     "https://www.paraview.org/files/dependencies/embree-v3.9.0.tar.gz"
-  URL_MD5 a5c220ca9033ff4856895de7e1a6deaa)
+  URL     "https://www.paraview.org/files/dependencies/embree-v3.12.0.tar.gz"
+  URL_MD5 f0db3c7029467fdc6d29709cb85fc607)
 
 superbuild_set_revision(openvkl
-  URL     "https://www.paraview.org/files/dependencies/openvkl-v0.10.0.tar.gz"
-  URL_MD5 ac8541bf6d7a067c91dd8b1c76a83fb3)
+  URL     "https://www.paraview.org/files/dependencies/openvkl-v0.11.0.tar.gz"
+  URL_MD5 252980f79c3097599b2d8e643f9c5b8f)
 
 superbuild_set_revision(ospray
-  URL     "https://www.paraview.org/files/dependencies/ospray-v2.2.0.tar.gz"
-  URL_MD5 a514fd8238c1a00b9a2394912a726417)
+  URL     "https://www.paraview.org/files/dependencies/ospray-v2.4.0.tar.gz"
+  URL_MD5 8e6537b0dacb08fffb0778663e617886)
 
 superbuild_set_revision(ospraymodulempi
-  URL     "https://www.paraview.org/files/dependencies/ospraymodulempi-v2.2.0.tar.gz"
-  URL_MD5 0d15ba06888e7dce29237b539a921fae)
+  URL     "https://www.paraview.org/files/dependencies/ospraymodulempi-v2.4.0.tar.gz"
+  URL_MD5 1f8f2214c09f539de88004e47bce22bd)
 
 superbuild_set_revision(ospraymaterials
   URL     "https://www.paraview.org/files/data/OSPRayMaterials-0.2.tar.gz"
   URL_MD5 3b2716318ec8bf719373f25737b0bddc)
 
 superbuild_set_revision(openimagedenoise
-  URL     "https://www.paraview.org/files/dependencies/oidn-v1.2.2.tar.gz"
-  URL_MD5 87db47c8c0ea93db97112888b04bb941)
+  URL     "https://www.paraview.org/files/dependencies/oidn-v1.2.4.tar.gz"
+  URL_MD5 501b787a5e2fcaf2dfd8a39d47ee03dd)
 
 superbuild_set_revision(rkcommon
-  URL     "https://www.paraview.org/files/dependencies/rkcommon-v1.4.2.tar.gz"
-  URL_MD5 e98bf98786739cfec82e661554d24f0f)
+  URL     "https://www.paraview.org/files/dependencies/rkcommon-v1.5.1.tar.gz"
+  URL_MD5 61f55e4d0d8efd48c8bc308bf5b4ee1f)
 
 superbuild_set_revision(openvr
   URL     "https://www.paraview.org/files/dependencies/openvr_1.0.10_win_thin.zip"
