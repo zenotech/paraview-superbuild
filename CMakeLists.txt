@@ -113,6 +113,7 @@ function (superbuild_find_projects var)
       libxml2
       mili
       pkgconf
+      pybind11
       rapidjson
       scipy)
 
