@@ -85,6 +85,9 @@ endif()
 option(PARAVIEW_ENABLE_MOTIONFX "Enable MotionFX reader, if supported on platform" ON)
 mark_as_advanced(PARAVIEW_ENABLE_MOTIONFX)
 
+option(PARAVIEW_ENABLE_VRPLUGIN "Enable VRPlugin" ON)
+mark_as_advanced(PARAVIEW_ENABLE_VRPLUGIN)
+
 set(paraview_use_raytracing OFF)
 if (ospray_enabled OR visrtx_enabled)
   set(paraview_use_raytracing ON)
@@ -179,7 +182,8 @@ superbuild_add_project(paraview
     -DPARAVIEW_PLUGIN_ENABLE_pvNVIDIAIndeX:BOOL=${nvidiaindex_enabled}
 
     # vrpn
-    -DPARAVIEW_PLUGIN_ENABLE_VRPlugin:BOOL=${vrpn_enabled}
+    -DPARAVIEW_PLUGIN_ENABLE_VRPlugin:BOOL=${PARAVIEW_ENABLE_VRPLUGIN}
+    -DPARAVIEW_PLUGIN_VRPlugin_USE_VRUI:BOOL=${PARAVIEW_ENABLE_VRPLUGIN}
     -DPARAVIEW_PLUGIN_VRPlugin_USE_VRPN:BOOL=${vrpn_enabled}
 
     # vtkm
