@@ -80,6 +80,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         gfortran \
         git \
         libtool \
+        libxcursor-dev \
         openssl \
         pkg-config && \
     if [ "${PYTHON_VERSION}" = "2" ]; then apt-get install -y --no-install-recommends python2.7-dev python-pip python-setuptools; fi && \
