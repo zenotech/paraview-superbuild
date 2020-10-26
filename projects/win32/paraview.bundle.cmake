@@ -156,6 +156,7 @@ if (python_enabled)
                         "${superbuild_install_location}/bin"
                         "${superbuild_install_location}/Python"
                         "${superbuild_install_location}/Python/Lib/site-packages/pywin32_system32"
+                        ${library_paths}
     EXCLUDE_REGEXES     ${exclude_regexes})
 
 
