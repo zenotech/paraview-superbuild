@@ -90,6 +90,8 @@ if (nvidiaindex_enabled)
     list(APPEND nvidiaindex_libraries nvrtc-builtins64_101)
   elseif (nvidiaindex_SOURCE_SELECTION STREQUAL "2.4")
     list(APPEND nvidiaindex_libraries nvrtc-builtins64_102)
+  elseif (nvidiaindex_SOURCE_SELECTION STREQUAL "5.9")
+    list(APPEND nvidiaindex_libraries nvrtc-builtins64_102)
   else ()
     message(FATAL_ERROR
       "Unknown nvrtc-builtins64 library for ${nvidiaindex_SOURCE_SELECTION}.")
