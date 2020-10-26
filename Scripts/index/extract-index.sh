@@ -37,8 +37,8 @@ for arch in linux-x86-64 linux-ppc64le nt-x86-64; do
             dir="$dirprefix-linux"
             ;;
         linux-ppc64le)
-            if [ ! -d "$arch" ]; then
-                # This architecure is optional, ignore if it's missing from the tarball
+            if ! [ -d "$arch" ]; then
+                # This architecture is optional, ignore if it's missing from the tarball.
                 continue
             fi
             dir="$dirprefix-linux-ppc64le"
