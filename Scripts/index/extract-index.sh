@@ -32,7 +32,7 @@ cd "$dirname"
 readonly dirprefix="nvidia-index-libs-$version.$date$count_suffix"
 
 for arch in linux-x86-64 linux-ppc64le nt-x86-64; do
-    case $arch in
+    case "$arch" in
         linux-x86-64)
             dir="$dirprefix-linux"
             ;;
