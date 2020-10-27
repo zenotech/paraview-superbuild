@@ -115,7 +115,8 @@ function (superbuild_find_projects var)
       pkgconf
       pybind11
       rapidjson
-      scipy)
+      scipy
+      sqlite)
 
     if (NOT APPLE)
       list(APPEND projects
