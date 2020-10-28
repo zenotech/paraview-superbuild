@@ -13,9 +13,9 @@ yum install -y \
     epel-release
 
 # Install development tools
-rpm -U https://centos7.iuscommunity.org/ius-release.rpm
 yum install -y \
-  git2u
+    git-core \
+    git-lfs
 
 # Install toolchains.
 yum install -y \
