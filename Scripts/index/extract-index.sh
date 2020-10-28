@@ -26,22 +26,39 @@ readonly dirname="$( basename "$tarball" ".tgz" )"
 readonly date="$( date "+%Y%m%d" )"
 
 tar xf "$tarball"
+chmod -R u+rw "$dirname"
 cd "$dirname"
 
 readonly dirprefix="nvidia-index-libs-$version.$date$count_suffix"
-readonly linux_dir="$dirprefix-linux"
-readonly windows_dir="$dirprefix-windows-x64"
 
-mkdir "$linux_dir" "$windows_dir"
+for arch in linux-x86-64 linux-ppc64le nt-x86-64; do
+    case "$arch" in
+        linux-x86-64)
+            dir="$dirprefix-linux"
+            ;;
+        linux-ppc64le)
+            if ! [ -d "$arch" ]; then
+                # This architecture is optional, ignore if it's missing from the tarball.
+                continue
+            fi
+            dir="$dirprefix-linux-ppc64le"
+            ;;
+        nt-x86-64)
+            dir="$dirprefix-windows-x64"
+            ;;
+        *)
+            echo "Unsupported arch '$arch'"
+            exit 1
+            ;;
+    esac
 
-mv "linux-x86-64/lib" "$linux_dir/"
-mv "nt-x86-64/lib" "$windows_dir/"
+    mkdir "$dir"
 
-cp EULA.pdf license.txt README.txt "$linux_dir/"
-cp EULA.pdf license.txt README.txt "$windows_dir/"
+    mv "$arch/lib" "$dir/"
+    cp EULA.pdf license.txt README.txt "$dir/"
 
-chmod -R a+rX "$linux_dir" "$windows_dir"
-tar cjf "../$linux_dir.tar.bz2" "$linux_dir"
-tar cjf "../$windows_dir.tar.bz2" "$windows_dir"
+    chmod -R a+rX "$dir"
+    tar cjf "../$dir.tar.bz2" "$dir"
+done
 
 rm -rf "$dirname"

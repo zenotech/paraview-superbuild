@@ -131,6 +131,10 @@ if (nvidiaindex_enabled)
     nvindex
     nvrtc-builtins)
 
+  if (nvidiaindex_SOURCE_SELECTION STREQUAL "5.9")
+    list(APPEND nvidiaindex_libraries nvindex_builtins)
+  endif ()
+
   foreach (nvidiaindex_library IN LISTS nvidiaindex_libraries)
     file(GLOB lib_filenames
       RELATIVE "${superbuild_install_location}/lib"
