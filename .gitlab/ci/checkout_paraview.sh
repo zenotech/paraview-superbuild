@@ -23,8 +23,18 @@ else
 fi
 readonly pv_branch
 
+# The CentOS 7 containers have an old git that does not support this flag
+# (added in 2.9.0).
+shallow_submodules="--shallow-submodules"
+if echo "$CI_JOB_NAME" | grep -q "build:linux"; then
+    shallow_submodules=""
+fi
+readonly shallow_submodules
+
 # full clone of paraview with shallow-submodule. full clone needed so that `git describe` works correctly
-git clone --recursive --shallow-submodules -b "$pv_branch" "$url" "$CI_PROJECT_DIR/source-paraview"
+git clone --recursive $shallow_submodules -b "$pv_branch" "$url" "$CI_PROJECT_DIR/source-paraview"
 
 # let's print ParaView version for reference even when the artifacts disappear
-git -C "$CI_PROJECT_DIR/source-paraview" describe
+cd "$CI_PROJECT_DIR/source-paraview"
+git describe
+#git -C "$CI_PROJECT_DIR/source-paraview" describe
