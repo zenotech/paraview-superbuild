@@ -138,7 +138,7 @@ The following packages enable other features within ParaView:
   * `visitbridge`: Enables readers for file formats provided from the VisIt
     project.
   * `vortexfinder2`: A collection of tools to visualize and analyze vortices.
-  * `vrpn`: Virtual reality support.
+  * `vrpn`: Virtual reality support through the VRPN interface.
   * `vtkm`: VTK-m Accelerator Filters
   * `xdmf3`: A meta file format built on top of HDF5.
 
@@ -314,6 +314,9 @@ The following flags affect ParaView directly:
   * `PARAVIEW_EXTRA_CMAKE_ARGUMENTS` (default `""`: Extra CMake arguments to
     pass to ParaView's configure step. This can be used to set CMake variables
     for the build that are otherwise not exposed in the superbuild itself.
+  * `PARAVIEW_ENABLE_VRPLUGIN` (default `ON`): Enables the VRPlugin. If
+    `vrpn` is enabled, the VRPlugin will support input devices through a VRPN
+    connection. VRUI support is enabled unconditionally.
 
 #### ParaView editions
 
