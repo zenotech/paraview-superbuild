@@ -27,5 +27,3 @@ superbuild_add_project(ospray
 
 superbuild_add_extra_cmake_args(
   -DOSPRAY_INSTALL_DIR:PATH=<INSTALL_DIR>)
-
-superbuild_apply_patch(ospray anchor-libraries "assist with dynamic library resolution")

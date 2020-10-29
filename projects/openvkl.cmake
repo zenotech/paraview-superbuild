@@ -8,4 +8,4 @@ superbuild_add_project(openvkl
     -DCMAKE_INSTALL_LIBDIR:STRING=lib
     -DISPC_EXECUTABLE:PATH=<INSTALL_DIR>/bin/ispc)
 
-superbuild_apply_patch(openvkl anchor-libraries "assist with dynamic library resolution")
+superbuild_apply_patch(openvkl install-rpath "make rpath for superbuild to modify")
