@@ -200,3 +200,7 @@ if (vtkm_enabled)
   paraview_add_ui_test("vtkm-threshold" "VTKmThreshold"
     --test-plugin=VTKmFilters)
 endif ()
+
+if (fides_enabled)
+  paraview_add_ui_test("fides" "FidesReaderADIOS2")
+endif()
