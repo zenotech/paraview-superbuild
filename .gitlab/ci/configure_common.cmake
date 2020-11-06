@@ -46,7 +46,7 @@ set(ENABLE_xdmf3                    ON CACHE BOOL "")
 set(ENABLE_zfp                      ON CACHE BOOL "")
 
 # qt5 things
-set(qt5_SOURCE_SELECTION            "5.10" CACHE STRING "")
+set(qt5_SOURCE_SELECTION            "5.12" CACHE STRING "")
 # the gold linker seems to fail with internal error on centos7 builds
 # disabling
 set(qt5_EXTRA_CONFIGURATION_OPTIONS "-no-use-gold-linker" CACHE STRING "")
