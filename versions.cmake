@@ -224,9 +224,9 @@ superbuild_set_revision(zfp
   URL_MD5 "bc7e5fb1cd4345d17f7b9d470a1f23e7")
 
 superbuild_set_selectable_source(adios2
-  SELECT v2.5.0 DEFAULT
-    URL     "https://www.paraview.org/files/dependencies/adios2-v2.5.0.tar.gz"
-    URL_MD5 "a50a6bcd02a0a296484a213dca7f9a11"
+  SELECT v2.6.0 DEFAULT
+    URL     "https://www.paraview.org/files/dependencies/adios-v2.6.0.tar.gz"
+    URL_MD5 "63d9253891775107bd7a5255a979b4b4"
   SELECT git CUSTOMIZABLE
     GIT_REPOSITORY "https://github.com/ornladios/ADIOS2.git"
     GIT_TAG        "origin/master")
