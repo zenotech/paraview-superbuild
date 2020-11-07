@@ -370,8 +370,8 @@ set(_superbuild_default_cxx11 ON)
 # Enable nlohmann_json by default
 set(_superbuild_default_nlohmannjson ON)
 
-# set the default for qt5 to be 5.9
-set(_superbuild_qt5_default_selection "5.9")
+# set the default for qt5 to be 5.12
+set(_superbuild_qt5_default_selection "5.12")
 
 # Force qt SVG support, so ParaView can use SVG icons
 set(qt5_ENABLE_SVG ON CACHE INTERNAL "ParaView requires SVG support")
