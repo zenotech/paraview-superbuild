@@ -47,7 +47,7 @@ build:linux-plain:
 
 test:linux-plain:
     extends:
-        - .fedora31_plain
+        - .fedora33_plain
         - .cmake_test_linux
         - .cmake_package_artifacts
         - .linux_test_tags
@@ -81,7 +81,7 @@ build:linux-egl:
 test:linux-egl:
     extends:
         # Required to get EGL support in the container.
-        - .fedora31_egl
+        - .fedora33_egl
         - .cmake_test_linux
         - .cmake_package_artifacts
         - .linux_test_tags
