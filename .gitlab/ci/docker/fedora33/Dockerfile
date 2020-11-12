@@ -1,7 +1,7 @@
-FROM fedora:31
+FROM fedora:33
 MAINTAINER Utkarsh Ayachit <utkarsh.ayachit@kitware.com>
 
-RUN dnf install -y \
+RUN dnf install --setopt=install_weak_deps=False -y \
   /usr/bin/glxinfo git mesa-dri-drivers mesa-libGL* \
   libXcursor-devel libxcrypt-compat.x86_64 \
   && dnf clean all
