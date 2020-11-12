@@ -40,21 +40,21 @@
     variables:
         CMAKE_CONFIGURATION: linux_osmesa_static
 
-.fedora31:
-    image: "kitware/paraview:ci-superbuild-fedora31-20201027"
+.fedora33:
+    image: "kitware/paraview:ci-superbuild-fedora33-20201112"
 
     variables:
         GIT_SUBMODULE_STRATEGY: none
         GIT_CLONE_PATH: $CI_BUILDS_DIR/gitlab-kitware-sciviz-ci
 
-.fedora31_plain:
-    extends: .fedora31
+.fedora33_plain:
+    extends: .fedora33
 
     variables:
         CMAKE_CONFIGURATION: linux_plain
 
-.fedora31_egl:
-    extends: .fedora31
+.fedora33_egl:
+    extends: .fedora33
 
     variables:
         CMAKE_CONFIGURATION: linux_egl
