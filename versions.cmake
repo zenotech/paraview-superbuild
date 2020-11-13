@@ -150,7 +150,7 @@ superbuild_set_revision(lookingglass
   URL_MD5 b435316fa1f8454ba180e72608c3c28f)
 
 superbuild_set_revision(gmsh
-  URL     "https://gitlab.onelab.info/gmsh/gmsh/-/archive/gmsh_4_7_0/gmsh-gmsh_4_7_0.tar.gz"
+  URL     "https://www.paraview.org/files/dependencies/gmsh-gmsh_4_7_0.tar.gz"
   URL_MD5 b0fdb396065e1c73849da572235536ed)
 
 if (WIN32)
