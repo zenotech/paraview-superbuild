@@ -27,6 +27,22 @@ To obtain the superbuild source locally, clone this repository using
 The superbuild can be built with a Makefiles or Ninja CMake generator. The IDE
 generators (Xcode and Visual Studio) are not supported.
 
+## Requirements
+
+The superbuild tries to provide all of its own dependencies, but some tooling
+is assumed to be available on the host machine.
+
+  - Compiler toolchain
+    * GCC 4.9 or newer
+    * Xcode 10 or newer (older is probably supported, but untested)
+    * MSVC 2017 or newer
+    * ICC (minimum version unknown)
+  - Tools
+    * `pkg-config` is used on non-Windows platforms to find dependencies in
+      some projects
+    * `ninja` (or `make`) for building
+    * Python (if not built by the superbuild) for building packages
+
 ## Building a specific version
 
 The superbuild project uses the same versioning scheme as ParaView,
