@@ -46,6 +46,7 @@ function (superbuild_find_projects var)
     embree
     freetype
     gdal
+    gmsh
     hdf5
     ispc
     las

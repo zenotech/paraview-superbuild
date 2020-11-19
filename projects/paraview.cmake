@@ -118,7 +118,7 @@ superbuild_add_project(paraview
   DEFAULT_ON
   DEPENDS cxx11
   DEPENDS_OPTIONAL
-    adios2 cuda boost fortran gdal hdf5 matplotlib mpi numpy png protobuf
+    adios2 cuda boost fortran gdal gmsh hdf5 matplotlib mpi numpy png protobuf
     python python3 qt5 visitbridge zlib silo las lookingglass
     xdmf3 ospray vrpn vtkm tbb netcdf
     nlohmannjson
@@ -147,6 +147,7 @@ superbuild_add_project(paraview
     -DPARAVIEW_ENABLE_VISITBRIDGE:BOOL=${visitbridge_enabled}
     -DPARAVIEW_ENABLE_XDMF3:BOOL=${xdmf3_enabled}
     -DPARAVIEW_INSTALL_DEVELOPMENT_FILES:BOOL=ON
+    -DPARAVIEW_PLUGIN_ENABLE_GmshIO:BOOL=${gmsh_enabled}
     -DPARAVIEW_PLUGIN_ENABLE_LookingGlass:BOOL=${lookingglass_enabled}
     -DPARAVIEW_PLUGIN_ENABLE_OpenVR:BOOL=${openvr_enabled}
     # No netcdftime module in the package.
