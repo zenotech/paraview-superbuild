@@ -15,6 +15,13 @@ install(
   COMPONENT   superbuild
   USE_SOURCE_PERMISSIONS)
 
+# Install VTK module hierarchy files
+install(
+  DIRECTORY   "${superbuild_install_location}/lib/vtk/hierarchy"
+  DESTINATION lib/vtk
+  COMPONENT   superbuild
+  USE_SOURCE_PERMISSIONS)
+
 # Install ParaView headers
 install(
   DIRECTORY   "${superbuild_install_location}/include/paraview-${paraview_version}"
