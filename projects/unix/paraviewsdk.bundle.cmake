@@ -52,8 +52,6 @@ if (python3_enabled)
       PROGRAMS    "${superbuild_install_location}/bin/python${superbuild_python_version}-config"
                   "${superbuild_install_location}/bin/python3"
                   "${superbuild_install_location}/bin/python3-config"
-                  "${superbuild_install_location}/bin/python"
-                  "${superbuild_install_location}/bin/python-config"
       DESTINATION bin
       COMPONENT   superbuild)
     list(APPEND binaries_to_install
