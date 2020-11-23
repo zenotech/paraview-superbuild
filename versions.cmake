@@ -106,8 +106,8 @@ superbuild_set_revision(ospraymodulempi
   URL_MD5 1f8f2214c09f539de88004e47bce22bd)
 
 superbuild_set_revision(ospraymaterials
-  URL     "https://www.paraview.org/files/data/OSPRayMaterials-0.2.tar.gz"
-  URL_MD5 3b2716318ec8bf719373f25737b0bddc)
+  URL     "https://www.paraview.org/files/data/OSPRayMaterials-0.3.tar.gz"
+  URL_MD5 d256c17f70890d3477e90d35bf814c25)
 
 superbuild_set_revision(openimagedenoise
   URL     "https://www.paraview.org/files/dependencies/oidn-v1.2.4.tar.gz"
