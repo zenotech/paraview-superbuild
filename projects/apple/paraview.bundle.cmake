@@ -140,13 +140,6 @@ if (python_enabled)
             "${superbuild_install_location}/lib"
     INCLUDE_REGEXES     ${include_regexes}
     IGNORE_REGEXES      ${ignore_regexes})
-
-  if (matplotlib_enabled)
-    install(
-      DIRECTORY   "${superbuild_install_location}/lib/python${superbuild_python_version}/site-packages/matplotlib/mpl-data/"
-      DESTINATION "${paraview_appname}/Contents/Python/matplotlib/mpl-data"
-      COMPONENT   superbuild)
-  endif ()
 endif ()
 
 if (mpi_built_by_superbuild)
