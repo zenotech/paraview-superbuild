@@ -221,13 +221,6 @@ if (python_enabled)
     MODULE_DIRECTORIES  "${superbuild_install_location}/lib/python${superbuild_python_version}/site-packages"
                         ${egg_dirs}
     LOADER_PATHS        "${library_paths}")
-
-  if (matplotlib_built_by_superbuild)
-    install(
-      DIRECTORY   "${superbuild_install_location}/lib/python${superbuild_python_version}/site-packages/matplotlib/mpl-data/"
-      DESTINATION "lib/python${superbuild_python_version}/site-packages/matplotlib/mpl-data"
-      COMPONENT   superbuild)
-  endif ()
 endif ()
 
 if (mpi_built_by_superbuild)

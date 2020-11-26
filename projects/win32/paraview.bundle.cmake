@@ -162,14 +162,6 @@ if (python_enabled)
                         ${library_paths}
     EXCLUDE_REGEXES     ${exclude_regexes})
 
-
-  if (matplotlib_built_by_superbuild)
-    install(
-      DIRECTORY   "${superbuild_install_location}/Python/Lib/site-packages/matplotlib/mpl-data/"
-      DESTINATION "bin/Lib/site-packages/matplotlib/mpl-data"
-      COMPONENT   superbuild)
-  endif ()
-
   if (pywin32_built_by_superbuild)
       install(
         DIRECTORY   "${superbuild_install_location}/Python/Lib/site-packages/win32"
