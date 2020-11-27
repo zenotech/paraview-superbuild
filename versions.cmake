@@ -6,7 +6,7 @@ if (NOT APPLE OR paraview_superbuild_new_boost)
 endif()
 
 superbuild_set_revision(expat
-  URL     "http://www.paraview.org/files/dependencies/expat-2.2.9.tar.bz2"
+  URL     "https://www.paraview.org/files/dependencies/expat-2.2.9.tar.bz2"
   URL_MD5 875a2c2ff3e8eb9e5a5cd62db2033ab5)
 
 superbuild_set_revision(llvm
@@ -48,7 +48,7 @@ superbuild_set_selectable_source(paraview
   # NOTE: When updating this selection, also update the default version in
   # README.md and the PARAVIEW_VERSION_DEFAULT variable in CMakeLists.txt.
   SELECT 5.9.0-RC1 DEFAULT
-    URL     "http://www.paraview.org/files/v5.9/ParaView-v5.9.0-RC1.tar.xz"
+    URL     "https://www.paraview.org/files/v5.9/ParaView-v5.9.0-RC1.tar.xz"
     URL_MD5 786ca9ba91a1616d9da1c7f5045778ba
   SELECT git CUSTOMIZABLE
     GIT_REPOSITORY "https://gitlab.kitware.com/paraview/paraview.git"
@@ -173,19 +173,19 @@ superbuild_set_selectable_source(nvidiaindex
   # XXX(index): Adding a new version? The Windows bundle script needs to know
   # too (nvrtc-builtins).
   SELECT 5.9 DEFAULT
-    URL     "http://www.paraview.org/files/dependencies/nvidia-index-libs-5.9.20201028-${nvidiaindex_platform}.tar.bz2"
+    URL     "https://www.paraview.org/files/dependencies/nvidia-index-libs-5.9.20201028-${nvidiaindex_platform}.tar.bz2"
     URL_MD5 "${nvidiaindex_5_9_md5}"
   SELECT 2.4
-    URL     "http://www.paraview.org/files/dependencies/nvidia-index-libs-2.4.20200424-${nvidiaindex_platform}.tar.bz2"
+    URL     "https://www.paraview.org/files/dependencies/nvidia-index-libs-2.4.20200424-${nvidiaindex_platform}.tar.bz2"
     URL_MD5 "${nvidiaindex_2_4_md5}"
   SELECT 2.3
-    URL     "http://www.paraview.org/files/dependencies/nvidia-index-libs-2.3.20190820-${nvidiaindex_platform}.tar.bz2"
+    URL     "https://www.paraview.org/files/dependencies/nvidia-index-libs-2.3.20190820-${nvidiaindex_platform}.tar.bz2"
     URL_MD5 "${nvidiaindex_2_3_md5}"
   SELECT 2.2
-    URL     "http://www.paraview.org/files/dependencies/nvidia-index-libs-2.2.20181218-${nvidiaindex_platform}.tar.bz2"
+    URL     "https://www.paraview.org/files/dependencies/nvidia-index-libs-2.2.20181218-${nvidiaindex_platform}.tar.bz2"
     URL_MD5 "${nvidiaindex_2_2_md5}"
   SELECT 2.1
-    URL     "http://www.paraview.org/files/dependencies/nvidia-index-libs-2.1.20180314-${nvidiaindex_platform}.tar.bz2"
+    URL     "https://www.paraview.org/files/dependencies/nvidia-index-libs-2.1.20180314-${nvidiaindex_platform}.tar.bz2"
     URL_MD5 "${nvidiaindex_2_1_md5}")
 
 # These two packages are only available at these URLs from inside Kitware. They
@@ -200,15 +200,15 @@ elseif (UNIX AND NOT APPLE)
   set(nvidiaoptix_md5 "b5e9cdcb691ad7813e4e24986579a1ef")
 endif ()
 superbuild_set_revision(nvidiaoptix
-  URL     "http://www.paraview.org/files/dependencies/internal/NVIDIA-OptiX-SDK-6.0.0-${nvidiaoptix_platform}-25650775.tar.gz"
+  URL     "https://www.paraview.org/files/dependencies/internal/NVIDIA-OptiX-SDK-6.0.0-${nvidiaoptix_platform}-25650775.tar.gz"
   URL_MD5 "${nvidiaoptix_md5}")
 
 superbuild_set_revision(nvidiamdl
-  URL     "http://www.paraview.org/files/dependencies/internal/mdl-sdk-314800.830.tar.bz2"
+  URL     "https://www.paraview.org/files/dependencies/internal/mdl-sdk-314800.830.tar.bz2"
   URL_MD5 "d500a122918741eb418887d66e03325b")
 
 superbuild_set_revision(visrtx
-  URL     "http://www.paraview.org/files/dependencies/visrtx-v0.1.6.tar.gz"
+  URL     "https://www.paraview.org/files/dependencies/visrtx-v0.1.6.tar.gz"
   URL_MD5 "c5fef9abd9d56bbbf2c222f0b0943e41")
 
 superbuild_set_revision(rapidjson
@@ -232,7 +232,7 @@ superbuild_set_selectable_source(adios2
     GIT_TAG        "origin/master")
 
 superbuild_set_revision(libfabric
-  URL     "http://www.paraview.org/files/dependencies/libfabric-1.8.0.tar.bz2"
+  URL     "https://www.paraview.org/files/dependencies/libfabric-1.8.0.tar.bz2"
   URL_MD5 "c19c257856cb6e5094e73bf727e2d76c")
 
 superbuild_set_revision(protobuf
