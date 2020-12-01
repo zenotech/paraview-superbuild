@@ -107,6 +107,7 @@ function (superbuild_find_projects var)
       cosmotools
       ffi
       ffmpeg
+      fides
       fortran
       gdal
       genericio
