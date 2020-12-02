@@ -247,3 +247,7 @@ superbuild_set_revision(gdal
 
 superbuild_set_revision(launchers
   SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/launchers")
+
+superbuild_set_revision(openpmd
+  URL     "https://www.paraview.org/files/dependencies/openPMD-api-0.12.0-alpha.tar.gz"
+  URL_MD5 "ada986539b4d2cc004888f161f41de85")
