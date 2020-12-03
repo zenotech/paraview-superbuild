@@ -57,6 +57,7 @@ function (superbuild_find_projects var)
     nlohmannjson
     numpy
     openimagedenoise
+    openpmd
     openvkl
     ospray
     ospraymodulempi
@@ -68,6 +69,7 @@ function (superbuild_find_projects var)
     paraviewwebvisualizer
     png
     protobuf
+    pybind11
     pythonattrs
     pythonautobahn
     pythonconstantly
@@ -115,7 +117,6 @@ function (superbuild_find_projects var)
       libxml2
       mili
       pkgconf
-      pybind11
       rapidjson
       scipy
       sqlite)

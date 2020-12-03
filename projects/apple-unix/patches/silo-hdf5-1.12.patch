@@ -1,0 +1,17 @@
+diff -u5 -Nru silo-4.10.2-bsd/config/config.h.in silo-4.10.2-bsd.hdf5/config/config.h.in
+--- silo-4.10.2-bsd/config/config.h.in	2014-10-13 20:22:32.000000000 -0400
++++ silo-4.10.2-bsd.hdf5/config/config.h.in	2020-12-02 15:21:20.937531495 -0500
+@@ -60,10 +60,13 @@
+ #undef HAVE_HDF5_DRIVER
+ 
+ /* Define to 1 if you have the <hdf5.h> header file. */
+ #undef HAVE_HDF5_H
+ 
++/* use HDF5 1.10 API */
++#define  H5_USE_110_API
++
+ /* Define to 1 if you have the <history.h> header file. */
+ #undef HAVE_HISTORY_H
+ 
+ /* Support for Lindstrom hex/quad mesh compression */
+ #undef HAVE_HZIP
