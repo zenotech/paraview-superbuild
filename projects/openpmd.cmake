@@ -17,4 +17,9 @@ superbuild_add_project(openpmd
     -DopenPMD_USE_INTERNAL_JSON:BOOL=OFF
     -DBUILD_TESTING:BOOL=OFF
     -DBUILD_EXAMPLES:BOOL=OFF
-    -DBUILD_CLI_TOOLS:BOOL=OFF)
+    -DBUILD_CLI_TOOLS:BOOL=OFF
+
+    # this is necessary to add rpaths to installed libopenpmd_api
+    # so that libopenPMD can be found correctly at runtime.
+    -DCMAKE_INSTALL_RPATH_USE_LINK_PATH:BOOL=TRUE
+    )

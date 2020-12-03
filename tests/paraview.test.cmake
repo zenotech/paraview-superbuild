@@ -125,6 +125,10 @@ if (pythonpandas_enabled)
   paraview_add_python_test("import-pandas" "import_pandas")
 endif ()
 
+if (openpmd_enabled)
+  paraview_add_python_test("import-openpmd" "import_openpmd")
+endif ()
+
 # Test to load various data files to ensure reader support.
 paraview_add_ui_test("data-csg.silo" "TestData-cs_silo"
   "--data=${CMAKE_CURRENT_LIST_DIR}/data/csg.silo")
