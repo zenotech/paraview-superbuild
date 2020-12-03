@@ -119,7 +119,7 @@ superbuild_add_project(paraview
   DEPENDS cxx11
   DEPENDS_OPTIONAL
     adios2 cuda boost fortran gdal hdf5 matplotlib mpi numpy png protobuf
-    python python3 qt5 visitbridge zlib silo las lookingglass
+    python python3 qt5 visitbridge zlib silo las lookingglass fides
     xdmf3 ospray vrpn vtkm tbb netcdf
     nlohmannjson
     paraviewgettingstartedguide
@@ -140,6 +140,7 @@ superbuild_add_project(paraview
     -DPARAVIEW_ENABLE_ADIOS2:BOOL=${adios2_enabled}
     -DPARAVIEW_ENABLE_COSMOTOOLS:BOOL=${cosmotools_enabled}
     -DPARAVIEW_ENABLE_FFMPEG:BOOL=${ffmpeg_enabled}
+    -DPARAVIEW_ENABLE_FIDES:BOOL=${fides_enabled}
     -DPARAVIEW_ENABLE_GDAL:BOOL=${gdal_enabled}
     -DPARAVIEW_ENABLE_LAS:BOOL=${las_enabled}
     -DPARAVIEW_ENABLE_LOOKINGGLASS:BOOL=${lookingglass_enabled}
