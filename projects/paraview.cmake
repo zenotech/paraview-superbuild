@@ -197,6 +197,9 @@ superbuild_add_project(paraview
     # Web
     -DPARAVIEW_ENABLE_WEB:BOOL=${paraviewweb_enabled}
 
+    # Readers
+    -DVTK_MODULE_ENABLE_VTK_IOSegY:STRING=YES
+
     # ParFlow
     -DPARAVIEW_PLUGIN_ENABLE_ParFlow:BOOL=${nlohmannjson_enabled}
 
