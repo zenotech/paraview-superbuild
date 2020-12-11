@@ -32,7 +32,7 @@ set(paraview_executables
   pvdataserver
   pvrenderserver
   pvserver)
-if (python_enabled)
+if (python3_enabled)
   list(APPEND paraview_executables
     pvbatch
     pvpython)
