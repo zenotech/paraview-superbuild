@@ -96,7 +96,7 @@ if (mesa_libraries)
       "${superbuild_install_location}/lib/lib${mesa_library}.so*")
 
     foreach (lib_filename IN LISTS lib_filenames)
-      superbuild_unix_install_plugin("${lib_filename}"
+      superbuild_unix_install_module("${lib_filename}"
         "lib${suffix}"
         "lib"
         LOADER_PATHS  "${library_paths}"
@@ -116,7 +116,7 @@ if (launchers_enabled AND mpi_built_by_superbuild)
       "${superbuild_install_location}/lib/lib${mpi_library}.so*")
 
     foreach (lib_filename IN LISTS lib_filenames)
-      superbuild_unix_install_plugin("${lib_filename}"
+      superbuild_unix_install_module("${lib_filename}"
         "lib${suffix}"
         "lib"
         LOADER_PATHS  "${library_paths}"
@@ -141,7 +141,7 @@ if (nvidiaindex_enabled)
       "${superbuild_install_location}/lib/lib${nvidiaindex_library}.so*")
 
     foreach (lib_filename IN LISTS lib_filenames)
-      superbuild_unix_install_plugin("${lib_filename}"
+      superbuild_unix_install_module("${lib_filename}"
         "lib"
         "lib"
         LOADER_PATHS  "${library_paths}"
@@ -165,7 +165,7 @@ if (ospray_enabled)
       "${superbuild_install_location}/lib/lib${osprayextra_library}.so*")
 
     foreach (lib_filename IN LISTS lib_filenames)
-      superbuild_unix_install_plugin("${lib_filename}"
+      superbuild_unix_install_module("${lib_filename}"
         "lib"
         "lib"
         LOADER_PATHS  "${library_paths}"
@@ -187,7 +187,7 @@ if (visrtx_enabled)
       "${superbuild_install_location}/lib/${visrtxextra_library}.so*")
 
     foreach (lib_filename IN LISTS lib_filenames)
-      superbuild_unix_install_plugin("${lib_filename}"
+      superbuild_unix_install_module("${lib_filename}"
         "lib"
         "lib"
         LOADER_PATHS  "${library_paths}"
@@ -231,12 +231,12 @@ if (mpi_built_by_superbuild)
     hydra_nameserver
     hydra_persist)
   foreach (mpi_executable IN LISTS mpi_executables_standalone)
-    superbuild_unix_install_plugin("${superbuild_install_location}/bin/${mpi_executable}"
+    superbuild_unix_install_module("${superbuild_install_location}/bin/${mpi_executable}"
       "lib"
       "bin")
   endforeach ()
   foreach (mpi_executable IN LISTS mpi_executables_standalone mpi_executables_paraview)
-    superbuild_unix_install_plugin("${superbuild_install_location}/bin/${mpi_executable}"
+    superbuild_unix_install_module("${superbuild_install_location}/bin/${mpi_executable}"
       "lib"
       "lib")
   endforeach ()
@@ -247,7 +247,7 @@ if (mpi_enabled) # Catalyst is built if MPI is available.
     "catalyst.so.2")
 
   foreach (adaptor IN LISTS adaptors)
-    superbuild_unix_install_plugin("${superbuild_install_location}/lib/lib${adaptor}"
+    superbuild_unix_install_module("${superbuild_install_location}/lib/lib${adaptor}"
       "lib"
       "lib"
       HAS_SYMLINKS
@@ -269,7 +269,9 @@ foreach (qt5_plugin_path IN LISTS qt5_plugin_paths)
   get_filename_component(qt5_plugin_group "${qt5_plugin_path}" DIRECTORY)
   get_filename_component(qt5_plugin_group "${qt5_plugin_group}" NAME)
 
-  superbuild_unix_install_plugin("${qt5_plugin_path}"
+  # Qt expects its libraries to be in `lib/`, not beside, so install them as
+  # modules.
+  superbuild_unix_install_module("${qt5_plugin_path}"
     "lib"
     "plugins/${qt5_plugin_group}/"
     LOADER_PATHS    "${library_paths}"
