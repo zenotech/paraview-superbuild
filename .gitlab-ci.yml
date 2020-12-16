@@ -213,14 +213,12 @@ test:windows-vs2019-mpi:
         - .windows_vs2019_mpi
         - .cmake_test_windows
         - .cmake_package_artifacts
-        - .windows_builder_tags
+        - .windows_test_tags
         - .run_automatically
     dependencies:
         - build:windows-vs2019-mpi
     needs:
         - build:windows-vs2019-mpi
-    # OpenGL context are not being created properly. Investigation needed.
-    allow_failure: true
 
 upload:windows-vs2019-mpi:
     extends:
@@ -249,14 +247,12 @@ test:windows-vs2019-nompi:
         - .windows_vs2019_nompi
         - .cmake_test_windows
         - .cmake_package_artifacts
-        - .windows_builder_tags
+        - .windows_test_tags
         - .run_automatically
     dependencies:
         - build:windows-vs2019-nompi
     needs:
         - build:windows-vs2019-nompi
-    # OpenGL context are not being created properly. Investigation needed.
-    allow_failure: true
 
 upload:windows-vs2019-nompi:
     extends:
