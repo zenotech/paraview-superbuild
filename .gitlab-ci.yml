@@ -219,8 +219,6 @@ test:windows-vs2019-mpi:
         - build:windows-vs2019-mpi
     needs:
         - build:windows-vs2019-mpi
-    # OpenGL context are not being created properly. Investigation needed.
-    allow_failure: true
 
 upload:windows-vs2019-mpi:
     extends:
@@ -255,8 +253,6 @@ test:windows-vs2019-nompi:
         - build:windows-vs2019-nompi
     needs:
         - build:windows-vs2019-nompi
-    # OpenGL context are not being created properly. Investigation needed.
-    allow_failure: true
 
 upload:windows-vs2019-nompi:
     extends:
