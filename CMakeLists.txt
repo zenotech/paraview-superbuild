@@ -46,7 +46,6 @@ function (superbuild_find_projects var)
     embree
     freetype
     gdal
-    gmsh
     hdf5
     ispc
     las
@@ -113,6 +112,7 @@ function (superbuild_find_projects var)
       fortran
       gdal
       genericio
+      gmsh
       lapack
       libxml2
       mili

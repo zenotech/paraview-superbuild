@@ -46,8 +46,7 @@ if (UNIX)
       fontconfig)
   endif ()
   list(APPEND paraviews_platform_dependencies
-    ffmpeg libxml2 freetype mili
-
+    ffmpeg libxml2 freetype mili gmsh
     # For cosmotools
     genericio cosmotools)
 endif ()
@@ -118,7 +117,7 @@ superbuild_add_project(paraview
   DEFAULT_ON
   DEPENDS cxx11
   DEPENDS_OPTIONAL
-    adios2 cuda boost fortran gdal gmsh hdf5 matplotlib mpi numpy png protobuf
+    adios2 cuda boost fortran gdal hdf5 matplotlib mpi numpy png protobuf
     python python3 qt5 visitbridge zlib silo las lookingglass fides
     xdmf3 ospray vrpn vtkm tbb netcdf
     openpmd
