@@ -332,7 +332,7 @@ The following flags affect ParaView directly:
     for the build that are otherwise not exposed in the superbuild itself.
   * `PARAVIEW_ENABLE_VRPLUGIN` (default `ON`): Enables the VRPlugin. If
     `vrpn` is enabled, the VRPlugin will support input devices through a VRPN
-    connection. VRUI support is enabled unconditionally.
+    connection. VRUI support is enabled unconditionally on Linux.
 
 #### ParaView editions
 
