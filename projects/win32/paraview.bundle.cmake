@@ -58,7 +58,7 @@ if (EXISTS "${superbuild_install_location}/bin/paraview.conf")
   install(
     FILES       "${superbuild_install_location}/bin/paraview.conf"
     DESTINATION "bin"
-    COMPONENT   "runtime")
+    COMPONENT   "superbuild")
 endif ()
 
 foreach (paraview_plugin IN LISTS paraview_plugins)
