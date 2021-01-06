@@ -98,6 +98,7 @@ function (superbuild_find_projects var)
     qt5
     silo
     szip
+    ttk
     visitbridge
     vortexfinder2
     vrpn

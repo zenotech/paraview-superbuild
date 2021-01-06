@@ -49,6 +49,10 @@ superbuild_set_selectable_source(paraview
   SELECT source CUSTOMIZABLE
     SOURCE_DIR "source-paraview")
 
+superbuild_set_revision(ttk
+  GIT_REPOSITORY "https://github.com/topology-tool-kit/ttk"
+  GIT_TAG "5eaff1ac31fe9f238238ae7b7945fd2fdf4c7dab")
+
 superbuild_set_revision(vrpn
   # https://github.com/vrpn/vrpn.git
   URL     "https://www.paraview.org/files/dependencies/vrpn-45375f61de4c1a7bb95fe5a9264ac48a5d395404.tar.bz2"

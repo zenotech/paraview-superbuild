@@ -157,6 +157,11 @@ if (paraview_is_shared)
   endforeach ()
 endif ()
 
+if (ttk_enabled)
+  list(APPEND paraview_plugins
+    TopologyToolKit)
+endif()
+
 if (vortexfinder2_enabled)
   list(APPEND paraview_plugins
     VortexFinder)
