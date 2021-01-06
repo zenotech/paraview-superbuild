@@ -87,6 +87,13 @@ mark_as_advanced(PARAVIEW_ENABLE_MOTIONFX)
 option(PARAVIEW_ENABLE_VRPLUGIN "Enable VRPlugin" ON)
 mark_as_advanced(PARAVIEW_ENABLE_VRPLUGIN)
 
+# vrui support is only available on linux
+if (PARAVIEW_ENABLE_VRPLUGIN AND UNIX)
+  list(APPEND paraview_extra_cmake_options
+    -DPARAVIEW_PLUGIN_VRPlugin_USE_VRUI:BOOL=ON
+  )
+endif()
+
 set(paraview_use_raytracing OFF)
 if (ospray_enabled OR visrtx_enabled)
   set(paraview_use_raytracing ON)
@@ -185,7 +192,6 @@ superbuild_add_project(paraview
 
     # vrpn
     -DPARAVIEW_PLUGIN_ENABLE_VRPlugin:BOOL=${PARAVIEW_ENABLE_VRPLUGIN}
-    -DPARAVIEW_PLUGIN_VRPlugin_USE_VRUI:BOOL=${PARAVIEW_ENABLE_VRPLUGIN}
     -DPARAVIEW_PLUGIN_VRPlugin_USE_VRPN:BOOL=${vrpn_enabled}
 
     # vtkm
