@@ -79,8 +79,8 @@ foreach(tool IN LISTS tools)
       PRIVATE
         "ENABLE_MESA")
   endif()
- install(
-  TARGETS     "${name}"
-  DESTINATION "${CMAKE_INSTALL_BINDIR}"
-  COMPONENT   runtime)
+  install(
+    TARGETS     "${name}"
+    DESTINATION "${CMAKE_INSTALL_BINDIR}"
+    COMPONENT   runtime)
 endforeach()
