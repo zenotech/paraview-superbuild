@@ -69,9 +69,15 @@ function (paraview_add_ui_test name script)
     "--exit")
 endfunction ()
 
+set(python_exception_regex "exception;Traceback")
+
 function (paraview_add_python_test name script)
   paraview_add_test("${name}" "${pvpython_exe}"
     "${CMAKE_CURRENT_LIST_DIR}/python/${script}.py")
+  # check for exceptions and tracebacks during python execution
+  set_tests_properties(paraview-${name} PROPERTIES
+    FAIL_REGULAR_EXPRESSION "${python_exception_regex}"
+  )
 endfunction ()
 
 function (paraview_add_pvbatch_test name script)
@@ -102,6 +108,10 @@ if (paraviewweb_enabled)
       "--port" "8082"
       "--timeout" "10"
       "--content" "${CONTENT_DIR}")
+    # check for exceptions and tracebacks during python execution
+    set_tests_properties(paraview-pvweb-visualizer PROPERTIES
+      FAIL_REGULAR_EXPRESSION "${python_exception_regex}"
+    )
   endif ()
 endif ()
 
