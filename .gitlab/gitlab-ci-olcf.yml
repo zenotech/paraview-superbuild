@@ -48,7 +48,7 @@ stages:
     - .base
   stage: test
   variables:
-    SCHEDULER_PARAMETERS: "-P CSC340 -W 1:00 -nnodes 1"
+    SCHEDULER_PARAMETERS: "-P CSC340 -W 1:30 -nnodes 1"
 
 .cleanup-step:
   extends:
