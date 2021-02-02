@@ -15,6 +15,13 @@ install(
   COMPONENT   superbuild
   USE_SOURCE_PERMISSIONS)
 
+# Install VTK module hierarchy files
+install(
+  DIRECTORY   "${superbuild_install_location}/lib/vtk/hierarchy"
+  DESTINATION lib/vtk
+  COMPONENT   superbuild
+  USE_SOURCE_PERMISSIONS)
+
 # Install ParaView headers
 install(
   DIRECTORY   "${superbuild_install_location}/include/paraview-${paraview_version}"
@@ -28,7 +35,7 @@ foreach (paraview_executable IN LISTS paraview_executables)
     "${superbuild_install_location}/bin/${paraview_executable}")
 endforeach ()
 
-if (python_enabled)
+if (python3_enabled)
   # Install ParaView Python libraries and any non-ParaView Python libraries.
   install(
     DIRECTORY   "${superbuild_install_location}/lib/python${superbuild_python_version}/"
@@ -40,13 +47,11 @@ if (python_enabled)
     PATTERN "*.pyc" EXCLUDE)
 
   # Install python binaries and symlinks
-  if (python_built_by_superbuild)
+  if (python3_built_by_superbuild)
     install(
       PROGRAMS    "${superbuild_install_location}/bin/python${superbuild_python_version}-config"
-                  "${superbuild_install_location}/bin/python2"
-                  "${superbuild_install_location}/bin/python2-config"
-                  "${superbuild_install_location}/bin/python"
-                  "${superbuild_install_location}/bin/python-config"
+                  "${superbuild_install_location}/bin/python3"
+                  "${superbuild_install_location}/bin/python3-config"
       DESTINATION bin
       COMPONENT   superbuild)
     list(APPEND binaries_to_install

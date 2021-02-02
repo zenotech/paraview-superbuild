@@ -18,6 +18,9 @@ superbuild_add_project(adios2
   CAN_USE_SYSTEM
   DEPENDS
     cxx11 zfp ${adios2_extra_deps}
+    # currently adios 2.6 unconditionally needs Python
+    # even if Python wrapping is disabled.
+    python3
   DEPENDS_OPTIONAL
     mpi
   CMAKE_ARGS

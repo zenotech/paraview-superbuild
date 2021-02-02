@@ -43,7 +43,7 @@ if (python3_enabled)
 endif ()
 
 # Install paraview executables to bin.
-foreach (executable IN LISTS paraview_executables)
+foreach (executable IN LISTS paraview_executables other_executables)
   if (DEFINED "${executable}_description")
     list(APPEND CPACK_NSIS_MENU_LINKS
       "bin/${executable}.exe" "${${executable}_description}")
@@ -58,7 +58,7 @@ if (EXISTS "${superbuild_install_location}/bin/paraview.conf")
   install(
     FILES       "${superbuild_install_location}/bin/paraview.conf"
     DESTINATION "bin"
-    COMPONENT   "runtime")
+    COMPONENT   "superbuild")
 endif ()
 
 foreach (paraview_plugin IN LISTS paraview_plugins)
@@ -90,6 +90,9 @@ if (nvidiaindex_enabled)
     list(APPEND nvidiaindex_libraries nvrtc-builtins64_101)
   elseif (nvidiaindex_SOURCE_SELECTION STREQUAL "2.4")
     list(APPEND nvidiaindex_libraries nvrtc-builtins64_102)
+  elseif (nvidiaindex_SOURCE_SELECTION STREQUAL "5.9")
+    list(APPEND nvidiaindex_libraries libnvindex_builtins)
+    list(APPEND nvidiaindex_libraries nvrtc-builtins64_102)
   else ()
     message(FATAL_ERROR
       "Unknown nvrtc-builtins64 library for ${nvidiaindex_SOURCE_SELECTION}.")
@@ -109,7 +112,14 @@ endif ()
 
 if (ospray_enabled)
   set(osprayextra_libraries
-    ospray_module_ispc)
+    openvkl_module_ispc_driver
+    ospray_module_denoiser
+    ospray_module_ispc
+    rkcommon)
+  if (ospraymodulempi_enabled)
+    list(APPEND osprayextra_libraries
+      ospray_module_mpi)
+  endif ()
 
   foreach (osprayextra_library IN LISTS osprayextra_libraries)
     superbuild_windows_install_plugin("${osprayextra_library}.dll"
@@ -133,48 +143,37 @@ if (visrtx_enabled)
 endif ()
 
 if (python_enabled)
-  if (python2_built_by_superbuild)
-    include(python2.functions)
-    superbuild_install_superbuild_python2()
-  elseif (python3_built_by_superbuild)
+  if (python3_built_by_superbuild)
     include(python3.functions)
     superbuild_install_superbuild_python3()
   endif ()
 
-  if (python3_enabled)
-    set(python_prefix "Python")
-  else()
-    set(python_prefix "bin")
-  endif()
-
   superbuild_windows_install_python(
     MODULES ${python_modules}
-    MODULE_DIRECTORIES  "${superbuild_install_location}/${python_prefix}/Lib/site-packages"
+    MODULE_DIRECTORIES  "${superbuild_install_location}/Python/Lib/site-packages"
                         "${superbuild_install_location}/bin/Lib/site-packages"
                         "${superbuild_install_location}/lib/site-packages"
                         "${superbuild_install_location}/lib/python${superbuild_python_version}/site-packages"
                         "${superbuild_install_location}/lib/paraview-${paraview_version_major}.${paraview_version_minor}/site-packages"
     SEARCH_DIRECTORIES  "${superbuild_install_location}/lib"
                         "${superbuild_install_location}/bin"
-                        "${superbuild_install_location}/${python_prefix}"
+                        "${superbuild_install_location}/Python"
+                        "${superbuild_install_location}/Python/Lib/site-packages/pywin32_system32"
+                        ${library_paths}
     EXCLUDE_REGEXES     ${exclude_regexes})
-
-
-  if (matplotlib_built_by_superbuild)
-    install(
-      DIRECTORY   "${superbuild_install_location}/${python_prefix}/Lib/site-packages/matplotlib/mpl-data/"
-      DESTINATION "bin/Lib/site-packages/matplotlib/mpl-data"
-      COMPONENT   superbuild)
-  endif ()
 
   if (pywin32_built_by_superbuild)
       install(
-        DIRECTORY   "${superbuild_install_location}/${python_prefix}/Lib/site-packages/win32"
+        DIRECTORY   "${superbuild_install_location}/Python/Lib/site-packages/win32"
         DESTINATION "bin/Lib/site-packages"
         COMPONENT   "superbuild")
       install(
-        FILES       "${superbuild_install_location}/${python_prefix}/Lib/site-packages/pywin32.pth"
-                    "${superbuild_install_location}/${python_prefix}/Lib/site-packages/pywin32.version.txt"
+        DIRECTORY   "${superbuild_install_location}/Python/Lib/site-packages/pywin32_system32"
+        DESTINATION "bin/Lib/site-packages"
+        COMPONENT   "superbuild")
+      install(
+        FILES       "${superbuild_install_location}/Python/Lib/site-packages/pywin32.pth"
+                    "${superbuild_install_location}/Python/Lib/site-packages/pywin32.version.txt"
         DESTINATION "bin/Lib/site-packages"
         COMPONENT   "superbuild")
   endif ()

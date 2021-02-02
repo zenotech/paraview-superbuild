@@ -17,6 +17,9 @@ set(ENABLE_ffmpeg      ON CACHE BOOL "")
 set(ENABLE_freetype    ON CACHE BOOL "")
 set(ENABLE_genericio   ON CACHE BOOL "")
 set(ENABLE_hdf5        ON CACHE BOOL "")
+# disabling for now since I don't see mesa enabled
+# and we're using system MPI.
+# set(ENABLE_launchers   ON CACHE BOOL "")
 set(ENABLE_libxml2     ON CACHE BOOL "")
 set(ENABLE_llvm        ON CACHE BOOL "")
 set(ENABLE_matplotlib  ON CACHE BOOL "")
@@ -62,9 +65,6 @@ endif()
 # Use newer Mesa since it's *way* faster on KNL
 set(mesa_SOURCE_SELECTION "v13.0.0-rc2" CACHE STRING "")
 set(mesa_USE_SWR ON CACHE BOOL "")
-
-# Package mesa/osmesa with the binaries
-set(PARAVIEW_DEFAULT_SYSTEM_GL ON)
 
 # Too many CPU cores on KNL.  Limit build threads to 32
 set(SUPERBUILD_PROJECT_PARALLELISM 32 CACHE STRING "")

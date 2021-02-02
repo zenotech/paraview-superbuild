@@ -27,6 +27,22 @@ To obtain the superbuild source locally, clone this repository using
 The superbuild can be built with a Makefiles or Ninja CMake generator. The IDE
 generators (Xcode and Visual Studio) are not supported.
 
+## Requirements
+
+The superbuild tries to provide all of its own dependencies, but some tooling
+is assumed to be available on the host machine.
+
+  - Compiler toolchain
+    * GCC 4.9 or newer
+    * Xcode 10 or newer (older is probably supported, but untested)
+    * MSVC 2017 or newer
+    * ICC (minimum version unknown)
+  - Tools
+    * `pkg-config` is used on non-Windows platforms to find dependencies in
+      some projects
+    * `ninja` (or `make`) for building
+    * Python (if not built by the superbuild) for building packages
+
 ## Building a specific version
 
 The superbuild project uses the same versioning scheme as ParaView,
@@ -35,7 +51,7 @@ ParaView version 5.7.1, checkout the `v5.7.0` tag of ParaView and
 superbuild.
 
 Currently available tags are shown
-[here](https://gitlab.kitware.com/paraview/paraview-superbuild/tags).
+[here](https://gitlab.kitware.com/paraview/paraview-superbuild/-/tags).
 
 To checkout a specific tag from the superbuild git repository:
 
@@ -138,7 +154,7 @@ The following packages enable other features within ParaView:
   * `visitbridge`: Enables readers for file formats provided from the VisIt
     project.
   * `vortexfinder2`: A collection of tools to visualize and analyze vortices.
-  * `vrpn`: Virtual reality support.
+  * `vrpn`: Virtual reality support through the VRPN interface.
   * `vtkm`: VTK-m Accelerator Filters
   * `xdmf3`: A meta file format built on top of HDF5.
 
@@ -160,6 +176,20 @@ behind click-wrapping. They may be manually downloaded from these web pages:
     Though older versions are available here:
     https://developer.nvidia.com/designworks/optix/downloads/legacy
   * `nvidiamdl`: https://developer.nvidia.com/mdl-sdk
+
+### Overriding downloaded archives
+
+On rare occasions, you may want to replace a downloaded archive with a different
+version. You may replace the archive with a newer version preserving its
+name, however, on doing so, the hash verification will most likely fail during
+the build step. To skip the hash verification for archives that have been
+manually changed, set the `xxx_SKIP_VERIFICATION` option, where `xxx`
+is the name of the project. `xxx_SKIP_VERIFICATION` must be passed on command line
+when invoking CMake using `-Dxxx_SKIP_VERIFICATION:BOOL=TRUE`.
+
+Alternatively, you can edit the `versions.cmake` files in the source repository
+and modify the `URL_MDF5` or `URL_HASH` values for the specific project with
+updated hashes.
 
 ## Installing
 
@@ -256,10 +286,12 @@ time.
   * `SUPERBUILD_DEBUG_CONFIGURE_STEPS` (default `OFF`): If set, the superbuild
     will log configure steps for each `xxx` project into
     `superbuild/xxx/stamp/xxx-configure-*.log` files.
+  * `CMAKE_BUILD_TYPE` (default `Release`): The build type to use for the
+    build. Can be `Release`, `RelWithDebInfo`, or (on not-Windows) `Debug`.
 
 The following flags affect ParaView directly:
 
-  * `paraview_SOURCE_SELECTION` (default `5.8.0-RC1`): The source to use for
+  * `paraview_SOURCE_SELECTION` (default `5.9.0`): The source to use for
     ParaView itself. The version numbers use the source tarballs from the
     website for the release. The `source` selection uses the
     `paraview_SOURCE_DIR` variable to look at a checked out ParaView source
@@ -274,7 +306,9 @@ The following flags affect ParaView directly:
     its existence.
   * `CMAKE_BUILD_TYPE_paraview` (default is the same as the superbuild):
     ParaView may be built with a different build type (e.g., `Release` vs.
-    `RelWithDebInfo`) as the rest of the superbuild using this variable.
+    `RelWithDebInfo`) as the rest of the superbuild using this variable. In
+    addition to `<SAME>` which uses `CMAKE_BUILD_TYPE`, any valid value for
+    `CMAKE_BUILD_TYPE` is also valid.
   * `BUILD_SHARED_LIBS_paraview` (default is the same as the superbuild):
     ParaView may be built with a different selection for BUILD_SHARED_LIBS flag
     than the rest of the superbuild using this variable. For example,
@@ -296,6 +330,9 @@ The following flags affect ParaView directly:
   * `PARAVIEW_EXTRA_CMAKE_ARGUMENTS` (default `""`: Extra CMake arguments to
     pass to ParaView's configure step. This can be used to set CMake variables
     for the build that are otherwise not exposed in the superbuild itself.
+  * `PARAVIEW_ENABLE_VRPLUGIN` (default `ON`): Enables the VRPlugin. If
+    `vrpn` is enabled, the VRPlugin will support input devices through a VRPN
+    connection. VRUI support is enabled unconditionally on Linux.
 
 #### ParaView editions
 

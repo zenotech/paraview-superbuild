@@ -31,16 +31,30 @@ foreach (paraview_plugin IN LISTS paraview_plugins)
 endforeach ()
 
 set(include_regexes)
+set(ignore_regexes)
 if (fortran_enabled)
   list(APPEND include_regexes
     ".*/libgfortran"
     ".*/libquadmath")
+  list(APPEND ignore_regexes
+    ".*/libgcc_s.1.dylib")
 endif ()
 
 set(additional_libraries)
 if (ospray_enabled)
-  list(APPEND additional_libraries
-    "${superbuild_install_location}/lib/libospray_module_ispc.dylib")
+  set(osprayextra_libraries
+    openvkl_module_ispc_driver
+    ospray_module_denoiser
+    ospray_module_ispc
+    ospray_module_mpi
+    rkcommon)
+
+  foreach (osprayextra_library IN LISTS osprayextra_libraries)
+    if (EXISTS "${superbuild_install_location}/lib/lib${osprayextra_library}.dylib")
+      list(APPEND additional_libraries
+        "${superbuild_install_location}/lib/lib${osprayextra_library}.dylib")
+    endif ()
+  endforeach ()
 endif ()
 
 superbuild_apple_create_app(
@@ -51,7 +65,8 @@ superbuild_apple_create_app(
   PLUGINS ${paraview_plugin_paths}
   SEARCH_DIRECTORIES "${superbuild_install_location}/lib"
   ADDITIONAL_LIBRARIES ${additional_libraries}
-  INCLUDE_REGEXES     ${include_regexes})
+  INCLUDE_REGEXES     ${include_regexes}
+  IGNORE_REGEXES      ${ignore_regexes})
 
 set(plugins_file "${CMAKE_CURRENT_BINARY_DIR}/paraview.plugins.xml")
 paraview_add_plugin("${plugins_file}" ${paraview_plugins})
@@ -85,13 +100,14 @@ install(
 list(REMOVE_ITEM paraview_executables
   paraview)
 
-foreach (executable IN LISTS paraview_executables)
+foreach (executable IN LISTS paraview_executables other_executables)
   superbuild_apple_install_utility(
     "\${CMAKE_INSTALL_PREFIX}"
     "${paraview_appname}"
     "${superbuild_install_location}/bin/${executable}"
     SEARCH_DIRECTORIES "${superbuild_install_location}/lib"
-    INCLUDE_REGEXES     ${include_regexes})
+    INCLUDE_REGEXES     ${include_regexes}
+    IGNORE_REGEXES      ${ignore_regexes})
 endforeach ()
 
 if (qt5_enabled)
@@ -103,6 +119,12 @@ if (qt5_enabled)
 endif ()
 
 if (python_enabled)
+  if (python3_built_by_superbuild)
+    include(python3.functions)
+    superbuild_install_superbuild_python3(
+      BUNDLE "${paraview_appname}")
+  endif ()
+
   file(GLOB egg_dirs
     "${superbuild_install_location}/lib/python${superbuild_python_version}/site-packages/*.egg/")
   superbuild_apple_install_python(
@@ -115,14 +137,9 @@ if (python_enabled)
             ${egg_dirs}
     SEARCH_DIRECTORIES
             "${superbuild_install_location}/Applications/paraview.app/Contents/Libraries"
-            "${superbuild_install_location}/lib")
-
-  if (matplotlib_enabled)
-    install(
-      DIRECTORY   "${superbuild_install_location}/lib/python${superbuild_python_version}/site-packages/matplotlib/mpl-data/"
-      DESTINATION "${paraview_appname}/Contents/Python/matplotlib/mpl-data"
-      COMPONENT   superbuild)
-  endif ()
+            "${superbuild_install_location}/lib"
+    INCLUDE_REGEXES     ${include_regexes}
+    IGNORE_REGEXES      ${ignore_regexes})
 endif ()
 
 if (mpi_built_by_superbuild)
@@ -136,7 +153,8 @@ if (mpi_built_by_superbuild)
       "${paraview_appname}"
       "${superbuild_install_location}/bin/${mpi_executable}"
       SEARCH_DIRECTORIES "${superbuild_install_location}/lib"
-      INCLUDE_REGEXES     ${include_regexes})
+      INCLUDE_REGEXES     ${include_regexes}
+      IGNORE_REGEXES      ${ignore_regexes})
   endforeach ()
 
   install(CODE
@@ -180,7 +198,9 @@ foreach (qt5_plugin_path IN LISTS qt5_plugin_paths)
     "${paraview_appname}"
     "${qt5_plugin_path}"
     "Contents/Plugins/${qt5_plugin_group}"
-    SEARCH_DIRECTORIES  "${library_paths}")
+    SEARCH_DIRECTORIES  "${superbuild_install_location}/lib"
+    INCLUDE_REGEXES     ${include_regexes}
+    IGNORE_REGEXES      ${ignore_regexes})
 endforeach ()
 
 paraview_install_extra_data()

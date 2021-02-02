@@ -1,1 +1,0 @@
-paraview_add_plugins_external()

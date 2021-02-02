@@ -32,14 +32,10 @@ set(paraview_executables
   pvdataserver
   pvrenderserver
   pvserver)
-if (python_enabled)
+if (python3_enabled)
   list(APPEND paraview_executables
     pvbatch
     pvpython)
-endif ()
-if (mesa_enabled)
-  list(APPEND paraview_executables
-    paraview-mesa)
 endif ()
 
 set(paraview_has_gui FALSE)
@@ -48,6 +44,12 @@ if (qt5_enabled)
     paraview)
   set(paraview_has_gui TRUE)
 endif ()
+
+set(other_executables)
+if (vrpn_enabled)
+  list(APPEND other_executables
+    vrpn_server)
+endif()
 
 set(python_modules
   cinema_python
@@ -78,27 +80,30 @@ macro (check_for_python_module project module)
   endif ()
 endmacro ()
 
-check_for_python_module(numpy numpy)
-check_for_python_module(numpy pkg_resources)
-check_for_python_module(scipy scipy)
-check_for_python_module(pythonkiwisolver kiwisolver)
 check_for_python_module(matplotlib matplotlib)
 check_for_python_module(matplotlib mpl_toolkits)
+check_for_python_module(numpy numpy)
+check_for_python_module(numpy pkg_resources)
+check_for_python_module(openpmd openpmd_api)
 check_for_python_module(pythonattrs attr)
-check_for_python_module(pythonpygments pygments)
-check_for_python_module(pythonsix six)
 check_for_python_module(pythonautobahn autobahn)
 check_for_python_module(pythonconstantly constantly)
 check_for_python_module(pythoncycler cycler)
+check_for_python_module(pythoncython cython)
 check_for_python_module(pythondateutil dateutil)
 check_for_python_module(pythonhyperlink hyperlink)
 check_for_python_module(pythonincremental incremental)
+check_for_python_module(pythonkiwisolver kiwisolver)
+check_for_python_module(pythonpandas pandas)
+check_for_python_module(pythonpygments pygments)
 check_for_python_module(pythonpyparsing pyparsing)
+check_for_python_module(pythonsix six)
 check_for_python_module(pythontwisted twisted)
 check_for_python_module(pythontxaio txaio)
 check_for_python_module(pythonwslink wslink)
 check_for_python_module(pythonzopeinterface zope)
 check_for_python_module(pytz pytz)
+check_for_python_module(scipy scipy)
 
 if (WIN32)
   check_for_python_module(pywin32 adodbapi)

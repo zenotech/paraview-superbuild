@@ -8,17 +8,10 @@ set_property(CACHE PARAVIEW_BUILD_EDITION
   PROPERTY
     STRINGS "CORE;RENDERING;CATALYST;CATALYST_RENDERING;CANONICAL")
 
-option(PARAVIEW_DEFAULT_SYSTEM_GL "Default to using the system OpenGL" OFF)
-
 set (paraview_extra_cmake_options)
 if (PV_NIGHTLY_SUFFIX)
   list(APPEND paraview_extra_cmake_options
     -DPV_NIGHTLY_SUFFIX:STRING=${PV_NIGHTLY_SUFFIX})
-endif ()
-
-set(paraview_install_development_files FALSE)
-if ((UNIX AND NOT APPLE) OR paraviewsdk_enabled OR vortexfinder2_enabled)
-  set(paraview_install_development_files TRUE)
 endif ()
 
 # Without an offscreen rendering backend, X should be used.
@@ -28,25 +21,6 @@ if (WIN32 OR APPLE OR osmesa_enabled OR egl_enabled)
 endif()
 
 set(paraview_all_plugins)
-
-if (superbuild_build_phase)
-  get_property(paraview_plugins GLOBAL
-    PROPERTY paraview_plugins)
-  get_property(paraview_plugin_dirs_external GLOBAL
-    PROPERTY paraview_plugin_dirs_external)
-
-  set(paraview_plugin_dirs
-    "${paraview_plugin_dirs_external}")
-  foreach (paraview_plugin IN LISTS paraview_plugins)
-    if (${paraview_plugin}_enabled AND TARGET "${paraview_plugin}")
-      set(plugin_source_dir "<SOURCE_DIR>")
-      _ep_replace_location_tags("${paraview_plugin}" plugin_source_dir)
-      list(APPEND paraview_plugin_dirs
-        "${plugin_source_dir}")
-    endif ()
-  endforeach ()
-  string(REPLACE ";" "${_superbuild_list_separator}" paraview_plugin_dirs "${paraview_plugin_dirs}")
-endif ()
 
 set(paraview_smp_backend "Sequential")
 if (tbb_enabled)
@@ -78,11 +52,6 @@ if (UNIX)
     genericio cosmotools)
 endif ()
 
-set(paraview_mesa_libdir "<LIBDIR>")
-if (PARAVIEW_DEFAULT_SYSTEM_GL AND mesa_enabled)
-  set(paraview_mesa_libdir "<LIBDIR>/mesa")
-endif ()
-
 if (WIN32)
   list(APPEND paraviews_platform_dependencies
     openvr)
@@ -95,8 +64,7 @@ endif ()
 
 set(PARAVIEW_USE_PYTHON ${python_enabled})
 if (python_enabled AND
-    ((USE_SYSTEM_python2 AND NOT python2_FIND_LIBRARIES) OR
-     (USE_SYSTEM_python3 AND NOT python3_FIND_LIBRARIES)))
+    (python3_enabled AND USE_SYSTEM_python3 AND NOT python3_FIND_LIBRARIES))
   set(PARAVIEW_USE_PYTHON OFF)
 endif()
 
@@ -120,6 +88,16 @@ if(APPLE)
 endif()
 option(PARAVIEW_ENABLE_MOTIONFX "Enable MotionFX reader, if supported on platform" ON)
 mark_as_advanced(PARAVIEW_ENABLE_MOTIONFX)
+
+option(PARAVIEW_ENABLE_VRPLUGIN "Enable VRPlugin" ON)
+mark_as_advanced(PARAVIEW_ENABLE_VRPLUGIN)
+
+# vrui support is only available on linux
+if (PARAVIEW_ENABLE_VRPLUGIN AND UNIX)
+  list(APPEND paraview_extra_cmake_options
+    -DPARAVIEW_PLUGIN_VRPlugin_USE_VRUI:BOOL=ON
+  )
+endif()
 
 set(paraview_use_raytracing OFF)
 if (ospray_enabled OR visrtx_enabled)
@@ -149,14 +127,15 @@ endif ()
 superbuild_add_project(paraview
   DEBUGGABLE
   DEFAULT_ON
+  DEPENDS cxx11
   DEPENDS_OPTIONAL
-    adios2 cuda boost hdf5 matplotlib mpi numpy png protobuf
-    python python2 python3 qt5 visitbridge zlib silo las
+    adios2 cuda boost fortran gdal hdf5 matplotlib mpi numpy png protobuf
+    python python3 qt5 visitbridge zlib silo las lookingglass fides
     xdmf3 ospray vrpn vtkm tbb netcdf
+    openpmd
     nlohmannjson
     paraviewgettingstartedguide
     paraviewtutorialdata paraviewweb
-    paraviewpluginsexternal
     ${paraview_all_plugins}
     ${paraviews_platform_dependencies}
     ${PARAVIEW_EXTERNAL_PROJECTS}
@@ -173,14 +152,21 @@ superbuild_add_project(paraview
     -DPARAVIEW_ENABLE_ADIOS2:BOOL=${adios2_enabled}
     -DPARAVIEW_ENABLE_COSMOTOOLS:BOOL=${cosmotools_enabled}
     -DPARAVIEW_ENABLE_FFMPEG:BOOL=${ffmpeg_enabled}
+    -DPARAVIEW_ENABLE_FIDES:BOOL=${fides_enabled}
+    -DPARAVIEW_ENABLE_GDAL:BOOL=${gdal_enabled}
     -DPARAVIEW_ENABLE_LAS:BOOL=${las_enabled}
+    -DPARAVIEW_ENABLE_LOOKINGGLASS:BOOL=${lookingglass_enabled}
     -DPARAVIEW_ENABLE_MOTIONFX:BOOL=${PARAVIEW_ENABLE_MOTIONFX}
     -DPARAVIEW_ENABLE_VISITBRIDGE:BOOL=${visitbridge_enabled}
     -DPARAVIEW_ENABLE_XDMF3:BOOL=${xdmf3_enabled}
-    -DPARAVIEW_INSTALL_DEVELOPMENT_FILES:BOOL=${paraview_install_development_files}
+    -DPARAVIEW_INSTALL_DEVELOPMENT_FILES:BOOL=ON
+    -DPARAVIEW_PLUGIN_ENABLE_LookingGlass:BOOL=${lookingglass_enabled}
     -DPARAVIEW_PLUGIN_ENABLE_OpenVR:BOOL=${openvr_enabled}
+    # No netcdftime module in the package.
+    -DPARAVIEW_PLUGIN_ENABLE_NetCDFTimeAnnotationPlugin:BOOL=OFF
     -DPARAVIEW_PYTHON_VERSION:STRING=${python_version}
     -DPARAVIEW_USE_MPI:BOOL=${mpi_enabled}
+    -DPARAVIEW_USE_FORTRAN:BOOL=${fortran_enabled}
     -DPARAVIEW_USE_PYTHON:BOOL=${PARAVIEW_USE_PYTHON}
     -DPARAVIEW_USE_QT:BOOL=${qt5_enabled}
     -DVISIT_BUILD_READER_Mili:BOOL=${mili_enabled}
@@ -199,10 +185,6 @@ superbuild_add_project(paraview
     -DVTK_SMP_IMPLEMENTATION_TYPE:STRING=${paraview_smp_backend}
     -DVTK_USE_X:BOOL=${paraview_use_x}
 
-    # mesa flags
-    -DPARAVIEW_BUILD_MESA_LAUNCHER:BOOL=${mesa_enabled}
-    -DPARAVIEW_MESA_LIBDIR:STRING=${paraview_mesa_libdir}
-
     # raytracing flags
     -DPARAVIEW_ENABLE_RAYTRACING:BOOL=${paraview_use_raytracing}
     -DVTKOSPRAY_ENABLE_DENOISER:BOOL=${openimagedenoise_enabled}
@@ -213,7 +195,7 @@ superbuild_add_project(paraview
     -DPARAVIEW_PLUGIN_ENABLE_pvNVIDIAIndeX:BOOL=${nvidiaindex_enabled}
 
     # vrpn
-    -DPARAVIEW_PLUGIN_ENABLE_VRPlugin:BOOL=${vrpn_enabled}
+    -DPARAVIEW_PLUGIN_ENABLE_VRPlugin:BOOL=${PARAVIEW_ENABLE_VRPLUGIN}
     -DPARAVIEW_PLUGIN_VRPlugin_USE_VRPN:BOOL=${vrpn_enabled}
 
     # vtkm
@@ -224,11 +206,11 @@ superbuild_add_project(paraview
     # Web
     -DPARAVIEW_ENABLE_WEB:BOOL=${paraviewweb_enabled}
 
+    # Readers
+    -DVTK_MODULE_ENABLE_VTK_IOSegY:STRING=YES
+
     # ParFlow
     -DPARAVIEW_PLUGIN_ENABLE_ParFlow:BOOL=${nlohmannjson_enabled}
-
-    # add additional plugin directories
-    -DPARAVIEW_EXTERNAL_PLUGIN_DIRS:STRING=${paraview_plugin_dirs}
 
     ${paraview_extra_cmake_options}
 
@@ -261,8 +243,7 @@ if (WIN32 AND las_enabled)
   superbuild_append_flags(cxx_flags "-DBOOST_ALL_NO_LIB" PROJECT_ONLY)
 endif()
 
-
-if (APPLE)
-  superbuild_append_flags(cxx_flags "-stdlib=libc++" PROJECT_ONLY)
-  superbuild_append_flags(ld_flags "-stdlib=libc++" PROJECT_ONLY)
-endif ()
+if (ospray_enabled AND tbb_enabled)
+  superbuild_add_extra_cmake_args(
+    -DTBB_ROOT:PATH=<INSTALL_DIR>)
+endif()

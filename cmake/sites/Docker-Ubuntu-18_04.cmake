@@ -35,7 +35,9 @@ endif()
 
 # General rendering/graphics options
 set(ENABLE_mesa OFF CACHE BOOL "")
-set(PARAVIEW_DEFAULT_SYSTEM_GL OFF CACHE BOOL "")
+
+# Don't build launchers for mesa or mpi
+set(ENABLE_launchers OFF CACHE BOOL "")
 
 # Some general options
 set(BUILD_SHARED_LIBS ON CACHE BOOL "")

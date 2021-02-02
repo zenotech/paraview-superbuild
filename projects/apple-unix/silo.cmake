@@ -56,4 +56,14 @@ superbuild_add_project(silo
 if (APPLE)
   superbuild_apply_patch(silo zlib-apple
     "Detect libz.dylib")
+endif()
+
+if (UNIX)
+  superbuild_apply_patch(silo ppc64le-linux
+    "Patch for Power 9 architecture")
 endif ()
+
+if (hdf5_enabled)
+  superbuild_apply_patch(silo hdf5-1.12
+    "Support HDF5 1.12 ")
+endif()

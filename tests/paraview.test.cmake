@@ -2,7 +2,6 @@ set(paraview_extract_dir "${CMAKE_CURRENT_BINARY_DIR}/paraview/test-extraction")
 if (WIN32)
   set(generator "ZIP")
   set(paraview_exe "${paraview_extract_dir}/bin/paraview.exe")
-  set(paraview_mesa_exe "${paraview_extract_dir}/bin/paraview-mesa.exe")
   set(pvpython_exe "${paraview_extract_dir}/bin/pvpython.exe")
   set(pvserver_exe "${paraview_extract_dir}/bin/pvserver.exe")
   set(pvbatch_exe  "${paraview_extract_dir}/bin/pvbatch.exe")
@@ -10,14 +9,12 @@ elseif (APPLE)
   set(generator "DragNDrop")
   include(paraview-appname)
   set(paraview_exe "${paraview_extract_dir}/${paraview_appname}/Contents/MacOS/paraview")
-  set(paraview_mesa_exe "${paraview_extract_dir}/${paraview_appname}/Contents/bin/paraview-mesa")
   set(pvpython_exe "${paraview_extract_dir}/${paraview_appname}/Contents/bin/pvpython")
   set(pvserver_exe "${paraview_extract_dir}/${paraview_appname}/Contents/bin/pvserver")
   set(pvbatch_exe  "${paraview_extract_dir}/${paraview_appname}/Contents/bin/pvbatch")
 else ()
   set(generator "TGZ")
   set(paraview_exe "${paraview_extract_dir}/bin/paraview")
-  set(paraview_mesa_exe "${paraview_extract_dir}/bin/paraview-mesa")
   set(pvpython_exe "${paraview_extract_dir}/bin/pvpython")
   set(pvserver_exe "${paraview_extract_dir}/bin/pvserver")
   set(pvbatch_exe  "${paraview_extract_dir}/bin/pvbatch")
@@ -46,10 +43,6 @@ endif ()
 
 if (NOT mpi_enabled)
   set(pvbatch_exe)
-endif ()
-
-if (NOT mesa_enabled)
-  set(paraview_mesa_exe)
 endif ()
 
 function (paraview_add_test name exe)
@@ -128,6 +121,14 @@ if (mpi_enabled AND python_enabled)
   paraview_add_python_test("import-mpi4py" "import_mpi4py")
 endif ()
 
+if (pythonpandas_enabled)
+  paraview_add_python_test("import-pandas" "import_pandas")
+endif ()
+
+if (openpmd_enabled)
+  paraview_add_python_test("import-openpmd" "import_openpmd")
+endif ()
+
 # Test to load various data files to ensure reader support.
 paraview_add_ui_test("data-csg.silo" "TestData-cs_silo"
   "--data=${CMAKE_CURRENT_LIST_DIR}/data/csg.silo")
@@ -163,25 +164,21 @@ paraview_add_test("version-client" "${paraview_exe}"
 if (mesa_enabled AND python_enabled)
   set(mesa_llvm_arg)
   set(mesa_swr_arg)
-  if (PARAVIEW_DEFAULT_SYSTEM_GL)
-    set(mesa_llvm_arg --backend llvmpipe)
-    set(mesa_swr_arg --backend swr)
+  if (launchers_enabled)
+    set(mesa_llvm_arg --mesa --backend llvmpipe)
+    set(mesa_swr_arg --mesa --backend swr)
   endif ()
 
-  paraview_add_test("mesa-llvm" "${paraview_mesa_exe}"
+  paraview_add_test("mesa-llvm" ${pvpython_exe}
     ${mesa_llvm_arg}
-    pvpython
-    --
     "${CMAKE_CURRENT_LIST_DIR}/python/CheckOpenGLVersion.py"
     "mesa" "llvmpipe")
   if (mesa_USE_SWR)
     # Either don't add or add but explicitly disable this test for now
     # until the underlying VTK segfault is fixed.
     if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.9)
-      paraview_add_test("mesa-swr" "${paraview_mesa_exe}"
+      paraview_add_test("mesa-swr" "${pvpython_exe}"
         ${mesa_swr_arg}
-        pvpython
-        --
         "${CMAKE_CURRENT_LIST_DIR}/python/CheckOpenGLVersion.py"
         "mesa" "swr")
       # Mesa exits with failure.
@@ -207,3 +204,7 @@ if (vtkm_enabled)
   paraview_add_ui_test("vtkm-threshold" "VTKmThreshold"
     --test-plugin=VTKmFilters)
 endif ()
+
+if (fides_enabled)
+  paraview_add_ui_test("fides" "FidesReaderADIOS2")
+endif()

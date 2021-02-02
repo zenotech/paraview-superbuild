@@ -14,14 +14,44 @@ if (fortran_enabled)
 endif ()
 
 set(exclude_regexes)
-if (PARAVIEW_DEFAULT_SYSTEM_GL OR
+if (launchers_enabled OR
     (mesa_built_by_superbuild OR osmesa_built_by_superbuild))
   list(APPEND exclude_regexes
     ".*/libglapi"
     ".*/libGL")
 endif ()
 
+if (launchers_enabled AND mpi_built_by_superbuild)
+  list(APPEND exclude_regexes
+    ".*/libmpi"
+    ".*/libmpicxx")
+endif()
+
 foreach (executable IN LISTS paraview_executables)
+  superbuild_unix_install_program("${superbuild_install_location}/bin/${executable}"
+    "lib"
+    SEARCH_DIRECTORIES  "${library_paths}"
+    INCLUDE_REGEXES     ${include_regexes}
+    EXCLUDE_REGEXES     ${exclude_regexes})
+
+  if (launchers_enabled)
+    superbuild_unix_install_program("${superbuild_install_location}/bin/${executable}-launcher"
+      "lib"
+      SEARCH_DIRECTORIES  "${library_paths}"
+      INCLUDE_REGEXES     ${include_regexes}
+      EXCLUDE_REGEXES     ${exclude_regexes})
+
+    # rename executables.
+    install(CODE "
+       set(_prefix \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/bin\")
+       file(RENAME \"\${_prefix}/${executable}\" \"\${_prefix}/${executable}-real\")
+       file(RENAME \"\${_prefix}/${executable}-launcher\" \"\${_prefix}/${executable}\")"
+      COMPONENT superbuild)
+  endif()
+endforeach ()
+
+# install other executables, if any
+foreach (executable IN LISTS other_executables)
   superbuild_unix_install_program("${superbuild_install_location}/bin/${executable}"
     "lib"
     SEARCH_DIRECTORIES  "${library_paths}"
@@ -33,7 +63,7 @@ if (EXISTS "${superbuild_install_location}/bin/paraview.conf")
   install(
     FILES       "${superbuild_install_location}/bin/paraview.conf"
     DESTINATION "bin"
-    COMPONENT   "runtime")
+    COMPONENT   "superbuild")
 endif ()
 
 foreach (paraview_plugin IN LISTS paraview_plugins)
@@ -56,7 +86,7 @@ install(
 
 if (mesa_libraries)
   set(suffix)
-  if (PARAVIEW_DEFAULT_SYSTEM_GL)
+  if (launchers_enabled)
     set(suffix "/mesa")
   endif ()
 
@@ -66,7 +96,7 @@ if (mesa_libraries)
       "${superbuild_install_location}/lib/lib${mesa_library}.so*")
 
     foreach (lib_filename IN LISTS lib_filenames)
-      superbuild_unix_install_plugin("${lib_filename}"
+      superbuild_unix_install_module("${lib_filename}"
         "lib${suffix}"
         "lib"
         LOADER_PATHS  "${library_paths}"
@@ -75,11 +105,35 @@ if (mesa_libraries)
   endforeach ()
 endif ()
 
+if (launchers_enabled AND mpi_built_by_superbuild)
+  set(mpi_libraries
+    mpi
+    mpicxx)
+  set(suffix "/mpi")
+  foreach (mpi_library IN LISTS mpi_libraries)
+    file(GLOB lib_filenames
+      RELATIVE "${superbuild_install_location}/lib"
+      "${superbuild_install_location}/lib/lib${mpi_library}.so*")
+
+    foreach (lib_filename IN LISTS lib_filenames)
+      superbuild_unix_install_module("${lib_filename}"
+        "lib${suffix}"
+        "lib"
+        LOADER_PATHS  "${library_paths}"
+        LOCATION      "lib${suffix}")
+    endforeach ()
+  endforeach ()
+endif()
+
 if (nvidiaindex_enabled)
   set(nvidiaindex_libraries
     dice
     nvindex
     nvrtc-builtins)
+
+  if (nvidiaindex_SOURCE_SELECTION STREQUAL "5.9")
+    list(APPEND nvidiaindex_libraries nvindex_builtins)
+  endif ()
 
   foreach (nvidiaindex_library IN LISTS nvidiaindex_libraries)
     file(GLOB lib_filenames
@@ -87,7 +141,7 @@ if (nvidiaindex_enabled)
       "${superbuild_install_location}/lib/lib${nvidiaindex_library}.so*")
 
     foreach (lib_filename IN LISTS lib_filenames)
-      superbuild_unix_install_plugin("${lib_filename}"
+      superbuild_unix_install_module("${lib_filename}"
         "lib"
         "lib"
         LOADER_PATHS  "${library_paths}"
@@ -99,7 +153,11 @@ endif ()
 
 if (ospray_enabled)
   set(osprayextra_libraries
-    ospray_module_ispc)
+    openvkl_module_ispc_driver
+    ospray_module_denoiser
+    ospray_module_ispc
+    ospray_module_mpi
+    rkcommon)
 
   foreach (osprayextra_library IN LISTS osprayextra_libraries)
     file(GLOB lib_filenames
@@ -107,7 +165,7 @@ if (ospray_enabled)
       "${superbuild_install_location}/lib/lib${osprayextra_library}.so*")
 
     foreach (lib_filename IN LISTS lib_filenames)
-      superbuild_unix_install_plugin("${lib_filename}"
+      superbuild_unix_install_module("${lib_filename}"
         "lib"
         "lib"
         LOADER_PATHS  "${library_paths}"
@@ -129,7 +187,7 @@ if (visrtx_enabled)
       "${superbuild_install_location}/lib/${visrtxextra_library}.so*")
 
     foreach (lib_filename IN LISTS lib_filenames)
-      superbuild_unix_install_plugin("${lib_filename}"
+      superbuild_unix_install_module("${lib_filename}"
         "lib"
         "lib"
         LOADER_PATHS  "${library_paths}"
@@ -143,11 +201,7 @@ endif ()
 if (python_enabled)
   file(GLOB egg_dirs
     "${superbuild_install_location}/lib/python${superbuild_python_version}/site-packages/*.egg/")
-  if (python2_built_by_superbuild)
-    include(python2.functions)
-    superbuild_install_superbuild_python2(
-      LIBSUFFIX "/python${superbuild_python_version}")
-  elseif (python3_built_by_superbuild)
+  if (python3_built_by_superbuild)
     include(python3.functions)
     superbuild_install_superbuild_python3(
       LIBSUFFIX "/python${superbuild_python_version}")
@@ -158,7 +212,7 @@ if (python_enabled)
   # Python3, we should make sure all the python modules get installed to the same
   # location to begin with.
   #
-  # Related issue: https://gitlab.kitware.com/paraview/paraview-superbuild/issues/120
+  # Related issue: https://gitlab.kitware.com/paraview/paraview-superbuild/-/issues/120
   superbuild_unix_install_python(
     LIBDIR              "lib"
     MODULES             ${python_modules}
@@ -167,13 +221,6 @@ if (python_enabled)
     MODULE_DIRECTORIES  "${superbuild_install_location}/lib/python${superbuild_python_version}/site-packages"
                         ${egg_dirs}
     LOADER_PATHS        "${library_paths}")
-
-  if (matplotlib_built_by_superbuild)
-    install(
-      DIRECTORY   "${superbuild_install_location}/lib/python${superbuild_python_version}/site-packages/matplotlib/mpl-data/"
-      DESTINATION "lib/python${superbuild_python_version}/site-packages/matplotlib/mpl-data"
-      COMPONENT   superbuild)
-  endif ()
 endif ()
 
 if (mpi_built_by_superbuild)
@@ -184,14 +231,29 @@ if (mpi_built_by_superbuild)
     hydra_nameserver
     hydra_persist)
   foreach (mpi_executable IN LISTS mpi_executables_standalone)
-    superbuild_unix_install_plugin("${superbuild_install_location}/bin/${mpi_executable}"
+    superbuild_unix_install_module("${superbuild_install_location}/bin/${mpi_executable}"
       "lib"
       "bin")
   endforeach ()
   foreach (mpi_executable IN LISTS mpi_executables_standalone mpi_executables_paraview)
-    superbuild_unix_install_plugin("${superbuild_install_location}/bin/${mpi_executable}"
+    superbuild_unix_install_module("${superbuild_install_location}/bin/${mpi_executable}"
       "lib"
       "lib")
+  endforeach ()
+endif ()
+
+if (mpi_enabled) # Catalyst is built if MPI is available.
+  set(adaptors
+    "catalyst.so.2")
+
+  foreach (adaptor IN LISTS adaptors)
+    superbuild_unix_install_module("${superbuild_install_location}/lib/lib${adaptor}"
+      "lib"
+      "lib"
+      HAS_SYMLINKS
+      LOADER_PATHS    "${library_paths}"
+      INCLUDE_REGEXES ${include_regexes}
+      EXCLUDE_REGEXES ${exclude_regexes})
   endforeach ()
 endif ()
 
@@ -207,7 +269,9 @@ foreach (qt5_plugin_path IN LISTS qt5_plugin_paths)
   get_filename_component(qt5_plugin_group "${qt5_plugin_path}" DIRECTORY)
   get_filename_component(qt5_plugin_group "${qt5_plugin_group}" NAME)
 
-  superbuild_unix_install_plugin("${qt5_plugin_path}"
+  # Qt expects its libraries to be in `lib/`, not beside, so install them as
+  # modules.
+  superbuild_unix_install_module("${qt5_plugin_path}"
     "lib"
     "plugins/${qt5_plugin_group}/"
     LOADER_PATHS    "${library_paths}"

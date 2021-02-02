@@ -22,6 +22,9 @@ elseif (NOT MSVC_VERSION VERSION_GREATER 1900)
 elseif (NOT MSVC_VERSION VERSION_GREATER 1910)
   set(silo_vs_version 15.0)
   set(silo_vs_toolset v141)
+elseif (NOT MSVC_VERSION VERSION_GREATER 1930)
+  set(silo_vs_version 15.0)
+  set(silo_vs_toolset v142)
 elseif (silo_enabled)
   message(FATAL_ERROR "Unrecognized MSVC version")
 endif ()
@@ -58,6 +61,8 @@ superbuild_apply_patch(silo snprintf
   "Remove snprint redefinition for VS2015 and newer")
 superbuild_apply_patch(silo hdf5-1.10
   "Support HDF5 1.10")
+superbuild_apply_patch(silo hdf5-1.12
+  "Support HDF5 1.12 ")
 
 superbuild_add_extra_cmake_args(
   -DSILO_INCLUDE_DIR:PATH=<INSTALL_DIR>/include

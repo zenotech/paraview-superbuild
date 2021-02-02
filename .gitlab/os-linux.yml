@@ -1,0 +1,128 @@
+# Linux-specific builder configurations and build commands
+
+## Base images
+
+### CentOS
+#
+# CentOS 7 is the primary deployment platform. This gains us maximum
+# compatibility with many Linux distros while also providing easy ways to get
+# newer compilers.
+
+.centos7:
+    image: "kitware/paraview:ci-superbuild-centos7-20210113"
+
+    variables:
+        GIT_SUBMODULE_STRATEGY: none
+        LAUNCHER: "scl enable devtoolset-7 --"
+        GIT_CLONE_PATH: $CI_BUILDS_DIR/gitlab-kitware-sciviz-ci
+        CUDACXX: "/usr/local/cuda-11.2/bin/nvcc"
+
+.centos7_plain:
+    extends: .centos7
+
+    variables:
+        CMAKE_CONFIGURATION: linux_plain
+
+.centos7_egl:
+    extends: .centos7
+
+    variables:
+        CMAKE_CONFIGURATION: linux_egl
+
+.centos7_osmesa_shared:
+    extends: .centos7
+
+    variables:
+        CMAKE_CONFIGURATION: linux_osmesa_shared
+
+.centos7_osmesa_static:
+    extends: .centos7
+
+    variables:
+        CMAKE_CONFIGURATION: linux_osmesa_static
+
+.fedora33:
+    image: "kitware/paraview:ci-superbuild-fedora33-20201112"
+
+    variables:
+        GIT_SUBMODULE_STRATEGY: none
+        GIT_CLONE_PATH: $CI_BUILDS_DIR/gitlab-kitware-sciviz-ci
+
+.fedora33_plain:
+    extends: .fedora33
+
+    variables:
+        CMAKE_CONFIGURATION: linux_plain
+
+.fedora33_egl:
+    extends: .fedora33
+
+    variables:
+        CMAKE_CONFIGURATION: linux_egl
+
+## Tags
+
+.linux_builder_tags:
+    tags:
+        - build
+        - docker
+        - linux
+        - paraview
+
+.linux_test_tags:
+    tags:
+        - docker
+        - linux
+        - paraview
+        - x11
+
+## Linux-specific scripts
+
+.before_script_linux: &before_script_linux
+    - .gitlab/ci/cmake.sh
+    - .gitlab/ci/ninja.sh
+    - export PATH=$PWD/.gitlab:$PWD/.gitlab/cmake/bin:$PATH
+    - cmake --version
+    - ninja --version
+    - "git submodule update --init --recursive || :"
+    - git submodule foreach --recursive cmake -P "$PWD/.gitlab/ci/fetch_submodule.cmake"
+    - git submodule sync --recursive
+    - git submodule update --init --recursive
+
+.before_script_linux_paraview: &before_script_linux_paraview
+    - .gitlab/ci/checkout_paraview.sh
+    - export PARAVIEW_COMMIT_SHA=`git -C $CI_PROJECT_DIR/source-paraview rev-parse HEAD`
+    - export PARAVIEW_COMMIT_SHORT_SHA=`git -C $CI_PROJECT_DIR/source-paraview rev-parse --short HEAD`
+
+.cmake_build_linux:
+    stage: build
+
+    script:
+        - *before_script_linux
+        - *before_script_linux_paraview
+        - export GIT_CEILING_DIRECTORIES=$PWD
+        - .gitlab/ci/sccache.sh
+        - export CC=$PWD/.gitlab/shortcuts/gcc
+        - export CXX=$PWD/.gitlab/shortcuts/g++
+        - sccache --start-server
+        - sccache --show-stats
+        - "$LAUNCHER ctest -VV -S .gitlab/ci/ctest_configure.cmake"
+        - "$LAUNCHER ctest -VV -S .gitlab/ci/ctest_build.cmake"
+        - "$LAUNCHER ctest -V --output-on-failure -S .gitlab/ci/ctest_package.cmake"
+        - sccache --show-stats
+
+    cache:
+        key: linux
+        paths:
+            # Cache downloaded tarballs.
+            - build/downloads/
+    interruptible: true
+    timeout: 3 hours
+
+.cmake_test_linux:
+    stage: test
+
+    script:
+        - *before_script_linux
+        - "$LAUNCHER ctest --output-on-failure -V -S .gitlab/ci/ctest_test.cmake"
+    interruptible: true

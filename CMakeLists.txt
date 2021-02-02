@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.6.1)
+cmake_minimum_required(VERSION 3.12)
 
 project(paraview-superbuild)
 
@@ -10,7 +10,7 @@ macro (superbuild_setup_variables)
   if (paraview_SOURCE_SELECTION STREQUAL "git")
     # Assuming master; just use the latest version, but let the user set their
     # own version in case it is actually a branch from some other version.
-    set(PARAVIEW_VERSION_DEFAULT "5.8.0"
+    set(PARAVIEW_VERSION_DEFAULT "5.9.0"
       CACHE STRING "The default version of ParaView to use if it cannot be detected")
     mark_as_advanced(PARAVIEW_VERSION_DEFAULT)
     set(paraview_default_version "${PARAVIEW_VERSION_DEFAULT}")
@@ -32,9 +32,7 @@ function (superbuild_find_projects var)
   set(projects
     cxx11
     paraview
-    paraviewpluginsexternal
     python
-    python2
     python3)
 
   option(USE_NONFREE_COMPONENTS "Enable the non-free parts of the superbuild" OFF)
@@ -47,16 +45,21 @@ function (superbuild_find_projects var)
     cuda
     embree
     freetype
+    gdal
     hdf5
     ispc
     las
+    lookingglass
     matplotlib
     mpi
     netcdf
     nlohmannjson
     numpy
-    ospray
     openimagedenoise
+    openpmd
+    openvkl
+    ospray
+    ospraymodulempi
     paraviewweb
     paraviewwebglance
     paraviewweblite
@@ -65,15 +68,18 @@ function (superbuild_find_projects var)
     paraviewwebvisualizer
     png
     protobuf
+    pybind11
     pythonattrs
     pythonautobahn
     pythonconstantly
     pythoncycler
+    pythoncython
     pythondateutil
     pythonhyperlink
     pythonincremental
     pythonkiwisolver
     pythonmako
+    pythonpandas
     pythonpygments
     pythonpyparsing
     pythonsetuptools
@@ -85,6 +91,7 @@ function (superbuild_find_projects var)
     pythonzopeinterface
     pytz
     qt5
+    rkcommon
     silo
     szip
     tbb
@@ -101,12 +108,17 @@ function (superbuild_find_projects var)
       cosmotools
       ffi
       ffmpeg
+      fides
       fortran
+      gdal
       genericio
       lapack
       libxml2
       mili
-      scipy)
+      pkgconf
+      rapidjson
+      scipy
+      sqlite)
 
     if (NOT APPLE)
       list(APPEND projects
@@ -115,6 +127,7 @@ function (superbuild_find_projects var)
         fontconfig
         glproto
         gperf
+        launchers
         libfabric
         llvm
         mesa
@@ -199,6 +212,14 @@ function (superbuild_sanity_check)
     message(SEND_ERROR "Cannot enable OSMesa and Mesa at the same time.")
   endif ()
 
+  # Sanity check: report cases where it doesn't make any sense to enable launchers.
+  if (launchers_enabled AND NOT (mesa_enabled OR mpi_enabled))
+    message(SEND_ERROR "Launchers cannot be enabled since neither MPI or MESA is enabled.")
+  endif ()
+
+  if (launchers_enabled AND mpi_enabled AND USE_SYSTEM_mpi AND NOT mesa_enabled)
+    message(SEND_ERROR "Launchers cannot be enabled since MESA is not enabled and USE_SYSTEM_mpi is ON.")
+  endif ()
 endfunction ()
 
 function (superbuild_add_packaging)
@@ -211,12 +232,11 @@ function (superbuild_add_packaging)
       DragNDrop)
   else ()
     set(generators
-      TGZ
-      TXZ)
+      TGZ)
   endif ()
   list(GET generators 0 default_generator)
 
-  if (USE_SYSTEM_qt5)
+  if (qt5_enabled AND (USE_SYSTEM_qt5 OR APPLE OR WIN32))
     list(APPEND superbuild_export_variables
       Qt5_DIR)
     find_package(Qt5 QUIET REQUIRED COMPONENTS Core)
@@ -242,7 +262,6 @@ function (superbuild_add_packaging)
     mesa_USE_SWR
     mesa_SWR_ARCH
     nvidiaindex_SOURCE_SELECTION
-    PARAVIEW_DEFAULT_SYSTEM_GL
     PARAVIEW_PACKAGE_SUFFIX
     PARAVIEW_CATALYST_EDITION
     paraview_is_shared)
@@ -260,6 +279,17 @@ function (superbuild_add_packaging)
     list(APPEND superbuild_export_variables
       PARAVIEWSDK_PACKAGE_FILE_NAME)
   endif ()
+
+  if (zfp_enabled)
+    # ZFP will look for OpenMP and enable it if OPENMP_FOUND is set to
+    # true. Do the same here and export a variable to the packaging step
+    # if it is found.
+    find_package(OpenMP COMPONENTS C)
+    if (OPENMP_FOUND)
+      set(CMAKE_INSTALL_OPENMP_LIBRARIES 1 CACHE BOOL "Install OpenMP runtime libraries")
+      list(APPEND superbuild_export_variables CMAKE_INSTALL_OPENMP_LIBRARIES)
+    endif()
+  endif()
 
   set(paraview_PLUGINS_AUTOLOAD ""
     CACHE STRING "List of plugins to autoload")
@@ -342,8 +372,8 @@ set(_superbuild_default_cxx11 ON)
 # Enable nlohmann_json by default
 set(_superbuild_default_nlohmannjson ON)
 
-# set the default for qt5 to be 5.9
-set(_superbuild_qt5_default_selection "5.9")
+# set the default for qt5 to be 5.12
+set(_superbuild_qt5_default_selection "5.12")
 
 # Force qt SVG support, so ParaView can use SVG icons
 set(qt5_ENABLE_SVG ON CACHE INTERNAL "ParaView requires SVG support")
@@ -364,10 +394,21 @@ endif ()
 # distributions.
 set(_python_unicode_default "UCS4")
 
+# The projects end up with "errors" in their output that CDash ends up seeing
+# and thinking things went wrong.
+set(_superbuild_suppress_matplotlib_output ON)
+
 if (NOT EXISTS "${CMAKE_CURRENT_LIST_DIR}/superbuild/CMakeLists.txt")
   message(FATAL_ERROR "It appears as though the superbuild infrastructure "
                       "is missing; did you forget to do `git submodule init` "
                       "and `git submodule update`?")
 endif ()
+
+# Warn about deprecated PARAVIEW_DEFAULT_SYSTEM_GL.
+if (DEFINED PARAVIEW_DEFAULT_SYSTEM_GL)
+  message(WARNING "The 'PARAVIEW_DEFAULT_SYSTEM_GL' variable is deprecated. "
+    "Use the 'launchers' project instead.")
+  set(_superbuild_default_launchers "${PARAVIEW_DEFAULT_SYSTEM_GL}")
+endif()
 
 add_subdirectory(superbuild)

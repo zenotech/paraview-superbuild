@@ -54,9 +54,9 @@ ARG BASE_IMAGE=nvidia/opengl:1.0-glvnd-devel-ubuntu18.04
 FROM ${BASE_IMAGE}
 
 ARG RENDERING=egl
-ARG PARAVIEW_TAG=v5.8.0
-ARG SUPERBUILD_TAG=v5.8.0
-ARG PARAVIEW_VERSION_STRING=paraview-5.8
+ARG PARAVIEW_TAG=v5.9.0
+ARG SUPERBUILD_TAG=v5.9.0
+ARG PARAVIEW_VERSION_STRING=paraview-5.9
 ARG SUPERBUILD_REPO=https://gitlab.kitware.com/paraview/paraview-superbuild.git
 ARG PYTHON_VERSION=2
 ARG BUILD_TYPE=Release
@@ -80,6 +80,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         gfortran \
         git \
         libtool \
+        libxcursor-dev \
         openssl \
         pkg-config && \
     if [ "${PYTHON_VERSION}" = "2" ]; then apt-get install -y --no-install-recommends python2.7-dev python-pip python-setuptools; fi && \
