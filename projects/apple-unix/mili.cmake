@@ -62,6 +62,7 @@ superbuild_project_add_step("custom-install"
 
 if (UNIX)
   superbuild_apply_patch(mili unix-patch1 "Mili Unix patch 1")
+  superbuild_apply_patch(mili xcode-12 "Mili errors from Xcode 12")
   if (APPLE)
     # Patches derived from VisIt build
     # https://portal.nersc.gov/project/visit/releases/3.0.0/build_visit3_0_0

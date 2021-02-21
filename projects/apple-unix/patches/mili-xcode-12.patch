@@ -1,0 +1,15 @@
+diff -u -Nru5 mili-15.1/src/mili_internal.h mili-15.1.xcode-12/src/mili_internal.h
+--- mili-15.1/src/mili_internal.h	2016-07-21 14:20:22.000000000 -0400
++++ mili-15.1.xcode-12/src/mili_internal.h	2021-02-10 17:47:16.644292436 -0500
+@@ -686,10 +686,11 @@
+                                    IO_mem_store *piioms );
+ void Mset_hash_dump_( int *compress );
+ 
+ /* srec.c - routines for managing state record descriptors. */
+ Return_value commit_srecs( Mili_family *fam );
++Return_value update_static_map( Famid fam_id, State_descriptor* p_sd );
+ void delete_srecs( Mili_family *fam );
+ void delete_subrec( void *ptr_subrec );
+ Return_value list_to_blocks( int size, int *list, int **dest, int *blk_cnt );
+ Return_value load_srec_formats( Mili_family *fam );
+ Return_value build_state_map( Mili_family *fam, Bool_type initial_build );
