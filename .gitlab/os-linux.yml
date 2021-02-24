@@ -9,7 +9,7 @@
 # newer compilers.
 
 .centos7:
-    image: "kitware/paraview:ci-superbuild-centos7-20210113"
+    image: "kitware/paraview:ci-superbuild-centos7-20210223"
 
     variables:
         GIT_SUBMODULE_STRATEGY: none
@@ -42,7 +42,7 @@
         CMAKE_CONFIGURATION: linux_osmesa_static
 
 .fedora33:
-    image: "kitware/paraview:ci-superbuild-fedora33-20201112"
+    image: "kitware/paraview:ci-superbuild-fedora33-20210223"
 
     variables:
         GIT_SUBMODULE_STRATEGY: none
