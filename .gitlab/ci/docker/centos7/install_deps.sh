@@ -6,7 +6,8 @@ yum install -y \
     freeglut-devel glew-devel graphviz-devel libpng-devel \
     libxcb libxcb-devel libXt-devel xcb-util xcb-util-devel \
     libXcursor-devel mesa-libGL-devel mesa-libEGL-devel \
-    libxkbcommon-devel file mesa-dri-drivers autoconf automake libtool chrpath
+    libxkbcommon-devel libxkbcommon-x11-devel file mesa-dri-drivers autoconf \
+    automake libtool chrpath
 
 # Install EPEL
 yum install -y \
