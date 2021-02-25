@@ -240,8 +240,8 @@ superbuild_set_revision(libfabric
   URL_MD5 "c19c257856cb6e5094e73bf727e2d76c")
 
 superbuild_set_revision(protobuf
-  GIT_REPOSITORY "https://github.com/protocolbuffers/protobuf"
-  GIT_TAG v3.11.4
+  URL     "https://www.paraview.org/files/dependencies/protobuf-3.11.4.tar.gz"
+  URL_MD5 "9b649590a4b74e93024ea3a28c0d3a22"
   SOURCE_SUBDIR cmake)
 
 superbuild_set_revision(gdal
