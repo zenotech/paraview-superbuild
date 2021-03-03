@@ -80,6 +80,7 @@ macro (check_for_python_module project module)
   endif ()
 endmacro ()
 
+check_for_python_module(h5py h5py)
 check_for_python_module(matplotlib matplotlib)
 check_for_python_module(matplotlib mpl_toolkits)
 check_for_python_module(numpy numpy)

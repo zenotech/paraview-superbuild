@@ -255,3 +255,11 @@ superbuild_set_revision(launchers
 superbuild_set_revision(openpmd
   URL     "https://www.paraview.org/files/dependencies/openPMD-api-0.12.0-alpha.tar.gz"
   URL_MD5 "ada986539b4d2cc004888f161f41de85")
+
+superbuild_set_revision(pythonpkgconfig
+  URL     "https://www.paraview.org/files/dependencies/pkgconfig-1.5.2.tar.gz"
+  URL_MD5 "0d889edf670b644bfeaa3bb9444169cb")
+
+superbuild_set_revision(h5py
+  URL     "https://www.paraview.org/files/dependencies/h5py-3.2.0.tar.gz"
+  URL_MD5 "4b7ebc5d42bea9c264857a516c39ee3e")
