@@ -47,6 +47,7 @@ function (superbuild_find_projects var)
     freetype
     gdal
     hdf5
+    h5py
     ispc
     las
     lookingglass
@@ -80,6 +81,7 @@ function (superbuild_find_projects var)
     pythonkiwisolver
     pythonmako
     pythonpandas
+    pythonpkgconfig
     pythonpygments
     pythonpyparsing
     pythonsetuptools
