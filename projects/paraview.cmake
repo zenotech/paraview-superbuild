@@ -119,6 +119,14 @@ else ()
   set(paraview_build_shared_libs "${BUILD_SHARED_LIBS_paraview}")
 endif ()
 
+get_property(paraview_tbb_supported GLOBAL
+  PROPERTY superbuild_tbb_supported)
+set(paraview_tbb_dependencies)
+if (paraview_tbb_supported)
+  list(APPEND paraview_tbb_dependencies
+    tbb ospray)
+endif ()
+
 superbuild_add_project(paraview
   DEBUGGABLE
   DEFAULT_ON
@@ -126,13 +134,14 @@ superbuild_add_project(paraview
   DEPENDS_OPTIONAL
     adios2 cuda boost fortran gdal hdf5 matplotlib mpi numpy png protobuf
     python python3 qt5 visitbridge zlib silo las lookingglass fides
-    xdmf3 ospray vrpn vtkm tbb netcdf
+    xdmf3 vrpn vtkm netcdf
     openpmd
     nlohmannjson
     paraviewgettingstartedguide
     paraviewtutorialdata paraviewweb
     ${paraview_all_plugins}
     ${paraviews_platform_dependencies}
+    ${paraview_tbb_dependencies}
     ${PARAVIEW_EXTERNAL_PROJECTS}
 
   CMAKE_ARGS
