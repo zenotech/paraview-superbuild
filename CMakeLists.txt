@@ -43,7 +43,6 @@ function (superbuild_find_projects var)
     boost
     bzip2
     cuda
-    embree
     freetype
     gdal
     hdf5
@@ -56,11 +55,7 @@ function (superbuild_find_projects var)
     netcdf
     nlohmannjson
     numpy
-    openimagedenoise
     openpmd
-    openvkl
-    ospray
-    ospraymodulempi
     paraviewweb
     paraviewwebglance
     paraviewweblite
@@ -93,10 +88,8 @@ function (superbuild_find_projects var)
     pythonzopeinterface
     pytz
     qt5
-    rkcommon
     silo
     szip
-    tbb
     visitbridge
     vortexfinder2
     vrpn
@@ -104,6 +97,28 @@ function (superbuild_find_projects var)
     xdmf3
     zfp
     zlib)
+
+  # These projects only support Intel processors.
+  set(tbb_supported OFF)
+  if (CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64" OR
+      CMAKE_SYSTEM_PROCESSOR STREQUAL "AMD64")
+    set(tbb_supported ON)
+    # These are publicly available, but are behind logins or license
+    # acceptances. Rehosted internally at Kitware for build machines.
+    list(APPEND projects
+      tbb) # x86_64-only
+
+    # TBB-using projects
+    list(APPEND projects
+      embree
+      openimagedenoise
+      openvkl
+      ospray
+      ospraymodulempi
+      rkcommon)
+  endif ()
+  set_property(GLOBAL PROPERTY
+    superbuild_tbb_supported "${tbb_supported}")
 
   if (UNIX)
     list(APPEND projects
