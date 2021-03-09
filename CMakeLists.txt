@@ -96,7 +96,6 @@ function (superbuild_find_projects var)
     rkcommon
     silo
     szip
-    tbb
     visitbridge
     vortexfinder2
     vrpn
@@ -104,6 +103,15 @@ function (superbuild_find_projects var)
     xdmf3
     zfp
     zlib)
+
+  # These projects only support x86_64 processors.
+  if (CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64" OR
+      CMAKE_SYSTEM_PROCESSOR STREQUAL "AMD64")
+    # These are publicly available, but are behind logins or license
+    # acceptances. Rehosted internally at Kitware for build machines.
+    list(APPEND projects
+      tbb)
+  endif ()
 
   if (UNIX)
     list(APPEND projects
