@@ -3,6 +3,11 @@
         {
             "group": "master-packages",
             "site": "gitlab-ci",
+            "buildname": "[linux_plain]"
+        },
+        {
+            "group": "master-packages",
+            "site": "gitlab-ci",
             "buildname": "[linux_egl]"
         },
         {
