@@ -4,10 +4,15 @@
   <pqevent object="pqClientMainWindow/propertiesDock/propertiesPanel/Accept" command="activate" arguments="" />
 
   <pqevent object="pqClientMainWindow/menubar/menu_Edit" command="activate" arguments="actionQuery" />
-  <pqevent object="pqClientMainWindow/FindDataDialog/createSelectionFrame/queryClauseWidget/1QScrollArea0/qt_scrollarea_viewport/1QWidget0/queryClause0/criteria" command="set_string" arguments="Query" />
-  <pqevent object="pqClientMainWindow/FindDataDialog/createSelectionFrame/queryClauseWidget/1QScrollArea0/qt_scrollarea_viewport/1QWidget0/queryClause0/valueStackedWidget/singleValue/value" command="set_string" arguments="(id%500 &gt; 0) &amp; (id%500 &lt; 100)" />
-  <pqevent object="pqClientMainWindow/FindDataDialog/createSelectionFrame/runQuery" command="activate" arguments="" />
-  <pqevent object="pqClientMainWindow/FindDataDialog/buttonBox/1QPushButton0" command="activate" arguments="" />
+  <pqevent object="pqClientMainWindow/findDataDock/findDataScrollArea/scrollArea/qt_scrollarea_viewport/findDataWidget/container/1pqProxyWidget0/Input/1QComboBox0" command="activated" arguments="Wavelet1" />
+  <pqevent object="pqClientMainWindow/findDataDock/findDataScrollArea/scrollArea/qt_scrollarea_viewport/findDataWidget/container/1pqProxyWidget0/ElementType/ComboBox" command="activated" arguments="Cell" />
+  <pqevent object="pqClientMainWindow/findDataDock/findDataScrollArea/scrollArea/qt_scrollarea_viewport/findDataWidget/container/1pqProxyWidget0/QueryString/1QWidget0/1QComboBox1" command="activated" arguments="is &lt;=" />
+  <pqevent object="pqClientMainWindow/findDataDock/findDataScrollArea/scrollArea/qt_scrollarea_viewport/findDataWidget/container/1pqProxyWidget0/QueryString/1QWidget0/1QWidget0/value" command="set_string" arguments="100" />
+  <pqevent object="pqClientMainWindow/findDataDock/findDataScrollArea/scrollArea/qt_scrollarea_viewport/findDataWidget/container/1pqProxyWidget0/QueryString/1QPushButton0" command="activate" arguments="" />
+  <pqevent object="pqClientMainWindow/findDataDock/findDataScrollArea/scrollArea/qt_scrollarea_viewport/findDataWidget/container/1pqProxyWidget0/QueryString/1QWidget1/1QComboBox1" command="activated" arguments="is &gt;=" />
+  <pqevent object="pqClientMainWindow/findDataDock/findDataScrollArea/scrollArea/qt_scrollarea_viewport/findDataWidget/container/1pqProxyWidget0/QueryString/1QWidget1/1QWidget0/value" command="set_string" arguments="0" />
+  <pqevent object="pqClientMainWindow/findDataDock/findDataScrollArea/scrollArea/qt_scrollarea_viewport/findDataWidget/findData" command="activate" arguments="" />
+  <pqevent object="pqClientMainWindow/findDataDock/qt_dockwidget_closebutton" command="activate" arguments="" />
 
   <pqevent object="pqClientMainWindow/centralwidget/MultiViewWidget/CoreWidget/qt_tabwidget_stackedwidget/MultiViewWidget1/Container/Frame.0/actionToggleInteractionMode" command="activate" arguments="" />
   <pqevent object="pqClientMainWindow/cameraToolbar/actionNegativeX" command="activate" arguments="" />
