@@ -127,6 +127,46 @@ if (paraview_tbb_supported)
     tbb ospray)
 endif ()
 
+set(PARAVIEW_BUILD_ID "<CI>"
+  CACHE STRING "ParaView build ID")
+if (PARAVIEW_BUILD_ID STREQUAL "<CI>")
+  set(PARAVIEW_BUILD_ID "")
+  if ("$ENV{CI}" STREQUAL "true")
+    # Detect the status of this CI run.
+    set(paraview_commit_sha "$ENV{CI_COMMIT_SHA}")
+    if ("$ENV{CI_MERGE_REQUEST_IID}" STREQUAL "")
+      set(paraview_mr "")
+    else ()
+      set(paraview_mr "$ENV{CI_MERGE_REQUEST_IID}")
+    endif ()
+    if ("$ENV{CI_COMMIT_TAG}" STREQUAL "")
+      set(paraview_tag "")
+    else ()
+      set(paraview_tag "$ENV{CI_COMMIT_TAG}")
+    endif ()
+    if ("$ENV{CI_COMMIT_BRANCH}" STREQUAL "")
+      set(paraview_branch "")
+    else ()
+      set(paraview_branch "$ENV{CI_COMMIT_BRANCH}")
+    endif ()
+
+    if (paraview_mr)
+      set(PARAVIEW_BUILD_ID "superbuild ${paraview_commit_sha} (!${paraview_mr})")
+    elseif (paraview_tag)
+      set(PARAVIEW_BUILD_ID "superbuild ${paraview_commit_sha} (${paraview_tag})")
+    elseif (paraview_branch)
+      set(PARAVIEW_BUILD_ID "superbuild ${paraview_commit_sha} (${paraview_branch})")
+    else ()
+      set(PARAVIEW_BUILD_ID "superbuild ${paraview_commit_sha}")
+    endif ()
+  endif ()
+endif ()
+
+if (PARAVIEW_BUILD_ID)
+  list(APPEND paraview_extra_cmake_options
+    "-DPARAVIEW_BUILD_ID:STRING=${PARAVIEW_BUILD_ID}")
+endif ()
+
 superbuild_add_project(paraview
   DEBUGGABLE
   DEFAULT_ON
