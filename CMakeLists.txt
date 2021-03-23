@@ -136,6 +136,7 @@ function (superbuild_find_projects var)
       pkgconf
       rapidjson
       scipy
+      surfacetrackercut
       sqlite)
 
     if (NOT APPLE)
