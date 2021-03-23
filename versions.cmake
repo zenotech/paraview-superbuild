@@ -67,6 +67,7 @@ superbuild_set_revision(vortexfinder2
   URL_MD5 47d12a5103d66b5db782c43c5255b26b)
 
 superbuild_set_revision(surfacetrackercut
+  # https://github.com/conniejhe/Surface-Cutting
   URL     "https://www.paraview.org/files/dependencies/Surface-Cutting-7fc11213d828d5bce62577fe0bc3ca1dbdfc9124.zip"
   URL_MD5 b329f3cc3734d75e529573a09662982b)
 
