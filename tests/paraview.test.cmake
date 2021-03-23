@@ -206,6 +206,10 @@ if (vortexfinder2_enabled)
   paraview_add_ui_test("loadvortexfinderplugins" "LoadVortexFinderPlugins")
 endif ()
 
+if (surfacetrackercut_enabled)
+  paraview_add_ui_test("loadsurfacetrackercutplugin" "LoadSurfaceTrackerCutPlugin")
+endif ()
+
 if (vtkm_enabled)
   paraview_add_ui_test("vtkm-contour" "VTKmContour"
     --test-plugin=VTKmFilters)
