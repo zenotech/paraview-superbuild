@@ -1,0 +1,104 @@
+diff --git a/ospray/MPIOffloadDevice.cpp b/ospray/MPIOffloadDevice.cpp
+index 5c5d69a..a44372a 100644
+--- a/ospray/MPIOffloadDevice.cpp
++++ b/ospray/MPIOffloadDevice.cpp
+@@ -273,8 +273,7 @@ void MPIOffloadDevice::initializeDevice()
+   }
+ 
+   // Setup the command buffer on the app rank
+-  maxCommandBufferEntries =
+-      getParam<uint32_t>("maxCommandBufferEntries", 8192);
++  maxCommandBufferEntries = getParam<uint32_t>("maxCommandBufferEntries", 8192);
+   commandBufferSize = getParam<uint32_t>("commandBufferSize", 512) * (1 << 20);
+   maxInlineDataSize = getParam<uint32_t>("maxInlineDataSize", 32) * (1 << 20);
+ 
+diff --git a/ospray/common/OSPWork.cpp b/ospray/common/OSPWork.cpp
+index 39ebc2a..12b1140 100644
+--- a/ospray/common/OSPWork.cpp
++++ b/ospray/common/OSPWork.cpp
+@@ -58,6 +58,11 @@ size_t FrameBufferInfo::getNumPixels() const
+   return size.x * size.y;
+ }
+ 
++bool OSPState::isSharedDataHandle(int64_t handle) const
++{
++  return appSharedData.find(handle) != appSharedData.end();
++}
++
+ void newRenderer(
+     OSPState &state, networking::BufferReader &cmdBuf, networking::Fabric &)
+ {
+@@ -199,7 +204,7 @@ Data *retrieveData(OSPState &state,
+     cmdBuf.read(outputData->data(), nbytes);
+   } else {
+     // All large data is sent before the command buffer using it, and will be
+-    // in the state's data transfers list
++    // in the state's data transfers list in order by the command referencing it
+     auto data = state.dataTransfers.front();
+     state.dataTransfers.pop();
+ 
+@@ -244,6 +249,7 @@ void newSharedData(OSPState &state,
+   auto data = retrieveData(state, cmdBuf, fabric, format, numItems, nullptr);
+ 
+   state.objects[handle] = (OSPData)data;
++  state.appSharedData.insert(handle);
+ }
+ 
+ void newData(OSPState &state,
+@@ -311,8 +317,8 @@ void commit(OSPState &state,
+ 
+   // If it's a data being committed, we need to retrieve the updated data
+   ManagedObject *m = lookupObject<ManagedObject>(state.objects[handle]);
+-  Data *d = dynamic_cast<Data *>(m);
+-  if (d && d->isShared()) {
++  if (state.appSharedData.find(handle) != state.appSharedData.end()) {
++    Data *d = dynamic_cast<Data *>(m);
+     retrieveData(state, cmdBuf, fabric, d->type, d->numItems, d);
+   }
+ 
+@@ -334,12 +340,17 @@ void release(
+     if (fnd != state.framebuffers.end()) {
+       OSPObject obj = state.objects[handle];
+       ManagedObject *m = lookupDistributedObject<ManagedObject>(obj);
++      // TODO: Should also do this release count check for other objects?
+       if (m->useCount() == 1) {
+         ospRelease(state.objects[handle]);
+         state.framebuffers.erase(fnd);
+       }
+     }
+   }
++
++  if (state.appSharedData.find(handle) != state.appSharedData.end()) {
++    state.appSharedData.erase(handle);
++  }
+ }
+ 
+ void retain(
+diff --git a/ospray/common/OSPWork.h b/ospray/common/OSPWork.h
+index e19c572..19143a4 100644
+--- a/ospray/common/OSPWork.h
++++ b/ospray/common/OSPWork.h
+@@ -92,6 +92,8 @@ struct FrameBufferInfo
+ struct OSPState
+ {
+   std::unordered_map<int64_t, OSPObject> objects;
++  // Data objects that are conceptually "shared" by the application
++  std::set<int64_t> appSharedData;
+ 
+   std::unordered_map<int64_t, FrameBufferInfo> framebuffers;
+ 
+@@ -99,11 +101,14 @@ struct OSPState
+   // prior to sending the command buffer
+   std::queue<Data *> dataTransfers;
+ 
++
+   template <typename T>
+   T getObject(int64_t handle)
+   {
+     return reinterpret_cast<T>(objects[handle]);
+   }
++
++  bool isSharedDataHandle(int64_t handle) const;
+ };
+ 
+ void dispatchWork(TAG t,
