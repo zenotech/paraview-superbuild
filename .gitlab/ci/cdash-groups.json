@@ -3,6 +3,11 @@
         {
             "group": "release-packages",
             "site": "gitlab-ci",
+            "buildname": "[linux_plain]"
+        },
+        {
+            "group": "release-packages",
+            "site": "gitlab-ci",
             "buildname": "[linux_egl]"
         },
         {
