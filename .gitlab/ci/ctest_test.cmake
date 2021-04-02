@@ -14,6 +14,9 @@ set(test_exclusions
   "cpack-"
   # https://gitlab.kitware.com/paraview/paraview/-/issues/20061
   "paraview-pvweb-visualizer"
+
+  # Waiting for https://gitlab.kitware.com/paraview/paraview-superbuild/-/merge_requests/842
+  "pvweb"
 )
 string(REPLACE ";" "|" test_exclusions "${test_exclusions}")
 if (test_exclusions)
