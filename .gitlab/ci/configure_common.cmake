@@ -74,6 +74,7 @@ set(SUPPRESS_pythonzopeinterface_OUTPUT ON CACHE BOOL "")
 set(SUPPRESS_qt5_OUTPUT                 ON CACHE BOOL "")
 set(SUPPRESS_scipy_OUTPUT               ON CACHE BOOL "")
 set(SUPPRESS_silo_OUTPUT                ON CACHE BOOL "")
+set(SUPPRESS_szip_OUTPUT                ON CACHE BOOL "")
 
 set(paraview_SOURCE_SELECTION           "source" CACHE STRING "")
 file(TO_CMAKE_PATH "$ENV{CI_PROJECT_DIR}/source-paraview" paraview_source_dir)
