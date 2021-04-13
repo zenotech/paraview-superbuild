@@ -115,7 +115,7 @@ if (launchers_enabled AND mpi_built_by_superbuild)
   endforeach ()
 endif()
 
-if (nvidiaindex_enabled)
+if (nvidiaindex_enabled AND NOT APPLE)
   set(nvidiaindex_libraries
     dice
     nvindex

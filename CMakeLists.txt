@@ -57,6 +57,7 @@ function (superbuild_find_projects var)
     netcdf
     nlohmannjson
     numpy
+    nvidiaindex
     openmp
     openpmd
     paraviewweb
@@ -199,11 +200,6 @@ function (superbuild_find_projects var)
       openvr
       pywin32
       zeromq)
-  endif ()
-
-  if (WIN32 OR (UNIX AND NOT APPLE))
-    list(APPEND projects
-      nvidiaindex)
   endif ()
 
   set("${var}"
