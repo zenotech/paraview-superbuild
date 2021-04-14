@@ -184,6 +184,7 @@ superbuild_add_project(paraview
     python3 qt5 visitbridge zlib silo las lookingglass fides
     xdmf3 vrpn vtkm netcdf
     openpmd
+    openvdb
     nlohmannjson
     paraviewgettingstartedguide
     paraviewtutorialdata paraviewweb
@@ -266,6 +267,9 @@ superbuild_add_project(paraview
 
     # ParFlow
     -DPARAVIEW_PLUGIN_ENABLE_ParFlow:BOOL=${nlohmannjson_enabled}
+
+    # OpenVDB (not in ParaView v5.9.1 but in master)
+    -DPARAVIEW_ENABLE_OPENVDB:BOOL=${openvdb_enabled}
 
     ${paraview_extra_cmake_options}
 
