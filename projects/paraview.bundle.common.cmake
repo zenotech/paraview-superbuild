@@ -51,6 +51,11 @@ if (vrpn_enabled)
     vrpn_server)
 endif()
 
+if (ospraymodulempi_enabled)
+  list(APPEND other_executables
+    ospray_mpi_worker)
+endif()
+
 set(python_modules
   cinema_python
   pygments
