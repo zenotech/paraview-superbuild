@@ -131,7 +131,7 @@ if (nvidiaindex_enabled)
     nvindex
     nvrtc-builtins)
 
-  if (nvidiaindex_SOURCE_SELECTION STREQUAL "5.9")
+  if (nvidiaindex_SOURCE_SELECTION VERSION_GREATER_EQUAL "5.9")
     list(APPEND nvidiaindex_libraries nvindex_builtins)
   endif ()
 
