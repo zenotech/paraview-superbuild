@@ -66,16 +66,6 @@ if (EXISTS "${superbuild_install_location}/bin/paraview.conf")
     COMPONENT   "superbuild")
 endif ()
 
-foreach (paraview_plugin IN LISTS paraview_plugins)
-  superbuild_unix_install_plugin("${paraview_plugin}.so"
-    "lib"
-    "${paraview_plugin_path}/${paraview_plugin}"
-    LOADER_PATHS    "${library_paths}"
-    INCLUDE_REGEXES ${include_regexes}
-    EXCLUDE_REGEXES ${exclude_regexes}
-    LOCATION        "${paraview_plugin_path}/${paraview_plugin}/")
-endforeach ()
-
 set(plugins_file "${CMAKE_CURRENT_BINARY_DIR}/paraview.plugins.xml")
 paraview_add_plugin("${plugins_file}" ${paraview_plugins})
 
@@ -277,6 +267,19 @@ foreach (qt5_plugin_path IN LISTS qt5_plugin_paths)
     LOADER_PATHS    "${library_paths}"
     INCLUDE_REGEXES ${include_regexes}
     EXCLUDE_REGEXES ${exclude_regexes})
+endforeach ()
+
+# install paraview plugins.
+# see discussion on paraview/paraview-superbuild!865 for why this delayed
+# until the end.
+foreach (paraview_plugin IN LISTS paraview_plugins)
+  superbuild_unix_install_plugin("${paraview_plugin}.so"
+    "lib"
+    "${paraview_plugin_path}/${paraview_plugin}"
+    LOADER_PATHS    "${library_paths}"
+    INCLUDE_REGEXES ${include_regexes}
+    EXCLUDE_REGEXES ${exclude_regexes}
+    LOCATION        "${paraview_plugin_path}/${paraview_plugin}/")
 endforeach ()
 
 paraview_install_extra_data()
