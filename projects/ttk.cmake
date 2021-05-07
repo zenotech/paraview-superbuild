@@ -137,6 +137,7 @@ superbuild_add_project(ttk
     -DTTK_ENABLE_OPENMP:BOOL=${OPENMP_FOUND}
     -DTTK_ENABLE_ZFP:BOOL=${zfp_enabled}
     -DTTK_ENABLE_EIGEN:BOOL=${eigen_enabled}
+    -DTTK_ENABLE_EMBREE:BOOL=${embree_enabled}
 
     -DTTK_WHITELIST_MODE:BOOL=TRUE
     ${TTK_CORE_FILTER_LIST}

@@ -2,6 +2,10 @@ superbuild_set_revision(expat
   URL     "https://www.paraview.org/files/dependencies/expat-2.2.9.tar.bz2"
   URL_MD5 875a2c2ff3e8eb9e5a5cd62db2033ab5)
 
+superbuild_set_revision(eigen
+  GIT_REPOSITORY  "https://gitlab.com/libeigen/eigen.git"
+  GIT_TAG         "3.3.9")
+
 superbuild_set_revision(llvm
   URL     "https://www.paraview.org/files/dependencies/llvm-7.0.0.src.tar.xz"
   URL_MD5 e0140354db83cdeb8668531b431398f0)
