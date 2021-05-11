@@ -3,8 +3,8 @@ superbuild_set_revision(expat
   URL_MD5 875a2c2ff3e8eb9e5a5cd62db2033ab5)
 
 superbuild_set_revision(eigen
-  GIT_REPOSITORY  "https://gitlab.com/libeigen/eigen.git"
-  GIT_TAG         "3.3.9")
+  URL     "https://www.paraview.org/files/dependencies/eigen-3.3.9.tar.xz"
+  URL_MD5 c57578fd48359af3f214bac3239d7c80)
 
 superbuild_set_revision(llvm
   URL     "https://www.paraview.org/files/dependencies/llvm-7.0.0.src.tar.xz"
@@ -54,8 +54,8 @@ superbuild_set_selectable_source(paraview
     SOURCE_DIR "source-paraview")
 
 superbuild_set_revision(ttk
-  GIT_REPOSITORY "https://github.com/topology-tool-kit/ttk"
-  GIT_TAG "5eaff1ac31fe9f238238ae7b7945fd2fdf4c7dab")
+  URL     "https://www.paraview.org/files/dependencies/ttk-dev-20210510-g5eaff1ac3.tar.xz"
+  URL_MD5 274bf63aed0017a86053194d888dc841)
 
 superbuild_set_revision(vrpn
   # https://github.com/vrpn/vrpn.git
