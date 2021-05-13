@@ -47,7 +47,7 @@ set(USE_SYSTEM_zlib       ON CACHE BOOL "")
 
 # ParaView details
 set(SUPERBUILD_PROJECT_PARALLELISM 32 CACHE STRING "")
-set(paraview_SOURCE_SELECTION 5.4.0 CACHE BOOL "")
+set(paraview_SOURCE_SELECTION 5.4.0 CACHE STRING "")
 
 # Specify where the necessary tarballs have been downloaded to
 set(superbuild_download_location ${CMAKE_BINARY_DIR}/../../downloads CACHE STRING "")
