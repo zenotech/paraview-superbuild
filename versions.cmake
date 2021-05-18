@@ -156,10 +156,12 @@ if (WIN32)
   set(nvidiaindex_2_3_md5 "f7374dfe3eec789b07957e4924fa029f")
   set(nvidiaindex_2_4_md5 "a11b9056683c52efe9f1d706e2926235")
   set(nvidiaindex_5_9_md5 "a778def725f20f7151778f684b19211b")
+  set(nvidiaindex_5_9_1_md5 "4a2e39ca0820d6d342347b8f1c198f9e")
 elseif (UNIX AND NOT APPLE)
   if (CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "ppc64le")
     set(nvidiaindex_platform "linux-ppc64le")
     set(nvidiaindex_5_9_md5 "a6f1aa8847c3eeeceacec41bd98838ca")
+    set(nvidiaindex_5_9_1_md5 "cb538a85c7a0b280f7cd05530b0205b5")
   else ()
     set(nvidiaindex_platform "linux")
     set(nvidiaindex_2_1_md5 "9fd5af702af6a6a6f2aba3a960703fb3")
@@ -167,12 +169,16 @@ elseif (UNIX AND NOT APPLE)
     set(nvidiaindex_2_3_md5 "9c57d22f065f2ac7c978e6e6e06ebb69")
     set(nvidiaindex_2_4_md5 "39bb55a5bb5f8ba1e8f44fa68dc703d3")
     set(nvidiaindex_5_9_md5 "32599d5298a43ee9d4497886b79bdd65")
+    set(nvidiaindex_5_9_1_md5 "23b5a9044bfeac812ed76cf5b3e8a35b")
   endif ()
 endif ()
 superbuild_set_selectable_source(nvidiaindex
   # XXX(index): Adding a new version? The Windows bundle script needs to know
   # too (nvrtc-builtins).
-  SELECT 5.9 DEFAULT
+  SELECT 5.9.1 DEFAULT
+    URL     "https://www.paraview.org/files/dependencies/nvidia-index-libs-5.9.20210503-${nvidiaindex_platform}.tar.bz2"
+    URL_MD5 "${nvidiaindex_5_9_1_md5}"
+  SELECT 5.9
     URL     "https://www.paraview.org/files/dependencies/nvidia-index-libs-5.9.20201204-${nvidiaindex_platform}.tar.bz2"
     URL_MD5 "${nvidiaindex_5_9_md5}"
   SELECT 2.4
