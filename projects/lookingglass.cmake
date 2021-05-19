@@ -1,3 +1,8 @@
+if (lookingglass_enabled AND CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "arm64")
+  message(FATAL_ERROR
+    "LookingGlass does not support non-x86_64 processors yet")
+endif ()
+
 superbuild_add_project(lookingglass
   CONFIGURE_COMMAND
     ""
