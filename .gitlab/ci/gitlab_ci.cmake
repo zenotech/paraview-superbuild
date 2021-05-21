@@ -38,8 +38,8 @@ endif()
 
 # add information about ParaView revision being built to the build name
 # as it's hard to figure that out otherwise.
-if (DEFINED "ENV{PARAVIEW_COMMIT_SHORT_SHA}")
-  set(build_name_prefix "${build_name_prefix}paraview-$ENV{PARAVIEW_COMMIT_SHORT_SHA}-")
+if (NOT "$ENV{PARAVIEW_COMMIT_SHORT_SHA}" STREQUAL "")
+  string(APPEND build_name_prefix "paraview-$ENV{PARAVIEW_COMMIT_SHORT_SHA}-")
 endif()
 
 set(CTEST_BUILD_NAME "$ENV{CI_PROJECT_NAME}-${build_name_prefix}[$ENV{CMAKE_CONFIGURATION}]")

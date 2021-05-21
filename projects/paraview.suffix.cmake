@@ -42,18 +42,8 @@ if (WIN32 AND MSVC)
   endif()
 endif()
 
-# XXX(package): Temporary as the transition to the CentOS6 builder takes place.
-if (ENV{HOSTNAME} STREQUAL "pvbinsdash")
-  list(APPEND package_suffix_items
-    "el6")
-endif ()
-if (superbuild_is_64bit)
-  list(APPEND package_suffix_items
-    "64bit")
-else ()
-  list(APPEND package_suffix_items
-    "32bit")
-endif()
+list(APPEND package_suffix_items
+  "${CMAKE_SYSTEM_PROCESSOR}")
 
 string(REPLACE ";" "-" package_suffix_default "${package_suffix_items}")
 
