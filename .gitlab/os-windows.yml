@@ -5,7 +5,7 @@
 .windows:
     variables:
         GIT_SUBMODULE_STRATEGY: none
-        GIT_CLONE_PATH: "$CI_BUILDS_DIR\\cmb-ci-ext\\$CI_CONCURRENT_ID"
+        GIT_CLONE_PATH: "$CI_BUILDS_DIR\\paraview-ci-ext\\$CI_CONCURRENT_ID"
 
 ### Build and test
 
