@@ -23,11 +23,18 @@
         # could run at the same time, so we drop it.
         GIT_CLONE_PATH: "$CI_BUILDS_DIR/paraview-ci"
 
-.macos_plain:
+.macos_arm64:
     extends: .macos_build
 
     variables:
-        CMAKE_CONFIGURATION: macos_plain
+        CMAKE_CONFIGURATION: macos_arm64
+        NO_FORTRAN: 1
+
+.macos_x86_64:
+    extends: .macos_build
+
+    variables:
+        CMAKE_CONFIGURATION: macos_x86_64
 
 ## Tags
 
@@ -35,6 +42,15 @@
     tags:
         - paraview
         - macos
+        - shell
+        - xcode-12.4
+        - nonconcurrent
+        - finder
+
+.macos_arm64_builder_tags:
+    tags:
+        - paraview
+        - macos-arm64
         - shell
         - xcode-12.4
         - nonconcurrent
@@ -48,17 +64,25 @@
         - xcode-12.4
         - nonconcurrent
 
+.macos_arm64_builder_tags_test:
+    tags:
+        - paraview
+        - macos-arm64
+        - shell
+        - xcode-12.4
+        - nonconcurrent
+
 ## macOS-specific scripts
 
 .before_script_macos: &before_script_macos
     - .gitlab/ci/cmake.sh
     - .gitlab/ci/ninja.sh
-    - .gitlab/ci/gfortran.sh
+    - '[ -z "$NO_FORTRAN" ] && .gitlab/ci/gfortran.sh'
     # Make sure gfortran is last to avoid the gcc/g++ it ships with from interfering.
     - export PATH=$PWD/.gitlab:$PWD/.gitlab/cmake/bin:$PATH:$PWD/.gitlab/gfortran/bin
     - cmake --version
     - ninja --version
-    - gfortran --version
+    - '[ -z "$NO_FORTRAN" ] && gfortran --version'
     # Download Qt
     - cmake -P .gitlab/ci/download_qt.cmake
     - export CMAKE_PREFIX_PATH=$PWD/.gitlab/qt
