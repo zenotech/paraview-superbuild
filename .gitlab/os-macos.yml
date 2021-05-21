@@ -28,7 +28,6 @@
 
     variables:
         CMAKE_CONFIGURATION: macos_plain
-        CTEST_NO_WARNINGS_ALLOWED: 1
 
 ## Tags
 
