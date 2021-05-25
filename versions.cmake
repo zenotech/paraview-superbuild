@@ -96,12 +96,8 @@ superbuild_set_revision(openvkl
   URL_MD5 05f21b2f2445693e54e45a84f42abe7e)
 
 superbuild_set_revision(ospray
-  URL     "https://www.paraview.org/files/dependencies/ospray-v2.4.0.tar.gz"
-  URL_MD5 8e6537b0dacb08fffb0778663e617886)
-
-superbuild_set_revision(ospraymodulempi
-  URL     "https://www.paraview.org/files/dependencies/ospraymodulempi-v2.4.0.tar.gz"
-  URL_MD5 1f8f2214c09f539de88004e47bce22bd)
+  URL     "https://www.paraview.org/files/dependencies/ospray-v2.6.0.tar.gz"
+  URL_MD5 5c3e9b7e10e35881e5bcf0acdab29869)
 
 superbuild_set_revision(ospraymaterials
   URL     "https://www.paraview.org/files/data/OSPRayMaterials-0.3.tar.gz"
