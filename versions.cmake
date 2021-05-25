@@ -112,8 +112,8 @@ superbuild_set_revision(openimagedenoise
   URL_MD5 501b787a5e2fcaf2dfd8a39d47ee03dd)
 
 superbuild_set_revision(rkcommon
-  URL     "https://www.paraview.org/files/dependencies/rkcommon-v1.5.1.tar.gz"
-  URL_MD5 61f55e4d0d8efd48c8bc308bf5b4ee1f)
+  URL     "https://www.paraview.org/files/dependencies/rkcommon-v1.6.1.tar.gz"
+  URL_MD5 dcda8b31c175abb82cee72eecceb8f39)
 
 superbuild_set_revision(openvr
   URL     "https://www.paraview.org/files/dependencies/openvr_1.14.15_win_thin.zip"
