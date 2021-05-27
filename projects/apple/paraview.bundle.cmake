@@ -43,7 +43,9 @@ endif ()
 set(additional_libraries)
 if (ospray_enabled)
   set(osprayextra_libraries
-    openvkl_module_ispc_driver
+    openvkl_module_cpu_device_4
+    openvkl_module_cpu_device_8
+    openvkl_module_cpu_device_16
     ospray_module_denoiser
     ospray_module_ispc
     ospray_module_mpi

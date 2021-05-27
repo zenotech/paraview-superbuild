@@ -206,7 +206,7 @@ build:windows-vs2019-mpi:
         - .cmake_build_artifacts
         - .windows_builder_tags
         - .run_manually
-    timeout: 2 hours
+    timeout: 150 minutes
 
 test:windows-vs2019-mpi:
     extends:
@@ -240,7 +240,7 @@ build:windows-vs2019-nompi:
         - .cmake_build_artifacts
         - .windows_builder_tags
         - .run_manually
-    timeout: 2 hours
+    timeout: 150 minutes
 
 test:windows-vs2019-nompi:
     extends:

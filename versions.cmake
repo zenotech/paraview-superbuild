@@ -92,16 +92,12 @@ superbuild_set_revision(embree
   URL_MD5 f0db3c7029467fdc6d29709cb85fc607)
 
 superbuild_set_revision(openvkl
-  URL     "https://www.paraview.org/files/dependencies/openvkl-v0.11.0.tar.gz"
-  URL_MD5 252980f79c3097599b2d8e643f9c5b8f)
+  URL     "https://www.paraview.org/files/dependencies/openvkl-v0.13.0.tar.gz"
+  URL_MD5 05f21b2f2445693e54e45a84f42abe7e)
 
 superbuild_set_revision(ospray
-  URL     "https://www.paraview.org/files/dependencies/ospray-v2.4.0.tar.gz"
-  URL_MD5 8e6537b0dacb08fffb0778663e617886)
-
-superbuild_set_revision(ospraymodulempi
-  URL     "https://www.paraview.org/files/dependencies/ospraymodulempi-v2.4.0.tar.gz"
-  URL_MD5 1f8f2214c09f539de88004e47bce22bd)
+  URL     "https://www.paraview.org/files/dependencies/ospray-v2.6.0.tar.gz"
+  URL_MD5 5c3e9b7e10e35881e5bcf0acdab29869)
 
 superbuild_set_revision(ospraymaterials
   URL     "https://www.paraview.org/files/data/OSPRayMaterials-0.3.tar.gz"
@@ -112,8 +108,8 @@ superbuild_set_revision(openimagedenoise
   URL_MD5 501b787a5e2fcaf2dfd8a39d47ee03dd)
 
 superbuild_set_revision(rkcommon
-  URL     "https://www.paraview.org/files/dependencies/rkcommon-v1.5.1.tar.gz"
-  URL_MD5 61f55e4d0d8efd48c8bc308bf5b4ee1f)
+  URL     "https://www.paraview.org/files/dependencies/rkcommon-v1.6.1.tar.gz"
+  URL_MD5 dcda8b31c175abb82cee72eecceb8f39)
 
 superbuild_set_revision(openvr
   URL     "https://www.paraview.org/files/dependencies/openvr_1.14.15_win_thin.zip"
