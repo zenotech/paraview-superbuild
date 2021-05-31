@@ -39,7 +39,6 @@ superbuild_add_project(silo
       -P ${CMAKE_CURRENT_LIST_DIR}/scripts/silo.configure.cmake
   BUILD_COMMAND
     "${CMAKE_COMMAND}"
-      -Dsuperbuild_is_64bit:BOOL=${superbuild_is_64bit}
       -Dsource_location:PATH=<SOURCE_DIR>
       -Dinstall_location:PATH=<INSTALL_DIR>
       -DMSBUILD_PATH:FILEPATH=${MSBUILD_PATH}
@@ -48,7 +47,6 @@ superbuild_add_project(silo
       -P ${CMAKE_CURRENT_LIST_DIR}/scripts/silo.build.cmake
   INSTALL_COMMAND
     "${CMAKE_COMMAND}"
-      -Dsuperbuild_is_64bit:BOOL=${superbuild_is_64bit}
       -Dsource_location:PATH=<SOURCE_DIR>
       -Dinstall_location:PATH=<INSTALL_DIR>
       -P ${CMAKE_CURRENT_LIST_DIR}/scripts/silo.install.cmake)
