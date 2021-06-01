@@ -164,34 +164,65 @@ test:linux-osmesa-static:
 
 ## Normal build
 
-build:macos-plain:
+build:macos-arm64:
     extends:
-        - .macos_plain
+        - .macos_arm64
+        - .cmake_build_macos
+        - .cmake_build_artifacts
+        - .macos_arm64_builder_tags
+        - .run_manually
+
+test:macos-arm64:
+    extends:
+        - .macos_arm64
+        - .cmake_test_macos
+        - .cmake_package_artifacts
+        - .macos_arm64_builder_tags_test
+        - .run_automatically
+    dependencies:
+        - build:macos-arm64
+    needs:
+        - build:macos-arm64
+
+upload:macos-arm64:
+    extends:
+        - .rsync_upload
+        - .upload_only
+    dependencies:
+        - test:macos-arm64
+    needs:
+        - test:macos-arm64
+    variables:
+        RSYNC_DESTINATION: paraview_nightly_bin
+
+build:macos-x86_64:
+    extends:
+        - .macos_x86_64
         - .cmake_build_macos
         - .cmake_build_artifacts
         - .macos_builder_tags
         - .run_manually
 
-test:macos-plain:
+test:macos-x86_64:
     extends:
-        - .macos_plain
+        - .macos_x86_64
         - .cmake_test_macos
         - .cmake_package_artifacts
         - .macos_builder_tags_test
         - .run_automatically
     dependencies:
-        - build:macos-plain
+        - build:macos-x86_64
     needs:
-        - build:macos-plain
+        - build:macos-x86_64
 
-upload:macos-plain:
+upload:macos-x86_64:
     extends:
         - .rsync_upload
         - .upload_only
     dependencies:
-        - test:macos-plain
+        - test:macos-x86_64
     needs:
-        - test:macos-plain
+        - test:macos-x86_64
     variables:
         RSYNC_DESTINATION: paraview_nightly_bin
 
