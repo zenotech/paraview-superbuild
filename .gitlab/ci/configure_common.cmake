@@ -78,9 +78,13 @@ set(SUPPRESS_qt5_OUTPUT                 ON CACHE BOOL "")
 set(SUPPRESS_scipy_OUTPUT               ON CACHE BOOL "")
 set(SUPPRESS_silo_OUTPUT                ON CACHE BOOL "")
 
-set(paraview_SOURCE_SELECTION           "source" CACHE STRING "")
-file(TO_CMAKE_PATH "$ENV{CI_PROJECT_DIR}/source-paraview" paraview_source_dir)
-set(paraview_SOURCE_DIR                 "${paraview_source_dir}" CACHE PATH "")
+if ("$ENV{CI_COMMIT_TITLE}" MATCHES "^paraview: add release v\(.*\)$")
+  set(paraview_SOURCE_SELECTION           "${CMAKE_MATCH_1}" CACHE STRING "")
+else ()
+  set(paraview_SOURCE_SELECTION           "source" CACHE STRING "")
+  file(TO_CMAKE_PATH "$ENV{CI_PROJECT_DIR}/source-paraview" paraview_source_dir)
+  set(paraview_SOURCE_DIR                 "${paraview_source_dir}" CACHE PATH "")
+endif ()
 
 # Default to Release builds.
 if ("$ENV{CMAKE_BUILD_TYPE}" STREQUAL "")
