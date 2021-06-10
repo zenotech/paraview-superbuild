@@ -223,6 +223,14 @@ superbuild_set_revision(mili
   URL     "https://www.paraview.org/files/dependencies/mili-15.1.tar.gz"
   URL_MD5 "8848db9a5e692c010806d64b8c5e46a4")
 
+superbuild_set_revision(zstd
+  URL     "https://www.paraview.org/files/dependencies/zstd-1.5.0.tar.gz"
+  URL_MD5 "d5ac89d5df9e81243ce40d0c6a66691d")
+
+superbuild_set_revision(blosc
+  URL     "https://www.paraview.org/files/dependencies/blosc-1.21.0.tar.gz"
+  URL_MD5 "c32104bef76e5636cf0cedb40fd4d77b")
+
 superbuild_set_revision(zfp
   URL     "https://www.paraview.org/files/dependencies/zfp-0.5.5.tar.gz"
   URL_MD5 "bc7e5fb1cd4345d17f7b9d470a1f23e7")
