@@ -75,9 +75,11 @@ function (paraview_add_python_test name script)
   paraview_add_test("${name}" "${pvpython_exe}"
     "${CMAKE_CURRENT_LIST_DIR}/python/${script}.py")
   # check for exceptions and tracebacks during python execution
-  set_tests_properties(paraview-${name} PROPERTIES
-    FAIL_REGULAR_EXPRESSION "${python_exception_regex}"
-  )
+  if (TEST "paraview-${name}")
+    set_tests_properties("paraview-${name}" PROPERTIES
+      FAIL_REGULAR_EXPRESSION "${python_exception_regex}"
+    )
+endif ()
 endfunction ()
 
 function (paraview_add_pvbatch_test name script)
