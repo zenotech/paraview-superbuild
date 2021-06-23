@@ -234,7 +234,7 @@ if (mpi_built_by_superbuild)
   endforeach ()
 endif ()
 
-if (mpi_enabled) # Catalyst is built if MPI is available.
+if (NOT paraview_version_patch_extra) # If we're building some non-release
   set(adaptors
     "catalyst.so.2")
 
@@ -242,6 +242,20 @@ if (mpi_enabled) # Catalyst is built if MPI is available.
     superbuild_unix_install_module("${superbuild_install_location}/lib/lib${adaptor}"
       "lib"
       "lib"
+      HAS_SYMLINKS
+      LOADER_PATHS    "${library_paths}"
+      INCLUDE_REGEXES ${include_regexes}
+      EXCLUDE_REGEXES ${exclude_regexes})
+  endforeach ()
+else ()
+  set(adaptors
+    "paraview"
+    "stub")
+
+  foreach (adaptor IN LISTS adaptors)
+    superbuild_unix_install_module("${superbuild_install_location}/lib/catalyst/libcatalyst-${adaptor}.so"
+      "lib"
+      "lib/catalyst"
       HAS_SYMLINKS
       LOADER_PATHS    "${library_paths}"
       INCLUDE_REGEXES ${include_regexes}
