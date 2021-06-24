@@ -61,10 +61,10 @@ if (USE_NONFREE_COMPONENTS AND (WIN32 OR (UNIX AND NOT APPLE)))
     visrtx)
 endif ()
 
-set(PARAVIEW_USE_PYTHON ${python_enabled})
+set(paraview_use_python ${python_enabled})
 if (python_enabled AND
     (python3_enabled AND USE_SYSTEM_python3 AND NOT python3_FIND_LIBRARIES))
-  set(PARAVIEW_USE_PYTHON OFF)
+  set(paraview_use_python OFF)
 endif()
 
 if (expat_enabled)
@@ -212,7 +212,7 @@ superbuild_add_project(paraview
     -DPARAVIEW_PYTHON_VERSION:STRING=${python_version}
     -DPARAVIEW_USE_MPI:BOOL=${mpi_enabled}
     -DPARAVIEW_USE_FORTRAN:BOOL=${fortran_enabled}
-    -DPARAVIEW_USE_PYTHON:BOOL=${PARAVIEW_USE_PYTHON}
+    -DPARAVIEW_USE_PYTHON:BOOL=${paraview_use_python}
     -DPARAVIEW_USE_QT:BOOL=${qt5_enabled}
     -DVISIT_BUILD_READER_Mili:BOOL=${mili_enabled}
     -DVISIT_BUILD_READER_Silo:BOOL=${silo_enabled}
