@@ -234,7 +234,7 @@ if (mpi_built_by_superbuild)
   endforeach ()
 endif ()
 
-if (NOT paraview_version_patch_extra) # If we're building some non-release
+if (EXISTS "${superbuild_install_location}/lib/libcatalyst.so.2")
   set(adaptors
     "catalyst.so.2")
 
