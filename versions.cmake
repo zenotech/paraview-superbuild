@@ -112,8 +112,8 @@ superbuild_set_revision(rkcommon
   URL_MD5 dcda8b31c175abb82cee72eecceb8f39)
 
 superbuild_set_revision(openvr
-  URL     "https://www.paraview.org/files/dependencies/openvr_1.14.15_win_thin.zip"
-  URL_MD5 7de59dee80edad6ce89df1913c6356e8)
+  URL     "https://www.paraview.org/files/dependencies/openvr_1.14.15_win_thin.tar.gz"
+  URL_MD5 200a7896e81ecc981825dded25ae568d)
 
 superbuild_set_revision(paraviewwebvisualizer
   URL     "https://www.paraview.org/files/dependencies/pvw-visualizer-3.2.0.tgz"
