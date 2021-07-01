@@ -188,7 +188,8 @@ function (superbuild_find_projects var)
     list(APPEND projects
       ftjam
       openvr
-      pywin32)
+      pywin32
+      zeromq)
   endif ()
 
   if (WIN32 OR (UNIX AND NOT APPLE))
