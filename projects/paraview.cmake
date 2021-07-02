@@ -53,7 +53,7 @@ endif ()
 
 if (WIN32)
   list(APPEND paraviews_platform_dependencies
-    openvr)
+    openvr zeromq)
 endif ()
 
 if (USE_NONFREE_COMPONENTS AND (WIN32 OR (UNIX AND NOT APPLE)))
@@ -167,6 +167,12 @@ if (PARAVIEW_BUILD_ID)
     "-DPARAVIEW_BUILD_ID:STRING=${PARAVIEW_BUILD_ID}")
 endif ()
 
+if (openvr_enabled AND zeromq_enabled)
+  set(paraview_openvr_collaboration_enabled TRUE)
+else()
+  set(paraview_openvr_collaboration_enabled FALSE)
+endif()
+
 superbuild_add_project(paraview
   DEBUGGABLE
   DEFAULT_ON
@@ -217,6 +223,7 @@ superbuild_add_project(paraview
     -DVISIT_BUILD_READER_Mili:BOOL=${mili_enabled}
     -DVISIT_BUILD_READER_Silo:BOOL=${silo_enabled}
     -DVTK_DEFAULT_RENDER_WINDOW_OFFSCREEN:BOOL=${osmesa_enabled}
+    -DVTK_ENABLE_OPENVR_COLLABORATION:BOOL=${paraview_openvr_collaboration_enabled}
     -DVTK_MODULE_USE_EXTERNAL_ParaView_protobuf:BOOL=${protobuf_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_expat:BOOL=${expat_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_freetype:BOOL=${freetype_enabled}

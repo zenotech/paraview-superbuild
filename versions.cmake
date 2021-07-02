@@ -227,6 +227,10 @@ superbuild_set_revision(zfp
   URL     "https://www.paraview.org/files/dependencies/zfp-0.5.5.tar.gz"
   URL_MD5 "bc7e5fb1cd4345d17f7b9d470a1f23e7")
 
+superbuild_set_revision(zeromq
+  URL     "https://www.paraview.org/files/dependencies/zeromq-4.3.4.tar.gz"
+  URL_MD5 "c897d4005a3f0b8276b00b7921412379")
+
 superbuild_set_selectable_source(adios2
   SELECT v2.6.0 DEFAULT
     URL     "https://www.paraview.org/files/dependencies/adios-v2.6.0.tar.gz"
