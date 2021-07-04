@@ -44,6 +44,7 @@ build:linux-plain:
         - .cmake_build_artifacts
         - .linux_builder_tags
         - .run_manually
+    timeout: 3 hours
 
 test:linux-plain:
     extends:
@@ -77,6 +78,7 @@ build:linux-egl:
         - .cmake_build_artifacts
         - .linux_builder_tags
         - .run_manually
+    timeout: 3 hours
 
 test:linux-egl:
     extends:
@@ -111,6 +113,7 @@ build:linux-osmesa-shared:
         - .cmake_build_artifacts
         - .linux_builder_tags
         - .run_manually
+    timeout: 3 hours
 
 test:linux-osmesa-shared:
     extends:
@@ -147,6 +150,7 @@ build:linux-osmesa-static:
         - .cmake_build_artifacts
         - .linux_builder_tags
         - .run_manually
+    timeout: 3 hours
 
 test:linux-osmesa-static:
     extends:
