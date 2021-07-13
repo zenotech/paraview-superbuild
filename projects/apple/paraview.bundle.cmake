@@ -43,6 +43,7 @@ endif ()
 set(additional_libraries)
 if (ospray_enabled)
   set(osprayextra_libraries
+    openvkl_module_cpu_device
     openvkl_module_cpu_device_4
     openvkl_module_cpu_device_8
     openvkl_module_cpu_device_16
