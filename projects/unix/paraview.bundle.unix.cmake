@@ -143,9 +143,9 @@ endif ()
 
 if (ospray_enabled)
   set(osprayextra_libraries
-    libopenvkl_module_cpu_device_4
-    libopenvkl_module_cpu_device_8
-    libopenvkl_module_cpu_device_16
+    openvkl_module_cpu_device_4
+    openvkl_module_cpu_device_8
+    openvkl_module_cpu_device_16
     ospray_module_denoiser
     ospray_module_ispc
     ospray_module_mpi
