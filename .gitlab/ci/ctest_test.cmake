@@ -14,6 +14,9 @@ if (NOT "$ENV{CTEST_MAX_PARALLELISM}" STREQUAL "")
   endif ()
 endif ()
 
+# Default to a reasonable test timeout.
+set(CTEST_TEST_TIMEOUT 100)
+
 set(test_exclusions
   # exclude package generation tests
   "cpack-"
