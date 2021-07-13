@@ -31,19 +31,10 @@ if (test_exclusions)
   set(test_exclusions "(${test_exclusions})")
 endif ()
 
-# Windows seems to have some spurious error that isn't "seen" by Process
-# Monitor or other debugging tools. Just try tests until they pass.
-set(retry_args)
-if ("$ENV{CMAKE_CONFIGURATION}" MATCHES "windows")
-  list(APPEND retry_args
-    REPEAT UNTIL_PASS:3)
-endif ()
-
 ctest_test(APPEND
   PARALLEL_LEVEL "${nproc}"
   RETURN_VALUE test_result
-  EXCLUDE "${test_exclusions}"
-  ${retry_args})
+  EXCLUDE "${test_exclusions}")
 ctest_submit(PARTS Test)
 
 if (test_result)
