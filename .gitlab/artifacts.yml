@@ -4,6 +4,9 @@
     artifacts:
         expire_in: 1d
         when: always
+        reports:
+            junit:
+                - build/junit-package.xml
         paths:
             # The artifacts for debugging
             - build/CMakeCache.txt
@@ -39,6 +42,9 @@
         expire_in: 4d
         # Tests failing should still upload the artifact for further testing.
         when: always
+        reports:
+            junit:
+                - build/junit.xml
         paths:
             - build/ParaView-*.exe
             - build/ParaView-*.tar.*

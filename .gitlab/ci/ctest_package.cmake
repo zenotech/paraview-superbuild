@@ -8,7 +8,8 @@ ctest_start(APPEND)
 
 ctest_test(
   RETURN_VALUE test_result
-  INCLUDE "cpack-")
+  INCLUDE "cpack-"
+  OUTPUT_JUNIT "${CTEST_BINARY_DIRECTORY}/junit-package.xml")
 
 ctest_submit(PARTS Test)
 
