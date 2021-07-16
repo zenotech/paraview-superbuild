@@ -54,8 +54,8 @@ superbuild_set_selectable_source(paraview
     SOURCE_DIR "source-paraview")
 
 superbuild_set_revision(ttk
-  URL     "https://www.paraview.org/files/dependencies/ttk-dev-20210510-g5eaff1ac3.tar.xz"
-  URL_MD5 274bf63aed0017a86053194d888dc841)
+  URL     "https://www.paraview.org/files/dependencies/ttk-0.9.10-graphviz-fixes.zip"
+  URL_MD5 0154338fbffa92927ecadf6350ae67c7)
 
 superbuild_set_revision(vrpn
   # https://github.com/vrpn/vrpn.git

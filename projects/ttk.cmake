@@ -102,7 +102,9 @@ list(APPEND TTK_CORE_FILTER_LIST
   -DVTK_MODULE_ENABLE_ttkCinemaProductReader=YES
   -DVTK_MODULE_ENABLE_ttkCinemaDarkroom=YES
 )
-if (embree_enabled)
+if (embree_enabled AND NOT WIN32)
+  # TODO: reactivate this filter on windows:
+  # For now, missing embree2/rtcore.h
   list(APPEND TTK_CORE_FILTER_LIST
     -DVTK_MODULE_ENABLE_ttkCinemaImaging=YES
   )
@@ -134,10 +136,10 @@ superbuild_add_project(ttk
 
     -DTTK_ENABLE_KAMIKAZE:BOOL=TRUE
     -DTTK_ENABLE_DOUBLE_TEMPLATING:BOOL=ON
-    -DTTK_ENABLE_OPENMP:BOOL=${OPENMP_FOUND}
-    -DTTK_ENABLE_ZFP:BOOL=${zfp_enabled}
     -DTTK_ENABLE_EIGEN:BOOL=${eigen_enabled}
     -DTTK_ENABLE_EMBREE:BOOL=${embree_enabled}
+    -DTTK_ENABLE_OPENMP:BOOL=${OPENMP_FOUND}
+    -DTTK_ENABLE_ZFP:BOOL=${zfp_enabled}
 
     -DTTK_WHITELIST_MODE:BOOL=TRUE
     ${TTK_CORE_FILTER_LIST}
