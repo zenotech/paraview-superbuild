@@ -17,12 +17,12 @@ endif()
 superbuild_add_project(adios2
   CAN_USE_SYSTEM
   DEPENDS
-    cxx11 zfp ${adios2_extra_deps}
+    cxx11 ${adios2_extra_deps}
     # currently adios 2.6 unconditionally needs Python
     # even if Python wrapping is disabled.
     python3
   DEPENDS_OPTIONAL
-    mpi
+    mpi blosc zfp png
   CMAKE_ARGS
     -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
     -DCMAKE_INSTALL_LIBDIR:STRING=lib
@@ -30,13 +30,13 @@ superbuild_add_project(adios2
     -DBUILD_TESTING:BOOL=OFF
     -DADIOS2_BUILD_EXAMPLES:BOOL=OFF
     -DADIOS2_USE_BZip2:STRING=OFF
-    -DADIOS2_USE_Blosc:STRING=OFF
+    -DADIOS2_USE_Blosc:STRING=${blosc_enabled}
     -DADIOS2_USE_DataMan:STRING=OFF
     -DADIOS2_USE_Fortran:STRING=OFF
     -DADIOS2_USE_HDF5:STRING=OFF
     -DADIOS2_USE_MGARD:STRING=OFF
     -DADIOS2_USE_MPI:STRING=${mpi_enabled}
-    -DADIOS2_USE_PNG:STRING=OFF
+    -DADIOS2_USE_PNG:STRING=${png_enabled}
     -DADIOS2_USE_Profiling:STRING=OFF
     -DADIOS2_USE_Python:STRING=OFF
     -DADIOS2_USE_SSC:STRING=ON

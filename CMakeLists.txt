@@ -40,6 +40,7 @@ function (superbuild_find_projects var)
 
   list(APPEND projects
     adios2
+    blosc
     boost
     bzip2
     cuda
@@ -103,7 +104,8 @@ function (superbuild_find_projects var)
     vtkm
     xdmf3
     zfp
-    zlib)
+    zlib
+    zstd)
 
   # These projects only support Intel processors.
   set(tbb_supported OFF)
