@@ -7,6 +7,14 @@
 # core modules
 set(TTK_CORE_FILTER_LIST)
 
+if (UNIX)
+  find_package(OpenMP COMPONENTS CXX)
+  set(TTK_ENABLE_OPENMP ${OpenMP_CXX_FOUND})
+else ()
+  # no openmp on windows because too old
+  set(TTK_ENABLE_OPENMP FALSE)
+endif()
+
 list(APPEND TTK_CORE_FILTER_LIST
   -DVTK_MODULE_ENABLE_ttkAlgorithm=YES
   -DVTK_MODULE_ENABLE_ttkTriangulationAlgorithm=YES
@@ -99,16 +107,10 @@ list(APPEND TTK_CORE_FILTER_LIST
   -DVTK_MODULE_ENABLE_ttkCinemaReader=YES
   -DVTK_MODULE_ENABLE_ttkCinemaWriter=YES
   -DVTK_MODULE_ENABLE_ttkCinemaQuery=YES
+  -DVTK_MODULE_ENABLE_ttkCinemaImaging=YES
   -DVTK_MODULE_ENABLE_ttkCinemaProductReader=YES
   -DVTK_MODULE_ENABLE_ttkCinemaDarkroom=YES
 )
-if (embree_enabled AND NOT WIN32)
-  # TODO: reactivate this filter on windows:
-  # For now, missing embree2/rtcore.h
-  list(APPEND TTK_CORE_FILTER_LIST
-    -DVTK_MODULE_ENABLE_ttkCinemaImaging=YES
-  )
-endif()
 
 # compression
 list(APPEND TTK_CORE_FILTER_LIST
@@ -121,24 +123,36 @@ foreach(TTK_MODULE IN LISTS TTK_CUSTOM_FILTERS)
   list(APPEND TTK_CORE_FILTER_LIST -DVTK_MODULE_ENABLE_${TTK_MODULE}=YES)
 endforeach()
 
+# install location
+if(UNIX)
+  set(TTK_INSTALL_PLUGIN_DIR "lib/paraview-${paraview_version}/plugins/")
+else()
+  # windows
+  set(TTK_INSTALL_PLUGIN_DIR "bin/paraview-${paraview_version}/plugins/")
+endif()
+
+
 # Build
 # -----
 
+# TODO: enable embree, for now
+# there is a missing embree3/rtcore.h
 superbuild_add_project(ttk
   DEPENDS paraview boost cxx11
-  DEPENDS_OPTIONAL zlib embree python numpy scipy zfp eigen
+  DEPENDS_OPTIONAL zlib python numpy scipy zfp eigen
   CMAKE_ARGS
     -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
     -DTTK_BUILD_STANDALONE_APPS:BOOL=FALSE
     -DCMAKE_INSTALL_LIBDIR:PATH=lib
     -DCMAKE_INSTALL_RPATH:PATH=lib
-    -DTTK_INSTALL_PLUGIN_DIR:PATH=lib/paraview-${paraview_version}/plugins/
+    -DTTK_INSTALL_PLUGIN_DIR:PATH=${TTK_INSTALL_PLUGIN_DIR}
 
     -DTTK_ENABLE_KAMIKAZE:BOOL=TRUE
+    -DTTK_ENABLE_CPU_OPTIMIZATION:BOOL=FALSE
     -DTTK_ENABLE_DOUBLE_TEMPLATING:BOOL=ON
+    -DTTK_ENABLE_EMBREE:BOOL=NO
+    -DTTK_ENABLE_OPENMP:BOOL=${TTK_ENABLE_OPENMP}
     -DTTK_ENABLE_EIGEN:BOOL=${eigen_enabled}
-    -DTTK_ENABLE_EMBREE:BOOL=${embree_enabled}
-    -DTTK_ENABLE_OPENMP:BOOL=${OPENMP_FOUND}
     -DTTK_ENABLE_ZFP:BOOL=${zfp_enabled}
 
     -DTTK_WHITELIST_MODE:BOOL=TRUE
