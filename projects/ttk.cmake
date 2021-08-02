@@ -12,6 +12,7 @@ if (UNIX)
   set(TTK_ENABLE_OPENMP ${OpenMP_CXX_FOUND})
 else ()
   # no openmp on windows because too old
+  # msvc provides OpenMP 2 while TTK requires at least 3.1 (atomic capture)
   set(TTK_ENABLE_OPENMP FALSE)
 endif()
 
@@ -94,8 +95,6 @@ list(APPEND TTK_CORE_FILTER_LIST
   -DVTK_MODULE_ENABLE_ttkPersistenceDiagramClustering=YES
 )
 
-# higher dimensions
-
 # ensemble
 list(APPEND TTK_CORE_FILTER_LIST
   -DVTK_MODULE_ENABLE_ttkMandatoryCriticalPoints=YES
@@ -130,7 +129,6 @@ else()
   # windows
   set(TTK_INSTALL_PLUGIN_DIR "bin/paraview-${paraview_version}/plugins/")
 endif()
-
 
 # Build
 # -----
