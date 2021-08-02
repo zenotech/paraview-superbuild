@@ -2,6 +2,10 @@ superbuild_set_revision(expat
   URL     "https://www.paraview.org/files/dependencies/expat-2.2.9.tar.bz2"
   URL_MD5 875a2c2ff3e8eb9e5a5cd62db2033ab5)
 
+superbuild_set_revision(eigen
+  URL     "https://www.paraview.org/files/dependencies/eigen-3.3.9.tar.xz"
+  URL_MD5 c57578fd48359af3f214bac3239d7c80)
+
 superbuild_set_revision(llvm
   URL     "https://www.paraview.org/files/dependencies/llvm-7.0.0.src.tar.xz"
   URL_MD5 e0140354db83cdeb8668531b431398f0)
@@ -48,6 +52,10 @@ superbuild_set_selectable_source(paraview
     GIT_TAG        "origin/master"
   SELECT source CUSTOMIZABLE
     SOURCE_DIR "source-paraview")
+
+superbuild_set_revision(ttk
+  URL     "https://www.paraview.org/files/dependencies/ttk-0.9.10-graphviz-fixes.zip"
+  URL_MD5 0154338fbffa92927ecadf6350ae67c7)
 
 superbuild_set_revision(vrpn
   # https://github.com/vrpn/vrpn.git

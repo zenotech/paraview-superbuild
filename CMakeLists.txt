@@ -44,6 +44,7 @@ function (superbuild_find_projects var)
     boost
     bzip2
     cuda
+    eigen
     freetype
     gdal
     hdf5
@@ -98,6 +99,7 @@ function (superbuild_find_projects var)
     qt5
     silo
     szip
+    ttk
     visitbridge
     vortexfinder2
     vrpn

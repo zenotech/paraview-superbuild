@@ -178,7 +178,7 @@ superbuild_add_project(paraview
   DEFAULT_ON
   DEPENDS cxx11
   DEPENDS_OPTIONAL
-    adios2 cuda boost fortran gdal hdf5 matplotlib mpi numpy png protobuf
+    adios2 cuda boost eigen fortran gdal hdf5 matplotlib mpi numpy png protobuf
     python python3 qt5 visitbridge zlib silo las lookingglass fides
     xdmf3 vrpn vtkm netcdf
     openpmd
@@ -224,6 +224,7 @@ superbuild_add_project(paraview
     -DVISIT_BUILD_READER_Silo:BOOL=${silo_enabled}
     -DVTK_DEFAULT_RENDER_WINDOW_OFFSCREEN:BOOL=${osmesa_enabled}
     -DVTK_ENABLE_OPENVR_COLLABORATION:BOOL=${paraview_openvr_collaboration_enabled}
+    -DVTK_MODULE_USE_EXTERNAL_VTK_eigen=${eigen_enabled}
     -DVTK_MODULE_USE_EXTERNAL_ParaView_protobuf:BOOL=${protobuf_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_expat:BOOL=${expat_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_freetype:BOOL=${freetype_enabled}

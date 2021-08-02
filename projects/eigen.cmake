@@ -1,0 +1,6 @@
+superbuild_add_project(eigen
+  CAN_USE_SYSTEM
+  DEPENDS boost
+  CMAKE_ARGS
+    -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
+    -DBUILD_TESTING:BOOL=OFF)
