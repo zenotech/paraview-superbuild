@@ -1,4 +1,4 @@
-# the TTK_CUSTOM_FILTERS is a semicolon separeted list of filters
+# the ttk_CUSTOM_FILTERS is a semicolon separeted list of filters
 # specifed by the user and containing additional TTK filters to build
 
 # Modules
@@ -109,9 +109,10 @@ list(APPEND TTK_CORE_FILTER_LIST
 )
 
 # user defined modules
-foreach(TTK_MODULE IN LISTS TTK_CUSTOM_FILTERS)
-  list(APPEND TTK_CORE_FILTER_LIST -DVTK_MODULE_ENABLE_${TTK_MODULE}=YES)
-endforeach()
+foreach (ttk_module IN LISTS ttk_CUSTOM_FILTERS)
+  list(APPEND TTK_CORE_FILTER_LIST
+    "-DVTK_MODULE_ENABLE_${ttk_module}=YES")
+endforeach ()
 
 # install location
 if(UNIX)
