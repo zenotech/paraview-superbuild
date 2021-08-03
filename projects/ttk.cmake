@@ -95,7 +95,7 @@ endif()
 set(ttk_module_settings)
 foreach (ttk_module IN LISTS ttk_enabled_modules ttk_CUSTOM_FILTERS)
   list(APPEND ttk_module_settings
-    "-DVTK_MODULE_ENABLE_${ttk_module}=YES")
+    "-DVTK_MODULE_ENABLE_${ttk_module}:STRING=YES")
 endforeach ()
 
 # install location
