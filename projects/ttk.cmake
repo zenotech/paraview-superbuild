@@ -7,15 +7,6 @@
 # core modules
 set(TTK_CORE_FILTER_LIST)
 
-if (UNIX)
-  find_package(OpenMP COMPONENTS CXX)
-  set(TTK_ENABLE_OPENMP ${OpenMP_CXX_FOUND})
-else ()
-  # no openmp on windows because too old
-  # msvc provides OpenMP 2 while TTK requires at least 3.1 (atomic capture)
-  set(TTK_ENABLE_OPENMP FALSE)
-endif()
-
 list(APPEND TTK_CORE_FILTER_LIST
   -DVTK_MODULE_ENABLE_ttkAlgorithm=YES
   -DVTK_MODULE_ENABLE_ttkTriangulationAlgorithm=YES
@@ -137,7 +128,7 @@ endif()
 # there is a missing embree3/rtcore.h
 superbuild_add_project(ttk
   DEPENDS paraview boost cxx11
-  DEPENDS_OPTIONAL zlib python numpy scipy zfp eigen
+  DEPENDS_OPTIONAL zlib python numpy scipy zfp eigen openmp
   CMAKE_ARGS
     -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
     -DTTK_BUILD_STANDALONE_APPS:BOOL=FALSE
@@ -149,7 +140,7 @@ superbuild_add_project(ttk
     -DTTK_ENABLE_CPU_OPTIMIZATION:BOOL=FALSE
     -DTTK_ENABLE_DOUBLE_TEMPLATING:BOOL=ON
     -DTTK_ENABLE_EMBREE:BOOL=NO
-    -DTTK_ENABLE_OPENMP:BOOL=${TTK_ENABLE_OPENMP}
+    -DTTK_ENABLE_OPENMP:BOOL=${openmp_enabled}
     -DTTK_ENABLE_EIGEN:BOOL=${eigen_enabled}
     -DTTK_ENABLE_ZFP:BOOL=${zfp_enabled}
 
