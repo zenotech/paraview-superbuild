@@ -57,6 +57,7 @@ function (superbuild_find_projects var)
     netcdf
     nlohmannjson
     numpy
+    openmp
     openpmd
     paraviewweb
     paraviewwebglance
