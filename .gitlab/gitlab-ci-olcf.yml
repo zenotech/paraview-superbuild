@@ -1,3 +1,7 @@
+# gitlab ci script for ParaView testing on login1.ascent.olcf.ornl.gov
+# a training system for summit.olcf.ornl.gov
+# Pipelines for the gitlab-ci are found at
+# https://code.ornl.gov/ecpcitest/paraview/-/pipelines
 stages:
   - init
   - build
