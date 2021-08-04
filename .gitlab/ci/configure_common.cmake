@@ -40,7 +40,7 @@ set(ENABLE_silo                     ON CACHE BOOL "")
 set(ENABLE_surfacetrackercut        ON CACHE BOOL "")
 set(ENABLE_szip                     ON CACHE BOOL "")
 set(ENABLE_tbb                      ON CACHE BOOL "")
-set(ENABLE_ttk                      OFF CACHE BOOL "")
+set(ENABLE_ttk                      ON CACHE BOOL "")
 set(ENABLE_visitbridge              ON CACHE BOOL "")
 # needs cuda
 set(ENABLE_visrtx                   OFF CACHE BOOL "")
