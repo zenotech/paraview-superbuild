@@ -70,21 +70,25 @@ function (superbuild_find_projects var)
     pybind11
     pythonattrs
     pythonautobahn
+    pythonbeniget
     pythoncffi
     pythonconstantly
     pythoncryptography
     pythoncycler
     pythoncython
     pythondateutil
+    pythongast
     pythonhyperlink
     pythonincremental
     pythonkiwisolver
     pythonmako
     pythonpandas
     pythonpkgconfig
+    pythonply
     pythonpycparser
     pythonpygments
     pythonpyparsing
+    pythonpythran
     pythonsemanticversion
     pythonsetuptools
     pythonsetuptoolsrust
