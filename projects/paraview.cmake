@@ -83,6 +83,9 @@ endif()
 
 option(PARAVIEW_ENABLE_MOTIONFX "Enable MotionFX reader, if supported on platform" ON)
 mark_as_advanced(PARAVIEW_ENABLE_MOTIONFX)
+if (NOT PARAVIEW_BUILD_EDITION STREQUAL "CANONICAL")
+  set(PARAVIEW_ENABLE_MOTIONFX OFF)
+endif ()
 
 option(PARAVIEW_ENABLE_VRPLUGIN "Enable VRPlugin" ON)
 mark_as_advanced(PARAVIEW_ENABLE_VRPLUGIN)
