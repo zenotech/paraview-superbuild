@@ -84,6 +84,10 @@
     - export PATH=$PWD/.gitlab:$PWD/.gitlab/cmake/bin:$PATH
     - cmake --version
     - ninja --version
+    # `git submodule foreach` does not consider submodules that have not been
+    # initialized. So here, we initialize what we can and ignore failure so
+    # that we can set up submodules properly later.
+    - "git submodule update --init --recursive || :"
     - git submodule foreach --recursive cmake -P "$PWD/.gitlab/ci/fetch_submodule.cmake"
     - git submodule sync --recursive
     - git submodule update --init --recursive
