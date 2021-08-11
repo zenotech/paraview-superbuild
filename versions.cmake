@@ -281,5 +281,5 @@ superbuild_set_revision(pythonpkgconfig
   URL_MD5 "12523e11b91b050ca49975cc033689a4")
 
 superbuild_set_revision(h5py
-  URL     "https://www.paraview.org/files/dependencies/h5py-3.2.0.tar.gz"
-  URL_MD5 "4b7ebc5d42bea9c264857a516c39ee3e")
+  URL     "https://www.paraview.org/files/dependencies/h5py-3.3.0.tar.gz"
+  URL_MD5 "2f83b8afd70ad59d3bb69c0d0b7d61b1")
