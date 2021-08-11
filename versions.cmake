@@ -152,8 +152,8 @@ superbuild_set_revision(lookingglass
   URL_MD5 b435316fa1f8454ba180e72608c3c28f)
 
 superbuild_set_revision(gmsh
-  URL     "https://www.paraview.org/files/dependencies/gmsh-gmsh_4_7_0.tar.gz"
-  URL_MD5 b0fdb396065e1c73849da572235536ed)
+  URL     "https://www.paraview.org/files/dependencies/gmsh-4.8.4-source.tgz"
+  URL_MD5 1e7212dfb1319d745ffb477a7a3ff124)
 
 if (WIN32)
   set(nvidiaindex_platform "windows-x64")
