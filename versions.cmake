@@ -82,17 +82,17 @@ superbuild_set_revision(socat
   URL_MD5 780d14908dc1a6aa2790de376ab56b7a)
 
 if (WIN32)
-  set(ispc_suffix "-windows.zip")
-  set(ispc_md5 ad96f833c1429a292c40c4f4821985fe)
+  set(ispc_suffix "windows.zip")
+  set(ispc_md5 22d1e9fd03427b8e8a9d75ce56cfa495)
 elseif (APPLE)
-  set(ispc_suffix "-macOS.tar.gz")
-  set(ispc_md5 c856ed3af19b948e83f4277b1a19766f)
+  set(ispc_suffix "macOS.tar.gz")
+  set(ispc_md5 0ae980be5d319b38592c6ef5596c305d)
 else()
-  set(ispc_suffix "-linux.tar.gz")
-  set(ispc_md5 7ce4350f079c7eb8a1ce9d9908f5d85d)
+  set(ispc_suffix "linux.tar.gz")
+  set(ispc_md5 4665c577541003e31c8ce0afd64b6952)
 endif()
 superbuild_set_revision(ispc
-  URL     "https://www.paraview.org/files/dependencies/ispc-v1.14.1${ispc_suffix}"
+  URL     "https://www.paraview.org/files/dependencies/ispc-v1.16.1-${ispc_suffix}"
   URL_MD5 "${ispc_md5}")
 
 superbuild_set_revision(embree
