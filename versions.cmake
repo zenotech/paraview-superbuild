@@ -78,8 +78,8 @@ superbuild_set_revision(surfacetrackercut
 #------------------------------------------------------------------------------
 
 superbuild_set_revision(socat
-  URL     "https://www.paraview.org/files/dependencies/socat-1.7.3.1.tar.bz2"
-  URL_MD5 334e46924f2b386299c9db2ac22bcd36)
+  URL     "https://www.paraview.org/files/dependencies/socat-1.7.4.1.tar.gz"
+  URL_MD5 780d14908dc1a6aa2790de376ab56b7a)
 
 if (WIN32)
   set(ispc_suffix "-windows.zip")
