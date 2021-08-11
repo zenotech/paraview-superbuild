@@ -1,6 +1,6 @@
 superbuild_set_revision(expat
-  URL     "https://www.paraview.org/files/dependencies/expat-2.2.9.tar.bz2"
-  URL_MD5 875a2c2ff3e8eb9e5a5cd62db2033ab5)
+  URL     "https://www.paraview.org/files/dependencies/expat-2.4.1.tar.xz"
+  URL_MD5 a4fb91a9441bcaec576d4c4a56fa3aa6)
 
 superbuild_set_revision(eigen
   URL     "https://www.paraview.org/files/dependencies/eigen-3.3.9.tar.xz"
