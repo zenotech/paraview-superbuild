@@ -23,3 +23,9 @@ superbuild_add_project(openpmd
     # so that libopenPMD can be found correctly at runtime.
     -DCMAKE_INSTALL_RPATH_USE_LINK_PATH:BOOL=TRUE
     )
+
+# For some reason, CMake 3.19 cannot find `Development.Module` without
+# `Development` also being specified. The version number doesn't seem to get
+# extracted which trips up later version checks.
+superbuild_apply_patch(openpmd find-python-components
+  "request the full Development Python component")
