@@ -13,14 +13,4 @@ superbuild_add_dummy_project(paraviewweb
     paraviewwebflow
     paraviewwebdivvy
     pythonwslink
-    pythonautobahn
-    pythonconstantly
-    pythonhyperlink
-    pythonincremental
-    pythonsetuptools
-    pythonsix
-    pythontwisted
-    pythontxaio
-    pythonwslink
-    pythonzopeinterface
     ${paraviewweb_depends})
