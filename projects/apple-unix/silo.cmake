@@ -65,5 +65,7 @@ endif ()
 
 if (hdf5_enabled)
   superbuild_apply_patch(silo hdf5-1.12
-    "Support HDF5 1.12 ")
+    "Support HDF5 1.12")
+  superbuild_apply_patch(silo hdf5-api-updates
+    "Support HDF5 API updates")
 endif()

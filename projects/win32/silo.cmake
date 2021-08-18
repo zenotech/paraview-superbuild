@@ -60,7 +60,9 @@ superbuild_apply_patch(silo snprintf
 superbuild_apply_patch(silo hdf5-1.10
   "Support HDF5 1.10")
 superbuild_apply_patch(silo hdf5-1.12
-  "Support HDF5 1.12 ")
+  "Support HDF5 1.12")
+superbuild_apply_patch(silo hdf5-api-updates
+  "Support HDF5 API updates")
 
 superbuild_add_extra_cmake_args(
   -DSILO_INCLUDE_DIR:PATH=<INSTALL_DIR>/include
