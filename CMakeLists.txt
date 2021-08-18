@@ -32,7 +32,6 @@ function (superbuild_find_projects var)
   set(projects
     cxx11
     paraview
-    python
     python3)
 
   option(USE_NONFREE_COMPONENTS "Enable the non-free parts of the superbuild" OFF)
@@ -51,6 +50,7 @@ function (superbuild_find_projects var)
     h5py
     ispc
     las
+    libjpegturbo
     lookingglass
     matplotlib
     mpi
@@ -69,20 +69,27 @@ function (superbuild_find_projects var)
     png
     protobuf
     pybind11
+    pythonaiohttp
+    pythonasynctimeout
     pythonattrs
     pythonautobahn
     pythonbeniget
     pythoncffi
+    pythonchardet
     pythonconstantly
+    pythoncppy
     pythoncryptography
     pythoncycler
     pythoncython
     pythondateutil
     pythongast
     pythonhyperlink
+    pythonidna
     pythonincremental
     pythonkiwisolver
     pythonmako
+    pythonmultidict
+    pythonpillow
     pythonpandas
     pythonpkgconfig
     pythonply
@@ -90,6 +97,7 @@ function (superbuild_find_projects var)
     pythonpygments
     pythonpyparsing
     pythonpythran
+    pythonpywebvue
     pythonsemanticversion
     pythonsetuptools
     pythonsetuptoolsrust
@@ -98,10 +106,15 @@ function (superbuild_find_projects var)
     pythontoml
     pythontwisted
     pythontxaio
+    pythontypingextensions
+    pythonwheel
     pythonwslink
+    pythonwslinkasync
+    pythonyarl
     pythonzope
     pythonzopeinterface
     pytz
+    qhull
     qt5
     silo
     szip
@@ -197,7 +210,6 @@ function (superbuild_find_projects var)
 
   if (WIN32)
     list(APPEND projects
-      ftjam
       openvr
       pywin32
       zeromq)

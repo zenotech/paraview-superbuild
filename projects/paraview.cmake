@@ -61,9 +61,8 @@ if (USE_NONFREE_COMPONENTS AND (WIN32 OR (UNIX AND NOT APPLE)))
     visrtx)
 endif ()
 
-set(paraview_use_python ${python_enabled})
-if (python_enabled AND
-    (python3_enabled AND USE_SYSTEM_python3 AND NOT python3_FIND_LIBRARIES))
+set(paraview_use_python ${python3_enabled})
+if (python3_enabled AND USE_SYSTEM_python3 AND NOT python3_FIND_LIBRARIES)
   set(paraview_use_python OFF)
 endif()
 
@@ -182,7 +181,7 @@ superbuild_add_project(paraview
   DEPENDS cxx11
   DEPENDS_OPTIONAL
     adios2 cuda boost eigen fortran gdal hdf5 matplotlib mpi numpy png protobuf
-    python python3 qt5 visitbridge zlib silo las lookingglass fides
+    python3 qt5 visitbridge zlib silo las lookingglass fides
     xdmf3 vrpn vtkm netcdf
     openpmd
     nlohmannjson
@@ -218,7 +217,7 @@ superbuild_add_project(paraview
     -DPARAVIEW_PLUGIN_ENABLE_OpenVR:BOOL=${openvr_enabled}
     # No netcdftime module in the package.
     -DPARAVIEW_PLUGIN_ENABLE_NetCDFTimeAnnotationPlugin:BOOL=OFF
-    -DPARAVIEW_PYTHON_VERSION:STRING=${python_version}
+    -DPARAVIEW_PYTHON_VERSION:STRING=3
     -DPARAVIEW_USE_MPI:BOOL=${mpi_enabled}
     -DPARAVIEW_USE_FORTRAN:BOOL=${fortran_enabled}
     -DPARAVIEW_USE_PYTHON:BOOL=${paraview_use_python}

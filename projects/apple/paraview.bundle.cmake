@@ -121,7 +121,7 @@ if (qt5_enabled)
     COMPONENT   superbuild)
 endif ()
 
-if (python_enabled)
+if (python3_enabled)
   if (python3_built_by_superbuild)
     include(python3.functions)
     superbuild_install_superbuild_python3(

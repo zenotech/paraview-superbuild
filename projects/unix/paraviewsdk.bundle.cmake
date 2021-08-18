@@ -85,7 +85,7 @@ foreach (cmake_file IN LISTS cmake_files)
 endforeach ()
 list(REMOVE_DUPLICATES libraries_referenced_by_cmake)
 
-if (python_enabled)
+if (python3_enabled)
   # Now grab extra python SOs
   file(GLOB_RECURSE paraview_python_modules
     "${real_superbuild_install_location}/lib/python${superbuild_python_version}/site-packages/*${CMAKE_SHARED_MODULE_SUFFIX}")

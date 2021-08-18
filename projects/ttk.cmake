@@ -113,7 +113,7 @@ endif()
 # there is a missing embree3/rtcore.h
 superbuild_add_project(ttk
   DEPENDS paraview boost cxx11
-  DEPENDS_OPTIONAL zlib python numpy scipy zfp eigen openmp
+  DEPENDS_OPTIONAL zlib python3 numpy scipy zfp eigen openmp
   CMAKE_ARGS
     -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
     -DTTK_BUILD_STANDALONE_APPS:BOOL=FALSE

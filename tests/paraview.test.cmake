@@ -36,7 +36,7 @@ if (NOT qt5_enabled)
   set(paraview_exe)
 endif ()
 
-if (NOT python_enabled)
+if (NOT python3_enabled)
   set(pvpython_exe)
   set(pvbatch_exe)
 endif ()
@@ -129,7 +129,7 @@ if (matplotlib_enabled)
   paraview_add_python_test("import-matplotlib" "import_matplotlib")
 endif ()
 
-if (mpi_enabled AND python_enabled)
+if (mpi_enabled AND python3_enabled)
   paraview_add_python_test("import-mpi4py" "import_mpi4py")
 endif ()
 
@@ -171,7 +171,7 @@ paraview_add_test("version-server" "${pvserver_exe}"
 paraview_add_test("version-client" "${paraview_exe}"
   "--version")
 
-if (mesa_enabled AND python_enabled)
+if (mesa_enabled AND python3_enabled)
   set(mesa_llvm_arg)
   set(mesa_swr_arg)
   if (launchers_enabled)
