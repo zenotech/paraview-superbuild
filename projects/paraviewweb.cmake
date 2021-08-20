@@ -10,7 +10,6 @@ superbuild_add_dummy_project(paraviewweb
     paraviewwebglance
     paraviewweblite
     paraviewwebvisualizer
-    paraviewwebflow
     paraviewwebdivvy
     pythonpywebvue
     ${paraviewweb_depends})
