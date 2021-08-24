@@ -1,8 +1,3 @@
-if (APPLE)
-  message(FATAL_ERROR
-    "NVIDIA IndeX is not supported on macOS.")
-endif ()
-
 if (superbuild_build_phase AND "x${CMAKE_CXX_COMPILER_ID}" STREQUAL "xMSVC")
   if (MSVC_VERSION VERSION_LESS 1800 OR NOT MSVC_VERSION VERSION_LESS 2000)
     message(FATAL_ERROR
