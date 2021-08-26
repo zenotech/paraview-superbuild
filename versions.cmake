@@ -1,3 +1,20 @@
+# Using Intel Threading Building Blocks 2018 Update 2
+set(tbb_ver_paraview "2019_20190410oss")
+if (WIN32)
+  set(tbb_file "tbb${tbb_ver_paraview}_win.zip")
+  set(tbb_md5 63fc9feb34ec973b0c8ae439afb30f5e)
+elseif (APPLE)
+  set(tbb_file "tbb${tbb_ver_paraview}_mac.tgz")
+  set(tbb_md5 d1420b7b6e1d2b9c7e737123bd7e8315)
+else ()
+  set(tbb_file "tbb${tbb_ver_paraview}_lin.tgz")
+  set(tbb_md5 cb95ed04d2522e54d2327afd1c56938f)
+endif ()
+
+superbuild_set_revision(tbb
+  URL     "https://www.paraview.org/files/dependencies/${tbb_file}"
+  URL_MD5 "${tbb_md5}")
+
 superbuild_set_revision(expat
   URL     "https://www.paraview.org/files/dependencies/expat-2.4.1.tar.xz"
   URL_MD5 a4fb91a9441bcaec576d4c4a56fa3aa6)

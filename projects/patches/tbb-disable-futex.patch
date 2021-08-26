@@ -1,0 +1,13 @@
+diff --git a/tbb2019_20190410oss/include/tbb/machine/linux_common.h b/tbb2019_20190410oss/include/tbb/machine/linux_common.h
+index 6f93828..93e9726 100644
+--- a/tbb2019_20190410oss/include/tbb/machine/linux_common.h
++++ b/tbb2019_20190410oss/include/tbb/machine/linux_common.h
+@@ -30,7 +30,7 @@
+ 
+ #define __TBB_USE_FUTEX 1
+ 
+-#if defined(__has_include)
++#if 0
+ #define __TBB_has_include __has_include
+ #else
+ #define __TBB_has_include(x) 0
