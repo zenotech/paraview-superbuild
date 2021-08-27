@@ -2,7 +2,6 @@ superbuild_add_project(openpmd
   DEPENDS python3 nlohmannjson pybind11
   DEPENDS_OPTIONAL hdf5 adios2
   CMAKE_ARGS
-    -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
     -DCMAKE_INSTALL_LIBDIR:STRING=lib
 
     #openPMD MPI needs HDF5 to be built with MPI.
