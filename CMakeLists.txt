@@ -89,7 +89,7 @@ function (superbuild_find_projects var)
     pythonkiwisolver
     pythonmako
     pythonmultidict
-    pythonpillow
+    #pythonpillow
     pythonpandas
     pythonpkgconfig
     pythonply
@@ -114,7 +114,7 @@ function (superbuild_find_projects var)
     pythonzope
     pythonzopeinterface
     pytz
-    qhull
+    #qhull
     qt5
     silo
     szip

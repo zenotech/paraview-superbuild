@@ -15,6 +15,10 @@ superbuild_set_revision(tbb
   URL     "https://www.paraview.org/files/dependencies/${tbb_file}"
   URL_MD5 "${tbb_md5}")
 
+superbuild_set_revision(matplotlib
+  URL "https://www.paraview.org/files/dependencies/matplotlib-3.2.1.tar.gz"
+  URL_MD5 9186b1e9f1fc7d555f2abf64b35dea5b)
+
 superbuild_set_revision(expat
   URL     "https://www.paraview.org/files/dependencies/expat-2.4.1.tar.xz"
   URL_MD5 a4fb91a9441bcaec576d4c4a56fa3aa6)
