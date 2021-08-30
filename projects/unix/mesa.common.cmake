@@ -20,7 +20,7 @@ set_property(CACHE mesa_SWR_ARCH PROPERTY STRINGS
 set(mesa_drivers swrast)
 if (mesa_USE_SWR)
   list(APPEND mesa_drivers swr)
-  set(mesa_swr_arch "--with-swr-archs=${mesa_SWR_ARCH}")
+  set(mesa_swr_arch "-Dswr-arches=${mesa_SWR_ARCH}")
 endif ()
 
 string(REPLACE ";" "," mesa_drivers "${mesa_drivers}")
@@ -28,22 +28,19 @@ string(REPLACE ";" "," mesa_drivers "${mesa_drivers}")
 # FIXME: need to use static llvm libs when appropriate
 
 set(mesa_common_config_args
-  --prefix=<INSTALL_DIR>
-  --enable-opengl --disable-gles1 --disable-gles2
-  --disable-va --disable-gbm --disable-xvmc --disable-vdpau
-  --disable-shared-glapi
-  --disable-dri --with-dri-drivers=
-  --enable-llvm
-  --with-llvm-prefix=${llvm_dir}
-  --with-gallium-drivers=${mesa_drivers}
+  --libdir lib
+  -Dprefix=<INSTALL_DIR>
   ${mesa_swr_arch}
-  --disable-egl --disable-gbm)
-
-if (BUILD_SHARED_LIBS)
-  set(mesa_shared_lib_args --enable-shared --disable-static)
-else ()
-  set(mesa_shared_lib_args --disable-shared --enable-static)
-endif ()
+  -Dauto_features=disabled
+  -Dgallium-drivers=swrast,swr
+  -Dvulkan-drivers=
+  -Ddri-drivers=
+  -Dshared-glapi=enabled
+  -Degl=disabled
+  -Dllvm=enabled
+  -Dshared-llvm=enabled
+  -Dgles1=disabled
+  -Dgles2=disabled)
 
 if (CMAKE_CXX_COMPILER_ID MATCHES "Intel")
   superbuild_append_flags(
@@ -59,30 +56,18 @@ endif ()
 
 superbuild_add_project(${project}
   CAN_USE_SYSTEM
-  DEPENDS llvm zlib ${mesa_type_deps} expat pythonmako
+  DEPENDS llvm zlib ${mesa_type_deps} expat pythonmako meson python3
   CONFIGURE_COMMAND
-    ./autogen.sh
+    meson
       ${mesa_common_config_args}
-      ${mesa_shared_lib_args}
       ${mesa_type_args}
+      build
   BUILD_COMMAND
-    $(MAKE)
+    ${meson_ninja_command} -C build
   INSTALL_COMMAND
-    make install
+    ${meson_ninja_command} -C build install
   BUILD_IN_SOURCE 1)
 
 superbuild_append_flags(ld_flags
-  "-Wl,-rpath,<INSTALL_DIR>/lib/mesa:<INSTALL_DIR>/lib"
+  "-Wl,-rpath,<INSTALL_DIR>/lib"
   PROJECT_ONLY)
-
-# For compatibility on machines with a crufty autotools
-superbuild_apply_patch(${project} revert-xz
-  "Revert autoconf dist-xz to dist-bzip2")
-
-# Fix some borked sed flags
-superbuild_apply_patch(${project} sed-flags
-  "Fix incompatible sed flags in configure")
-
-# Fix a segfault when swr is not supported
-superbuild_apply_patch(${project} swr-llvm7-support
-  "Fix llvm7 build failure for swr")
