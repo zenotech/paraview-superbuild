@@ -300,3 +300,7 @@ superbuild_set_revision(pythonpkgconfig
 superbuild_set_revision(h5py
   URL     "https://www.paraview.org/files/dependencies/h5py-3.3.0.tar.gz"
   URL_MD5 "2f83b8afd70ad59d3bb69c0d0b7d61b1")
+
+superbuild_set_revision(meson
+  URL     "https://www.paraview.org/files/dependencies/meson-0.59.1.tar.gz"
+  URL_MD5 9c8135ecde820094be2f42f457fb6535)

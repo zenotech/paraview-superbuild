@@ -166,6 +166,7 @@ function (superbuild_find_projects var)
         launchers
         libfabric
         llvm
+        meson
         mesa
         osmesa
         paraviewsdk
