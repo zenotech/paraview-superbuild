@@ -142,8 +142,10 @@ if (openpmd_enabled)
 endif ()
 
 # Test to load various data files to ensure reader support.
-paraview_add_ui_test("data-csg.silo" "TestData-cs_silo"
-  "--data=${CMAKE_CURRENT_LIST_DIR}/data/csg.silo")
+if (silo_enabled)
+  paraview_add_ui_test("data-csg.silo" "TestData-cs_silo"
+    "--data=${CMAKE_CURRENT_LIST_DIR}/data/csg.silo")
+endif ()
 
 # Disabling this test for now since the Data file is too big. We probably need
 # to add support for Data repository similar to ParaView/VTK soon.
