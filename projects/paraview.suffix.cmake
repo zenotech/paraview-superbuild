@@ -21,7 +21,7 @@ else ()
     "${CMAKE_SYSTEM_NAME}")
 endif ()
 
-if (python_enabled)
+if (python3_enabled)
   list(APPEND package_suffix_items
     "Python${superbuild_python_version}")
 endif ()

@@ -1,6 +1,27 @@
+# Using Intel Threading Building Blocks 2018 Update 2
+set(tbb_ver_paraview "2019_20190410oss")
+if (WIN32)
+  set(tbb_file "tbb${tbb_ver_paraview}_win.zip")
+  set(tbb_md5 63fc9feb34ec973b0c8ae439afb30f5e)
+elseif (APPLE)
+  set(tbb_file "tbb${tbb_ver_paraview}_mac.tgz")
+  set(tbb_md5 d1420b7b6e1d2b9c7e737123bd7e8315)
+else ()
+  set(tbb_file "tbb${tbb_ver_paraview}_lin.tgz")
+  set(tbb_md5 cb95ed04d2522e54d2327afd1c56938f)
+endif ()
+
+superbuild_set_revision(tbb
+  URL     "https://www.paraview.org/files/dependencies/${tbb_file}"
+  URL_MD5 "${tbb_md5}")
+
+superbuild_set_revision(matplotlib
+  URL "https://www.paraview.org/files/dependencies/matplotlib-3.2.1.tar.gz"
+  URL_MD5 9186b1e9f1fc7d555f2abf64b35dea5b)
+
 superbuild_set_revision(expat
-  URL     "https://www.paraview.org/files/dependencies/expat-2.2.9.tar.bz2"
-  URL_MD5 875a2c2ff3e8eb9e5a5cd62db2033ab5)
+  URL     "https://www.paraview.org/files/dependencies/expat-2.4.1.tar.xz"
+  URL_MD5 a4fb91a9441bcaec576d4c4a56fa3aa6)
 
 superbuild_set_revision(eigen
   URL     "https://www.paraview.org/files/dependencies/eigen-3.3.9.tar.xz"
@@ -15,8 +36,8 @@ superbuild_set_revision(glproto
   URL_MD5 5565f1b0facf4a59c2778229c1f70d10)
 
 superbuild_set_revision(mesa
-  URL     "https://www.paraview.org/files/dependencies/mesa-18.2.2.tar.xz"
-  URL_MD5 5931dd76a7533c7c5e702a4e5c00d3bb)
+  URL     "https://www.paraview.org/files/dependencies/mesa-21.2.1.tar.xz"
+  URL_MD5 5d8beb41eccad604296d1e2a6688dd6a)
 get_property(mesa_revision GLOBAL PROPERTY mesa_revision)
 superbuild_set_revision(osmesa ${mesa_revision})
 
@@ -78,26 +99,26 @@ superbuild_set_revision(surfacetrackercut
 #------------------------------------------------------------------------------
 
 superbuild_set_revision(socat
-  URL     "https://www.paraview.org/files/dependencies/socat-1.7.3.1.tar.bz2"
-  URL_MD5 334e46924f2b386299c9db2ac22bcd36)
+  URL     "https://www.paraview.org/files/dependencies/socat-1.7.4.1.tar.gz"
+  URL_MD5 780d14908dc1a6aa2790de376ab56b7a)
 
 if (WIN32)
-  set(ispc_suffix "-windows.zip")
-  set(ispc_md5 ad96f833c1429a292c40c4f4821985fe)
+  set(ispc_suffix "windows.zip")
+  set(ispc_md5 22d1e9fd03427b8e8a9d75ce56cfa495)
 elseif (APPLE)
-  set(ispc_suffix "-macOS.tar.gz")
-  set(ispc_md5 c856ed3af19b948e83f4277b1a19766f)
+  set(ispc_suffix "macOS.tar.gz")
+  set(ispc_md5 0ae980be5d319b38592c6ef5596c305d)
 else()
-  set(ispc_suffix "-linux.tar.gz")
-  set(ispc_md5 7ce4350f079c7eb8a1ce9d9908f5d85d)
+  set(ispc_suffix "linux.tar.gz")
+  set(ispc_md5 4665c577541003e31c8ce0afd64b6952)
 endif()
 superbuild_set_revision(ispc
-  URL     "https://www.paraview.org/files/dependencies/ispc-v1.14.1${ispc_suffix}"
+  URL     "https://www.paraview.org/files/dependencies/ispc-v1.16.1-${ispc_suffix}"
   URL_MD5 "${ispc_md5}")
 
 superbuild_set_revision(embree
-  URL     "https://www.paraview.org/files/dependencies/embree-v3.12.0.tar.gz"
-  URL_MD5 f0db3c7029467fdc6d29709cb85fc607)
+  URL     "https://www.paraview.org/files/dependencies/embree-v3.13.0.tar.gz"
+  URL_MD5 9d28c638b792cbae6acab0a1cc32de8a)
 
 superbuild_set_revision(openvkl
   URL     "https://www.paraview.org/files/dependencies/openvkl-v0.13.0.tar.gz"
@@ -112,12 +133,12 @@ superbuild_set_revision(ospraymaterials
   URL_MD5 d256c17f70890d3477e90d35bf814c25)
 
 superbuild_set_revision(openimagedenoise
-  URL     "https://www.paraview.org/files/dependencies/oidn-v1.2.4.tar.gz"
-  URL_MD5 501b787a5e2fcaf2dfd8a39d47ee03dd)
+  URL     "https://www.paraview.org/files/dependencies/oidn-1.4.1.src.tar.gz"
+  URL_MD5 df4007b0ab93b1c41cdf223b075d01c0)
 
 superbuild_set_revision(rkcommon
-  URL     "https://www.paraview.org/files/dependencies/rkcommon-v1.6.1.tar.gz"
-  URL_MD5 dcda8b31c175abb82cee72eecceb8f39)
+  URL     "https://www.paraview.org/files/dependencies/rkcommon-v1.7.0.tar.gz"
+  URL_MD5 1bd26e5aea9b1c4873fe8b8cec9a1d28)
 
 superbuild_set_revision(openvr
   URL     "https://www.paraview.org/files/dependencies/openvr_1.14.15_win_thin.tar.gz"
@@ -152,8 +173,8 @@ superbuild_set_revision(lookingglass
   URL_MD5 b435316fa1f8454ba180e72608c3c28f)
 
 superbuild_set_revision(gmsh
-  URL     "https://www.paraview.org/files/dependencies/gmsh-gmsh_4_7_0.tar.gz"
-  URL_MD5 b0fdb396065e1c73849da572235536ed)
+  URL     "https://www.paraview.org/files/dependencies/gmsh-4.8.4-source.tgz"
+  URL_MD5 1e7212dfb1319d745ffb477a7a3ff124)
 
 if (WIN32)
   set(nvidiaindex_platform "windows-x64")
@@ -256,12 +277,12 @@ superbuild_set_selectable_source(adios2
     GIT_TAG        "origin/master")
 
 superbuild_set_revision(libfabric
-  URL     "https://www.paraview.org/files/dependencies/libfabric-1.8.0.tar.bz2"
-  URL_MD5 "c19c257856cb6e5094e73bf727e2d76c")
+  URL     "https://www.paraview.org/files/dependencies/libfabric-1.13.0.tar.bz2"
+  URL_MD5 "4d8bf93ef50e833ffce36e7cd7294569")
 
 superbuild_set_revision(protobuf
-  URL     "https://www.paraview.org/files/dependencies/protobuf-3.11.4.tar.gz"
-  URL_MD5 "9b649590a4b74e93024ea3a28c0d3a22"
+  URL     "https://www.paraview.org/files/dependencies/protobuf-3.17.3.tar.gz"
+  URL_MD5 "d7f8e0e3ffeac721e18cdf898eff7d31"
   SOURCE_SUBDIR cmake)
 
 superbuild_set_revision(gdal
@@ -273,13 +294,17 @@ superbuild_set_revision(launchers
   SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/launchers")
 
 superbuild_set_revision(openpmd
-  URL     "https://www.paraview.org/files/dependencies/openPMD-api-0.12.0-alpha.tar.gz"
-  URL_MD5 "ada986539b4d2cc004888f161f41de85")
+  URL     "https://www.paraview.org/files/dependencies/openPMD-api-0.14.1.tar.gz"
+  URL_MD5 "1f64ab59529f18c704848eaf6e2147ff")
 
 superbuild_set_revision(pythonpkgconfig
-  URL     "https://www.paraview.org/files/dependencies/pkgconfig-1.5.2.tar.gz"
-  URL_MD5 "0d889edf670b644bfeaa3bb9444169cb")
+  URL     "https://www.paraview.org/files/dependencies/pkgconfig-1.5.5.tar.gz"
+  URL_MD5 "12523e11b91b050ca49975cc033689a4")
 
 superbuild_set_revision(h5py
-  URL     "https://www.paraview.org/files/dependencies/h5py-3.2.0.tar.gz"
-  URL_MD5 "4b7ebc5d42bea9c264857a516c39ee3e")
+  URL     "https://www.paraview.org/files/dependencies/h5py-3.3.0.tar.gz"
+  URL_MD5 "2f83b8afd70ad59d3bb69c0d0b7d61b1")
+
+superbuild_set_revision(meson
+  URL     "https://www.paraview.org/files/dependencies/meson-0.59.1.tar.gz"
+  URL_MD5 9c8135ecde820094be2f42f457fb6535)

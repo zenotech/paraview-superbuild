@@ -42,6 +42,9 @@ is assumed to be available on the host machine.
       some projects
     * `ninja` (or `make`) for building
     * Python (if not built by the superbuild) for building packages
+    * If building `mesa` or `osmesa`, `bison` and `flex` are required.
+    * If building packages on Linux, `chrpath` is required to make relocatable
+      packages
 
 ## Building a specific version
 

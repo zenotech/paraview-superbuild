@@ -36,7 +36,7 @@ endif ()
 
 superbuild_add_project(llvm
   CAN_USE_SYSTEM
-  DEPENDS python cxx11
+  DEPENDS python3 cxx11
   CMAKE_ARGS
     -DCMAKE_BUILD_TYPE=Release
     -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}

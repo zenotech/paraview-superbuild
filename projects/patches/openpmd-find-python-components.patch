@@ -1,0 +1,16 @@
+diff -u -Nru5 openPMD-api-0.14.1/CMakeLists.txt openPMD-api-0.14.1.find-python-components/CMakeLists.txt
+--- openPMD-api-0.14.1/CMakeLists.txt	2021-08-04 15:49:17.000000000 -0400
++++ openPMD-api-0.14.1.find-python-components/CMakeLists.txt	2021-08-26 21:54:29.043859748 -0400
+@@ -321,11 +321,11 @@
+ 
+ # TODO: Check if ADIOS2 is parallel when openPMD_HAVE_MPI is ON
+ 
+ # external library: pybind11 (optional)
+ set(_PY_DEV_MODULE Development.Module)
+-if(CMAKE_VERSION VERSION_LESS 3.18.0)
++if(TRUE OR CMAKE_VERSION VERSION_LESS 3.18.0)
+     # over-specification needed for CMake<3.18
+     #   https://pybind11.readthedocs.io/en/latest/compiling.html#findpython-mode
+     #   https://cmake.org/cmake/help/v3.18/module/FindPython.html
+     set(_PY_DEV_MODULE Development)
+ endif()

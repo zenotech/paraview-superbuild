@@ -1,6 +1,6 @@
-diff -u -Nru5 h5py-3.2.0/setup.py h5py-3.2.0.minvers/setup.py
---- h5py-3.2.0/setup.py	2021-03-03 04:27:49.000000000 -0500
-+++ h5py-3.2.0.minvers/setup.py	2021-03-03 13:14:34.222341278 -0500
+diff -u -Nru5 h5py-3.3.0/setup.py h5py-3.3.0.minvers/setup.py
+--- h5py-3.3.0/setup.py	2021-03-03 04:27:49.000000000 -0500
++++ h5py-3.3.0.minvers/setup.py	2021-03-03 13:14:34.222341278 -0500
 @@ -47,18 +47,18 @@
      'pkgconfig',
      "Cython >=0.29; python_version<'3.8'",
@@ -13,10 +13,10 @@ diff -u -Nru5 h5py-3.2.0/setup.py h5py-3.2.0.minvers/setup.py
  ]
  
  if setup_configure.mpi_enabled():
-     RUN_REQUIRES.append('mpi4py >=3.0.0')
--    SETUP_REQUIRES.append("mpi4py ==3.0.0; python_version<'3.8'")
+     RUN_REQUIRES.append('mpi4py >=3.0.2')
+-    SETUP_REQUIRES.append("mpi4py ==3.0.2; python_version<'3.8'")
 -    SETUP_REQUIRES.append("mpi4py ==3.0.3; python_version>='3.8'")
-+    SETUP_REQUIRES.append("mpi4py >=3.0.0; python_version<'3.8'")
++    SETUP_REQUIRES.append("mpi4py >=3.0.2; python_version<'3.8'")
 +    SETUP_REQUIRES.append("mpi4py >=3.0.3; python_version>='3.8'")
  
  # Set the environment variable H5PY_SETUP_REQUIRES=0 if we need to skip

@@ -191,7 +191,7 @@ if (visrtx_enabled)
   endforeach ()
 endif ()
 
-if (python_enabled)
+if (python3_enabled)
   file(GLOB egg_dirs
     "${superbuild_install_location}/lib/python${superbuild_python_version}/site-packages/*.egg/")
   if (python3_built_by_superbuild)
