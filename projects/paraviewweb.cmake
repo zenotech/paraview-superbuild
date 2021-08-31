@@ -10,17 +10,6 @@ superbuild_add_dummy_project(paraviewweb
     paraviewwebglance
     paraviewweblite
     paraviewwebvisualizer
-    paraviewwebflow
     paraviewwebdivvy
-    pythonwslink
-    pythonautobahn
-    pythonconstantly
-    pythonhyperlink
-    pythonincremental
-    pythonsetuptools
-    pythonsix
-    pythontwisted
-    pythontxaio
-    pythonwslink
-    pythonzopeinterface
+    pythonpywebvue
     ${paraviewweb_depends})
