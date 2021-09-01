@@ -64,7 +64,6 @@ function (superbuild_find_projects var)
     paraviewwebglance
     paraviewweblite
     paraviewwebdivvy
-    paraviewwebflow
     paraviewwebvisualizer
     png
     protobuf
@@ -72,20 +71,15 @@ function (superbuild_find_projects var)
     pythonaiohttp
     pythonasynctimeout
     pythonattrs
-    pythonautobahn
     pythonbeniget
     pythoncffi
     pythonchardet
-    pythonconstantly
     pythoncppy
-    pythoncryptography
     pythoncycler
     pythoncython
     pythondateutil
     pythongast
-    pythonhyperlink
     pythonidna
-    pythonincremental
     pythonkiwisolver
     pythonmako
     pythonmultidict
@@ -104,15 +98,10 @@ function (superbuild_find_projects var)
     pythonsetuptoolsscm
     pythonsix
     pythontoml
-    pythontwisted
-    pythontxaio
     pythontypingextensions
     pythonwheel
-    pythonwslink
     pythonwslinkasync
     pythonyarl
-    pythonzope
-    pythonzopeinterface
     pytz
     #qhull
     qt5
