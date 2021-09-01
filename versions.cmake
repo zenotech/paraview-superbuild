@@ -129,8 +129,8 @@ superbuild_set_revision(snappy
   URL_MD5 213b6324b7790d25f5368629540a172c)
 
 superbuild_set_revision(ospray
-  URL     "https://www.paraview.org/files/dependencies/ospray-v2.6.0.tar.gz"
-  URL_MD5 5c3e9b7e10e35881e5bcf0acdab29869)
+  URL     "https://www.paraview.org/files/dependencies/ospray-v2.7.0.tar.gz"
+  URL_MD5 1e68a00fffee696f9075373ee3b7af3e)
 
 superbuild_set_revision(ospraymaterials
   URL     "https://www.paraview.org/files/data/OSPRayMaterials-0.3.tar.gz"
