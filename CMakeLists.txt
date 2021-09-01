@@ -134,7 +134,8 @@ function (superbuild_find_projects var)
       openvkl
       ospray
       ospraymodulempi
-      rkcommon)
+      rkcommon
+      snappy)
   endif ()
   set_property(GLOBAL PROPERTY
     superbuild_tbb_supported "${tbb_supported}")

@@ -124,6 +124,10 @@ superbuild_set_revision(openvkl
   URL     "https://www.paraview.org/files/dependencies/openvkl-v1.0.0.tar.gz"
   URL_MD5 beec5106d281dbbab17ce9547fe69e79)
 
+superbuild_set_revision(snappy
+  URL     "https://www.paraview.org/files/dependencies/snappy-1.1.9.tar.gz"
+  URL_MD5 213b6324b7790d25f5368629540a172c)
+
 superbuild_set_revision(ospray
   URL     "https://www.paraview.org/files/dependencies/ospray-v2.6.0.tar.gz"
   URL_MD5 5c3e9b7e10e35881e5bcf0acdab29869)
