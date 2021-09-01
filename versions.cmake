@@ -121,8 +121,8 @@ superbuild_set_revision(embree
   URL_MD5 9d28c638b792cbae6acab0a1cc32de8a)
 
 superbuild_set_revision(openvkl
-  URL     "https://www.paraview.org/files/dependencies/openvkl-v0.13.0.tar.gz"
-  URL_MD5 05f21b2f2445693e54e45a84f42abe7e)
+  URL     "https://www.paraview.org/files/dependencies/openvkl-v1.0.0.tar.gz"
+  URL_MD5 beec5106d281dbbab17ce9547fe69e79)
 
 superbuild_set_revision(ospray
   URL     "https://www.paraview.org/files/dependencies/ospray-v2.6.0.tar.gz"
