@@ -12,7 +12,7 @@ set_property(CACHE ospray_BUILD_ISA PROPERTY STRINGS SSE AVX AVX2 AVX512KNL AVX5
 superbuild_add_project(ospray
   DEPENDS
     ispc tbb cxx11 embree ospraymaterials openimagedenoise rkcommon openvkl
-  DEPENDS_OPTIONAL ospraymodulempi mpi
+  DEPENDS_OPTIONAL ospraymodulempi snappy mpi
   CMAKE_ARGS
     -DOSPRAY_ISPC_DIRECTORY:PATH=<INSTALL_DIR>/bin
     -DCMAKE_INSTALL_NAME_DIR:PATH=<INSTALL_DIR>/lib

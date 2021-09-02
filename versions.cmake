@@ -117,16 +117,20 @@ superbuild_set_revision(ispc
   URL_MD5 "${ispc_md5}")
 
 superbuild_set_revision(embree
-  URL     "https://www.paraview.org/files/dependencies/embree-v3.13.0.tar.gz"
-  URL_MD5 9d28c638b792cbae6acab0a1cc32de8a)
+  URL     "https://www.paraview.org/files/dependencies/embree-v3.13.1.tar.gz"
+  URL_MD5 71453f1e9af48a95090112e493982898)
 
 superbuild_set_revision(openvkl
-  URL     "https://www.paraview.org/files/dependencies/openvkl-v0.13.0.tar.gz"
-  URL_MD5 05f21b2f2445693e54e45a84f42abe7e)
+  URL     "https://www.paraview.org/files/dependencies/openvkl-v1.0.0.tar.gz"
+  URL_MD5 beec5106d281dbbab17ce9547fe69e79)
+
+superbuild_set_revision(snappy
+  URL     "https://www.paraview.org/files/dependencies/snappy-1.1.9.tar.gz"
+  URL_MD5 213b6324b7790d25f5368629540a172c)
 
 superbuild_set_revision(ospray
-  URL     "https://www.paraview.org/files/dependencies/ospray-v2.6.0.tar.gz"
-  URL_MD5 5c3e9b7e10e35881e5bcf0acdab29869)
+  URL     "https://www.paraview.org/files/dependencies/ospray-v2.7.0.tar.gz"
+  URL_MD5 1e68a00fffee696f9075373ee3b7af3e)
 
 superbuild_set_revision(ospraymaterials
   URL     "https://www.paraview.org/files/data/OSPRayMaterials-0.3.tar.gz"
