@@ -175,6 +175,11 @@ else()
   set(paraview_openvr_collaboration_enabled FALSE)
 endif()
 
+if (openvdb_enabled)
+  list(APPEND paraview_extra_cmake_options
+    -DPARAVIEW_RELOCATABLE_INSTALL:BOOL=OFF)
+endif ()
+
 superbuild_add_project(paraview
   DEBUGGABLE
   DEFAULT_ON
