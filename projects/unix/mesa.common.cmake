@@ -63,9 +63,9 @@ superbuild_add_project(${project}
       ${mesa_type_args}
       build
   BUILD_COMMAND
-    ${meson_ninja_command} -C build
+    ${superbuild_ninja_command} -C build
   INSTALL_COMMAND
-    ${meson_ninja_command} -C build install
+    ${superbuild_ninja_command} -C build install
   BUILD_IN_SOURCE 1)
 
 superbuild_append_flags(ld_flags
