@@ -14,6 +14,8 @@ else ()
       "`ninja-build` in most package managers. It can also be downloaded "
       "from upstream directly: https://github.com/ninja-build/ninja/releases")
   endif ()
+
+  set(meson_ninja_command "${MESON_NINJA_COMMAND}")
 endif ()
 
 superbuild_add_project_python(meson
