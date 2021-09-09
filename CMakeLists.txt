@@ -171,6 +171,7 @@ function (superbuild_find_projects var)
         llvm
         meson
         mesa
+        ninja
         osmesa
         paraviewsdk
         socat
