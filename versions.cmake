@@ -322,3 +322,11 @@ superbuild_set_revision(ninja
 superbuild_set_revision(meson
   URL     "https://www.paraview.org/files/dependencies/meson-0.59.1.tar.gz"
   URL_MD5 9c8135ecde820094be2f42f457fb6535)
+
+superbuild_set_revision(blosc
+  URL "https://www.paraview.org/files/dependencies/c-blosc-1.21.0.tar.gz"
+  URL_MD5 c32104bef76e5636cf0cedb40fd4d77b)
+
+superbuild_set_revision(openvdb
+  URL "https://www.paraview.org/files/dependencies/openvdb-8.1.0.tar.gz"
+  URL_MD5 3c621d99498731bb4a6c645969c63996)

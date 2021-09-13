@@ -30,7 +30,11 @@ superbuild_add_project(adios2
     -DBUILD_TESTING:BOOL=OFF
     -DADIOS2_BUILD_EXAMPLES:BOOL=OFF
     -DADIOS2_USE_BZip2:STRING=OFF
-    -DADIOS2_USE_Blosc:STRING=${blosc_enabled}
+    # Compilation errors with the `blosc` in the superbuild. Needs
+    # investigation.
+    # https://gitlab.kitware.com/paraview/paraview-superbuild/-/issues/195
+    #-DADIOS2_USE_Blosc:STRING=${blosc_enabled}
+    -DADIOS2_USE_Blosc:STRING=OFF
     -DADIOS2_USE_DataMan:STRING=OFF
     -DADIOS2_USE_Fortran:STRING=OFF
     -DADIOS2_USE_HDF5:STRING=OFF
