@@ -170,9 +170,9 @@ if (PARAVIEW_BUILD_ID)
 endif ()
 
 if (openvr_enabled AND zeromq_enabled)
-  set(paraview_openvr_collaboration_enabled TRUE)
+  set(paraview_vr_collaboration_enabled TRUE)
 else()
-  set(paraview_openvr_collaboration_enabled FALSE)
+  set(paraview_vr_collaboration_enabled FALSE)
 endif()
 
 if (openvdb_enabled)
@@ -231,7 +231,7 @@ superbuild_add_project(paraview
     -DVISIT_BUILD_READER_Mili:BOOL=${mili_enabled}
     -DVISIT_BUILD_READER_Silo:BOOL=${silo_enabled}
     -DVTK_DEFAULT_RENDER_WINDOW_OFFSCREEN:BOOL=${osmesa_enabled}
-    -DVTK_ENABLE_OPENVR_COLLABORATION:BOOL=${paraview_openvr_collaboration_enabled}
+    -DVTK_ENABLE_VR_COLLABORATION:BOOL=${paraview_vr_collaboration_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_eigen=${eigen_enabled}
     -DVTK_MODULE_USE_EXTERNAL_ParaView_protobuf:BOOL=${protobuf_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_expat:BOOL=${expat_enabled}
