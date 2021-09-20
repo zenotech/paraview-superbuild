@@ -86,6 +86,9 @@ if (NOT PARAVIEW_BUILD_EDITION STREQUAL "CANONICAL")
   set(PARAVIEW_ENABLE_MOTIONFX OFF)
 endif ()
 
+option(PARAVIEW_ENABLE_NODEEDITOR "Enable NodeEditor plugin" OFF)
+mark_as_advanced(PARAVIEW_ENABLE_NODEEDITOR)
+
 option(PARAVIEW_ENABLE_VRPLUGIN "Enable VRPlugin" ON)
 mark_as_advanced(PARAVIEW_ENABLE_VRPLUGIN)
 
@@ -219,6 +222,7 @@ superbuild_add_project(paraview
     -DPARAVIEW_ENABLE_XDMF3:BOOL=${xdmf3_enabled}
     -DPARAVIEW_INSTALL_DEVELOPMENT_FILES:BOOL=ON
     -DPARAVIEW_PLUGIN_ENABLE_GmshIO:BOOL=${gmsh_enabled}
+    -DPARAVIEW_PLUGIN_ENABLE_NodeEditor:BOOL=${PARAVIEW_ENABLE_NODEEDITOR}
     -DPARAVIEW_PLUGIN_ENABLE_LookingGlass:BOOL=${lookingglass_enabled}
     -DPARAVIEW_PLUGIN_ENABLE_OpenVR:BOOL=${openvr_enabled}
     # No netcdftime module in the package.
