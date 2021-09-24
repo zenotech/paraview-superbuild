@@ -55,8 +55,8 @@ superbuild_set_revision(paraviewgettingstartedguide
   URL     "https://www.paraview.org/files/v${paraview_doc_ver_series}/ParaViewGettingStarted-${paraview_doc_ver}.pdf"
   URL_MD5 392a29c111c5867b51e78bcb83e64198)
 superbuild_set_revision(paraviewtutorialdata
-  URL     "https://www.paraview.org/files/data/ParaViewTutorialData-20210805.tar.gz"
-  URL_MD5 b1355be87c702c477283a64dbabdde64)
+  URL     "https://www.paraview.org/files/data/ParaViewTutorialData-20210924.tar.gz"
+  URL_MD5 c344ad4e0c677206fc2489bfc7bff811)
 
 # Other than the `git` and `source` selections, the name of the selection
 # should be the version number of the selection. See
