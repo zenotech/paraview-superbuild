@@ -124,6 +124,9 @@ if (nvidiaindex_enabled AND NOT APPLE)
   if (nvidiaindex_SOURCE_SELECTION VERSION_GREATER_EQUAL "5.9")
     list(APPEND nvidiaindex_libraries nvindex_builtins)
   endif ()
+  if (nvidiaindex_SOURCE_SELECTION VERSION_GREATER_EQUAL "5.10")
+    list(APPEND nvidiaindex_libraries nvrtc)
+  endif ()
 
   foreach (nvidiaindex_library IN LISTS nvidiaindex_libraries)
     file(GLOB lib_filenames
