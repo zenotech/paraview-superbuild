@@ -92,7 +92,7 @@ function (superbuild_find_projects var)
     pythonpygments
     pythonpyparsing
     pythonpythran
-    pythonpywebvue
+    # pythonpywebvue
     pythonsemanticversion
     pythonsetuptools
     pythonsetuptoolsrust
