@@ -23,11 +23,25 @@ if (CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64" OR
 endif ()
 
 if (mesa_swr_arch_options)
+  if (NOT mesa_swr_arch_default IN_LIST mesa_swr_arch_options)
+    string(REPLACE ";" "`, `" mesa_swr_arch_options_string "${mesa_swr_arch_options}")
+    message(FATAL_ERROR
+      "Default for `mesa_SWR_ARCH` (${mesa_swr_arch_default}) is not valid "
+      "(`${mesa_swr_arch_options_string}`).")
+  endif ()
+
   set(mesa_SWR_ARCH "${mesa_swr_arch_default}"
     CACHE STRING "backend architectures to be used by the SWR driver")
   mark_as_advanced(mesa_USE_SWR_ARCH)
   set_property(CACHE mesa_SWR_ARCH PROPERTY STRINGS
     ${mesa_swr_arch_options})
+
+  if (mesa_enabled AND NOT mesa_SWR_ARCH IN_LIST mesa_swr_arch_options)
+    string(REPLACE ";" "`, `" mesa_swr_arch_options_string "${mesa_swr_arch_options}")
+    message(FATAL_ERROR
+      "The requested `mesa_SWR_ARCH` (${mesa_SWR_ARCH}) is not valid "
+      "(`${mesa_swr_arch_options_string}`).")
+  endif ()
 else ()
   set(mesa_SWR_ARCH "")
 endif ()
