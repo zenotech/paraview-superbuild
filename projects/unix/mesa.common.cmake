@@ -8,14 +8,29 @@ endif ()
 option(mesa_USE_SWR "Enable the OpenSWR driver" "${mesa_swr_default}")
 mark_as_advanced(mesa_USE_SWR)
 
-set(mesa_SWR_ARCH "avx,avx2"
-  CACHE STRING "backend architectures to be used by the SWR driver")
-mark_as_advanced(mesa_USE_SWR_ARCH)
-set_property(CACHE mesa_SWR_ARCH PROPERTY STRINGS
-  "avx" "avx2" "knl" "skx"
-  "avx,avx2" "avx2,knl" "knl,skx"
-  "avx,avx2,knl" "avx,avx2,skx"
-  "avx,avx2,knl,skx")
+set(mesa_swr_arch_default)
+set(mesa_swr_arch_options)
+# Intel compilers
+if (CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64" OR
+    CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "AMD64")
+  set(mesa_swr_arch_default "avx,avx2")
+  list(APPEND mesa_swr_arch_options
+    ""
+    "avx" "avx2" "knl" "skx"
+    "avx,avx2" "avx2,knl" "knl,skx"
+    "avx,avx2,knl" "avx,avx2,skx"
+    "avx,avx2,knl,skx")
+endif ()
+
+if (mesa_swr_arch_options)
+  set(mesa_SWR_ARCH "${mesa_swr_arch_default}"
+    CACHE STRING "backend architectures to be used by the SWR driver")
+  mark_as_advanced(mesa_USE_SWR_ARCH)
+  set_property(CACHE mesa_SWR_ARCH PROPERTY STRINGS
+    ${mesa_swr_arch_options})
+else ()
+  set(mesa_SWR_ARCH "")
+endif ()
 
 set(mesa_drivers swrast)
 if (mesa_USE_SWR)
