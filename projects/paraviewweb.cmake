@@ -11,5 +11,6 @@ superbuild_add_dummy_project(paraviewweb
     paraviewweblite
     paraviewwebvisualizer
     paraviewwebdivvy
-    pythonpywebvue
+    # pythonpywebvue
+    pythonwslinkasync
     ${paraviewweb_depends})
