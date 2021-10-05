@@ -76,6 +76,15 @@ install(
   DESTINATION "${paraview_plugin_path}"
   COMPONENT   superbuild)
 
+if ("OpenVR" IN_LIST paraview_plugins)
+  file(GLOB openvr_manifests
+    "${superbuild_install_location}/${paraview_plugin_path}/OpenVR/*.json")
+  install(FILES ${openvr_manifests}
+    DESTINATION "${paraview_plugin_path}/OpenVR"
+    COMPONENT "superbuild"
+    )
+endif ()
+
 if (nvidiaindex_enabled)
   set(nvidiaindex_libraries
     libdice
