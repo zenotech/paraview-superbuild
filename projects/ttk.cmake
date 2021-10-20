@@ -106,6 +106,13 @@ else()
   set(TTK_INSTALL_PLUGIN_DIR "bin/paraview-${paraview_version}/plugins/")
 endif()
 
+# rpath location
+set(ttk_rpath_config)
+if (UNIX AND NOT APPLE)
+   # we need CMAKE_INSTALL_RPATH to stay undefined on mac
+   set(ttk_rpath_config "-DCMAKE_INSTALL_RPATH:STRING=$ORIGIN")
+endif ()
+
 # Build
 # -----
 
@@ -119,6 +126,7 @@ superbuild_add_project(ttk
     -DTTK_BUILD_STANDALONE_APPS:BOOL=FALSE
     -DCMAKE_INSTALL_LIBDIR:PATH=lib
     -DCMAKE_INSTALL_NAME_DIR:PATH=<INSTALL_DIR>/lib
+    ${ttk_rpath_config}
     -DTTK_INSTALL_PLUGIN_DIR:PATH=${TTK_INSTALL_PLUGIN_DIR}
 
     -DTTK_ENABLE_KAMIKAZE:BOOL=TRUE
