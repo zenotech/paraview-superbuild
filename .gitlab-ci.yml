@@ -37,7 +37,7 @@ stages:
 
 ## Normal build
 
-build:linux-plain:
+linux-plain:build:
     extends:
         - .centos7_plain
         - .cmake_build_linux
@@ -46,7 +46,7 @@ build:linux-plain:
         - .run_manually
     timeout: 3 hours
 
-test:linux-plain:
+linux-plain:test:
     extends:
         - .fedora33_plain
         - .cmake_test_linux
@@ -54,24 +54,24 @@ test:linux-plain:
         - .linux_test_tags
         - .run_automatically
     dependencies:
-        - build:linux-plain
+        - linux-plain:build
     needs:
-        - build:linux-plain
+        - linux-plain:build
 
-upload:linux-plain:
+linux-plain:upload:
     extends:
         - .rsync_upload
         - .upload_only
     dependencies:
-        - test:linux-plain
+        - linux-plain:test
     needs:
-        - test:linux-plain
+        - linux-plain:test
     variables:
         RSYNC_DESTINATION: paraview_nightly_bin
 
 ## EGL build
 
-build:linux-egl:
+linux-egl:build:
     extends:
         - .centos7_egl
         - .cmake_build_linux
@@ -80,7 +80,7 @@ build:linux-egl:
         - .run_manually
     timeout: 3 hours
 
-test:linux-egl:
+linux-egl:test:
     extends:
         # Required to get EGL support in the container.
         - .fedora33_egl
@@ -89,24 +89,24 @@ test:linux-egl:
         - .linux_test_tags
         - .run_automatically
     dependencies:
-        - build:linux-egl
+        - linux-egl:build
     needs:
-        - build:linux-egl
+        - linux-egl:build
 
-upload:linux-egl:
+linux-egl:upload:
     extends:
         - .rsync_upload
         - .upload_only
     dependencies:
-        - test:linux-egl
+        - linux-egl:test
     needs:
-        - test:linux-egl
+        - linux-egl:test
     variables:
         RSYNC_DESTINATION: paraview_nightly_bin
 
 ## OSMesa shared build
 
-build:linux-osmesa-shared:
+linux-osmesa-shared:build:
     extends:
         - .centos7_osmesa_shared
         - .cmake_build_linux
@@ -115,7 +115,7 @@ build:linux-osmesa-shared:
         - .run_manually
     timeout: 3 hours
 
-test:linux-osmesa-shared:
+linux-osmesa-shared:test:
     extends:
         - .centos7_osmesa_shared
         - .cmake_test_linux
@@ -123,18 +123,18 @@ test:linux-osmesa-shared:
         - .linux_test_tags
         - .run_automatically
     dependencies:
-        - build:linux-osmesa-shared
+        - linux-osmesa-shared:build
     needs:
-        - build:linux-osmesa-shared
+        - linux-osmesa-shared:build
 
-upload:linux-osmesa-shared:
+linux-osmesa-shared:upload:
     extends:
         - .rsync_upload
         - .upload_only
     dependencies:
-        - test:linux-osmesa-shared
+        - linux-osmesa-shared:test
     needs:
-        - test:linux-osmesa-shared
+        - linux-osmesa-shared:test
     variables:
         RSYNC_DESTINATION: paraview_nightly_bin
 
@@ -143,7 +143,7 @@ upload:linux-osmesa-shared:
 # This builds ParaView statically while keeping the other dependencies as
 # shared.
 
-build:linux-osmesa-static:
+linux-osmesa-static:build:
     extends:
         - .centos7_osmesa_static
         - .cmake_build_linux
@@ -152,7 +152,7 @@ build:linux-osmesa-static:
         - .run_manually
     timeout: 3 hours
 
-test:linux-osmesa-static:
+linux-osmesa-static:test:
     extends:
         - .centos7_osmesa_static
         - .cmake_test_linux
@@ -160,15 +160,15 @@ test:linux-osmesa-static:
         - .linux_test_tags
         - .run_automatically
     dependencies:
-        - build:linux-osmesa-static
+        - linux-osmesa-static:build
     needs:
-        - build:linux-osmesa-static
+        - linux-osmesa-static:build
 
 # macOS
 
 ## Normal build
 
-build:macos-arm64:
+macos-arm64:build:
     extends:
         - .macos_arm64
         - .cmake_build_macos
@@ -176,7 +176,7 @@ build:macos-arm64:
         - .macos_arm64_builder_tags
         - .run_manually
 
-test:macos-arm64:
+macos-arm64:test:
     extends:
         - .macos_arm64
         - .cmake_test_macos
@@ -184,22 +184,22 @@ test:macos-arm64:
         - .macos_arm64_builder_tags_test
         - .run_automatically
     dependencies:
-        - build:macos-arm64
+        - macos-arm64:build
     needs:
-        - build:macos-arm64
+        - macos-arm64:build
 
-upload:macos-arm64:
+macos-arm64:upload:
     extends:
         - .rsync_upload
         - .upload_only
     dependencies:
-        - test:macos-arm64
+        - macos-arm64:test
     needs:
-        - test:macos-arm64
+        - macos-arm64:test
     variables:
         RSYNC_DESTINATION: paraview_nightly_bin
 
-build:macos-x86_64:
+macos-x86_64:build:
     extends:
         - .macos_x86_64
         - .cmake_build_macos
@@ -207,7 +207,7 @@ build:macos-x86_64:
         - .macos_builder_tags
         - .run_manually
 
-test:macos-x86_64:
+macos-x86_64:test:
     extends:
         - .macos_x86_64
         - .cmake_test_macos
@@ -215,18 +215,18 @@ test:macos-x86_64:
         - .macos_builder_tags_test
         - .run_automatically
     dependencies:
-        - build:macos-x86_64
+        - macos-x86_64:build
     needs:
-        - build:macos-x86_64
+        - macos-x86_64:build
 
-upload:macos-x86_64:
+macos-x86_64:upload:
     extends:
         - .rsync_upload
         - .upload_only
     dependencies:
-        - test:macos-x86_64
+        - macos-x86_64:test
     needs:
-        - test:macos-x86_64
+        - macos-x86_64:test
     variables:
         RSYNC_DESTINATION: paraview_nightly_bin
 
@@ -234,7 +234,7 @@ upload:macos-x86_64:
 
 ## MPI build
 
-build:windows-vs2019-mpi:
+windows-vs2019-mpi:build:
     extends:
         - .windows_vs2019_mpi
         - .cmake_build_windows
@@ -243,7 +243,7 @@ build:windows-vs2019-mpi:
         - .run_manually
     timeout: 150 minutes
 
-test:windows-vs2019-mpi:
+windows-vs2019-mpi:test:
     extends:
         - .windows_vs2019_mpi
         - .cmake_test_windows
@@ -251,24 +251,24 @@ test:windows-vs2019-mpi:
         - .windows_test_tags
         - .run_automatically
     dependencies:
-        - build:windows-vs2019-mpi
+        - windows-vs2019-mpi:build
     needs:
-        - build:windows-vs2019-mpi
+        - windows-vs2019-mpi:build
 
-upload:windows-vs2019-mpi:
+windows-vs2019-mpi:upload:
     extends:
         - .rsync_upload
         - .upload_only
     dependencies:
-        - test:windows-vs2019-mpi
+        - windows-vs2019-mpi:test
     needs:
-        - test:windows-vs2019-mpi
+        - windows-vs2019-mpi:test
     variables:
         RSYNC_DESTINATION: paraview_nightly_bin
 
 ## non-MPI build
 
-build:windows-vs2019-nompi:
+windows-vs2019-nompi:build:
     extends:
         - .windows_vs2019_nompi
         - .cmake_build_windows
@@ -277,7 +277,7 @@ build:windows-vs2019-nompi:
         - .run_manually
     timeout: 150 minutes
 
-test:windows-vs2019-nompi:
+windows-vs2019-nompi:test:
     extends:
         - .windows_vs2019_nompi
         - .cmake_test_windows
@@ -285,17 +285,17 @@ test:windows-vs2019-nompi:
         - .windows_test_tags
         - .run_automatically
     dependencies:
-        - build:windows-vs2019-nompi
+        - windows-vs2019-nompi:build
     needs:
-        - build:windows-vs2019-nompi
+        - windows-vs2019-nompi:build
 
-upload:windows-vs2019-nompi:
+windows-vs2019-nompi:upload:
     extends:
         - .rsync_upload
         - .upload_only
     dependencies:
-        - test:windows-vs2019-nompi
+        - windows-vs2019-nompi:test
     needs:
-        - test:windows-vs2019-nompi
+        - windows-vs2019-nompi:test
     variables:
         RSYNC_DESTINATION: paraview_nightly_bin
