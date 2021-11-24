@@ -26,7 +26,7 @@ readonly pv_branch
 # The CentOS 7 containers have an old git that does not support this flag
 # (added in 2.9.0).
 shallow_submodules="--shallow-submodules"
-if echo "$CI_JOB_NAME" | grep -q "build:linux"; then
+if echo "$CI_JOB_NAME" | grep -q "linux.*:build"; then
     shallow_submodules=""
 fi
 readonly shallow_submodules
