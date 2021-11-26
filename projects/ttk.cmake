@@ -120,7 +120,7 @@ endif ()
 # there is a missing embree3/rtcore.h
 superbuild_add_project(ttk
   DEPENDS paraview boost cxx11
-  DEPENDS_OPTIONAL zlib python3 numpy scipy zfp eigen openmp
+  DEPENDS_OPTIONAL eigen mpi numpy openmp python3 scipy zfp zlib
   CMAKE_ARGS
     -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
     -DTTK_BUILD_STANDALONE_APPS:BOOL=FALSE
@@ -132,10 +132,11 @@ superbuild_add_project(ttk
     -DTTK_ENABLE_KAMIKAZE:BOOL=TRUE
     -DTTK_ENABLE_CPU_OPTIMIZATION:BOOL=FALSE
     -DTTK_ENABLE_DOUBLE_TEMPLATING:BOOL=ON
+    -DTTK_ENABLE_EIGEN:BOOL=${eigen_enabled}
     -DTTK_ENABLE_EMBREE:BOOL=NO
     -DTTK_ENABLE_GRAPHVIZ:BOOL=NO
     -DTTK_ENABLE_OPENMP:BOOL=${openmp_enabled}
-    -DTTK_ENABLE_EIGEN:BOOL=${eigen_enabled}
+    -DTTK_ENABLE_MPI:BOOL=${mpi_enabled}
     -DTTK_ENABLE_ZFP:BOOL=${zfp_enabled}
 
     -DTTK_WHITELIST_MODE:BOOL=TRUE
