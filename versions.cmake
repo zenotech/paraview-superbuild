@@ -304,8 +304,8 @@ superbuild_set_revision(launchers
   SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/launchers")
 
 superbuild_set_revision(openpmd
-  URL     "https://www.paraview.org/files/dependencies/openPMD-api-0.14.1.tar.gz"
-  URL_MD5 "1f64ab59529f18c704848eaf6e2147ff")
+  URL     "https://www.paraview.org/files/dependencies/openPMD-api-0.14.3.tar.gz"
+  URL_MD5 "1b840b111b24c3bad5e22a0405492613")
 
 superbuild_set_revision(pythonpkgconfig
   URL     "https://www.paraview.org/files/dependencies/pkgconfig-1.5.5.tar.gz"
