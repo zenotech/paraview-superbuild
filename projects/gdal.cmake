@@ -19,6 +19,8 @@ superbuild_apply_patch(gdal no-geos
   "Skip GEOS and Armadillo support")
 superbuild_apply_patch(gdal pointer-comparison
   "Fix illegal pointer comparisons")
+superbuild_apply_patch(gdal incdirs-fix
+  "Remove unnecessary include directory")
 
 if (APPLE)
   set(gdal_lib <INSTALL_DIR>/lib/libgdal111.dylib)
