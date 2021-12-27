@@ -320,8 +320,8 @@ superbuild_set_revision(ninja
   URL_MD5 639f75bc2e3b19ab893eaf2c810d4eb4)
 
 superbuild_set_revision(meson
-  URL     "https://www.paraview.org/files/dependencies/meson-0.59.1.tar.gz"
-  URL_MD5 9c8135ecde820094be2f42f457fb6535)
+  URL     "https://www.paraview.org/files/dependencies/meson-0.60.3.tar.gz"
+  URL_MD5 03ddd7272d8cbb9f33269cb37a200d24)
 
 superbuild_set_revision(openvdb
   URL "https://www.paraview.org/files/dependencies/openvdb-8.1.0.tar.gz"
