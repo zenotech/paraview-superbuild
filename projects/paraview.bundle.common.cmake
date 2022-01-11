@@ -13,6 +13,10 @@ set(CPACK_PACKAGE_VERSION_PATCH "${paraview_version_patch}${paraview_version_suf
 if (PARAVIEW_PACKAGE_SUFFIX)
   set(CPACK_PACKAGE_VERSION_PATCH "${CPACK_PACKAGE_VERSION_PATCH}-${PARAVIEW_PACKAGE_SUFFIX}")
 endif ()
+set(name_suffix "")
+if (paraview_version_branch)
+  set(name_suffix "-${paraview_version_branch}")
+endif ()
 
 if (NOT DEFINED package_filename)
   set(package_filename "${PARAVIEW_PACKAGE_FILE_NAME}")
@@ -22,7 +26,7 @@ if (package_filename)
   set(CPACK_PACKAGE_FILE_NAME "${package_filename}")
 else ()
   set(CPACK_PACKAGE_FILE_NAME
-    "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}")
+    "${CPACK_PACKAGE_NAME}${name_suffix}-${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}")
 endif ()
 
 # Set the license file.

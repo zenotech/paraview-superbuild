@@ -13,9 +13,13 @@ yum install -y \
 yum install -y \
     epel-release
 
+# Install IUS (for newer git)
+yum install -y \
+    https://repo.ius.io/ius-release-el7.rpm
+
 # Install development tools
 yum install -y \
-    git-core \
+    git224-core \
     git-lfs
 
 # Install toolchains.
