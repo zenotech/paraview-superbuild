@@ -142,6 +142,10 @@ function (superbuild_find_projects var)
   set_property(GLOBAL PROPERTY
     superbuild_tbb_supported "${tbb_supported}")
 
+  if (ALLOW_openssl)
+    list(APPEND projects openssl)
+  endif ()
+
   if (UNIX)
     list(APPEND projects
       cosmotools
@@ -212,6 +216,13 @@ function (superbuild_find_projects var)
     ${projects}
     PARENT_SCOPE)
 endfunction ()
+
+# Add option to control OpenSSL
+option(ALLOW_openssl "Make OpenSSL available (default OFF)" OFF)
+mark_as_advanced(ALLOW_openssl)
+if (ALLOW_openssl)
+  set(_superbuild_enable_openssl ON)
+endif ()
 
 function (superbuild_sanity_check)
   if (NOT paraview_enabled AND NOT catalyst_enabled)

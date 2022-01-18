@@ -291,6 +291,9 @@ time.
     `superbuild/xxx/stamp/xxx-configure-*.log` files.
   * `CMAKE_BUILD_TYPE` (default `Release`): The build type to use for the
     build. Can be `Release`, `RelWithDebInfo`, or (on not-Windows) `Debug`.
+  * Due to complications around shipping OpenSSL in the binaries, OpenSSL
+    requires explicit settings in the build. They are
+    `-DALLOW_openssl:BOOL=ON -DENABLE_openssl:BOOL=ON`.
 
 The following flags affect ParaView directly:
 
