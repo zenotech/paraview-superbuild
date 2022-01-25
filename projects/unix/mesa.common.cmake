@@ -47,7 +47,7 @@ else ()
 endif ()
 
 set(mesa_drivers swrast)
-if (mesa_USE_SWR)
+if (mesa_USE_SWR AND mesa_SWR_ARCH)
   list(APPEND mesa_drivers swr)
   set(mesa_swr_arch "-Dswr-arches=${mesa_SWR_ARCH}")
 endif ()
