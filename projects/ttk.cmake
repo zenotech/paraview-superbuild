@@ -51,6 +51,7 @@ set(ttk_enabled_modules
   ttkReebSpace
   ttkScalarFieldCriticalPoints
   ttkTopologicalSimplification
+  ttkTopologicalSimplificationByPersistence
   ttkTrackingFromFields
   ttkTrackingFromOverlap
   ttkTrackingFromPersistenceDiagrams
