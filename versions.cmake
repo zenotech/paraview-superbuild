@@ -27,20 +27,6 @@ superbuild_set_revision(eigen
   URL     "https://www.paraview.org/files/dependencies/eigen-3.3.9.tar.xz"
   URL_MD5 c57578fd48359af3f214bac3239d7c80)
 
-superbuild_set_revision(llvm
-  URL     "https://www.paraview.org/files/dependencies/llvm-7.0.0.src.tar.xz"
-  URL_MD5 e0140354db83cdeb8668531b431398f0)
-
-superbuild_set_revision(glproto
-  URL     "https://www.paraview.org/files/dependencies/glproto-1.4.17.tar.bz2"
-  URL_MD5 5565f1b0facf4a59c2778229c1f70d10)
-
-superbuild_set_revision(mesa
-  URL     "https://www.paraview.org/files/dependencies/mesa-21.2.1.tar.xz"
-  URL_MD5 5d8beb41eccad604296d1e2a6688dd6a)
-get_property(mesa_revision GLOBAL PROPERTY mesa_revision)
-superbuild_set_revision(osmesa ${mesa_revision})
-
 superbuild_set_revision(silo
   URL     "https://www.paraview.org/files/dependencies/silo-4.10.2-bsd-smalltest.tar.gz"
   URL_MD5 d2a9023f63de361d91f94646d5d1974e)
@@ -314,14 +300,6 @@ superbuild_set_revision(pythonpkgconfig
 superbuild_set_revision(h5py
   URL     "https://www.paraview.org/files/dependencies/h5py-3.3.0.tar.gz"
   URL_MD5 "2f83b8afd70ad59d3bb69c0d0b7d61b1")
-
-superbuild_set_revision(ninja
-  URL     "https://www.paraview.org/files/dependencies/ninja-1.10.2.tar.gz"
-  URL_MD5 639f75bc2e3b19ab893eaf2c810d4eb4)
-
-superbuild_set_revision(meson
-  URL     "https://www.paraview.org/files/dependencies/meson-0.60.3.tar.gz"
-  URL_MD5 03ddd7272d8cbb9f33269cb37a200d24)
 
 superbuild_set_revision(openvdb
   URL "https://www.paraview.org/files/dependencies/openvdb-8.1.0.tar.gz"
