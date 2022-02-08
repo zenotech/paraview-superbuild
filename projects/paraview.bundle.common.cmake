@@ -177,6 +177,9 @@ if (surfacetrackercut_enabled)
     SurfaceTrackerCut)
 endif()
 
+# Sort list of plugins alphabetically
+list(SORT paraview_plugins CASE INSENSITIVE)
+
 if (osmesa_built_by_superbuild OR mesa_built_by_superbuild)
   set(mesa_libraries)
   if (mesa_built_by_superbuild)
