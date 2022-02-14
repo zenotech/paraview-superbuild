@@ -11,6 +11,7 @@ function (enable_project name)
 endfunction ()
 
 enable_project(adios2)
+enable_project(blosc)
 enable_project(cosmotools)
 enable_project(ffmpeg)
 enable_project(fortran)
