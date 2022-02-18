@@ -6,7 +6,7 @@ if (WIN32)
 endif ()
 
 set(matplotlib_depends)
-if (APPLE)
+if (APPLE OR UNIX)
   list(APPEND matplotlib_depends
     pkgconf)
 
