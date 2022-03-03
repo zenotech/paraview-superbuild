@@ -285,5 +285,5 @@ superbuild_set_revision(h5py
   URL_MD5 "2f83b8afd70ad59d3bb69c0d0b7d61b1")
 
 superbuild_set_revision(openvdb
-  URL "https://www.paraview.org/files/dependencies/openvdb-8.1.0.tar.gz"
-  URL_MD5 3c621d99498731bb4a6c645969c63996)
+  URL "https://www.paraview.org/files/dependencies/openvdb-8.2.0.tar.gz"
+  URL_MD5 2852fe7176071eaa18ab9ccfad5ec403)
