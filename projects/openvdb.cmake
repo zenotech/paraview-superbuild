@@ -9,3 +9,6 @@ superbuild_add_project(openvdb
 superbuild_add_extra_cmake_args(
   -DOpenVDB_CMAKE_PATH:PATH=<INSTALL_DIR>/lib/cmake/OpenVDB
 )
+
+superbuild_apply_patch(openvdb tbb-disable-autolink
+  "Disable TBB autolinking")
