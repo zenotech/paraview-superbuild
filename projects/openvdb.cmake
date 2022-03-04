@@ -3,6 +3,7 @@ superbuild_add_project(openvdb
   CMAKE_ARGS
     -DUSE_BLOSC:BOOL=ON
     -DUSE_ZLIB:BOOL=ON
+    -DOPENVDB_CORE_STATIC:BOOL=OFF
     -DCMAKE_INSTALL_LIBDIR:PATH=lib)
 
 superbuild_add_extra_cmake_args(
