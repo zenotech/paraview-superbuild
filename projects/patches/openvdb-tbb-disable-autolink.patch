@@ -1,0 +1,21 @@
+diff -u -U5 -r openvdb-8.2.0/cmake/FindTBB.cmake openvdb-8.2.0.tbb-disable-autolink/cmake/FindTBB.cmake
+--- openvdb-8.2.0/cmake/FindTBB.cmake	2021-11-24 01:09:58.000000000 -0500
++++ openvdb-8.2.0.tbb-disable-autolink/cmake/FindTBB.cmake	2022-03-03 21:53:12.448178814 -0500
+@@ -395,15 +395,15 @@
+   set(Tbb_${COMPONENT}_DEFINITIONS)
+ 
+   # Add the TBB linking defines if the library is static on WIN32
+   if(WIN32)
+     if(${COMPONENT} STREQUAL tbb)
+-      if(Tbb_${COMPONENT}_LIB_TYPE STREQUAL STATIC)
++      if(TRUE OR Tbb_${COMPONENT}_LIB_TYPE STREQUAL STATIC)
+         list(APPEND Tbb_${COMPONENT}_DEFINITIONS __TBB_NO_IMPLICIT_LINKAGE=1)
+       endif()
+     else() # tbbmalloc
+-      if(Tbb_${COMPONENT}_LIB_TYPE STREQUAL STATIC)
++      if(TRUE OR Tbb_${COMPONENT}_LIB_TYPE STREQUAL STATIC)
+         list(APPEND Tbb_${COMPONENT}_DEFINITIONS __TBB_MALLOC_NO_IMPLICIT_LINKAGE=1)
+       endif()
+     endif()
+   endif()
+ 

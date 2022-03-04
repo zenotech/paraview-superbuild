@@ -124,14 +124,6 @@ else ()
   set(paraview_build_shared_libs "${BUILD_SHARED_LIBS_paraview}")
 endif ()
 
-get_property(paraview_tbb_supported GLOBAL
-  PROPERTY superbuild_tbb_supported)
-set(paraview_tbb_dependencies)
-if (paraview_tbb_supported)
-  list(APPEND paraview_tbb_dependencies
-    tbb ospray)
-endif ()
-
 set(PARAVIEW_BUILD_ID "<CI>"
   CACHE STRING "ParaView build ID")
 if (PARAVIEW_BUILD_ID STREQUAL "<CI>")
@@ -198,7 +190,7 @@ superbuild_add_project(paraview
     paraviewtutorialdata paraviewweb
     ${paraview_all_plugins}
     ${paraviews_platform_dependencies}
-    ${paraview_tbb_dependencies}
+    tbb ospray
     ${PARAVIEW_EXTERNAL_PROJECTS}
 
   CMAKE_ARGS
