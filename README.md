@@ -294,7 +294,7 @@ time.
 
 The following flags affect ParaView directly:
 
-  * `paraview_SOURCE_SELECTION` (default `5.10.0`): The source to use for
+  * `paraview_SOURCE_SELECTION` (default `5.10.1`): The source to use for
     ParaView itself. The version numbers use the source tarballs from the
     website for the release. The `source` selection uses the
     `paraview_SOURCE_DIR` variable to look at a checked out ParaView source
