@@ -60,7 +60,7 @@ superbuild_set_revision(vortexfinder2
 superbuild_set_revision(surfacetrackercut
   # https://github.com/conniejhe/Surface-Cutting
   URL "https://www.paraview.org/files/dependencies/Surface-Cutting-d808cb1493be2ea982cd80f21ff6a5d92e7ac890.zip"
-  URL_MD5 458cf80bc6b2795ad0bca9f1e220abba)
+  URL_MD5 098edb571179e034c93c5d4b41ffba5d)
 
 #------------------------------------------------------------------------------
 # Optional Plugins. Doesn't affect ParaView binaries at all even if missing
