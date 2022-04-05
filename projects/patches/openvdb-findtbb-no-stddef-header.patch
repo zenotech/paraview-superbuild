@@ -1,0 +1,17 @@
+diff -Nr -U5 openvdb-8.2.0/cmake/FindTBB.cmake openvdb-8.2.0.findtbb/cmake/FindTBB.cmake
+--- openvdb-8.2.0/cmake/FindTBB.cmake	2021-11-24 01:09:58.000000000 -0500
++++ openvdb-8.2.0.findtbb/cmake/FindTBB.cmake	2022-04-05 17:38:23.662576012 -0400
+@@ -161,11 +161,12 @@
+   ${PC_Tbb_INCLUDE_DIRS}
+   ${SYSTEM_LIBRARY_PATHS}
+ )
+ 
+ # Look for a standard tbb header file.
+-find_path(Tbb_INCLUDE_DIR tbb/tbb_stddef.h
++find_path(Tbb_INCLUDE_DIR
++  NAMES tbb/version.h tbb/tbb_stddef.h
+   ${_FIND_TBB_ADDITIONAL_OPTIONS}
+   PATHS ${_TBB_INCLUDE_SEARCH_DIRS}
+   PATH_SUFFIXES ${CMAKE_INSTALL_INCLUDEDIR} include
+ )
+ 
