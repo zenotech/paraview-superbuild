@@ -12,3 +12,5 @@ superbuild_add_extra_cmake_args(
 
 superbuild_apply_patch(openvdb tbb-disable-autolink
   "Disable TBB autolinking")
+superbuild_apply_patch(openvdb findtbb-no-stddef-header
+  "Support newer TBB version header searching")
