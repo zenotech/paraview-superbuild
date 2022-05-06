@@ -1,4 +1,6 @@
 superbuild_add_project(ispc
+  LICENSE_FILES
+    LICENSE.txt
   CONFIGURE_COMMAND ""
   BUILD_COMMAND ""
   INSTALL_COMMAND

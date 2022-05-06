@@ -1,5 +1,7 @@
 superbuild_add_project(visrtx
   DEPENDS nvidiamdl nvidiaoptix
+  LICENSE_FILES
+    LICENSE
   CMAKE_ARGS
     -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
     -DCMAKE_MACOSX_RPATH:BOOL=FALSE

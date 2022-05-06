@@ -31,6 +31,8 @@ endif ()
 
 superbuild_add_project(silo
   DEPENDS zlib hdf5
+  LICENSE_FILES
+    COPYRIGHT
   BUILD_IN_SOURCE 1
   CONFIGURE_COMMAND
     "${CMAKE_COMMAND}"

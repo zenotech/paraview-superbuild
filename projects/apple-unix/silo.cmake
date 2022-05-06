@@ -41,6 +41,8 @@ endif ()
 
 superbuild_add_project(silo
   DEPENDS_OPTIONAL zlib szip hdf5
+  LICENSE_FILES
+    COPYRIGHT
   BUILD_IN_SOURCE 1
   CONFIGURE_COMMAND
     <SOURCE_DIR>/configure

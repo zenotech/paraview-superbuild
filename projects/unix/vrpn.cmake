@@ -1,4 +1,8 @@
 superbuild_add_project(vrpn
+  LICENSE_FILES
+    README.Legal
+    submodules/hidapi/LICENSE-bsd.txt
+    submodules/jsoncpp/LICENSE
   CMAKE_ARGS
     # GPM support is enabled if GPM is found on the machine. This later ends up
     # complaining that it is GPL stuff and needs another flag to work. We never

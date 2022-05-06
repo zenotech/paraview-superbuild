@@ -32,6 +32,8 @@ endif()
 
 superbuild_add_project(embree
   DEPENDS ispc tbb cxx11
+  LICENSE_FILES
+    LICENSE.txt
   CMAKE_ARGS
     ${embree_isa_args}
     ${embree_allow_sse2}

@@ -1,4 +1,6 @@
 superbuild_add_project(socat
+  LICENSE_FILES
+    COPYING # This is the GPL
   CONFIGURE_COMMAND
     <SOURCE_DIR>/configure
       --prefix=<INSTALL_DIR>

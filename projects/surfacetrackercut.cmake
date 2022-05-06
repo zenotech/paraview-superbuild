@@ -1,4 +1,6 @@
 superbuild_add_project(surfacetrackercut
+  LICENSE_FILES
+    LICENSE
   DEPENDS paraview lapack
   DEPENDS_OPTIONAL qt5
   SOURCE_SUBDIR SurfaceTrackerCut

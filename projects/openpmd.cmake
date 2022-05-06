@@ -1,6 +1,10 @@
 superbuild_add_project(openpmd
   DEPENDS python3 nlohmannjson pybind11
   DEPENDS_OPTIONAL hdf5 adios2
+  LICENSE_FILES
+    COPYING.LESSER
+    share/openPMD/thirdParty/json/LICENSE.MIT
+    share/openPMD/thirdParty/pybind11/LICENSE
   CMAKE_ARGS
     -DCMAKE_INSTALL_LIBDIR:STRING=lib
 
