@@ -5,6 +5,8 @@ else()
 endif()
 
 superbuild_add_project(libfabric
+  LICENSE_FILES
+    COPYING # BSD license has been selected.
   CONFIGURE_COMMAND
     <SOURCE_DIR>/configure
     --prefix=<INSTALL_DIR>
@@ -14,3 +16,6 @@ superbuild_add_project(libfabric
   INSTALL_COMMAND
     make install
   BUILD_IN_SOURCE 1)
+
+superbuild_apply_patch(libfabric select-bsd-license
+  "Select and install only BSD license")
