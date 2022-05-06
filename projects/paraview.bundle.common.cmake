@@ -236,6 +236,58 @@ function (paraview_install_kernels_nvidia_index project dir)
   endif ()
 endfunction ()
 
+function (paraview_install_license project)
+    if (EXISTS "${superbuild_install_location}/share/licenses/${project}")
+      install(
+        DIRECTORY   "${superbuild_install_location}/share/licenses/${project}"
+        DESTINATION "share/licenses/"
+        COMPONENT   superbuild)
+    else ()
+      message(FATAL_ERROR "${superbuild_install_location}/share/licenses/${project} does not exist, aborting.")
+    endif()
+endfunction ()
+
+function (paraview_install_all_licenses)
+  set(license_projects "${enabled_projects}")
+
+  foreach (project IN LISTS license_projects)
+    if (NOT ${project}_built_by_superbuild)
+      list(REMOVE_ITEM license_projects ${project})
+    endif()
+  endforeach ()
+
+  # Remove package without licenses
+  list(REMOVE_ITEM license_projects
+    pythonwslink # https://gitlab.kitware.com/paraview/common-superbuild/-/issues/61
+    pythonpywebvue # https://gitlab.kitware.com/paraview/common-superbuild/-/issues/61
+    paraviewwebflow # https://gitlab.kitware.com/paraview/paraview-superbuild/-/issues/218
+    genericio # https://gitlab.kitware.com/paraview/paraview-superbuild/-/issues/217
+    ospraymaterials # CC0 License
+    launchers # ParaView
+    paraviewgettingstartedguide # ParaView
+    paraviewtutorialdata # ParaView
+    )
+
+  # paraview install itself in ParaView directory
+  if (paraview IN_LIST license_projects)
+    list(REMOVE_ITEM license_projects paraview)
+    list(APPEND license_projects ParaView)
+  endif ()
+
+  foreach (project IN LISTS license_projects)
+    paraview_install_license("${project}")
+  endforeach ()
+
+  # When packaging system qt, install the license manually
+  if (qt5_plugin_paths)
+    install(
+      FILES   "${superbuild_source_directory}/projects/files/Qt5.LICENSE.LGPLv3"
+      DESTINATION "share/licenses/qt5/"
+      COMPONENT   superbuild)
+  endif()
+
+endfunction ()
+
 function (paraview_install_extra_data)
   if (paraview_doc_dir)
     paraview_install_pdf(paraviewgettingstartedguide "GettingStarted.pdf")
@@ -253,6 +305,9 @@ function (paraview_install_extra_data)
     paraview_install_kernels_nvidia_index(
       nvidiaindex "share/paraview-${paraview_version}/kernels_nvidia_index/")
   endif ()
+
+  paraview_install_all_licenses()
+
 endfunction ()
 
 if (qt5_enabled)
