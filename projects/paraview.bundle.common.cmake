@@ -268,6 +268,22 @@ function (paraview_install_all_licenses)
     paraviewtutorialdata # ParaView
     )
 
+  # Do not install license of non-packaged projects
+  list(REMOVE_ITEM license_projects
+    gperf
+    meson
+    ninja
+    pkgconf
+    pythoncppy
+    pythonmako
+    pythonpkgconfig
+    pythonpkgconfig
+    pythonsemanticversion
+    pythonsetuptools
+    pythonsetuptoolsrust
+    pythonsetuptoolsscm
+    )
+
   # paraview install itself in ParaView directory
   if (paraview IN_LIST license_projects)
     list(REMOVE_ITEM license_projects paraview)
