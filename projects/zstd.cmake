@@ -5,6 +5,8 @@ endif ()
 
 superbuild_add_project(zstd
   CAN_USE_SYSTEM
+  LICENSE_FILES
+    LICENSE
   SOURCE_SUBDIR build/cmake
   CMAKE_ARGS
     -DBUILD_TESTING:BOOL=OFF

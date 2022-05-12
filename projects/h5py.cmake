@@ -2,6 +2,7 @@ superbuild_add_project_python(h5py
   PACKAGE semantic_version
   DEPENDS hdf5 pythonsetuptools pythoncython numpy pythonpkgconfig
   DEPENDS_OPTIONAL pythonmpi4py
+  LICENSE_FILES LICENSE
   PROCESS_ENVIRONMENT
     HDF5_DIR <INSTALL_DIR>)
 

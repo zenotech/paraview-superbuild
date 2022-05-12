@@ -20,6 +20,8 @@ superbuild_add_project_python(matplotlib
   PACKAGE matplotlib
   DEPENDS numpy png freetype zlib pythondateutil pytz pythonpyparsing pythoncycler pythonsetuptools cxx11 pythonkiwisolver
           ${matplotlib_depends}
+  LICENSE_FILES
+    LICENSE/LICENSE # There are many licenses in matplotlib but it appears only this file applies to the installed files
   CONFIGURE_COMMAND
     "${CMAKE_COMMAND}"
     "-Dinstall_location=<INSTALL_DIR>"

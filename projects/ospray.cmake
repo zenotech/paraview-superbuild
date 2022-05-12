@@ -13,6 +13,8 @@ superbuild_add_project(ospray
   DEPENDS
     ispc tbb cxx11 embree ospraymaterials openimagedenoise rkcommon openvkl
   DEPENDS_OPTIONAL ospraymodulempi snappy mpi
+  LICENSE_FILES
+    LICENSE.txt
   CMAKE_ARGS
     -DOSPRAY_ISPC_DIRECTORY:PATH=<INSTALL_DIR>/bin
     -DCMAKE_INSTALL_NAME_DIR:PATH=<INSTALL_DIR>/lib

@@ -1,4 +1,6 @@
 superbuild_add_project(paraviewwebflow
+  # TODO Add a license
+  # https://gitlab.kitware.com/paraview/paraview-superbuild/-/issues/218
   CONFIGURE_COMMAND
     ""
   BUILD_COMMAND

@@ -5,6 +5,8 @@ if (UNIX AND NOT APPLE)
 endif ()
 
 superbuild_add_project(las
+  LICENSE_FILES
+    LICENSE.txt
   DEPENDS boost
   CMAKE_ARGS
     -DWITH_GDAL:BOOL=FALSE

@@ -1,5 +1,7 @@
 
 superbuild_add_project(openvr
+  LICENSE_FILES
+    LICENSE
   CMAKE_ARGS
     -DBUILD_SHARED:BOOL=TRUE
   INSTALL_COMMAND

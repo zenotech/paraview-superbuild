@@ -23,6 +23,9 @@ superbuild_add_project(adios2
     python3
   DEPENDS_OPTIONAL
     mpi blosc zfp png
+  LICENSE_FILES
+    Copyright.txt
+    LICENSE
   CMAKE_ARGS
     -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
     -DCMAKE_INSTALL_LIBDIR:STRING=lib

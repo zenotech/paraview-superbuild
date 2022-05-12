@@ -4,6 +4,8 @@ if (lookingglass_enabled AND CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "arm64")
 endif ()
 
 superbuild_add_project(lookingglass
+  LICENSE_FILES
+    LICENSE.txt
   CONFIGURE_COMMAND
     ""
   BUILD_COMMAND

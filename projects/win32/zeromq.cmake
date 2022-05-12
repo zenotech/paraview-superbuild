@@ -6,6 +6,8 @@ else()
 endif()
 
 superbuild_add_project(zeromq
+  LICENSE_FILES
+    COPYING.LESSER
   CMAKE_ARGS
     ${zeromq_shared}
     -DBUILD_TESTS:BOOL=OFF

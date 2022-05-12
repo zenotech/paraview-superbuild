@@ -1,4 +1,6 @@
 superbuild_add_project(snappy
+  LICENSE_FILES
+    COPYING
   CMAKE_ARGS
     -DSNAPPY_BUILD_TESTS:BOOL=OFF
     -DCMAKE_INSTALL_LIBDIR:STRING=lib

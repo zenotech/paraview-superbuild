@@ -1,5 +1,7 @@
 superbuild_add_project(openvdb
   DEPENDS tbb cxx14 blosc zlib boost
+  LICENSE_FILES
+    LICENSE
   CMAKE_ARGS
     -DUSE_BLOSC:BOOL=ON
     -DUSE_ZLIB:BOOL=ON

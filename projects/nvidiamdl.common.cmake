@@ -1,4 +1,7 @@
 superbuild_add_project(nvidiamdl
+  LICENSE_FILES
+    "${CMAKE_CURRENT_LIST_DIR}/files/NVIDIA-OptiX-SDK-6.0.0-EULA.txt" # The package only provide a license in .pdf format
+    license.txt
   CONFIGURE_COMMAND ""
   BUILD_COMMAND ""
   INSTALL_COMMAND

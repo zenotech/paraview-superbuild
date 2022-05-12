@@ -1,4 +1,6 @@
 superbuild_add_project(gmsh
+  LICENSE_FILES
+    LICENSE.txt
   CMAKE_ARGS
     -DBUILD_TESTING:BOOL=OFF
     -DENABLE_CAIRO:BOOL=OFF

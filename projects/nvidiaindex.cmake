@@ -6,6 +6,10 @@ if (superbuild_build_phase AND "x${CMAKE_CXX_COMPILER_ID}" STREQUAL "xMSVC")
 endif ()
 
 superbuild_add_project(nvidiaindex
+  LICENSE_FILES
+    "${CMAKE_CURRENT_LIST_DIR}/files/NVIDIA-Index-EULA.txt" # The package only provides a license in .pdf format
+    README.txt
+    license.txt
   CONFIGURE_COMMAND
     ""
   BUILD_COMMAND
