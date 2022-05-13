@@ -74,6 +74,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         autoconf \
         automake \
         build-essential \
+        byacc \
         ca-certificates \
         chrpath \
         curl \
@@ -98,11 +99,12 @@ RUN groupadd pv-user && \
 USER pv-user
 
 # Get CMake
-RUN mkdir -p /home/pv-user/cmake/3.16.4 && cd /home/pv-user/cmake/3.16.4 && \
-    curl -L https://cmake.org/files/v3.16/cmake-3.16.4-Linux-x86_64.tar.gz | tar --strip-components=1 -xzv
+RUN mkdir -p /home/pv-user/cmake/3.18.6 && cd /home/pv-user/cmake/3.18.6 && \
+    curl -L https://cmake.org/files/v3.18/cmake-3.18.6-Linux-x86_64.tar.gz | tar --strip-components=1 -xzv
 
 # Make it easy to find CMake when build external projects and plugins
-env CMAKE_EXECUTABLE /home/pv-user/cmake/3.16.4/bin/cmake
+ENV CMAKE_EXECUTABLE "/home/pv-user/cmake/3.18.6/bin/cmake"
+ENV PATH             "/home/pv-user/cmake/3.18.6/bin:${PATH}"
 
 # Clone the superbuild
 RUN mkdir -p /home/pv-user/pvsb/build && cd /home/pv-user/pvsb && \
