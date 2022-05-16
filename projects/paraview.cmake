@@ -216,7 +216,7 @@ superbuild_add_project(paraview
     -DPARAVIEW_PLUGIN_ENABLE_GmshIO:BOOL=${gmsh_enabled}
     -DPARAVIEW_PLUGIN_ENABLE_NodeEditor:BOOL=${PARAVIEW_ENABLE_NODEEDITOR}
     -DPARAVIEW_PLUGIN_ENABLE_LookingGlass:BOOL=${lookingglass_enabled}
-    -DPARAVIEW_PLUGIN_ENABLE_OpenVR:BOOL=${openvr_enabled}
+    -DPARAVIEW_PLUGIN_ENABLE_XRInterface:BOOL=${openvr_enabled}
     # No netcdftime module in the package.
     -DPARAVIEW_PLUGIN_ENABLE_NetCDFTimeAnnotationPlugin:BOOL=OFF
     -DPARAVIEW_PYTHON_VERSION:STRING=3

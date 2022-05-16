@@ -76,11 +76,11 @@ install(
   DESTINATION "${paraview_plugin_path}"
   COMPONENT   superbuild)
 
-if ("OpenVR" IN_LIST paraview_plugins)
+if ("XRInterface" IN_LIST paraview_plugins)
   file(GLOB openvr_manifests
-    "${superbuild_install_location}/${paraview_plugin_path}/OpenVR/*.json")
+    "${superbuild_install_location}/${paraview_plugin_path}/XRInterface/*.json")
   install(FILES ${openvr_manifests}
-    DESTINATION "${paraview_plugin_path}/OpenVR"
+    DESTINATION "${paraview_plugin_path}/XRInterface"
     COMPONENT "superbuild"
     )
 endif ()
