@@ -89,13 +89,13 @@ endif ()
 option(PARAVIEW_ENABLE_NODEEDITOR "Enable NodeEditor plugin" ON)
 mark_as_advanced(PARAVIEW_ENABLE_NODEEDITOR)
 
-option(PARAVIEW_ENABLE_VRPLUGIN "Enable VRPlugin" ON)
-mark_as_advanced(PARAVIEW_ENABLE_VRPLUGIN)
+option(PARAVIEW_ENABLE_CAVEInteraction "Enable CAVEInteraction plugin" ON)
+mark_as_advanced(PARAVIEW_ENABLE_CAVEInteraction)
 
 # vrui support is only available on linux
-if (PARAVIEW_ENABLE_VRPLUGIN AND UNIX)
+if (PARAVIEW_ENABLE_CAVEInteraction AND UNIX)
   list(APPEND paraview_extra_cmake_options
-    -DPARAVIEW_PLUGIN_VRPlugin_USE_VRUI:BOOL=ON
+    -DPARAVIEW_PLUGIN_CAVEInteraction_USE_VRUI:BOOL=ON
   )
 endif()
 
@@ -252,8 +252,8 @@ superbuild_add_project(paraview
     -DPARAVIEW_PLUGIN_ENABLE_pvNVIDIAIndeX:BOOL=${nvidiaindex_enabled}
 
     # vrpn
-    -DPARAVIEW_PLUGIN_ENABLE_VRPlugin:BOOL=${PARAVIEW_ENABLE_VRPLUGIN}
-    -DPARAVIEW_PLUGIN_VRPlugin_USE_VRPN:BOOL=${vrpn_enabled}
+    -DPARAVIEW_PLUGIN_ENABLE_CAVEInteraction:BOOL=${PARAVIEW_ENABLE_CAVEInteraction}
+    -DPARAVIEW_PLUGIN_CAVEInteraction_USE_VRPN:BOOL=${vrpn_enabled}
 
     # vtkm
     -DPARAVIEW_PLUGIN_ENABLE_VTKmFilters:BOOL=${vtkm_enabled}
