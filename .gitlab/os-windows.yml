@@ -102,7 +102,6 @@
         - *before_script_windows
         - *before_script_windows_deps
         - *before_script_windows_paraview
-        - Set-Item -Force -Path "env:GIT_CEILING_DIRECTORIES" -Value "$pwdpath"
         - Set-Item -Force -Path "env:PATH" -Value "$env:PATH;$env:SCCACHE_PATH"
         - Invoke-Expression -Command .gitlab/ci/vcvarsall.ps1
         - sccache --start-server
