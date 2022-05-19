@@ -336,11 +336,12 @@ The following flags affect ParaView directly:
   * `PARAVIEW_EXTRA_CMAKE_ARGUMENTS` (default `""`: Extra CMake arguments to
     pass to ParaView's configure step. This can be used to set CMake variables
     for the build that are otherwise not exposed in the superbuild itself.
-  * `PARAVIEW_ENABLE_VRPLUGIN` (default `ON`): Enables the VRPlugin. If
-    `vrpn` is enabled, the VRPlugin will support input devices through a VRPN
+  * `PARAVIEW_ENABLE_CAVEInteraction` (default `ON`): Enables the CAVEInteraction. If
+    `vrpn` is enabled, the CAVEInteraction will support input devices through a VRPN
     connection. VRUI support is enabled unconditionally on Linux.
   * `PARAVIEW_ENABLE_NODEEDITOR` (default `OFF`): Enables the NodeEditor
     plugin.
+  * `PARAVIEW_ENABLE_XRInterface` (default `ON`): Enables the XRInterface plugin.
 
 #### ParaView editions
 
