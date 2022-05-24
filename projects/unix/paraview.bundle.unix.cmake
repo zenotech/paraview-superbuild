@@ -251,7 +251,7 @@ if (EXISTS "${superbuild_install_location}/lib/libcatalyst.so.2")
       INCLUDE_REGEXES ${include_regexes}
       EXCLUDE_REGEXES ${exclude_regexes})
   endforeach ()
-else ()
+elseif (catalyst_enabled)
   set(adaptors
     "paraview"
     "stub")

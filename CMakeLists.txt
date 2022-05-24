@@ -43,6 +43,7 @@ function (superbuild_find_projects var)
     blosc
     boost
     bzip2
+    catalyst
     cuda
     eigen
     embree
