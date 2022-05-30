@@ -103,22 +103,7 @@ endif ()
 
 # Simple test to test paraviewweb.
 if (paraviewweb_enabled)
-  paraview_add_python_test("pvweb" "basic_paraviewweb")
-
-  if (paraviewwebvisualizer_enabled)
-    set(PROJECT_DIR "${CMAKE_BINARY_DIR}/superbuild/paraviewwebvisualizer/src")
-    set(SERVER_SCRIPT "${PROJECT_DIR}/server/pvw-visualizer.py")
-    set(CONTENT_DIR "${PROJECT_DIR}/dist")
-    paraview_add_test("pvweb-visualizer" "${pvpython_exe}"
-      "${SERVER_SCRIPT}"
-      "--port" "8082"
-      "--timeout" "10"
-      "--content" "${CONTENT_DIR}")
-    # check for exceptions and tracebacks during python execution
-    set_tests_properties(paraview-pvweb-visualizer PROPERTIES
-      FAIL_REGULAR_EXPRESSION "${python_exception_regex}"
-    )
-  endif ()
+  paraview_add_python_test("pv.apps.visualizer" "pv_apps_visualizer")
 endif ()
 
 if (numpy_enabled)
