@@ -52,6 +52,7 @@ function (superbuild_find_projects var)
     hdf5
     h5py
     ispc
+    jsoncpp
     las
     libjpegturbo
     lookingglass
@@ -68,6 +69,7 @@ function (superbuild_find_projects var)
     openvkl
     ospray
     ospraymodulempi
+    openxrsdk
     paraviewweb
     paraviewwebglance
     paraviewweblite
