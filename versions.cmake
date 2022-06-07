@@ -147,9 +147,15 @@ superbuild_set_revision(lookingglass
 
 # license does not allow public distribution - external devs should download the SDK themselves.
 # https://3dconnexion.com/us/software-developer-program/
-superbuild_set_revision(threedxwaresdk
-  URL     "https://www.paraview.org/files/dependencies/internal/3DxWare_SDK_v4-0-2_r17624.zip"
-  URL_MD5 92a2acf48b0f30066acf052d00f663fd)
+if (WIN32)
+  superbuild_set_revision(threedxwaresdk
+    URL     "https://www.paraview.org/files/dependencies/internal/3DxWare_SDK_v4-0-2_r17624.zip"
+    URL_MD5 92a2acf48b0f30066acf052d00f663fd)
+elseif(APPLE)
+  superbuild_set_revision(threedxwaresdk
+    URL     "https://www.paraview.org/files/dependencies/internal/3DxWareSDK_MacOS.tgz"
+    URL_MD5 a23b54d6222d8cb5f726ab842a01037f)
+endif()
 
 superbuild_set_revision(gmsh
   URL     "https://www.paraview.org/files/dependencies/gmsh-4.8.4-source.tgz"
