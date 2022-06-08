@@ -258,7 +258,6 @@ function (paraview_install_all_licenses)
 
   # Remove package without licenses
   list(REMOVE_ITEM license_projects
-    pythonwslink # https://gitlab.kitware.com/paraview/common-superbuild/-/issues/61
     pythonpywebvue # https://gitlab.kitware.com/paraview/common-superbuild/-/issues/61
     paraviewwebflow # https://gitlab.kitware.com/paraview/paraview-superbuild/-/issues/218
     genericio # https://gitlab.kitware.com/paraview/paraview-superbuild/-/issues/217
