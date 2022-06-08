@@ -191,7 +191,7 @@ function (superbuild_find_projects var)
       list(APPEND projects
         visrtx)
     endif ()
-    if (WIN32)
+    if (WIN32 OR APPLE)
       # requires a login to download the SDK, so hosted internally at Kitware.
       list(APPEND projects
         threedxwaresdk

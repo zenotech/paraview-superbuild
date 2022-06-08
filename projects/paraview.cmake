@@ -273,6 +273,9 @@ superbuild_add_project(paraview
     # OpenVDB (not in ParaView v5.9.1 but in master)
     -DPARAVIEW_ENABLE_OPENVDB:BOOL=${openvdb_enabled}
 
+    # 3Dconnexion SpaceMouse
+    -DPARAVIEW_PLUGIN_ENABLE_SpaceMouseInteractor:BOOL=${threedxwaresdk_enabled}
+
     ${paraview_extra_cmake_options}
 
     ${PARAVIEW_EXTRA_CMAKE_ARGUMENTS})
