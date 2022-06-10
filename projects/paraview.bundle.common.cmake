@@ -109,7 +109,6 @@ check_for_python_module(pythonpandas pandas)
 check_for_python_module(pythonpillow PIL)
 check_for_python_module(pythonpygments pygments)
 check_for_python_module(pythonpyparsing pyparsing)
-check_for_python_module(pythonpywebvue pywebvue)
 check_for_python_module(pythonsix six)
 check_for_python_module(pythontypingextensions typing_extensions)
 check_for_python_module(pythonwslinkasync wslink)
@@ -258,9 +257,6 @@ function (paraview_install_all_licenses)
 
   # Remove package without licenses
   list(REMOVE_ITEM license_projects
-    pythonwslink # https://gitlab.kitware.com/paraview/common-superbuild/-/issues/61
-    pythonpywebvue # https://gitlab.kitware.com/paraview/common-superbuild/-/issues/61
-    paraviewwebflow # https://gitlab.kitware.com/paraview/paraview-superbuild/-/issues/218
     genericio # https://gitlab.kitware.com/paraview/paraview-superbuild/-/issues/217
     ospraymaterials # CC0 License
     launchers # ParaView

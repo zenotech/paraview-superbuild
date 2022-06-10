@@ -101,7 +101,6 @@ function (superbuild_find_projects var)
     pythonpygments
     pythonpyparsing
     pythonpythran
-    pythonpywebvue
     pythonsemanticversion
     pythonsetuptools
     pythonsetuptoolsrust
