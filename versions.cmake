@@ -149,8 +149,8 @@ if (WIN32)
     URL_MD5 92a2acf48b0f30066acf052d00f663fd)
 elseif(APPLE)
   superbuild_set_revision(threedxwaresdk
-    URL     "https://www.paraview.org/files/dependencies/internal/3DxWareSDK_MacOS.tgz"
-    URL_MD5 a23b54d6222d8cb5f726ab842a01037f)
+    URL     "https://www.paraview.org/files/dependencies/internal/3DxWareMac_v10-7-2_r3454_MacOS.tgz"
+    URL_MD5 b1dad69c070ae401d54fb36618c5f4b2)
 endif()
 
 superbuild_set_revision(gmsh

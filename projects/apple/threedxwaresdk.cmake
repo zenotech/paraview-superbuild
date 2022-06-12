@@ -14,5 +14,6 @@ superbuild_add_project(threedxwaresdk
 )
 
 superbuild_add_extra_cmake_args(
-  -D3DxWareSDK_ROOT:PATH=<INSTALL_DIR>
+  -D3DxWareSDK_ROOT:PATH=<INSTALL_DIR>/lib
+  -D3DxWareSDK_INCLUDE_DIR:PATH=<INSTALL_DIR>/include
 )
