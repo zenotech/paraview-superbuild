@@ -236,14 +236,14 @@ function (paraview_install_kernels_nvidia_index project dir)
 endfunction ()
 
 function (paraview_install_license project)
-    if (EXISTS "${superbuild_install_location}/share/licenses/${project}")
-      install(
-        DIRECTORY   "${superbuild_install_location}/share/licenses/${project}"
-        DESTINATION "share/licenses/"
-        COMPONENT   superbuild)
-    else ()
-      message(FATAL_ERROR "${superbuild_install_location}/share/licenses/${project} does not exist, aborting.")
-    endif()
+  if (EXISTS "${superbuild_install_location}/share/licenses/${project}")
+    install(
+      DIRECTORY   "${superbuild_install_location}/share/licenses/${project}"
+      DESTINATION "share/licenses/"
+      COMPONENT   superbuild)
+  else ()
+    message(FATAL_ERROR "${superbuild_install_location}/share/licenses/${project} does not exist, aborting.")
+  endif ()
 endfunction ()
 
 function (paraview_install_all_licenses)
@@ -252,7 +252,7 @@ function (paraview_install_all_licenses)
   foreach (project IN LISTS license_projects)
     if (NOT ${project}_built_by_superbuild)
       list(REMOVE_ITEM license_projects ${project})
-    endif()
+    endif ()
   endforeach ()
 
   # Remove package without licenses
@@ -296,8 +296,7 @@ function (paraview_install_all_licenses)
       FILES   "${superbuild_source_directory}/projects/files/Qt5.LICENSE.LGPLv3"
       DESTINATION "share/licenses/qt5/"
       COMPONENT   superbuild)
-  endif()
-
+  endif ()
 endfunction ()
 
 function (paraview_install_extra_data)
