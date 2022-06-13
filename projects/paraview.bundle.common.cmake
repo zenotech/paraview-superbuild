@@ -257,7 +257,6 @@ function (paraview_install_all_licenses)
 
   # Remove package without licenses
   list(REMOVE_ITEM license_projects
-    genericio # https://gitlab.kitware.com/paraview/paraview-superbuild/-/issues/217
     ospraymaterials # CC0 License
     launchers # ParaView
     paraviewgettingstartedguide # ParaView
