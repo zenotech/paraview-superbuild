@@ -15,8 +15,8 @@ superbuild_set_revision(silo
   URL_MD5 d2a9023f63de361d91f94646d5d1974e)
 
 superbuild_set_revision(genericio
-  URL     "https://www.paraview.org/files/dependencies/genericio-master-a15ffc76cfa9f9674f933e8cb5ffc97a97fd7b27.zip"
-  URL_MD5 daea4ea2076fb6a1b8ccded8e861e1be)
+  URL     "https://www.paraview.org/files/dependencies/genericio-master-4fddf723bca61c87f51dba1d9f215dfdd6e5b31d.tar.xz"
+  URL_MD5 0d06f2105b8479e7a4e5436c5f38ae71)
 
 set(paraview_doc_ver_series "5.10")
 set(paraview_doc_ver "${paraview_doc_ver_series}.0")
