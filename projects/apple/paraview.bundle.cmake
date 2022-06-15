@@ -40,6 +40,10 @@ if (fortran_enabled)
     ".*/libgcc_s.1.dylib")
 endif ()
 
+# Framework lib for SpaceMouseInteractor plugin, must be installed by the user.
+list(APPEND ignore_regexes
+  ".*/3DconnexionNavlib")
+
 set(additional_libraries)
 if (ospray_enabled)
   set(osprayextra_libraries
