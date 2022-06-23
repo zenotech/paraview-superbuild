@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 # Install the nvidia repository.
 yum-config-manager --add-repo https://developer.download.nvidia.com/compute/cuda/repos/rhel7/x86_64/cuda-rhel7.repo
 

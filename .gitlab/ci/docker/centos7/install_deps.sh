@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 # Install build requirements.
 yum install -y \
     zlib-devel libcurl-devel python-devel \
