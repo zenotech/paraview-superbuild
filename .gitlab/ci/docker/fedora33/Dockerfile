@@ -1,5 +1,5 @@
 FROM fedora:33
-MAINTAINER Utkarsh Ayachit <utkarsh.ayachit@kitware.com>
+MAINTAINER Ben Boeckel <ben.boeckel@kitware.com>
 
 RUN dnf install --setopt=install_weak_deps=False -y \
   /usr/bin/glxinfo git mesa-dri-drivers mesa-libGL* \
