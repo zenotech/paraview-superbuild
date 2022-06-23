@@ -6,7 +6,8 @@ set -e
 yum install -y \
     zlib-devel libcurl-devel python-devel \
     freeglut-devel glew-devel graphviz-devel libpng-devel \
-    libxcb libxcb-devel libXt-devel xcb-util xcb-util-devel \
+    libxcb-devel libXt-devel xcb-util-wm-devel xcb-util-devel \
+    xcb-util-image-devel xcb-util-keysyms-devel xcb-util-renderutil-devel \
     libXcursor-devel mesa-libGL-devel mesa-libEGL-devel \
     libxkbcommon-devel libxkbcommon-x11-devel file mesa-dri-drivers autoconf \
     automake libtool chrpath bison flex libXrandr-devel
