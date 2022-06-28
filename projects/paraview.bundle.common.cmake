@@ -239,7 +239,7 @@ function (paraview_install_license project)
   if (EXISTS "${superbuild_install_location}/share/licenses/${project}")
     install(
       DIRECTORY   "${superbuild_install_location}/share/licenses/${project}"
-      DESTINATION "share/licenses/"
+      DESTINATION "${paraview_license_path}"
       COMPONENT   superbuild)
   else ()
     message(FATAL_ERROR "${superbuild_install_location}/share/licenses/${project} does not exist, aborting.")
@@ -293,7 +293,7 @@ function (paraview_install_all_licenses)
   if (qt5_plugin_paths)
     install(
       FILES   "${superbuild_source_directory}/projects/files/Qt5.LICENSE.LGPLv3"
-      DESTINATION "share/licenses/qt5/"
+      DESTINATION "${paraview_license_path}"
       COMPONENT   superbuild)
   endif ()
 endfunction ()
