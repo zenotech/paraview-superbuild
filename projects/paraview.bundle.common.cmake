@@ -293,7 +293,7 @@ function (paraview_install_all_licenses)
   if (qt5_plugin_paths)
     install(
       FILES   "${superbuild_source_directory}/projects/files/Qt5.LICENSE.LGPLv3"
-      DESTINATION "${paraview_license_path}"
+      DESTINATION "${paraview_license_path}/qt5"
       COMPONENT   superbuild)
   endif ()
 endfunction ()
