@@ -9,11 +9,11 @@
 # newer compilers.
 
 .centos7:
-    image: "kitware/paraview:ci-superbuild-centos7-20220111"
+    image: "kitware/paraview:ci-superbuild-centos7-20220630"
 
     variables:
         GIT_SUBMODULE_STRATEGY: none
-        LAUNCHER: "scl enable devtoolset-7 --"
+        LAUNCHER: "scl enable devtoolset-7 rh-git227 --"
         GIT_CLONE_PATH: $CI_BUILDS_DIR/gitlab-kitware-sciviz-ci
         CUDACXX: "/usr/local/cuda-11.2/bin/nvcc"
 
@@ -41,21 +41,21 @@
     variables:
         CMAKE_CONFIGURATION: linux_osmesa_static
 
-.fedora33:
-    image: "kitware/paraview:ci-superbuild-fedora33-20210223"
+.fedora36:
+    image: "kitware/paraview:ci-superbuild-fedora36-20220702"
 
     variables:
         GIT_SUBMODULE_STRATEGY: none
         GIT_CLONE_PATH: $CI_BUILDS_DIR/gitlab-kitware-sciviz-ci
 
-.fedora33_plain:
-    extends: .fedora33
+.fedora36_plain:
+    extends: .fedora36
 
     variables:
         CMAKE_CONFIGURATION: linux_plain
 
-.fedora33_egl:
-    extends: .fedora33
+.fedora36_egl:
+    extends: .fedora36
 
     variables:
         CMAKE_CONFIGURATION: linux_egl
