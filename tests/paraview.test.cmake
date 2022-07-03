@@ -114,6 +114,10 @@ if (scipy_enabled)
   paraview_add_python_test("import-scipy" "import_scipy")
 endif ()
 
+if (sympy_enabled)
+  paraview_add_python_test("import-sympy" "import_sympy")
+endif ()
+
 if (matplotlib_enabled)
   paraview_add_python_test("import-matplotlib" "import_matplotlib")
 endif ()

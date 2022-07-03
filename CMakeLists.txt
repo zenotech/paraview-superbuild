@@ -95,6 +95,7 @@ function (superbuild_find_projects var)
     pythonidna
     pythonkiwisolver
     pythonmako
+    pythonmpmath
     pythonmultidict
     #pythonpillow
     pythonpandas
@@ -122,6 +123,7 @@ function (superbuild_find_projects var)
     silo
     snappy
     sqlite
+    sympy
     szip
     tiff
     ttk
