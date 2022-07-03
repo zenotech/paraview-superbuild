@@ -118,6 +118,7 @@ function (superbuild_find_projects var)
     #qhull
     qt5
     rkcommon
+    scipy
     silo
     snappy
     sqlite
@@ -153,7 +154,6 @@ function (superbuild_find_projects var)
       mili
       pkgconf
       rapidjson
-      scipy
       surfacetrackercut)
 
     if (NOT APPLE)
