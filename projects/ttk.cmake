@@ -145,3 +145,10 @@ superbuild_add_project(ttk
     -DTTK_WHITELIST_MODE:BOOL=TRUE
     ${ttk_module_settings}
   )
+
+superbuild_apply_patch(ttk gcc12-includes
+  "Fix includes with GCC 12")
+
+# https://github.com/topology-tool-kit/ttk/pull/804
+superbuild_apply_patch(ttk threshold-fixes
+  "API updates for vtkThreshold deprecation removals")
