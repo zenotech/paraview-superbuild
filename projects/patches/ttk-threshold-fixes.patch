@@ -1,0 +1,49 @@
+diff -u -U5 -r src.orig/core/vtk/ttkExtract/ttkExtract.cpp src/core/vtk/ttkExtract/ttkExtract.cpp
+--- src.orig/core/vtk/ttkExtract/ttkExtract.cpp	2021-07-20 09:59:39.000000000 -0400
++++ src/core/vtk/ttkExtract/ttkExtract.cpp	2022-07-05 09:47:54.403714366 -0400
+@@ -490,11 +490,12 @@
+ 
+     auto threshold = vtkSmartPointer<vtkThreshold>::New();
+     threshold->SetInputDataObject(maskOutput);
+     threshold->SetInputArrayToProcess(
+       0, 0, 0, isPointDataArray ? 0 : 1, "Mask");
+-    threshold->ThresholdByUpper(0.5);
++    threshold->SetThresholdFunction(vtkThreshold::THRESHOLD_UPPER);
++    threshold->SetUpperThreshold(0.5);
+     threshold->SetAllScalars(this->CellMode == CELL_MODE::ALL);
+     threshold->Update();
+ 
+     outputAsDS->ShallowCopy(threshold->GetOutput());
+ 
+diff --git a/core/vtk/ttkFTMTree/ttkFTMTree.cpp b/core/vtk/ttkFTMTree/ttkFTMTree.cpp
+index feb63ab584..a8ec88fb30 100644
+--- a/core/vtk/ttkFTMTree/ttkFTMTree.cpp
++++ b/core/vtk/ttkFTMTree/ttkFTMTree.cpp
+@@ -102,7 +102,9 @@ int ttkFTMTree::RequestData(vtkInformation *ttkNotUsed(request),
+         threshold->SetInputConnection(connectivity->GetOutputPort());
+         threshold->SetInputArrayToProcess(
+           0, 0, 0, vtkDataObject::FIELD_ASSOCIATION_CELLS, "RegionId");
+-        threshold->ThresholdBetween(cc, cc);
++        threshold->SetThresholdFunction(vtkThreshold::THRESHOLD_BETWEEN);
++        threshold->SetLowerThreshold(cc);
++        threshold->SetUpperThreshold(cc);
+         threshold->Update();
+         connected_components_[cc] = vtkSmartPointer<vtkUnstructuredGrid>::New();
+         connected_components_[cc]->ShallowCopy(threshold->GetOutput());
+diff -u -U5 -r src.orig/core/vtk/ttkProjectionFromField/ttkProjectionFromField.cpp src/core/vtk/ttkProjectionFromField/ttkProjectionFromField.cpp
+--- src.orig/core/vtk/ttkProjectionFromField/ttkProjectionFromField.cpp	2021-07-20 09:59:39.000000000 -0400
++++ src/core/vtk/ttkProjectionFromField/ttkProjectionFromField.cpp	2022-07-05 09:48:22.788716666 -0400
+@@ -51,11 +51,12 @@
+   // use vtkThreshold to remove diagonal (PairIdentifier == -1)
+   vtkNew<vtkThreshold> threshold{};
+   threshold->SetInputDataObject(0, inputDiagram);
+   threshold->SetInputArrayToProcess(
+     0, 0, 0, vtkDataObject::FIELD_ASSOCIATION_CELLS, "PairIdentifier");
+-  threshold->ThresholdByUpper(0);
++  threshold->SetThresholdFunction(vtkThreshold::THRESHOLD_UPPER);
++  threshold->SetUpperThreshold(0);
+   threshold->Update();
+ 
+   auto diagonalLess = threshold->GetOutput();
+   auto diagonalLessData = diagonalLess->GetPointData();
+ 
