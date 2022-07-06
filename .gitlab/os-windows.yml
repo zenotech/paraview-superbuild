@@ -102,15 +102,14 @@
         - *before_script_windows
         - *before_script_windows_deps
         - *before_script_windows_paraview
-        - Set-Item -Force -Path "env:PATH" -Value "$env:PATH;$env:SCCACHE_PATH"
+        - Invoke-Expression -Command .gitlab/ci/buildcache.ps1
+        - Set-Item -Force -Path "env:PATH" -Value "$env:PATH;$pwdpath\.gitlab\buildcache\bin"
         - Invoke-Expression -Command .gitlab/ci/vcvarsall.ps1
-        - sccache --start-server
-        - sccache --show-stats
+        - buildcache --show-stats
         - ctest -VV -S .gitlab/ci/ctest_configure.cmake
         - ctest -VV -S .gitlab/ci/ctest_build.cmake
         - ctest -V --output-on-failure -S .gitlab/ci/ctest_package.cmake
-        - sccache --show-stats
-        - sccache --stop-server
+        - buildcache --show-stats
     interruptible: true
 
 .cmake_test_windows:
