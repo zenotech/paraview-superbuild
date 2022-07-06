@@ -289,9 +289,8 @@ superbuild_set_revision(jsonc
   URL_MD5 4f3288a5f14e0e6abe914213f41234e0)
 
 superbuild_set_revision(gdal
-  # https://github.com/judajake/gdal-svn.git
-  URL     "https://www.paraview.org/files/dependencies/gdal-98353693d6f1d607954220b2f8b040375e3d1744.tar.bz2"
-  URL_MD5 5aa285dcc856f98ce44020ae1ae192cb)
+  URL     "https://www.paraview.org/files/dependencies/gdal-3.5.1.tar.gz"
+  URL_MD5 90ec67df8648e36795937c07406815ea)
 
 superbuild_set_revision(launchers
   SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/launchers")
