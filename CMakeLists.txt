@@ -141,7 +141,6 @@ function (superbuild_find_projects var)
       ffmpeg
       fides
       fortran
-      gdal
       genericio
       gmsh
       lapack
