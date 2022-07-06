@@ -49,9 +49,11 @@ function (superbuild_find_projects var)
     embree
     freetype
     gdal
+    geotiff
     hdf5
     h5py
     ispc
+    jsonc
     jsoncpp
     las
     libjpegturbo
@@ -76,6 +78,7 @@ function (superbuild_find_projects var)
     paraviewwebdivvy
     paraviewwebvisualizer
     png
+    proj
     protobuf
     pybind11
     pythonaiohttp
@@ -119,6 +122,7 @@ function (superbuild_find_projects var)
     snappy
     sqlite
     szip
+    tiff
     ttk
     tbb
     visitbridge
