@@ -117,6 +117,7 @@ function (superbuild_find_projects var)
     rkcommon
     silo
     snappy
+    sqlite
     szip
     ttk
     tbb
@@ -149,8 +150,7 @@ function (superbuild_find_projects var)
       pkgconf
       rapidjson
       scipy
-      surfacetrackercut
-      sqlite)
+      surfacetrackercut)
 
     if (NOT APPLE)
       list(APPEND projects
