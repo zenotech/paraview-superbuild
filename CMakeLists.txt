@@ -49,9 +49,11 @@ function (superbuild_find_projects var)
     embree
     freetype
     gdal
+    geotiff
     hdf5
     h5py
     ispc
+    jsonc
     jsoncpp
     las
     libjpegturbo
@@ -76,6 +78,7 @@ function (superbuild_find_projects var)
     paraviewwebdivvy
     paraviewwebvisualizer
     png
+    proj
     protobuf
     pybind11
     pythonaiohttp
@@ -117,7 +120,9 @@ function (superbuild_find_projects var)
     rkcommon
     silo
     snappy
+    sqlite
     szip
+    tiff
     ttk
     tbb
     visitbridge
@@ -140,7 +145,6 @@ function (superbuild_find_projects var)
       ffmpeg
       fides
       fortran
-      gdal
       genericio
       gmsh
       lapack
@@ -149,8 +153,7 @@ function (superbuild_find_projects var)
       pkgconf
       rapidjson
       scipy
-      surfacetrackercut
-      sqlite)
+      surfacetrackercut)
 
     if (NOT APPLE)
       list(APPEND projects

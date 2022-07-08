@@ -272,10 +272,25 @@ superbuild_set_revision(protobuf
   URL_MD5 "d7f8e0e3ffeac721e18cdf898eff7d31"
   SOURCE_SUBDIR cmake)
 
+superbuild_set_revision(tiff
+  URL     "https://www.paraview.org/files/dependencies/libtiff-v4.4.0.tar.bz2"
+  URL_MD5 ba175e36b1f6929da1c3c676b98c5db3)
+
+superbuild_set_revision(geotiff
+  URL     "https://www.paraview.org/files/dependencies/libgeotiff-1.7.1.tar.gz"
+  URL_MD5 22879ac6f83460605f9c39147a2ccc7a)
+
+superbuild_set_revision(proj
+  URL     "https://www.paraview.org/files/dependencies/proj-9.0.1.tar.gz"
+  URL_MD5 d4eca355288bbfe35caaedbd595787dc)
+
+superbuild_set_revision(jsonc
+  URL     "https://www.paraview.org/files/dependencies/json-c-0.16-20220414.tar.gz"
+  URL_MD5 4f3288a5f14e0e6abe914213f41234e0)
+
 superbuild_set_revision(gdal
-  # https://github.com/judajake/gdal-svn.git
-  URL     "https://www.paraview.org/files/dependencies/gdal-98353693d6f1d607954220b2f8b040375e3d1744.tar.bz2"
-  URL_MD5 5aa285dcc856f98ce44020ae1ae192cb)
+  URL     "https://www.paraview.org/files/dependencies/gdal-3.5.1.tar.gz"
+  URL_MD5 90ec67df8648e36795937c07406815ea)
 
 superbuild_set_revision(launchers
   SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/launchers")

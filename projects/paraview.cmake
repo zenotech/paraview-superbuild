@@ -190,7 +190,8 @@ superbuild_add_project(paraview
     paraviewtutorialdata paraviewweb
     ${paraview_all_plugins}
     ${paraviews_platform_dependencies}
-    tbb ospray
+    tbb ospray sqlite
+    tiff proj
     ${PARAVIEW_EXTERNAL_PROJECTS}
 
   CMAKE_ARGS
@@ -234,9 +235,12 @@ superbuild_add_project(paraview
     -DVTK_MODULE_USE_EXTERNAL_VTK_expat:BOOL=${expat_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_freetype:BOOL=${freetype_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_hdf5:BOOL=${hdf5_enabled}
+    -DVTK_MODULE_USE_EXTERNAL_VTK_libproj:BOOL=${proj_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_libxml2:BOOL=${libxml2_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_netcdf:BOOL=${netcdf_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_png:BOOL=${png_enabled}
+    -DVTK_MODULE_USE_EXTERNAL_VTK_sqlite:BOOL=${sqlite_enabled}
+    -DVTK_MODULE_USE_EXTERNAL_VTK_tiff:BOOL=${tiff_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_zlib:BOOL=${zlib_enabled}
     -DVTK_OPENGL_HAS_EGL:BOOL=${egl_enabled}
     -DVTK_OPENGL_HAS_OSMESA:BOOL=${osmesa_enabled}

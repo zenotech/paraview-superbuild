@@ -1,38 +1,44 @@
+set(gdal_optional_depends)
+if (ALLOW_openssl)
+  list(APPEND gdal_optional_depends
+    openssl)
+endif ()
+
+set(gdal_use_iconv OFF)
+if (UNIX AND NOT APPLE)
+  set(gdal_use_iconv ON)
+endif ()
+
 superbuild_add_project(gdal
-  DEPENDS zlib
-  DEPENDS_OPTIONAL cxx11
+  DEPENDS cxx11 zlib proj tiff geotiff png jsonc
+  DEPENDS_OPTIONAL blosc libjpegturbo hdf5 sqlite
+    ${gdal_optional_depends}
   LICENSE_FILES
     LICENSE.TXT
   CMAKE_ARGS
-    -DGDAL_USE_CURL:BOOL=OFF
-    -DGDAL_USE_LIBJPEG_INTERNAL:BOOL=ON
-    -DGDAL_USE_LIBTIFF_INTERNAL:BOOL=ON
-    -DGDAL_ENABLE_FRMT_PDF:BOOL=OFF
-    -DGDAL_ENABLE_FRMT_VRT:BOOL=ON
-    -DOGR_ENABLE_SHP:BOOL=ON
-    -DGDAL_ENABLE_FRMT_MEM:BOOL=ON
-    -DOGR_ENABLE_MEM:BOOL=ON)
-
-superbuild_apply_patch(gdal no-sqlite
-  "Disable sqlite support in GML")
-superbuild_apply_patch(gdal lt_objdir-warning
-  "Fix warning about LT_OBJDIR redefinition")
-superbuild_apply_patch(gdal no-geos
-  "Skip GEOS and Armadillo support")
-superbuild_apply_patch(gdal pointer-comparison
-  "Fix illegal pointer comparisons")
-superbuild_apply_patch(gdal incdirs-fix
-  "Remove unnecessary include directory")
-
-if (APPLE)
-  set(gdal_lib <INSTALL_DIR>/lib/libgdal111.dylib)
-elseif (WIN32)
-  set(gdal_lib <INSTALL_DIR>/lib/gdal111.lib)
-else ()
-  set(gdal_lib <INSTALL_DIR>/lib/libgdal111.so)
-endif ()
-
-superbuild_add_extra_cmake_args(
-  -DGDAL_ROOT:PATH=<INSTALL_DIR>
-  -DGDAL_INCLUDE_DIR:PATH=<INSTALL_DIR>/include/gdal
-  -DGDAL_LIBRARY:FILEPATH=${gdal_lib})
+    -DCMAKE_INSTALL_LIBDIR:STRING=lib
+    -DCMAKE_INSTALL_NAME_DIR:PATH=<INSTALL_DIR>/lib
+    -DGDAL_USE_EXTERNAL_LIBS:BOOL=OFF
+    -DGDAL_USE_INTERNAL_LIBS:BOOL=OFF
+    -DGDAL_USE_BLOSC:BOOL=${blosc_enabled}
+    -DGDAL_USE_GEOTIFF:BOOL=${geotiff_enabled}
+    -DGDAL_USE_ICONV:BOOL=${gdal_use_iconv}
+    -DGDAL_USE_JPEG:BOOL=${libjpegturbo_enabled}
+    -DGDAL_USE_JSONC:BOOL=${jsonc_enabled}
+    -DGDAL_USE_OPENSSL:BOOL=${openssl_enabled}
+    -DGDAL_USE_PNG:BOOL=${png_enabled}
+    -DGDAL_USE_SQLITE3:BOOL=${sqlite_enabled}
+    -DGDAL_USE_TIFF:BOOL=${tiff_enabled}
+    -DGDAL_USE_ZLIB:BOOL=${zlib_enabled}
+    -DGDAL_BUILD_OPTIONAL_DRIVERS:BOOL=OFF
+    -DGDAL_ENABLE_DRIVER_HDF5:BOOL=${hdf5_enabled}
+    -DOGR_ENABLE_OPTIONAL_DRIVERS:BOOL=OFF
+    -DOGR_ENABLE_DRIVER_DGN:BOOL=OFF
+    -DOGR_ENABLE_DRIVER_IDRISI:BOOL=OFF
+    -DOGR_ENABLE_DRIVER_SDTS:BOOL=OFF
+    -DOGR_ENABLE_DRIVER_S57:BOOL=OFF
+    -DBUILD_APPS:BOOL=OFF
+    -DBUILD_CSHARP_BINDINGS:BOOL=OFF
+    -DBUILD_JAVA_BINDINGS:BOOL=OFF
+    -DBUILD_PYTHON_BINDINGS:BOOL=OFF
+    -DBUILD_TESTING:BOOL=OFF)
