@@ -8,6 +8,9 @@ set(paraview_plugin_path "bin/paraview-${paraview_version}/plugins")
 set(paraview_license_path "share/licenses")
 include(paraview.bundle.common)
 
+set(CPACK_WIX_UPGRADE_GUID "e06445a7-b257-4fce-9241-2a189ad26b5a")
+set(CPACK_WIX_PRODUCT_GUID "76d57fb1-0cd5-40a2-9296-16b85344bcaa")
+
 # Set NSIS install specific stuff.
 if (CMAKE_CL_64)
   # Change default installation root path for Windows x64.
