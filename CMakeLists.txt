@@ -271,6 +271,7 @@ function (superbuild_add_packaging)
   if (WIN32)
     set(generators
       ZIP
+      WIX
       NSIS)
   elseif (APPLE)
     set(generators

@@ -17,6 +17,7 @@
 
             # Packages
             - build/ParaView-*.exe
+            - build/ParaView-*.msi
             - build/ParaView-*.tar.*
             - build/ParaView-*.dmg
             - build/ParaView-*.zip
@@ -47,6 +48,7 @@
                 - build/junit.xml
         paths:
             - build/ParaView-*.exe
+            - build/ParaView-*.msi
             - build/ParaView-*.tar.*
             - build/ParaView-*.dmg
             - build/ParaView-*.zip
