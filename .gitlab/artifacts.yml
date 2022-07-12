@@ -16,7 +16,6 @@
             - build/superbuild/*/stamp/*.log
 
             # Packages
-            - build/ParaView-*.exe
             - build/ParaView-*.msi
             - build/ParaView-*.tar.*
             - build/ParaView-*.dmg
@@ -47,7 +46,6 @@
             junit:
                 - build/junit.xml
         paths:
-            - build/ParaView-*.exe
             - build/ParaView-*.msi
             - build/ParaView-*.tar.*
             - build/ParaView-*.dmg
