@@ -284,6 +284,9 @@ function (superbuild_add_packaging)
   endif ()
   list(GET generators 0 default_generator)
 
+  list(APPEND superbuild_export_variables
+    paraview_always_package_scipy)
+
   if (qt5_enabled AND (USE_SYSTEM_qt5 OR APPLE OR WIN32))
     list(APPEND superbuild_export_variables
       Qt5_DIR)

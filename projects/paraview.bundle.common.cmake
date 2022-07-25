@@ -123,7 +123,11 @@ check_for_python_module(pythontypingextensions typing_extensions)
 check_for_python_module(pythonwslinkasync wslink)
 check_for_python_module(pythonyarl yarl)
 check_for_python_module(pytz pytz)
-check_for_python_module(scipy scipy)
+if (paraview_package_scipy_always OR
+    (NOT cpack_generator STREQUAL "NSIS" AND
+     NOT cpack_generator STREQUAL "WIX"))
+  check_for_python_module(scipy scipy)
+endif ()
 check_for_python_module(sympy sympy)
 
 if (WIN32)

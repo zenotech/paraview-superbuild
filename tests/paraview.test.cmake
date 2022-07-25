@@ -110,7 +110,7 @@ if (numpy_enabled)
   paraview_add_python_test("import-numpy" "import_numpy")
 endif ()
 
-if (scipy_enabled)
+if (scipy_enabled) # Always packaged because the `ZIP` is tested, not the installers.
   paraview_add_python_test("import-scipy" "import_scipy")
 endif ()
 
