@@ -9,9 +9,10 @@ endif ()
 set(CPACK_PACKAGE_VENDOR "Kitware, Inc.")
 set(CPACK_PACKAGE_VERSION_MAJOR "${paraview_version_major}")
 set(CPACK_PACKAGE_VERSION_MINOR "${paraview_version_minor}")
-set(CPACK_PACKAGE_VERSION_PATCH "${paraview_version_patch}${paraview_version_suffix}")
-if (PARAVIEW_PACKAGE_SUFFIX)
-  set(CPACK_PACKAGE_VERSION_PATCH "${CPACK_PACKAGE_VERSION_PATCH}-${PARAVIEW_PACKAGE_SUFFIX}")
+set(CPACK_PACKAGE_VERSION_PATCH "${paraview_version_patch}")
+# WiX does not support non-dotted version numbers. See below.
+if (NOT cpack_generator STREQUAL "WIX")
+  string(APPEND CPACK_PACKAGE_VERSION_PATCH "${paraview_version_suffix}")
 endif ()
 set(name_suffix "")
 if (paraview_version_branch)
@@ -27,6 +28,13 @@ if (package_filename)
 else ()
   set(CPACK_PACKAGE_FILE_NAME
     "${CPACK_PACKAGE_NAME}${name_suffix}-${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}")
+  # Append the version suffix here though. See above.
+  if (cpack_generator STREQUAL "WIX")
+    string(APPEND CPACK_PACKAGE_FILE_NAME "${paraview_version_suffix}")
+  endif ()
+  if (PARAVIEW_PACKAGE_SUFFIX)
+    string(APPEND CPACK_PACKAGE_FILE_NAME "-${PARAVIEW_PACKAGE_SUFFIX}")
+  endif ()
 endif ()
 
 # Set the license file.

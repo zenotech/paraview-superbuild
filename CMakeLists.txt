@@ -271,7 +271,7 @@ function (superbuild_add_packaging)
   if (WIN32)
     set(generators
       ZIP
-      NSIS)
+      WIX)
   elseif (APPLE)
     set(generators
       DragNDrop)
