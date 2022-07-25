@@ -294,6 +294,9 @@ time.
   * Due to complications around shipping OpenSSL in the binaries, OpenSSL
     requires explicit settings in the build. They are
     `-DALLOW_openssl:BOOL=ON -DENABLE_openssl:BOOL=ON`.
+  * `paraview_always_package_scipy` (default `OFF`): Force packaging `scipy` on
+    Windows installer generators. Other generators do not have issues with long
+    paths and will always try to include `scipy`.
 
 The following flags affect ParaView directly:
 

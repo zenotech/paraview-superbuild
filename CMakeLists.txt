@@ -95,6 +95,7 @@ function (superbuild_find_projects var)
     pythonidna
     pythonkiwisolver
     pythonmako
+    pythonmpmath
     pythonmultidict
     #pythonpillow
     pythonpandas
@@ -118,9 +119,11 @@ function (superbuild_find_projects var)
     #qhull
     qt5
     rkcommon
+    scipy
     silo
     snappy
     sqlite
+    sympy
     szip
     tiff
     ttk
@@ -153,7 +156,6 @@ function (superbuild_find_projects var)
       mili
       pkgconf
       rapidjson
-      scipy
       surfacetrackercut)
 
     if (NOT APPLE)
@@ -281,6 +283,9 @@ function (superbuild_add_packaging)
       TGZ)
   endif ()
   list(GET generators 0 default_generator)
+
+  list(APPEND superbuild_export_variables
+    paraview_always_package_scipy)
 
   if (qt5_enabled AND (USE_SYSTEM_qt5 OR APPLE OR WIN32))
     list(APPEND superbuild_export_variables
