@@ -137,6 +137,7 @@ suppress_project(sqlite)
 suppress_project(tiff)
 suppress_project(utillinux)
 suppress_project(visrtx)
+suppress_project(xz)
 suppress_project(zlib)
 
 if ("$ENV{CI_COMMIT_TITLE}" MATCHES "^paraview: add release v\(.*\)$")

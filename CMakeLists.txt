@@ -130,6 +130,7 @@ function (superbuild_find_projects var)
     vrpn
     vtkm
     xdmf3
+    xz
     zfp
     zlib
     zstd)
