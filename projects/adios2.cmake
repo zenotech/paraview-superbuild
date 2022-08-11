@@ -44,6 +44,7 @@ superbuild_add_project(adios2
     -DADIOS2_BUILD_EXAMPLES:BOOL=OFF
     -DADIOS2_USE_BZip2:STRING=OFF
     -DADIOS2_USE_Blosc:STRING=${blosc_platform_enabled}
+    -DADIOS2_USE_CUDA:BOOL=OFF
     -DADIOS2_USE_DataMan:STRING=OFF
     -DADIOS2_USE_Fortran:STRING=OFF
     -DADIOS2_USE_HDF5:STRING=OFF
