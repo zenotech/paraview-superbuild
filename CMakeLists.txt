@@ -10,7 +10,7 @@ macro (superbuild_setup_variables)
   if (paraview_SOURCE_SELECTION STREQUAL "git")
     # Assuming master; just use the latest version, but let the user set their
     # own version in case it is actually a branch from some other version.
-    set(PARAVIEW_VERSION_DEFAULT "5.9.0"
+    set(PARAVIEW_VERSION_DEFAULT "5.10.1"
       CACHE STRING "The default version of ParaView to use if it cannot be detected")
     mark_as_advanced(PARAVIEW_VERSION_DEFAULT)
     set(paraview_default_version "${PARAVIEW_VERSION_DEFAULT}")
@@ -31,8 +31,8 @@ function (superbuild_find_projects var)
 
   set(projects
     cxx11
+    cxx14
     paraview
-    python
     python3)
 
   option(USE_NONFREE_COMPONENTS "Enable the non-free parts of the superbuild" OFF)
@@ -40,68 +40,107 @@ function (superbuild_find_projects var)
 
   list(APPEND projects
     adios2
+    blosc
     boost
     bzip2
+    catalyst
     cuda
+    eigen
     embree
     freetype
     gdal
+    geotiff
     hdf5
+    h5py
     ispc
+    jsonc
+    jsoncpp
     las
+    libjpegturbo
     lookingglass
     matplotlib
     mpi
     netcdf
     nlohmannjson
     numpy
-    openimagedenoise
+    nvidiaindex
+    openmp
     openpmd
+    openimagedenoise
+    openvdb
     openvkl
     ospray
     ospraymodulempi
+    openxrsdk
     paraviewweb
     paraviewwebglance
     paraviewweblite
     paraviewwebdivvy
-    paraviewwebflow
     paraviewwebvisualizer
     png
+    proj
     protobuf
     pybind11
+    pythonaiohttp
+    pythonasynctimeout
     pythonattrs
-    pythonautobahn
-    pythonconstantly
+    pythonbeniget
+    pythoncffi
+    pythonchardet
+    pythoncppy
     pythoncycler
     pythoncython
     pythondateutil
-    pythonhyperlink
-    pythonincremental
+    pythongast
+    pythonidna
     pythonkiwisolver
     pythonmako
+    pythonmpmath
+    pythonmultidict
+    #pythonpillow
     pythonpandas
+    pythonpkgconfig
+    pythonply
+    pythonpycparser
     pythonpygments
     pythonpyparsing
+    pythonpythran
+    pythonsemanticversion
     pythonsetuptools
+    pythonsetuptoolsrust
+    pythonsetuptoolsscm
     pythonsix
-    pythontwisted
-    pythontxaio
-    pythonwslink
-    pythonzope
-    pythonzopeinterface
+    pythontoml
+    pythontypingextensions
+    pythonwheel
+    pythonwslinkasync
+    pythonyarl
     pytz
+    #qhull
     qt5
     rkcommon
+    scipy
     silo
+    snappy
+    sqlite
+    sympy
     szip
+    tiff
+    ttk
     tbb
     visitbridge
     vortexfinder2
     vrpn
     vtkm
     xdmf3
+    xz
     zfp
-    zlib)
+    zlib
+    zstd)
+
+  if (ALLOW_openssl)
+    list(APPEND projects openssl)
+  endif ()
 
   if (UNIX)
     list(APPEND projects
@@ -110,15 +149,14 @@ function (superbuild_find_projects var)
       ffmpeg
       fides
       fortran
-      gdal
       genericio
+      gmsh
       lapack
       libxml2
       mili
       pkgconf
       rapidjson
-      scipy
-      sqlite)
+      surfacetrackercut)
 
     if (NOT APPLE)
       list(APPEND projects
@@ -130,7 +168,9 @@ function (superbuild_find_projects var)
         launchers
         libfabric
         llvm
+        meson
         mesa
+        ninja
         osmesa
         paraviewsdk
         socat
@@ -156,24 +196,32 @@ function (superbuild_find_projects var)
       list(APPEND projects
         visrtx)
     endif ()
+    if (WIN32 OR APPLE)
+      # requires a login to download the SDK, so hosted internally at Kitware.
+      list(APPEND projects
+        threedxwaresdk
+        )
+    endif()
   endif ()
 
   if (WIN32)
     list(APPEND projects
-      ftjam
       openvr
-      pywin32)
-  endif ()
-
-  if (WIN32 OR (UNIX AND NOT APPLE))
-    list(APPEND projects
-      nvidiaindex)
+      pywin32
+      zeromq)
   endif ()
 
   set("${var}"
     ${projects}
     PARENT_SCOPE)
 endfunction ()
+
+# Add option to control OpenSSL
+option(ALLOW_openssl "Make OpenSSL available (default OFF)" OFF)
+mark_as_advanced(ALLOW_openssl)
+if (ALLOW_openssl)
+  set(_superbuild_enable_openssl ON)
+endif ()
 
 function (superbuild_sanity_check)
   if (NOT paraview_enabled AND NOT catalyst_enabled)
@@ -226,7 +274,7 @@ function (superbuild_add_packaging)
   if (WIN32)
     set(generators
       ZIP
-      NSIS)
+      WIX)
   elseif (APPLE)
     set(generators
       DragNDrop)
@@ -235,6 +283,9 @@ function (superbuild_add_packaging)
       TGZ)
   endif ()
   list(GET generators 0 default_generator)
+
+  list(APPEND superbuild_export_variables
+    paraview_always_package_scipy)
 
   if (qt5_enabled AND (USE_SYSTEM_qt5 OR APPLE OR WIN32))
     list(APPEND superbuild_export_variables

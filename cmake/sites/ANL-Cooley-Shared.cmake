@@ -55,7 +55,7 @@ set(USE_SYSTEM_zlib       ON CACHE BOOL "")
 set(ospray_BUILD_ISA ALL CACHE STRING "")
 
 # Paraview details
-set(paraview_SOURCE_SELECTION 5.4.0 CACHE BOOL "")
+set(paraview_SOURCE_SELECTION 5.4.0 CACHE STRING "")
 
 # Specify where the necessary tarballs have been downloaded to
 set(superbuild_download_location /projects/pvdev/cooley/downloads CACHE STRING "")

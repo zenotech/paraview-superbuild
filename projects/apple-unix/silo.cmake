@@ -41,6 +41,8 @@ endif ()
 
 superbuild_add_project(silo
   DEPENDS_OPTIONAL zlib szip hdf5
+  LICENSE_FILES
+    COPYRIGHT
   BUILD_IN_SOURCE 1
   CONFIGURE_COMMAND
     <SOURCE_DIR>/configure
@@ -65,5 +67,7 @@ endif ()
 
 if (hdf5_enabled)
   superbuild_apply_patch(silo hdf5-1.12
-    "Support HDF5 1.12 ")
+    "Support HDF5 1.12")
+  superbuild_apply_patch(silo hdf5-api-updates
+    "Support HDF5 API updates")
 endif()

@@ -5,6 +5,8 @@ if (UNIX AND NOT APPLE)
 endif ()
 
 superbuild_add_project(las
+  LICENSE_FILES
+    LICENSE.txt
   DEPENDS boost
   CMAKE_ARGS
     -DWITH_GDAL:BOOL=FALSE
@@ -28,6 +30,9 @@ superbuild_apply_patch(las add-boost-include-dirs
 
 superbuild_apply_patch(las allow-rpath
   "Don't reject RPATH settings on Linux")
+
+superbuild_apply_patch(las new-boost
+  "Support newer Boost versions")
 
 if (WIN32)
   superbuild_append_flags(cxx_flags "-DBOOST_ALL_NO_LIB" PROJECT_ONLY)

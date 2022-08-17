@@ -1,4 +1,6 @@
 superbuild_add_project(protobuf
+  LICENSE_FILES
+    LICENSE
   DEPENDS cxx11
   DEPENDS_OPTIONAL zlib
   CMAKE_ARGS

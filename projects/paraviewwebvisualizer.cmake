@@ -1,4 +1,6 @@
 superbuild_add_project(paraviewwebvisualizer
+  LICENSE_FILES
+    LICENSE
   CONFIGURE_COMMAND
     ""
   BUILD_COMMAND

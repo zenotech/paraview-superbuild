@@ -24,7 +24,11 @@ if (PARAVIEW_PACKAGE_FILE_NAME)
   set(glob_prefix "${PARAVIEW_PACKAGE_FILE_NAME}")
 else ()
   include(paraview.suffix)
-  set(glob_prefix "ParaView-${paraview_version_full}*")
+  set(name_suffix "")
+  if (paraview_version_branch)
+    set(name_suffix "-${paraview_version_branch}")
+  endif ()
+  set(glob_prefix "ParaView${name_suffix}-${paraview_version_full}*")
   if (PARAVIEW_PACKAGE_SUFFIX)
     set(glob_prefix "${glob_prefix}-${PARAVIEW_PACKAGE_SUFFIX}")
   endif ()
@@ -36,7 +40,7 @@ if (NOT qt5_enabled)
   set(paraview_exe)
 endif ()
 
-if (NOT python_enabled)
+if (NOT python3_enabled)
   set(pvpython_exe)
   set(pvbatch_exe)
 endif ()
@@ -69,9 +73,17 @@ function (paraview_add_ui_test name script)
     "--exit")
 endfunction ()
 
+set(python_exception_regex "exception;Traceback")
+
 function (paraview_add_python_test name script)
   paraview_add_test("${name}" "${pvpython_exe}"
     "${CMAKE_CURRENT_LIST_DIR}/python/${script}.py")
+  # check for exceptions and tracebacks during python execution
+  if (TEST "paraview-${name}")
+    set_tests_properties("paraview-${name}" PROPERTIES
+      FAIL_REGULAR_EXPRESSION "${python_exception_regex}"
+    )
+endif ()
 endfunction ()
 
 function (paraview_add_pvbatch_test name script)
@@ -91,33 +103,26 @@ endif ()
 
 # Simple test to test paraviewweb.
 if (paraviewweb_enabled)
-  paraview_add_python_test("pvweb" "basic_paraviewweb")
-
-  if (paraviewwebvisualizer_enabled)
-    set(PROJECT_DIR "${CMAKE_BINARY_DIR}/superbuild/paraviewwebvisualizer/src")
-    set(SERVER_SCRIPT "${PROJECT_DIR}/server/pvw-visualizer.py")
-    set(CONTENT_DIR "${PROJECT_DIR}/dist")
-    paraview_add_test("pvweb-visualizer" "${pvpython_exe}"
-      "${SERVER_SCRIPT}"
-      "--port" "8082"
-      "--timeout" "10"
-      "--content" "${CONTENT_DIR}")
-  endif ()
+  paraview_add_python_test("pv.apps.visualizer" "pv_apps_visualizer")
 endif ()
 
 if (numpy_enabled)
   paraview_add_python_test("import-numpy" "import_numpy")
 endif ()
 
-if (scipy_enabled)
+if (scipy_enabled) # Always packaged because the `ZIP` is tested, not the installers.
   paraview_add_python_test("import-scipy" "import_scipy")
+endif ()
+
+if (sympy_enabled)
+  paraview_add_python_test("import-sympy" "import_sympy")
 endif ()
 
 if (matplotlib_enabled)
   paraview_add_python_test("import-matplotlib" "import_matplotlib")
 endif ()
 
-if (mpi_enabled AND python_enabled)
+if (mpi_enabled AND python3_enabled)
   paraview_add_python_test("import-mpi4py" "import_mpi4py")
 endif ()
 
@@ -130,10 +135,10 @@ if (openpmd_enabled)
 endif ()
 
 # Test to load various data files to ensure reader support.
-paraview_add_ui_test("data-csg.silo" "TestData-cs_silo"
-  "--data=${CMAKE_CURRENT_LIST_DIR}/data/csg.silo")
-paraview_add_ui_test("data-5blocks.cgns" "TestData-5blocks_cgns"
-  "--data=${CMAKE_CURRENT_LIST_DIR}/data/5blocks.cgns")
+if (silo_enabled)
+  paraview_add_ui_test("data-csg.silo" "TestData-cs_silo"
+    "--data=${CMAKE_CURRENT_LIST_DIR}/data/csg.silo")
+endif ()
 
 # Disabling this test for now since the Data file is too big. We probably need
 # to add support for Data repository similar to ParaView/VTK soon.
@@ -161,7 +166,7 @@ paraview_add_test("version-server" "${pvserver_exe}"
 paraview_add_test("version-client" "${paraview_exe}"
   "--version")
 
-if (mesa_enabled AND python_enabled)
+if (mesa_enabled AND python3_enabled)
   set(mesa_llvm_arg)
   set(mesa_swr_arg)
   if (launchers_enabled)
@@ -194,6 +199,10 @@ paraview_add_ui_test("loaddistributedplugins" "LoadDistributedPlugins"
 
 if (vortexfinder2_enabled)
   paraview_add_ui_test("loadvortexfinderplugins" "LoadVortexFinderPlugins")
+endif ()
+
+if (surfacetrackercut_enabled)
+  paraview_add_ui_test("loadsurfacetrackercutplugin" "LoadSurfaceTrackerCutPlugin")
 endif ()
 
 if (vtkm_enabled)

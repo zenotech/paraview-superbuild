@@ -9,9 +9,14 @@ endif ()
 set(CPACK_PACKAGE_VENDOR "Kitware, Inc.")
 set(CPACK_PACKAGE_VERSION_MAJOR "${paraview_version_major}")
 set(CPACK_PACKAGE_VERSION_MINOR "${paraview_version_minor}")
-set(CPACK_PACKAGE_VERSION_PATCH "${paraview_version_patch}${paraview_version_suffix}")
-if (PARAVIEW_PACKAGE_SUFFIX)
-  set(CPACK_PACKAGE_VERSION_PATCH "${CPACK_PACKAGE_VERSION_PATCH}-${PARAVIEW_PACKAGE_SUFFIX}")
+set(CPACK_PACKAGE_VERSION_PATCH "${paraview_version_patch}")
+# WiX does not support non-dotted version numbers. See below.
+if (NOT cpack_generator STREQUAL "WIX")
+  string(APPEND CPACK_PACKAGE_VERSION_PATCH "${paraview_version_suffix}")
+endif ()
+set(name_suffix "")
+if (paraview_version_branch)
+  set(name_suffix "-${paraview_version_branch}")
 endif ()
 
 if (NOT DEFINED package_filename)
@@ -22,7 +27,14 @@ if (package_filename)
   set(CPACK_PACKAGE_FILE_NAME "${package_filename}")
 else ()
   set(CPACK_PACKAGE_FILE_NAME
-    "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}")
+    "${CPACK_PACKAGE_NAME}${name_suffix}-${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}")
+  # Append the version suffix here though. See above.
+  if (cpack_generator STREQUAL "WIX")
+    string(APPEND CPACK_PACKAGE_FILE_NAME "${paraview_version_suffix}")
+  endif ()
+  if (PARAVIEW_PACKAGE_SUFFIX)
+    string(APPEND CPACK_PACKAGE_FILE_NAME "-${PARAVIEW_PACKAGE_SUFFIX}")
+  endif ()
 endif ()
 
 # Set the license file.
@@ -49,6 +61,11 @@ set(other_executables)
 if (vrpn_enabled)
   list(APPEND other_executables
     vrpn_server)
+endif()
+
+if (ospraymodulempi_enabled)
+  list(APPEND other_executables
+    ospray_mpi_worker)
 endif()
 
 set(python_modules
@@ -80,30 +97,38 @@ macro (check_for_python_module project module)
   endif ()
 endmacro ()
 
+check_for_python_module(h5py h5py)
 check_for_python_module(matplotlib matplotlib)
 check_for_python_module(matplotlib mpl_toolkits)
 check_for_python_module(numpy numpy)
 check_for_python_module(numpy pkg_resources)
 check_for_python_module(openpmd openpmd_api)
+check_for_python_module(pythonaiohttp aiohttp)
+check_for_python_module(pythonasynctimeout async_timeout)
 check_for_python_module(pythonattrs attr)
-check_for_python_module(pythonautobahn autobahn)
-check_for_python_module(pythonconstantly constantly)
+check_for_python_module(pythonchardet chardet)
 check_for_python_module(pythoncycler cycler)
 check_for_python_module(pythoncython cython)
 check_for_python_module(pythondateutil dateutil)
-check_for_python_module(pythonhyperlink hyperlink)
-check_for_python_module(pythonincremental incremental)
+check_for_python_module(pythonidna idna)
 check_for_python_module(pythonkiwisolver kiwisolver)
+check_for_python_module(pythonmpmath mpmath)
+check_for_python_module(pythonmultidict multidict)
 check_for_python_module(pythonpandas pandas)
+check_for_python_module(pythonpillow PIL)
 check_for_python_module(pythonpygments pygments)
 check_for_python_module(pythonpyparsing pyparsing)
 check_for_python_module(pythonsix six)
-check_for_python_module(pythontwisted twisted)
-check_for_python_module(pythontxaio txaio)
-check_for_python_module(pythonwslink wslink)
-check_for_python_module(pythonzopeinterface zope)
+check_for_python_module(pythontypingextensions typing_extensions)
+check_for_python_module(pythonwslinkasync wslink)
+check_for_python_module(pythonyarl yarl)
 check_for_python_module(pytz pytz)
-check_for_python_module(scipy scipy)
+if (paraview_package_scipy_always OR
+    (NOT cpack_generator STREQUAL "NSIS" AND
+     NOT cpack_generator STREQUAL "WIX"))
+  check_for_python_module(scipy scipy)
+endif ()
+check_for_python_module(sympy sympy)
 
 if (WIN32)
   check_for_python_module(pywin32 adodbapi)
@@ -151,10 +176,22 @@ if (paraview_is_shared)
   endforeach ()
 endif ()
 
+if (ttk_enabled)
+  list(APPEND paraview_plugins
+    TopologyToolKit)
+endif()
+
 if (vortexfinder2_enabled)
   list(APPEND paraview_plugins
     VortexFinder)
 endif ()
+if (surfacetrackercut_enabled)
+  list(APPEND paraview_plugins
+    SurfaceTrackerCut)
+endif()
+
+# Sort list of plugins alphabetically
+list(SORT paraview_plugins CASE INSENSITIVE)
 
 if (osmesa_built_by_superbuild OR mesa_built_by_superbuild)
   set(mesa_libraries)
@@ -212,6 +249,69 @@ function (paraview_install_kernels_nvidia_index project dir)
   endif ()
 endfunction ()
 
+function (paraview_install_license project)
+  if (EXISTS "${superbuild_install_location}/share/licenses/${project}")
+    install(
+      DIRECTORY   "${superbuild_install_location}/share/licenses/${project}"
+      DESTINATION "${paraview_license_path}"
+      COMPONENT   superbuild)
+  else ()
+    message(FATAL_ERROR "${superbuild_install_location}/share/licenses/${project} does not exist, aborting.")
+  endif ()
+endfunction ()
+
+function (paraview_install_all_licenses)
+  set(license_projects "${enabled_projects}")
+
+  foreach (project IN LISTS license_projects)
+    if (NOT ${project}_built_by_superbuild)
+      list(REMOVE_ITEM license_projects ${project})
+    endif ()
+  endforeach ()
+
+  # Remove package without licenses
+  list(REMOVE_ITEM license_projects
+    ospraymaterials # CC0 License
+    launchers # ParaView
+    paraviewgettingstartedguide # ParaView
+    paraviewtutorialdata # ParaView
+    )
+
+  # Do not install license of non-packaged projects
+  list(REMOVE_ITEM license_projects
+    gperf
+    meson
+    ninja
+    pkgconf
+    pythoncppy
+    pythonmako
+    pythonpkgconfig
+    pythonpkgconfig
+    pythonsemanticversion
+    pythonsetuptools
+    pythonsetuptoolsrust
+    pythonsetuptoolsscm
+    )
+
+  # paraview install itself in ParaView directory
+  if (paraview IN_LIST license_projects)
+    list(REMOVE_ITEM license_projects paraview)
+    list(APPEND license_projects ParaView)
+  endif ()
+
+  foreach (project IN LISTS license_projects)
+    paraview_install_license("${project}")
+  endforeach ()
+
+  # When packaging system qt, install the license manually
+  if (qt5_plugin_paths)
+    install(
+      FILES   "${superbuild_source_directory}/projects/files/Qt5.LICENSE.LGPLv3"
+      DESTINATION "${paraview_license_path}/qt5"
+      COMPONENT   superbuild)
+  endif ()
+endfunction ()
+
 function (paraview_install_extra_data)
   if (paraview_doc_dir)
     paraview_install_pdf(paraviewgettingstartedguide "GettingStarted.pdf")
@@ -229,6 +329,9 @@ function (paraview_install_extra_data)
     paraview_install_kernels_nvidia_index(
       nvidiaindex "share/paraview-${paraview_version}/kernels_nvidia_index/")
   endif ()
+
+  paraview_install_all_licenses()
+
 endfunction ()
 
 if (qt5_enabled)

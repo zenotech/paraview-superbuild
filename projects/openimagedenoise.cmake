@@ -1,5 +1,7 @@
 superbuild_add_project(openimagedenoise
-  DEPENDS tbb cxx11 ispc python
+  LICENSE_FILES
+    LICENSE.txt
+  DEPENDS tbb cxx11 ispc python3
   CMAKE_ARGS
     -DOIDN_APPS:BOOL=OFF
     -DCMAKE_INSTALL_NAME_DIR:PATH=<INSTALL_DIR>/lib

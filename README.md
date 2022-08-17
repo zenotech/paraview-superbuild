@@ -42,6 +42,9 @@ is assumed to be available on the host machine.
       some projects
     * `ninja` (or `make`) for building
     * Python (if not built by the superbuild) for building packages
+    * If building `mesa` or `osmesa`, `bison` and `flex` are required.
+    * If building packages on Linux, `chrpath` is required to make relocatable
+      packages
 
 ## Building a specific version
 
@@ -288,10 +291,16 @@ time.
     `superbuild/xxx/stamp/xxx-configure-*.log` files.
   * `CMAKE_BUILD_TYPE` (default `Release`): The build type to use for the
     build. Can be `Release`, `RelWithDebInfo`, or (on not-Windows) `Debug`.
+  * Due to complications around shipping OpenSSL in the binaries, OpenSSL
+    requires explicit settings in the build. They are
+    `-DALLOW_openssl:BOOL=ON -DENABLE_openssl:BOOL=ON`.
+  * `paraview_always_package_scipy` (default `OFF`): Force packaging `scipy` on
+    Windows installer generators. Other generators do not have issues with long
+    paths and will always try to include `scipy`.
 
 The following flags affect ParaView directly:
 
-  * `paraview_SOURCE_SELECTION` (default `5.9.0`): The source to use for
+  * `paraview_SOURCE_SELECTION` (default `5.10.1`): The source to use for
     ParaView itself. The version numbers use the source tarballs from the
     website for the release. The `source` selection uses the
     `paraview_SOURCE_DIR` variable to look at a checked out ParaView source
@@ -330,9 +339,12 @@ The following flags affect ParaView directly:
   * `PARAVIEW_EXTRA_CMAKE_ARGUMENTS` (default `""`: Extra CMake arguments to
     pass to ParaView's configure step. This can be used to set CMake variables
     for the build that are otherwise not exposed in the superbuild itself.
-  * `PARAVIEW_ENABLE_VRPLUGIN` (default `ON`): Enables the VRPlugin. If
-    `vrpn` is enabled, the VRPlugin will support input devices through a VRPN
+  * `PARAVIEW_ENABLE_CAVEInteraction` (default `ON`): Enables the CAVEInteraction. If
+    `vrpn` is enabled, the CAVEInteraction will support input devices through a VRPN
     connection. VRUI support is enabled unconditionally on Linux.
+  * `PARAVIEW_ENABLE_NODEEDITOR` (default `OFF`): Enables the NodeEditor
+    plugin.
+  * `PARAVIEW_ENABLE_XRInterface` (default `ON`): Enables the XRInterface plugin.
 
 #### ParaView editions
 

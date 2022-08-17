@@ -1,4 +1,6 @@
 superbuild_add_project(rapidjson
+  LICENSE_FILES
+    license.txt
   DEPENDS cxx11
   CMAKE_ARGS
     -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}

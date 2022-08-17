@@ -46,15 +46,14 @@ if (UNIX)
       fontconfig)
   endif ()
   list(APPEND paraviews_platform_dependencies
-    ffmpeg libxml2 freetype mili
-
+    ffmpeg libxml2 freetype mili gmsh
     # For cosmotools
     genericio cosmotools)
 endif ()
 
 if (WIN32)
   list(APPEND paraviews_platform_dependencies
-    openvr)
+    openvr zeromq)
 endif ()
 
 if (USE_NONFREE_COMPONENTS AND (WIN32 OR (UNIX AND NOT APPLE)))
@@ -62,10 +61,9 @@ if (USE_NONFREE_COMPONENTS AND (WIN32 OR (UNIX AND NOT APPLE)))
     visrtx)
 endif ()
 
-set(PARAVIEW_USE_PYTHON ${python3_enabled})
-if (python_enabled AND
-    (python3_enabled AND USE_SYSTEM_python3 AND NOT python3_FIND_LIBRARIES))
-  set(PARAVIEW_USE_PYTHON OFF)
+set(paraview_use_python ${python3_enabled})
+if (python3_enabled AND USE_SYSTEM_python3 AND NOT python3_FIND_LIBRARIES)
+  set(paraview_use_python OFF)
 endif()
 
 if (expat_enabled)
@@ -88,14 +86,20 @@ if(APPLE)
 endif()
 option(PARAVIEW_ENABLE_MOTIONFX "Enable MotionFX reader, if supported on platform" ON)
 mark_as_advanced(PARAVIEW_ENABLE_MOTIONFX)
+if (NOT PARAVIEW_BUILD_EDITION STREQUAL "CANONICAL")
+  set(PARAVIEW_ENABLE_MOTIONFX OFF)
+endif ()
 
-option(PARAVIEW_ENABLE_VRPLUGIN "Enable VRPlugin" ON)
-mark_as_advanced(PARAVIEW_ENABLE_VRPLUGIN)
+option(PARAVIEW_ENABLE_NODEEDITOR "Enable NodeEditor plugin" ON)
+mark_as_advanced(PARAVIEW_ENABLE_NODEEDITOR)
+
+option(PARAVIEW_ENABLE_CAVEInteraction "Enable CAVEInteraction plugin" ON)
+mark_as_advanced(PARAVIEW_ENABLE_CAVEInteraction)
 
 # vrui support is only available on linux
-if (PARAVIEW_ENABLE_VRPLUGIN AND UNIX)
+if (PARAVIEW_ENABLE_CAVEInteraction AND UNIX)
   list(APPEND paraview_extra_cmake_options
-    -DPARAVIEW_PLUGIN_VRPlugin_USE_VRUI:BOOL=ON
+    -DPARAVIEW_PLUGIN_CAVEInteraction_USE_VRUI:BOOL=ON
   )
 endif()
 
@@ -124,20 +128,74 @@ else ()
   set(paraview_build_shared_libs "${BUILD_SHARED_LIBS_paraview}")
 endif ()
 
+set(PARAVIEW_BUILD_ID "<CI>"
+  CACHE STRING "ParaView build ID")
+if (PARAVIEW_BUILD_ID STREQUAL "<CI>")
+  set(PARAVIEW_BUILD_ID "")
+  if ("$ENV{CI}" STREQUAL "true")
+    # Detect the status of this CI run.
+    set(paraview_commit_sha "$ENV{CI_COMMIT_SHA}")
+    if ("$ENV{CI_MERGE_REQUEST_IID}" STREQUAL "")
+      set(paraview_mr "")
+    else ()
+      set(paraview_mr "$ENV{CI_MERGE_REQUEST_IID}")
+    endif ()
+    if ("$ENV{CI_COMMIT_TAG}" STREQUAL "")
+      set(paraview_tag "")
+    else ()
+      set(paraview_tag "$ENV{CI_COMMIT_TAG}")
+    endif ()
+    if ("$ENV{CI_COMMIT_BRANCH}" STREQUAL "")
+      set(paraview_branch "")
+    else ()
+      set(paraview_branch "$ENV{CI_COMMIT_BRANCH}")
+    endif ()
+
+    if (paraview_mr)
+      set(PARAVIEW_BUILD_ID "superbuild ${paraview_commit_sha} (!${paraview_mr})")
+    elseif (paraview_tag)
+      set(PARAVIEW_BUILD_ID "superbuild ${paraview_commit_sha} (${paraview_tag})")
+    elseif (paraview_branch)
+      set(PARAVIEW_BUILD_ID "superbuild ${paraview_commit_sha} (${paraview_branch})")
+    else ()
+      set(PARAVIEW_BUILD_ID "superbuild ${paraview_commit_sha}")
+    endif ()
+  endif ()
+endif ()
+
+if (PARAVIEW_BUILD_ID)
+  list(APPEND paraview_extra_cmake_options
+    "-DPARAVIEW_BUILD_ID:STRING=${PARAVIEW_BUILD_ID}")
+endif ()
+
+if (openvr_enabled AND zeromq_enabled)
+  set(paraview_vr_collaboration_enabled TRUE)
+else()
+  set(paraview_vr_collaboration_enabled FALSE)
+endif()
+
+if (openvdb_enabled)
+  list(APPEND paraview_extra_cmake_options
+    -DPARAVIEW_RELOCATABLE_INSTALL:BOOL=OFF)
+endif ()
+
 superbuild_add_project(paraview
   DEBUGGABLE
   DEFAULT_ON
   DEPENDS cxx11
   DEPENDS_OPTIONAL
-    adios2 cuda boost fortran gdal hdf5 matplotlib mpi numpy png protobuf
-    python3 qt5 visitbridge zlib silo las lookingglass fides
-    xdmf3 ospray vrpn vtkm tbb netcdf
+    adios2 catalyst cuda boost eigen fortran gdal hdf5 matplotlib mpi numpy png
+    protobuf python3 qt5 visitbridge zlib silo las lookingglass fides
+    xdmf3 vrpn vtkm netcdf
     openpmd
+    openvdb
     nlohmannjson
     paraviewgettingstartedguide
     paraviewtutorialdata paraviewweb
     ${paraview_all_plugins}
     ${paraviews_platform_dependencies}
+    tbb ospray sqlite
+    tiff proj
     ${PARAVIEW_EXTERNAL_PROJECTS}
 
   CMAKE_ARGS
@@ -150,6 +208,7 @@ superbuild_add_project(paraview
     -DPARAVIEW_BUILD_TESTING:BOOL=OFF
     -DPARAVIEW_BUILD_EDITION:STRING=${PARAVIEW_BUILD_EDITION}
     -DPARAVIEW_ENABLE_ADIOS2:BOOL=${adios2_enabled}
+    -DPARAVIEW_ENABLE_CATALYST:BOOL=${catalyst_enabled}
     -DPARAVIEW_ENABLE_COSMOTOOLS:BOOL=${cosmotools_enabled}
     -DPARAVIEW_ENABLE_FFMPEG:BOOL=${ffmpeg_enabled}
     -DPARAVIEW_ENABLE_FIDES:BOOL=${fides_enabled}
@@ -160,24 +219,32 @@ superbuild_add_project(paraview
     -DPARAVIEW_ENABLE_VISITBRIDGE:BOOL=${visitbridge_enabled}
     -DPARAVIEW_ENABLE_XDMF3:BOOL=${xdmf3_enabled}
     -DPARAVIEW_INSTALL_DEVELOPMENT_FILES:BOOL=ON
+    -DPARAVIEW_PLUGIN_ENABLE_GmshIO:BOOL=${gmsh_enabled}
+    -DPARAVIEW_PLUGIN_ENABLE_NodeEditor:BOOL=${PARAVIEW_ENABLE_NODEEDITOR}
     -DPARAVIEW_PLUGIN_ENABLE_LookingGlass:BOOL=${lookingglass_enabled}
-    -DPARAVIEW_PLUGIN_ENABLE_OpenVR:BOOL=${openvr_enabled}
+    -DPARAVIEW_PLUGIN_ENABLE_XRInterface:BOOL=${openvr_enabled}
     # No netcdftime module in the package.
     -DPARAVIEW_PLUGIN_ENABLE_NetCDFTimeAnnotationPlugin:BOOL=OFF
+    -DPARAVIEW_PYTHON_VERSION:STRING=3
     -DPARAVIEW_USE_MPI:BOOL=${mpi_enabled}
     -DPARAVIEW_USE_FORTRAN:BOOL=${fortran_enabled}
-    -DPARAVIEW_USE_PYTHON:BOOL=${PARAVIEW_USE_PYTHON}
+    -DPARAVIEW_USE_PYTHON:BOOL=${paraview_use_python}
     -DPARAVIEW_USE_QT:BOOL=${qt5_enabled}
     -DVISIT_BUILD_READER_Mili:BOOL=${mili_enabled}
     -DVISIT_BUILD_READER_Silo:BOOL=${silo_enabled}
     -DVTK_DEFAULT_RENDER_WINDOW_OFFSCREEN:BOOL=${osmesa_enabled}
+    -DVTK_ENABLE_VR_COLLABORATION:BOOL=${paraview_vr_collaboration_enabled}
+    -DVTK_MODULE_USE_EXTERNAL_VTK_eigen=${eigen_enabled}
     -DVTK_MODULE_USE_EXTERNAL_ParaView_protobuf:BOOL=${protobuf_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_expat:BOOL=${expat_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_freetype:BOOL=${freetype_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_hdf5:BOOL=${hdf5_enabled}
+    -DVTK_MODULE_USE_EXTERNAL_VTK_libproj:BOOL=${proj_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_libxml2:BOOL=${libxml2_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_netcdf:BOOL=${netcdf_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_png:BOOL=${png_enabled}
+    -DVTK_MODULE_USE_EXTERNAL_VTK_sqlite:BOOL=${sqlite_enabled}
+    -DVTK_MODULE_USE_EXTERNAL_VTK_tiff:BOOL=${tiff_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_zlib:BOOL=${zlib_enabled}
     -DVTK_OPENGL_HAS_EGL:BOOL=${egl_enabled}
     -DVTK_OPENGL_HAS_OSMESA:BOOL=${osmesa_enabled}
@@ -194,8 +261,8 @@ superbuild_add_project(paraview
     -DPARAVIEW_PLUGIN_ENABLE_pvNVIDIAIndeX:BOOL=${nvidiaindex_enabled}
 
     # vrpn
-    -DPARAVIEW_PLUGIN_ENABLE_VRPlugin:BOOL=${PARAVIEW_ENABLE_VRPLUGIN}
-    -DPARAVIEW_PLUGIN_VRPlugin_USE_VRPN:BOOL=${vrpn_enabled}
+    -DPARAVIEW_PLUGIN_ENABLE_CAVEInteraction:BOOL=${PARAVIEW_ENABLE_CAVEInteraction}
+    -DPARAVIEW_PLUGIN_CAVEInteraction_USE_VRPN:BOOL=${vrpn_enabled}
 
     # vtkm
     -DPARAVIEW_PLUGIN_ENABLE_VTKmFilters:BOOL=${vtkm_enabled}
@@ -210,6 +277,12 @@ superbuild_add_project(paraview
 
     # ParFlow
     -DPARAVIEW_PLUGIN_ENABLE_ParFlow:BOOL=${nlohmannjson_enabled}
+
+    # OpenVDB (not in ParaView v5.9.1 but in master)
+    -DPARAVIEW_ENABLE_OPENVDB:BOOL=${openvdb_enabled}
+
+    # 3Dconnexion SpaceMouse
+    -DPARAVIEW_PLUGIN_ENABLE_SpaceMouseInteractor:BOOL=${threedxwaresdk_enabled}
 
     ${paraview_extra_cmake_options}
 

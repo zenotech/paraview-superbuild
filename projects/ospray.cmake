@@ -9,11 +9,12 @@ set(ospray_BUILD_ISA "${ospray_isa_default}"
 mark_as_advanced(ospray_BUILD_ISA)
 set_property(CACHE ospray_BUILD_ISA PROPERTY STRINGS SSE AVX AVX2 AVX512KNL AVX512SKX ALL)
 
-set (ospray_depends ispc tbb cxx11 embree ospraymaterials openimagedenoise
-  rkcommon openvkl)
-
 superbuild_add_project(ospray
-  DEPENDS ${ospray_depends}
+  DEPENDS
+    ispc tbb cxx11 embree ospraymaterials openimagedenoise rkcommon openvkl
+  DEPENDS_OPTIONAL ospraymodulempi snappy mpi
+  LICENSE_FILES
+    LICENSE.txt
   CMAKE_ARGS
     -DOSPRAY_ISPC_DIRECTORY:PATH=<INSTALL_DIR>/bin
     -DCMAKE_INSTALL_NAME_DIR:PATH=<INSTALL_DIR>/lib
@@ -23,6 +24,8 @@ superbuild_add_project(ospray
     -DOSPRAY_APPS_TESTING:BOOL=OFF
     -DOSPRAY_ENABLE_APPS:BOOL=OFF
     -DOSPRAY_MODULE_DENOISER:BOOL=ON
+    -DOSPRAY_MODULE_MPI:BOOL=${ospraymodulempi_enabled}
+    -DOSPRAY_MPI_BUILD_TUTORIALS:BOOL=OFF
 )
 
 superbuild_add_extra_cmake_args(

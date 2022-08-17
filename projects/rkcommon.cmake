@@ -1,4 +1,6 @@
 superbuild_add_project(rkcommon
+  LICENSE_FILES
+    LICENSE.txt
   DEPENDS cxx11 tbb
   CMAKE_ARGS
      -DBUILD_TESTING:BOOL=OFF

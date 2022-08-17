@@ -6,21 +6,10 @@ endif ()
 
 superbuild_add_dummy_project(paraviewweb
   DEPENDS
-    python
+    python3
     paraviewwebglance
     paraviewweblite
     paraviewwebvisualizer
-    paraviewwebflow
     paraviewwebdivvy
-    pythonwslink
-    pythonautobahn
-    pythonconstantly
-    pythonhyperlink
-    pythonincremental
-    pythonsetuptools
-    pythonsix
-    pythontwisted
-    pythontxaio
-    pythonwslink
-    pythonzopeinterface
+    pythonwslinkasync
     ${paraviewweb_depends})

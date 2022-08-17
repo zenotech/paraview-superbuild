@@ -31,6 +31,8 @@ endif ()
 
 superbuild_add_project(silo
   DEPENDS zlib hdf5
+  LICENSE_FILES
+    COPYRIGHT
   BUILD_IN_SOURCE 1
   CONFIGURE_COMMAND
     "${CMAKE_COMMAND}"
@@ -39,7 +41,6 @@ superbuild_add_project(silo
       -P ${CMAKE_CURRENT_LIST_DIR}/scripts/silo.configure.cmake
   BUILD_COMMAND
     "${CMAKE_COMMAND}"
-      -Dsuperbuild_is_64bit:BOOL=${superbuild_is_64bit}
       -Dsource_location:PATH=<SOURCE_DIR>
       -Dinstall_location:PATH=<INSTALL_DIR>
       -DMSBUILD_PATH:FILEPATH=${MSBUILD_PATH}
@@ -48,7 +49,6 @@ superbuild_add_project(silo
       -P ${CMAKE_CURRENT_LIST_DIR}/scripts/silo.build.cmake
   INSTALL_COMMAND
     "${CMAKE_COMMAND}"
-      -Dsuperbuild_is_64bit:BOOL=${superbuild_is_64bit}
       -Dsource_location:PATH=<SOURCE_DIR>
       -Dinstall_location:PATH=<INSTALL_DIR>
       -P ${CMAKE_CURRENT_LIST_DIR}/scripts/silo.install.cmake)
@@ -62,7 +62,9 @@ superbuild_apply_patch(silo snprintf
 superbuild_apply_patch(silo hdf5-1.10
   "Support HDF5 1.10")
 superbuild_apply_patch(silo hdf5-1.12
-  "Support HDF5 1.12 ")
+  "Support HDF5 1.12")
+superbuild_apply_patch(silo hdf5-api-updates
+  "Support HDF5 API updates")
 
 superbuild_add_extra_cmake_args(
   -DSILO_INCLUDE_DIR:PATH=<INSTALL_DIR>/include

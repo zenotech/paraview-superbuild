@@ -5,7 +5,7 @@
 .windows:
     variables:
         GIT_SUBMODULE_STRATEGY: none
-        GIT_CLONE_PATH: "$CI_BUILDS_DIR\\cmb-ci-ext\\$CI_CONCURRENT_ID"
+        GIT_CLONE_PATH: "$CI_BUILDS_DIR\\paraview-ci-ext\\$CI_CONCURRENT_ID"
 
 ### Build and test
 
@@ -29,7 +29,7 @@
     variables:
         VCVARSALL: "${VS160COMNTOOLS}\\..\\..\\VC\\Auxiliary\\Build\\vcvarsall.bat"
         VCVARSPLATFORM: "x64"
-        VCVARSVERSION: "14.28"
+        VCVARSVERSION: "14.28.29910"
 
 .windows_vs2019_mpi:
     extends: .windows_vs2019
@@ -48,7 +48,7 @@
 .windows_builder_tags:
     tags:
         - paraview # Since this is a bare runner, pin to a project.
-        - msvc-19.28
+        - msvc-19.28-16.9
         - nonconcurrent
         - shell
         - vs2019
@@ -57,7 +57,7 @@
 .windows_test_tags:
     tags:
         - paraview # Since this is a bare runner, pin to a project.
-        - msvc-19.28
+        - msvc-19.28-16.9
         - nonconcurrent
         - shell
         - vs2019
@@ -67,14 +67,17 @@
 ## Windows-specific scripts
 
 .before_script_windows: &before_script_windows
-    - Invoke-Expression -Command .gitlab/ci/cmake.ps1
-    - Invoke-Expression -Command .gitlab/ci/ninja.ps1
     - $pwdpath = $pwd.Path
-    - Set-Item -Force -Path "env:PATH" -Value "$pwdpath\.gitlab;$pwdpath\.gitlab\cmake\bin;$env:PATH"
+    - powershell -File ".gitlab/ci/wix.ps1"
+    - Set-Item -Force -Path "env:WIX" -Value "$pwdpath\.gitlab\wix"
+    - powershell -File ".gitlab/ci/cmake.ps1"
+    - Set-Item -Force -Path "env:PATH" -Value "$pwdpath\.gitlab\cmake\bin;$env:PATH"
+    - powershell -File ".gitlab/ci/ninja.ps1"
+    - Set-Item -Force -Path "env:PATH" -Value "$pwdpath\.gitlab;$env:PATH"
+    - (& "$env:WIX\bin\light.exe" -help) | Select -First 1
     - cmake --version
     - ninja --version
     # Support submodule references to the user's fork.
-    - git submodule update --init --recursive
     - git submodule foreach --recursive cmake -P "$pwdpath/.gitlab/ci/fetch_submodule.cmake"
     - git submodule sync --recursive
     - git submodule update --init --recursive
@@ -100,16 +103,14 @@
         - *before_script_windows
         - *before_script_windows_deps
         - *before_script_windows_paraview
-        - Set-Item -Force -Path "env:GIT_CEILING_DIRECTORIES" -Value "$pwdpath"
-        - Set-Item -Force -Path "env:PATH" -Value "$env:PATH;$env:SCCACHE_PATH"
+        - Invoke-Expression -Command .gitlab/ci/buildcache.ps1
+        - Set-Item -Force -Path "env:PATH" -Value "$env:PATH;$pwdpath\.gitlab\buildcache\bin"
         - Invoke-Expression -Command .gitlab/ci/vcvarsall.ps1
-        - sccache --start-server
-        - sccache --show-stats
+        - buildcache --show-stats
         - ctest -VV -S .gitlab/ci/ctest_configure.cmake
         - ctest -VV -S .gitlab/ci/ctest_build.cmake
         - ctest -V --output-on-failure -S .gitlab/ci/ctest_package.cmake
-        - sccache --show-stats
-        - sccache --stop-server
+        - buildcache --show-stats
     interruptible: true
 
 .cmake_test_windows:

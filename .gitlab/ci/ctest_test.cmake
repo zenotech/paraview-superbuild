@@ -8,31 +8,34 @@ ctest_start(APPEND)
 
 include(ProcessorCount)
 ProcessorCount(nproc)
+if (NOT "$ENV{CTEST_MAX_PARALLELISM}" STREQUAL "")
+  if (nproc GREATER "$ENV{CTEST_MAX_PARALLELISM}")
+    set(nproc "$ENV{CTEST_MAX_PARALLELISM}")
+  endif ()
+endif ()
+
+# Default to a reasonable test timeout.
+set(CTEST_TEST_TIMEOUT 100)
 
 set(test_exclusions
   # exclude package generation tests
   "cpack-"
   # https://gitlab.kitware.com/paraview/paraview/-/issues/20061
   "paraview-pvweb-visualizer"
+
+  # Waiting for https://gitlab.kitware.com/paraview/paraview-superbuild/-/merge_requests/842
+  "pvweb"
 )
 string(REPLACE ";" "|" test_exclusions "${test_exclusions}")
 if (test_exclusions)
   set(test_exclusions "(${test_exclusions})")
 endif ()
 
-# Windows seems to have some spurious error that isn't "seen" by Process
-# Monitor or other debugging tools. Just try tests until they pass.
-set(retry_args)
-if ("$ENV{CMAKE_CONFIGURATION}" MATCHES "windows")
-  list(APPEND retry_args
-    REPEAT UNTIL_PASS:3)
-endif ()
-
 ctest_test(APPEND
   PARALLEL_LEVEL "${nproc}"
   RETURN_VALUE test_result
   EXCLUDE "${test_exclusions}"
-  ${retry_args})
+  OUTPUT_JUNIT "${CTEST_BINARY_DIRECTORY}/junit.xml")
 ctest_submit(PARTS Test)
 
 if (test_result)

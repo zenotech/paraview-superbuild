@@ -3,6 +3,7 @@ set(paraview_doc_dir "${paraview_appname}/Contents/doc")
 set(paraview_data_dir "${paraview_appname}/Contents/examples")
 set(paraview_materials_dir "${paraview_appname}/Contents/materials")
 set(paraview_plugin_path "lib/paraview-${paraview_version}/plugins")
+set(paraview_license_path "${paraview_appname}/Contents/Resources/licenses")
 include(paraview.bundle.common)
 
 if (NOT paraview_has_gui)
@@ -40,10 +41,17 @@ if (fortran_enabled)
     ".*/libgcc_s.1.dylib")
 endif ()
 
+# Framework lib for SpaceMouseInteractor plugin, must be installed by the user.
+list(APPEND ignore_regexes
+  ".*/3DconnexionNavlib")
+
 set(additional_libraries)
 if (ospray_enabled)
   set(osprayextra_libraries
-    openvkl_module_ispc_driver
+    openvkl_module_cpu_device
+    openvkl_module_cpu_device_4
+    openvkl_module_cpu_device_8
+    openvkl_module_cpu_device_16
     ospray_module_denoiser
     ospray_module_ispc
     ospray_module_mpi
@@ -118,7 +126,7 @@ if (qt5_enabled)
     COMPONENT   superbuild)
 endif ()
 
-if (python_enabled)
+if (python3_enabled)
   if (python3_built_by_superbuild)
     include(python3.functions)
     superbuild_install_superbuild_python3(

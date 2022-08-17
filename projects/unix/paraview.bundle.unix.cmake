@@ -66,16 +66,6 @@ if (EXISTS "${superbuild_install_location}/bin/paraview.conf")
     COMPONENT   "superbuild")
 endif ()
 
-foreach (paraview_plugin IN LISTS paraview_plugins)
-  superbuild_unix_install_plugin("${paraview_plugin}.so"
-    "lib"
-    "${paraview_plugin_path}/${paraview_plugin}"
-    LOADER_PATHS    "${library_paths}"
-    INCLUDE_REGEXES ${include_regexes}
-    EXCLUDE_REGEXES ${exclude_regexes}
-    LOCATION        "${paraview_plugin_path}/${paraview_plugin}/")
-endforeach ()
-
 set(plugins_file "${CMAKE_CURRENT_BINARY_DIR}/paraview.plugins.xml")
 paraview_add_plugin("${plugins_file}" ${paraview_plugins})
 
@@ -125,14 +115,17 @@ if (launchers_enabled AND mpi_built_by_superbuild)
   endforeach ()
 endif()
 
-if (nvidiaindex_enabled)
+if (nvidiaindex_enabled AND NOT APPLE)
   set(nvidiaindex_libraries
     dice
     nvindex
     nvrtc-builtins)
 
-  if (nvidiaindex_SOURCE_SELECTION STREQUAL "5.9")
+  if (nvidiaindex_SOURCE_SELECTION VERSION_GREATER_EQUAL "5.9")
     list(APPEND nvidiaindex_libraries nvindex_builtins)
+  endif ()
+  if (nvidiaindex_SOURCE_SELECTION VERSION_GREATER_EQUAL "5.10")
+    list(APPEND nvidiaindex_libraries nvrtc)
   endif ()
 
   foreach (nvidiaindex_library IN LISTS nvidiaindex_libraries)
@@ -153,7 +146,10 @@ endif ()
 
 if (ospray_enabled)
   set(osprayextra_libraries
-    openvkl_module_ispc_driver
+    openvkl_module_cpu_device
+    openvkl_module_cpu_device_4
+    openvkl_module_cpu_device_8
+    openvkl_module_cpu_device_16
     ospray_module_denoiser
     ospray_module_ispc
     ospray_module_mpi
@@ -198,7 +194,7 @@ if (visrtx_enabled)
   endforeach ()
 endif ()
 
-if (python_enabled)
+if (python3_enabled)
   file(GLOB egg_dirs
     "${superbuild_install_location}/lib/python${superbuild_python_version}/site-packages/*.egg/")
   if (python3_built_by_superbuild)
@@ -242,7 +238,7 @@ if (mpi_built_by_superbuild)
   endforeach ()
 endif ()
 
-if (mpi_enabled) # Catalyst is built if MPI is available.
+if (EXISTS "${superbuild_install_location}/lib/libcatalyst.so.2")
   set(adaptors
     "catalyst.so.2")
 
@@ -250,6 +246,20 @@ if (mpi_enabled) # Catalyst is built if MPI is available.
     superbuild_unix_install_module("${superbuild_install_location}/lib/lib${adaptor}"
       "lib"
       "lib"
+      HAS_SYMLINKS
+      LOADER_PATHS    "${library_paths}"
+      INCLUDE_REGEXES ${include_regexes}
+      EXCLUDE_REGEXES ${exclude_regexes})
+  endforeach ()
+elseif (catalyst_enabled)
+  set(adaptors
+    "paraview"
+    "stub")
+
+  foreach (adaptor IN LISTS adaptors)
+    superbuild_unix_install_module("${superbuild_install_location}/lib/catalyst/libcatalyst-${adaptor}.so"
+      "lib"
+      "lib/catalyst"
       HAS_SYMLINKS
       LOADER_PATHS    "${library_paths}"
       INCLUDE_REGEXES ${include_regexes}
@@ -277,6 +287,19 @@ foreach (qt5_plugin_path IN LISTS qt5_plugin_paths)
     LOADER_PATHS    "${library_paths}"
     INCLUDE_REGEXES ${include_regexes}
     EXCLUDE_REGEXES ${exclude_regexes})
+endforeach ()
+
+# install paraview plugins.
+# see discussion on paraview/paraview-superbuild!865 for why this delayed
+# until the end.
+foreach (paraview_plugin IN LISTS paraview_plugins)
+  superbuild_unix_install_plugin("${paraview_plugin}.so"
+    "lib"
+    "${paraview_plugin_path}/${paraview_plugin}"
+    LOADER_PATHS    "${library_paths}"
+    INCLUDE_REGEXES ${include_regexes}
+    EXCLUDE_REGEXES ${exclude_regexes}
+    LOCATION        "${paraview_plugin_path}/${paraview_plugin}/")
 endforeach ()
 
 paraview_install_extra_data()

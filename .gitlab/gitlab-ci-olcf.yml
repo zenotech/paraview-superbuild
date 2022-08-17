@@ -1,3 +1,7 @@
+# gitlab ci script for ParaView testing on login1.ascent.olcf.ornl.gov
+# a training system for summit.olcf.ornl.gov
+# Pipelines for the gitlab-ci are found at
+# https://code.ornl.gov/ecpcitest/paraview/-/pipelines
 stages:
   - init
   - build
@@ -48,7 +52,7 @@ stages:
     - .base
   stage: test
   variables:
-    SCHEDULER_PARAMETERS: "-P CSC340 -W 1:00 -nnodes 1"
+    SCHEDULER_PARAMETERS: "-P CSC340 -W 1:30 -nnodes 1"
 
 .cleanup-step:
   extends:

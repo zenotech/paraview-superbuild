@@ -6,6 +6,8 @@ endif()
 
 superbuild_add_project(expat
   CAN_USE_SYSTEM
+  LICENSE_FILES
+    COPYING
   CONFIGURE_COMMAND
     <SOURCE_DIR>/configure
     --prefix=<INSTALL_DIR>

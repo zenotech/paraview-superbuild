@@ -9,11 +9,11 @@
 # newer compilers.
 
 .centos7:
-    image: "kitware/paraview:ci-superbuild-centos7-20210113"
+    image: "kitware/paraview:ci-superbuild-centos7-20220630"
 
     variables:
         GIT_SUBMODULE_STRATEGY: none
-        LAUNCHER: "scl enable devtoolset-7 --"
+        LAUNCHER: "scl enable devtoolset-7 rh-git227 --"
         GIT_CLONE_PATH: $CI_BUILDS_DIR/gitlab-kitware-sciviz-ci
         CUDACXX: "/usr/local/cuda-11.2/bin/nvcc"
 
@@ -41,21 +41,21 @@
     variables:
         CMAKE_CONFIGURATION: linux_osmesa_static
 
-.fedora33:
-    image: "kitware/paraview:ci-superbuild-fedora33-20201112"
+.fedora36:
+    image: "kitware/paraview:ci-superbuild-fedora36-20220702"
 
     variables:
         GIT_SUBMODULE_STRATEGY: none
         GIT_CLONE_PATH: $CI_BUILDS_DIR/gitlab-kitware-sciviz-ci
 
-.fedora33_plain:
-    extends: .fedora33
+.fedora36_plain:
+    extends: .fedora36
 
     variables:
         CMAKE_CONFIGURATION: linux_plain
 
-.fedora33_egl:
-    extends: .fedora33
+.fedora36_egl:
+    extends: .fedora36
 
     variables:
         CMAKE_CONFIGURATION: linux_egl
@@ -84,6 +84,9 @@
     - export PATH=$PWD/.gitlab:$PWD/.gitlab/cmake/bin:$PATH
     - cmake --version
     - ninja --version
+    # `git submodule foreach` does not consider submodules that have not been
+    # initialized. So here, we initialize what we can and ignore failure so
+    # that we can set up submodules properly later.
     - "git submodule update --init --recursive || :"
     - git submodule foreach --recursive cmake -P "$PWD/.gitlab/ci/fetch_submodule.cmake"
     - git submodule sync --recursive
@@ -100,7 +103,6 @@
     script:
         - *before_script_linux
         - *before_script_linux_paraview
-        - export GIT_CEILING_DIRECTORIES=$PWD
         - .gitlab/ci/sccache.sh
         - export CC=$PWD/.gitlab/shortcuts/gcc
         - export CXX=$PWD/.gitlab/shortcuts/g++
@@ -117,7 +119,6 @@
             # Cache downloaded tarballs.
             - build/downloads/
     interruptible: true
-    timeout: 3 hours
 
 .cmake_test_linux:
     stage: test

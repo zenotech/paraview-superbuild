@@ -14,15 +14,28 @@ if(UNIX)
   list(APPEND adios2_extra_deps ffi)
 endif()
 
+# Compilation errors with the `blosc` on windows in the superbuild. Needs
+# investigation.
+# https://gitlab.kitware.com/paraview/paraview-superbuild/-/issues/195
+if(WIN32)
+  set(blosc_platform_enabled OFF)
+else()
+  set(blosc_platform_enabled ${blosc_enabled})
+endif()
+
+
 superbuild_add_project(adios2
   CAN_USE_SYSTEM
   DEPENDS
-    cxx11 zfp ${adios2_extra_deps}
+    cxx11 ${adios2_extra_deps}
     # currently adios 2.6 unconditionally needs Python
     # even if Python wrapping is disabled.
     python3
   DEPENDS_OPTIONAL
-    mpi
+    mpi blosc zfp png
+  LICENSE_FILES
+    Copyright.txt
+    LICENSE
   CMAKE_ARGS
     -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
     -DCMAKE_INSTALL_LIBDIR:STRING=lib
@@ -30,13 +43,14 @@ superbuild_add_project(adios2
     -DBUILD_TESTING:BOOL=OFF
     -DADIOS2_BUILD_EXAMPLES:BOOL=OFF
     -DADIOS2_USE_BZip2:STRING=OFF
-    -DADIOS2_USE_Blosc:STRING=OFF
+    -DADIOS2_USE_Blosc:STRING=${blosc_platform_enabled}
+    -DADIOS2_USE_CUDA:BOOL=OFF
     -DADIOS2_USE_DataMan:STRING=OFF
     -DADIOS2_USE_Fortran:STRING=OFF
     -DADIOS2_USE_HDF5:STRING=OFF
     -DADIOS2_USE_MGARD:STRING=OFF
     -DADIOS2_USE_MPI:STRING=${mpi_enabled}
-    -DADIOS2_USE_PNG:STRING=OFF
+    -DADIOS2_USE_PNG:STRING=${png_enabled}
     -DADIOS2_USE_Profiling:STRING=OFF
     -DADIOS2_USE_Python:STRING=OFF
     -DADIOS2_USE_SSC:STRING=ON
@@ -46,8 +60,3 @@ superbuild_add_project(adios2
     -DADIOS2_USE_ZeroMQ:STRING=OFF
     -DEVPATH_TRANSPORT_MODULES:BOOL=OFF
     ${adios2_extra_args})
-
-if(adios2_SOURCE_SELECTION STREQUAL "v2.4.0")
-  superbuild_apply_patch(adios2 cmake-update-findmpi
-    "Fix issues with FindMPI in downstream dependees")
-endif()

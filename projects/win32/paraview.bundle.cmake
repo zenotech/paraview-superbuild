@@ -5,7 +5,18 @@ set(paraview_data_dir "examples")
 set(paraview_materials_dir "materials")
 set(paraview_kernels_nvidia_index_dir "kernels_nvidia_index")
 set(paraview_plugin_path "bin/paraview-${paraview_version}/plugins")
+set(paraview_license_path "share/licenses")
 include(paraview.bundle.common)
+
+set(CPACK_WIX_UPGRADE_GUID "e06445a7-b257-4fce-9241-2a189ad26b5a")
+set(CPACK_WIX_PRODUCT_GUID "76d57fb1-0cd5-40a2-9296-16b85344bcaa")
+
+if (NOT "$ENV{GITLAB_CI}" STREQUAL "")
+  # Suppress validation.  It does not work without
+  # an interactive session or an admin account.
+  # https://github.com/wixtoolset/issues/issues/3968
+  list(APPEND CPACK_WIX_LIGHT_EXTRA_FLAGS "-sval")
+endif ()
 
 # Set NSIS install specific stuff.
 if (CMAKE_CL_64)
@@ -76,6 +87,15 @@ install(
   DESTINATION "${paraview_plugin_path}"
   COMPONENT   superbuild)
 
+if ("XRInterface" IN_LIST paraview_plugins)
+  file(GLOB openvr_manifests
+    "${superbuild_install_location}/${paraview_plugin_path}/XRInterface/*.json")
+  install(FILES ${openvr_manifests}
+    DESTINATION "${paraview_plugin_path}/XRInterface"
+    COMPONENT "superbuild"
+    )
+endif ()
+
 if (nvidiaindex_enabled)
   set(nvidiaindex_libraries
     libdice
@@ -90,7 +110,11 @@ if (nvidiaindex_enabled)
     list(APPEND nvidiaindex_libraries nvrtc-builtins64_101)
   elseif (nvidiaindex_SOURCE_SELECTION STREQUAL "2.4")
     list(APPEND nvidiaindex_libraries nvrtc-builtins64_102)
-  elseif (nvidiaindex_SOURCE_SELECTION STREQUAL "5.9")
+  elseif (nvidiaindex_SOURCE_SELECTION VERSION_GREATER_EQUAL "5.10")
+    list(APPEND nvidiaindex_libraries libnvindex_builtins)
+    list(APPEND nvidiaindex_libraries nvrtc64_102_0)
+    list(APPEND nvidiaindex_libraries nvrtc-builtins64_102)
+  elseif (nvidiaindex_SOURCE_SELECTION VERSION_GREATER_EQUAL "5.9")
     list(APPEND nvidiaindex_libraries libnvindex_builtins)
     list(APPEND nvidiaindex_libraries nvrtc-builtins64_102)
   else ()
@@ -112,7 +136,10 @@ endif ()
 
 if (ospray_enabled)
   set(osprayextra_libraries
-    openvkl_module_ispc_driver
+    openvkl_module_cpu_device
+    openvkl_module_cpu_device_4
+    openvkl_module_cpu_device_8
+    openvkl_module_cpu_device_16
     ospray_module_denoiser
     ospray_module_ispc
     rkcommon)
@@ -142,7 +169,7 @@ if (visrtx_enabled)
   endforeach ()
 endif ()
 
-if (python_enabled)
+if (python3_enabled)
   if (python3_built_by_superbuild)
     include(python3.functions)
     superbuild_install_superbuild_python3()
