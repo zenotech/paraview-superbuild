@@ -11,15 +11,15 @@ set(ttk_enabled_modules
   ttkProgramBase
 
   # tests
-  ttkBlank
   ttkHelloWorld
+  ttkTriangulationRequest
 
   # utility
   ttkArrayEditor
   ttkArrayPreconditioning
   ttkBlockAggregator
-  ttkDataSetToTable
   ttkExtract
+  ttkFlattenMultiBlock
   ttkForEach
   ttkEndFor
   ttkGridLayout
@@ -28,6 +28,7 @@ set(ttk_enabled_modules
   ttkIcospheresFromPoints
   ttkIdentifierRandomizer
   ttkPointDataSelector
+  ttkPointSetToCurve
   ttkScalarFieldNormalizer
   ttkScalarFieldSmoother
   ttkTextureMapFromField
@@ -35,20 +36,27 @@ set(ttk_enabled_modules
   # topology
   ttkContinuousScatterPlot
   ttkContourAroundPoint
+  ttkContourTree
   ttkContourTreeAlignment
-  ttkFTMTree
-  ttkFTRGraph
   ttkFiber
   ttkFiberSurface
-  ttkPersistenceCurve
-  ttkPersistenceDiagram
+  ttkFTMTree
+  ttkFTRGraph
   ttkIntegralLines
   ttkJacobiSet
+  ttkMergeBlockTables
+  ttkMergeTreeClustering
+  ttkMergeTreeDistanceMatrix
+  ttkMergeTreeTemporalReductionDecoding
+  ttkMergeTreeTemporalReductionEncoding
   ttkMeshGraph
   ttkMorseSmaleComplex
-  ttkPeriodicGrid
+  ttkPersistenceCurve
+  ttkPersistenceDiagram
+  ttkPersistentGenerators
   ttkPlanarGraphLayout
   ttkReebSpace
+  ttkRipsComplex
   ttkScalarFieldCriticalPoints
   ttkTopologicalSimplification
   ttkTopologicalSimplificationByPersistence
@@ -57,13 +65,15 @@ set(ttk_enabled_modules
   ttkTrackingFromPersistenceDiagrams
 
   # geometry processing
-  ttkDepthImageBasedApproximation
+  ttkBottleneckDistance
+  ttkDepthImageBasedGeometryApproximation
   ttkDistanceField
   ttkGeometrySmoother
   ttkManifoldCheck
   ttkMorseSmaleQuadrangulation
   ttkProjectionFromField
   ttkQuadrangulationSubdivision
+  ttkSurfaceGeometrySmoother
 
   # clustering
   ttkPersistenceDiagramClustering
@@ -72,17 +82,32 @@ set(ttk_enabled_modules
   ttkMandatoryCriticalPoints
   ttkDimensionReduction
 
+  # compression
+  ttkTopologicalCompressionReader
+  ttkTopologicalCompressionWriter
+
   # cinema
   ttkCinemaReader
   ttkCinemaWriter
   ttkCinemaQuery
   ttkCinemaImaging
   ttkCinemaProductReader
-  ttkCinemaDarkroom
 
-  # compression
-  ttkTopologicalCompressionReader
-  ttkTopologicalCompressionWriter
+  # darkroom
+  ttkCinemaDarkroom
+  ttkDarkroomCamera
+  ttkDarkroomColorMapping
+  ttkDarkroomCompositing
+  ttkDarkroomFXAA
+  ttkDarkroomIBS
+  ttkDarkroomSSAO
+  ttkDarkroomSSDoF
+  ttkDarkroomSSSAO
+
+  # table
+  ttkDataSetToTable
+  ttkTableDataSelector
+  ttkTableDistanceMatrix
 )
 
 if (eigen_enabled)
@@ -134,21 +159,15 @@ superbuild_add_project(ttk
 
     -DTTK_ENABLE_KAMIKAZE:BOOL=TRUE
     -DTTK_ENABLE_CPU_OPTIMIZATION:BOOL=FALSE
-    -DTTK_ENABLE_DOUBLE_TEMPLATING:BOOL=ON
+    -DTTK_ENABLE_DOUBLE_TEMPLATING:BOOL=OFF # save ressources for CI
     -DTTK_ENABLE_EIGEN:BOOL=${eigen_enabled}
     -DTTK_ENABLE_EMBREE:BOOL=NO
     -DTTK_ENABLE_GRAPHVIZ:BOOL=NO
     -DTTK_ENABLE_OPENMP:BOOL=${openmp_enabled}
-    -DTTK_ENABLE_MPI:BOOL=${mpi_enabled}
+    # -DTTK_ENABLE_MPI:BOOL=${mpi_enabled} # temporary workaround
+    -DTTK_ENABLE_MPI:BOOL=NO
     -DTTK_ENABLE_ZFP:BOOL=${zfp_enabled}
 
     -DTTK_WHITELIST_MODE:BOOL=TRUE
     ${ttk_module_settings}
   )
-
-superbuild_apply_patch(ttk gcc12-includes
-  "Fix includes with GCC 12")
-
-# https://github.com/topology-tool-kit/ttk/pull/804
-superbuild_apply_patch(ttk threshold-fixes
-  "API updates for vtkThreshold deprecation removals")
