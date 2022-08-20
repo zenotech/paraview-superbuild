@@ -7,7 +7,4 @@ set(ENABLE_fortran OFF CACHE BOOL "")
 set(ENABLE_scipy OFF CACHE BOOL "")
 set(ENABLE_surfacetrackercut OFF CACHE BOOL "")
 
-# No LookingGlass binaries for arm64 yet.
-set(ENABLE_lookingglass OFF CACHE BOOL "")
-
 include("${CMAKE_CURRENT_LIST_DIR}/configure_macos.cmake")
