@@ -138,8 +138,8 @@ superbuild_set_revision(las
   URL_MD5 2e6a975dafdf57f59a385ccb87eb5919)
 
 superbuild_set_revision(lookingglass
-  URL     "https://www.paraview.org/files/dependencies/HoloPlayCore-0.1.1-Open-20200923.tar.gz"
-  URL_MD5 b435316fa1f8454ba180e72608c3c28f)
+  URL     "https://www.paraview.org/files/dependencies/LookingGlassCoreSDK-Open-20220819.tgz"
+  URL_MD5 23a2a373c9d1c0f203251dc244f97f79)
 
 # license does not allow public distribution - external devs should download the SDK themselves.
 # https://3dconnexion.com/us/software-developer-program/
