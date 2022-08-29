@@ -283,3 +283,7 @@ superbuild_set_selectable_source(catalyst
     GIT_REPOSITORY "https://gitlab.kitware.com/paraview/catalyst.git"
     GIT_TAG        "3f7871c0a2e737cb9ed35fc1c2208456fcc00a0e"
     )
+
+superbuild_set_revision(cdi
+  URL     "https://www.paraview.org/files/dependencies/cdi-2.1.0.tar.gz"
+  URL_MD5 "31304b1d487d0350c57cda00d2d757c3")

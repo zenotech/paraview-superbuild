@@ -46,7 +46,7 @@ if (UNIX)
       fontconfig)
   endif ()
   list(APPEND paraviews_platform_dependencies
-    ffmpeg libxml2 freetype mili gmsh
+    cdi ffmpeg libxml2 freetype mili gmsh
     # For cosmotools
     genericio cosmotools)
 endif ()
@@ -286,6 +286,9 @@ superbuild_add_project(paraview
 
     # 3Dconnexion SpaceMouse
     -DPARAVIEW_PLUGIN_ENABLE_SpaceMouseInteractor:BOOL=${threedxwaresdk_enabled}
+
+    # CDI Reader
+    -DPARAVIEW_PLUGIN_ENABLE_CDIReader:BOOL=${cdi_enabled}
 
     ${paraview_extra_cmake_options}
 

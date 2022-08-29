@@ -147,6 +147,7 @@ function (superbuild_find_projects var)
 
   if (UNIX)
     list(APPEND projects
+      cdi
       cosmotools
       ffi
       ffmpeg
