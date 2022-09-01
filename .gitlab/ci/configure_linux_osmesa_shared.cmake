@@ -1,4 +1,5 @@
 set(ENABLE_osmesa                   ON  CACHE BOOL "")
+set(ENABLE_catalyst                 ON  CACHE BOOL "")
 
 set(ENABLE_mesa                     OFF CACHE BOOL "")
 set(ENABLE_nvidiaindex              OFF CACHE BOOL "")
