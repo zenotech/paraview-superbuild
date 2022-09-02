@@ -1,4 +1,5 @@
 set(ENABLE_egl                        ON  CACHE BOOL "")
+set(ENABLE_catalyst                   ON  CACHE BOOL "")
 
 set(ENABLE_mesa                       OFF CACHE BOOL "")
 set(ENABLE_osmesa                     OFF CACHE BOOL "")
