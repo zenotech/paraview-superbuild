@@ -11,5 +11,5 @@ index 28bf300..df1d214 100644
 +# define snprintf  _snprintf
 +#endif
  #define stat      _stat
+ #define stat64    _stat64
  #define write     _write
- 

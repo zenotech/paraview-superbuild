@@ -50,20 +50,19 @@ superbuild_add_project(silo
       --disable-fortran
       --disable-browser
       --disable-silex
+      --enable-zfp=no
       ${silo_shared_args}
       ${silo_zlib_args}
       ${silo_szip_args}
       ${silo_hdf5_args})
 
+superbuild_apply_patch(silo zfp-cond
+  "Properly support not having zfp around")
+
 if (APPLE)
   superbuild_apply_patch(silo zlib-apple
     "Detect libz.dylib")
 endif()
-
-if (UNIX)
-  superbuild_apply_patch(silo ppc64le-linux
-    "Patch for Power 9 architecture")
-endif ()
 
 if (hdf5_enabled)
   superbuild_apply_patch(silo hdf5-1.12

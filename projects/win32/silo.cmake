@@ -29,8 +29,14 @@ elseif (silo_enabled)
   message(FATAL_ERROR "Unrecognized MSVC version")
 endif ()
 
+set(silo_mpi_include_dirs)
+if (mpi_enabled)
+  list(JOIN MPI_C_INCLUDE_DIRS "${_superbuild_list_separator}" silo_mpi_include_dirs)
+endif ()
+
 superbuild_add_project(silo
   DEPENDS zlib hdf5
+  DEPENDS_OPTIONAL mpi
   LICENSE_FILES
     COPYRIGHT
   BUILD_IN_SOURCE 1
@@ -46,6 +52,9 @@ superbuild_add_project(silo
       -DMSBUILD_PATH:FILEPATH=${MSBUILD_PATH}
       -Dvs_version:STRING=${silo_vs_version}
       -Dvs_toolset:STRING=${silo_vs_toolset}
+      -Denable_mpi:BOOL=${mpi_enabled}
+      -Dmpi_include_dirs:STRING=${silo_mpi_include_dirs}
+      -Dmpi_library:STRING=${MPI_msmpi_LIBRARY}
       -P ${CMAKE_CURRENT_LIST_DIR}/scripts/silo.build.cmake
   INSTALL_COMMAND
     "${CMAKE_COMMAND}"
@@ -59,12 +68,14 @@ superbuild_apply_patch(silo hdf5-deplibs
   "Link to HDF5 properly")
 superbuild_apply_patch(silo snprintf
   "Remove snprint redefinition for VS2015 and newer")
-superbuild_apply_patch(silo hdf5-1.10
-  "Support HDF5 1.10")
 superbuild_apply_patch(silo hdf5-1.12
   "Support HDF5 1.12")
 superbuild_apply_patch(silo hdf5-api-updates
   "Support HDF5 API updates")
+superbuild_apply_patch(silo warning-preproc-mask
+  "Hide `#warning` bits from MSVC")
+superbuild_apply_patch(silo zfp-cond
+  "zfp conditionals")
 
 superbuild_add_extra_cmake_args(
   -DSILO_INCLUDE_DIR:PATH=<INSTALL_DIR>/include
