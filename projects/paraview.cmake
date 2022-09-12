@@ -191,7 +191,7 @@ superbuild_add_project(paraview
     ${paraview_all_plugins}
     ${paraviews_platform_dependencies}
     tbb ospray sqlite
-    tiff proj
+    tiff proj exodus seacas
     ${PARAVIEW_EXTERNAL_PROJECTS}
 
   CMAKE_ARGS
@@ -232,6 +232,7 @@ superbuild_add_project(paraview
     -DVTK_ENABLE_VR_COLLABORATION:BOOL=${paraview_vr_collaboration_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_eigen=${eigen_enabled}
     -DVTK_MODULE_USE_EXTERNAL_ParaView_protobuf:BOOL=${protobuf_enabled}
+    -DVTK_MODULE_USE_EXTERNAL_VTK_exodus:BOOL=${exodus_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_expat:BOOL=${expat_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_freetype:BOOL=${freetype_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_hdf5:BOOL=${hdf5_enabled}

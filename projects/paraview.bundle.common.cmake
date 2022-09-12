@@ -271,6 +271,7 @@ function (paraview_install_all_licenses)
 
   # Remove package without licenses
   list(REMOVE_ITEM license_projects
+    exodus # dummy project to enable the library in the seacas build
     ospraymaterials # CC0 License
     launchers # ParaView
     paraviewgettingstartedguide # ParaView

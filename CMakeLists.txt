@@ -47,6 +47,7 @@ function (superbuild_find_projects var)
     cuda
     eigen
     embree
+    exodus
     freetype
     gdal
     geotiff
@@ -120,6 +121,7 @@ function (superbuild_find_projects var)
     qt5
     rkcommon
     scipy
+    seacas
     silo
     snappy
     sqlite
