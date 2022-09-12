@@ -1,6 +1,6 @@
 superbuild_add_project(openpmd
   DEPENDS python3 nlohmannjson pybind11
-  DEPENDS_OPTIONAL hdf5 adios2
+  DEPENDS_OPTIONAL hdf5 adios2 mpi
   LICENSE_FILES
     COPYING.LESSER
     share/openPMD/thirdParty/json/LICENSE.MIT
@@ -8,8 +8,7 @@ superbuild_add_project(openpmd
   CMAKE_ARGS
     -DCMAKE_INSTALL_LIBDIR:STRING=lib
 
-    #openPMD MPI needs HDF5 to be built with MPI.
-    -DopenPMD_USE_MPI:BOOL=OFF
+    -DopenPMD_USE_MPI:BOOL=${mpi_enabled}
     -DopenPMD_USE_HDF5:BOOL=${hdf5_enabled}
     -DopenPMD_USE_ADIOS2:BOOL=${adios2_enabled}
     -DopenPMD_USE_ADIOS1:BOOL=OFF
