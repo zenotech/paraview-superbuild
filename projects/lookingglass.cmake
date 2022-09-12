@@ -1,4 +1,5 @@
 superbuild_add_project(lookingglass
+  DEPENDS qt5
   LICENSE_FILES
     LICENSE.txt
   CONFIGURE_COMMAND
