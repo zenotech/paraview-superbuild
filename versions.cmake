@@ -313,8 +313,8 @@ superbuild_set_revision(pythonpkgconfig
   URL_MD5 "12523e11b91b050ca49975cc033689a4")
 
 superbuild_set_revision(h5py
-  URL     "https://www.paraview.org/files/dependencies/h5py-3.3.0.tar.gz"
-  URL_MD5 "2f83b8afd70ad59d3bb69c0d0b7d61b1")
+  URL     "https://www.paraview.org/files/dependencies/h5py-3.7.0.tar.gz"
+  URL_MD5 "acb43ba2b0b853005af71eccfc456676")
 
 superbuild_set_revision(openvdb
   URL "https://www.paraview.org/files/dependencies/openvdb-8.2.0.tar.gz"
