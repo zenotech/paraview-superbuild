@@ -181,7 +181,7 @@ superbuild_add_project(paraview
   DEPENDS cxx11
   DEPENDS_OPTIONAL
     adios2 catalyst cuda boost eigen fortran gdal hdf5 matplotlib mpi numpy png
-    protobuf python3 qt5 visitbridge zlib silo las lookingglass fides
+    protobuf python3 qt5 visitbridge zlib silo las lookingglass fides pythonmpi4py
     xdmf3 vrpn vtkm netcdf
     openpmd
     openvdb
@@ -238,6 +238,7 @@ superbuild_add_project(paraview
     -DVTK_MODULE_USE_EXTERNAL_VTK_hdf5:BOOL=${hdf5_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_libproj:BOOL=${proj_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_libxml2:BOOL=${libxml2_enabled}
+    -DVTK_MODULE_USE_EXTERNAL_VTK_mpi4py:BOOL=${pythonmpi4py_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_netcdf:BOOL=${netcdf_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_png:BOOL=${png_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_sqlite:BOOL=${sqlite_enabled}

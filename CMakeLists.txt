@@ -96,6 +96,7 @@ function (superbuild_find_projects var)
     pythonidna
     pythonkiwisolver
     pythonmako
+    pythonmpi4py
     pythonmpmath
     pythonmultidict
     #pythonpillow

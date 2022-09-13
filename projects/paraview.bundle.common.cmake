@@ -71,7 +71,7 @@ endif()
 set(python_modules
   cinema_python
   pygments
-  mpi4py)
+  mpi4py) # Comes from VTK or `pythonmpi4py`
 
 if (paraview_is_shared)
   list(APPEND python_modules
