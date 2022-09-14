@@ -429,6 +429,10 @@ set(_superbuild_qt5_default_selection "5.12")
 # Force qt SVG support, so ParaView can use SVG icons
 set(qt5_ENABLE_SVG ON CACHE INTERNAL "ParaView requires SVG support")
 
+# Disable MPI support in libraries that 5.11 is not yet ready for.
+set(_hdf5_disable_mpi_support ON)
+set(_netcdf_disable_mpi_support ON)
+
 # ParaView's superbuild does not support static-everywhere builds. But let
 # people around the check if they want it.
 if (NOT PARAVIEW_I_WANT_EVERYTHING_STATIC)
