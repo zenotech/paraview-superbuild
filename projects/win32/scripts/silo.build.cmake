@@ -4,6 +4,12 @@ list(APPEND vs_props
   "/p:ZLIB_LIB_DIR_X64=${install_location}/lib"
   "/p:HDF5_INC_DIR_X64=${install_location}/include"
   "/p:HDF5_LIB_DIR_X64=${install_location}/lib")
+
+if (enable_mpi)
+  list(APPEND vs_props
+    "/p:MPI_INC_DIR_X64=${mpi_include_dirs}"
+    "/p:MPI_LIBRARY=${mpi_library}")
+endif ()
 set(silo_platform "x64")
 
 execute_process(

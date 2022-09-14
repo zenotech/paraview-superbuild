@@ -1,23 +1,23 @@
-diff -U5 -Nru silo-4.9.1-bsd/configure silo-4.9.1-bsd.zlib-apple/configure
---- silo-4.9.1-bsd/configure	2013-03-19 13:36:57.000000000 -0400
-+++ silo-4.9.1-bsd.zlib-apple/configure	2017-01-31 09:34:18.398846694 -0500
-@@ -23321,11 +23321,11 @@
-         { { $as_echo "$as_me:$LINENO: error: problem with directory specified for zlib includes" >&5
- $as_echo "$as_me: error: problem with directory specified for zlib includes" >&2;}
-    { (exit 1); exit 1; }; }
+diff -u -U5 -r silo-4.11-bsd/configure silo-4.11-bsd.zlib-apple/configure
+--- silo-4.11-bsd/configure	2021-09-10 18:22:52.000000000 -0400
++++ silo-4.11-bsd.zlib-apple/configure	2022-09-12 17:54:06.795410707 -0400
+@@ -24088,11 +24088,11 @@
+     ZLIB_INCDIR="`echo $with_zlib |cut -f1 -d,`"
+     if test ! -f $ZLIB_INCDIR/zlib.h; then
+         as_fn_error $? "problem with directory specified for zlib includes" "$LINENO" 5
      fi
      ZLIB_LIBDIR="`echo $with_zlib | cut -f2 -d, -s`"
 -    if test ! -f $ZLIB_LIBDIR/libz.a && test ! -f $ZLIB_LIBDIR/libz.so; then
 +    if test ! -f $ZLIB_LIBDIR/libz.a && test ! -f $ZLIB_LIBDIR/libz.so && test ! -f $ZLIB_LIBDIR/libz.dylib; then
-         { { $as_echo "$as_me:$LINENO: error: problem with directory specified for zlib libs" >&5
- $as_echo "$as_me: error: problem with directory specified for zlib libs" >&2;}
-    { (exit 1); exit 1; }; }
+         as_fn_error $? "problem with directory specified for zlib libs" "$LINENO" 5
      fi
      CPPFLAGS="$CPPFLAGS -I$ZLIB_INCDIR"
-diff -U5 -Nru silo-4.9.1-bsd/configure.ac silo-4.9.1-bsd.zlib-apple/configure.ac
---- silo-4.9.1-bsd/configure.ac	2013-03-19 13:36:57.000000000 -0400
-+++ silo-4.9.1-bsd.zlib-apple/configure.ac	2017-01-31 09:34:22.434957248 -0500
-@@ -692,11 +692,11 @@
+     LDFLAGS="$LDFLAGS -L$ZLIB_LIBDIR"
+     LIBS="$LIBS -lz"
+diff -u -U5 -r silo-4.11-bsd/configure.ac silo-4.11-bsd.zlib-apple/configure.ac
+--- silo-4.11-bsd/configure.ac	2021-09-10 18:22:52.000000000 -0400
++++ silo-4.11-bsd.zlib-apple/configure.ac	2022-09-12 17:54:12.603410521 -0400
+@@ -467,11 +467,11 @@
      ZLIB_INCDIR="`echo $with_zlib |cut -f1 -d,`"
      if test ! -f $ZLIB_INCDIR/zlib.h; then
          AC_MSG_ERROR(problem with directory specified for zlib includes)

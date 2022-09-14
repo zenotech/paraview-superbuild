@@ -181,7 +181,7 @@ superbuild_add_project(paraview
   DEPENDS cxx11
   DEPENDS_OPTIONAL
     adios2 catalyst cuda boost eigen fortran gdal hdf5 matplotlib mpi numpy png
-    protobuf python3 qt5 visitbridge zlib silo las lookingglass fides
+    protobuf python3 qt5 visitbridge zlib silo las lookingglass fides pythonmpi4py
     xdmf3 vrpn vtkm netcdf
     openpmd
     openvdb
@@ -191,7 +191,7 @@ superbuild_add_project(paraview
     ${paraview_all_plugins}
     ${paraviews_platform_dependencies}
     tbb ospray sqlite
-    tiff proj
+    tiff proj exodus seacas
     ${PARAVIEW_EXTERNAL_PROJECTS}
 
   CMAKE_ARGS
@@ -232,11 +232,13 @@ superbuild_add_project(paraview
     -DVTK_ENABLE_VR_COLLABORATION:BOOL=${paraview_vr_collaboration_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_eigen=${eigen_enabled}
     -DVTK_MODULE_USE_EXTERNAL_ParaView_protobuf:BOOL=${protobuf_enabled}
+    -DVTK_MODULE_USE_EXTERNAL_VTK_exodus:BOOL=${exodus_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_expat:BOOL=${expat_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_freetype:BOOL=${freetype_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_hdf5:BOOL=${hdf5_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_libproj:BOOL=${proj_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_libxml2:BOOL=${libxml2_enabled}
+    -DVTK_MODULE_USE_EXTERNAL_VTK_mpi4py:BOOL=${pythonmpi4py_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_netcdf:BOOL=${netcdf_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_png:BOOL=${png_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_sqlite:BOOL=${sqlite_enabled}

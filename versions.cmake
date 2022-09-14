@@ -11,8 +11,8 @@ superbuild_set_revision(eigen
   URL_MD5 c57578fd48359af3f214bac3239d7c80)
 
 superbuild_set_revision(silo
-  URL     "https://www.paraview.org/files/dependencies/silo-4.10.2-bsd-smalltest.tar.gz"
-  URL_MD5 d2a9023f63de361d91f94646d5d1974e)
+  URL     "https://www.paraview.org/files/dependencies/silo-4.11-bsd-smalltest.tar.gz"
+  URL_MD5 db5ac16cf8a84a40c3f9e80ca7f8dc6a)
 
 superbuild_set_revision(genericio
   URL     "https://www.paraview.org/files/dependencies/genericio-master-4fddf723bca61c87f51dba1d9f215dfdd6e5b31d.tar.xz"
@@ -313,8 +313,8 @@ superbuild_set_revision(pythonpkgconfig
   URL_MD5 "12523e11b91b050ca49975cc033689a4")
 
 superbuild_set_revision(h5py
-  URL     "https://www.paraview.org/files/dependencies/h5py-3.3.0.tar.gz"
-  URL_MD5 "2f83b8afd70ad59d3bb69c0d0b7d61b1")
+  URL     "https://www.paraview.org/files/dependencies/h5py-3.7.0.tar.gz"
+  URL_MD5 "acb43ba2b0b853005af71eccfc456676")
 
 superbuild_set_revision(openvdb
   URL "https://www.paraview.org/files/dependencies/openvdb-8.2.0.tar.gz"

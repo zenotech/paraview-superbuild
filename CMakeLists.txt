@@ -47,6 +47,7 @@ function (superbuild_find_projects var)
     cuda
     eigen
     embree
+    exodus
     freetype
     gdal
     geotiff
@@ -95,6 +96,7 @@ function (superbuild_find_projects var)
     pythonidna
     pythonkiwisolver
     pythonmako
+    pythonmpi4py
     pythonmpmath
     pythonmultidict
     #pythonpillow
@@ -120,6 +122,7 @@ function (superbuild_find_projects var)
     qt5
     rkcommon
     scipy
+    seacas
     silo
     snappy
     sqlite
