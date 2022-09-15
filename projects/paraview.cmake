@@ -183,6 +183,7 @@ superbuild_add_project(paraview
     adios2 catalyst cuda boost eigen fortran gdal hdf5 matplotlib mpi numpy png
     protobuf python3 qt5 visitbridge zlib silo las lookingglass fides
     xdmf3 vrpn vtkm netcdf
+    openmp
     openpmd
     openvdb
     nlohmannjson
