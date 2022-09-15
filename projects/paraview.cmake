@@ -245,6 +245,10 @@ superbuild_add_project(paraview
     -DVTK_OPENGL_HAS_EGL:BOOL=${egl_enabled}
     -DVTK_OPENGL_HAS_OSMESA:BOOL=${osmesa_enabled}
     -DVTK_SMP_IMPLEMENTATION_TYPE:STRING=${paraview_smp_backend}
+    -DVTK_SMP_ENABLE_TBB:BOOL=${tbb_enabled}
+    -DVTK_SMP_ENABLE_OPENMP:BOOL=${openmp_enabled}
+    -DVTK_SMP_ENABLE_STDTHREAD:BOOL=ON
+    -DVTK_SMP_ENABLE_SEQUENTIAL:BOOL=ON
     -DVTK_USE_X:BOOL=${paraview_use_x}
 
     # raytracing flags
