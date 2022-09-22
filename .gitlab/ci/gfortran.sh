@@ -2,17 +2,32 @@
 
 set -e
 
-readonly version="10.2.0"
-readonly sha256sum="ab341c437d9ff145d28ae3e4419c5d4949eff7c77858fa6127d7f2152ae8efcd"
-readonly platform="macos10.13"
+readonly gcc_version="12.2"
+readonly version="$gcc_version-darwin-r0-20220922.0"
 
-readonly filename="gcc-$version"
-readonly tarball="$filename-$platform.tar.xz"
+case "$(uname -m)" in
+    x86_64)
+        sha256sum="bd7bd769e4c5ab11ebfb1513873ca1df7e906f540a247021e243d701fe878ceb"
+        platform="macos10.13-x86_64"
+        ;;
+    arm64)
+        sha256sum="b86a460a57889d1faf8e455a2b3ecfe4098e10d5843b4ba6a55daed764fd009c"
+        platform="macos11.0-aarch64"
+        ;;
+    *)
+        echo "Unrecognized platform $( uname -m )"
+        exit 1
+        ;;
+esac
+readonly sha256sum
+readonly platform
+
+readonly tarball="gcc-$gcc_version-$platform.tar.xz"
 
 cd .gitlab
 
 echo "$sha256sum  $tarball" > gfortran.sha256sum
-curl -OL "https://www.paraview.org/files/dependencies/$tarball"
+curl -OL "https://gitlab.kitware.com/api/v4/projects/6955/packages/generic/gfortran-macos/v$version/$tarball"
 shasum -a 256 --check gfortran.sha256sum
 mkdir gfortran
 tar --strip-components=3 -C gfortran -xf "$tarball"
