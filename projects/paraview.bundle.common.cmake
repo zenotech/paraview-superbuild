@@ -37,8 +37,9 @@ else ()
   endif ()
 endif ()
 
-# Set the license file.
+# Set the license files.
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_LIST_DIR}/files/paraview.license.txt")
+set(qt_license_file "${CMAKE_CURRENT_LIST_DIR}/files/Qt5.LICENSE.LGPLv3")
 
 set(paraview_executables
   pvdataserver
@@ -307,7 +308,7 @@ function (paraview_install_all_licenses)
   # When packaging system qt, install the license manually
   if (qt5_plugin_paths)
     install(
-      FILES   "${superbuild_source_directory}/projects/files/Qt5.LICENSE.LGPLv3"
+      FILES       "${qt_license_file}"
       DESTINATION "${paraview_license_path}/qt5"
       COMPONENT   superbuild)
   endif ()
