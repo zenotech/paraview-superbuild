@@ -87,13 +87,13 @@
     # `git submodule foreach` does not consider submodules that have not been
     # initialized. So here, we initialize what we can and ignore failure so
     # that we can set up submodules properly later.
-    - "git submodule update --init --recursive || :"
-    - git submodule foreach --recursive cmake -P "$PWD/.gitlab/ci/fetch_submodule.cmake"
-    - git submodule sync --recursive
-    - git submodule update --init --recursive
+    - "$LAUNCHER git submodule update --init --recursive || :"
+    - $LAUNCHER git submodule foreach --recursive cmake -P "$PWD/.gitlab/ci/fetch_submodule.cmake"
+    - $LAUNCHER git submodule sync --recursive
+    - $LAUNCHER git submodule update --init --recursive
 
 .before_script_linux_paraview: &before_script_linux_paraview
-    - .gitlab/ci/checkout_paraview.sh
+    - $LAUNCHER .gitlab/ci/checkout_paraview.sh
     - export PARAVIEW_COMMIT_SHA=`$LAUNCHER git -C $CI_PROJECT_DIR/source-paraview rev-parse HEAD`
     - export PARAVIEW_COMMIT_SHORT_SHA=`$LAUNCHER git -C $CI_PROJECT_DIR/source-paraview rev-parse --short HEAD`
 
