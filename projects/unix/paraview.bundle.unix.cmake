@@ -147,13 +147,8 @@ endif ()
 if (ospray_enabled)
   set(osprayextra_libraries
     openvkl_module_cpu_device
-    openvkl_module_cpu_device_4
-    openvkl_module_cpu_device_8
-    openvkl_module_cpu_device_16
     ospray_module_denoiser
-    ospray_module_ispc
-    ospray_module_mpi
-    rkcommon)
+    ospray_module_mpi)
 
   foreach (osprayextra_library IN LISTS osprayextra_libraries)
     file(GLOB lib_filenames
@@ -161,11 +156,18 @@ if (ospray_enabled)
       "${superbuild_install_location}/lib/lib${osprayextra_library}.so*")
 
     foreach (lib_filename IN LISTS lib_filenames)
+
+      # Do not install symlink manually
+      if(IS_SYMLINK "${superbuild_install_location}/lib/${lib_filename}")
+        continue ()
+      endif ()
+
       superbuild_unix_install_module("${lib_filename}"
         "lib"
         "lib"
         LOADER_PATHS  "${library_paths}"
-        LOCATION      "lib")
+        LOCATION      "lib"
+        HAS_SYMLINKS)
     endforeach ()
   endforeach ()
 endif ()
