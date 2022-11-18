@@ -148,6 +148,11 @@ if (python3_enabled)
             "${superbuild_install_location}/lib"
     INCLUDE_REGEXES     ${include_regexes}
     IGNORE_REGEXES      ${ignore_regexes})
+
+  # Create path to make PYTHONHOME detection happy.
+  install(CODE
+    "file(MAKE_DIRECTORY \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${paraview_appname}/Contents/Libraries/lib/python${superbuild_python_version}/lib-dynload\")\n"
+    COMPONENT superbuild)
 endif ()
 
 if (mpi_built_by_superbuild)

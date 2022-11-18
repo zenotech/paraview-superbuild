@@ -18,7 +18,7 @@ superbuild_set_revision(genericio
   URL     "https://www.paraview.org/files/dependencies/genericio-master-4fddf723bca61c87f51dba1d9f215dfdd6e5b31d.tar.xz"
   URL_MD5 0d06f2105b8479e7a4e5436c5f38ae71)
 
-set(paraview_doc_ver_series "5.10")
+set(paraview_doc_ver_series "5.11")
 set(paraview_doc_ver "${paraview_doc_ver_series}.0")
 superbuild_set_revision(paraviewgettingstartedguide
   URL     "https://www.paraview.org/files/v${paraview_doc_ver_series}/ParaViewGettingStarted-${paraview_doc_ver}.pdf"
@@ -34,18 +34,18 @@ superbuild_set_revision(paraviewtutorialdata
 superbuild_set_selectable_source(paraview
   # NOTE: When updating this selection, also update the default version in
   # README.md and the PARAVIEW_VERSION_DEFAULT variable in CMakeLists.txt.
-  SELECT 5.10.1
-    URL     "https://www.paraview.org/files/v5.10/ParaView-v5.10.1.tar.xz"
-    URL_MD5 0e1463ef95b4661b90e2ef4ea3c5182f
-  SELECT git CUSTOMIZABLE DEFAULT
+  SELECT 5.11.0 DEFAULT
+    URL     "https://www.paraview.org/files/v5.11/ParaView-v5.11.0.tar.xz"
+    URL_MD5 fb0c3d046f512b9810677af16073bb33
+  SELECT git CUSTOMIZABLE
     GIT_REPOSITORY "https://gitlab.kitware.com/paraview/paraview.git"
     GIT_TAG        "origin/master"
   SELECT source CUSTOMIZABLE
     SOURCE_DIR "source-paraview")
 
 superbuild_set_revision(ttk
-  URL     "https://www.paraview.org/files/dependencies/ttk-0.9.10-graphviz-fixes.zip"
-  URL_MD5 0154338fbffa92927ecadf6350ae67c7)
+  URL     "https://github.com/topology-tool-kit/ttk/archive/refs/tags/1.1.0.zip"
+  URL_MD5 3b98ccd4cc7734e89f78f4e9b367fcf9)
 
 superbuild_set_revision(vrpn
   # https://github.com/vrpn/vrpn.git
@@ -137,9 +137,18 @@ superbuild_set_revision(las
   URL     "https://www.paraview.org/files/dependencies/libLAS-1.8.1.tar.bz2"
   URL_MD5 2e6a975dafdf57f59a385ccb87eb5919)
 
+if (UNIX AND NOT APPLE)
+  # Downgrade the version that Linux uses, because the latest version was
+  # built with too new of a glibc version.
+  set(lookingglass_file "HoloPlayCore-0.1.1-Open-20200923.tar.gz")
+  set(lookingglass_md5 b435316fa1f8454ba180e72608c3c28f)
+else ()
+  set(lookingglass_file "LookingGlassCoreSDK-Open-20220819.tgz")
+  set(lookingglass_md5 23a2a373c9d1c0f203251dc244f97f79)
+endif ()
 superbuild_set_revision(lookingglass
-  URL     "https://www.paraview.org/files/dependencies/HoloPlayCore-0.1.1-Open-20200923.tar.gz"
-  URL_MD5 b435316fa1f8454ba180e72608c3c28f)
+  URL     "https://www.paraview.org/files/dependencies/${lookingglass_file}"
+  URL_MD5 "${lookingglass_md5}")
 
 # license does not allow public distribution - external devs should download the SDK themselves.
 # https://3dconnexion.com/us/software-developer-program/

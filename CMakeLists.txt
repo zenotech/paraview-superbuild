@@ -10,7 +10,7 @@ macro (superbuild_setup_variables)
   if (paraview_SOURCE_SELECTION STREQUAL "git")
     # Assuming master; just use the latest version, but let the user set their
     # own version in case it is actually a branch from some other version.
-    set(PARAVIEW_VERSION_DEFAULT "5.10.1"
+    set(PARAVIEW_VERSION_DEFAULT "5.11.0"
       CACHE STRING "The default version of ParaView to use if it cannot be detected")
     mark_as_advanced(PARAVIEW_VERSION_DEFAULT)
     set(paraview_default_version "${PARAVIEW_VERSION_DEFAULT}")
@@ -428,6 +428,10 @@ set(_superbuild_qt5_default_selection "5.12")
 
 # Force qt SVG support, so ParaView can use SVG icons
 set(qt5_ENABLE_SVG ON CACHE INTERNAL "ParaView requires SVG support")
+
+# Disable MPI support in libraries that 5.11 is not yet ready for.
+set(_hdf5_disable_mpi_support ON)
+set(_netcdf_disable_mpi_support ON)
 
 # ParaView's superbuild does not support static-everywhere builds. But let
 # people around the check if they want it.
