@@ -66,13 +66,13 @@
     tags:
         - build
         - docker
-        - linux
+        - linux-x86_64
         - paraview
 
 .linux_test_tags:
     tags:
         - docker
-        - linux
+        - linux-x86_64
         - paraview
         - x11
 
