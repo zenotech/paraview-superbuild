@@ -41,6 +41,9 @@ endif ()
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_LIST_DIR}/files/paraview.license.txt")
 set(qt_license_file "${CMAKE_CURRENT_LIST_DIR}/files/Qt5.LICENSE.LGPLv3")
 
+# Set the translations to bundle
+set(paraview_languages "fr_FR")
+
 set(paraview_executables
   pvdataserver
   pvrenderserver
@@ -261,6 +264,36 @@ function (paraview_install_license project)
   endif ()
 endfunction ()
 
+#[==[.md
+paraview_install_translations
+Description:
+  Install all needed translation files from both qt and
+  paraview-translations.
+Arguments:
+  project: The name of the project holding ParaView translations.
+  dir: The destination directory for translations.
+
+#]==]
+function (paraview_install_translations project dir)
+  if (${project}_enabled)
+    foreach(_language IN LISTS paraview_languages)
+      install(
+        FILES   "${superbuild_install_location}/share/${dir}paraview_${_language}.qm"
+        DESTINATION "${paraview_translations_dir}"
+        COMPONENT   superbuild)
+      # Get the language code without the country code
+      string(REGEX MATCH "^([a-z]+)"
+        _language_code "${_language}")
+      foreach(_translation_qm IN ITEMS qtbase  qt  qtmultimedia  qtscript  qtxmlpatterns)
+        install(
+          FILES   "${superbuild_install_location}/share/${dir}${_translation_qm}_${_language_code}.qm"
+          DESTINATION "${paraview_translations_dir}"
+          COMPONENT   superbuild)
+      endforeach()
+    endforeach()
+  endif ()
+endfunction ()
+
 function (paraview_install_all_licenses)
   set(license_projects "${enabled_projects}")
 
@@ -334,6 +367,9 @@ function (paraview_install_extra_data)
 
   paraview_install_all_licenses()
 
+  if (paraview_translations_dir AND qt5_enabled)
+    paraview_install_translations(paraviewtranslations "translations/")
+  endif()
 endfunction ()
 
 if (qt5_enabled)

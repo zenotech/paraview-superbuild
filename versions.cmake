@@ -27,6 +27,13 @@ superbuild_set_revision(paraviewtutorialdata
   URL     "https://www.paraview.org/files/data/ParaViewTutorialData-20220629.tar.gz"
   URL_MD5 f8cd0e93ecd16d2753d5b147a5711a7c)
 
+# The main branch is always pulled even when release is built.
+superbuild_set_selectable_source(paraviewtranslations
+  SELECT git CUSTOMIZABLE DEFAULT
+  GIT_REPOSITORY "https://gitlab.kitware.com/paraview/paraview-translations.git"
+  GIT_TAG        "origin/main"
+  )
+
 # Other than the `git` and `source` selections, the name of the selection
 # should be the version number of the selection. See
 # `superbuild_setup_variables` in `CMakeLists.txt` for the logic which relies
