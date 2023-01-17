@@ -223,9 +223,10 @@ superbuild_add_project(paraview
     -DPARAVIEW_ENABLE_XDMF3:BOOL=${xdmf3_enabled}
     -DPARAVIEW_INSTALL_DEVELOPMENT_FILES:BOOL=ON
     -DPARAVIEW_PLUGIN_ENABLE_GmshIO:BOOL=${gmsh_enabled}
-    -DPARAVIEW_PLUGIN_ENABLE_NodeEditor:BOOL=${PARAVIEW_ENABLE_NODEEDITOR}
     -DPARAVIEW_PLUGIN_ENABLE_LookingGlass:BOOL=${lookingglass_enabled}
+    -DPARAVIEW_PLUGIN_ENABLE_NodeEditor:BOOL=${PARAVIEW_ENABLE_NODEEDITOR}
     -DPARAVIEW_PLUGIN_ENABLE_XRInterface:BOOL=${openvr_enabled}
+    -DPARAVIEW_PLUGIN_dsp_enable_audio_player:BOOL=${qt5_ENABLE_MULTIMEDIA}
     -DPARAVIEW_XRInterface_OpenVR_Support:BOOL=${openvr_enabled}
     -DVTK_MODULE_ENABLE_VTK_RenderingOpenVR:STRING=${vtk_module_openvr_enabled}
     # No netcdftime module in the package.
