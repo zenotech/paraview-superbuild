@@ -66,7 +66,7 @@ endfunction ()
 
 function (paraview_add_ui_test name script)
   paraview_add_test("${name}" "${paraview_exe}"
-    "-dr"
+    "--dr"
     "--test-directory=${CMAKE_BINARY_DIR}/Testing/Temporary"
     "--test-script=${CMAKE_CURRENT_LIST_DIR}/xml/${script}.xml"
     ${ARGN}
