@@ -390,7 +390,6 @@ set(qt5_skip_modules
   qtconnectivity
   qtgamepad
   qtlocation
-  qtmultimedia
   qtsensors
   qtserialport
   qtwayland
