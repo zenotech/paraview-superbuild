@@ -165,9 +165,9 @@ if (PARAVIEW_BUILD_ID)
 endif ()
 
 if (openvr_enabled)
-  set(vtk_module_openvr_enabled YES)
+  set(paraview_vtk_module_openvr_enabled YES)
 else()
-  set(vtk_module_openvr_enabled NO)
+  set(paraview_vtk_module_openvr_enabled NO)
 endif()
 
 if (openvr_enabled AND zeromq_enabled)
@@ -227,7 +227,7 @@ superbuild_add_project(paraview
     -DPARAVIEW_PLUGIN_ENABLE_LookingGlass:BOOL=${lookingglass_enabled}
     -DPARAVIEW_PLUGIN_ENABLE_XRInterface:BOOL=${openvr_enabled}
     -DPARAVIEW_XRInterface_OpenVR_Support:BOOL=${openvr_enabled}
-    -DVTK_MODULE_ENABLE_VTK_RenderingOpenVR:STRING=${vtk_module_openvr_enabled}
+    -DVTK_MODULE_ENABLE_VTK_RenderingOpenVR:STRING=${paraview_vtk_module_openvr_enabled}
     # No netcdftime module in the package.
     -DPARAVIEW_PLUGIN_ENABLE_NetCDFTimeAnnotationPlugin:BOOL=OFF
     -DPARAVIEW_PYTHON_VERSION:STRING=3
