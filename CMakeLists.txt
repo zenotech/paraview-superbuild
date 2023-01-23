@@ -73,6 +73,7 @@ function (superbuild_find_projects var)
     ospray
     ospraymodulempi
     openxrsdk
+    paraviewtranslations
     paraviewweb
     paraviewwebglance
     paraviewweblite

@@ -66,7 +66,7 @@ endfunction ()
 
 function (paraview_add_ui_test name script)
   paraview_add_test("${name}" "${paraview_exe}"
-    "-dr"
+    "--dr"
     "--test-directory=${CMAKE_BINARY_DIR}/Testing/Temporary"
     "--test-script=${CMAKE_CURRENT_LIST_DIR}/xml/${script}.xml"
     ${ARGN}
@@ -213,3 +213,12 @@ if (vtkm_enabled)
   paraview_add_ui_test("vtkm-threshold" "VTKmThreshold"
     --test-plugin=VTKmFilters)
 endif ()
+
+if (paraviewtranslations_enabled)
+  paraview_add_test("setlanguagetofrench" "${CMAKE_COMMAND}"
+    "-Dparaview_exe=${paraview_exe}"
+    "-Dtest_directory=${CMAKE_BINARY_DIR}/Testing/Temporary"
+    "-Dtest_xml_set=${CMAKE_CURRENT_SOURCE_DIR}/xml/SetLanguageToFrench.xml"
+    "-Dtest_xml_check=${CMAKE_CURRENT_SOURCE_DIR}/xml/CheckLanguageFrench.xml"
+    -P "${CMAKE_CURRENT_SOURCE_DIR}/paraviewtranslations.cmake")
+endif()

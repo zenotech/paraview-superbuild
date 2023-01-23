@@ -1,6 +1,7 @@
 include(paraview-appname)
 set(paraview_doc_dir "${paraview_appname}/Contents/doc")
 set(paraview_data_dir "${paraview_appname}/Contents/examples")
+set(paraview_translations_dir "${paraview_appname}/Contents/translations")
 set(paraview_materials_dir "${paraview_appname}/Contents/materials")
 set(paraview_plugin_path "lib/paraview-${paraview_version}/plugins")
 set(paraview_license_path "${paraview_appname}/Contents/Resources/licenses")

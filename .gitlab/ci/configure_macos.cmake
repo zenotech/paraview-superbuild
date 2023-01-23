@@ -2,6 +2,7 @@ set(ENABLE_cdi ON CACHE BOOL "")
 set(SUPPRESS_cdi_OUTPUT ON CACHE BOOL "")
 set(ENABLE_fides ON CACHE BOOL "")
 set(ENABLE_openmp OFF CACHE BOOL "")
+set(ENABLE_paraviewtranslations ON CACHE BOOL "")
 set(ENABLE_lookingglass ON CACHE BOOL "")
 set(ENABLE_threedxwaresdk ON CACHE BOOL "")
 
