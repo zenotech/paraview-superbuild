@@ -386,6 +386,10 @@ if (qt5_enabled)
     imageformats/${qt5_plugin_prefix}qsvg
     sqldrivers/${qt5_plugin_prefix}qsqlite)
 
+  superbuild_get_qt5_plugin_optional_module_install_paths(qt5_plugin_audio_paths audio)
+  list(APPEND qt5_plugins
+    "${qt5_plugin_audio_paths}")
+
   if (WIN32)
     list(APPEND qt5_plugins
       platforms/qwindows)
@@ -410,7 +414,7 @@ if (qt5_enabled)
       xcbglintegrations/libqxcb-glx-integration)
   endif ()
 
-  superbuild_install_qt5_plugin_paths(qt5_plugin_paths ${qt5_plugins})
+  superbuild_get_qt5_plugin_install_paths(qt5_plugin_paths ${qt5_plugins})
 else ()
   set(qt5_plugin_paths)
 endif ()
