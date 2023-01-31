@@ -186,6 +186,14 @@ if (python3_enabled)
     superbuild_install_superbuild_python3()
   endif ()
 
+  # Adding all the plugin library paths via SEARCH_DIRECTORIES below allows us
+  # to package python-wrapped vtk modules defined in plugins.  However, that
+  # is officially not supported, and this should be removed eventually.
+  # Instead all such modules should be moved into ParaView proper.
+  foreach (paraview_plugin IN LISTS paraview_plugins)
+    list(APPEND _plugin_search_dirs "${superbuild_install_location}/${paraview_plugin_path}/${paraview_plugin}")
+  endforeach ()
+
   superbuild_windows_install_python(
     MODULES ${python_modules}
     MODULE_DIRECTORIES  "${superbuild_install_location}/Python/Lib/site-packages"
@@ -197,6 +205,7 @@ if (python3_enabled)
                         "${superbuild_install_location}/bin"
                         "${superbuild_install_location}/Python"
                         "${superbuild_install_location}/Python/Lib/site-packages/pywin32_system32"
+                        ${_plugin_search_dirs}
                         ${library_paths}
     EXCLUDE_REGEXES     ${exclude_regexes})
 

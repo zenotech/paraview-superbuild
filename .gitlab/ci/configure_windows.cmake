@@ -11,6 +11,7 @@ set(ENABLE_zeromq ON CACHE BOOL "")
 set(ENABLE_visrtx ON CACHE BOOL "")
 set(ENABLE_vortexfinder2 OFF CACHE BOOL "")
 set(ENABLE_nvidiaoptix ON CACHE BOOL "")
+set(PARAVIEW_ENABLE_CAVEInteraction ON CACHE BOOL "")
 
 file(TO_CMAKE_PATH "$ENV{CI_PROJECT_DIR}/.gitlab/qt" cmake_qt_prefix)
 set(CMAKE_PREFIX_PATH "${cmake_qt_prefix}" CACHE STRING "")
