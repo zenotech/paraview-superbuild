@@ -51,7 +51,7 @@ superbuild_set_selectable_source(paraview
     SOURCE_DIR "source-paraview")
 
 superbuild_set_revision(ttk
-  URL     "https://github.com/topology-tool-kit/ttk/archive/refs/tags/1.1.0.zip"
+  URL     "https://www.paraview.org/files/dependencies/ttk-1.1.0.zip"
   URL_MD5 3b98ccd4cc7734e89f78f4e9b367fcf9)
 
 superbuild_set_revision(vrpn
