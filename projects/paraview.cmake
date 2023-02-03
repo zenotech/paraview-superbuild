@@ -170,10 +170,21 @@ else()
   set(paraview_vtk_module_openvr_enabled NO)
 endif()
 
-if (openvr_enabled AND zeromq_enabled)
-  set(paraview_vr_collaboration_enabled TRUE)
+if (openxrsdk_enabled)
+  set(paraview_vtk_module_openxr_enabled YES)
 else()
-  set(paraview_vr_collaboration_enabled FALSE)
+  set(paraview_vtk_module_openxr_enabled NO)
+endif()
+
+if (openvr_enabled OR openxrsdk_enabled)
+  set(paraview_xrinterface_plugin_enabled TRUE)
+  if (zeromq_enabled)
+    set(paraview_vr_collaboration_enabled TRUE)
+  else()
+    set(paraview_vr_collaboration_enabled FALSE)
+  endif()
+else ()
+  set(paraview_xrinterface_plugin_enabled FALSE)
 endif()
 
 if (openvdb_enabled)
@@ -225,10 +236,12 @@ superbuild_add_project(paraview
     -DPARAVIEW_PLUGIN_ENABLE_GmshIO:BOOL=${gmsh_enabled}
     -DPARAVIEW_PLUGIN_ENABLE_LookingGlass:BOOL=${lookingglass_enabled}
     -DPARAVIEW_PLUGIN_ENABLE_NodeEditor:BOOL=${PARAVIEW_ENABLE_NODEEDITOR}
-    -DPARAVIEW_PLUGIN_ENABLE_XRInterface:BOOL=${openvr_enabled}
     -DPARAVIEW_PLUGIN_dsp_enable_audio_player:BOOL=${qt5_ENABLE_MULTIMEDIA}
+    -DPARAVIEW_PLUGIN_ENABLE_XRInterface:BOOL=${paraview_xrinterface_plugin_enabled}
     -DPARAVIEW_XRInterface_OpenVR_Support:BOOL=${openvr_enabled}
+    -DPARAVIEW_XRInterface_OpenXR_Support:BOOL=${openxrsdk_enabled}
     -DVTK_MODULE_ENABLE_VTK_RenderingOpenVR:STRING=${paraview_vtk_module_openvr_enabled}
+    -DVTK_MODULE_ENABLE_VTK_RenderingOpenXR:STRING=${paraview_vtk_module_openxr_enabled}
     # No netcdftime module in the package.
     -DPARAVIEW_PLUGIN_ENABLE_NetCDFTimeAnnotationPlugin:BOOL=OFF
     -DPARAVIEW_PYTHON_VERSION:STRING=3
