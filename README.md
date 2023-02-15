@@ -228,21 +228,6 @@ mechanisms and the way CPack works. There are two ways to avoid this:
   * the initial build can just be run using the `install` target instead of
     the usual `make && make install` pattern.
 
-## External plugins
-
-The superbuild supports building more plugins into ParaView using the
-`paraviewexternalplugins` project. As an example, to build two external
-plugins `a` and `b`, the following settings should be used:
-
-  * `ENABLE_paraviewexternalplugins:BOOL=ON`: Enables building using external
-    plugins.
-  * `paraview_PLUGINS_EXTERNAL:STRING=a;b`: The list of plugins to build.
-  * `paraview_PLUGIN_a_PATH:PATH=/path/to/plugin/a`: The path to plugin `a`'s
-    source directory. It must contain a `plugins.cmake` to be picked up by
-    ParaView.
-  * `paraview_PLUGIN_b_PATH:PATH=/path/to/plugin/b`: Same as above, but for
-    plugin `b`.
-
 ## CMake Variables
 
 ### Style Guide
