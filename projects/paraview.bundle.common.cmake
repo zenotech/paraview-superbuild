@@ -264,6 +264,18 @@ function (paraview_install_license project)
   endif ()
 endfunction ()
 
+function (paraview_install_xr_manifests)
+  # Install XR json files
+  if ("XRInterface" IN_LIST paraview_plugins)
+    file(GLOB xr_manifests
+      "${superbuild_install_location}/${paraview_plugin_path}/XRInterface/*.json")
+    install(FILES ${xr_manifests}
+      DESTINATION "${paraview_plugin_path}/XRInterface"
+      COMPONENT "superbuild"
+      )
+  endif ()
+endfunction ()
+
 #[==[.md
 paraview_install_translations
 Description:
@@ -370,6 +382,8 @@ function (paraview_install_extra_data)
   if (paraview_translations_dir AND qt5_enabled)
     paraview_install_translations(paraviewtranslations "translations/")
   endif()
+
+  paraview_install_xr_manifests()
 endfunction ()
 
 if (qt5_enabled)
