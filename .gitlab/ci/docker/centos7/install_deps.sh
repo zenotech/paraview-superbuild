@@ -10,7 +10,8 @@ yum install -y \
     xcb-util-image-devel xcb-util-keysyms-devel xcb-util-renderutil-devel \
     libXcursor-devel mesa-libGL-devel mesa-libEGL-devel \
     libxkbcommon-devel libxkbcommon-x11-devel file mesa-dri-drivers autoconf \
-    automake libtool chrpath bison flex libXrandr-devel
+    automake libtool chrpath bison flex libXrandr-devel \
+    alsa-lib-devel
 
 # Install EPEL
 yum install -y \

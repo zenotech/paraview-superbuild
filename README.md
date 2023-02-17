@@ -360,6 +360,19 @@ this using the `PARAVIEW_BUILD_EDITION` setting. Supported values for this setti
 The packages may be built using the `cpack-paraview` tests via `ctest`. The
 easiest way to build all available packages is to run `ctest -R cpack`.
 
+## Caveats
+
+Even though almost all dependencies are bundled into the final package, there
+are still some libraries that should be present on the user OS. Namely :
+
+- a valid OpenGL implementation (GPU driver or Mesa)
+- for Linux systems :
+    - libxcb
+    - libxi
+    - libxkbcommon
+    - libxrender
+    - alsa (only if using the Audio Player docker from the DSP ParaView plugin)
+
 # Learning Resources
 
 * General information is available at the [ParaView Homepage][].
