@@ -79,6 +79,7 @@ function (superbuild_find_projects var)
     paraviewweblite
     paraviewwebdivvy
     paraviewwebvisualizer
+    pdal
     png
     proj
     protobuf
@@ -137,6 +138,7 @@ function (superbuild_find_projects var)
     vrpn
     vtkm
     xdmf3
+    xerces
     xz
     zfp
     zlib

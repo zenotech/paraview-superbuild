@@ -266,6 +266,10 @@ superbuild_set_revision(gdal
   URL     "https://www.paraview.org/files/dependencies/gdal-3.5.1.tar.gz"
   URL_MD5 90ec67df8648e36795937c07406815ea)
 
+superbuild_set_revision(pdal
+  URL     "https://www.paraview.org/files/dependencies/PDAL-2.5.1-src.tar.bz2"
+  URL_MD5 a4bb3751daeb111aca7f0b30a58b45c5)
+
 superbuild_set_revision(launchers
   SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/launchers")
 
