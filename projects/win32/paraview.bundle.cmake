@@ -98,15 +98,6 @@ install(
   DESTINATION "${paraview_plugin_path}"
   COMPONENT   superbuild)
 
-if ("XRInterface" IN_LIST paraview_plugins)
-  file(GLOB openvr_manifests
-    "${superbuild_install_location}/${paraview_plugin_path}/XRInterface/*.json")
-  install(FILES ${openvr_manifests}
-    DESTINATION "${paraview_plugin_path}/XRInterface"
-    COMPONENT "superbuild"
-    )
-endif ()
-
 if (nvidiaindex_enabled)
   set(nvidiaindex_libraries
     libdice
