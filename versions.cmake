@@ -274,6 +274,10 @@ superbuild_set_revision(xerces
   URL     "https://www.paraview.org/files/dependencies/xerces-c-3.2.4.tar.xz"
   URL_MD5 63bf3c8b5a76e180fe97afeddee1d21e)
 
+superbuild_set_revision(curl
+  URL     "https://www.paraview.org/files/dependencies/curl-7.88.1.tar.xz"
+  URL_MD5 8bea0c58428578f397471fe209fad6ab)
+
 superbuild_set_revision(launchers
   SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/launchers")
 

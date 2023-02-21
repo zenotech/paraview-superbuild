@@ -14,3 +14,6 @@ superbuild_add_project(pdal
     -DBUILD_PLUGIN_E57:BOOL=${xerces_enabled}
     -DCMAKE_INSTALL_LIBDIR:STRING=lib
     -DCMAKE_INSTALL_NAME_DIR:PATH=<INSTALL_DIR>/lib)
+
+superbuild_apply_patch(pdal fix-target-curl
+  "Fix link pdal with curl")

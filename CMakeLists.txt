@@ -45,6 +45,7 @@ function (superbuild_find_projects var)
     bzip2
     catalyst
     cuda
+    curl
     eigen
     embree
     exodus
