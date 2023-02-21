@@ -1,8 +1,14 @@
+set(pdal_platform_dependencies)
+if (UNIX)
+  list(APPEND pdal_platform_dependencies
+    libxml2)
+endif ()
+
 superbuild_add_project(pdal
   DEPENDS
-    gdal geotiff libxml2
+    gdal geotiff curl
   DEPENDS_OPTIONAL
-    zlib zstd xerces
+    zlib zstd xerces ${pdal_platform_dependencies}
   LICENSE_FILES
     LICENSE.txt
   CMAKE_ARGS

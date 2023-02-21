@@ -3,6 +3,7 @@ superbuild_add_project(geotiff
   LICENSE_FILES
     LICENSE
   CMAKE_ARGS
+    -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
     -DCMAKE_INSTALL_NAME_DIR:PATH=<INSTALL_DIR>/lib
     -DWITH_TIFF:BOOL=${tiff_enabled}
     -DWITH_ZLIB:BOOL=${zlib_enabled}
