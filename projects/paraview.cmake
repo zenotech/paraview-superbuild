@@ -40,7 +40,7 @@ set(paraviews_platform_dependencies)
 if (UNIX)
   if (NOT APPLE)
     list(APPEND paraviews_platform_dependencies
-      mesa osmesa egl
+      mesa osmesa egl openxrsdk
 
       # Needed for fonts to work properly.
       fontconfig)
@@ -53,7 +53,7 @@ endif ()
 
 if (WIN32)
   list(APPEND paraviews_platform_dependencies
-    openvr zeromq)
+    openvr openxrsdk zeromq)
 endif ()
 
 if (USE_NONFREE_COMPONENTS AND (WIN32 OR (UNIX AND NOT APPLE)))
