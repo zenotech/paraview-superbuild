@@ -49,7 +49,15 @@ static char const path_separator = ';';
 static char const path_separator = ':';
 #endif
 
+#if ENABLE_MESA || ENABLE_OSMESA
+#define ENABLE_MESA_BACKENDS 1
+#else
+#define ENABLE_MESA_BACKENDS 0
+#endif
+
+#if ENABLE_MESA_BACKENDS
 static char const* const backends[] = { "llvmpipe", "swr", nullptr };
+#endif
 
 void available(char const* name, char const* const* arr)
 {
@@ -71,8 +79,10 @@ void usage(char const* prog)
   std::cerr << "  --system-mpi  Use MPI implementation available on the system." << std::endl;
 #endif
 #if ENABLE_MESA
-  std::cerr << "  --mesa        Use Mesa GL for rendering." << std::endl
-            << "  --backend <backend>  Specify mesa backend." << std::endl << std::endl;
+  std::cerr << "  --mesa        Use Mesa GL for rendering." << std::endl;
+#endif
+#if ENABLE_MESA_BACKENDS
+  std::cerr << "  --backend <backend>  Specify mesa backend." << std::endl << std::endl;
   available("backends", backends);
 #endif
 }
