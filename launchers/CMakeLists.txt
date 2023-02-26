@@ -69,16 +69,10 @@ foreach(tool IN LISTS tools)
       "MPI_RELATIVE_LIBDIR=\"${_launcher_mpi_relpath}\""
       "TOOL=\"${tool}\""
       "TOOL_SUFFIX=\"-real\"")
-  if (LAUNCHER_ENABLE_MPI)
-    target_compile_definitions(${name}
-      PRIVATE
-        "ENABLE_MPI")
-  endif()
-  if (LAUNCHER_ENABLE_MESA)
-    target_compile_definitions(${name}
-      PRIVATE
-        "ENABLE_MESA")
-  endif()
+  target_compile_definitions(${name}
+    PRIVATE
+      "ENABLE_MPI=$<BOOL:${LAUNCHER_ENABLE_MPI}>"
+      "ENABLE_MESA=$<BOOL:${LAUNCHER_ENABLE_MESA}>")
   install(
     TARGETS     "${name}"
     DESTINATION "${CMAKE_INSTALL_BINDIR}"
