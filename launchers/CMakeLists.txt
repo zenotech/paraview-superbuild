@@ -5,6 +5,7 @@ find_package(ParaView REQUIRED)
 
 option(LAUNCHER_ENABLE_MESA "Enable Mesa launch option" OFF)
 option(LAUNCHER_ENABLE_OSMESA "Enable OSMesa launch option" OFF)
+option(LAUNCHER_MESA_HAS_SWR "Whether Mesa or OSMesa has SWR support" OFF)
 option(LAUNCHER_ENABLE_MPI  "Enable MPI launch option" OFF)
 
 set(LAUNCHER_MESA_LIBDIR "<LIBDIR>/mesa"
@@ -75,6 +76,7 @@ foreach(tool IN LISTS tools)
       "ENABLE_MPI=$<BOOL:${LAUNCHER_ENABLE_MPI}>"
       "ENABLE_MESA=$<BOOL:${LAUNCHER_ENABLE_MESA}>"
       "ENABLE_OSMESA=$<BOOL:${LAUNCHER_ENABLE_OSMESA}>"
+      "ENABLE_MESA_SWR=$<BOOL:${LAUNCHER_MESA_HAS_SWR}>")
   install(
     TARGETS     "${name}"
     DESTINATION "${CMAKE_INSTALL_BINDIR}"

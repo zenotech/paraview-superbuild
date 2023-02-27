@@ -57,7 +57,10 @@ static char const path_separator = ':';
 
 static char const* const backends[] = {
 #if ENABLE_MESA_BACKENDS
-  "llvmpipe", "swr",
+  "llvmpipe",
+#if ENABLE_MESA_SWR
+  "swr",
+#endif
 #endif
   nullptr };
 
