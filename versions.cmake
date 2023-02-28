@@ -314,3 +314,10 @@ superbuild_set_selectable_source(catalyst
 superbuild_set_revision(cdi
   URL     "https://www.paraview.org/files/dependencies/cdi-2.1.0.tar.gz"
   URL_MD5 "31304b1d487d0350c57cda00d2d757c3")
+
+superbuild_set_revision(occt
+  # https://git.dev.opencascade.org/gitweb/?p=occt.git pick the tag you want, and download a snapshot.
+  # current: 7.4.0p1
+  # Extract, delete docs, tests, and sample data, and recompress as .tar.bz2
+  URL     "https://www.paraview.org/files/dependencies/occt-7.4.0p1-stripped.tar.bz2"
+  URL_MD5 24b95c5d55558ba087b9565f30c67718)
