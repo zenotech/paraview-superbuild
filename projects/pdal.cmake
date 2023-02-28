@@ -23,3 +23,16 @@ superbuild_add_project(pdal
 
 superbuild_apply_patch(pdal fix-target-curl
   "Fix link pdal with curl")
+
+include(CheckIncludeFileCXX)
+
+check_include_file_cxx("filesystem" has_filesystem)
+if (NOT has_filesystem)
+  check_include_file_cxx("experimental/filesystem" has_experimental_filesystem)
+  if (NOT has_experimental_filesystem)
+    message(FATAL_ERROR "PDAL: Could not find <filesystem> or <experimental/filesystem> headers.")
+  endif()
+
+  superbuild_apply_patch(pdal fix-include-filesystem
+    "Fix filesystem include")
+endif()
