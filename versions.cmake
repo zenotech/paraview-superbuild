@@ -34,9 +34,9 @@ superbuild_set_revision(paraviewtutorialdata
 superbuild_set_selectable_source(paraview
   # NOTE: When updating this selection, also update the default version in
   # README.md and the PARAVIEW_VERSION_DEFAULT variable in CMakeLists.txt.
-  SELECT 5.11.0 DEFAULT
-    URL     "https://www.paraview.org/files/v5.11/ParaView-v5.11.0.tar.xz"
-    URL_MD5 fb0c3d046f512b9810677af16073bb33
+  SELECT 5.11.1-RC1 DEFAULT
+    URL     "https://www.paraview.org/files/v5.11/ParaView-v5.11.1-RC1.tar.xz"
+    URL_MD5 d41e97f57f66f441618586e80111afa4
   SELECT git CUSTOMIZABLE
     GIT_REPOSITORY "https://gitlab.kitware.com/paraview/paraview.git"
     GIT_TAG        "origin/master"
