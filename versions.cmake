@@ -195,6 +195,8 @@ elseif (UNIX AND NOT APPLE)
     set(nvidiaindex_5_11_1_md5 "b54780c65ac6e903680db19f04641acf")
   endif ()
 endif ()
+# XXX(index): New version tarballs may be created given an IndeX deliverable
+# and the `Scripts/index/extract-index.sh` script.
 superbuild_set_selectable_source(nvidiaindex
   # XXX(index): Adding a new version? The Windows bundle script needs to know
   # too (nvrtc-builtins).
