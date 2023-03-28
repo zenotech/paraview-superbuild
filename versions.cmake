@@ -175,12 +175,14 @@ if (WIN32)
   set(nvidiaindex_5_9_md5 "a778def725f20f7151778f684b19211b")
   set(nvidiaindex_5_9_1_md5 "4a2e39ca0820d6d342347b8f1c198f9e")
   set(nvidiaindex_5_10_md5 "91ff7eb462049b43f25f48778d1058b9")
+  set(nvidiaindex_5_11_1_md5 "1c2dd496467ed7feeb46ce0a29b08d52")
 elseif (UNIX AND NOT APPLE)
   if (CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "ppc64le")
     set(nvidiaindex_platform "linux-ppc64le")
     set(nvidiaindex_5_9_md5 "a6f1aa8847c3eeeceacec41bd98838ca")
     set(nvidiaindex_5_9_1_md5 "cb538a85c7a0b280f7cd05530b0205b5")
     set(nvidiaindex_5_10_md5 "09ae050780c694711b0f1ab058dfd5e3")
+    set(nvidiaindex_5_11_1_md5 "99a270b09a4551c281a95e5246598676")
   else ()
     set(nvidiaindex_platform "linux")
     set(nvidiaindex_2_1_md5 "9fd5af702af6a6a6f2aba3a960703fb3")
@@ -190,12 +192,18 @@ elseif (UNIX AND NOT APPLE)
     set(nvidiaindex_5_9_md5 "32599d5298a43ee9d4497886b79bdd65")
     set(nvidiaindex_5_9_1_md5 "23b5a9044bfeac812ed76cf5b3e8a35b")
     set(nvidiaindex_5_10_md5 "2fdc03e3674a41b37488f8bfc4965ec2")
+    set(nvidiaindex_5_11_1_md5 "b54780c65ac6e903680db19f04641acf")
   endif ()
 endif ()
+# XXX(index): New version tarballs may be created given an IndeX deliverable
+# and the `Scripts/index/extract-index.sh` script.
 superbuild_set_selectable_source(nvidiaindex
   # XXX(index): Adding a new version? The Windows bundle script needs to know
   # too (nvrtc-builtins).
-  SELECT 5.10 DEFAULT
+  SELECT 5.11.1 DEFAULT
+    URL     "https://www.paraview.org/files/dependencies/nvidia-index-libs-5.11.1.20230328-${nvidiaindex_platform}.tar.bz2"
+    URL_MD5 "${nvidiaindex_5_11_1_md5}"
+  SELECT 5.10
     URL     "https://www.paraview.org/files/dependencies/nvidia-index-libs-5.10.20210901-${nvidiaindex_platform}.tar.bz2"
     URL_MD5 "${nvidiaindex_5_10_md5}"
   SELECT 5.9.1
