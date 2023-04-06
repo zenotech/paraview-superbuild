@@ -246,3 +246,10 @@ if (qt5_enabled)
 endif ()
 
 paraview_install_extra_data()
+
+if (proj_enabled)
+  install(
+    FILES       "${superbuild_install_location}/share/proj/proj.db"
+    DESTINATION "share/proj"
+    COMPONENT   superbuild)
+endif ()

@@ -314,3 +314,10 @@ foreach (paraview_plugin IN LISTS paraview_plugins)
 endforeach ()
 
 paraview_install_extra_data()
+
+if (proj_enabled)
+  install(
+    FILES       "${superbuild_install_location}/share/proj/proj.db"
+    DESTINATION "share/proj"
+    COMPONENT   superbuild)
+endif ()

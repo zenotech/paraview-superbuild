@@ -218,3 +218,10 @@ foreach (qt5_plugin_path IN LISTS qt5_plugin_paths)
 endforeach ()
 
 paraview_install_extra_data()
+
+if (proj_enabled)
+  install(
+    FILES       "${superbuild_install_location}/share/proj/proj.db"
+    DESTINATION "${paraview_appname}/Contents/Resources"
+    COMPONENT   superbuild)
+endif ()
