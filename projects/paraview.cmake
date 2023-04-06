@@ -229,6 +229,7 @@ superbuild_add_project(paraview
     -DPARAVIEW_ENABLE_GDAL:BOOL=${gdal_enabled}
     -DPARAVIEW_ENABLE_PDAL:BOOL=${pdal_enabled}
     -DPARAVIEW_ENABLE_LAS:BOOL=${las_enabled}
+    -DPARAVIEW_ENABLE_GEOVIS:BOOL=${proj_enabled}
     -DPARAVIEW_ENABLE_LOOKINGGLASS:BOOL=${lookingglass_enabled}
     -DPARAVIEW_ENABLE_MOTIONFX:BOOL=${PARAVIEW_ENABLE_MOTIONFX}
     -DPARAVIEW_ENABLE_VISITBRIDGE:BOOL=${visitbridge_enabled}
