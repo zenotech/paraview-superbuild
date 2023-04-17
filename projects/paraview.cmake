@@ -187,6 +187,12 @@ else ()
   set(paraview_xrinterface_plugin_enabled FALSE)
 endif()
 
+if (pdal_enabled AND xerces_enabled)
+  set(e57reader_plugin_enabled TRUE)
+else()
+  set(e57reader_plugin_enabled FALSE)
+endif()
+
 if (openvdb_enabled)
   list(APPEND paraview_extra_cmake_options
     -DPARAVIEW_RELOCATABLE_INSTALL:BOOL=OFF)
@@ -234,6 +240,7 @@ superbuild_add_project(paraview
     -DPARAVIEW_ENABLE_VISITBRIDGE:BOOL=${visitbridge_enabled}
     -DPARAVIEW_ENABLE_XDMF3:BOOL=${xdmf3_enabled}
     -DPARAVIEW_INSTALL_DEVELOPMENT_FILES:BOOL=ON
+    -DPARAVIEW_PLUGIN_ENABLE_E57PDALReader:BOOL=${e57reader_plugin_enabled}
     -DPARAVIEW_PLUGIN_ENABLE_GmshIO:BOOL=${gmsh_enabled}
     -DPARAVIEW_PLUGIN_ENABLE_LookingGlass:BOOL=${lookingglass_enabled}
     -DPARAVIEW_PLUGIN_ENABLE_NodeEditor:BOOL=${PARAVIEW_ENABLE_NODEEDITOR}
