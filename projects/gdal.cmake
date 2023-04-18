@@ -5,8 +5,11 @@ if (ALLOW_openssl)
 endif ()
 
 set(gdal_use_iconv OFF)
+set(gdal_configure_flags)
 if (UNIX AND NOT APPLE)
   set(gdal_use_iconv ON)
+  list(APPEND gdal_configure_flags
+    -DCMAKE_INSTALL_RPATH:STRING=<INSTALL_DIR>/lib)
 endif ()
 
 superbuild_add_project(gdal
@@ -41,4 +44,5 @@ superbuild_add_project(gdal
     -DBUILD_CSHARP_BINDINGS:BOOL=OFF
     -DBUILD_JAVA_BINDINGS:BOOL=OFF
     -DBUILD_PYTHON_BINDINGS:BOOL=OFF
-    -DBUILD_TESTING:BOOL=OFF)
+    -DBUILD_TESTING:BOOL=OFF
+    ${gdal_configure_flags})
