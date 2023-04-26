@@ -66,6 +66,7 @@ function (superbuild_find_projects var)
     nlohmannjson
     numpy
     nvidiaindex
+    occt
     openmp
     openpmd
     openimagedenoise

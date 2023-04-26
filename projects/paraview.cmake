@@ -216,6 +216,7 @@ superbuild_add_project(paraview
     ${paraviews_platform_dependencies}
     tbb ospray sqlite
     tiff proj exodus seacas
+    occt
     ${PARAVIEW_EXTERNAL_PROJECTS}
 
   CMAKE_ARGS
@@ -237,6 +238,7 @@ superbuild_add_project(paraview
     -DPARAVIEW_ENABLE_LAS:BOOL=${las_enabled}
     -DPARAVIEW_ENABLE_LOOKINGGLASS:BOOL=${lookingglass_enabled}
     -DPARAVIEW_ENABLE_MOTIONFX:BOOL=${PARAVIEW_ENABLE_MOTIONFX}
+    -DPARAVIEW_ENABLE_OCCT:BOOL=${occt_enabled}
     -DPARAVIEW_ENABLE_VISITBRIDGE:BOOL=${visitbridge_enabled}
     -DPARAVIEW_ENABLE_XDMF3:BOOL=${xdmf3_enabled}
     -DPARAVIEW_INSTALL_DEVELOPMENT_FILES:BOOL=ON
