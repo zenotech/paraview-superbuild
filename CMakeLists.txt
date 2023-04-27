@@ -305,7 +305,8 @@ function (superbuild_add_packaging)
     set(qt5_version "${qt5_SOURCE_SELECTION}")
   endif ()
   list(APPEND superbuild_export_variables
-    qt5_version)
+    qt5_version
+    qt5_ENABLE_MULTIMEDIA)
 
   if (NOT DEFINED PARAVIEW_CATALYST_EDITION)
     set(PARAVIEW_CATALYST_EDITION Full)
