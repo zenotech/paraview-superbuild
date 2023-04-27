@@ -1,0 +1,134 @@
+From 6ea42974ab8b676b846f15dadebbef5ce858bfbf Mon Sep 17 00:00:00 2001
+Author: Timothée Couble <timothee.couble@kitware.com>
+Date: Fri, 21 Apr 2023 10:25:45 +0200
+Subject: [PATCH] Add spherical coordinates support to e57 readers
+
+This patch is temporary, it will be available upstream for PDAL 2.6.0.
+https://github.com/PDAL/PDAL/pull/4032
+---
+ pdal/Dimension.json                | 15 +++++++++++++++
+ plugins/e57/io/E57Reader.cpp       | 21 +++++++++++++++++++++
+ plugins/e57/io/Utils.cpp           | 10 ++++++----
+ plugins/e57/test/E57ReaderTest.cpp |  3 ++-
+ 4 files changed, 44 insertions(+), 5 deletions(-)
+
+diff --git a/pdal/Dimension.json b/pdal/Dimension.json
+index 065d3f8af..7b12057d2 100644
+--- a/pdal/Dimension.json
++++ b/pdal/Dimension.json
+@@ -626,5 +626,20 @@
+     "name": "Dimension",
+     "type": "uint8",
+     "description": "Dimension of the points. three types of dimensions are available (Linear : points form a linear feature. Planar : points form a planar surface. Complex : random group of points)."
++    },
++    {
++    "name": "SphericalRange",
++    "type": "double",
++    "description": "Range in context of spherical coordinates."
++    },
++    {
++    "name": "SphericalAzimuth",
++    "type": "double",
++    "description": "Azimuth in context of spherical coordinates."
++    },
++    {
++    "name": "SphericalElevation",
++    "type": "double",
++    "description": "Elevation in context of spherical coordinates."
+     }
+ ] }
+diff --git a/plugins/e57/io/E57Reader.cpp b/plugins/e57/io/E57Reader.cpp
+index 19205b4f9..c0e17eebf 100644
+--- a/plugins/e57/io/E57Reader.cpp
++++ b/plugins/e57/io/E57Reader.cpp
+@@ -125,6 +125,15 @@ void E57Reader::addDimensions(PointLayoutPtr layout)
+         }
+     }
+ 
++    if (layout->hasDim(Dimension::Id::SphericalRange) &&
++        layout->hasDim(Dimension::Id::SphericalAzimuth) &&
++        layout->hasDim(Dimension::Id::SphericalElevation))
++    {
++        layout->registerDim(Dimension::Id::X);
++        layout->registerDim(Dimension::Id::Y);
++        layout->registerDim(Dimension::Id::Z);
++    }
++
+     m_extraDims.reset(new e57plugin::ExtraDims());
+     m_extraDims->parse(m_extraDimsSpec);
+     auto i = m_extraDims->begin();
+@@ -317,6 +326,18 @@ bool E57Reader::fillPoint(PointRef& point)
+         }
+     }
+ 
++    if (point.hasDim(Dimension::Id::SphericalRange) &&
++        point.hasDim(Dimension::Id::SphericalAzimuth) &&
++        point.hasDim(Dimension::Id::SphericalElevation))
++    {
++        const double range = point.getFieldAs<double>(Dimension::Id::SphericalRange);
++        const double azimuth = point.getFieldAs<double>(Dimension::Id::SphericalAzimuth);
++        const double elevation = point.getFieldAs<double>(Dimension::Id::SphericalElevation);
++        point.setField(Dimension::Id::X, range * std::cos(elevation) * std::cos(azimuth));
++        point.setField(Dimension::Id::Y, range * std::cos(elevation) * std::sin(azimuth));
++        point.setField(Dimension::Id::Z, range * std::sin(elevation));
++    }
++
+     if (m_scan->hasPose())
+         m_scan->transformPoint(point);
+ 
+diff --git a/plugins/e57/io/Utils.cpp b/plugins/e57/io/Utils.cpp
+index 54d34fb00..f2ed4a183 100644
+--- a/plugins/e57/io/Utils.cpp
++++ b/plugins/e57/io/Utils.cpp
+@@ -51,11 +51,11 @@ Dimension::Id e57ToPdal(const std::string &e57Dimension)
+     else if (e57Dimension == "cartesianZ")
+         return Dimension::Id::Z;
+     else if (e57Dimension == "sphericalRange")
+-        return Dimension::Id::X;
++        return Dimension::Id::SphericalRange;
+     else if (e57Dimension == "sphericalAzimuth")
+-        return Dimension::Id::Y;
++        return Dimension::Id::SphericalAzimuth;
+     else if (e57Dimension == "sphericalElevation")
+-        return Dimension::Id::Z;
++        return Dimension::Id::SphericalElevation;
+     else if (e57Dimension == "nor:normalX")
+         return Dimension::Id::NormalX;
+     else if (e57Dimension == "nor:normalY")
+@@ -115,6 +115,7 @@ std::string pdalToE57(Dimension::Id pdalDimension)
+ std::vector<Dimension::Id> supportedPdalTypes()
+ {
+     return {Dimension::Id::X, Dimension::Id::Y, Dimension::Id::Z,
++            Dimension::Id::SphericalRange, Dimension::Id::SphericalAzimuth, Dimension::Id::SphericalElevation,
+             Dimension::Id::NormalX, Dimension::Id::NormalY, Dimension::Id::NormalZ,
+             Dimension::Id::Red, Dimension::Id::Green, Dimension::Id::Blue,
+             Dimension::Id::Intensity, Dimension::Id::Omit, Dimension::Id::Classification
+@@ -124,9 +125,10 @@ std::vector<Dimension::Id> supportedPdalTypes()
+ std::vector<std::string> supportedE57Types()
+ {
+     return {"cartesianX",  "cartesianY", "cartesianZ",
++            "sphericalRange", "sphericalAzimuth", "sphericalElevation",
+             "nor:normalX", "nor:normalY", "nor:normalZ",
+             "colorRed", "colorGreen", "colorBlue", "intensity",
+-            "cartesianInvalidState", "classification"};
++            "cartesianInvalidState", "sphericalInvalidState", "classification"};
+ }
+ 
+ std::vector<std::string> scalableE57Types()
+diff --git a/plugins/e57/test/E57ReaderTest.cpp b/plugins/e57/test/E57ReaderTest.cpp
+index d7b2910ea..5e77a7d19 100644
+--- a/plugins/e57/test/E57ReaderTest.cpp
++++ b/plugins/e57/test/E57ReaderTest.cpp
+@@ -83,7 +83,8 @@ TEST(E57Reader, testHeader)
+     {
+         if (e57Dim.find("nor:normal") == e57Dim.npos &&
+                 e57Dim.find("cartesianInvalidState") == e57Dim.npos &&
+-                e57Dim.find("classification") == e57Dim.npos)
++                e57Dim.find("classification") == e57Dim.npos &&
++                e57Dim.find("spherical") == e57Dim.npos)
+             ASSERT_TRUE(table.layout()->hasDim(pdal::e57plugin::e57ToPdal(e57Dim)));
+     }
+ }
+-- 
+2.39.1
+
