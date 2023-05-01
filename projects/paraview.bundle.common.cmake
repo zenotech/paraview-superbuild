@@ -400,10 +400,6 @@ if (qt5_enabled)
     imageformats/${qt5_plugin_prefix}qsvg
     sqldrivers/${qt5_plugin_prefix}qsqlite)
 
-  superbuild_get_qt5_plugin_optional_module_install_paths(qt5_plugin_audio_paths audio)
-  list(APPEND qt5_plugins
-    "${qt5_plugin_audio_paths}")
-
   if (WIN32)
     list(APPEND qt5_plugins
       platforms/qwindows)
@@ -426,6 +422,11 @@ if (qt5_enabled)
       platforms/libqxcb
       platforminputcontexts/libcomposeplatforminputcontextplugin
       xcbglintegrations/libqxcb-glx-integration)
+
+    if (qt5_ENABLE_MULTIMEDIA)
+      list(APPEND qt5_plugins
+        audio/libqtaudio_alsa)
+    endif ()
   endif ()
 
   superbuild_get_qt5_plugin_install_paths(qt5_plugin_paths ${qt5_plugins})
