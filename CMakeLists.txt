@@ -32,6 +32,7 @@ function (superbuild_find_projects var)
   set(projects
     cxx11
     cxx14
+    cxx17
     paraview
     python3)
 
@@ -157,6 +158,7 @@ function (superbuild_find_projects var)
       ffi
       ffmpeg
       fides
+      flexbison
       fortran
       genericio
       gmsh
