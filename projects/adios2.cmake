@@ -14,16 +14,6 @@ if(UNIX)
   list(APPEND adios2_extra_deps ffi)
 endif()
 
-# Compilation errors with the `blosc` on windows in the superbuild. Needs
-# investigation.
-# https://gitlab.kitware.com/paraview/paraview-superbuild/-/issues/195
-if(WIN32)
-  set(blosc_platform_enabled OFF)
-else()
-  set(blosc_platform_enabled ${blosc_enabled})
-endif()
-
-
 superbuild_add_project(adios2
   CAN_USE_SYSTEM
   DEPENDS
@@ -43,7 +33,7 @@ superbuild_add_project(adios2
     -DBUILD_TESTING:BOOL=OFF
     -DADIOS2_BUILD_EXAMPLES:BOOL=OFF
     -DADIOS2_USE_BZip2:STRING=OFF
-    -DADIOS2_USE_Blosc:STRING=${blosc_platform_enabled}
+    -DADIOS2_USE_Blosc:STRING=${blosc_enabled}
     -DADIOS2_USE_CUDA:BOOL=OFF
     -DADIOS2_USE_DataMan:STRING=OFF
     -DADIOS2_USE_Fortran:STRING=OFF
