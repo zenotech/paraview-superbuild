@@ -321,3 +321,33 @@ superbuild_set_revision(occt
   # Extract, delete docs, tests, and sample data, and recompress as .tar.bz2
   URL     "https://www.paraview.org/files/dependencies/occt-7.4.0p1-stripped.tar.bz2"
   URL_MD5 24b95c5d55558ba087b9565f30c67718)
+
+superbuild_set_revision(medfile
+  # Archives available at https://www.salome-platform.org/?page_id=15
+  URL           "https://www.paraview.org/files/dependencies/med-5.0.0.tar.bz2"
+  DOWNLOAD_NAME medfile-5.0.0.tar.bz2
+  URL_MD5       3c5ae8a37d7971658870b77caad1d73b)
+
+superbuild_set_revision(medcoupling
+  # https://git.salome-platform.org/gitweb/?p=tools/medcoupling.git;a=summary, pick the tag you want,
+  # click on snapshot to download an archive.
+  # Current:  06f4a5b378e649182161d639b3a05ead43eba660 / medcoupling-06f4a5b.tar.gz
+  URL           "https://www.paraview.org/files/dependencies/medcoupling-06f4a5b.tar.gz"
+  DOWNLOAD_NAME medcoupling-06f4a5b.tar.gz
+  URL_MD5       002e769ffbfe5c4b93c7d931d1b82a1a)
+
+superbuild_set_revision(medconfiguration
+  # https://git.salome-platform.org/gitweb/?p=tools/configuration.git;a=summary, pick the tag you want,
+  # click on snapshot to download an archive.
+  # Current: V9_10_0 / configuration-25f724f.tar.gz
+  URL           "https://www.paraview.org/files/dependencies/configuration-27b2639.tar.gz"
+  DOWNLOAD_NAME medconfiguration-27b2639.tar.gz
+  URL_MD5       98670c18d604af55b67a4f7f3d38b7c4)
+
+superbuild_set_revision(medreader
+  # https://git.salome-platform.org/gitweb/?p=modules/paravis.git;a=summary, pick the tag you want,
+  # click on snapshot to download an archive.
+  # Current: 10af7126b07b636a9fdb7c9d879e6390998c7da4 / paravis-10af712.tar.gz
+  URL           "https://www.paraview.org/files/dependencies/paravis-10af712.tar.gz"
+  DOWNLOAD_NAME paravis-10af712.tar.gz
+  URL_MD5       75234547c6fee0188720394450a6f861)

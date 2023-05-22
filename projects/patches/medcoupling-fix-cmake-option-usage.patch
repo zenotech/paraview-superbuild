@@ -1,0 +1,27 @@
+From 82acff47cdb5721e519639a80416edf4420e1f02 Mon Sep 17 00:00:00 2001
+From: Mathieu Westphal <mathieu.westphal@kitware.com>
+Date: Mon, 22 May 2023 14:00:55 +0200
+Subject: [PATCH] fix_cmake_option_usage
+
+---
+ CMakeLists.txt | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 8064b10..8b2956c 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -104,9 +104,9 @@ CMAKE_DEPENDENT_OPTION(MEDCOUPLING_PARTITIONER_METIS "Enable metis graph library
+         "MEDCOUPLING_ENABLE_PARTITIONER" OFF)
+ CMAKE_DEPENDENT_OPTION(MEDCOUPLING_PARTITIONER_SCOTCH "Enable scotch graph library in MEDPartitioner." ON
+         "MEDCOUPLING_ENABLE_PARTITIONER" OFF)
+-CMAKE_DEPENDENT_OPTION(MEDCOUPLING_PARTITIONER_PARMETIS "Enable parmetis graph library in MEDPartitioner." ${MEDCOUPLING_USE_MPI} 
++CMAKE_DEPENDENT_OPTION(MEDCOUPLING_PARTITIONER_PARMETIS "Enable parmetis graph library in MEDPartitioner." ON
+         "MEDCOUPLING_ENABLE_PARTITIONER;MEDCOUPLING_USE_MPI" OFF)
+-CMAKE_DEPENDENT_OPTION(MEDCOUPLING_PARTITIONER_PTSCOTCH "Enable ptscotch graph library in MEDPartitioner." ${MEDCOUPLING_USE_MPI} 
++CMAKE_DEPENDENT_OPTION(MEDCOUPLING_PARTITIONER_PTSCOTCH "Enable ptscotch graph library in MEDPartitioner." ON
+         "MEDCOUPLING_ENABLE_PARTITIONER;MEDCOUPLING_USE_MPI" OFF)
+ SET(XDR_DEFAULT_OPTION ON)
+ IF(WIN32)
+-- 
+2.40.1

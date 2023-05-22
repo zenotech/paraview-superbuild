@@ -1,0 +1,26 @@
+From e3cebae91064379993b3a887c8385b8477e1a2ed Mon Sep 17 00:00:00 2001
+From: Mathieu Westphal <mathieu.westphal@kitware.com>
+Date: Tue, 6 Jun 2023 13:53:18 +0200
+Subject: [PATCH] Fix MEDLoaderForPV install dirs
+
+---
+ src/Plugins/MEDReader/plugin/MEDLoaderForPV/CMakeLists.txt | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/src/Plugins/MEDReader/plugin/MEDLoaderForPV/CMakeLists.txt b/src/Plugins/MEDReader/plugin/MEDLoaderForPV/CMakeLists.txt
+index 6da516b9..e928dcf8 100644
+--- a/src/Plugins/MEDReader/plugin/MEDLoaderForPV/CMakeLists.txt
++++ b/src/Plugins/MEDReader/plugin/MEDLoaderForPV/CMakeLists.txt
+@@ -28,5 +28,7 @@ ELSE(MEDREADER_USE_MPI)
+   TARGET_LINK_LIBRARIES(MEDLoaderForPV ${MEDCoupling_medloader})
+ ENDIF(MEDREADER_USE_MPI)
+ 
+-install(TARGETS MEDLoaderForPV 
+-        DESTINATION lib/salome)#${CMAKE_INSTALL_LIBDIR}
++install(TARGETS MEDLoaderForPV
++  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
++  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
++  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+-- 
+2.40.1
+

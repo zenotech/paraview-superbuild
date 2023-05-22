@@ -180,6 +180,11 @@ if (paraview_is_shared)
   endforeach ()
 endif ()
 
+if (medreader_enabled)
+  list(APPEND paraview_plugins
+    MEDReader)
+endif()
+
 if (ttk_enabled)
   list(APPEND paraview_plugins
     TopologyToolKit)
@@ -327,6 +332,7 @@ function (paraview_install_all_licenses)
   # Do not install license of non-packaged projects
   list(REMOVE_ITEM license_projects
     gperf
+    medconfiguration
     meson
     ninja
     pkgconf

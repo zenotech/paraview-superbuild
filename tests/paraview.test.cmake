@@ -197,6 +197,8 @@ endif ()
 paraview_add_ui_test("loaddistributedplugins" "LoadDistributedPlugins"
   "--test-baseline=${CMAKE_CURRENT_LIST_DIR}/baselines/LoadDistributedPlugins.png")
 
+# Supplemental plugins tests
+
 if (vortexfinder2_enabled)
   paraview_add_ui_test("loadvortexfinderplugins" "LoadVortexFinderPlugins")
 endif ()
@@ -205,6 +207,13 @@ if (surfacetrackercut_enabled)
   paraview_add_ui_test("loadsurfacetrackercutplugin" "LoadSurfaceTrackerCutPlugin")
 endif ()
 
+if (medreader_enabled)
+  paraview_add_ui_test("loadmedreaderplugin" "LoadMEDReaderPlugin"
+    "--data-directory=${CMAKE_CURRENT_LIST_DIR}/data"
+    "--test-baseline=${CMAKE_CURRENT_LIST_DIR}/baselines/LoadMEDReaderPlugin.png")
+endif ()
+
+# vtk-m tests
 if (vtkm_enabled)
   paraview_add_ui_test("vtkm-contour" "VTKmContour"
     --test-plugin=VTKmFilters)
@@ -214,6 +223,7 @@ if (vtkm_enabled)
     --test-plugin=VTKmFilters)
 endif ()
 
+# Translations test
 if (paraviewtranslations_enabled)
   paraview_add_test("setlanguagetofrench" "${CMAKE_COMMAND}"
     "-Dparaview_exe=${paraview_exe}"
