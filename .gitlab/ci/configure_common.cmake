@@ -1,6 +1,10 @@
 set(USE_NONFREE_COMPONENTS          ON CACHE BOOL "")
 set(BUILD_TESTING                   ON CACHE BOOL "")
 
+# The new Mesa has issues with back screens when rendering. See
+# paraview/paraview#22152.
+set(mesa_SOURCE_SELECTION "21.2.1" CACHE STRING "")
+
 function (suppress_project name)
   set("SUPPRESS_${name}_OUTPUT" ON CACHE BOOL "")
 endfunction ()
