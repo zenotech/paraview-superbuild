@@ -219,7 +219,8 @@ function (superbuild_find_projects var)
     list(APPEND projects
       openvr
       pywin32
-      zeromq)
+      zeromq
+      zspace)
   endif ()
 
   set("${var}"
