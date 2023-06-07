@@ -42,7 +42,7 @@ set(paraview_start_menu_name "ParaView ${paraview_version_full}")
 #set(CPACK_NSIS_MUI_ICON "${CMAKE_CURRENT_LIST_DIR}/paraview.ico")
 #set(CPACK_NSIS_MUI_FINISHPAGE_RUN "bin/paraview.exe")
 
-set(library_paths "lib")
+set(library_paths "")
 if (Qt5_DIR)
   list(APPEND library_paths
     "${Qt5_DIR}/../../../bin")
