@@ -91,8 +91,13 @@ function (paraview_add_pvbatch_test name script)
     "${CMAKE_CURRENT_LIST_DIR}/python/${script}.py")
 endfunction ()
 
-# Simple test to launch the application and load all plugins.
-paraview_add_ui_test("testui" "TestUI")
+if (python3_enabled)
+  # Simple test to launch the application and load all plugins.
+  paraview_add_ui_test("testui" "TestUI")
+
+  paraview_add_ui_test("finddata" "TestFindData"
+    "--test-baseline=${CMAKE_CURRENT_LIST_DIR}/baselines/Superbuild-TestFindData.png")
+endif ()
 
 # Simple test to test pvpython/pvbatch.
 paraview_add_python_test("pvpython" "basic_python")
@@ -157,9 +162,6 @@ if (ospray_enabled)
   paraview_add_ui_test("ospray" "OSPRay"
     "--test-baseline=${CMAKE_CURRENT_LIST_DIR}/baselines/OSPRay.png")
 endif ()
-
-paraview_add_ui_test("finddata" "TestFindData"
-  "--test-baseline=${CMAKE_CURRENT_LIST_DIR}/baselines/Superbuild-TestFindData.png")
 
 paraview_add_test("version-server" "${pvserver_exe}"
   "--version")
