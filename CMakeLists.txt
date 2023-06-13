@@ -222,6 +222,15 @@ function (superbuild_find_projects var)
       zeromq)
   endif ()
 
+  if (WIN32 OR (UNIX AND NOT APPLE))
+    list(APPEND projects
+      # The med stack does not support MacOS yet
+      medconfiguration
+      medcoupling
+      medfile
+      medreader)
+  endif ()
+
   set("${var}"
     ${projects}
     PARENT_SCOPE)

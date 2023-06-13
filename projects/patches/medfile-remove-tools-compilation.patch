@@ -1,0 +1,22 @@
+From 57a1912d38ff653e008111af9f35807531db30fe Mon Sep 17 00:00:00 2001
+From: Mathieu Westphal <mathieu.westphal@kitware.com>
+Date: Mon, 5 Jun 2023 18:30:46 +0200
+Subject: [PATCH] Remove tools compilation
+
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 1c12d46..7625b5d 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -137,7 +137,7 @@ CONFIGURE_FILE("${PROJECT_BINARY_DIR}/include/2.3.6/med_config.h.cmake" "${PROJE
+ ## Sources
+ ADD_SUBDIRECTORY(include)
+ ADD_SUBDIRECTORY(src)
+-ADD_SUBDIRECTORY(tools)
++#ADD_SUBDIRECTORY(tools)
+ IF(MEDFILE_BUILD_TESTS)
+   ADD_SUBDIRECTORY(tests)
+ ENDIF()
+-- 
+2.40.1
+

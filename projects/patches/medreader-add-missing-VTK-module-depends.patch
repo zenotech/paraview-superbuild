@@ -1,0 +1,24 @@
+From c4ebfaef0c350997ef74e899db23c8b2632f9034 Mon Sep 17 00:00:00 2001
+From: Mathieu Westphal <mathieu.westphal@kitware.com>
+Date: Tue, 6 Jun 2023 11:49:58 +0200
+Subject: [PATCH] Add missing VTK module depends
+
+---
+ src/Plugins/MEDReader/plugin/MEDReaderIO/vtk.module | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/Plugins/MEDReader/plugin/MEDReaderIO/vtk.module b/src/Plugins/MEDReader/plugin/MEDReaderIO/vtk.module
+index f2b5567c..1c68bcc4 100755
+--- a/src/Plugins/MEDReader/plugin/MEDReaderIO/vtk.module
++++ b/src/Plugins/MEDReader/plugin/MEDReaderIO/vtk.module
+@@ -8,6 +8,7 @@ DEPENDS
+   ParaView::VTKExtensionsIOCore
+ PRIVATE_DEPENDS
+   VTK::IOLegacy
++  VTK::FiltersParallelDIY2
+   ParaView::VTKExtensionsFiltersRendering
+   ParaView::VTKExtensionsFiltersGeneral
+   ParaView::VTKExtensionsMisc
+-- 
+2.40.1
+
