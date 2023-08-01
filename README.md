@@ -43,8 +43,8 @@ is assumed to be available on the host machine.
     * `ninja` (or `make`) for building
     * Python (if not built by the superbuild) for building packages
     * If building `mesa` or `osmesa`, `bison` and `flex` are required.
-    * If building packages on Linux, `chrpath` is required to make relocatable
-      packages
+    * If building packages on Linux, `chrpath` or `patchelf` is required to make
+      relocatable packages
 
 ## Building a specific version
 
