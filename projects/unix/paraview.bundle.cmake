@@ -7,6 +7,7 @@ set(paraview_materials_dir "share/paraview-${paraview_version}/materials")
 set(paraview_kernels_nvidia_index_dir "share/paraview-${paraview_version}/kernels_nvidia_index")
 set(paraview_plugin_path "lib/paraview-${paraview_version}/plugins")
 set(paraview_license_path "share/licenses")
+set(paraview_spdx_path "share/paraview-${paraview_version}")
 include(paraview.bundle.common)
 
 set(paraview_component ParaView)
