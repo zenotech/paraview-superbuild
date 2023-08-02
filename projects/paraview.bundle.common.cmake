@@ -281,6 +281,17 @@ function (paraview_install_xr_manifests)
   endif ()
 endfunction ()
 
+function (paraview_install_spdx_files)
+  if (EXISTS "${superbuild_install_location}/share/doc/ParaView/spdx")
+    install(
+      DIRECTORY   "${superbuild_install_location}/share/doc/ParaView/spdx"
+      DESTINATION "${paraview_spdx_path}"
+      COMPONENT   superbuild)
+  else ()
+    message(FATAL_ERROR "${superbuild_install_location}/share/doc/ParaView/spdx does not exist, aborting.")
+  endif ()
+endfunction ()
+
 #[==[.md
 paraview_install_translations
 Description:
@@ -390,6 +401,8 @@ function (paraview_install_extra_data)
   endif()
 
   paraview_install_xr_manifests()
+
+  paraview_install_spdx_files()
 endfunction ()
 
 if (qt5_enabled)
