@@ -28,6 +28,8 @@ superbuild_add_project_python(matplotlib
     "-Dpatches_location=${CMAKE_CURRENT_LIST_DIR}/patches"
     "-Dsource_location:PATH=<SOURCE_DIR>"
     -P "${CMAKE_CURRENT_LIST_DIR}/scripts/matplotlib.patch.cmake"
+  CONFIGURE_DEPENDS
+    "${CMAKE_CURRENT_LIST_DIR}/scripts/matplotlib.patch.cmake"
   PROCESS_ENVIRONMENT
     ${matplotlib_process_environment})
 superbuild_apply_patch(matplotlib nostatic
