@@ -50,5 +50,7 @@ superbuild_add_project("${plugin_project}"
       "-Dfixup_plugin_paths:STRING=${${plugin_project}_fixup_plugin_paths}"
       ${paraview_plugin_extra_options}
       -P "${CMAKE_CURRENT_LIST_DIR}/scripts/paraview.plugin.install.cmake"
+    INSTALL_DEPENDS
+      "${CMAKE_CURRENT_LIST_DIR}/scripts/paraview.plugin.install.cmake"
 
   ${${plugin_project}_arguments})

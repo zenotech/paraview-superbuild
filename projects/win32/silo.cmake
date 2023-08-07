@@ -45,6 +45,8 @@ superbuild_add_project(silo
       -Dsource_location:PATH=<SOURCE_DIR>
       -Dinstall_location:PATH=<INSTALL_DIR>
       -P ${CMAKE_CURRENT_LIST_DIR}/scripts/silo.configure.cmake
+  CONFIGURE_DEPENDS
+    ${CMAKE_CURRENT_LIST_DIR}/scripts/silo.configure.cmake
   BUILD_COMMAND
     "${CMAKE_COMMAND}"
       -Dsource_location:PATH=<SOURCE_DIR>
@@ -56,11 +58,15 @@ superbuild_add_project(silo
       -Dmpi_include_dirs:STRING=${silo_mpi_include_dirs}
       -Dmpi_library:STRING=${MPI_msmpi_LIBRARY}
       -P ${CMAKE_CURRENT_LIST_DIR}/scripts/silo.build.cmake
+  BUILD_DEPENDS
+    ${CMAKE_CURRENT_LIST_DIR}/scripts/silo.build.cmake
   INSTALL_COMMAND
     "${CMAKE_COMMAND}"
       -Dsource_location:PATH=<SOURCE_DIR>
       -Dinstall_location:PATH=<INSTALL_DIR>
-      -P ${CMAKE_CURRENT_LIST_DIR}/scripts/silo.install.cmake)
+      -P ${CMAKE_CURRENT_LIST_DIR}/scripts/silo.install.cmake
+  INSTALL_DEPENDS
+    ${CMAKE_CURRENT_LIST_DIR}/scripts/silo.install.cmake)
 
 superbuild_apply_patch(silo no-perl
   "Remove the need for Perl during the build")
