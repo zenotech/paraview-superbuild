@@ -50,9 +50,16 @@ superbuild_set_selectable_source(paraview
   SELECT source CUSTOMIZABLE
     SOURCE_DIR "source-paraview")
 
+# This is a trimmed TTK archive:
+# Removed: hidden files (CI, git, clang...)
+# Removed: image files (png)
+# Removed: doc/
+# Removed: examples/
+# Removed: scripts/
+# Removed: standalone/
 superbuild_set_revision(ttk
-  URL     "https://www.paraview.org/files/dependencies/ttk-1.1.0.zip"
-  URL_MD5 3b98ccd4cc7734e89f78f4e9b367fcf9)
+  URL     "https://www.paraview.org/files/dependencies/ttk-1.2.0-trimmed.zip"
+  URL_MD5 fea1d3cb38b32aa9cd7edeec0b7321a1)
 
 superbuild_set_revision(vrpn
   # https://github.com/vrpn/vrpn.git

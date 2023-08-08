@@ -12,6 +12,7 @@ set(ttk_enabled_modules
 
   # tests
   ttkHelloWorld
+  ttkTriangulationManager
   ttkTriangulationRequest
 
   # utility
@@ -27,6 +28,7 @@ set(ttk_enabled_modules
   ttkIcosphereFromObject
   ttkIcospheresFromPoints
   ttkIdentifierRandomizer
+  ttkIdentifyByScalarField
   ttkPointDataSelector
   ttkPointSetToCurve
   ttkScalarFieldNormalizer
@@ -44,13 +46,16 @@ set(ttk_enabled_modules
   ttkFTRGraph
   ttkIntegralLines
   ttkJacobiSet
-  ttkMergeBlockTables
-  ttkMergeTreeClustering
-  ttkMergeTreeDistanceMatrix
+  ttkMergeTreePrincipalGeodesics
+  ttkMergeTreePrincipalGeodesicsDecoding
+  ttkMergeTreePrincipalGeodesicsDecoding_PathTrees
+  ttkMergeTreePrincipalGeodesicsDecoding_Surface
   ttkMergeTreeTemporalReductionDecoding
   ttkMergeTreeTemporalReductionEncoding
   ttkMeshGraph
   ttkMorseSmaleComplex
+  ttkPathCompression
+  ttkPeriodicGhostsGeneration
   ttkPersistenceCurve
   ttkPersistenceDiagram
   ttkPersistentGenerators
@@ -70,17 +75,26 @@ set(ttk_enabled_modules
   ttkDistanceField
   ttkGeometrySmoother
   ttkManifoldCheck
+  ttkMarchingTetrahedra
   ttkMorseSmaleQuadrangulation
+  ttkPointSetToCurve
+  ttkPointSetToSurface
   ttkProjectionFromField
   ttkQuadrangulationSubdivision
   ttkSurfaceGeometrySmoother
 
   # clustering
+  ttkLDistance
+  ttkLDistanceMatrix
+  ttkMatrixToHeatMap
+  ttkMergeTreeClustering
+  ttkMergeTreeDistanceMatrix
   ttkPersistenceDiagramClustering
+  ttkPersistenceDiagramDistanceMatrix
 
   # ensemble
   ttkMandatoryCriticalPoints
-  ttkDimensionReduction
+  # ttkDimensionReduction # no sklearn available
 
   # compression
   ttkTopologicalCompressionReader
@@ -106,8 +120,14 @@ set(ttk_enabled_modules
 
   # table
   ttkDataSetToTable
+  ttkMergeBlockTables
+  ttkProjectionFromTable
   ttkTableDataSelector
   ttkTableDistanceMatrix
+
+  # web scocket related, disabled because of missing dependency
+  # ttkWebSocketIO
+  # ttkWebSocketIO
 )
 
 if (eigen_enabled)
@@ -143,15 +163,15 @@ endif ()
 # -----
 
 # TODO: enable embree, for now
-# there is a missing embree3/rtcore.h
+# there is a missing embree3/rtcore.h (windows)
 superbuild_add_project(ttk
   DEPENDS paraview boost cxx11
-  DEPENDS_OPTIONAL eigen mpi numpy openmp python3 scipy zfp zlib
+  DEPENDS_OPTIONAL eigen numpy openmp python3 scipy zfp zlib
   LICENSE_FILES
     LICENSE
   CMAKE_ARGS
     -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
-    -DTTK_BUILD_STANDALONE_APPS:BOOL=FALSE
+    -DTTK_BUILD_STANDALONE_APPS:BOOL=FALSE # trimmed folder
     -DCMAKE_INSTALL_LIBDIR:PATH=lib
     -DCMAKE_INSTALL_NAME_DIR:PATH=<INSTALL_DIR>/lib
     ${ttk_rpath_config}
@@ -164,8 +184,8 @@ superbuild_add_project(ttk
     -DTTK_ENABLE_EMBREE:BOOL=NO
     -DTTK_ENABLE_GRAPHVIZ:BOOL=NO
     -DTTK_ENABLE_OPENMP:BOOL=${openmp_enabled}
-    # -DTTK_ENABLE_MPI:BOOL=${mpi_enabled} # temporary workaround
     -DTTK_ENABLE_MPI:BOOL=NO
+    -DTTK_ENABLE_SCIKIT_LEARN:BOOL=OFF
     -DTTK_ENABLE_ZFP:BOOL=${zfp_enabled}
 
     -DTTK_WHITELIST_MODE:BOOL=TRUE
