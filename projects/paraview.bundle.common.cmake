@@ -101,6 +101,8 @@ macro (check_for_python_module project module)
   endif ()
 endmacro ()
 
+check_for_python_module(catalyst catalyst)
+check_for_python_module(catalyst catalyst_conduit)
 check_for_python_module(h5py h5py)
 check_for_python_module(matplotlib matplotlib)
 check_for_python_module(matplotlib mpl_toolkits)
