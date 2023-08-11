@@ -1,4 +1,4 @@
-FROM fedora:36
+FROM fedora:38
 MAINTAINER Ben Boeckel <ben.boeckel@kitware.com>
 
 RUN dnf install --setopt=install_weak_deps=False -y \
