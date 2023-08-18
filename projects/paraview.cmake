@@ -53,7 +53,7 @@ endif ()
 
 if (WIN32)
   list(APPEND paraviews_platform_dependencies
-    openvr openxrsdk zeromq)
+    openvr openxrremoting openxrsdk zeromq)
 endif ()
 
 if (USE_NONFREE_COMPONENTS AND (WIN32 OR (UNIX AND NOT APPLE)))
@@ -176,6 +176,12 @@ else()
   set(paraview_vtk_module_openxr_enabled NO)
 endif()
 
+if (openxrremoting_enabled)
+  set(paraview_vtk_module_openxrremoting_enabled YES)
+else()
+  set(paraview_vtk_module_openxrremoting_enabled NO)
+endif()
+
 if (openvr_enabled OR openxrsdk_enabled)
   set(paraview_xrinterface_plugin_enabled TRUE)
   if (zeromq_enabled)
@@ -252,8 +258,10 @@ superbuild_add_project(paraview
     -DPARAVIEW_PLUGIN_ENABLE_zSpace:BOOL=${zspace_enabled}
     -DPARAVIEW_XRInterface_OpenVR_Support:BOOL=${openvr_enabled}
     -DPARAVIEW_XRInterface_OpenXR_Support:BOOL=${openxrsdk_enabled}
+    -DPARAVIEW_XRInterface_OpenXRRemoting_Support:BOOL=${openxrremoting_enabled}
     -DVTK_MODULE_ENABLE_VTK_RenderingOpenVR:STRING=${paraview_vtk_module_openvr_enabled}
     -DVTK_MODULE_ENABLE_VTK_RenderingOpenXR:STRING=${paraview_vtk_module_openxr_enabled}
+    -DVTK_MODULE_ENABLE_VTK_RenderingOpenXRRemoting:STRING=${paraview_vtk_module_openxrremoting_enabled}
     # No netcdftime module in the package.
     -DPARAVIEW_PLUGIN_ENABLE_NetCDFTimeAnnotationPlugin:BOOL=OFF
     -DPARAVIEW_PYTHON_VERSION:STRING=3
