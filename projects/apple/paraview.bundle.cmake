@@ -9,7 +9,9 @@ set(paraview_spdx_path "${paraview_appname}/Contents/Resources")
 include(paraview.bundle.common)
 
 if (NOT paraview_has_gui)
-  message(FATAL_ERROR "Creating the Apple package without the GUI is not supported.")
+  message(FATAL_ERROR
+    "Creating the Apple package without the GUI is not supported. Please "
+    "reconfigure and build with `-DENABLE_qt5=ON`")
 endif ()
 
 set(paraview_plugin_paths)
