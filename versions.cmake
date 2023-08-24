@@ -249,8 +249,8 @@ superbuild_set_revision(blosc
 
 superbuild_set_revision(zfp
   # https://github.com/LLNL/zfp/releases
-  URL     "https://www.paraview.org/files/dependencies/zfp-0.5.5.tar.gz"
-  URL_MD5 "bc7e5fb1cd4345d17f7b9d470a1f23e7")
+  URL     "https://www.paraview.org/files/dependencies/zfp-1.0.0.tar.gz"
+  URL_MD5 "152b09067749f0f487f62a58d6c29920")
 
 superbuild_set_revision(zeromq
   # Current: https://sourceforge.net/projects/zeromq.mirror/files/v4.3.4/
