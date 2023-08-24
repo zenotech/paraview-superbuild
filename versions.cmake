@@ -279,9 +279,8 @@ superbuild_set_revision(abseil
 
 superbuild_set_revision(protobuf
   # https://github.com/protocolbuffers/protobuf/releases
-  URL     "https://www.paraview.org/files/dependencies/protobuf-3.17.3.tar.gz"
-  URL_MD5 "d7f8e0e3ffeac721e18cdf898eff7d31"
-  SOURCE_SUBDIR cmake)
+  URL     "https://www.paraview.org/files/dependencies/protobuf-24.1.tar.gz"
+  URL_MD5 "95dc2473e40769cec9857e1a0826cf90")
 
 superbuild_set_revision(tiff
   # https://gitlab.com/libtiff/libtiff/-/releases
