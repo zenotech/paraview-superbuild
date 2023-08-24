@@ -1,8 +1,3 @@
-superbuild_set_revision(matplotlib
-  # https://pypi.org/project/matplotlib/#history
-  URL "https://www.paraview.org/files/dependencies/matplotlib-3.2.1.tar.gz"
-  URL_MD5 9186b1e9f1fc7d555f2abf64b35dea5b)
-
 superbuild_set_revision(eigen
   # https://gitlab.com/libeigen/eigen/-/releases
   URL     "https://www.paraview.org/files/dependencies/eigen-3.3.9.tar.xz"

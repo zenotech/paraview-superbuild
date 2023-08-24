@@ -121,7 +121,7 @@ function (superbuild_find_projects var)
     pythonpackaging
     pythonpandas
     pythonpathspec
-    #pythonpillow
+    pythonpillow
     pythonpkgconfig
     pythonpluggy
     pythonply
@@ -145,7 +145,7 @@ function (superbuild_find_projects var)
     pythonwslinkasync
     pythonyarl
     pytz
-    #qhull
+    qhull
     qt5
     rkcommon
     scipy
