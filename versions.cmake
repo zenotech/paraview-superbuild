@@ -1,7 +1,7 @@
 superbuild_set_revision(eigen
   # https://gitlab.com/libeigen/eigen/-/releases
-  URL     "https://www.paraview.org/files/dependencies/eigen-3.3.9.tar.xz"
-  URL_MD5 c57578fd48359af3f214bac3239d7c80)
+  URL     "https://www.paraview.org/files/dependencies/eigen-3.4.0.tar.bz2"
+  URL_MD5 132dde48fe2b563211675626d29f1707)
 
 superbuild_set_revision(silo
   # https://github.com/LLNL/Silo/releases/tag/v4.11
