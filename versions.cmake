@@ -79,8 +79,8 @@ superbuild_set_revision(surfacetrackercut
 
 superbuild_set_revision(socat
   # http://www.dest-unreach.org/socat/
-  URL     "https://www.paraview.org/files/dependencies/socat-1.7.4.1.tar.gz"
-  URL_MD5 780d14908dc1a6aa2790de376ab56b7a)
+  URL     "https://www.paraview.org/files/dependencies/socat-1.7.4.4.tar.gz"
+  URL_MD5 db119a830a34ed4b0dacb0bb90baeb0e)
 
 superbuild_set_revision(openvr
   # https://github.com/ValveSoftware/openvr/releases
