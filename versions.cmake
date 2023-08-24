@@ -342,8 +342,8 @@ superbuild_set_revision(h5py
 
 superbuild_set_revision(openvdb
   # https://github.com/AcademySoftwareFoundation/openvdb/releases
-  URL "https://www.paraview.org/files/dependencies/openvdb-8.2.0.tar.gz"
-  URL_MD5 2852fe7176071eaa18ab9ccfad5ec403)
+  URL "https://www.paraview.org/files/dependencies/openvdb-10.0.1.tar.gz"
+  URL_MD5 0239ff0c912a3eac76bd6a4ae1b03522)
 
 superbuild_set_selectable_source(catalyst
   SELECT git CUSTOMIZABLE DEFAULT
