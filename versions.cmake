@@ -284,8 +284,8 @@ superbuild_set_revision(protobuf
 
 superbuild_set_revision(tiff
   # https://gitlab.com/libtiff/libtiff/-/releases
-  URL     "https://www.paraview.org/files/dependencies/libtiff-v4.4.0.tar.bz2"
-  URL_MD5 ba175e36b1f6929da1c3c676b98c5db3)
+  URL     "https://www.paraview.org/files/dependencies/tiff-4.5.1.tar.xz"
+  URL_MD5 d8b8622f93e09435737a61e574e5dd48)
 
 superbuild_set_revision(geotiff
   # https://github.com/OSGeo/libgeotiff/releases

@@ -8,3 +8,8 @@ superbuild_add_project(geotiff
     -DWITH_TIFF:BOOL=${tiff_enabled}
     -DWITH_ZLIB:BOOL=${zlib_enabled}
     -DWITH_UTILITIES:BOOL=OFF)
+
+# GeoTIFF doesn't handle tiff's generated CMake package configuration well.
+# https://github.com/OSGeo/libgeotiff/issues/20
+superbuild_apply_patch(geotiff tiff-imported-targets
+  "Handle TIFF imported targets")
