@@ -272,6 +272,11 @@ superbuild_set_revision(libfabric
   URL     "https://www.paraview.org/files/dependencies/libfabric-1.18.1.tar.bz2"
   URL_MD5 "1cca59cf18b3b7a8254668606e3014c5")
 
+superbuild_set_revision(abseil
+  # https://github.com/abseil/abseil-cpp/releases
+  URL     "https://www.paraview.org/files/dependencies/abseil-20230802.0.tar.gz"
+  URL_MD5 "f40605e07aa804aa82e7090f12db7e34")
+
 superbuild_set_revision(protobuf
   # https://github.com/protocolbuffers/protobuf/releases
   URL     "https://www.paraview.org/files/dependencies/protobuf-3.17.3.tar.gz"
