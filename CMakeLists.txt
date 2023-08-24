@@ -177,6 +177,7 @@ function (superbuild_find_projects var)
     list(APPEND projects
       cdi
       cosmotools
+      expat
       ffi
       ffmpeg
       fides
@@ -193,7 +194,6 @@ function (superbuild_find_projects var)
     if (NOT APPLE)
       list(APPEND projects
         egl
-        expat
         fontconfig
         glproto
         gperf
