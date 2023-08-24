@@ -24,8 +24,6 @@ superbuild_add_project(pdal
 superbuild_apply_patch(pdal fix-target-curl
   "Fix link pdal with curl")
 superbuild_apply_patch(pdal e57-spherical-format-support "Add support for e57 spherical format")
-superbuild_apply_patch(pdal cstdint-includes
-  "Add missing cstdint includes")
 
 include(CheckIncludeFileCXX)
 
