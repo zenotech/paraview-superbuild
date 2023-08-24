@@ -299,8 +299,8 @@ superbuild_set_revision(proj
 
 superbuild_set_revision(jsonc
   # https://github.com/json-c/json-c/tags
-  URL     "https://www.paraview.org/files/dependencies/json-c-0.16-20220414.tar.gz"
-  URL_MD5 4f3288a5f14e0e6abe914213f41234e0)
+  URL     "https://www.paraview.org/files/dependencies/json-c-0.17-20230812.tar.gz"
+  URL_MD5 6d724389b0a08c519d9dd6e2fac7efb8)
 
 superbuild_set_revision(gdal
   # https://github.com/OSGeo/gdal/releases
