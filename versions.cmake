@@ -353,8 +353,8 @@ superbuild_set_selectable_source(catalyst
 
 superbuild_set_revision(cdi
   # https://code.mpimet.mpg.de/projects/cdi/files
-  URL     "https://www.paraview.org/files/dependencies/cdi-2.1.0.tar.gz"
-  URL_MD5 "31304b1d487d0350c57cda00d2d757c3")
+  URL     "https://www.paraview.org/files/dependencies/cdi-2.2.4.tar.gz"
+  URL_MD5 "8441bd74d3f1a25941e27008b7b7e770")
 
 superbuild_set_revision(occt
   # https://git.dev.opencascade.org/gitweb/?p=occt.git pick the tag you want, and download a snapshot.
