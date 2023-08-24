@@ -343,8 +343,8 @@ superbuild_set_revision(pythonpkgconfig
 
 superbuild_set_revision(h5py
   # https://pypi.org/project/h5py/#history
-  URL     "https://www.paraview.org/files/dependencies/h5py-3.7.0.tar.gz"
-  URL_MD5 "acb43ba2b0b853005af71eccfc456676")
+  URL     "https://www.paraview.org/files/dependencies/h5py-3.9.0.tar.gz"
+  URL_MD5 "138d72aa1324c28a37842bc99467dfba")
 
 superbuild_set_revision(openvdb
   # https://github.com/AcademySoftwareFoundation/openvdb/releases
