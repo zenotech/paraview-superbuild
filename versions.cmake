@@ -239,8 +239,8 @@ superbuild_set_revision(mili
 
 superbuild_set_revision(zstd
   # https://github.com/facebook/zstd/releases
-  URL     "https://www.paraview.org/files/dependencies/zstd-1.5.0.tar.gz"
-  URL_MD5 "d5ac89d5df9e81243ce40d0c6a66691d")
+  URL     "https://www.paraview.org/files/dependencies/zstd-1.5.5.tar.gz"
+  URL_MD5 "63251602329a106220e0a5ad26ba656f")
 
 superbuild_set_revision(blosc
   # https://github.com/Blosc/c-blosc/releases
