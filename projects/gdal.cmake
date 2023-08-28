@@ -16,6 +16,11 @@ superbuild_add_project(gdal
   DEPENDS cxx11 zlib proj tiff geotiff png jsonc
   DEPENDS_OPTIONAL blosc libjpegturbo hdf5 sqlite
     ${gdal_optional_depends}
+
+    # Add as a dependency but disabled below; gdal searches before checking if
+    # it is disabled, so a race exists is these projects are partially
+    # installed while configuring gdal.
+    netcdf
   LICENSE_FILES
     LICENSE.TXT
   CMAKE_ARGS
@@ -28,6 +33,7 @@ superbuild_add_project(gdal
     -DGDAL_USE_ICONV:BOOL=${gdal_use_iconv}
     -DGDAL_USE_JPEG:BOOL=${libjpegturbo_enabled}
     -DGDAL_USE_JSONC:BOOL=${jsonc_enabled}
+    -DGDAL_USE_NetCDF:BOOL=OFF
     -DGDAL_USE_OPENSSL:BOOL=${openssl_enabled}
     -DGDAL_USE_PNG:BOOL=${png_enabled}
     -DGDAL_USE_SQLITE3:BOOL=${sqlite_enabled}
