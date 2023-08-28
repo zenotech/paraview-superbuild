@@ -245,9 +245,9 @@ superbuild_set_revision(zeromq
   URL_MD5 "c897d4005a3f0b8276b00b7921412379")
 
 superbuild_set_selectable_source(adios2
-  SELECT v2.8.3 DEFAULT
-    URL     "https://www.paraview.org/files/dependencies/adios-v2.8.3.tar.gz"
-    URL_MD5 "80a36713332517b4ff0c927dedc0a662"
+  SELECT v2.9.1 DEFAULT
+    URL     "https://www.paraview.org/files/dependencies/adios-v2.9.1.tar.gz"
+    URL_MD5 "716ea25b2eca18eb7d35df68856d4640"
   SELECT git CUSTOMIZABLE
     GIT_REPOSITORY "https://github.com/ornladios/ADIOS2.git"
     GIT_TAG        "origin/master")
@@ -297,8 +297,8 @@ superbuild_set_revision(launchers
   SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/launchers")
 
 superbuild_set_revision(openpmd
-  URL     "https://www.paraview.org/files/dependencies/openPMD-api-0.14.3.tar.gz"
-  URL_MD5 "1b840b111b24c3bad5e22a0405492613")
+  URL     "https://www.paraview.org/files/dependencies/openPMD-api-0.15.2.tar.gz"
+  URL_MD5 "31f85620215b9bc86b70b1ad96ba4588")
 
 superbuild_set_revision(pythonpkgconfig
   URL     "https://www.paraview.org/files/dependencies/pkgconfig-1.5.5.tar.gz"
