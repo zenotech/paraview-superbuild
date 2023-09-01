@@ -1,5 +1,8 @@
 # Make a project so that the user can enable/disable openxrremoting support
 superbuild_add_project(openxrremoting
+  LICENSE_FILES
+    "Microsoft Holographic Remoting - Software Development Kit (SDK) Use Terms.txt"
+    "Third Party Notices.txt"
   CONFIGURE_COMMAND
     ""
   BUILD_COMMAND
