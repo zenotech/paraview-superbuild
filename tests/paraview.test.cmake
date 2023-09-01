@@ -139,6 +139,10 @@ if (openpmd_enabled)
   paraview_add_python_test("import-openpmd" "import_openpmd")
 endif ()
 
+if (proj_enabled AND numpy_enabled)
+  paraview_add_python_test("import-vtkGeoVis" "import_vtkGeoVis")
+endif ()
+
 # Test to load various data files to ensure reader support.
 if (silo_enabled)
   paraview_add_ui_test("data-csg.silo" "TestData-cs_silo"
