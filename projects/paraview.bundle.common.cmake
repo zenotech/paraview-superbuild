@@ -352,7 +352,6 @@ function (paraview_install_all_licenses)
     pythoncppy
     pythonmako
     pythonpkgconfig
-    pythonpkgconfig
     pythonsemanticversion
     pythonsetuptools
     pythonsetuptoolsrust
