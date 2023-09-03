@@ -25,10 +25,10 @@ yum install -y \
 yum install -y \
     centos-release-scl
 yum install -y \
-    devtoolset-7-gcc-c++ \
-    devtoolset-7 \
-    devtoolset-7-gcc \
-    devtoolset-7-gfortran \
+    devtoolset-10-gcc-c++ \
+    devtoolset-10 \
+    devtoolset-10-gcc \
+    devtoolset-10-gfortran \
     rh-git227-git-core
 
 yum clean all
