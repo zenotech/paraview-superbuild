@@ -62,8 +62,10 @@ function (superbuild_find_projects var)
     libjpegturbo
     lookingglass
     matplotlib
+    meson
     mpi
     netcdf
+    ninja
     nlohmannjson
     numpy
     nvidiaindex
@@ -83,6 +85,7 @@ function (superbuild_find_projects var)
     paraviewwebdivvy
     paraviewwebvisualizer
     pdal
+    pkgconf
     png
     proj
     protobuf
@@ -165,7 +168,6 @@ function (superbuild_find_projects var)
       lapack
       libxml2
       mili
-      pkgconf
       rapidjson
       surfacetrackercut)
 
@@ -179,9 +181,7 @@ function (superbuild_find_projects var)
         launchers
         libfabric
         llvm
-        meson
         mesa
-        ninja
         osmesa
         paraviewsdk
         socat
