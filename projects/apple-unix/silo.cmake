@@ -58,6 +58,8 @@ superbuild_add_project(silo
 
 superbuild_apply_patch(silo zfp-cond
   "Properly support not having zfp around")
+superbuild_apply_patch(silo szip-library-name
+  "Fix szip library name")
 
 if (APPLE)
   superbuild_apply_patch(silo zlib-apple
