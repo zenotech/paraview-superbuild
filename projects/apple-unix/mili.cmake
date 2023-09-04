@@ -27,8 +27,8 @@ if (UNIX)
     # https://portal.nersc.gov/project/visit/releases/3.0.0/build_visit3_0_0
     superbuild_apply_patch(mili darwin-patch1 "Mili Darwin patch 1")
     superbuild_apply_patch(mili darwin-patch2 "Mili Darwin patch 2")
-    superbuild_apply_patch(mili darwin-patch3 "Mili Darwin patch 3")
   endif()
+  superbuild_apply_patch(mili darwin-patch3 "Mili Darwin patch 3")
 
   superbuild_add_extra_cmake_args(
     -DMili_INCLUDE_DIR:PATH=<INSTALL_DIR>/include/mili
