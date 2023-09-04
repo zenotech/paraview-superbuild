@@ -1,3 +1,5 @@
+set(_build_subdir <SOURCE_DIR>/MILI-build)
+
 superbuild_add_project(mili
   CAN_USE_SYSTEM
   DEPENDS rapidjson # VisIt's Mili reader needs rapidjson
@@ -8,58 +10,13 @@ superbuild_add_project(mili
     <SOURCE_DIR>/configure
       --prefix=<INSTALL_DIR>
   BUILD_COMMAND
-    ""
+    make -C ${_build_subdir} opt fortran=false
   INSTALL_COMMAND
-    ""
-)
-
-set(_build_subdir <SOURCE_DIR>/MILI-build)
-
-# Split out building of code into a separate step because the working
-# directory is different from the configure step.
-superbuild_project_add_step("custom-build"
-  COMMAND
-    make opt fortran=false
-  COMMENT
-    "Building mili"
-  DEPENDEES
-    configure
-  DEPENDERS
-    build
-  WORKING_DIRECTORY
-    ${_build_subdir}
-)
-
-# Mili's make install command is broken. Just grab what we need.
-superbuild_project_add_step("custom-install"
-  COMMAND ${CMAKE_COMMAND} -E copy_if_different
-    ${_build_subdir}/lib_opt/libeprtf.a
-    ${_build_subdir}/lib_opt/libmili.a
-    ${_build_subdir}/lib_opt/libtaurus.a
-    <INSTALL_DIR>/lib
-  COMMAND ${CMAKE_COMMAND} -E make_directory
-    <INSTALL_DIR>/include/mili
-  COMMAND ${CMAKE_COMMAND} -E copy_if_different
-    ${_build_subdir}/include/eprtf.h
-    ${_build_subdir}/include/gahl.h
-    ${_build_subdir}/include/list.h
-    ${_build_subdir}/include/mili.h
-    ${_build_subdir}/include/mili_endian.h
-    ${_build_subdir}/include/mili_enum.h
-    ${_build_subdir}/include/mili_fparam.h
-    ${_build_subdir}/include/mili_internal.h
-    ${_build_subdir}/include/misc.h
-    ${_build_subdir}/include/mr.h
-    ${_build_subdir}/include/partition.h
-    ${_build_subdir}/include/sarray.h
-    ${_build_subdir}/include/taurus_db.h
-    <INSTALL_DIR>/include/mili
-  COMMENT
-    "Installing mili"
-  DEPENDEES
-    build
-  DEPENDERS
-    install
+    "${CMAKE_COMMAND}"
+    -Dbuild_subdir=${_build_subdir}
+    -Dinstall_location=<INSTALL_DIR>
+    -P "${CMAKE_CURRENT_LIST_DIR}/scripts/mili.install.cmake"
+  INSTALL_DEPENDS "${CMAKE_CURRENT_LIST_DIR}/scripts/mili.install.cmake"
 )
 
 if (UNIX)
