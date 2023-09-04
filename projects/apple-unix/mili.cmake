@@ -19,19 +19,17 @@ superbuild_add_project(mili
   INSTALL_DEPENDS "${CMAKE_CURRENT_LIST_DIR}/scripts/mili.install.cmake"
 )
 
-if (UNIX)
-  superbuild_apply_patch(mili unix-patch1 "Mili Unix patch 1")
-  superbuild_apply_patch(mili xcode-12 "Mili errors from Xcode 12")
-  if (APPLE)
-    # Patches derived from VisIt build
-    # https://portal.nersc.gov/project/visit/releases/3.0.0/build_visit3_0_0
-    superbuild_apply_patch(mili darwin-patch1 "Mili Darwin patch 1")
-    superbuild_apply_patch(mili darwin-patch2 "Mili Darwin patch 2")
-  endif()
-  superbuild_apply_patch(mili darwin-patch3 "Mili Darwin patch 3")
-
-  superbuild_add_extra_cmake_args(
-    -DMili_INCLUDE_DIR:PATH=<INSTALL_DIR>/include/mili
-    -DMili_LIBRARY:PATH=<INSTALL_DIR>/lib/libmili.a
-  )
+superbuild_apply_patch(mili unix-patch1 "Mili Unix patch 1")
+superbuild_apply_patch(mili xcode-12 "Mili errors from Xcode 12")
+if (APPLE)
+  # Patches derived from VisIt build
+  # https://portal.nersc.gov/project/visit/releases/3.0.0/build_visit3_0_0
+  superbuild_apply_patch(mili darwin-patch1 "Mili Darwin patch 1")
+  superbuild_apply_patch(mili darwin-patch2 "Mili Darwin patch 2")
 endif()
+superbuild_apply_patch(mili darwin-patch3 "Mili Darwin patch 3")
+
+superbuild_add_extra_cmake_args(
+  -DMili_INCLUDE_DIR:PATH=<INSTALL_DIR>/include/mili
+  -DMili_LIBRARY:PATH=<INSTALL_DIR>/lib/libmili.a
+)
