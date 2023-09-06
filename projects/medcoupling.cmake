@@ -13,6 +13,7 @@ superbuild_add_project(medcoupling
    -DMEDCOUPLING_BUILD_TESTS:BOOL=OFF
    -DMEDCOUPLING_INSTALL_LIBS:PATH=lib
    -DSALOME_USE_MPI:BOOL=${mpi_enabled}
+   -DMEDCOUPLING_MEDLOADER_USE_XDR:BOOL=OFF
 )
 
 superbuild_apply_patch(medcoupling fix-cmake-option-usage
