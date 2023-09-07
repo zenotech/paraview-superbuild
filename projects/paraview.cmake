@@ -242,7 +242,7 @@ superbuild_add_project(paraview
     -DPARAVIEW_ENABLE_OCCT:BOOL=${occt_enabled}
     -DPARAVIEW_ENABLE_VISITBRIDGE:BOOL=${visitbridge_enabled}
     -DPARAVIEW_ENABLE_XDMF3:BOOL=${xdmf3_enabled}
-    -DPARAVIEW_GENERATE_SPDX:BOOL=ON
+    -DPARAVIEW_GENERATE_SPDX:BOOL=${python3_enabled}
     -DPARAVIEW_INSTALL_DEVELOPMENT_FILES:BOOL=ON
     -DPARAVIEW_PLUGIN_ENABLE_E57PDALReader:BOOL=${e57reader_plugin_enabled}
     -DPARAVIEW_PLUGIN_ENABLE_GmshIO:BOOL=${gmsh_enabled}
