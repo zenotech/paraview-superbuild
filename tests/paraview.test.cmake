@@ -131,6 +131,11 @@ if (mpi_enabled AND python3_enabled)
   paraview_add_python_test("import-mpi4py" "import_mpi4py")
 endif ()
 
+if (catalyst_enabled AND numpy_enabled)
+  paraview_add_python_test("import-catalyst" "import_catalyst")
+  paraview_add_python_test("import-catalyst-conduit" "import_catalyst_conduit")
+endif ()
+
 if (pythonpandas_enabled)
   paraview_add_python_test("import-pandas" "import_pandas")
 endif ()
