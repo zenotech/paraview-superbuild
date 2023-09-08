@@ -49,25 +49,38 @@ endif ()
 list(APPEND ignore_regexes
   ".*/3DconnexionNavlib")
 
-set(additional_libraries)
-if (ospray_enabled)
-  set(osprayextra_libraries
+set(extra_library_names)
+if (rkcommon_enabled)
+  list(APPEND extra_library_names
+    rkcommon)
+endif ()
+if (openvkl_enabled)
+  list(APPEND extra_library_names
     openvkl_module_cpu_device
     openvkl_module_cpu_device_4
     openvkl_module_cpu_device_8
-    openvkl_module_cpu_device_16
-    ospray_module_cpu
-    ospray_module_denoiser
-    ospray_module_mpi
-    rkcommon)
-
-  foreach (osprayextra_library IN LISTS osprayextra_libraries)
-    if (EXISTS "${superbuild_install_location}/lib/lib${osprayextra_library}.dylib")
-      list(APPEND additional_libraries
-        "${superbuild_install_location}/lib/lib${osprayextra_library}.dylib")
-    endif ()
-  endforeach ()
+    openvkl_module_cpu_device_16)
 endif ()
+if (ospray_enabled)
+  list(APPEND extra_library_names
+    ospray_module_cpu
+    ospray_module_denoiser)
+endif ()
+if (ospraymodulempi_enabled)
+  list(APPEND extra_library_names
+    ospray_module_mpi)
+endif ()
+
+set(additional_libraries)
+foreach (extra_library_name IN LISTS extra_library_names)
+  if (EXISTS "${superbuild_install_location}/lib/lib${extra_library_name}.dylib")
+    list(APPEND additional_libraries
+      "${superbuild_install_location}/lib/lib${extra_library_name}.dylib")
+  else ()
+    message(FATAL_ERROR
+      "Extra library '${extra_library_name}' not found")
+  endif ()
+endforeach ()
 
 superbuild_apple_create_app(
   "\${CMAKE_INSTALL_PREFIX}"

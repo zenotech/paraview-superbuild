@@ -137,26 +137,33 @@ if (nvidiaindex_enabled)
   endforeach ()
 endif ()
 
-if (ospray_enabled)
-  set(osprayextra_libraries
+set(extra_library_names)
+if (rkcommon_enabled)
+  list(APPEND extra_library_names
+    rkcommon)
+endif ()
+if (openvkl_enabled)
+  list(APPEND extra_library_names
     openvkl_module_cpu_device
     openvkl_module_cpu_device_4
     openvkl_module_cpu_device_8
-    openvkl_module_cpu_device_16
-    ospray_module_cpu
-    ospray_module_denoiser
-    rkcommon)
-  if (ospraymodulempi_enabled)
-    list(APPEND osprayextra_libraries
-      ospray_module_mpi)
-  endif ()
-
-  foreach (osprayextra_library IN LISTS osprayextra_libraries)
-    superbuild_windows_install_plugin("${osprayextra_library}.dll"
-      "bin" "bin"
-      SEARCH_DIRECTORIES "${superbuild_install_location}/bin")
-  endforeach ()
+    openvkl_module_cpu_device_16)
 endif ()
+if (ospray_enabled)
+  list(APPEND extra_library_names
+    ospray_module_cpu
+    ospray_module_denoiser)
+endif ()
+if (ospraymodulempi_enabled)
+  list(APPEND extra_library_names
+    ospray_module_mpi)
+endif ()
+
+foreach (extra_library_name IN LISTS extra_library_names)
+  superbuild_windows_install_plugin("${extra_library_name}.dll"
+    "bin" "bin"
+    SEARCH_DIRECTORIES "${superbuild_install_location}/bin")
+endforeach ()
 
 if (visrtx_enabled)
   set(visrtxextra_libraries
