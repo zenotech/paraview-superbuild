@@ -143,8 +143,8 @@ if (ospray_enabled)
     openvkl_module_cpu_device_4
     openvkl_module_cpu_device_8
     openvkl_module_cpu_device_16
+    ospray_module_cpu
     ospray_module_denoiser
-    ospray_module_ispc
     rkcommon)
   if (ospraymodulempi_enabled)
     list(APPEND osprayextra_libraries

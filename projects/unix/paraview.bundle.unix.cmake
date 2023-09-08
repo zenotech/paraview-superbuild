@@ -147,6 +147,7 @@ endif ()
 if (ospray_enabled)
   set(osprayextra_libraries
     openvkl_module_cpu_device
+    ospray_module_cpu
     ospray_module_denoiser
     ospray_module_mpi)
 
