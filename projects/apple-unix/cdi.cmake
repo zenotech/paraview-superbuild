@@ -1,7 +1,7 @@
 # netcdf required, either system or installed
 set(cdi_netcdf_args "--with-netcdf=<INSTALL_DIR>")
 if (USE_SYSTEM_netcdf)
-    set(cdi_netcdf_args "--with-netcdf=yes")
+  set(cdi_netcdf_args "--with-netcdf=yes")
 endif ()
 
 superbuild_add_project(cdi
