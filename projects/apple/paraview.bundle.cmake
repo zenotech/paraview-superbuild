@@ -75,7 +75,8 @@ if (ospray_enabled)
 endif ()
 if (ospraymodulempi_enabled)
   list(APPEND extra_library_names
-    ospray_module_mpi)
+    ospray_module_mpi_distributed_cpu
+    ospray_module_mpi_offload)
 endif ()
 
 set(additional_libraries)

@@ -160,7 +160,8 @@ if (ospray_enabled)
 endif ()
 if (ospraymodulempi_enabled)
   list(APPEND extra_library_names
-    ospray_module_mpi)
+    ospray_module_mpi_distributed_cpu
+    ospray_module_mpi_offload)
 endif ()
 
 foreach (extra_library_name IN LISTS extra_library_names)
