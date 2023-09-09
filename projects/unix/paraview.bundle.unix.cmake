@@ -144,34 +144,45 @@ if (nvidiaindex_enabled AND NOT APPLE)
   endforeach ()
 endif ()
 
-if (ospray_enabled)
-  set(osprayextra_libraries
-    openvkl_module_cpu_device
-    ospray_module_cpu
-    ospray_module_denoiser
-    ospray_module_mpi)
-
-  foreach (osprayextra_library IN LISTS osprayextra_libraries)
-    file(GLOB lib_filenames
-      RELATIVE "${superbuild_install_location}/lib"
-      "${superbuild_install_location}/lib/lib${osprayextra_library}.so*")
-
-    foreach (lib_filename IN LISTS lib_filenames)
-
-      # Do not install symlink manually
-      if(IS_SYMLINK "${superbuild_install_location}/lib/${lib_filename}")
-        continue ()
-      endif ()
-
-      superbuild_unix_install_module("${lib_filename}"
-        "lib"
-        "lib"
-        LOADER_PATHS  "${library_paths}"
-        LOCATION      "lib"
-        HAS_SYMLINKS)
-    endforeach ()
-  endforeach ()
+set(extra_libraries)
+if (openvkl_enabled)
+  list(APPEND extra_libraries
+    openvkl_module_cpu_device)
 endif ()
+if (ospray_enabled)
+  list(APPEND extra_libraries
+    ospray_module_cpu
+    ospray_module_denoiser)
+endif ()
+if (ospraymodulempi_enabled)
+  list(APPEND extra_libraries
+    ospray_module_mpi)
+endif ()
+
+foreach (extra_library IN LISTS extra_libraries)
+  file(GLOB lib_filenames
+    RELATIVE "${superbuild_install_location}/lib"
+    "${superbuild_install_location}/lib/lib${extra_library}.so*")
+
+  if (NOT lib_filenames)
+    message(FATAL_ERROR
+      "Failed to locate libraries for ${extra_library}")
+  endif ()
+
+  foreach (lib_filename IN LISTS lib_filenames)
+    # Do not install symlink manually
+    if(IS_SYMLINK "${superbuild_install_location}/lib/${lib_filename}")
+      continue ()
+    endif ()
+
+    superbuild_unix_install_module("${lib_filename}"
+      "lib"
+      "lib"
+      LOADER_PATHS  "${library_paths}"
+      LOCATION      "lib"
+      HAS_SYMLINKS)
+  endforeach ()
+endforeach ()
 
 if (visrtx_enabled)
   set(visrtxextra_libraries
