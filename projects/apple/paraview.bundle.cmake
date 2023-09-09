@@ -101,6 +101,59 @@ superbuild_apple_create_app(
   INCLUDE_REGEXES     ${include_regexes}
   IGNORE_REGEXES      ${ignore_regexes})
 
+# ISPC libraries are prebuilt and require code signature resets.
+if (ispc_enabled)
+  set(ispc_signed_libraries
+    libispcrt
+    libispcrt_device_cpu)
+  foreach (ispc_signed_library IN LISTS ispc_signed_libraries)
+    install(CODE "
+  message(STATUS
+    \"Attempting to re-sign ${ispc_signed_library}\")
+  if (NOT EXISTS \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${paraview_appname}/Contents/Libraries/${ispc_signed_library}.dylib\")
+    message(FATAL_ERROR
+      \"Cannot find ISPC library: ${ispc_signed_library} at '\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${paraview_appname}/Contents/Libraries/${ispc_signed_library}.dylib'\")
+  endif ()
+  execute_process(
+    COMMAND
+      codesign
+      --force
+      -s -
+      \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${paraview_appname}/Contents/Libraries/${ispc_signed_library}.dylib\"
+    RESULT VARIABLE res
+    ERROR_VARIABLE err
+    OUTPUT_VARIABLE out
+    ERROR_STRIP_TRAILING_WHITESPACE
+    OUTPUT_STRIP_TRAILING_WHITESPACE)
+  if (res)
+    message(FATAL_ERROR
+      \"Failed to re-sign ${ispc_signed_library}: \${err}\")
+  else ()
+    message(STATUS
+      \"codesigning of ${ispc_signed_library}: \${out}\")
+  endif ()
+  execute_process(
+    COMMAND
+      codesign
+      -vvvv
+      \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${paraview_appname}/Contents/Libraries/${ispc_signed_library}.dylib\"
+    RESULT VARIABLE res
+    ERROR_VARIABLE err
+    OUTPUT_VARIABLE out
+    ERROR_STRIP_TRAILING_WHITESPACE
+    OUTPUT_STRIP_TRAILING_WHITESPACE)
+  if (res)
+    message(FATAL_ERROR
+      \"Failed to verify the new signature for ${ispc_signed_library}: \${out}\\n\\n\${err}\")
+  else ()
+    message(STATUS
+      \"codesign verification of ${ispc_signed_library}: \${out}\")
+  endif ()
+"
+    COMPONENT superbuild)
+  endforeach ()
+endif ()
+
 set(plugins_file "${CMAKE_CURRENT_BINARY_DIR}/paraview.plugins.xml")
 paraview_add_plugin("${plugins_file}" ${paraview_plugins})
 
