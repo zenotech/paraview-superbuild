@@ -138,6 +138,10 @@ if (nvidiaindex_enabled)
 endif ()
 
 set(extra_library_names)
+if (ispc_enabled)
+  list(APPEND extra_library_names
+    ispcrt_device_cpu)
+endif ()
 if (rkcommon_enabled)
   list(APPEND extra_library_names
     rkcommon)

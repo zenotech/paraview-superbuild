@@ -145,6 +145,10 @@ if (nvidiaindex_enabled AND NOT APPLE)
 endif ()
 
 set(extra_libraries)
+if (ispc_enabled)
+  list(APPEND extra_libraries
+    ispcrt_device_cpu)
+endif ()
 if (openvkl_enabled)
   list(APPEND extra_libraries
     openvkl_module_cpu_device)

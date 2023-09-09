@@ -50,6 +50,10 @@ list(APPEND ignore_regexes
   ".*/3DconnexionNavlib")
 
 set(extra_library_names)
+if (ispc_enabled)
+  list(APPEND extra_library_names
+    ispcrt_device_cpu)
+endif ()
 if (rkcommon_enabled)
   list(APPEND extra_library_names
     rkcommon)
@@ -57,9 +61,12 @@ endif ()
 if (openvkl_enabled)
   list(APPEND extra_library_names
     openvkl_module_cpu_device
-    openvkl_module_cpu_device_4
-    openvkl_module_cpu_device_8
-    openvkl_module_cpu_device_16)
+    openvkl_module_cpu_device_8)
+  if (CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64")
+    list(APPEND extra_library_names
+      openvkl_module_cpu_device_4
+      openvkl_module_cpu_device_16)
+  endif ()
 endif ()
 if (ospray_enabled)
   list(APPEND extra_library_names
