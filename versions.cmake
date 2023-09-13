@@ -366,10 +366,10 @@ superbuild_set_revision(cdi
 
 superbuild_set_revision(occt
   # https://git.dev.opencascade.org/gitweb/?p=occt.git pick the tag you want, and download a snapshot.
-  # current: 7.4.0p1
+  # current: 7.7.2
   # Extract, delete docs, tests, and sample data, and recompress as .tar.bz2
-  URL     "https://www.paraview.org/files/dependencies/occt-7.4.0p1-stripped.tar.bz2"
-  URL_MD5 24b95c5d55558ba087b9565f30c67718)
+  URL     "https://www.paraview.org/files/dependencies/occt-7.7.2-stripped.tar.bz2"
+  URL_MD5 2fcccc698daf3ded6feabec6b9e02109)
 
 superbuild_set_revision(medfile
   # Fill out this form: https://www.salome-platform.org/?page_id=2430
