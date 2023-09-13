@@ -200,6 +200,7 @@ function (superbuild_find_projects var)
         gperf
         launchers
         libfabric
+        libusb
         llvm
         mesa
         osmesa

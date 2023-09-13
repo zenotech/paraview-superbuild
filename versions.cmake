@@ -57,6 +57,11 @@ superbuild_set_revision(ttk
   URL     "https://www.paraview.org/files/dependencies/ttk-1.2.0-trimmed.zip"
   URL_MD5 fea1d3cb38b32aa9cd7edeec0b7321a1)
 
+superbuild_set_revision(libusb
+  # https://github.com/libusb/libusb/releases
+  URL     "https://www.paraview.org/files/dependencies/libusb-1.0.26.tar.bz2"
+  URL_MD5 9c75660dfe1d659387c37b28c91e3160)
+
 superbuild_set_revision(vrpn
   # https://github.com/vrpn/vrpn/releases
   URL     "https://www.paraview.org/files/dependencies/vrpn-45375f61de4c1a7bb95fe5a9264ac48a5d395404.tar.bz2"
