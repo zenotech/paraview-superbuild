@@ -4,7 +4,7 @@ superbuild_set_revision(eigen
   URL_MD5 132dde48fe2b563211675626d29f1707)
 
 superbuild_set_revision(silo
-  # https://github.com/LLNL/Silo/releases/tag/v4.11
+  # https://github.com/LLNL/Silo/releases
   URL     "https://www.paraview.org/files/dependencies/silo-4.11-bsd-smalltest.tar.gz"
   URL_MD5 db5ac16cf8a84a40c3f9e80ca7f8dc6a)
 
