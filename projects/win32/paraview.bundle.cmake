@@ -138,7 +138,7 @@ if (nvidiaindex_enabled)
 endif ()
 
 set(extra_library_names)
-if (ispc_enabled)
+if (ispc_enabled AND ospray_SOURCE_SELECTION STREQUAL "2.12.0")
   list(APPEND extra_library_names
     ispcrt_device_cpu)
 endif ()
@@ -155,13 +155,24 @@ if (openvkl_enabled)
 endif ()
 if (ospray_enabled)
   list(APPEND extra_library_names
-    ospray_module_cpu
     ospray_module_denoiser)
+  if (ospray_SOURCE_SELECTION STREQUAL "2.12.0")
+    list(APPEND extra_library_names
+      ospray_module_cpu)
+  else ()
+    list(APPEND extra_library_names
+      ospray_module_ispc)
+  endif ()
 endif ()
 if (ospraymodulempi_enabled)
-  list(APPEND extra_library_names
-    ospray_module_mpi_distributed_cpu
-    ospray_module_mpi_offload)
+  if (ospray_SOURCE_SELECTION STREQUAL "2.12.0")
+    list(APPEND extra_library_names
+      ospray_module_mpi_distributed_cpu
+      ospray_module_mpi_offload)
+  else ()
+    list(APPEND extra_library_names
+      ospray_module_mpi)
+  endif ()
 endif ()
 
 foreach (extra_library_name IN LISTS extra_library_names)

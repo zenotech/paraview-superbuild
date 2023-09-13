@@ -145,26 +145,40 @@ if (nvidiaindex_enabled AND NOT APPLE)
 endif ()
 
 set(extra_libraries)
-if (ispc_enabled)
+if (ispc_enabled AND ospray_SOURCE_SELECTION STREQUAL "2.12.0")
   list(APPEND extra_libraries
     ispcrt_device_cpu)
 endif ()
 if (openvkl_enabled)
   list(APPEND extra_libraries
-    openvkl_module_cpu_device
-    openvkl_module_cpu_device_4
-    openvkl_module_cpu_device_8
-    openvkl_module_cpu_device_16)
+    openvkl_module_cpu_device)
+  if (ospray_SOURCE_SELECTION STREQUAL "2.12.0")
+    list(APPEND extra_libraries
+      openvkl_module_cpu_device_4
+      openvkl_module_cpu_device_8
+      openvkl_module_cpu_device_16)
+  endif ()
 endif ()
 if (ospray_enabled)
   list(APPEND extra_libraries
-    ospray_module_cpu
     ospray_module_denoiser)
+  if (ospray_SOURCE_SELECTION STREQUAL "2.12.0")
+    list(APPEND extra_libraries
+      ospray_module_cpu)
+  elseif (NOT openvkl_enabled) # OpenVKL modules bring it in transitively.
+    list(APPEND extra_libraries
+      ospray_module_ispc)
+  endif ()
 endif ()
 if (ospraymodulempi_enabled)
-  list(APPEND extra_libraries
-    ospray_module_mpi_distributed_cpu
-    ospray_module_mpi_offload)
+  if (ospray_SOURCE_SELECTION STREQUAL "2.12.0")
+    list(APPEND extra_libraries
+      ospray_module_mpi_distributed_cpu
+      ospray_module_mpi_offload)
+  else ()
+    list(APPEND extra_libraries
+      ospray_module_mpi)
+  endif ()
 endif ()
 
 foreach (extra_library IN LISTS extra_libraries)

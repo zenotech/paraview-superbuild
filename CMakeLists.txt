@@ -355,6 +355,7 @@ function (superbuild_add_packaging)
     mesa_USE_SWR
     mesa_SWR_ARCH
     nvidiaindex_SOURCE_SELECTION
+    ospray_SOURCE_SELECTION
     PARAVIEW_PACKAGE_SUFFIX
     PARAVIEW_CATALYST_EDITION
     paraview_is_shared)

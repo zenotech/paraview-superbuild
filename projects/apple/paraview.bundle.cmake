@@ -50,7 +50,7 @@ list(APPEND ignore_regexes
   ".*/3DconnexionNavlib")
 
 set(extra_library_names)
-if (ispc_enabled)
+if (ispc_enabled AND ospray_SOURCE_SELECTION STREQUAL "2.12.0")
   list(APPEND extra_library_names
     ispcrt_device_cpu)
 endif ()
@@ -60,8 +60,17 @@ if (rkcommon_enabled)
 endif ()
 if (openvkl_enabled)
   list(APPEND extra_library_names
-    openvkl_module_cpu_device
-    openvkl_module_cpu_device_8)
+    openvkl_module_cpu_device)
+  if (ospray_SOURCE_SELECTION STREQUAL "2.12.0" AND
+      CMAKE_SYSTEM_PROCESSOR STREQUAL "arm64")
+    list(APPEND extra_library_names
+      openvkl_module_cpu_device_8)
+  endif ()
+  if (NOT ospray_SOURCE_SELECTION STREQUAL "2.12.0" AND
+      CMAKE_SYSTEM_PROCESSOR STREQUAL "arm64")
+    list(APPEND extra_library_names
+      openvkl_module_cpu_device_4)
+  endif ()
   if (CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64")
     list(APPEND extra_library_names
       openvkl_module_cpu_device_4
@@ -70,13 +79,24 @@ if (openvkl_enabled)
 endif ()
 if (ospray_enabled)
   list(APPEND extra_library_names
-    ospray_module_cpu
     ospray_module_denoiser)
+  if (ospray_SOURCE_SELECTION STREQUAL "2.12.0")
+    list(APPEND extra_library_names
+      ospray_module_cpu)
+  else ()
+    list(APPEND extra_library_names
+      ospray_module_ispc)
+  endif ()
 endif ()
 if (ospraymodulempi_enabled)
-  list(APPEND extra_library_names
-    ospray_module_mpi_distributed_cpu
-    ospray_module_mpi_offload)
+  if (ospray_SOURCE_SELECTION STREQUAL "2.12.0")
+    list(APPEND extra_library_names
+      ospray_module_mpi_distributed_cpu
+      ospray_module_mpi_offload)
+  else ()
+    list(APPEND extra_library_names
+      ospray_module_mpi)
+  endif ()
 endif ()
 
 set(additional_libraries)
@@ -102,7 +122,7 @@ superbuild_apple_create_app(
   IGNORE_REGEXES      ${ignore_regexes})
 
 # ISPC libraries are prebuilt and require code signature resets.
-if (ispc_enabled)
+if (ispc_enabled AND ospray_SOURCE_SELECTION STREQUAL "2.12.0")
   set(ispc_signed_libraries
     libispcrt
     libispcrt_device_cpu)
