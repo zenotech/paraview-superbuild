@@ -1,0 +1,159 @@
+diff -u -U5 -r med-5.0.0/config/cmake_files/medMacros.cmake med-5.0.0.hdf-1.14-compat/config/cmake_files/medMacros.cmake
+--- med-5.0.0/config/cmake_files/medMacros.cmake	2023-04-19 09:40:34.000000000 -0400
++++ med-5.0.0.hdf-1.14-compat/config/cmake_files/medMacros.cmake	2023-09-05 21:43:31.039834824 -0400
+@@ -445,12 +445,12 @@
+     FIND_PACKAGE(MedfileHDF5 REQUIRED)
+ 
+     ##
+     ## Requires 1.12.x version
+     ##
+-    IF (NOT HDF_VERSION_MAJOR_REF EQUAL 1 OR NOT HDF_VERSION_MINOR_REF EQUAL 12 OR NOT HDF_VERSION_RELEASE_REF GREATER 0)
+-        MESSAGE(FATAL_ERROR "HDF5 version is ${HDF_VERSION_REF}. Only versions >= 1.12.1 are supported.")
++    IF ("${HDF_VERSION_MAJOR_REF}.${HDF_VERSION_MINOR_REF}.${HDF_VERSION_RELEASE_REF}" VERSION_LESS "1.12.1")
++        MESSAGE(FATAL_ERROR "HDF5 version is ${HDF_VERSION_REF}. Only versions 1.12.x >= 1.12.1 are supported.")
+     ENDIF()
+     ##
+     ##
+ 
+     ADD_DEFINITIONS(-DH5_USE_16_API -DH5Oget_info_by_name_vers=1 -DH5O_info_t_vers=1)  
+diff -u -U5 -r med-5.0.0/src/ci/MEDfileCompatibility.c med-5.0.0.hdf-1.14-compat/src/ci/MEDfileCompatibility.c
+--- med-5.0.0/src/ci/MEDfileCompatibility.c	2023-06-05 08:14:44.000000000 -0400
++++ med-5.0.0.hdf-1.14-compat/src/ci/MEDfileCompatibility.c	2023-09-05 21:47:38.706651845 -0400
+@@ -114,11 +114,11 @@
+   if ( _fversionMM > 100*MED_NUM_MAJEUR+10*MED_NUM_MINEUR ) *medok = MED_FALSE;
+ 
+ #if MED_NUM_MAJEUR != 5
+ #error "Don't forget to update the test version here when you change the major version of the library !"
+ #endif
+-#if H5_VERS_MINOR > 12
++#if H5_VERS_MINOR > 14
+ #error "Don't forget to check the compatibility version of the library, depending on the internal hdf model choice !"
+ #error "Cf. _MEDfileCreate ..."
+ #endif
+ 
+  SORTIE:
+diff -u -U5 -r med-5.0.0/src/hdfi/_MEDfileCreate.c med-5.0.0.hdf-1.14-compat/src/hdfi/_MEDfileCreate.c
+--- med-5.0.0/src/hdfi/_MEDfileCreate.c	2023-06-05 08:14:45.000000000 -0400
++++ med-5.0.0.hdf-1.14-compat/src/hdfi/_MEDfileCreate.c	2023-09-05 21:47:18.606503998 -0400
+@@ -187,11 +187,11 @@
+ 
+   /* EN MED5/HDF5-1.12 : 
+    * Cette ligne est censée obliger HDF à ne pas utiliser un modèle interne différent de 1.10.z
+    * Un test autoconf permet de fixer un intervalle de version HDF à MED.
+    */
+-#if H5_VERS_MINOR > 12
++#if H5_VERS_MINOR > 14
+ #error "Don't forget to change the compatibility version of the library !"
+ #endif
+    
+   if ( H5Pset_libver_bounds( _fapl, H5F_LIBVER_V112, H5F_LIBVER_V112 ) ) {
+     MED_ERR_(_fid,MED_ERR_INIT,MED_ERR_PROPERTY,MED_ERR_FILEVERSION_MSG);
+diff -u -U5 -r med-5.0.0/src/hdfi/_MEDfileOpen.c med-5.0.0.hdf-1.14-compat/src/hdfi/_MEDfileOpen.c
+--- med-5.0.0/src/hdfi/_MEDfileOpen.c	2023-06-05 08:14:45.000000000 -0400
++++ med-5.0.0.hdf-1.14-compat/src/hdfi/_MEDfileOpen.c	2023-09-05 21:42:36.481436198 -0400
+@@ -111,11 +111,11 @@
+ 
+    •   The creation order tracking property, H5P_CRT_ORDER_TRACKED,
+        has been set in the group creation property list (see H5Pset_link_creation_order).
+   */
+ 
+-#if H5_VERS_MINOR > 12
++#if H5_VERS_MINOR > 14
+ #error "Don't forget to change the compatibility version of the library !"
+ #endif
+ /* L'avantage de bloquer le modèle interne HDF5
+    est que l'on peut modifier des fichiers med de différentes versions majeures de fichiers.
+    L'inconvénient est que l'on ne profite pas des évolutions de performances d'HDF (ou des bugs ;).
+diff -u -U5 -r med-5.0.0/src/hdfi/_MEDfileOpenForImport.c med-5.0.0.hdf-1.14-compat/src/hdfi/_MEDfileOpenForImport.c
+--- med-5.0.0/src/hdfi/_MEDfileOpenForImport.c	2023-06-05 08:14:45.000000000 -0400
++++ med-5.0.0.hdf-1.14-compat/src/hdfi/_MEDfileOpenForImport.c	2023-09-05 21:47:03.982396466 -0400
+@@ -51,11 +51,11 @@
+     MED_ERR_(_fid,MED_ERR_CREATE,MED_ERR_PROPERTY,MED_ERR_FILEVERSION_MSG);
+     goto ERROR;
+   }
+ 
+ 
+-#if H5_VERS_MINOR > 12
++#if H5_VERS_MINOR > 14
+ #error "Don't forget to change the compatibility version of the library !"
+ #endif
+ /* L'avantage de bloquer le modèle interne HDF5
+    est que l'on peut modifier des fichiers med de différentes versions majeures de fichiers.
+    L'inconvénient est que l'on ne profite pas des évolutions de performances d'HDF.
+diff -u -U5 -r med-5.0.0/src/hdfi/_MEDmemFileOpen.c med-5.0.0.hdf-1.14-compat/src/hdfi/_MEDmemFileOpen.c
+--- med-5.0.0/src/hdfi/_MEDmemFileOpen.c	2023-06-05 08:14:45.000000000 -0400
++++ med-5.0.0.hdf-1.14-compat/src/hdfi/_MEDmemFileOpen.c	2023-09-05 21:47:10.314443014 -0400
+@@ -437,11 +437,11 @@
+   if ( (_fapl = H5Pcreate (H5P_FILE_ACCESS)) < 0 ) {
+     MED_ERR_(_fid,MED_ERR_CREATE,MED_ERR_PROPERTY,MED_ERR_FILEVERSION_MSG);
+     goto ERROR;
+   }
+ 
+-#if H5_VERS_MINOR > 12
++#if H5_VERS_MINOR > 14
+ #error "Don't forget to change the compatibility version of the library !"
+ #endif
+   if ( H5Pset_libver_bounds( _fapl, H5F_LIBVER_V112, H5F_LIBVER_V112 ) ) {
+     MED_ERR_(_fid,MED_ERR_INIT,MED_ERR_PROPERTY,MED_ERR_FILEVERSION_MSG);
+     goto ERROR;
+@@ -504,11 +504,11 @@
+       if ( MEDfileNumVersionRd(_fid,&_fmajor,&_fminor,&_frelease) < 0) {
+ 	MED_ERR_(_ret,MED_ERR_CALL,MED_ERR_API,"MEDfileNumVersionRd");
+ 	goto ERROR;
+       }
+       _fversionMM = 100*_fmajor+10*_fminor;
+-#if H5_VERS_MINOR > 12
++#if H5_VERS_MINOR > 14
+ #error "Don't forget to change the compatibility version of the library !"
+ #endif
+       if ( _fversionMM < 500 ) { /*100*MED_NUM_MAJEUR+10*MED_NUM_MINEUR*/
+ 	if ( H5Fset_libver_bounds( _fid, H5F_LIBVER_V18, H5F_LIBVER_V18 ) ) {
+ 	  MED_ERR_(_fid,MED_ERR_INIT,MED_ERR_PROPERTY,MED_ERR_FILEVERSION_MSG);
+diff -u -U5 -r med-5.0.0/src/hdfi/_MEDparFileCreate.c med-5.0.0.hdf-1.14-compat/src/hdfi/_MEDparFileCreate.c
+--- med-5.0.0/src/hdfi/_MEDparFileCreate.c	2023-06-05 08:14:45.000000000 -0400
++++ med-5.0.0.hdf-1.14-compat/src/hdfi/_MEDparFileCreate.c	2023-09-05 22:48:57.574322132 -0400
+@@ -62,11 +62,11 @@
+   /*
+    * Cette ligne est censée obliger HDF à ne pas utiliser un modèle interne supérieur à 1.8.z
+    * En HDF5-1.10.0p1 cela n'a aucun effet ! 
+    * Un test autoconf permet de fixer un intervalle de version HDF à MED.
+    */
+-#if H5_VERS_MINOR > 12
++#if H5_VERS_MINOR > 14
+ #error "Don't forget to change the compatibility version of the library !"
+ #endif
+    
+   if ( H5Pset_libver_bounds( _fapl, H5F_LIBVER_V112, H5F_LIBVER_V112 ) ) {
+     MED_ERR_(_fid,MED_ERR_INIT,MED_ERR_PROPERTY,MED_ERR_FILEVERSION_MSG);
+diff -u -Nr -U5 med-5.0.0/src/hdfi/_MEDparFileOpen.c med-5.0.0.more/src/hdfi/_MEDparFileOpen.c
+--- med-5.0.0/src/hdfi/_MEDparFileOpen.c	2023-06-05 08:14:45.000000000 -0400
++++ med-5.0.0.more/src/hdfi/_MEDparFileOpen.c	2023-09-06 08:53:56.978022141 -0400
+@@ -84,11 +84,11 @@
+     MED_ERR_(_ret,MED_ERR_CALL,MED_ERR_API,"MEDfileNumVersionRd");
+     goto ERROR;
+   }
+   _fversionMM = 100*_fmajor+10*_fminor;
+ 
+-#if H5_VERS_MINOR > 12
++#if H5_VERS_MINOR > 14
+ #error "Don't forget to change the compatibility version of the library !"
+ #endif 
+   if ( _fversionMM < 500 ) { /*100*MED_NUM_MAJEUR+10*MED_NUM_MINEUR*/
+     if ( H5Fset_libver_bounds( _fid, H5F_LIBVER_V18, H5F_LIBVER_V18 ) ) {
+       MED_ERR_(_ret,MED_ERR_INIT,MED_ERR_PROPERTY,MED_ERR_FILEVERSION_MSG);
+diff -u -U5 -r med-5.0.0/src/misc/MEDversionedApi3C.c med-5.0.0.hdf-1.14-compat/src/misc/MEDversionedApi3C.c
+--- med-5.0.0/src/misc/MEDversionedApi3C.c	2023-06-05 08:14:45.000000000 -0400
++++ med-5.0.0.hdf-1.14-compat/src/misc/MEDversionedApi3C.c	2023-09-05 21:47:52.162750853 -0400
+@@ -112,11 +112,11 @@
+ 
+   /* if ( (_fversionMMR > 290) && */
+   /*      (_fversionMM <= (100*MED_NUM_MAJEUR+10*MED_NUM_MINEUR) ) */
+   /*      ) { */
+ 
+-#if H5_VERS_MINOR > 12
++#if H5_VERS_MINOR > 14
+ #error "Don't forget to change the compatibility version of the library !"
+ #endif
+   
+   if (_litmajeur == 5) {
+  

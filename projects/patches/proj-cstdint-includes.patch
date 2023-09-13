@@ -1,0 +1,30 @@
+diff -u -U5 -r proj-9.0.1/src/projections/s2.cpp proj-9.0.1.cstdint-includes/src/projections/s2.cpp
+--- proj-9.0.1/src/projections/s2.cpp	2022-03-25 03:13:55.000000000 -0400
++++ proj-9.0.1.cstdint-includes/src/projections/s2.cpp	2023-09-06 12:36:58.956428184 -0400
+@@ -50,10 +50,11 @@
+ #define PJ_LIB__
+ #define _USE_MATH_DEFINES  // needed for M_1_PI availability with MSVC
+ 
+ #include <errno.h>
+ #include <cmath>
++#include <cstdint>
+ 
+ #include "proj.h"
+ #include "proj_internal.h"
+ 
+ /* The six cube faces. */
+diff -u -U5 -r proj-9.0.1/src/proj_json_streaming_writer.hpp proj-9.0.1.cstdint-includes/src/proj_json_streaming_writer.hpp
+--- proj-9.0.1/src/proj_json_streaming_writer.hpp	2022-03-11 09:12:54.000000000 -0500
++++ proj-9.0.1.cstdint-includes/src/proj_json_streaming_writer.hpp	2023-09-06 12:36:23.290115803 -0400
+@@ -31,10 +31,11 @@
+ 
+ /*! @cond Doxygen_Suppress */
+ 
+ #include <vector>
+ #include <string>
++#include <cstdint>
+ 
+ #define CPL_DLL
+ 
+ #include "proj/util.hpp"
+ NS_PROJ_START

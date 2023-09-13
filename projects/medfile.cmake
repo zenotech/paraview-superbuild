@@ -16,5 +16,8 @@ superbuild_apply_patch(medfile remove-tools-compilation
 superbuild_apply_patch(medfile fix-install-dirs
   "Fix install directories")
 
-superbuild_apply_patch(medfile disable-cmake-fortran-logic
+superbuild_apply_patch(medfile no-fortran
   "Disable CMake fortran logic")
+
+superbuild_apply_patch(medfile hdf-1.14-compat
+  "Support HDF5 1.14")

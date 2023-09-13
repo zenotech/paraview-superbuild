@@ -110,22 +110,30 @@ check_for_python_module(numpy numpy)
 check_for_python_module(numpy pkg_resources)
 check_for_python_module(openpmd openpmd_api)
 check_for_python_module(pythonaiohttp aiohttp)
+check_for_python_module(pythonaiosignal aiosignal)
 check_for_python_module(pythonasynctimeout async_timeout)
 check_for_python_module(pythonattrs attr)
 check_for_python_module(pythonchardet chardet)
+check_for_python_module(pythoncharsetnormalizer charset_normalizer)
+check_for_python_module(pythoncontourpy contourpy)
 check_for_python_module(pythoncycler cycler)
 check_for_python_module(pythoncython cython)
 check_for_python_module(pythondateutil dateutil)
+check_for_python_module(pythonfonttools fontTools)
+check_for_python_module(pythonfrozenlist frozenlist)
 check_for_python_module(pythonidna idna)
 check_for_python_module(pythonkiwisolver kiwisolver)
 check_for_python_module(pythonmpmath mpmath)
 check_for_python_module(pythonmultidict multidict)
+check_for_python_module(pythonpackaging packaging)
 check_for_python_module(pythonpandas pandas)
 check_for_python_module(pythonpillow PIL)
 check_for_python_module(pythonpygments pygments)
 check_for_python_module(pythonpyparsing pyparsing)
 check_for_python_module(pythonsix six)
 check_for_python_module(pythontypingextensions typing_extensions)
+check_for_python_module(pythontzdata tzdata)
+check_for_python_module(pythonversioneer versioneer)
 check_for_python_module(pythonwslinkasync wslink)
 check_for_python_module(pythonyarl yarl)
 check_for_python_module(pytz pytz)
@@ -350,9 +358,18 @@ function (paraview_install_all_licenses)
     ninja
     pkgconf
     pythoncppy
+    pythonflitcore
+    pythonhatchfancypypireadme
+    pythonhatchling
+    pythonhatchvcs
     pythonmako
+    pythonmarkupsafe
+    pythonmesonpython
     pythonpkgconfig
-    pythonpkgconfig
+    pythonpluggy
+    pythonpyprojectmetadata
+    pythontomli
+    pythontroveclassifiers
     pythonsemanticversion
     pythonsetuptools
     pythonsetuptoolsrust

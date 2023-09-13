@@ -62,8 +62,10 @@ function (superbuild_find_projects var)
     libjpegturbo
     lookingglass
     matplotlib
+    meson
     mpi
     netcdf
+    ninja
     nlohmannjson
     numpy
     nvidiaindex
@@ -83,34 +85,50 @@ function (superbuild_find_projects var)
     paraviewwebdivvy
     paraviewwebvisualizer
     pdal
+    pkgconf
     png
     proj
     protobuf
     pybind11
     pythonaiohttp
+    pythonaiosignal
     pythonasynctimeout
     pythonattrs
     pythonbeniget
     pythoncffi
     pythonchardet
+    pythoncharsetnormalizer
+    pythoncontourpy
     pythoncppy
     pythoncycler
     pythoncython
     pythondateutil
+    pythonflitcore
+    pythonfonttools
+    pythonfrozenlist
     pythongast
+    pythonhatchfancypypireadme
+    pythonhatchling
+    pythonhatchvcs
     pythonidna
     pythonkiwisolver
     pythonmako
+    pythonmarkupsafe
+    pythonmesonpython
     pythonmpi4py
     pythonmpmath
     pythonmultidict
-    #pythonpillow
+    pythonpackaging
     pythonpandas
+    pythonpathspec
+    pythonpillow
     pythonpkgconfig
+    pythonpluggy
     pythonply
     pythonpycparser
     pythonpygments
     pythonpyparsing
+    pythonpyprojectmetadata
     pythonpythran
     pythonsemanticversion
     pythonsetuptools
@@ -118,12 +136,16 @@ function (superbuild_find_projects var)
     pythonsetuptoolsscm
     pythonsix
     pythontoml
+    pythontomli
+    pythontroveclassifiers
     pythontypingextensions
+    pythontzdata
+    pythonversioneer
     pythonwheel
     pythonwslinkasync
     pythonyarl
     pytz
-    #qhull
+    qhull
     qt5
     rkcommon
     scipy
@@ -155,6 +177,7 @@ function (superbuild_find_projects var)
     list(APPEND projects
       cdi
       cosmotools
+      expat
       ffi
       ffmpeg
       fides
@@ -165,23 +188,19 @@ function (superbuild_find_projects var)
       lapack
       libxml2
       mili
-      pkgconf
       rapidjson
       surfacetrackercut)
 
     if (NOT APPLE)
       list(APPEND projects
         egl
-        expat
         fontconfig
         glproto
         gperf
         launchers
         libfabric
         llvm
-        meson
         mesa
-        ninja
         osmesa
         paraviewsdk
         socat
@@ -336,6 +355,7 @@ function (superbuild_add_packaging)
     mesa_USE_SWR
     mesa_SWR_ARCH
     nvidiaindex_SOURCE_SELECTION
+    ospray_SOURCE_SELECTION
     PARAVIEW_PACKAGE_SUFFIX
     PARAVIEW_CATALYST_EDITION
     paraview_is_shared)

@@ -18,8 +18,8 @@ else ()
     pythonmpi4py)
 endif ()
 
-superbuild_add_project_python(h5py
-  PACKAGE semantic_version
+superbuild_add_project_python_pyproject(h5py
+  PACKAGE h5py
   DEPENDS hdf5 pythonsetuptools pythoncython numpy pythonpkgconfig ${h5py_depends}
   DEPENDS_OPTIONAL ${h5py_depends_optional} mpi
   LICENSE_FILES LICENSE
@@ -27,11 +27,6 @@ superbuild_add_project_python(h5py
     HDF5_DIR <INSTALL_DIR>
     ${h5py_environment})
 
-superbuild_apply_patch(h5py minvers
-  "Don't pin dependencies to exact versions during the build")
-
-if (WIN32)
-  # https://github.com/h5py/h5py/pull/2147
-  superbuild_apply_patch(h5py msmpi-find
-    "Support finding MSMPI")
-endif ()
+# https://github.com/h5py/h5py/pull/2306
+superbuild_apply_patch(h5py noexcept-casts
+  "Fix noexcept casting errors")

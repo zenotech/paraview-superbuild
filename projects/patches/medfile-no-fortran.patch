@@ -1,0 +1,23 @@
+diff -u -Nr -U5 med-5.0.0/CMakeLists.txt med-5.0.0.no-fortran/CMakeLists.txt
+--- med-5.0.0/CMakeLists.txt	2023-06-06 10:58:35.000000000 -0400
++++ med-5.0.0.no-fortran/CMakeLists.txt	2023-09-06 08:45:02.844736415 -0400
+@@ -5,16 +5,17 @@
+ ## the OPTIONAL is not considered.
+ ## See http://www.cmake.org/Bug/view.php?id=10227
+ #ENABLE_LANGUAGE(Fortran OPTIONAL)
+ 
+ INCLUDE(CheckLanguage)
+-CHECK_LANGUAGE(Fortran)
++#CHECK_LANGUAGE(Fortran)
+ IF(CMAKE_Fortran_COMPILER)
+-  ENABLE_LANGUAGE(Fortran)
++  #ENABLE_LANGUAGE(Fortran)
+ ELSE()
+   MESSAGE(STATUS "No Fortran support")
+ ENDIF()
++set(CMAKE_Fortran_COMPILER_WORKS 0)
+ 
+ ## Version number 
+ SET(MED_NUM_MAJEUR  5)
+ SET(MED_NUM_MINEUR  0)
+ SET(MED_NUM_RELEASE 0)

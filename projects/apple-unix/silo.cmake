@@ -58,6 +58,8 @@ superbuild_add_project(silo
 
 superbuild_apply_patch(silo zfp-cond
   "Properly support not having zfp around")
+superbuild_apply_patch(silo szip-library-name
+  "Fix szip library name")
 
 if (APPLE)
   superbuild_apply_patch(silo zlib-apple
@@ -69,4 +71,7 @@ if (hdf5_enabled)
     "Support HDF5 1.12")
   superbuild_apply_patch(silo hdf5-api-updates
     "Support HDF5 API updates")
+  # https://github.com/LLNL/Silo/commit/5dc160c7ae489b8181874dccf7ce3b8089c128f5.patch
+  superbuild_apply_patch(silo hdf5-1.13
+    "Support HDF5 1.13")
 endif()

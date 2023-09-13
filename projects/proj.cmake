@@ -11,3 +11,6 @@ superbuild_add_project(proj
     -DENABLE_CURL:BOOL=OFF
     -DENABLE_TIFF:BOOL=OFF
     -DNLOHMANN_JSON_ORIGIN:STRING=external)
+
+superbuild_apply_patch(proj cstdint-includes
+  "Add missing cstdint includes")

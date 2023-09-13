@@ -328,8 +328,7 @@ The following flags affect ParaView directly:
   * `PARAVIEW_ENABLE_CAVEInteraction` (default `ON`): Enables the CAVEInteraction. If
     `vrpn` is enabled, the CAVEInteraction will support input devices through a VRPN
     connection. VRUI support is enabled unconditionally on Linux.
-  * `PARAVIEW_ENABLE_NODEEDITOR` (default `OFF`): Enables the NodeEditor
-    plugin.
+  * `PARAVIEW_ENABLE_NODEEDITOR` (default `ON`): Enables the NodeEditor plugin.
   * `PARAVIEW_ENABLE_XRInterface` (default `ON`): Enables the XRInterface plugin.
 
 #### ParaView editions

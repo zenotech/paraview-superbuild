@@ -1,20 +1,15 @@
-superbuild_set_revision(matplotlib
-  URL "https://www.paraview.org/files/dependencies/matplotlib-3.2.1.tar.gz"
-  URL_MD5 9186b1e9f1fc7d555f2abf64b35dea5b)
-
-superbuild_set_revision(expat
-  URL     "https://www.paraview.org/files/dependencies/expat-2.4.1.tar.xz"
-  URL_MD5 a4fb91a9441bcaec576d4c4a56fa3aa6)
-
 superbuild_set_revision(eigen
+  # https://gitlab.com/libeigen/eigen/-/releases
   URL     "https://www.paraview.org/files/dependencies/eigen-3.3.9.tar.xz"
   URL_MD5 c57578fd48359af3f214bac3239d7c80)
 
 superbuild_set_revision(silo
+  # https://github.com/LLNL/Silo/releases/tag/v4.11
   URL     "https://www.paraview.org/files/dependencies/silo-4.11-bsd-smalltest.tar.gz"
   URL_MD5 db5ac16cf8a84a40c3f9e80ca7f8dc6a)
 
 superbuild_set_revision(genericio
+  # https://git.cels.anl.gov/hacc/genericio/-/releases
   URL     "https://www.paraview.org/files/dependencies/genericio-master-4fddf723bca61c87f51dba1d9f215dfdd6e5b31d.tar.xz"
   URL_MD5 0d06f2105b8479e7a4e5436c5f38ae71)
 
@@ -58,11 +53,12 @@ superbuild_set_selectable_source(paraview
 # Removed: scripts/
 # Removed: standalone/
 superbuild_set_revision(ttk
+  # https://github.com/topology-tool-kit/ttk/releases
   URL     "https://www.paraview.org/files/dependencies/ttk-1.2.0-trimmed.zip"
   URL_MD5 fea1d3cb38b32aa9cd7edeec0b7321a1)
 
 superbuild_set_revision(vrpn
-  # https://github.com/vrpn/vrpn.git
+  # https://github.com/vrpn/vrpn/releases
   URL     "https://www.paraview.org/files/dependencies/vrpn-45375f61de4c1a7bb95fe5a9264ac48a5d395404.tar.bz2"
   URL_MD5 bce3ed067ea68c7cc115e3f2dfacc7ca)
 
@@ -82,30 +78,39 @@ superbuild_set_revision(surfacetrackercut
 #------------------------------------------------------------------------------
 
 superbuild_set_revision(socat
+  # http://www.dest-unreach.org/socat/
   URL     "https://www.paraview.org/files/dependencies/socat-1.7.4.1.tar.gz"
   URL_MD5 780d14908dc1a6aa2790de376ab56b7a)
 
 superbuild_set_revision(openvr
+  # https://github.com/ValveSoftware/openvr/releases
   URL     "https://www.paraview.org/files/dependencies/openvr_1.14.15_win_thin.tar.gz"
   URL_MD5 200a7896e81ecc981825dded25ae568d)
 
 superbuild_set_revision(paraviewwebvisualizer
+  # https://github.com/Kitware/visualizer/releases
   URL     "https://www.paraview.org/files/dependencies/pvw-visualizer-3.2.2.tgz"
   URL_MD5 527f6cceb1088d111580aff09124eef6)
 
 superbuild_set_revision(paraviewweblite
+  # https://github.com/Kitware/paraview-lite/releases
   URL     "https://www.paraview.org/files/dependencies/paraview-lite-1.5.0.tgz"
   URL_MD5 86085d39d8d3d12fd6699b29f61c64ea)
 
 superbuild_set_revision(paraviewwebglance
+  # https://github.com/Kitware/glance/releases
   URL     "https://www.paraview.org/files/dependencies/paraview-glance-4.17.1.tgz"
   URL_MD5 54734de753d95ccdb5ba326a85bcf16f)
 
 superbuild_set_revision(paraviewwebdivvy
+  # https://github.com/Kitware/divvy/releases
+  # Run: `npm view pvw-divvy dist.tarball`
+  # URL looks like: https://registry.npmjs.org/pvw-divvy/-/pvw-divvy-1.4.0.tgz
   URL     "https://www.paraview.org/files/dependencies/pvw-divvy-1.4.0.tgz"
   URL_MD5 6d44a5ef69c7e0668c71a26eb943cf1e)
 
 superbuild_set_revision(las
+  # https://liblas.org/download.html
   URL     "https://www.paraview.org/files/dependencies/libLAS-1.8.1.tar.bz2"
   URL_MD5 2e6a975dafdf57f59a385ccb87eb5919)
 
@@ -119,6 +124,7 @@ else ()
   set(lookingglass_md5 23a2a373c9d1c0f203251dc244f97f79)
 endif ()
 superbuild_set_revision(lookingglass
+  # https://github.com/Looking-Glass/LookingGlassCoreSDK/releases
   URL     "https://www.paraview.org/files/dependencies/${lookingglass_file}"
   URL_MD5 "${lookingglass_md5}")
 
@@ -135,6 +141,7 @@ elseif(APPLE)
 endif()
 
 superbuild_set_revision(gmsh
+  # https://gmsh.info/#Download
   URL     "https://www.paraview.org/files/dependencies/gmsh-4.8.4-source.tgz"
   URL_MD5 1e7212dfb1319d745ffb477a7a3ff124)
 
@@ -198,9 +205,7 @@ superbuild_set_selectable_source(nvidiaindex
     URL_MD5 "${nvidiaindex_2_1_md5}")
 
 # These two packages are only available at these URLs from inside Kitware. They
-# are available from NVIDIA at these URLs:
-#   - https://developer.nvidia.com/designworks/optix/download
-#   - https://developer.nvidia.com/mdl-sdk
+# are available from NVIDIA at the URLs in the comments in each revision set.
 if (WIN32)
   set(nvidiaoptix_platform "win64")
   set(nvidiaoptix_md5 "1cc3026f4a1fc945e7158e8a66f8f9bd")
@@ -209,18 +214,22 @@ elseif (UNIX AND NOT APPLE)
   set(nvidiaoptix_md5 "b5e9cdcb691ad7813e4e24986579a1ef")
 endif ()
 superbuild_set_revision(nvidiaoptix
+  # https://developer.nvidia.com/designworks/optix/download
   URL     "https://www.paraview.org/files/dependencies/internal/NVIDIA-OptiX-SDK-6.0.0-${nvidiaoptix_platform}-25650775.tar.gz"
   URL_MD5 "${nvidiaoptix_md5}")
 
 superbuild_set_revision(nvidiamdl
+  # https://developer.nvidia.com/mdl-sdk
   URL     "https://www.paraview.org/files/dependencies/internal/mdl-sdk-314800.830.tar.bz2"
   URL_MD5 "d500a122918741eb418887d66e03325b")
 
 superbuild_set_revision(visrtx
+  # https://github.com/NVIDIA/VisRTX/releases
   URL     "https://www.paraview.org/files/dependencies/visrtx-v0.1.6.tar.gz"
   URL_MD5 "c5fef9abd9d56bbbf2c222f0b0943e41")
 
 superbuild_set_revision(rapidjson
+  # https://github.com/Tencent/rapidjson/releases
   URL     "https://www.paraview.org/files/dependencies/rapidjson-1.1.0.tar.gz"
   URL_MD5 "badd12c511e081fec6c89c43a7027bce")
 
@@ -229,22 +238,28 @@ superbuild_set_revision(mili
   URL_MD5 "8848db9a5e692c010806d64b8c5e46a4")
 
 superbuild_set_revision(zstd
+  # https://github.com/facebook/zstd/releases
   URL     "https://www.paraview.org/files/dependencies/zstd-1.5.0.tar.gz"
   URL_MD5 "d5ac89d5df9e81243ce40d0c6a66691d")
 
 superbuild_set_revision(blosc
+  # https://github.com/Blosc/c-blosc/releases
   URL     "https://www.paraview.org/files/dependencies/blosc-1.21.0.tar.gz"
   URL_MD5 "c32104bef76e5636cf0cedb40fd4d77b")
 
 superbuild_set_revision(zfp
+  # https://github.com/LLNL/zfp/releases
   URL     "https://www.paraview.org/files/dependencies/zfp-0.5.5.tar.gz"
   URL_MD5 "bc7e5fb1cd4345d17f7b9d470a1f23e7")
 
 superbuild_set_revision(zeromq
+  # Current: https://sourceforge.net/projects/zeromq.mirror/files/v4.3.4/
+  # Future: https://github.com/zeromq/libzmq/releases
   URL     "https://www.paraview.org/files/dependencies/zeromq-4.3.4.tar.gz"
   URL_MD5 "c897d4005a3f0b8276b00b7921412379")
 
 superbuild_set_selectable_source(adios2
+  # https://github.com/ornladios/ADIOS2/releases
   SELECT v2.9.1 DEFAULT
     URL     "https://www.paraview.org/files/dependencies/adios-v2.9.1.tar.gz"
     URL_MD5 "716ea25b2eca18eb7d35df68856d4640"
@@ -253,43 +268,53 @@ superbuild_set_selectable_source(adios2
     GIT_TAG        "origin/master")
 
 superbuild_set_revision(libfabric
+  # https://github.com/ofiwg/libfabric/releases
   URL     "https://www.paraview.org/files/dependencies/libfabric-1.13.0.tar.bz2"
   URL_MD5 "4d8bf93ef50e833ffce36e7cd7294569")
 
 superbuild_set_revision(protobuf
+  # https://github.com/protocolbuffers/protobuf/releases
   URL     "https://www.paraview.org/files/dependencies/protobuf-3.17.3.tar.gz"
   URL_MD5 "d7f8e0e3ffeac721e18cdf898eff7d31"
   SOURCE_SUBDIR cmake)
 
 superbuild_set_revision(tiff
+  # https://gitlab.com/libtiff/libtiff/-/releases
   URL     "https://www.paraview.org/files/dependencies/libtiff-v4.4.0.tar.bz2"
   URL_MD5 ba175e36b1f6929da1c3c676b98c5db3)
 
 superbuild_set_revision(geotiff
+  # https://github.com/OSGeo/libgeotiff/releases
   URL     "https://www.paraview.org/files/dependencies/libgeotiff-1.7.1.tar.gz"
   URL_MD5 22879ac6f83460605f9c39147a2ccc7a)
 
 superbuild_set_revision(proj
+  # https://github.com/OSGeo/PROJ/releases
   URL     "https://www.paraview.org/files/dependencies/proj-9.0.1.tar.gz"
   URL_MD5 d4eca355288bbfe35caaedbd595787dc)
 
 superbuild_set_revision(jsonc
+  # https://github.com/json-c/json-c/tags
   URL     "https://www.paraview.org/files/dependencies/json-c-0.16-20220414.tar.gz"
   URL_MD5 4f3288a5f14e0e6abe914213f41234e0)
 
 superbuild_set_revision(gdal
+  # https://github.com/OSGeo/gdal/releases
   URL     "https://www.paraview.org/files/dependencies/gdal-3.5.1.tar.gz"
   URL_MD5 90ec67df8648e36795937c07406815ea)
 
 superbuild_set_revision(pdal
+  # https://github.com/PDAL/PDAL/releases
   URL     "https://www.paraview.org/files/dependencies/PDAL-2.5.1-src.tar.bz2"
   URL_MD5 a4bb3751daeb111aca7f0b30a58b45c5)
 
 superbuild_set_revision(xerces
+  # https://github.com/apache/xerces-c/tags
   URL     "https://www.paraview.org/files/dependencies/xerces-c-3.2.4.tar.xz"
   URL_MD5 63bf3c8b5a76e180fe97afeddee1d21e)
 
 superbuild_set_revision(curl
+  # https://github.com/curl/curl/releases
   URL     "https://www.paraview.org/files/dependencies/curl-7.88.1.tar.xz"
   URL_MD5 8bea0c58428578f397471fe209fad6ab)
 
@@ -297,18 +322,22 @@ superbuild_set_revision(launchers
   SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/launchers")
 
 superbuild_set_revision(openpmd
+  # https://pypi.org/project/openPMD-api/#history
   URL     "https://www.paraview.org/files/dependencies/openPMD-api-0.15.2.tar.gz"
   URL_MD5 "31f85620215b9bc86b70b1ad96ba4588")
 
 superbuild_set_revision(pythonpkgconfig
+  # https://pypi.org/project/pkgconfig/#history
   URL     "https://www.paraview.org/files/dependencies/pkgconfig-1.5.5.tar.gz"
   URL_MD5 "12523e11b91b050ca49975cc033689a4")
 
 superbuild_set_revision(h5py
-  URL     "https://www.paraview.org/files/dependencies/h5py-3.7.0.tar.gz"
-  URL_MD5 "acb43ba2b0b853005af71eccfc456676")
+  # https://pypi.org/project/h5py/#history
+  URL     "https://www.paraview.org/files/dependencies/h5py-3.9.0.tar.gz"
+  URL_MD5 "138d72aa1324c28a37842bc99467dfba")
 
 superbuild_set_revision(openvdb
+  # https://github.com/AcademySoftwareFoundation/openvdb/releases
   URL "https://www.paraview.org/files/dependencies/openvdb-8.2.0.tar.gz"
   URL_MD5 2852fe7176071eaa18ab9ccfad5ec403)
 
@@ -319,6 +348,7 @@ superbuild_set_selectable_source(catalyst
     )
 
 superbuild_set_revision(cdi
+  # https://code.mpimet.mpg.de/projects/cdi/files
   URL     "https://www.paraview.org/files/dependencies/cdi-2.1.0.tar.gz"
   URL_MD5 "31304b1d487d0350c57cda00d2d757c3")
 
@@ -330,7 +360,7 @@ superbuild_set_revision(occt
   URL_MD5 24b95c5d55558ba087b9565f30c67718)
 
 superbuild_set_revision(medfile
-  # Archives available at https://www.salome-platform.org/?page_id=15
+  # Fill out this form: https://www.salome-platform.org/?page_id=2430
   URL           "https://www.paraview.org/files/dependencies/med-5.0.0.tar.bz2"
   DOWNLOAD_NAME medfile-5.0.0.tar.bz2
   URL_MD5       3c5ae8a37d7971658870b77caad1d73b)
@@ -360,5 +390,6 @@ superbuild_set_revision(medreader
   URL_MD5       75234547c6fee0188720394450a6f861)
 
 superbuild_set_revision(openxrremoting
+  # https://www.nuget.org/packages/Microsoft.Holographic.Remoting.OpenXr/
   URL           "https://www.paraview.org/files/dependencies/microsoft.holographic.remoting.openxr.2.8.1.nupkg"
   URL_MD5       eebf01614d89e91783114edd1bccaa59)

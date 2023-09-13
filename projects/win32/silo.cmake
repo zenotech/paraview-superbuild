@@ -81,10 +81,16 @@ superbuild_apply_patch(silo hdf5-1.12
   "Support HDF5 1.12")
 superbuild_apply_patch(silo hdf5-api-updates
   "Support HDF5 API updates")
+# https://github.com/LLNL/Silo/commit/5dc160c7ae489b8181874dccf7ce3b8089c128f5.patch
+superbuild_apply_patch(silo hdf5-1.13
+  "Support HDF5 1.13")
 superbuild_apply_patch(silo warning-preproc-mask
   "Hide `#warning` bits from MSVC")
 superbuild_apply_patch(silo zfp-cond
   "zfp conditionals")
+# https://github.com/LLNL/Silo/commit/3103c01189b76ea6406e5b964748b0ba7e5d4a08.patch
+superbuild_apply_patch(silo hdf5-fields
+  "HDF5 H5FD class fields")
 
 superbuild_add_extra_cmake_args(
   -DSILO_INCLUDE_DIR:PATH=<INSTALL_DIR>/include

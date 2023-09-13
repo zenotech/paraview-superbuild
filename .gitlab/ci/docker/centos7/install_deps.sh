@@ -4,8 +4,7 @@ set -e
 
 # Install build requirements.
 yum install -y \
-    zlib-devel libcurl-devel python-devel \
-    freeglut-devel glew-devel graphviz-devel libpng-devel \
+    freeglut-devel glew-devel graphviz-devel \
     libxcb-devel libXt-devel xcb-util-wm-devel xcb-util-devel \
     xcb-util-image-devel xcb-util-keysyms-devel xcb-util-renderutil-devel \
     libXcursor-devel mesa-libGL-devel mesa-libEGL-devel \
