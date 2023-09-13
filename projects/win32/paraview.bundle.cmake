@@ -246,6 +246,25 @@ if (qt5_enabled)
   endforeach ()
 endif ()
 
+if (openxrremoting_enabled)
+  # The external package for openxrremoting contains several dlls, as it's
+  # only loaded at runtime, we only package required dll for paraview to use
+  # the OpenXRRemoting feature:
+  # - Microsoft.Holographic.AppRemoting.OpenXr.dll
+  # - RemotingXR.json
+  set(openxrremoting_files
+    Microsoft.Holographic.AppRemoting.OpenXr.dll
+    RemotingXR.json
+  )
+
+  foreach (openxrremoting_file IN LISTS openxrremoting_files)
+    install(
+      FILES       "${superbuild_install_location}/bin/${openxrremoting_file}"
+      DESTINATION "bin"
+      COMPONENT   "superbuild")
+  endforeach ()
+endif ()
+
 paraview_install_extra_data()
 
 if (proj_enabled)

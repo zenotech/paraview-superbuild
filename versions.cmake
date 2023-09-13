@@ -358,3 +358,7 @@ superbuild_set_revision(medreader
   URL           "https://www.paraview.org/files/dependencies/paravis-10af712.tar.gz"
   DOWNLOAD_NAME paravis-10af712.tar.gz
   URL_MD5       75234547c6fee0188720394450a6f861)
+
+superbuild_set_revision(openxrremoting
+  URL           "https://www.paraview.org/files/dependencies/microsoft.holographic.remoting.openxr.2.8.1.nupkg"
+  URL_MD5       eebf01614d89e91783114edd1bccaa59)
