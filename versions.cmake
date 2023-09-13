@@ -92,8 +92,8 @@ superbuild_set_revision(openvr
   # Remove from the release tarball:
   # - non-`win64` directries under `bin/` and `lib/`
   # - `samples/` directory
-  URL     "https://www.paraview.org/files/dependencies/openvr_1.14.15_win_thin.tar.gz"
-  URL_MD5 200a7896e81ecc981825dded25ae568d)
+  URL     "https://www.paraview.org/files/dependencies/openvr_1.26.7_win_thin.tar.gz"
+  URL_MD5 ece2641a37915329d32598abef31532c)
 
 superbuild_set_revision(paraviewwebvisualizer
   # https://github.com/Kitware/visualizer/releases
