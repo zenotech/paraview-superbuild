@@ -9,7 +9,6 @@ superbuild_add_project(vrpn
   LICENSE_FILES
     README.Legal
     submodules/hidapi/LICENSE-bsd.txt
-    submodules/jsoncpp/LICENSE
   CMAKE_ARGS
     # GPM support is enabled if GPM is found on the machine. This later ends up
     # complaining that it is GPL stuff and needs another flag to work. We never
@@ -27,4 +26,6 @@ superbuild_add_project(vrpn
     -DVRPN_BUILD_TEST_RPC_GENERATION:BOOL=OFF
     -DVRPN_USE_HID:BOOL=ON
     -DVRPN_USE_LOCAL_HIDAPI:BOOL=ON
+    -DVRPN_USE_LOCAL_JSONCPP:BOOL=OFF
+    -DVRPN_USE_JSONNET:BOOL=OFF
     )
