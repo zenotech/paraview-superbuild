@@ -395,5 +395,5 @@ superbuild_set_revision(medreader
 
 superbuild_set_revision(openxrremoting
   # https://www.nuget.org/packages/Microsoft.Holographic.Remoting.OpenXr/
-  URL           "https://www.paraview.org/files/dependencies/microsoft.holographic.remoting.openxr.2.8.1.nupkg"
-  URL_MD5       eebf01614d89e91783114edd1bccaa59)
+  URL           "https://www.paraview.org/files/dependencies/microsoft.holographic.remoting.openxr.2.9.2.nupkg"
+  URL_MD5       e9542792dde3a6f15f4016c088ac3e5c)
