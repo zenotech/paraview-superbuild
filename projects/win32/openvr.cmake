@@ -1,6 +1,8 @@
 superbuild_add_project(openvr
   LICENSE_FILES
     LICENSE
+    # https://github.com/ValveSoftware/openvr/issues/1763
+    # LICENSE.jsoncpp
   CMAKE_ARGS
     -DBUILD_SHARED:BOOL=TRUE
   INSTALL_COMMAND
