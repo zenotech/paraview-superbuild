@@ -1,0 +1,72 @@
+diff -u -Nr -U5 Silo-4.11.1/CMakeLists.txt Silo-4.11.1.no-perl/CMakeLists.txt
+--- Silo-4.11.1/CMakeLists.txt	2023-09-13 02:16:05.000000000 -0400
++++ Silo-4.11.1.no-perl/CMakeLists.txt	2023-09-14 19:01:28.158567676 -0400
+@@ -183,11 +183,11 @@
+ ###---------------------------------------------------------------------------
+ 
+ ##
+ # Perl, needed to generate lite_pdb.h and lite_score.h
+ ##
+-find_program(perl_exe NAMES perl perl.exe REQUIRED)
++#find_program(perl_exe NAMES perl perl.exe REQUIRED)
+ 
+ 
+ ##
+ # HDF5
+ ##
+@@ -387,25 +387,25 @@
+ 
+ ##
+ # Use perl to create lite_pdb.h and lite_score.h
+ # Add as post-build to pdb_detect
+ ##
+-add_custom_command(TARGET pdb_detect POST_BUILD
+-    COMMAND  ${perl_exe} ${Silo_SOURCE_DIR}/config/mklite ${Silo_SOURCE_DIR}/src/pdb/pdb.h lite_pdb.h
+-    BYPRODUCTS ${silo_build_include_dir}/lite_pdb.h
+-    WORKING_DIRECTORY ${silo_build_include_dir}
+-    COMMENT "Creating lite_pdb.h using mklite"
+-    VERBATIM
+-    USES_TERMINAL)
+-
+-add_custom_command(TARGET pdb_detect POST_BUILD
+-    COMMAND  ${perl_exe} ${Silo_SOURCE_DIR}/config/mklite ${Silo_SOURCE_DIR}/src/score/score.h lite_score.h
+-    BYPRODUCTS ${silo_build_include_dir}/lite_score.h
+-    WORKING_DIRECTORY ${silo_build_include_dir}
+-    COMMENT "Creating lite_score.h using mklite"
+-    VERBATIM
+-    USES_TERMINAL)
++# add_custom_command(TARGET pdb_detect POST_BUILD
++#     COMMAND  ${perl_exe} ${Silo_SOURCE_DIR}/config/mklite ${Silo_SOURCE_DIR}/src/pdb/pdb.h lite_pdb.h
++#     BYPRODUCTS ${silo_build_include_dir}/lite_pdb.h
++#     WORKING_DIRECTORY ${silo_build_include_dir}
++#     COMMENT "Creating lite_pdb.h using mklite"
++#     VERBATIM
++#     USES_TERMINAL)
++
++# add_custom_command(TARGET pdb_detect POST_BUILD
++#     COMMAND  ${perl_exe} ${Silo_SOURCE_DIR}/config/mklite ${Silo_SOURCE_DIR}/src/score/score.h lite_score.h
++#     BYPRODUCTS ${silo_build_include_dir}/lite_score.h
++#     WORKING_DIRECTORY ${silo_build_include_dir}
++#     COMMENT "Creating lite_score.h using mklite"
++#     VERBATIM
++#     USES_TERMINAL)
+ 
+ ##
+ # Silo library
+ ##
+ 
+@@ -584,12 +584,12 @@
+     target_link_libraries(silo m)
+ endif()
+ 
+ # add list of public headers to be installed
+ set(silo_headers
+-    ${silo_build_include_dir}/lite_pdb.h
+-    ${silo_build_include_dir}/lite_score.h
++    #${silo_build_include_dir}/lite_pdb.h
++    #${silo_build_include_dir}/lite_score.h
+     ${silo_build_include_dir}/pdform.h
+     ${silo_build_include_dir}/silo.h
+     ${Silo_SOURCE_DIR}/src/silo/silo.inc
+     ${Silo_SOURCE_DIR}/src/silo/silo_f9x.inc
+     ${Silo_SOURCE_DIR}/src/silo/silo_exports.h)
