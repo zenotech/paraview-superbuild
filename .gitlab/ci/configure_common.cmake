@@ -5,6 +5,11 @@ set(BUILD_TESTING                   ON CACHE BOOL "")
 # paraview/paraview#22152.
 set(mesa_SOURCE_SELECTION "21.2.1" CACHE STRING "")
 
+# The new OSPRay has issues on Windows.
+# See https://github.com/ospray/ospray/issues/573
+# See vtk/vtk#19039
+set(ospray_SOURCE_SELECTION "2.7.1" CACHE STRING "")
+
 function (suppress_project name)
   set("SUPPRESS_${name}_OUTPUT" ON CACHE BOOL "")
 endfunction ()
