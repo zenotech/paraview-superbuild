@@ -1,4 +1,11 @@
+set(vrpn_depends)
+if (UNIX AND NOT APPLE)
+  list(APPEND vrpn_depends
+    libusb)
+endif ()
+
 superbuild_add_project(vrpn
+  DEPENDS ${vrpn_depends}
   LICENSE_FILES
     README.Legal
     submodules/hidapi/LICENSE-bsd.txt

@@ -64,8 +64,8 @@ superbuild_set_revision(libusb
 
 superbuild_set_revision(vrpn
   # https://github.com/vrpn/vrpn/releases
-  URL     "https://www.paraview.org/files/dependencies/vrpn-45375f61de4c1a7bb95fe5a9264ac48a5d395404.tar.bz2"
-  URL_MD5 bce3ed067ea68c7cc115e3f2dfacc7ca)
+  URL     "https://www.paraview.org/files/dependencies/vrpn_07.35.zip"
+  URL_MD5 3799426bc30d099587b2decfa9fb1f45)
 
 superbuild_set_revision(vortexfinder2
   # https://github.com/hguo/vortexfinder2.git
