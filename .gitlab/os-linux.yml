@@ -9,13 +9,13 @@
 # newer compilers.
 
 .centos7:
-    image: "kitware/paraview:ci-superbuild-centos7-20230908"
+    image: "kitware/paraview:ci-superbuild-centos7-20230915"
 
     variables:
         GIT_SUBMODULE_STRATEGY: none
         LAUNCHER: "scl enable devtoolset-10 rh-git227 --"
         GIT_CLONE_PATH: $CI_BUILDS_DIR/gitlab-kitware-sciviz-ci
-        CUDACXX: "/usr/local/cuda-11.2/bin/nvcc"
+        CUDACXX: "/usr/local/cuda-12.2/bin/nvcc"
 
 .centos7_plain:
     extends: .centos7
