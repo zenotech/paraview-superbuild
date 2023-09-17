@@ -11,3 +11,6 @@ superbuild_add_project(visrtx
 
 superbuild_apply_patch(visrtx cuda-11
   "Support CUDA 11")
+
+superbuild_apply_patch(visrtx cuda-12
+  "Support CUDA 12")

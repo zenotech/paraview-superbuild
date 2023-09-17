@@ -1,0 +1,20 @@
+diff -u -Nr -U5 VisRTX-0.1.6/src/Pathtracer/Pathtracer.cu VisRTX-0.1.6.cuda-12/src/Pathtracer/Pathtracer.cu
+--- VisRTX-0.1.6/src/Pathtracer/Pathtracer.cu	2019-08-21 04:35:49.000000000 -0400
++++ VisRTX-0.1.6.cuda-12/src/Pathtracer/Pathtracer.cu	2023-09-17 17:47:12.932663648 -0400
+@@ -66,13 +66,13 @@
+ RT_FUNCTION optix::float3 offsetRay(const optix::float3& p, const optix::float3& n)
+ {
+     optix::int3 of_i = optix::make_int3(int_scale() * n.x, int_scale() * n.y, int_scale() * n.z);
+ 
+     optix::float3 p_i = optix::make_float3(
+-        int_as_float(float_as_int(p.x) + ((p.x < 0) ? -of_i.x : of_i.x)),
+-        int_as_float(float_as_int(p.y) + ((p.y < 0) ? -of_i.y : of_i.y)),
+-        int_as_float(float_as_int(p.z) + ((p.z < 0) ? -of_i.z : of_i.z)));
++        __int_as_float(__float_as_int(p.x) + ((p.x < 0) ? -of_i.x : of_i.x)),
++        __int_as_float(__float_as_int(p.y) + ((p.y < 0) ? -of_i.y : of_i.y)),
++        __int_as_float(__float_as_int(p.z) + ((p.z < 0) ? -of_i.z : of_i.z)));
+ 
+     return optix::make_float3(fabsf(p.x) < origin() ? p.x + float_scale() * n.x : p_i.x,
+         fabsf(p.y) < origin() ? p.y + float_scale() * n.y : p_i.y,
+         fabsf(p.z) < origin() ? p.z + float_scale() * n.z : p_i.z);
+ }
