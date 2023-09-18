@@ -38,8 +38,5 @@ superbuild_add_project(occt
 superbuild_apply_patch(occt find-fontconfig
   "Use the superbuild's fontconfig")
 
-superbuild_apply_patch(occt no-xlibs
-  "Disable requirement of unnecessary X libraries")
-
 # TODO The occt build system moves dlls on windows, appending "i" for RelWithDebInfo,
 # and "d" for Debug builds. Need a post-install step that moves those dlls to "bin".

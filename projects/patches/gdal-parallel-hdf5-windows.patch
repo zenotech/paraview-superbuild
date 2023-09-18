@@ -1,0 +1,22 @@
+diff -u -Nr -U5 gdal-3.7.1/frmts/hdf5/CMakeLists.txt gdal-3.7.1.parallel-hdf5-windows/frmts/hdf5/CMakeLists.txt
+--- gdal-3.7.1/frmts/hdf5/CMakeLists.txt	2023-07-06 07:14:14.000000000 -0400
++++ gdal-3.7.1.parallel-hdf5-windows/frmts/hdf5/CMakeLists.txt	2023-09-17 17:59:58.958143725 -0400
+@@ -58,10 +58,18 @@
+ elseif(NOT DEFINED GDAL_ENABLE_HDF5_GLOBAL_LOCK)
+   message(WARNING "HDF5 library status regarding thread-safety is unknown (set GDAL_ENABLE_HDF5_GLOBAL_LOCK=NO if it is known to be thread-safe). Adding a global lock on GDAL side")
+   target_compile_definitions(gdal_HDF5 PRIVATE -DENABLE_HDF5_GLOBAL_LOCK)
+ endif()
+ 
++if (HDF5_ENABLE_PARALLEL)
++    find_package(MPI)
++    if (MPI_FOUND)
++        target_include_directories(gdal_HDF5 PRIVATE ${MPI_C_INCLUDE_DIRS})
++        target_link_libraries(gdal_HDF5 PRIVATE ${MPI_C_LIBRARIES})
++    endif ()
++endif ()
++
+ # When build as plugin, initialize all drivers from Register_HDF5
+ if (GDAL_ENABLE_DRIVER_HDF5_PLUGIN)
+   target_compile_definitions(gdal_HDF5 PRIVATE -DHDF5_PLUGIN)
+ endif ()
+ if (DEFINED HDF5_DEFINITIONS)

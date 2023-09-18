@@ -1,12 +1,12 @@
 superbuild_set_revision(eigen
   # https://gitlab.com/libeigen/eigen/-/releases
-  URL     "https://www.paraview.org/files/dependencies/eigen-3.3.9.tar.xz"
-  URL_MD5 c57578fd48359af3f214bac3239d7c80)
+  URL     "https://www.paraview.org/files/dependencies/eigen-3.4.0.tar.bz2"
+  URL_MD5 132dde48fe2b563211675626d29f1707)
 
 superbuild_set_revision(silo
-  # https://github.com/LLNL/Silo/releases/tag/v4.11
-  URL     "https://www.paraview.org/files/dependencies/silo-4.11-bsd-smalltest.tar.gz"
-  URL_MD5 db5ac16cf8a84a40c3f9e80ca7f8dc6a)
+  # https://github.com/LLNL/Silo/releases
+  URL     "https://www.paraview.org/files/dependencies/silo-4.11.1.tar.gz"
+  URL_MD5 242ecb14ab3cdf7bf4e05e2da682644d)
 
 superbuild_set_revision(genericio
   # https://git.cels.anl.gov/hacc/genericio/-/releases
@@ -57,13 +57,18 @@ superbuild_set_revision(ttk
   URL     "https://www.paraview.org/files/dependencies/ttk-1.2.0-trimmed.zip"
   URL_MD5 fea1d3cb38b32aa9cd7edeec0b7321a1)
 
+superbuild_set_revision(libusb
+  # https://github.com/libusb/libusb/releases
+  URL     "https://www.paraview.org/files/dependencies/libusb-1.0.26.tar.bz2"
+  URL_MD5 9c75660dfe1d659387c37b28c91e3160)
+
 superbuild_set_revision(vrpn
   # https://github.com/vrpn/vrpn/releases
-  URL     "https://www.paraview.org/files/dependencies/vrpn-45375f61de4c1a7bb95fe5a9264ac48a5d395404.tar.bz2"
-  URL_MD5 bce3ed067ea68c7cc115e3f2dfacc7ca)
+  URL     "https://www.paraview.org/files/dependencies/vrpn_07.35.zip"
+  URL_MD5 3799426bc30d099587b2decfa9fb1f45)
 
 superbuild_set_revision(vortexfinder2
-  # https://github.com/hguo/vortexfinder2.git
+  # https://github.com/hguo/vortexfinder2
   URL     "https://www.paraview.org/files/dependencies/vortexfinder2-bb76f80ad08223d49fb42e828c1416daa19f7ecb.tar.bz2"
   URL_MD5 47d12a5103d66b5db782c43c5255b26b)
 
@@ -79,13 +84,16 @@ superbuild_set_revision(surfacetrackercut
 
 superbuild_set_revision(socat
   # http://www.dest-unreach.org/socat/
-  URL     "https://www.paraview.org/files/dependencies/socat-1.7.4.1.tar.gz"
-  URL_MD5 780d14908dc1a6aa2790de376ab56b7a)
+  URL     "https://www.paraview.org/files/dependencies/socat-1.7.4.4.tar.gz"
+  URL_MD5 db119a830a34ed4b0dacb0bb90baeb0e)
 
 superbuild_set_revision(openvr
   # https://github.com/ValveSoftware/openvr/releases
-  URL     "https://www.paraview.org/files/dependencies/openvr_1.14.15_win_thin.tar.gz"
-  URL_MD5 200a7896e81ecc981825dded25ae568d)
+  # Remove from the release tarball:
+  # - non-`win64` directries under `bin/` and `lib/`
+  # - `samples/` directory
+  URL     "https://www.paraview.org/files/dependencies/openvr_1.26.7_win_thin.tar.gz"
+  URL_MD5 ece2641a37915329d32598abef31532c)
 
 superbuild_set_revision(paraviewwebvisualizer
   # https://github.com/Kitware/visualizer/releases
@@ -142,8 +150,8 @@ endif()
 
 superbuild_set_revision(gmsh
   # https://gmsh.info/#Download
-  URL     "https://www.paraview.org/files/dependencies/gmsh-4.8.4-source.tgz"
-  URL_MD5 1e7212dfb1319d745ffb477a7a3ff124)
+  URL     "https://www.paraview.org/files/dependencies/gmsh-4.11.1-source.tgz"
+  URL_MD5 681ccfa83213921884ede92a80191ba2)
 
 if (WIN32)
   set(nvidiaindex_platform "windows-x64")
@@ -239,18 +247,18 @@ superbuild_set_revision(mili
 
 superbuild_set_revision(zstd
   # https://github.com/facebook/zstd/releases
-  URL     "https://www.paraview.org/files/dependencies/zstd-1.5.0.tar.gz"
-  URL_MD5 "d5ac89d5df9e81243ce40d0c6a66691d")
+  URL     "https://www.paraview.org/files/dependencies/zstd-1.5.5.tar.gz"
+  URL_MD5 "63251602329a106220e0a5ad26ba656f")
 
 superbuild_set_revision(blosc
   # https://github.com/Blosc/c-blosc/releases
-  URL     "https://www.paraview.org/files/dependencies/blosc-1.21.0.tar.gz"
-  URL_MD5 "c32104bef76e5636cf0cedb40fd4d77b")
+  URL     "https://www.paraview.org/files/dependencies/blosc-1.21.5.tar.gz"
+  URL_MD5 "5097ee61dc1f25281811f5a55b91b2e4")
 
 superbuild_set_revision(zfp
   # https://github.com/LLNL/zfp/releases
-  URL     "https://www.paraview.org/files/dependencies/zfp-0.5.5.tar.gz"
-  URL_MD5 "bc7e5fb1cd4345d17f7b9d470a1f23e7")
+  URL     "https://www.paraview.org/files/dependencies/zfp-1.0.0.tar.gz"
+  URL_MD5 "152b09067749f0f487f62a58d6c29920")
 
 superbuild_set_revision(zeromq
   # Current: https://sourceforge.net/projects/zeromq.mirror/files/v4.3.4/
@@ -269,19 +277,23 @@ superbuild_set_selectable_source(adios2
 
 superbuild_set_revision(libfabric
   # https://github.com/ofiwg/libfabric/releases
-  URL     "https://www.paraview.org/files/dependencies/libfabric-1.13.0.tar.bz2"
-  URL_MD5 "4d8bf93ef50e833ffce36e7cd7294569")
+  URL     "https://www.paraview.org/files/dependencies/libfabric-1.18.1.tar.bz2"
+  URL_MD5 "1cca59cf18b3b7a8254668606e3014c5")
+
+superbuild_set_revision(abseil
+  # https://github.com/abseil/abseil-cpp/releases
+  URL     "https://www.paraview.org/files/dependencies/abseil-20230802.0.tar.gz"
+  URL_MD5 "f40605e07aa804aa82e7090f12db7e34")
 
 superbuild_set_revision(protobuf
   # https://github.com/protocolbuffers/protobuf/releases
-  URL     "https://www.paraview.org/files/dependencies/protobuf-3.17.3.tar.gz"
-  URL_MD5 "d7f8e0e3ffeac721e18cdf898eff7d31"
-  SOURCE_SUBDIR cmake)
+  URL     "https://www.paraview.org/files/dependencies/protobuf-24.1.tar.gz"
+  URL_MD5 "95dc2473e40769cec9857e1a0826cf90")
 
 superbuild_set_revision(tiff
   # https://gitlab.com/libtiff/libtiff/-/releases
-  URL     "https://www.paraview.org/files/dependencies/libtiff-v4.4.0.tar.bz2"
-  URL_MD5 ba175e36b1f6929da1c3c676b98c5db3)
+  URL     "https://www.paraview.org/files/dependencies/tiff-4.5.1.tar.xz"
+  URL_MD5 d8b8622f93e09435737a61e574e5dd48)
 
 superbuild_set_revision(geotiff
   # https://github.com/OSGeo/libgeotiff/releases
@@ -290,23 +302,23 @@ superbuild_set_revision(geotiff
 
 superbuild_set_revision(proj
   # https://github.com/OSGeo/PROJ/releases
-  URL     "https://www.paraview.org/files/dependencies/proj-9.0.1.tar.gz"
-  URL_MD5 d4eca355288bbfe35caaedbd595787dc)
+  URL     "https://www.paraview.org/files/dependencies/proj-9.2.1.tar.gz"
+  URL_MD5 c8e878049ef27330ac94624e1a75b0db)
 
 superbuild_set_revision(jsonc
   # https://github.com/json-c/json-c/tags
-  URL     "https://www.paraview.org/files/dependencies/json-c-0.16-20220414.tar.gz"
-  URL_MD5 4f3288a5f14e0e6abe914213f41234e0)
+  URL     "https://www.paraview.org/files/dependencies/json-c-0.17-20230812.tar.gz"
+  URL_MD5 6d724389b0a08c519d9dd6e2fac7efb8)
 
 superbuild_set_revision(gdal
   # https://github.com/OSGeo/gdal/releases
-  URL     "https://www.paraview.org/files/dependencies/gdal-3.5.1.tar.gz"
-  URL_MD5 90ec67df8648e36795937c07406815ea)
+  URL     "https://www.paraview.org/files/dependencies/gdal-3.7.1.tar.gz"
+  URL_MD5 e13a09602cefc5c91bde193a34345ef9)
 
 superbuild_set_revision(pdal
   # https://github.com/PDAL/PDAL/releases
-  URL     "https://www.paraview.org/files/dependencies/PDAL-2.5.1-src.tar.bz2"
-  URL_MD5 a4bb3751daeb111aca7f0b30a58b45c5)
+  URL     "https://www.paraview.org/files/dependencies/PDAL-2.5.6-src.tar.bz2"
+  URL_MD5 728a54d18a4a47bf70dd5d45b26e2882)
 
 superbuild_set_revision(xerces
   # https://github.com/apache/xerces-c/tags
@@ -315,8 +327,8 @@ superbuild_set_revision(xerces
 
 superbuild_set_revision(curl
   # https://github.com/curl/curl/releases
-  URL     "https://www.paraview.org/files/dependencies/curl-7.88.1.tar.xz"
-  URL_MD5 8bea0c58428578f397471fe209fad6ab)
+  URL     "https://www.paraview.org/files/dependencies/curl-8.2.1.tar.xz"
+  URL_MD5 556576a795bdd2c7d10de6886480065f)
 
 superbuild_set_revision(launchers
   SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/launchers")
@@ -338,8 +350,8 @@ superbuild_set_revision(h5py
 
 superbuild_set_revision(openvdb
   # https://github.com/AcademySoftwareFoundation/openvdb/releases
-  URL "https://www.paraview.org/files/dependencies/openvdb-8.2.0.tar.gz"
-  URL_MD5 2852fe7176071eaa18ab9ccfad5ec403)
+  URL "https://www.paraview.org/files/dependencies/openvdb-10.0.1.tar.gz"
+  URL_MD5 0239ff0c912a3eac76bd6a4ae1b03522)
 
 superbuild_set_selectable_source(catalyst
   SELECT git CUSTOMIZABLE DEFAULT
@@ -349,15 +361,15 @@ superbuild_set_selectable_source(catalyst
 
 superbuild_set_revision(cdi
   # https://code.mpimet.mpg.de/projects/cdi/files
-  URL     "https://www.paraview.org/files/dependencies/cdi-2.1.0.tar.gz"
-  URL_MD5 "31304b1d487d0350c57cda00d2d757c3")
+  URL     "https://www.paraview.org/files/dependencies/cdi-2.2.4.tar.gz"
+  URL_MD5 "8441bd74d3f1a25941e27008b7b7e770")
 
 superbuild_set_revision(occt
   # https://git.dev.opencascade.org/gitweb/?p=occt.git pick the tag you want, and download a snapshot.
-  # current: 7.4.0p1
+  # current: 7.7.2
   # Extract, delete docs, tests, and sample data, and recompress as .tar.bz2
-  URL     "https://www.paraview.org/files/dependencies/occt-7.4.0p1-stripped.tar.bz2"
-  URL_MD5 24b95c5d55558ba087b9565f30c67718)
+  URL     "https://www.paraview.org/files/dependencies/occt-7.7.2-stripped.tar.bz2"
+  URL_MD5 2fcccc698daf3ded6feabec6b9e02109)
 
 superbuild_set_revision(medfile
   # Fill out this form: https://www.salome-platform.org/?page_id=2430
@@ -391,5 +403,5 @@ superbuild_set_revision(medreader
 
 superbuild_set_revision(openxrremoting
   # https://www.nuget.org/packages/Microsoft.Holographic.Remoting.OpenXr/
-  URL           "https://www.paraview.org/files/dependencies/microsoft.holographic.remoting.openxr.2.8.1.nupkg"
-  URL_MD5       eebf01614d89e91783114edd1bccaa59)
+  URL           "https://www.paraview.org/files/dependencies/microsoft.holographic.remoting.openxr.2.9.2.nupkg"
+  URL_MD5       e9542792dde3a6f15f4016c088ac3e5c)

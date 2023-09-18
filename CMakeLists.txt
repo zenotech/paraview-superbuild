@@ -40,6 +40,7 @@ function (superbuild_find_projects var)
   mark_as_advanced(USE_NONFREE_COMPONENTS)
 
   list(APPEND projects
+    abseil
     adios2
     blosc
     boost
@@ -199,6 +200,7 @@ function (superbuild_find_projects var)
         gperf
         launchers
         libfabric
+        libusb
         llvm
         mesa
         osmesa

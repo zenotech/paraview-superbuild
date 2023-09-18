@@ -1,8 +1,14 @@
+set(vrpn_depends)
+if (UNIX AND NOT APPLE)
+  list(APPEND vrpn_depends
+    libusb)
+endif ()
+
 superbuild_add_project(vrpn
+  DEPENDS ${vrpn_depends}
   LICENSE_FILES
     README.Legal
     submodules/hidapi/LICENSE-bsd.txt
-    submodules/jsoncpp/LICENSE
   CMAKE_ARGS
     # GPM support is enabled if GPM is found on the machine. This later ends up
     # complaining that it is GPL stuff and needs another flag to work. We never
@@ -15,7 +21,13 @@ superbuild_add_project(vrpn
     -DBUILD_TESTING:BOOL=OFF
     -DPYTHON_ENABLE_MODULE_vrpn-python:BOOL=OFF
     -DVRPN_BUILD_JAVA:BOOL=OFF
+    -DVRPN_BUILD_PYTHON:BOOL=OFF
     -DVRPN_BUILD_PYTHON_HANDCODED_2X:BOOL=OFF
     -DVRPN_BUILD_PYTHON_HANDCODED_3X:BOOL=OFF
     -DVRPN_BUILD_TEST_RPC_GENERATION:BOOL=OFF
+    -DVRPN_USE_MPI:BOOL=OFF
+    -DVRPN_USE_HID:BOOL=ON
+    -DVRPN_USE_LOCAL_HIDAPI:BOOL=ON
+    -DVRPN_USE_LOCAL_JSONCPP:BOOL=OFF
+    -DVRPN_USE_JSONNET:BOOL=OFF
     )

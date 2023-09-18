@@ -1,0 +1,58 @@
+diff -u -Nr -U5 libgeotiff-1.7.1/cmake/project-config.cmake.in libgeotiff-1.7.1.tiff-imported-targets/cmake/project-config.cmake.in
+--- libgeotiff-1.7.1/cmake/project-config.cmake.in	2022-03-10 03:32:14.000000000 -0500
++++ libgeotiff-1.7.1.tiff-imported-targets/cmake/project-config.cmake.in	2023-09-14 15:10:20.660416221 -0400
+@@ -25,13 +25,13 @@
+ set (@PROJECT_NAME@_LIBRARIES @GEOTIFF_LIBRARY_TARGET@)
+ if("@BUILD_SHARED_LIBS@")
+   set (@PROJECT_NAME@_SHARED_LIBRARIES ${@PROJECT_NAME@_LIBRARIES})
+ else()
+   set (@PROJECT_NAME@_STATIC_LIBRARIES ${@PROJECT_NAME@_LIBRARIES})
+-  include(CMakeFindDependencyMacro)
+-@CONFIG_DEPENDENCIES@
+ endif()
++include(CMakeFindDependencyMacro)
++@CONFIG_DEPENDENCIES@
+ 
+ if(NOT @PROJECT_NAME@_FIND_QUIETLY)
+   message (STATUS "Reading ${CMAKE_CURRENT_LIST_FILE}")
+   # @PROJECT_NAME@_VERSION is set by version file
+   message (STATUS
+diff -u -Nr -U5 libgeotiff-1.7.1/CMakeLists.txt libgeotiff-1.7.1.tiff-imported-targets/CMakeLists.txt
+--- libgeotiff-1.7.1/CMakeLists.txt	2022-03-10 03:32:14.000000000 -0500
++++ libgeotiff-1.7.1.tiff-imported-targets/CMakeLists.txt	2023-09-14 15:15:27.822817661 -0400
+@@ -157,16 +157,19 @@
+         ADD_DEFINITIONS(-DHAVE_JPEG=${HAVE_JPEG})
+     ENDIF()
+ ENDIF()
+ 
+ IF(WITH_TIFF)
+-    FIND_PACKAGE(TIFF NO_MODULE QUIET)
++    #FIND_PACKAGE(TIFF NO_MODULE QUIET)
+     if (NOT TIFF_FOUND)
+       FIND_PACKAGE(TIFF REQUIRED)
+     endif ()
+ 
+-    IF(TIFF_FOUND)
++    if (TIFF_FOUND AND TARGET TIFF::tiff AND NOT TIFF_LIBRARIES)
++        set(TIFF_LIBRARIES TIFF::tiff)
++        ADD_DEFINITIONS(-DHAVE_TIFF=1)
++    ELSEIF(TIFF_FOUND)
+         # Confirm required API is available
+         INCLUDE(CheckFunctionExists)
+         SET(CMAKE_REQUIRED_LIBRARIES ${TIFF_LIBRARIES})
+ 
+         CHECK_FUNCTION_EXISTS(TIFFOpen HAVE_TIFFOPEN)
+@@ -332,10 +335,13 @@
+ 
+ set(CONFIG_DEPENDENCIES "")
+ if(TARGET TIFF::TIFF)
+     set(TIFF_LIBRARIES TIFF::TIFF)
+     string(APPEND CONFIG_DEPENDENCIES "  find_dependency(TIFF)\n")
++elseif(TARGET TIFF::tiff)
++    set(TIFF_LIBRARIES TIFF::tiff)
++    string(APPEND CONFIG_DEPENDENCIES "  find_dependency(TIFF)\n")
+ endif()
+ target_link_libraries(${GEOTIFF_LIBRARY_TARGET} PUBLIC
+     ${TIFF_LIBRARIES})
+ 
+ if(TARGET PROJ::proj)

@@ -1,0 +1,27 @@
+diff -u -Nr -U5 optix-6.0.0/include/optixu/optixu_math_namespace.h optix-6.0.0.cuda-12/include/optixu/optixu_math_namespace.h
+--- optix-6.0.0/include/optixu/optixu_math_namespace.h	2019-01-25 14:57:04.000000000 -0500
++++ optix-6.0.0.cuda-12/include/optixu/optixu_math_namespace.h	2023-09-17 17:44:00.506736824 -0400
+@@ -283,12 +283,21 @@
+ /* Bit preserving casting functions */
+ /******************************************************************************/
+ 
+ #ifdef __CUDACC__
+ 
+-  using ::float_as_int;
+-  using ::int_as_float;
++/** Bit preserving casting function */
++OPTIXU_INLINE int float_as_int(const float f)
++{
++  return __float_as_int(f);
++}
++
++/** Bit preserving casting function */
++OPTIXU_INLINE float int_as_float(int i)
++{
++  return __int_as_float(i);
++}
+ 
+ #else
+ 
+ /** Bit preserving casting function */
+ OPTIXU_INLINE int float_as_int(const float f)
