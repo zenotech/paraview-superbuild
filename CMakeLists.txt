@@ -42,6 +42,7 @@ function (superbuild_find_projects var)
   list(APPEND projects
     abseil
     adios2
+    alembic
     blosc
     boost
     bzip2
@@ -56,6 +57,7 @@ function (superbuild_find_projects var)
     geotiff
     hdf5
     h5py
+    imath
     ispc
     jsonc
     jsoncpp
