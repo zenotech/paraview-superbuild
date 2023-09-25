@@ -472,6 +472,11 @@ set(_superbuild_default_nlohmannjson ON)
 # set the default for qt5 to be 5.12
 set(_superbuild_qt5_default_selection "5.12")
 
+# set the default for ospray to be 2.7.1
+# see https://github.com/ospray/ospray/issues/573
+# see vtk/vtk#19039
+set(_superbuild_ospray_default_selection "2.7.1")
+
 # Force qt SVG support, so ParaView can use SVG icons
 set(qt5_ENABLE_SVG ON CACHE INTERNAL "ParaView requires SVG support")
 
