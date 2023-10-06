@@ -228,11 +228,13 @@ if (python3_enabled)
       install(
         DIRECTORY   "${superbuild_install_location}/Python/Lib/site-packages/win32"
         DESTINATION "bin/Lib/site-packages"
-        COMPONENT   "superbuild")
+        COMPONENT   "superbuild"
+        PATTERN     "__pycache__" EXCLUDE)
       install(
         DIRECTORY   "${superbuild_install_location}/Python/Lib/site-packages/pywin32_system32"
         DESTINATION "bin/Lib/site-packages"
-        COMPONENT   "superbuild")
+        COMPONENT   "superbuild"
+        PATTERN     "__pycache__" EXCLUDE)
       install(
         FILES       "${superbuild_install_location}/Python/Lib/site-packages/pywin32.pth"
                     "${superbuild_install_location}/Python/Lib/site-packages/pywin32.version.txt"
