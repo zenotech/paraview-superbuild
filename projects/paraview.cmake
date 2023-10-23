@@ -89,7 +89,7 @@ endif ()
 option(PARAVIEW_ENABLE_NODEEDITOR "Enable NodeEditor plugin" ON)
 mark_as_advanced(PARAVIEW_ENABLE_NODEEDITOR)
 
-option(PARAVIEW_ENABLE_CAVEInteraction "Enable CAVEInteraction plugin" OFF)
+option(PARAVIEW_ENABLE_CAVEInteraction "Enable CAVEInteraction plugin" ON)
 mark_as_advanced(PARAVIEW_ENABLE_CAVEInteraction)
 
 # vrui support is only available on linux

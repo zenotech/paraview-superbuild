@@ -7,6 +7,5 @@ set(ENABLE_nvidiaoptix ON CACHE BOOL "")
 set(ENABLE_paraviewtranslations ON CACHE BOOL "")
 set(ENABLE_visrtx ON CACHE BOOL "")
 set(ENABLE_openxrsdk ON CACHE BOOL "")
-set(PARAVIEW_ENABLE_CAVEInteraction ON CACHE BOOL "")
 
 include("${CMAKE_CURRENT_LIST_DIR}/configure_common.cmake")
