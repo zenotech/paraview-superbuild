@@ -239,14 +239,6 @@ if (python3_enabled)
       LIBSUFFIX "/python${superbuild_python_version}")
   endif ()
 
-  # Adding all the plugin library paths via SEARCH_DIRECTORIES below allows us
-  # to package python-wrapped vtk modules defined in plugins.  However, that
-  # is officially not supported, and this should be removed eventually.
-  # Instead all such modules should be moved into ParaView proper.
-  foreach (paraview_plugin IN LISTS paraview_plugins)
-    list(APPEND _plugin_search_dirs "${superbuild_install_location}/${paraview_plugin_path}/${paraview_plugin}")
-  endforeach ()
-
   # Add extra paths to MODULE_DIRECTORIES here (.../local/lib/python${superbuild_python_version}/dist-packages)
   # is a workaround to an issue when building against system python.  When we move to
   # Python3, we should make sure all the python modules get installed to the same
@@ -260,8 +252,7 @@ if (python3_enabled)
     EXCLUDE_REGEXES     ${exclude_regexes}
     MODULE_DIRECTORIES  "${superbuild_install_location}/lib/python${superbuild_python_version}/site-packages"
                         ${egg_dirs}
-    LOADER_PATHS        "${library_paths}"
-    SEARCH_DIRECTORIES  ${_plugin_search_dirs})
+    LOADER_PATHS        "${library_paths}")
 endif ()
 
 if (mpi_built_by_superbuild)
