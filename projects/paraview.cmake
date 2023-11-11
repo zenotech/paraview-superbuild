@@ -204,6 +204,11 @@ if (openvdb_enabled)
     -DPARAVIEW_RELOCATABLE_INSTALL:BOOL=OFF)
 endif ()
 
+set(paraview_generate_spdx OFF)
+if (GENERATE_SPDX AND enable_python3)
+    set(paraview_generate_spdx ON)
+endif()
+
 superbuild_add_project(paraview
   DEBUGGABLE
   DEFAULT_ON
@@ -248,7 +253,7 @@ superbuild_add_project(paraview
     -DPARAVIEW_ENABLE_OCCT:BOOL=${occt_enabled}
     -DPARAVIEW_ENABLE_VISITBRIDGE:BOOL=${visitbridge_enabled}
     -DPARAVIEW_ENABLE_XDMF3:BOOL=${xdmf3_enabled}
-    -DPARAVIEW_GENERATE_SPDX:BOOL=${python3_enabled}
+    -DPARAVIEW_GENERATE_SPDX:BOOL=${paraview_generate_spdx} 
     -DPARAVIEW_INSTALL_DEVELOPMENT_FILES:BOOL=ON
     -DPARAVIEW_PLUGIN_ENABLE_E57PDALReader:BOOL=${e57reader_plugin_enabled}
     -DPARAVIEW_PLUGIN_ENABLE_GmshIO:BOOL=${gmsh_enabled}
