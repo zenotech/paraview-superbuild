@@ -286,12 +286,11 @@ function (paraview_install_xr_manifests)
     return ()
   endif ()
 
-  file(GLOB xr_manifests
-    "${superbuild_install_location}/${paraview_plugin_path}/XRInterface/*.json")
-  install(FILES ${xr_manifests}
+  install(
+    DIRECTORY "${superbuild_install_location}/${paraview_plugin_path}/XRInterface/"
     DESTINATION "${paraview_plugin_path}/XRInterface"
     COMPONENT "superbuild"
-    )
+    FILES_MATCHING PATTERN "*.json")
 endfunction ()
 
 function (paraview_install_spdx_files)
