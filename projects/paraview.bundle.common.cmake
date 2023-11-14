@@ -299,6 +299,10 @@ function (paraview_install_bivariate_textures)
     return ()
   endif ()
 
+  if (NOT EXISTS "${superbuild_install_location}/${paraview_plugin_path}/BivariateRepresentations/Resources")
+    return ()
+  endif ()
+
   install(
     DIRECTORY "${superbuild_install_location}/${paraview_plugin_path}/BivariateRepresentations/Resources"
     DESTINATION "${paraview_plugin_path}/BivariateRepresentations"
