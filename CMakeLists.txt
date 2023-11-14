@@ -22,7 +22,13 @@ macro (superbuild_setup_variables)
     # The selection is the version number; use it.
     set(paraview_default_version "${paraview_SOURCE_SELECTION}")
   endif()
+  set(GIT_FOUND_save "${GIT_FOUND}")
+  set(GIT_FOUND 0)
   superbuild_set_version_variables(paraview "${paraview_default_version}" "paraview-version.cmake" "version.txt")
+  set(GIT_FOUND "${GIT_FOUND_save}")
+  if (paraview_version_patch LESS "20200101")
+    superbuild_set_version_variables(paraview "${paraview_default_version}" "paraview-version.cmake" "version.txt")
+  endif ()
   set(paraview_version "${paraview_version_major}.${paraview_version_minor}")
 endmacro ()
 
