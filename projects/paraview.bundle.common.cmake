@@ -295,12 +295,14 @@ endfunction ()
 
 function (paraview_install_bivariate_textures)
   # Install texture files for BivariateRepresentations plugin
-  if ("BivariateRepresentations" IN_LIST paraview_plugins)
-    install(DIRECTORY "${superbuild_install_location}/${paraview_plugin_path}/BivariateRepresentations/Resources"
-      DESTINATION "${paraview_plugin_path}/BivariateRepresentations"
-      COMPONENT "superbuild"
-      )
+  if (NOT "BivariateRepresentations" IN_LIST paraview_plugins)
+    return ()
   endif ()
+
+  install(
+    DIRECTORY "${superbuild_install_location}/${paraview_plugin_path}/BivariateRepresentations/Resources"
+    DESTINATION "${paraview_plugin_path}/BivariateRepresentations"
+    COMPONENT "superbuild")
 endfunction ()
 
 function (paraview_install_spdx_files)
