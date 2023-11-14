@@ -282,14 +282,16 @@ endfunction ()
 
 function (paraview_install_xr_manifests)
   # Install XR json files
-  if ("XRInterface" IN_LIST paraview_plugins)
-    file(GLOB xr_manifests
-      "${superbuild_install_location}/${paraview_plugin_path}/XRInterface/*.json")
-    install(FILES ${xr_manifests}
-      DESTINATION "${paraview_plugin_path}/XRInterface"
-      COMPONENT "superbuild"
-      )
+  if (NOT "XRInterface" IN_LIST paraview_plugins)
+    return ()
   endif ()
+
+  file(GLOB xr_manifests
+    "${superbuild_install_location}/${paraview_plugin_path}/XRInterface/*.json")
+  install(FILES ${xr_manifests}
+    DESTINATION "${paraview_plugin_path}/XRInterface"
+    COMPONENT "superbuild"
+    )
 endfunction ()
 
 function (paraview_install_spdx_files)
