@@ -275,20 +275,38 @@ function (paraview_install_license project)
       DESTINATION "${paraview_license_path}"
       COMPONENT   superbuild)
   else ()
-    message(FATAL_ERROR "${superbuild_install_location}/share/licenses/${project} does not exist, aborting.")
+    message(FATAL_ERROR
+      "${superbuild_install_location}/share/licenses/${project} does not exist, aborting.")
   endif ()
 endfunction ()
 
 function (paraview_install_xr_manifests)
   # Install XR json files
-  if ("XRInterface" IN_LIST paraview_plugins)
-    file(GLOB xr_manifests
-      "${superbuild_install_location}/${paraview_plugin_path}/XRInterface/*.json")
-    install(FILES ${xr_manifests}
-      DESTINATION "${paraview_plugin_path}/XRInterface"
-      COMPONENT "superbuild"
-      )
+  if (NOT "XRInterface" IN_LIST paraview_plugins)
+    return ()
   endif ()
+
+  install(
+    DIRECTORY "${superbuild_install_location}/${paraview_plugin_path}/XRInterface/"
+    DESTINATION "${paraview_plugin_path}/XRInterface"
+    COMPONENT "superbuild"
+    FILES_MATCHING PATTERN "*.json")
+endfunction ()
+
+function (paraview_install_bivariate_textures)
+  # Install texture files for BivariateRepresentations plugin
+  if (NOT "BivariateRepresentations" IN_LIST paraview_plugins)
+    return ()
+  endif ()
+
+  if (NOT EXISTS "${superbuild_install_location}/${paraview_plugin_path}/BivariateRepresentations/Resources")
+    return ()
+  endif ()
+
+  install(
+    DIRECTORY "${superbuild_install_location}/${paraview_plugin_path}/BivariateRepresentations/Resources"
+    DESTINATION "${paraview_plugin_path}/BivariateRepresentations"
+    COMPONENT "superbuild")
 endfunction ()
 
 function (paraview_install_bivariate_textures)
@@ -310,7 +328,8 @@ function (paraview_install_spdx_files)
       DESTINATION "${paraview_spdx_path}"
       COMPONENT   superbuild)
   else ()
-    message(FATAL_ERROR "${superbuild_install_location}/share/doc/ParaView/spdx does not exist, aborting.")
+    message(FATAL_ERROR
+      "${superbuild_install_location}/share/doc/ParaView/spdx does not exist, aborting.")
   endif ()
 endfunction ()
 
