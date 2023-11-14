@@ -275,7 +275,8 @@ function (paraview_install_license project)
       DESTINATION "${paraview_license_path}"
       COMPONENT   superbuild)
   else ()
-    message(FATAL_ERROR "${superbuild_install_location}/share/licenses/${project} does not exist, aborting.")
+    message(FATAL_ERROR
+      "${superbuild_install_location}/share/licenses/${project} does not exist, aborting.")
   endif ()
 endfunction ()
 
@@ -298,7 +299,8 @@ function (paraview_install_spdx_files)
       DESTINATION "${paraview_spdx_path}"
       COMPONENT   superbuild)
   else ()
-    message(FATAL_ERROR "${superbuild_install_location}/share/doc/ParaView/spdx does not exist, aborting.")
+    message(FATAL_ERROR
+      "${superbuild_install_location}/share/doc/ParaView/spdx does not exist, aborting.")
   endif ()
 endfunction ()
 
