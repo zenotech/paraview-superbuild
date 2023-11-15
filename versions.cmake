@@ -263,6 +263,11 @@ superbuild_set_revision(blosc
   URL     "https://www.paraview.org/files/dependencies/blosc-1.21.5.tar.gz"
   URL_MD5 "5097ee61dc1f25281811f5a55b91b2e4")
 
+superbuild_set_revision(blosc2
+  # https://github.com/Blosc/c-blosc2/releases
+  URL     "https://www.paraview.org/files/dependencies/c-blosc2-2.11.2.tar.gz"
+  URL_MD5 "4f5ae5148e9d724d8fecde4a4b7ce2d9")
+
 superbuild_set_revision(zfp
   # https://github.com/LLNL/zfp/releases
   URL     "https://www.paraview.org/files/dependencies/zfp-1.0.0.tar.gz"

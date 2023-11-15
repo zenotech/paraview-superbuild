@@ -36,6 +36,7 @@
 
             # CDash files.
             - build/DartConfiguration.tcl
+            - build/_CPack_Packages/win64/WIX/wix.log
 
 .cmake_package_artifacts:
     artifacts:
