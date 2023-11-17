@@ -5,6 +5,11 @@ superbuild_add_project(tiff
     libjpegturbo
   LICENSE_FILES
     LICENSE.md
+  SPDX_LICENSE_IDENTIFIER
+    MIT
+  SPDX_COPYRIGHT_TEXT
+    "Copyright (c) 1988-1997 Sam Leffler"
+    "Copyright (c) 1991-1997 Silicon Graphics, Inc."
   CMAKE_ARGS
     -DCMAKE_INSTALL_LIBDIR:STRING=lib
     -DCMAKE_INSTALL_NAME_DIR:STRING=<INSTALL_DIR>/lib

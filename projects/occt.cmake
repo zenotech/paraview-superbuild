@@ -13,6 +13,12 @@ superbuild_add_project(occt
   LICENSE_FILES
     LICENSE_LGPL_21.txt
     OCCT_LGPL_EXCEPTION.txt
+  SPDX_LICENSE_IDENTIFIER
+    LGPL-2.1-or-later
+  SPDX_COPYRIGHT_TEXT
+    # Extracted from the sources
+    "Copyright (c) 1991-1999 Matra Datavision"
+    "Copyright (c) 1999-2023 OPEN CASCADE SAS"
   CMAKE_ARGS
     -DCMAKE_INSTALL_RPATH:PATH=$ORIGIN/../lib
     -D3RDPARTY_FREETYPE_DIR:PATH=<INSTALL_DIR>

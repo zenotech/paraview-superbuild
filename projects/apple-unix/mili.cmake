@@ -5,6 +5,10 @@ superbuild_add_project(mili
   DEPENDS rapidjson # VisIt's Mili reader needs rapidjson
   LICENSE_FILES
     LICENSE.txt
+  SPDX_LICENSE_IDENTIFIER
+    LGPL-2.1-or-later
+  SPDX_COPYRIGHT_TEXT
+    "Copyright (c) 2016, Lawrence Livermore National Security, LLC. Produced at the Lawrence Livermore National Laboratory"
   BUILD_IN_SOURCE 1
   CONFIGURE_COMMAND
     <SOURCE_DIR>/configure

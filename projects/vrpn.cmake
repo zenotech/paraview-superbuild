@@ -9,6 +9,11 @@ superbuild_add_project(vrpn
   LICENSE_FILES
     README.Legal
     submodules/hidapi/LICENSE-bsd.txt
+  SPDX_LICENSE_IDENTIFIER
+    "BSL-1.0 AND BSD-3-Clause"
+  SPDX_COPYRIGHT_TEXT
+    "Copyright The vrpn contributors" # No explicit copyright stated: https://github.com/vrpn/vrpn/issues/292
+    "Copyright (c) 2010, Alan Ott, Signal 11 Software"
   CMAKE_ARGS
     # GPM support is enabled if GPM is found on the machine. This later ends up
     # complaining that it is GPL stuff and needs another flag to work. We never

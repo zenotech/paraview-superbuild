@@ -7,6 +7,10 @@ superbuild_add_project(zstd
   CAN_USE_SYSTEM
   LICENSE_FILES
     LICENSE
+  SPDX_LICENSE_IDENTIFIER
+    BSD-3-Clause
+  SPDX_COPYRIGHT_TEXT
+    "Copyright (c) Meta Platforms, Inc. and affiliates"
   SOURCE_SUBDIR build/cmake
   CMAKE_ARGS
     -DBUILD_TESTING:BOOL=OFF

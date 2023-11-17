@@ -4,6 +4,10 @@ superbuild_add_project(vortexfinder2
   DEPENDS_OPTIONAL qt5 lookingglass
   LICENSE_FILES
     COPYING.md
+  SPDX_LICENSE_IDENTIFIER
+    mpich2
+  SPDX_COPYRIGHT_TEXT
+    "Copyright (C) 2015, UChicago Argonne, LLC"
   CMAKE_ARGS
     -DWITH_PARAVIEW:BOOL=ON
     -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}

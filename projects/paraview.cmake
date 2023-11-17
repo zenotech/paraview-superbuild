@@ -204,11 +204,6 @@ if (openvdb_enabled)
     -DPARAVIEW_RELOCATABLE_INSTALL:BOOL=OFF)
 endif ()
 
-set(paraview_generate_spdx OFF)
-if (GENERATE_SPDX AND enable_python3)
-    set(paraview_generate_spdx ON)
-endif()
-
 superbuild_add_project(paraview
   DEBUGGABLE
   DEFAULT_ON
@@ -229,7 +224,6 @@ superbuild_add_project(paraview
     tiff proj exodus seacas
     occt
     ${PARAVIEW_EXTERNAL_PROJECTS}
-
   CMAKE_ARGS
     -DCMAKE_INSTALL_LIBDIR:PATH=lib
     -DCMAKE_INSTALL_NAME_DIR:PATH=<INSTALL_DIR>/lib
@@ -253,7 +247,7 @@ superbuild_add_project(paraview
     -DPARAVIEW_ENABLE_OCCT:BOOL=${occt_enabled}
     -DPARAVIEW_ENABLE_VISITBRIDGE:BOOL=${visitbridge_enabled}
     -DPARAVIEW_ENABLE_XDMF3:BOOL=${xdmf3_enabled}
-    -DPARAVIEW_GENERATE_SPDX:BOOL=${paraview_generate_spdx} 
+    -DPARAVIEW_GENERATE_SPDX:BOOL=${GENERATE_SPDX}
     -DPARAVIEW_INSTALL_DEVELOPMENT_FILES:BOOL=ON
     -DPARAVIEW_PLUGIN_ENABLE_E57PDALReader:BOOL=${e57reader_plugin_enabled}
     -DPARAVIEW_PLUGIN_ENABLE_GmshIO:BOOL=${gmsh_enabled}

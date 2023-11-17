@@ -1,6 +1,10 @@
 superbuild_add_project(abseil
   LICENSE_FILES
     LICENSE
+  SPDX_LICENSE_IDENTIFIER
+    Apache-2.0
+  SPDX_COPYRIGHT_TEXT
+    "Copyright Google Inc."
   DEPENDS cxx17
   CMAKE_ARGS
     -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}

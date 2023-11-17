@@ -2,6 +2,11 @@ superbuild_add_project(medreader
   DEPENDS medfile medconfiguration medcoupling paraview
   DEPENDS_OPTIONAL mpi qt5
   LICENSE_FILES COPYING
+  SPDX_LICENSE_IDENTIFIER
+    LGPL-2.1-or-later
+  SPDX_COPYRIGHT_TEXT
+    # No copyright specified, extrapolated from some source files
+    "Copyright (C) CEA/DEN, EDF R&D"
   SOURCE_SUBDIR src/Plugins/MEDReader
   CMAKE_ARGS
    -DCONFIGURATION_ROOT_DIR=<INSTALL_DIR>/configuration

@@ -1,6 +1,12 @@
 superbuild_add_project(rapidjson
   LICENSE_FILES
     license.txt
+  SPDX_LICENSE_IDENTIFIER
+    "MIT AND BSD-3-Clause AND JSON"
+  SPDX_COPYRIGHT_TEXT
+    "Copyright (C) 2015 THL A29 Limited, a Tencent company, and Milo Yip"
+    "Copyright (c) 2006-2013 Alexander Chemeris" # msinttypes
+    "Copyright (c) 2002 JSON.org" # JSON
   DEPENDS cxx11
   CMAKE_ARGS
     -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}

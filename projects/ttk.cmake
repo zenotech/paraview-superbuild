@@ -169,6 +169,14 @@ superbuild_add_project(ttk
   DEPENDS_OPTIONAL eigen numpy openmp python3 scipy zfp zlib
   LICENSE_FILES
     LICENSE
+  SPDX_LICENSE_IDENTIFIER
+    LicenseRef-BSD-TTK
+  SPDX_COPYRIGHT_TEXT
+    "Copyright (c) 2017-2023, CNRS, Sorbonne Universite and contributors"
+  SPDX_CUSTOM_LICENSE_FILE
+    LICENSE
+  SPDX_CUSTOM_LICENSE_NAME
+    LicenseRef-BSD-TTK
   CMAKE_ARGS
     -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
     -DTTK_BUILD_STANDALONE_APPS:BOOL=FALSE # trimmed folder

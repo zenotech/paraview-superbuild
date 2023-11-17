@@ -5,6 +5,12 @@ superbuild_add_project(openpmd
     COPYING.LESSER
     share/openPMD/thirdParty/json/LICENSE.MIT
     share/openPMD/thirdParty/pybind11/LICENSE
+  SPDX_LICENSE_IDENTIFIER
+    "LGPL-3.0-or-later AND MIT AND BSD-3-Clause"
+  SPDX_COPYRIGHT_TEXT
+    "Copyright Axel Huebl, Franz Poeschel, Fabian Koller, Junmin Gu" # From PKG-INFO
+    "Copyright (c) 2013-2020 Niels Lohmann" # json
+    "Copyright (c) 2016 Wenzel Jakob" # pybind11
   CMAKE_ARGS
     -DCMAKE_INSTALL_LIBDIR:STRING=lib
 
