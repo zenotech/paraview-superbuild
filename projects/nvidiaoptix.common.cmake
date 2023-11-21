@@ -15,7 +15,12 @@ superbuild_add_project(nvidiaoptix
       -Dbinsuffix:STRING=${nvidiaoptix_binsuffix}
       -Dbindest:STRING=${nvidiaoptix_bindest}
       ${nvidiaoptix_install_args}
-      -P "${CMAKE_CURRENT_LIST_DIR}/scripts/nvidiaoptix.install.cmake")
+      -P "${CMAKE_CURRENT_LIST_DIR}/scripts/nvidiaoptix.install.cmake"
+  INSTALL_DEPENDS
+    "${CMAKE_CURRENT_LIST_DIR}/scripts/nvidiaoptix.install.cmake")
 
 superbuild_add_extra_cmake_args(
   -DOptiX_ROOT:PATH=<INSTALL_DIR>)
+
+superbuild_apply_patch(nvidiaoptix cuda-12
+  "Support CUDA 12")

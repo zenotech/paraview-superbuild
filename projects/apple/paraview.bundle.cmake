@@ -1,13 +1,17 @@
 include(paraview-appname)
 set(paraview_doc_dir "${paraview_appname}/Contents/doc")
 set(paraview_data_dir "${paraview_appname}/Contents/examples")
+set(paraview_translations_dir "${paraview_appname}/Contents/translations")
 set(paraview_materials_dir "${paraview_appname}/Contents/materials")
 set(paraview_plugin_path "lib/paraview-${paraview_version}/plugins")
 set(paraview_license_path "${paraview_appname}/Contents/Resources/licenses")
+set(paraview_spdx_path "${paraview_appname}/Contents/Resources")
 include(paraview.bundle.common)
 
 if (NOT paraview_has_gui)
-  message(FATAL_ERROR "Creating the Apple package without the GUI is not supported.")
+  message(FATAL_ERROR
+    "Creating the Apple package without the GUI is not supported. Please "
+    "reconfigure and build with `-DENABLE_qt5=ON`")
 endif ()
 
 set(paraview_plugin_paths)
@@ -45,25 +49,66 @@ endif ()
 list(APPEND ignore_regexes
   ".*/3DconnexionNavlib")
 
-set(additional_libraries)
-if (ospray_enabled)
-  set(osprayextra_libraries
-    openvkl_module_cpu_device
-    openvkl_module_cpu_device_4
-    openvkl_module_cpu_device_8
-    openvkl_module_cpu_device_16
-    ospray_module_denoiser
-    ospray_module_ispc
-    ospray_module_mpi
-    rkcommon)
-
-  foreach (osprayextra_library IN LISTS osprayextra_libraries)
-    if (EXISTS "${superbuild_install_location}/lib/lib${osprayextra_library}.dylib")
-      list(APPEND additional_libraries
-        "${superbuild_install_location}/lib/lib${osprayextra_library}.dylib")
-    endif ()
-  endforeach ()
+set(extra_library_names)
+if (ispc_enabled AND ospray_SOURCE_SELECTION STREQUAL "2.12.0")
+  list(APPEND extra_library_names
+    ispcrt_device_cpu)
 endif ()
+if (rkcommon_enabled)
+  list(APPEND extra_library_names
+    rkcommon)
+endif ()
+if (openvkl_enabled)
+  list(APPEND extra_library_names
+    openvkl_module_cpu_device)
+  if (ospray_SOURCE_SELECTION STREQUAL "2.12.0" AND
+      CMAKE_SYSTEM_PROCESSOR STREQUAL "arm64")
+    list(APPEND extra_library_names
+      openvkl_module_cpu_device_8)
+  endif ()
+  if (NOT ospray_SOURCE_SELECTION STREQUAL "2.12.0" AND
+      CMAKE_SYSTEM_PROCESSOR STREQUAL "arm64")
+    list(APPEND extra_library_names
+      openvkl_module_cpu_device_4)
+  endif ()
+  if (CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64")
+    list(APPEND extra_library_names
+      openvkl_module_cpu_device_4
+      openvkl_module_cpu_device_16)
+  endif ()
+endif ()
+if (ospray_enabled)
+  list(APPEND extra_library_names
+    ospray_module_denoiser)
+  if (ospray_SOURCE_SELECTION STREQUAL "2.12.0")
+    list(APPEND extra_library_names
+      ospray_module_cpu)
+  else ()
+    list(APPEND extra_library_names
+      ospray_module_ispc)
+  endif ()
+endif ()
+if (ospraymodulempi_enabled)
+  if (ospray_SOURCE_SELECTION STREQUAL "2.12.0")
+    list(APPEND extra_library_names
+      ospray_module_mpi_distributed_cpu
+      ospray_module_mpi_offload)
+  else ()
+    list(APPEND extra_library_names
+      ospray_module_mpi)
+  endif ()
+endif ()
+
+set(additional_libraries)
+foreach (extra_library_name IN LISTS extra_library_names)
+  if (EXISTS "${superbuild_install_location}/lib/lib${extra_library_name}.dylib")
+    list(APPEND additional_libraries
+      "${superbuild_install_location}/lib/lib${extra_library_name}.dylib")
+  else ()
+    message(FATAL_ERROR
+      "Extra library '${extra_library_name}' not found")
+  endif ()
+endforeach ()
 
 superbuild_apple_create_app(
   "\${CMAKE_INSTALL_PREFIX}"
@@ -75,6 +120,59 @@ superbuild_apple_create_app(
   ADDITIONAL_LIBRARIES ${additional_libraries}
   INCLUDE_REGEXES     ${include_regexes}
   IGNORE_REGEXES      ${ignore_regexes})
+
+# ISPC libraries are prebuilt and require code signature resets.
+if (ispc_enabled AND ospray_SOURCE_SELECTION STREQUAL "2.12.0")
+  set(ispc_signed_libraries
+    libispcrt
+    libispcrt_device_cpu)
+  foreach (ispc_signed_library IN LISTS ispc_signed_libraries)
+    install(CODE "
+  message(STATUS
+    \"Attempting to re-sign ${ispc_signed_library}\")
+  if (NOT EXISTS \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${paraview_appname}/Contents/Libraries/${ispc_signed_library}.dylib\")
+    message(FATAL_ERROR
+      \"Cannot find ISPC library: ${ispc_signed_library} at '\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${paraview_appname}/Contents/Libraries/${ispc_signed_library}.dylib'\")
+  endif ()
+  execute_process(
+    COMMAND
+      codesign
+      --force
+      -s -
+      \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${paraview_appname}/Contents/Libraries/${ispc_signed_library}.dylib\"
+    RESULT VARIABLE res
+    ERROR_VARIABLE err
+    OUTPUT_VARIABLE out
+    ERROR_STRIP_TRAILING_WHITESPACE
+    OUTPUT_STRIP_TRAILING_WHITESPACE)
+  if (res)
+    message(FATAL_ERROR
+      \"Failed to re-sign ${ispc_signed_library}: \${err}\")
+  else ()
+    message(STATUS
+      \"codesigning of ${ispc_signed_library}: \${out}\")
+  endif ()
+  execute_process(
+    COMMAND
+      codesign
+      -vvvv
+      \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${paraview_appname}/Contents/Libraries/${ispc_signed_library}.dylib\"
+    RESULT VARIABLE res
+    ERROR_VARIABLE err
+    OUTPUT_VARIABLE out
+    ERROR_STRIP_TRAILING_WHITESPACE
+    OUTPUT_STRIP_TRAILING_WHITESPACE)
+  if (res)
+    message(FATAL_ERROR
+      \"Failed to verify the new signature for ${ispc_signed_library}: \${out}\\n\\n\${err}\")
+  else ()
+    message(STATUS
+      \"codesign verification of ${ispc_signed_library}: \${out}\")
+  endif ()
+"
+    COMPONENT superbuild)
+  endforeach ()
+endif ()
 
 set(plugins_file "${CMAKE_CURRENT_BINARY_DIR}/paraview.plugins.xml")
 paraview_add_plugin("${plugins_file}" ${paraview_plugins})
@@ -217,3 +315,10 @@ foreach (qt5_plugin_path IN LISTS qt5_plugin_paths)
 endforeach ()
 
 paraview_install_extra_data()
+
+if (proj_enabled)
+  install(
+    FILES       "${superbuild_install_location}/share/proj/proj.db"
+    DESTINATION "${paraview_appname}/Contents/Resources"
+    COMPONENT   superbuild)
+endif ()

@@ -1,11 +1,11 @@
 # Steps for uploading artifacts
 
 .rsync_upload:
-    image: "fedora:35"
+    image: "fedora:38"
     stage: upload
     tags:
         - docker
-        - linux
+        - linux-x86_64
         - build
     environment:
         name: rsync-upload

@@ -8,7 +8,7 @@
         GIT_CLONE_PATH: "$CI_BUILDS_DIR/paraview-ci-ext/$CI_CONCURRENT_ID"
         # TODO: Factor this out so that each job selects the Xcode version to
         # use so that different versions can be tested in a single pipeline.
-        DEVELOPER_DIR: "/Applications/Xcode-13.1.app/Contents/Developer"
+        DEVELOPER_DIR: "/Applications/Xcode-14.2.app/Contents/Developer"
 
 ### Build and test
 
@@ -28,7 +28,6 @@
 
     variables:
         CMAKE_CONFIGURATION: macos_arm64
-        NO_FORTRAN: 1
 
 .macos_x86_64:
     extends: .macos_build
@@ -41,9 +40,9 @@
 .macos_builder_tags:
     tags:
         - paraview
-        - macos
+        - macos-x86_64
         - shell
-        - xcode-13.1
+        - xcode-14.2
         - nonconcurrent
         - finder
 
@@ -52,16 +51,16 @@
         - paraview
         - macos-arm64
         - shell
-        - xcode-13.1
+        - xcode-14.2
         - nonconcurrent
         - finder
 
 .macos_builder_tags_test:
     tags:
         - paraview
-        - macos
+        - macos-x86_64
         - shell
-        - xcode-13.1
+        - xcode-14.2
         - nonconcurrent
 
 .macos_arm64_builder_tags_test:
@@ -69,7 +68,7 @@
         - paraview
         - macos-arm64
         - shell
-        - xcode-13.1
+        - xcode-14.2
         - nonconcurrent
 
 ## macOS-specific scripts
@@ -77,12 +76,12 @@
 .before_script_macos: &before_script_macos
     - .gitlab/ci/cmake.sh
     - .gitlab/ci/ninja.sh
-    - '[ -z "$NO_FORTRAN" ] && .gitlab/ci/gfortran.sh'
+    - .gitlab/ci/gfortran.sh
     # Make sure gfortran is last to avoid the gcc/g++ it ships with from interfering.
     - export PATH=$PWD/.gitlab:$PWD/.gitlab/cmake/bin:$PATH:$PWD/.gitlab/gfortran/bin
     - cmake --version
     - ninja --version
-    - '[ -z "$NO_FORTRAN" ] && gfortran --version'
+    - gfortran --version
     # Download Qt
     - cmake -P .gitlab/ci/download_qt.cmake
     - export CMAKE_PREFIX_PATH=$PWD/.gitlab/qt

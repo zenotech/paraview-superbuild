@@ -1,0 +1,25 @@
+diff -u -Nr -U5 occt-7.7.2/adm/cmake/fontconfig.cmake occt-7.7.2.find-fontconfig/adm/cmake/fontconfig.cmake
+--- occt-7.7.2/adm/cmake/fontconfig.cmake	1969-12-31 19:00:00.000000000 -0500
++++ occt-7.7.2.find-fontconfig/adm/cmake/fontconfig.cmake	2023-09-13 14:38:18.383572574 -0400
+@@ -0,0 +1,4 @@
++# fontconfig
++
++set (CSF_FontconfigLibs fontconfig)
++THIRDPARTY_PRODUCT("Fontconfig" "fontconfig/fontconfig.h" "CSF_FontconfigLibs" "d")
+diff -u -Nr -U5 occt-7.7.2/CMakeLists.txt occt-7.7.2.find-fontconfig/CMakeLists.txt
+--- occt-7.7.2/CMakeLists.txt	2023-07-21 11:36:51.000000000 -0400
++++ occt-7.7.2.find-fontconfig/CMakeLists.txt	2023-09-13 14:37:47.250589569 -0400
+@@ -596,10 +596,13 @@
+ if (CAN_USE_FREETYPE)
+   if (USE_FREETYPE)
+     message (STATUS "Info: FreeType is used by OCCT")
+     add_definitions (-DHAVE_FREETYPE)
+     OCCT_INCLUDE_CMAKE_FILE ("adm/cmake/freetype")
++    if (UNIX AND NOT APPLE)
++      OCCT_INCLUDE_CMAKE_FILE ("adm/cmake/fontconfig")
++    endif ()
+   else()
+     OCCT_CHECK_AND_UNSET_GROUP ("3RDPARTY_FREETYPE")
+     OCCT_CHECK_AND_UNSET ("3RDPARTY_FREETYPE_INCLUDE_DIR_freetype2")
+     OCCT_CHECK_AND_UNSET ("3RDPARTY_FREETYPE_INCLUDE_DIR_ft2build")
+     OCCT_CHECK_AND_UNSET ("INSTALL_FREETYPE")

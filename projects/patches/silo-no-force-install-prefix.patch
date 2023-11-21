@@ -1,0 +1,16 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 6444f5b7..9e13631a 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -139,8 +139,9 @@ CMAKE_DEPENDENT_OPTION(SILO_ENABLE_HZIP "Enable Lindstrom hex/quad mesh compress
+ ##
+ #  Set up a default INSTALL prefix that is peer to the build directory
+ ##
+-set(CMAKE_INSTALL_PREFIX ${Silo_BINARY_DIR}/../SiloInstall  CACHE PATH "install prefix" FORCE)
+-
++if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
++    set(CMAKE_INSTALL_PREFIX ${Silo_BINARY_DIR}/../SiloInstall  CACHE PATH "install prefix" FORCE)
++endif()
+ 
+ set(BUILD_SHARED_LIBS ${SILO_ENABLE_SHARED})
+ 

@@ -3,7 +3,7 @@
   <pqevent object="pqClientMainWindow/menubar" command="activate" arguments="menuSources" />
   <pqevent object="pqClientMainWindow/menubar/menuSources/Alphabetical" command="activate" arguments="TextSource" />
   <pqevent object="pqClientMainWindow/propertiesDock/propertiesPanel/scrollArea/qt_scrollarea_viewport/scrollAreaWidgetContents/PropertiesFrame/ProxyPanel/Text/Text" command="set_string"
-           arguments="$\sum_{i=0}^\infty x_i * \frac{3}{4} \binom{3}{4} \stackrel{3}{4} * \sqrt[3]{x}$" />
+           arguments="$\sum_{i=0}^\infty x_i * \frac{3}{4} \binom{3}{4} \genfrac{}{}{1}{}{3}{4} * \sqrt[3]{x}$" />
   <pqevent object="pqClientMainWindow/propertiesDock/propertiesPanel/Accept" command="activate" arguments="" />
   <pqevent object="pqClientMainWindow/menubar/menuTools" command="activate" arguments="actionTesting_Window_Size" />
   <pqevent object="pqClientMainWindow/propertiesDock/propertiesPanel/scrollArea/qt_scrollarea_viewport/scrollAreaWidgetContents/DisplayFrame/ProxyPanel/FontEditor/FontSize" command="set_int" arguments="24" />

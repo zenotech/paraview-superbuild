@@ -18,4 +18,6 @@ superbuild_add_project(nvidiaindex
     "${CMAKE_COMMAND}"
       -Dsource_dir:PATH=<SOURCE_DIR>
       -Dinstall_dir:PATH=<INSTALL_DIR>
-      -P "${CMAKE_CURRENT_LIST_DIR}/scripts/nvidiaindex.install.cmake")
+      -P "${CMAKE_CURRENT_LIST_DIR}/scripts/nvidiaindex.install.cmake"
+  INSTALL_DEPENDS
+    "${CMAKE_CURRENT_LIST_DIR}/scripts/nvidiaindex.install.cmake")

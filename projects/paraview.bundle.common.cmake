@@ -41,6 +41,9 @@ endif ()
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_LIST_DIR}/files/paraview.license.txt")
 set(qt_license_file "${CMAKE_CURRENT_LIST_DIR}/files/Qt5.LICENSE.LGPLv3")
 
+# Set the translations to bundle
+set(paraview_languages "fr_FR")
+
 set(paraview_executables
   pvdataserver
   pvrenderserver
@@ -72,7 +75,7 @@ endif()
 set(python_modules
   cinema_python
   pygments
-  mpi4py)
+  mpi4py) # Comes from VTK or `pythonmpi4py`
 
 if (paraview_is_shared)
   list(APPEND python_modules
@@ -98,6 +101,8 @@ macro (check_for_python_module project module)
   endif ()
 endmacro ()
 
+check_for_python_module(catalyst catalyst)
+check_for_python_module(catalyst catalyst_conduit)
 check_for_python_module(h5py h5py)
 check_for_python_module(matplotlib matplotlib)
 check_for_python_module(matplotlib mpl_toolkits)
@@ -105,22 +110,30 @@ check_for_python_module(numpy numpy)
 check_for_python_module(numpy pkg_resources)
 check_for_python_module(openpmd openpmd_api)
 check_for_python_module(pythonaiohttp aiohttp)
+check_for_python_module(pythonaiosignal aiosignal)
 check_for_python_module(pythonasynctimeout async_timeout)
 check_for_python_module(pythonattrs attr)
 check_for_python_module(pythonchardet chardet)
+check_for_python_module(pythoncharsetnormalizer charset_normalizer)
+check_for_python_module(pythoncontourpy contourpy)
 check_for_python_module(pythoncycler cycler)
 check_for_python_module(pythoncython cython)
 check_for_python_module(pythondateutil dateutil)
+check_for_python_module(pythonfonttools fontTools)
+check_for_python_module(pythonfrozenlist frozenlist)
 check_for_python_module(pythonidna idna)
 check_for_python_module(pythonkiwisolver kiwisolver)
 check_for_python_module(pythonmpmath mpmath)
 check_for_python_module(pythonmultidict multidict)
+check_for_python_module(pythonpackaging packaging)
 check_for_python_module(pythonpandas pandas)
 check_for_python_module(pythonpillow PIL)
 check_for_python_module(pythonpygments pygments)
 check_for_python_module(pythonpyparsing pyparsing)
 check_for_python_module(pythonsix six)
 check_for_python_module(pythontypingextensions typing_extensions)
+check_for_python_module(pythontzdata tzdata)
+check_for_python_module(pythonversioneer versioneer)
 check_for_python_module(pythonwslinkasync wslink)
 check_for_python_module(pythonyarl yarl)
 check_for_python_module(pytz pytz)
@@ -176,6 +189,11 @@ if (paraview_is_shared)
       "${paraview_plugin}")
   endforeach ()
 endif ()
+
+if (medreader_enabled)
+  list(APPEND paraview_plugins
+    MEDReader)
+endif()
 
 if (ttk_enabled)
   list(APPEND paraview_plugins
@@ -257,7 +275,79 @@ function (paraview_install_license project)
       DESTINATION "${paraview_license_path}"
       COMPONENT   superbuild)
   else ()
-    message(FATAL_ERROR "${superbuild_install_location}/share/licenses/${project} does not exist, aborting.")
+    message(FATAL_ERROR
+      "${superbuild_install_location}/share/licenses/${project} does not exist, aborting.")
+  endif ()
+endfunction ()
+
+function (paraview_install_xr_manifests)
+  # Install XR json files
+  if (NOT "XRInterface" IN_LIST paraview_plugins)
+    return ()
+  endif ()
+
+  install(
+    DIRECTORY "${superbuild_install_location}/${paraview_plugin_path}/XRInterface/"
+    DESTINATION "${paraview_plugin_path}/XRInterface"
+    COMPONENT "superbuild"
+    FILES_MATCHING PATTERN "*.json")
+endfunction ()
+
+function (paraview_install_bivariate_textures)
+  # Install texture files for BivariateRepresentations plugin
+  if (NOT "BivariateRepresentations" IN_LIST paraview_plugins)
+    return ()
+  endif ()
+
+  if (NOT EXISTS "${superbuild_install_location}/${paraview_plugin_path}/BivariateRepresentations/Resources")
+    return ()
+  endif ()
+
+  install(
+    DIRECTORY "${superbuild_install_location}/${paraview_plugin_path}/BivariateRepresentations/Resources"
+    DESTINATION "${paraview_plugin_path}/BivariateRepresentations"
+    COMPONENT "superbuild")
+endfunction ()
+
+function (paraview_install_spdx_files)
+  if (EXISTS "${superbuild_install_location}/share/doc/ParaView/spdx")
+    install(
+      DIRECTORY   "${superbuild_install_location}/share/doc/ParaView/spdx"
+      DESTINATION "${paraview_spdx_path}"
+      COMPONENT   superbuild)
+  else ()
+    message(FATAL_ERROR
+      "${superbuild_install_location}/share/doc/ParaView/spdx does not exist, aborting.")
+  endif ()
+endfunction ()
+
+#[==[.md
+paraview_install_translations
+Description:
+  Install all needed translation files from both qt and
+  paraview-translations.
+Arguments:
+  project: The name of the project holding ParaView translations.
+  dir: The destination directory for translations.
+
+#]==]
+function (paraview_install_translations project dir)
+  if (${project}_enabled)
+    foreach(_language IN LISTS paraview_languages)
+      install(
+        FILES   "${superbuild_install_location}/share/${dir}paraview_${_language}.qm"
+        DESTINATION "${paraview_translations_dir}"
+        COMPONENT   superbuild)
+      # Get the language code without the country code
+      string(REGEX MATCH "^([a-z]+)"
+        _language_code "${_language}")
+      foreach(_translation_qm IN ITEMS qtbase  qt  qtmultimedia  qtscript  qtxmlpatterns)
+        install(
+          FILES   "${superbuild_install_location}/share/${dir}${_translation_qm}_${_language_code}.qm"
+          DESTINATION "${paraview_translations_dir}"
+          COMPONENT   superbuild)
+      endforeach()
+    endforeach()
   endif ()
 endfunction ()
 
@@ -272,6 +362,7 @@ function (paraview_install_all_licenses)
 
   # Remove package without licenses
   list(REMOVE_ITEM license_projects
+    exodus # dummy project to enable the library in the seacas build
     ospraymaterials # CC0 License
     launchers # ParaView
     paraviewgettingstartedguide # ParaView
@@ -281,13 +372,23 @@ function (paraview_install_all_licenses)
   # Do not install license of non-packaged projects
   list(REMOVE_ITEM license_projects
     gperf
+    medconfiguration
     meson
     ninja
     pkgconf
     pythoncppy
+    pythonflitcore
+    pythonhatchfancypypireadme
+    pythonhatchling
+    pythonhatchvcs
     pythonmako
+    pythonmarkupsafe
+    pythonmesonpython
     pythonpkgconfig
-    pythonpkgconfig
+    pythonpluggy
+    pythonpyprojectmetadata
+    pythontomli
+    pythontroveclassifiers
     pythonsemanticversion
     pythonsetuptools
     pythonsetuptoolsrust
@@ -333,6 +434,15 @@ function (paraview_install_extra_data)
 
   paraview_install_all_licenses()
 
+  if (paraview_translations_dir AND qt5_enabled)
+    paraview_install_translations(paraviewtranslations "translations/")
+  endif()
+
+  paraview_install_xr_manifests()
+
+  paraview_install_bivariate_textures()
+
+  paraview_install_spdx_files()
 endfunction ()
 
 if (qt5_enabled)
@@ -371,9 +481,14 @@ if (qt5_enabled)
       platforms/libqxcb
       platforminputcontexts/libcomposeplatforminputcontextplugin
       xcbglintegrations/libqxcb-glx-integration)
+
+    if (qt5_ENABLE_MULTIMEDIA)
+      list(APPEND qt5_plugins
+        audio/libqtaudio_alsa)
+    endif ()
   endif ()
 
-  superbuild_install_qt5_plugin_paths(qt5_plugin_paths ${qt5_plugins})
+  superbuild_get_qt5_plugin_install_paths(qt5_plugin_paths ${qt5_plugins})
 else ()
   set(qt5_plugin_paths)
 endif ()

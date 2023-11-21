@@ -144,31 +144,67 @@ if (nvidiaindex_enabled AND NOT APPLE)
   endforeach ()
 endif ()
 
-if (ospray_enabled)
-  set(osprayextra_libraries
-    openvkl_module_cpu_device
-    openvkl_module_cpu_device_4
-    openvkl_module_cpu_device_8
-    openvkl_module_cpu_device_16
-    ospray_module_denoiser
-    ospray_module_ispc
-    ospray_module_mpi
-    rkcommon)
-
-  foreach (osprayextra_library IN LISTS osprayextra_libraries)
-    file(GLOB lib_filenames
-      RELATIVE "${superbuild_install_location}/lib"
-      "${superbuild_install_location}/lib/lib${osprayextra_library}.so*")
-
-    foreach (lib_filename IN LISTS lib_filenames)
-      superbuild_unix_install_module("${lib_filename}"
-        "lib"
-        "lib"
-        LOADER_PATHS  "${library_paths}"
-        LOCATION      "lib")
-    endforeach ()
-  endforeach ()
+set(extra_libraries)
+if (ispc_enabled AND ospray_SOURCE_SELECTION STREQUAL "2.12.0")
+  list(APPEND extra_libraries
+    ispcrt_device_cpu)
 endif ()
+if (openvkl_enabled)
+  list(APPEND extra_libraries
+    openvkl_module_cpu_device)
+  if (ospray_SOURCE_SELECTION STREQUAL "2.12.0")
+    list(APPEND extra_libraries
+      openvkl_module_cpu_device_4
+      openvkl_module_cpu_device_8
+      openvkl_module_cpu_device_16)
+  endif ()
+endif ()
+if (ospray_enabled)
+  list(APPEND extra_libraries
+    ospray_module_denoiser)
+  if (ospray_SOURCE_SELECTION STREQUAL "2.12.0")
+    list(APPEND extra_libraries
+      ospray_module_cpu)
+  elseif (NOT openvkl_enabled) # OpenVKL modules bring it in transitively.
+    list(APPEND extra_libraries
+      ospray_module_ispc)
+  endif ()
+endif ()
+if (ospraymodulempi_enabled)
+  if (ospray_SOURCE_SELECTION STREQUAL "2.12.0")
+    list(APPEND extra_libraries
+      ospray_module_mpi_distributed_cpu
+      ospray_module_mpi_offload)
+  else ()
+    list(APPEND extra_libraries
+      ospray_module_mpi)
+  endif ()
+endif ()
+
+foreach (extra_library IN LISTS extra_libraries)
+  file(GLOB lib_filenames
+    RELATIVE "${superbuild_install_location}/lib"
+    "${superbuild_install_location}/lib/lib${extra_library}.so*")
+
+  if (NOT lib_filenames)
+    message(FATAL_ERROR
+      "Failed to locate libraries for ${extra_library}")
+  endif ()
+
+  foreach (lib_filename IN LISTS lib_filenames)
+    # Do not install symlink manually
+    if(IS_SYMLINK "${superbuild_install_location}/lib/${lib_filename}")
+      continue ()
+    endif ()
+
+    superbuild_unix_install_module("${lib_filename}"
+      "lib"
+      "lib"
+      LOADER_PATHS  "${library_paths}"
+      LOCATION      "lib"
+      HAS_SYMLINKS)
+  endforeach ()
+endforeach ()
 
 if (visrtx_enabled)
   set(visrtxextra_libraries
@@ -303,3 +339,10 @@ foreach (paraview_plugin IN LISTS paraview_plugins)
 endforeach ()
 
 paraview_install_extra_data()
+
+if (proj_enabled)
+  install(
+    FILES       "${superbuild_install_location}/share/proj/proj.db"
+    DESTINATION "share/proj"
+    COMPONENT   superbuild)
+endif ()

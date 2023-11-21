@@ -40,7 +40,6 @@
 #
 #   PYTHON_VERSION
 #
-#     2
 #     3
 #
 #     (default is "2")
@@ -54,11 +53,11 @@ ARG BASE_IMAGE=nvidia/opengl:1.0-glvnd-devel-ubuntu18.04
 FROM ${BASE_IMAGE}
 
 ARG RENDERING=egl
-ARG PARAVIEW_TAG=v5.11.0
-ARG SUPERBUILD_TAG=v5.11.0
-ARG PARAVIEW_VERSION_STRING=paraview-5.11
+ARG PARAVIEW_TAG=v5.12.0-RC1
+ARG SUPERBUILD_TAG=v5.12.0-RC1
+ARG PARAVIEW_VERSION_STRING=paraview-5.12
 ARG SUPERBUILD_REPO=https://gitlab.kitware.com/paraview/paraview-superbuild.git
-ARG PYTHON_VERSION=2
+ARG PYTHON_VERSION=3
 ARG BUILD_TYPE=Release
 
 # The following environment variables help with the Python 2 vs 3 option while
@@ -84,7 +83,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         libxcursor-dev \
         openssl \
         pkg-config && \
-    if [ "${PYTHON_VERSION}" = "2" ]; then apt-get install -y --no-install-recommends python2.7-dev python-pip python-setuptools; fi && \
     if [ "${PYTHON_VERSION}" = "3" ]; then apt-get install -y --no-install-recommends python3-dev python3-pip python3-setuptools; fi && \
     if [ "${PYTHON_VERSION}" = "3" ]; then update-alternatives --install /usr/bin/python python /usr/bin/python3 1; fi && \
     rm -rf /var/lib/apt/lists/* && \

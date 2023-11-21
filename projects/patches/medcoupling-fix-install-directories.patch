@@ -1,0 +1,116 @@
+From 5a9bce41dfaa394ecbb8d2b097c662d32b83dda0 Mon Sep 17 00:00:00 2001
+From: Mathieu Westphal <mathieu.westphal@kitware.com>
+Date: Tue, 6 Jun 2023 14:04:11 +0200
+Subject: [PATCH] fix install directories
+
+---
+ src/ICoCo/CMakeLists.txt         |  7 +++++--
+ src/INTERP_KERNEL/CMakeLists.txt |  6 +++++-
+ src/MEDCoupling/CMakeLists.txt   | 12 ++++++++++--
+ src/MEDLoader/CMakeLists.txt     |  6 +++++-
+ src/RENUMBER/CMakeLists.txt      |  5 ++++-
+ 5 files changed, 29 insertions(+), 7 deletions(-)
+
+diff --git a/src/ICoCo/CMakeLists.txt b/src/ICoCo/CMakeLists.txt
+index 113b66dd..3c52c69a 100644
+--- a/src/ICoCo/CMakeLists.txt
++++ b/src/ICoCo/CMakeLists.txt
+@@ -26,7 +26,6 @@ IF(MEDCOUPLING_ENABLE_PYTHON)
+   ADD_SUBDIRECTORY(Swig)
+ ENDIF()
+ 
+-
+ INCLUDE_DIRECTORIES(
+   ${CMAKE_CURRENT_SOURCE_DIR}
+   ${CMAKE_CURRENT_SOURCE_DIR}/../MEDCoupling
+@@ -43,7 +42,11 @@ SET(icoco_SOURCES
+ ADD_LIBRARY(medicoco ${icoco_SOURCES})
+ SET_TARGET_PROPERTIES(medicoco PROPERTIES OUTPUT_NAME "medicoco")
+ TARGET_LINK_LIBRARIES(medicoco medcouplingcpp)
+-INSTALL(TARGETS medicoco EXPORT ${PROJECT_NAME}TargetGroup DESTINATION ${MEDCOUPLING_INSTALL_LIBS})
++INSTALL(TARGETS medicoco
++        EXPORT ${PROJECT_NAME}TargetGroup
++        ARCHIVE DESTINATION ${MEDCOUPLING_INSTALL_LIBS}
++        RUNTIME DESTINATION ${MEDCOUPLING_INSTALL_BINS}
++        LIBRARY DESTINATION ${MEDCOUPLING_INSTALL_LIBS})
+ 
+ FILE(GLOB icoco_HEADERS_HXX "${CMAKE_CURRENT_SOURCE_DIR}/*.hxx"
+                                   "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+diff --git a/src/INTERP_KERNEL/CMakeLists.txt b/src/INTERP_KERNEL/CMakeLists.txt
+index bc07afc1..c3ec6bfc 100644
+--- a/src/INTERP_KERNEL/CMakeLists.txt
++++ b/src/INTERP_KERNEL/CMakeLists.txt
+@@ -88,7 +88,11 @@ ENDIF(NOT WIN32)
+ ADD_LIBRARY(interpkernel ${interpkernel_SOURCES})
+ SET_TARGET_PROPERTIES(interpkernel PROPERTIES COMPILE_FLAGS "${PLATFORM_MMAP}")
+ TARGET_LINK_LIBRARIES(interpkernel ${PLATFORM_LIBS})
+-INSTALL(TARGETS interpkernel EXPORT ${PROJECT_NAME}TargetGroup DESTINATION ${MEDCOUPLING_INSTALL_LIBS})
++INSTALL(TARGETS interpkernel
++        EXPORT ${PROJECT_NAME}TargetGroup
++        ARCHIVE DESTINATION ${MEDCOUPLING_INSTALL_LIBS}
++        RUNTIME DESTINATION ${MEDCOUPLING_INSTALL_BINS}
++        LIBRARY DESTINATION ${MEDCOUPLING_INSTALL_LIBS})
+ 
+ FILE(GLOB_RECURSE interpkernel_HEADERS_HXX "${CMAKE_CURRENT_SOURCE_DIR}/*.hxx")
+ FILE(GLOB_RECURSE interpkernel_HEADERS_TXX "${CMAKE_CURRENT_SOURCE_DIR}/*.txx")
+diff --git a/src/MEDCoupling/CMakeLists.txt b/src/MEDCoupling/CMakeLists.txt
+index 5bd1fccd..11c7d384 100644
+--- a/src/MEDCoupling/CMakeLists.txt
++++ b/src/MEDCoupling/CMakeLists.txt
+@@ -88,11 +88,19 @@ SET(medcouplingremapper_SOURCES
+ ADD_LIBRARY(medcouplingcpp ${medcoupling_SOURCES})
+ SET_TARGET_PROPERTIES(medcouplingcpp PROPERTIES OUTPUT_NAME "medcoupling")
+ TARGET_LINK_LIBRARIES(medcouplingcpp interpkernel)
+-INSTALL(TARGETS medcouplingcpp EXPORT ${PROJECT_NAME}TargetGroup DESTINATION ${MEDCOUPLING_INSTALL_LIBS})
++INSTALL(TARGETS medcouplingcpp EXPORT
++        EXPORT ${PROJECT_NAME}TargetGroup
++        ARCHIVE DESTINATION ${MEDCOUPLING_INSTALL_LIBS}
++        RUNTIME DESTINATION ${MEDCOUPLING_INSTALL_BINS}
++        LIBRARY DESTINATION ${MEDCOUPLING_INSTALL_LIBS})
+ 
+ ADD_LIBRARY(medcouplingremapper ${medcouplingremapper_SOURCES})
+ TARGET_LINK_LIBRARIES(medcouplingremapper medcouplingcpp)
+-INSTALL(TARGETS medcouplingremapper EXPORT ${PROJECT_NAME}TargetGroup DESTINATION ${MEDCOUPLING_INSTALL_LIBS})
++INSTALL(TARGETS medcouplingremapper
++        EXPORT ${PROJECT_NAME}TargetGroup
++        ARCHIVE DESTINATION ${MEDCOUPLING_INSTALL_LIBS}
++        RUNTIME DESTINATION ${MEDCOUPLING_INSTALL_BINS}
++        LIBRARY DESTINATION ${MEDCOUPLING_INSTALL_LIBS})
+ 
+ FILE(GLOB medcoupling_HEADERS_HXX "${CMAKE_CURRENT_SOURCE_DIR}/*.hxx")
+ FILE(GLOB medcoupling_HEADERS_TXX "${CMAKE_CURRENT_SOURCE_DIR}/*.txx")
+diff --git a/src/MEDLoader/CMakeLists.txt b/src/MEDLoader/CMakeLists.txt
+index 96e2a67c..ce5011bf 100644
+--- a/src/MEDLoader/CMakeLists.txt
++++ b/src/MEDLoader/CMakeLists.txt
+@@ -94,7 +94,11 @@ SET(medloader_SOURCES
+ ADD_LIBRARY(medloader ${medloader_SOURCES})
+ SET_TARGET_PROPERTIES(medloader PROPERTIES COMPILE_FLAGS "")
+ TARGET_LINK_LIBRARIES(medloader medcouplingcpp ${MEDFILE_C_LIBRARIES} ${HDF5_LIBRARIES} ${MEDLOADER_XDR_LIBRARIES})
+-INSTALL(TARGETS medloader EXPORT ${PROJECT_NAME}TargetGroup DESTINATION ${MEDCOUPLING_INSTALL_LIBS})
++INSTALL(TARGETS medloader
++        EXPORT ${PROJECT_NAME}TargetGroup
++        ARCHIVE DESTINATION ${MEDCOUPLING_INSTALL_LIBS}
++        RUNTIME DESTINATION ${MEDCOUPLING_INSTALL_BINS}
++        LIBRARY DESTINATION ${MEDCOUPLING_INSTALL_LIBS})
+ 
+ FILE(GLOB medloader_HEADERS_HXX "${CMAKE_CURRENT_SOURCE_DIR}/*.hxx")
+ FILE(GLOB medloader_HEADERS_TXX "${CMAKE_CURRENT_SOURCE_DIR}/*.txx")
+diff --git a/src/RENUMBER/CMakeLists.txt b/src/RENUMBER/CMakeLists.txt
+index a8347896..b03eb60c 100644
+--- a/src/RENUMBER/CMakeLists.txt
++++ b/src/RENUMBER/CMakeLists.txt
+@@ -95,6 +95,9 @@ INSTALL(TARGETS renumber DESTINATION ${MEDCOUPLING_INSTALL_BINS})
+ ADD_LIBRARY(renumbercpp ${renumbercpp_SOURCES})
+ SET_TARGET_PROPERTIES(renumbercpp PROPERTIES COMPILE_FLAGS "${renumber_DEFINITIONS}")
+ TARGET_LINK_LIBRARIES(renumbercpp ${renumbercpp_LDFLAGS})
+-INSTALL(TARGETS renumbercpp DESTINATION ${MEDCOUPLING_INSTALL_LIBS})
++INSTALL(TARGETS renumbercpp
++        ARCHIVE DESTINATION ${MEDCOUPLING_INSTALL_LIBS}
++        RUNTIME DESTINATION ${MEDCOUPLING_INSTALL_BINS}
++        LIBRARY DESTINATION ${MEDCOUPLING_INSTALL_LIBS})
+ 
+ INSTALL(FILES ${renumbercpp_HEADERS_HXX} DESTINATION ${MEDCOUPLING_INSTALL_HEADERS})
+-- 
+2.40.1
+

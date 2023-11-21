@@ -9,4 +9,6 @@ superbuild_add_project(paraviewwebglance
     "${CMAKE_COMMAND}"
     -Dsource_location:PATH=<SOURCE_DIR>
     -Dinstall_location:PATH=<INSTALL_DIR>
-    -P "${CMAKE_CURRENT_LIST_DIR}/scripts/paraviewwebglance.install.cmake")
+    -P "${CMAKE_CURRENT_LIST_DIR}/scripts/paraviewwebglance.install.cmake"
+  INSTALL_DEPENDS
+    "${CMAKE_CURRENT_LIST_DIR}/scripts/paraviewwebglance.install.cmake")

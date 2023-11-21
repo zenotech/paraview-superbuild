@@ -10,6 +10,8 @@ superbuild_add_project(threedxwaresdk
       -Dsource_dir:PATH=<SOURCE_DIR>
       -Dinstall_dir:PATH=<INSTALL_DIR>
       -P "${CMAKE_CURRENT_LIST_DIR}/scripts/threedxwaresdk.install.cmake"
+  INSTALL_DEPENDS
+    "${CMAKE_CURRENT_LIST_DIR}/scripts/threedxwaresdk.install.cmake"
 )
 
 superbuild_add_extra_cmake_args(

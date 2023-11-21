@@ -66,7 +66,7 @@ endfunction ()
 
 function (paraview_add_ui_test name script)
   paraview_add_test("${name}" "${paraview_exe}"
-    "-dr"
+    "--dr"
     "--test-directory=${CMAKE_BINARY_DIR}/Testing/Temporary"
     "--test-script=${CMAKE_CURRENT_LIST_DIR}/xml/${script}.xml"
     ${ARGN}
@@ -91,8 +91,13 @@ function (paraview_add_pvbatch_test name script)
     "${CMAKE_CURRENT_LIST_DIR}/python/${script}.py")
 endfunction ()
 
-# Simple test to launch the application and load all plugins.
-paraview_add_ui_test("testui" "TestUI")
+if (python3_enabled)
+  # Simple test to launch the application and load all plugins.
+  paraview_add_ui_test("testui" "TestUI")
+
+  paraview_add_ui_test("finddata" "TestFindData"
+    "--test-baseline=${CMAKE_CURRENT_LIST_DIR}/baselines/Superbuild-TestFindData.png")
+endif ()
 
 # Simple test to test pvpython/pvbatch.
 paraview_add_python_test("pvpython" "basic_python")
@@ -126,12 +131,21 @@ if (mpi_enabled AND python3_enabled)
   paraview_add_python_test("import-mpi4py" "import_mpi4py")
 endif ()
 
+if (catalyst_enabled AND numpy_enabled)
+  paraview_add_python_test("import-catalyst" "import_catalyst")
+  paraview_add_python_test("import-catalyst-conduit" "import_catalyst_conduit")
+endif ()
+
 if (pythonpandas_enabled)
   paraview_add_python_test("import-pandas" "import_pandas")
 endif ()
 
 if (openpmd_enabled)
   paraview_add_python_test("import-openpmd" "import_openpmd")
+endif ()
+
+if (proj_enabled AND numpy_enabled)
+  paraview_add_python_test("import-vtkGeoVis" "import_vtkGeoVis")
 endif ()
 
 # Test to load various data files to ensure reader support.
@@ -157,9 +171,6 @@ if (ospray_enabled)
   paraview_add_ui_test("ospray" "OSPRay"
     "--test-baseline=${CMAKE_CURRENT_LIST_DIR}/baselines/OSPRay.png")
 endif ()
-
-paraview_add_ui_test("finddata" "TestFindData"
-  "--test-baseline=${CMAKE_CURRENT_LIST_DIR}/baselines/Superbuild-TestFindData.png")
 
 paraview_add_test("version-server" "${pvserver_exe}"
   "--version")
@@ -197,6 +208,8 @@ endif ()
 paraview_add_ui_test("loaddistributedplugins" "LoadDistributedPlugins"
   "--test-baseline=${CMAKE_CURRENT_LIST_DIR}/baselines/LoadDistributedPlugins.png")
 
+# Supplemental plugins tests
+
 if (vortexfinder2_enabled)
   paraview_add_ui_test("loadvortexfinderplugins" "LoadVortexFinderPlugins")
 endif ()
@@ -205,6 +218,13 @@ if (surfacetrackercut_enabled)
   paraview_add_ui_test("loadsurfacetrackercutplugin" "LoadSurfaceTrackerCutPlugin")
 endif ()
 
+if (medreader_enabled)
+  paraview_add_ui_test("loadmedreaderplugin" "LoadMEDReaderPlugin"
+    "--data-directory=${CMAKE_CURRENT_LIST_DIR}/data"
+    "--test-baseline=${CMAKE_CURRENT_LIST_DIR}/baselines/LoadMEDReaderPlugin.png")
+endif ()
+
+# vtk-m tests
 if (vtkm_enabled)
   paraview_add_ui_test("vtkm-contour" "VTKmContour"
     --test-plugin=VTKmFilters)
@@ -214,6 +234,12 @@ if (vtkm_enabled)
     --test-plugin=VTKmFilters)
 endif ()
 
-if (fides_enabled)
-  paraview_add_ui_test("fides" "FidesReaderADIOS2")
+# Translations test
+if (paraviewtranslations_enabled)
+  paraview_add_test("setlanguagetofrench" "${CMAKE_COMMAND}"
+    "-Dparaview_exe=${paraview_exe}"
+    "-Dtest_directory=${CMAKE_BINARY_DIR}/Testing/Temporary"
+    "-Dtest_xml_set=${CMAKE_CURRENT_SOURCE_DIR}/xml/SetLanguageToFrench.xml"
+    "-Dtest_xml_check=${CMAKE_CURRENT_SOURCE_DIR}/xml/CheckLanguageFrench.xml"
+    -P "${CMAKE_CURRENT_SOURCE_DIR}/paraviewtranslations.cmake")
 endif()

@@ -4,13 +4,13 @@ set -e
 
 # Install build requirements.
 yum install -y \
-    zlib-devel libcurl-devel python-devel \
-    freeglut-devel glew-devel graphviz-devel libpng-devel \
+    freeglut-devel glew-devel graphviz-devel \
     libxcb-devel libXt-devel xcb-util-wm-devel xcb-util-devel \
     xcb-util-image-devel xcb-util-keysyms-devel xcb-util-renderutil-devel \
     libXcursor-devel mesa-libGL-devel mesa-libEGL-devel \
     libxkbcommon-devel libxkbcommon-x11-devel file mesa-dri-drivers autoconf \
-    automake libtool chrpath bison flex libXrandr-devel
+    automake libtool chrpath bison flex libXrandr-devel \
+    alsa-lib-devel
 
 # Install EPEL
 yum install -y \
@@ -24,10 +24,10 @@ yum install -y \
 yum install -y \
     centos-release-scl
 yum install -y \
-    devtoolset-7-gcc-c++ \
-    devtoolset-7 \
-    devtoolset-7-gcc \
-    devtoolset-7-gfortran \
+    devtoolset-10-gcc-c++ \
+    devtoolset-10 \
+    devtoolset-10-gcc \
+    devtoolset-10-gfortran \
     rh-git227-git-core
 
 yum clean all

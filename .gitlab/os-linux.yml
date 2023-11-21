@@ -9,13 +9,13 @@
 # newer compilers.
 
 .centos7:
-    image: "kitware/paraview:ci-superbuild-centos7-20220630"
+    image: "kitware/paraview:ci-superbuild-centos7-20230915"
 
     variables:
         GIT_SUBMODULE_STRATEGY: none
-        LAUNCHER: "scl enable devtoolset-7 rh-git227 --"
+        LAUNCHER: "scl enable devtoolset-10 rh-git227 --"
         GIT_CLONE_PATH: $CI_BUILDS_DIR/gitlab-kitware-sciviz-ci
-        CUDACXX: "/usr/local/cuda-11.2/bin/nvcc"
+        CUDACXX: "/usr/local/cuda-12.2/bin/nvcc"
 
 .centos7_plain:
     extends: .centos7
@@ -41,21 +41,21 @@
     variables:
         CMAKE_CONFIGURATION: linux_osmesa_static
 
-.fedora36:
-    image: "kitware/paraview:ci-superbuild-fedora36-20220702"
+.fedora38:
+    image: "kitware/paraview:ci-superbuild-fedora38-20230810"
 
     variables:
         GIT_SUBMODULE_STRATEGY: none
         GIT_CLONE_PATH: $CI_BUILDS_DIR/gitlab-kitware-sciviz-ci
 
-.fedora36_plain:
-    extends: .fedora36
+.fedora38_plain:
+    extends: .fedora38
 
     variables:
         CMAKE_CONFIGURATION: linux_plain
 
-.fedora36_egl:
-    extends: .fedora36
+.fedora38_egl:
+    extends: .fedora38
 
     variables:
         CMAKE_CONFIGURATION: linux_egl
@@ -66,13 +66,13 @@
     tags:
         - build
         - docker
-        - linux
+        - linux-x86_64
         - paraview
 
 .linux_test_tags:
     tags:
         - docker
-        - linux
+        - linux-x86_64
         - paraview
         - x11
 
@@ -87,15 +87,15 @@
     # `git submodule foreach` does not consider submodules that have not been
     # initialized. So here, we initialize what we can and ignore failure so
     # that we can set up submodules properly later.
-    - "git submodule update --init --recursive || :"
-    - git submodule foreach --recursive cmake -P "$PWD/.gitlab/ci/fetch_submodule.cmake"
-    - git submodule sync --recursive
-    - git submodule update --init --recursive
+    - "$LAUNCHER git submodule update --init --recursive || :"
+    - $LAUNCHER git submodule foreach --recursive cmake -P "$PWD/.gitlab/ci/fetch_submodule.cmake"
+    - $LAUNCHER git submodule sync --recursive
+    - $LAUNCHER git submodule update --init --recursive
 
 .before_script_linux_paraview: &before_script_linux_paraview
-    - .gitlab/ci/checkout_paraview.sh
-    - export PARAVIEW_COMMIT_SHA=`git -C $CI_PROJECT_DIR/source-paraview rev-parse HEAD`
-    - export PARAVIEW_COMMIT_SHORT_SHA=`git -C $CI_PROJECT_DIR/source-paraview rev-parse --short HEAD`
+    - $LAUNCHER .gitlab/ci/checkout_paraview.sh
+    - export PARAVIEW_COMMIT_SHA=`$LAUNCHER git -C $CI_PROJECT_DIR/source-paraview rev-parse HEAD`
+    - export PARAVIEW_COMMIT_SHORT_SHA=`$LAUNCHER git -C $CI_PROJECT_DIR/source-paraview rev-parse --short HEAD`
 
 .cmake_build_linux:
     stage: build

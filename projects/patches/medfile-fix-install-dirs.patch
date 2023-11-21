@@ -1,0 +1,29 @@
+From d93385fb0e107914fce72c1c62a35c25eab7529d Mon Sep 17 00:00:00 2001
+From: Mathieu Westphal <mathieu.westphal@kitware.com>
+Date: Tue, 6 Jun 2023 15:25:17 +0200
+Subject: [PATCH] fix install dirs
+
+---
+ src/CMakeLists.txt | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index 5036363..d051c60 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -83,7 +83,11 @@ IF(MEDFILE_BUILD_SHARED_LIBS)
+   TARGET_LINK_LIBRARIES(medC ${HDF5_LIBS} ${MPI_LIBS})
+   MED_SET_DEFINITIONS(medC NOGDI)
+   
+-  INSTALL(TARGETS medC EXPORT ${_export_group} DESTINATION lib${LIB_SUFFIX})  
++  INSTALL(TARGETS medC
++          EXPORT ${_export_group}
++          ARCHIVE DESTINATION lib
++          RUNTIME DESTINATION bin
++          LIBRARY DESTINATION lib)
+ ENDIF()
+ 
+ ######### Static Libraries ##########
+-- 
+2.40.1
+

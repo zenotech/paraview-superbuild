@@ -1,0 +1,85 @@
+From 44fb92a85a4856056c9b6e7c1cf78431146de9da Mon Sep 17 00:00:00 2001
+From: Mathieu Westphal <mathieu.westphal@kitware.com>
+Date: Tue, 6 Jun 2023 13:32:57 +0200
+Subject: [PATCH] fix windows export
+
+---
+ src/MEDLoader/MEDFileMeshLL.hxx    |  4 +++-
+ src/MEDLoader/MEDFileUtilities.hxx | 10 +++++-----
+ src/ParaMEDLoader/CMakeLists.txt   |  2 +-
+ src/ParaMEDMEM/CMakeLists.txt      |  2 +-
+ 4 files changed, 10 insertions(+), 8 deletions(-)
+
+diff --git a/src/MEDLoader/MEDFileMeshLL.hxx b/src/MEDLoader/MEDFileMeshLL.hxx
+index 38fe9b95..7e8baac6 100644
+--- a/src/MEDLoader/MEDFileMeshLL.hxx
++++ b/src/MEDLoader/MEDFileMeshLL.hxx
+@@ -21,6 +21,8 @@
+ #ifndef __MEDFILEMESHLL_HXX__
+ #define __MEDFILEMESHLL_HXX__
+ 
++#include "MEDLoaderDefines.hxx"
++
+ #include "MEDFileBasis.hxx"
+ #include "MEDFileMeshElt.hxx"
+ 
+@@ -70,7 +72,7 @@ namespace MEDCoupling
+     double checkMeshTimeStep(med_idt fid, const std::string& mName, int nstep, int dt, int it) const;
+   };
+ 
+-  class MEDFileMeshL2 : public RefCountObject
++  class MEDLOADER_EXPORT MEDFileMeshL2 : public RefCountObject
+   {
+   public:
+     MEDFileMeshL2();
+diff --git a/src/MEDLoader/MEDFileUtilities.hxx b/src/MEDLoader/MEDFileUtilities.hxx
+index e41e7820..087d3201 100644
+--- a/src/MEDLoader/MEDFileUtilities.hxx
++++ b/src/MEDLoader/MEDFileUtilities.hxx
+@@ -31,12 +31,12 @@
+ 
+ namespace MEDFileUtilities
+ {
+-  med_access_mode TraduceWriteMode(int medloaderwritemode);
+-  const char *GetReadableMEDFieldType(med_field_type ft);
+-  void CheckMEDCode(int code, med_idt fid, const std::string& msg);
+-  void CheckFileForRead(const std::string& fileName);
++  MEDLOADER_EXPORT med_access_mode TraduceWriteMode(int medloaderwritemode);
++  MEDLOADER_EXPORT const char *GetReadableMEDFieldType(med_field_type ft);
++  MEDLOADER_EXPORT void CheckMEDCode(int code, med_idt fid, const std::string& msg);
++  MEDLOADER_EXPORT void CheckFileForRead(const std::string& fileName);
+ 
+-  class AutoFid
++  class MEDLOADER_EXPORT AutoFid
+   {
+   public:
+     AutoFid(med_idt fid);
+diff --git a/src/ParaMEDLoader/CMakeLists.txt b/src/ParaMEDLoader/CMakeLists.txt
+index cd87d14c..413eeb32 100644
+--- a/src/ParaMEDLoader/CMakeLists.txt
++++ b/src/ParaMEDLoader/CMakeLists.txt
+@@ -45,7 +45,7 @@ SET(paramedloader_SOURCES
+   ParaMEDFileMesh.cxx
+   )
+ 
+-ADD_LIBRARY(paramedloader ${paramedloader_SOURCES})
++ADD_LIBRARY(paramedloader STATIC ${paramedloader_SOURCES})
+ TARGET_LINK_LIBRARIES(paramedloader paramedmem medloader ${PLATFORM_LIBS})
+ INSTALL(TARGETS paramedloader EXPORT ${PROJECT_NAME}TargetGroup DESTINATION ${MEDCOUPLING_INSTALL_LIBS})
+ 
+diff --git a/src/ParaMEDMEM/CMakeLists.txt b/src/ParaMEDMEM/CMakeLists.txt
+index 511b1477..a2616c30 100644
+--- a/src/ParaMEDMEM/CMakeLists.txt
++++ b/src/ParaMEDMEM/CMakeLists.txt
+@@ -69,7 +69,7 @@ SET(paramedmem_SOURCES
+   MPIAccess/MPIAccessDEC.cxx
+ )
+ 
+-ADD_LIBRARY(paramedmem ${paramedmem_SOURCES})
++ADD_LIBRARY(paramedmem STATIC ${paramedmem_SOURCES})
+ TARGET_LINK_LIBRARIES(paramedmem medcouplingcpp medicoco ${MPI_LIBRARIES})
+ INSTALL(TARGETS paramedmem EXPORT ${PROJECT_NAME}TargetGroup DESTINATION ${MEDCOUPLING_INSTALL_LIBS})
+ 
+-- 
+2.40.1
+

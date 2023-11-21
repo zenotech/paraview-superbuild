@@ -10,7 +10,7 @@ macro (superbuild_setup_variables)
   if (paraview_SOURCE_SELECTION STREQUAL "git")
     # Assuming master; just use the latest version, but let the user set their
     # own version in case it is actually a branch from some other version.
-    set(PARAVIEW_VERSION_DEFAULT "5.11.0"
+    set(PARAVIEW_VERSION_DEFAULT "5.12.0-RC1"
       CACHE STRING "The default version of ParaView to use if it cannot be detected")
     mark_as_advanced(PARAVIEW_VERSION_DEFAULT)
     set(paraview_default_version "${PARAVIEW_VERSION_DEFAULT}")
@@ -32,6 +32,7 @@ function (superbuild_find_projects var)
   set(projects
     cxx11
     cxx14
+    cxx17
     paraview
     python3)
 
@@ -39,19 +40,24 @@ function (superbuild_find_projects var)
   mark_as_advanced(USE_NONFREE_COMPONENTS)
 
   list(APPEND projects
+    abseil
     adios2
+    alembic
     blosc
     boost
     bzip2
     catalyst
     cuda
+    curl
     eigen
     embree
+    exodus
     freetype
     gdal
     geotiff
     hdf5
     h5py
+    imath
     ispc
     jsonc
     jsoncpp
@@ -59,11 +65,14 @@ function (superbuild_find_projects var)
     libjpegturbo
     lookingglass
     matplotlib
+    meson
     mpi
     netcdf
+    ninja
     nlohmannjson
     numpy
     nvidiaindex
+    occt
     openmp
     openpmd
     openimagedenoise
@@ -72,38 +81,57 @@ function (superbuild_find_projects var)
     ospray
     ospraymodulempi
     openxrsdk
+    paraviewtranslations
     paraviewweb
     paraviewwebglance
     paraviewweblite
     paraviewwebdivvy
     paraviewwebvisualizer
+    pdal
+    pkgconf
     png
     proj
     protobuf
     pybind11
     pythonaiohttp
+    pythonaiosignal
     pythonasynctimeout
     pythonattrs
     pythonbeniget
     pythoncffi
     pythonchardet
+    pythoncharsetnormalizer
+    pythoncontourpy
     pythoncppy
     pythoncycler
     pythoncython
     pythondateutil
+    pythonflitcore
+    pythonfonttools
+    pythonfrozenlist
     pythongast
+    pythonhatchfancypypireadme
+    pythonhatchling
+    pythonhatchvcs
     pythonidna
     pythonkiwisolver
     pythonmako
+    pythonmarkupsafe
+    pythonmesonpython
+    pythonmpi4py
     pythonmpmath
     pythonmultidict
-    #pythonpillow
+    pythonpackaging
     pythonpandas
+    pythonpathspec
+    pythonpillow
     pythonpkgconfig
+    pythonpluggy
     pythonply
     pythonpycparser
     pythonpygments
     pythonpyparsing
+    pythonpyprojectmetadata
     pythonpythran
     pythonsemanticversion
     pythonsetuptools
@@ -111,15 +139,20 @@ function (superbuild_find_projects var)
     pythonsetuptoolsscm
     pythonsix
     pythontoml
+    pythontomli
+    pythontroveclassifiers
     pythontypingextensions
+    pythontzdata
+    pythonversioneer
     pythonwheel
     pythonwslinkasync
     pythonyarl
     pytz
-    #qhull
+    qhull
     qt5
     rkcommon
     scipy
+    seacas
     silo
     snappy
     sqlite
@@ -133,6 +166,7 @@ function (superbuild_find_projects var)
     vrpn
     vtkm
     xdmf3
+    xerces
     xz
     zfp
     zlib
@@ -144,33 +178,33 @@ function (superbuild_find_projects var)
 
   if (UNIX)
     list(APPEND projects
+      cdi
       cosmotools
+      expat
       ffi
       ffmpeg
       fides
+      flexbison
       fortran
       genericio
       gmsh
       lapack
       libxml2
       mili
-      pkgconf
       rapidjson
       surfacetrackercut)
 
     if (NOT APPLE)
       list(APPEND projects
         egl
-        expat
         fontconfig
         glproto
         gperf
         launchers
         libfabric
+        libusb
         llvm
-        meson
         mesa
-        ninja
         osmesa
         paraviewsdk
         socat
@@ -207,8 +241,19 @@ function (superbuild_find_projects var)
   if (WIN32)
     list(APPEND projects
       openvr
+      openxrremoting
       pywin32
-      zeromq)
+      zeromq
+      zspace)
+  endif ()
+
+  if (WIN32 OR (UNIX AND NOT APPLE))
+    list(APPEND projects
+      # The med stack does not support MacOS yet
+      medconfiguration
+      medcoupling
+      medfile
+      medreader)
   endif ()
 
   set("${var}"
@@ -296,7 +341,8 @@ function (superbuild_add_packaging)
     set(qt5_version "${qt5_SOURCE_SELECTION}")
   endif ()
   list(APPEND superbuild_export_variables
-    qt5_version)
+    qt5_version
+    qt5_ENABLE_MULTIMEDIA)
 
   if (NOT DEFINED PARAVIEW_CATALYST_EDITION)
     set(PARAVIEW_CATALYST_EDITION Full)
@@ -313,6 +359,7 @@ function (superbuild_add_packaging)
     mesa_USE_SWR
     mesa_SWR_ARCH
     nvidiaindex_SOURCE_SELECTION
+    ospray_SOURCE_SELECTION
     PARAVIEW_PACKAGE_SUFFIX
     PARAVIEW_CATALYST_EDITION
     paraview_is_shared)
@@ -386,7 +433,6 @@ set(qt5_skip_modules
   qtconnectivity
   qtgamepad
   qtlocation
-  qtmultimedia
   qtsensors
   qtserialport
   qtwayland
@@ -426,12 +472,13 @@ set(_superbuild_default_nlohmannjson ON)
 # set the default for qt5 to be 5.12
 set(_superbuild_qt5_default_selection "5.12")
 
+# set the default for ospray to be 2.7.1
+# see https://github.com/ospray/ospray/issues/573
+# see vtk/vtk#19039
+set(_superbuild_ospray_default_selection "2.7.1")
+
 # Force qt SVG support, so ParaView can use SVG icons
 set(qt5_ENABLE_SVG ON CACHE INTERNAL "ParaView requires SVG support")
-
-# Disable MPI support in libraries that 5.11 is not yet ready for.
-set(_hdf5_disable_mpi_support ON)
-set(_netcdf_disable_mpi_support ON)
 
 # ParaView's superbuild does not support static-everywhere builds. But let
 # people around the check if they want it.

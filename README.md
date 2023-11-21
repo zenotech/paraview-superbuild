@@ -43,8 +43,8 @@ is assumed to be available on the host machine.
     * `ninja` (or `make`) for building
     * Python (if not built by the superbuild) for building packages
     * If building `mesa` or `osmesa`, `bison` and `flex` are required.
-    * If building packages on Linux, `chrpath` is required to make relocatable
-      packages
+    * If building packages on Linux, `chrpath` or `patchelf` is required to make
+      relocatable packages
 
 ## Building a specific version
 
@@ -228,21 +228,6 @@ mechanisms and the way CPack works. There are two ways to avoid this:
   * the initial build can just be run using the `install` target instead of
     the usual `make && make install` pattern.
 
-## External plugins
-
-The superbuild supports building more plugins into ParaView using the
-`paraviewexternalplugins` project. As an example, to build two external
-plugins `a` and `b`, the following settings should be used:
-
-  * `ENABLE_paraviewexternalplugins:BOOL=ON`: Enables building using external
-    plugins.
-  * `paraview_PLUGINS_EXTERNAL:STRING=a;b`: The list of plugins to build.
-  * `paraview_PLUGIN_a_PATH:PATH=/path/to/plugin/a`: The path to plugin `a`'s
-    source directory. It must contain a `plugins.cmake` to be picked up by
-    ParaView.
-  * `paraview_PLUGIN_b_PATH:PATH=/path/to/plugin/b`: Same as above, but for
-    plugin `b`.
-
 ## CMake Variables
 
 ### Style Guide
@@ -300,7 +285,7 @@ time.
 
 The following flags affect ParaView directly:
 
-  * `paraview_SOURCE_SELECTION` (default `5.11.0`): The source to use for
+  * `paraview_SOURCE_SELECTION` (default `5.12.0-RC1`): The source to use for
     ParaView itself. The version numbers use the source tarballs from the
     website for the release. The `source` selection uses the
     `paraview_SOURCE_DIR` variable to look at a checked out ParaView source
@@ -339,11 +324,11 @@ The following flags affect ParaView directly:
   * `PARAVIEW_EXTRA_CMAKE_ARGUMENTS` (default `""`: Extra CMake arguments to
     pass to ParaView's configure step. This can be used to set CMake variables
     for the build that are otherwise not exposed in the superbuild itself.
+    Arguments should be separated with `;`.
   * `PARAVIEW_ENABLE_CAVEInteraction` (default `ON`): Enables the CAVEInteraction. If
     `vrpn` is enabled, the CAVEInteraction will support input devices through a VRPN
     connection. VRUI support is enabled unconditionally on Linux.
-  * `PARAVIEW_ENABLE_NODEEDITOR` (default `OFF`): Enables the NodeEditor
-    plugin.
+  * `PARAVIEW_ENABLE_NODEEDITOR` (default `ON`): Enables the NodeEditor plugin.
   * `PARAVIEW_ENABLE_XRInterface` (default `ON`): Enables the XRInterface plugin.
 
 #### ParaView editions
@@ -374,6 +359,19 @@ this using the `PARAVIEW_BUILD_EDITION` setting. Supported values for this setti
 
 The packages may be built using the `cpack-paraview` tests via `ctest`. The
 easiest way to build all available packages is to run `ctest -R cpack`.
+
+## Caveats
+
+Even though almost all dependencies are bundled into the final package, there
+are still some libraries that should be present on the user OS. Namely :
+
+- a valid OpenGL implementation (GPU driver or Mesa)
+- for Linux systems :
+    - libxcb
+    - libxi
+    - libxkbcommon
+    - libxrender
+    - alsa (only if using the Audio Player docker from the DSP ParaView plugin)
 
 # Learning Resources
 

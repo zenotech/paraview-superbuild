@@ -40,20 +40,20 @@ set(paraviews_platform_dependencies)
 if (UNIX)
   if (NOT APPLE)
     list(APPEND paraviews_platform_dependencies
-      mesa osmesa egl
+      mesa osmesa egl openxrsdk
 
       # Needed for fonts to work properly.
       fontconfig)
   endif ()
   list(APPEND paraviews_platform_dependencies
-    ffmpeg libxml2 freetype mili gmsh
+    cdi ffmpeg libxml2 freetype mili gmsh
     # For cosmotools
     genericio cosmotools)
 endif ()
 
 if (WIN32)
   list(APPEND paraviews_platform_dependencies
-    openvr zeromq)
+    openvr openxrremoting openxrsdk zeromq)
 endif ()
 
 if (USE_NONFREE_COMPONENTS AND (WIN32 OR (UNIX AND NOT APPLE)))
@@ -168,10 +168,39 @@ if (PARAVIEW_BUILD_ID)
     "-DPARAVIEW_BUILD_ID:STRING=${PARAVIEW_BUILD_ID}")
 endif ()
 
-if (openvr_enabled AND zeromq_enabled)
-  set(paraview_vr_collaboration_enabled TRUE)
+if (openvr_enabled)
+  set(paraview_vtk_module_openvr_enabled YES)
 else()
-  set(paraview_vr_collaboration_enabled FALSE)
+  set(paraview_vtk_module_openvr_enabled NO)
+endif()
+
+if (openxrsdk_enabled)
+  set(paraview_vtk_module_openxr_enabled YES)
+else()
+  set(paraview_vtk_module_openxr_enabled NO)
+endif()
+
+if (openxrremoting_enabled)
+  set(paraview_vtk_module_openxrremoting_enabled YES)
+else()
+  set(paraview_vtk_module_openxrremoting_enabled NO)
+endif()
+
+if (openvr_enabled OR openxrsdk_enabled)
+  set(paraview_xrinterface_plugin_enabled TRUE)
+  if (zeromq_enabled)
+    set(paraview_vr_collaboration_enabled TRUE)
+  else()
+    set(paraview_vr_collaboration_enabled FALSE)
+  endif()
+else ()
+  set(paraview_xrinterface_plugin_enabled FALSE)
+endif()
+
+if (pdal_enabled AND xerces_enabled)
+  set(e57reader_plugin_enabled TRUE)
+else()
+  set(e57reader_plugin_enabled FALSE)
 endif()
 
 if (openvdb_enabled)
@@ -184,8 +213,8 @@ superbuild_add_project(paraview
   DEFAULT_ON
   DEPENDS cxx11
   DEPENDS_OPTIONAL
-    adios2 catalyst cuda boost eigen fortran gdal hdf5 matplotlib mpi numpy png
-    protobuf python3 qt5 visitbridge zlib silo las lookingglass fides
+    adios2 alembic catalyst cuda boost eigen fortran gdal hdf5 matplotlib mpi numpy pdal png
+    protobuf python3 qt5 visitbridge zlib silo las lookingglass fides pythonmpi4py
     xdmf3 vrpn vtkm netcdf
     openmp
     openpmd
@@ -196,34 +225,48 @@ superbuild_add_project(paraview
     ${paraview_all_plugins}
     ${paraviews_platform_dependencies}
     tbb ospray sqlite
-    tiff proj
+    tiff proj exodus seacas
+    occt
     ${PARAVIEW_EXTERNAL_PROJECTS}
 
   CMAKE_ARGS
     -DCMAKE_INSTALL_LIBDIR:PATH=lib
     -DCMAKE_INSTALL_NAME_DIR:PATH=<INSTALL_DIR>/lib
     -DCMAKE_MACOSX_RPATH:BOOL=OFF
-    -DHDF5_NO_FIND_PACKAGE_CONFIG_FILE:BOOL=ON
     -DPARAVIEW_BUILD_LEGACY_REMOVE:BOOL=ON
     -DPARAVIEW_BUILD_SHARED_LIBS:BOOL=${paraview_build_shared_libs}
     -DPARAVIEW_BUILD_TESTING:BOOL=OFF
     -DPARAVIEW_BUILD_EDITION:STRING=${PARAVIEW_BUILD_EDITION}
     -DPARAVIEW_ENABLE_ADIOS2:BOOL=${adios2_enabled}
+    -DPARAVIEW_ENABLE_ALEMBIC:BOOL=${alembic_enabled}
     -DPARAVIEW_ENABLE_CATALYST:BOOL=${catalyst_enabled}
     -DPARAVIEW_ENABLE_COSMOTOOLS:BOOL=${cosmotools_enabled}
     -DPARAVIEW_ENABLE_FFMPEG:BOOL=${ffmpeg_enabled}
     -DPARAVIEW_ENABLE_FIDES:BOOL=${fides_enabled}
     -DPARAVIEW_ENABLE_GDAL:BOOL=${gdal_enabled}
+    -DPARAVIEW_ENABLE_PDAL:BOOL=${pdal_enabled}
     -DPARAVIEW_ENABLE_LAS:BOOL=${las_enabled}
+    -DPARAVIEW_ENABLE_GEOVIS:BOOL=${proj_enabled}
     -DPARAVIEW_ENABLE_LOOKINGGLASS:BOOL=${lookingglass_enabled}
     -DPARAVIEW_ENABLE_MOTIONFX:BOOL=${PARAVIEW_ENABLE_MOTIONFX}
+    -DPARAVIEW_ENABLE_OCCT:BOOL=${occt_enabled}
     -DPARAVIEW_ENABLE_VISITBRIDGE:BOOL=${visitbridge_enabled}
     -DPARAVIEW_ENABLE_XDMF3:BOOL=${xdmf3_enabled}
+    -DPARAVIEW_GENERATE_SPDX:BOOL=${python3_enabled}
     -DPARAVIEW_INSTALL_DEVELOPMENT_FILES:BOOL=ON
+    -DPARAVIEW_PLUGIN_ENABLE_E57PDALReader:BOOL=${e57reader_plugin_enabled}
     -DPARAVIEW_PLUGIN_ENABLE_GmshIO:BOOL=${gmsh_enabled}
-    -DPARAVIEW_PLUGIN_ENABLE_NodeEditor:BOOL=${PARAVIEW_ENABLE_NODEEDITOR}
     -DPARAVIEW_PLUGIN_ENABLE_LookingGlass:BOOL=${lookingglass_enabled}
-    -DPARAVIEW_PLUGIN_ENABLE_XRInterface:BOOL=${openvr_enabled}
+    -DPARAVIEW_PLUGIN_ENABLE_NodeEditor:BOOL=${PARAVIEW_ENABLE_NODEEDITOR}
+    -DPARAVIEW_PLUGIN_dsp_enable_audio_player:BOOL=${qt5_ENABLE_MULTIMEDIA}
+    -DPARAVIEW_PLUGIN_ENABLE_XRInterface:BOOL=${paraview_xrinterface_plugin_enabled}
+    -DPARAVIEW_PLUGIN_ENABLE_zSpace:BOOL=${zspace_enabled}
+    -DPARAVIEW_XRInterface_OpenVR_Support:BOOL=${openvr_enabled}
+    -DPARAVIEW_XRInterface_OpenXR_Support:BOOL=${openxrsdk_enabled}
+    -DPARAVIEW_XRInterface_OpenXRRemoting_Support:BOOL=${openxrremoting_enabled}
+    -DVTK_MODULE_ENABLE_VTK_RenderingOpenVR:STRING=${paraview_vtk_module_openvr_enabled}
+    -DVTK_MODULE_ENABLE_VTK_RenderingOpenXR:STRING=${paraview_vtk_module_openxr_enabled}
+    -DVTK_MODULE_ENABLE_VTK_RenderingOpenXRRemoting:STRING=${paraview_vtk_module_openxrremoting_enabled}
     # No netcdftime module in the package.
     -DPARAVIEW_PLUGIN_ENABLE_NetCDFTimeAnnotationPlugin:BOOL=OFF
     -DPARAVIEW_PYTHON_VERSION:STRING=3
@@ -231,17 +274,21 @@ superbuild_add_project(paraview
     -DPARAVIEW_USE_FORTRAN:BOOL=${fortran_enabled}
     -DPARAVIEW_USE_PYTHON:BOOL=${paraview_use_python}
     -DPARAVIEW_USE_QT:BOOL=${qt5_enabled}
+    -DPARAVIEW_QT_VERSION:STRING=5
+    -DVTK_QT_VERSION:STRING=5
     -DVISIT_BUILD_READER_Mili:BOOL=${mili_enabled}
     -DVISIT_BUILD_READER_Silo:BOOL=${silo_enabled}
     -DVTK_DEFAULT_RENDER_WINDOW_OFFSCREEN:BOOL=${osmesa_enabled}
     -DVTK_ENABLE_VR_COLLABORATION:BOOL=${paraview_vr_collaboration_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_eigen=${eigen_enabled}
     -DVTK_MODULE_USE_EXTERNAL_ParaView_protobuf:BOOL=${protobuf_enabled}
+    -DVTK_MODULE_USE_EXTERNAL_VTK_exodus:BOOL=${exodus_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_expat:BOOL=${expat_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_freetype:BOOL=${freetype_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_hdf5:BOOL=${hdf5_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_libproj:BOOL=${proj_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_libxml2:BOOL=${libxml2_enabled}
+    -DVTK_MODULE_USE_EXTERNAL_VTK_mpi4py:BOOL=${pythonmpi4py_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_netcdf:BOOL=${netcdf_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_png:BOOL=${png_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_sqlite:BOOL=${sqlite_enabled}
@@ -288,6 +335,9 @@ superbuild_add_project(paraview
 
     # 3Dconnexion SpaceMouse
     -DPARAVIEW_PLUGIN_ENABLE_SpaceMouseInteractor:BOOL=${threedxwaresdk_enabled}
+
+    # CDI Reader
+    -DPARAVIEW_PLUGIN_ENABLE_CDIReader:BOOL=${cdi_enabled}
 
     ${paraview_extra_cmake_options}
 

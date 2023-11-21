@@ -7,6 +7,6 @@ yum-config-manager --add-repo https://developer.download.nvidia.com/compute/cuda
 
 # Install CUDA toolchains.
 yum install -y \
-    cuda-compiler-11-2 cuda-cudart-devel-11-2 cuda-toolkit-11-2
+    cuda-compiler-12-2 cuda-cudart-devel-12-2 cuda-toolkit-12-2
 
 yum clean all

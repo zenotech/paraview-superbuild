@@ -3,8 +3,11 @@ superbuild_add_project(gmsh
     LICENSE.txt
   CMAKE_ARGS
     -DBUILD_TESTING:BOOL=OFF
+    -DCMAKE_INSTALL_LIBDIR:STRING=lib
     -DENABLE_CAIRO:BOOL=OFF
     -DENABLE_FLTK:BOOL=OFF
     -DENABLE_ONELAB:BOOL=OFF
     -DENABLE_ONELAB_METAMODEL:BOOL=OFF
     -DENABLE_BUILD_SHARED:BOOL=${BUILD_SHARED_LIBS})
+
+superbuild_apply_patch(gmsh stdint-includes "Missing stdint.h include")

@@ -2,10 +2,12 @@ include(paraview-version)
 
 set(paraview_doc_dir "doc")
 set(paraview_data_dir "examples")
+set(paraview_translations_dir "translations")
 set(paraview_materials_dir "materials")
 set(paraview_kernels_nvidia_index_dir "kernels_nvidia_index")
 set(paraview_plugin_path "bin/paraview-${paraview_version}/plugins")
 set(paraview_license_path "share/licenses")
+set(paraview_spdx_path "share/paraview-${paraview_version}")
 include(paraview.bundle.common)
 
 set(CPACK_WIX_UPGRADE_GUID "e06445a7-b257-4fce-9241-2a189ad26b5a")
@@ -41,7 +43,7 @@ set(paraview_start_menu_name "ParaView ${paraview_version_full}")
 #set(CPACK_NSIS_MUI_ICON "${CMAKE_CURRENT_LIST_DIR}/paraview.ico")
 #set(CPACK_NSIS_MUI_FINISHPAGE_RUN "bin/paraview.exe")
 
-set(library_paths "lib")
+set(library_paths "")
 if (Qt5_DIR)
   list(APPEND library_paths
     "${Qt5_DIR}/../../../bin")
@@ -97,15 +99,6 @@ install(
   DESTINATION "${paraview_plugin_path}"
   COMPONENT   superbuild)
 
-if ("XRInterface" IN_LIST paraview_plugins)
-  file(GLOB openvr_manifests
-    "${superbuild_install_location}/${paraview_plugin_path}/XRInterface/*.json")
-  install(FILES ${openvr_manifests}
-    DESTINATION "${paraview_plugin_path}/XRInterface"
-    COMPONENT "superbuild"
-    )
-endif ()
-
 if (nvidiaindex_enabled)
   set(nvidiaindex_libraries
     libdice
@@ -144,26 +137,49 @@ if (nvidiaindex_enabled)
   endforeach ()
 endif ()
 
-if (ospray_enabled)
-  set(osprayextra_libraries
+set(extra_library_names)
+if (ispc_enabled AND ospray_SOURCE_SELECTION STREQUAL "2.12.0")
+  list(APPEND extra_library_names
+    ispcrt_device_cpu)
+endif ()
+if (rkcommon_enabled)
+  list(APPEND extra_library_names
+    rkcommon)
+endif ()
+if (openvkl_enabled)
+  list(APPEND extra_library_names
     openvkl_module_cpu_device
     openvkl_module_cpu_device_4
     openvkl_module_cpu_device_8
-    openvkl_module_cpu_device_16
-    ospray_module_denoiser
-    ospray_module_ispc
-    rkcommon)
-  if (ospraymodulempi_enabled)
-    list(APPEND osprayextra_libraries
+    openvkl_module_cpu_device_16)
+endif ()
+if (ospray_enabled)
+  list(APPEND extra_library_names
+    ospray_module_denoiser)
+  if (ospray_SOURCE_SELECTION STREQUAL "2.12.0")
+    list(APPEND extra_library_names
+      ospray_module_cpu)
+  else ()
+    list(APPEND extra_library_names
+      ospray_module_ispc)
+  endif ()
+endif ()
+if (ospraymodulempi_enabled)
+  if (ospray_SOURCE_SELECTION STREQUAL "2.12.0")
+    list(APPEND extra_library_names
+      ospray_module_mpi_distributed_cpu
+      ospray_module_mpi_offload)
+  else ()
+    list(APPEND extra_library_names
       ospray_module_mpi)
   endif ()
-
-  foreach (osprayextra_library IN LISTS osprayextra_libraries)
-    superbuild_windows_install_plugin("${osprayextra_library}.dll"
-      "bin" "bin"
-      SEARCH_DIRECTORIES "${superbuild_install_location}/bin")
-  endforeach ()
 endif ()
+
+foreach (extra_library_name IN LISTS extra_library_names)
+  superbuild_windows_install_plugin("${extra_library_name}.dll"
+    "bin" "bin"
+    SEARCH_DIRECTORIES "${superbuild_install_location}/bin")
+endforeach ()
 
 if (visrtx_enabled)
   set(visrtxextra_libraries
@@ -203,11 +219,13 @@ if (python3_enabled)
       install(
         DIRECTORY   "${superbuild_install_location}/Python/Lib/site-packages/win32"
         DESTINATION "bin/Lib/site-packages"
-        COMPONENT   "superbuild")
+        COMPONENT   "superbuild"
+        PATTERN     "__pycache__" EXCLUDE)
       install(
         DIRECTORY   "${superbuild_install_location}/Python/Lib/site-packages/pywin32_system32"
         DESTINATION "bin/Lib/site-packages"
-        COMPONENT   "superbuild")
+        COMPONENT   "superbuild"
+        PATTERN     "__pycache__" EXCLUDE)
       install(
         FILES       "${superbuild_install_location}/Python/Lib/site-packages/pywin32.pth"
                     "${superbuild_install_location}/Python/Lib/site-packages/pywin32.version.txt"
@@ -244,4 +262,30 @@ if (qt5_enabled)
   endforeach ()
 endif ()
 
+if (openxrremoting_enabled)
+  # The external package for openxrremoting contains several dlls, as it's
+  # only loaded at runtime, we only package required dll for paraview to use
+  # the OpenXRRemoting feature:
+  # - Microsoft.Holographic.AppRemoting.OpenXr.dll
+  # - RemotingXR.json
+  set(openxrremoting_files
+    Microsoft.Holographic.AppRemoting.OpenXr.dll
+    RemotingXR.json
+  )
+
+  foreach (openxrremoting_file IN LISTS openxrremoting_files)
+    install(
+      FILES       "${superbuild_install_location}/bin/${openxrremoting_file}"
+      DESTINATION "bin"
+      COMPONENT   "superbuild")
+  endforeach ()
+endif ()
+
 paraview_install_extra_data()
+
+if (proj_enabled)
+  install(
+    FILES       "${superbuild_install_location}/share/proj/proj.db"
+    DESTINATION "share/proj"
+    COMPONENT   superbuild)
+endif ()
