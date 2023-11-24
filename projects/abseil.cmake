@@ -1,6 +1,7 @@
 superbuild_add_project(abseil
   LICENSE_FILES
     LICENSE
+    AUTHORS
   SPDX_LICENSE_IDENTIFIER
     Apache-2.0
   SPDX_COPYRIGHT_TEXT

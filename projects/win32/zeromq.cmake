@@ -8,6 +8,7 @@ endif()
 superbuild_add_project(zeromq
   LICENSE_FILES
     COPYING.LESSER
+    AUTHORS
   SPDX_LICENSE_IDENTIFIER
     LGPL-3.0-linking-exception
   SPDX_COPYRIGHT_TEXT

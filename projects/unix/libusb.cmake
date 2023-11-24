@@ -1,6 +1,7 @@
 superbuild_add_project(libusb
   LICENSE_FILES
     COPYING
+    AUTHORS
   SPDX_LICENSE_IDENTIFIER
     LGPL-2.1-or-later
   SPDX_COPYRIGHT_TEXT
