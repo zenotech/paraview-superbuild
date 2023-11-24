@@ -236,12 +236,16 @@ function (superbuild_find_projects var)
         threedxwaresdk
         )
     endif()
+    if (WIN32)
+      list(APPEND projects
+        openxrremoting
+      )
+    endif ()
   endif ()
 
   if (WIN32)
     list(APPEND projects
       openvr
-      openxrremoting
       pywin32
       zeromq
       zspace)
