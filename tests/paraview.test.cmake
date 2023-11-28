@@ -31,7 +31,7 @@ else ()
     set(glob_prefix "ParaView${name_suffix}-${paraview_version_full}*")
   endif ()
   if (PARAVIEW_PACKAGE_SUFFIX)
-    set(glob_prefix "${glob_prefix}-${PARAVIEW_PACKAGE_SUFFIX}")
+    string(APPEND glob_prefix "-${PARAVIEW_PACKAGE_SUFFIX}")
   endif ()
 endif ()
 superbuild_add_extract_test("paraview" "${glob_prefix}" "${generator}" "${paraview_extract_dir}"
