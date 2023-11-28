@@ -2,6 +2,10 @@ superbuild_add_project(openvdb
   DEPENDS tbb cxx17 blosc zlib boost
   LICENSE_FILES
     LICENSE
+  SPDX_LICENSE_IDENTIFIER
+    MPL-2.0
+  SPDX_COPYRIGHT_TEXT
+    "Copyright Contributors to the OpenVDB project"
   CMAKE_ARGS
     -DUSE_BLOSC:BOOL=ON
     -DUSE_ZLIB:BOOL=ON

@@ -10,6 +10,12 @@ superbuild_add_project(blosc
   LICENSE_FILES
     LICENSE.txt
     LICENSES/LZ4.txt
+  SPDX_LICENSE_IDENTIFIER
+    "BSD-3-Clause AND BSD-2-Clause"
+  SPDX_COPYRIGHT_TEXT
+    "Copyright (c) 2009-2018 Francesc Alted"
+    "Copyright (c) 2019-present Blosc Development Team"
+    "Copyright (c) 2011-2020, Yann Collet" # LZ4
   CMAKE_ARGS
     -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
     -DCMAKE_INSTALL_LIBDIR:STRING=lib

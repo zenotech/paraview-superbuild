@@ -26,6 +26,23 @@ superbuild_add_project(gdal
     netcdf
   LICENSE_FILES
     LICENSE.TXT
+  SPDX_LICENSE_IDENTIFIER
+    "MIT AND BSD-3-Clause AND Apache-2.0 AND ISC AND Info-ZIP"
+  SPDX_COPYRIGHT_TEXT
+    "Copyright The GDAL/OGR contributors" # No explicit copyright statement for the project itself: https://github.com/OSGeo/gdal/issues/859
+    "Copyright (c) 2002, Industrial Light & Magic, a division of Lucas Digital Ltd. LLC"
+    "Copyright (C) 1996 Hughes and Applied Research Corporation"
+    "Copyright (c) 1997-2003, Utrecht University"
+    "Copyright (c) 1990-2005 Info-ZIP"
+    "Copyright (c) 2009, David F. Rogers"
+    "Copyright (C) 1993 by Sun Microsystems, Inc."
+    "Copyright 2014 PDFium Authors"
+    "Copyright (c) 2002-2012, California Institute of Technology"
+    "Copyright 2014-2015 Esri"
+    "Copyright 2000-2022 Kitware, Inc. and Contributors"
+    "Copyright (c) 2018, Bjorn Harrtell"
+    "Copyright (c) 2018, Vladimir Agafonkin"
+    "Copyright 2021 Google Inc."
   CMAKE_ARGS
     -DCMAKE_INSTALL_LIBDIR:STRING=lib
     -DCMAKE_INSTALL_NAME_DIR:PATH=<INSTALL_DIR>/lib

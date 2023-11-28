@@ -280,6 +280,17 @@ function (paraview_install_license project)
   endif ()
 endfunction ()
 
+function (paraview_install_spdx project)
+  if (EXISTS "${superbuild_install_location}/share/doc/${project}/spdx/${project}.spdx")
+    install(
+      FILES   "${superbuild_install_location}/share/doc/${project}/spdx/${project}.spdx"
+      DESTINATION "${paraview_spdx_path}/spdx"
+      COMPONENT   superbuild)
+  else ()
+    message(FATAL_ERROR "${superbuild_install_location}/share/doc/${project}/spdx/${project}.spdx does not exist, aborting.")
+  endif ()
+endfunction ()
+
 function (paraview_install_xr_manifests)
   # Install XR json files
   if (NOT "XRInterface" IN_LIST paraview_plugins)
@@ -309,7 +320,7 @@ function (paraview_install_bivariate_textures)
     COMPONENT "superbuild")
 endfunction ()
 
-function (paraview_install_spdx_files)
+function (paraview_install_paraview_modules_spdx_files)
   if (EXISTS "${superbuild_install_location}/share/doc/ParaView/spdx")
     install(
       DIRECTORY   "${superbuild_install_location}/share/doc/ParaView/spdx"
@@ -351,17 +362,15 @@ function (paraview_install_translations project dir)
   endif ()
 endfunction ()
 
-function (paraview_install_all_licenses)
-  set(license_projects "${enabled_projects}")
-
-  foreach (project IN LISTS license_projects)
+macro (remove_not_packaged_projects)
+  foreach (project IN LISTS packaged_projects)
     if (NOT ${project}_built_by_superbuild)
-      list(REMOVE_ITEM license_projects ${project})
+      list(REMOVE_ITEM packaged_projects ${project})
     endif ()
   endforeach ()
 
   # Remove package without licenses
-  list(REMOVE_ITEM license_projects
+  list(REMOVE_ITEM packaged_projects
     exodus # dummy project to enable the library in the seacas build
     ospraymaterials # CC0 License
     launchers # ParaView
@@ -370,7 +379,7 @@ function (paraview_install_all_licenses)
     )
 
   # Do not install license of non-packaged projects
-  list(REMOVE_ITEM license_projects
+  list(REMOVE_ITEM packaged_projects
     gperf
     medconfiguration
     meson
@@ -394,14 +403,20 @@ function (paraview_install_all_licenses)
     pythonsetuptoolsrust
     pythonsetuptoolsscm
     )
+endmacro ()
+
+function (paraview_install_all_licenses)
+  # Recover a list of packaged projects
+  set(packaged_projects "${enabled_projects}")
+  remove_not_packaged_projects()
 
   # paraview install itself in ParaView directory
-  if (paraview IN_LIST license_projects)
-    list(REMOVE_ITEM license_projects paraview)
-    list(APPEND license_projects ParaView)
+  if (paraview IN_LIST packaged_projects)
+    list(REMOVE_ITEM packaged_projects paraview)
+    list(APPEND packaged_projects ParaView)
   endif ()
 
-  foreach (project IN LISTS license_projects)
+  foreach (project IN LISTS packaged_projects)
     paraview_install_license("${project}")
   endforeach ()
 
@@ -412,6 +427,24 @@ function (paraview_install_all_licenses)
       DESTINATION "${paraview_license_path}/qt5"
       COMPONENT   superbuild)
   endif ()
+endfunction ()
+
+function (paraview_install_all_spdx_files)
+  # paraview install module SPDX files in ParaView directory
+  paraview_install_paraview_modules_spdx_files()
+
+  # Recover a list of packaged projects
+  set(packaged_projects "${enabled_projects}")
+  remove_not_packaged_projects()
+
+  # paraview install many .spdx files instead
+  if (paraview IN_LIST packaged_projects)
+    list(REMOVE_ITEM packaged_projects paraview)
+  endif ()
+
+  foreach (project IN LISTS spdx_projects)
+    paraview_install_spdx("${project}")
+  endforeach ()
 endfunction ()
 
 function (paraview_install_extra_data)
@@ -433,16 +466,14 @@ function (paraview_install_extra_data)
   endif ()
 
   paraview_install_all_licenses()
+  paraview_install_all_spdx_files()
 
   if (paraview_translations_dir AND qt5_enabled)
     paraview_install_translations(paraviewtranslations "translations/")
   endif()
 
   paraview_install_xr_manifests()
-
   paraview_install_bivariate_textures()
-
-  paraview_install_spdx_files()
 endfunction ()
 
 if (qt5_enabled)

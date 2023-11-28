@@ -1,5 +1,6 @@
 set(USE_NONFREE_COMPONENTS          ON CACHE BOOL "")
 set(BUILD_TESTING                   ON CACHE BOOL "")
+set(GENERATE_SPDX                   ON CACHE BOOL "")
 
 # The new Mesa has issues with back screens when rendering. See
 # paraview/paraview#22152.

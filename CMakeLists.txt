@@ -236,12 +236,16 @@ function (superbuild_find_projects var)
         threedxwaresdk
         )
     endif()
+    if (WIN32)
+      list(APPEND projects
+        openxrremoting
+      )
+    endif ()
   endif ()
 
   if (WIN32)
     list(APPEND projects
       openvr
-      openxrremoting
       pywin32
       zeromq
       zspace)
@@ -313,6 +317,7 @@ function (superbuild_sanity_check)
   if (launchers_enabled AND mpi_enabled AND USE_SYSTEM_mpi AND NOT mesa_enabled)
     message(SEND_ERROR "Launchers cannot be enabled since MESA is not enabled and USE_SYSTEM_mpi is ON.")
   endif ()
+
 endfunction ()
 
 function (superbuild_add_packaging)
@@ -499,6 +504,9 @@ set(_python_unicode_default "UCS4")
 # The projects end up with "errors" in their output that CDash ends up seeing
 # and thinking things went wrong.
 set(_superbuild_suppress_matplotlib_output ON)
+
+# Setup SPDX superbuild variables
+set(superbuild_spdx_document_namespace "https://paraview.org/spdx")
 
 if (NOT EXISTS "${CMAKE_CURRENT_LIST_DIR}/superbuild/CMakeLists.txt")
   message(FATAL_ERROR "It appears as though the superbuild infrastructure "

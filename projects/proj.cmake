@@ -3,6 +3,11 @@ superbuild_add_project(proj
     cxx11 nlohmannjson sqlite
   LICENSE_FILES
     COPYING
+  SPDX_LICENSE_IDENTIFIER
+    MIT
+  SPDX_COPYRIGHT_TEXT
+    # Authors file reference the github contributors page
+    "Copyright The proj contributors"
   CMAKE_ARGS
     -DCMAKE_INSTALL_LIBDIR:STRING=lib
     -DCMAKE_INSTALL_NAME_DIR:PATH=<INSTALL_DIR>/lib

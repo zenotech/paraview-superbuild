@@ -3,6 +3,11 @@ superbuild_add_project(openvr
     LICENSE
     # https://github.com/ValveSoftware/openvr/issues/1763
     # LICENSE.jsoncpp
+  SPDX_LICENSE_IDENTIFIER
+    "BSD-3-Clause AND MIT"
+  SPDX_COPYRIGHT_TEXT
+    "Copyright (c) 2015, Valve Corporation"
+    "Copyright (c) 2007-2010 Baptiste Lepilleur and The JsonCpp Authors"
   CMAKE_ARGS
     -DBUILD_SHARED:BOOL=TRUE
   INSTALL_COMMAND

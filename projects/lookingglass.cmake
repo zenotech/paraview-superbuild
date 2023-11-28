@@ -2,6 +2,14 @@ superbuild_add_project(lookingglass
   DEPENDS qt5
   LICENSE_FILES
     LICENSE.txt
+  SPDX_LICENSE_IDENTIFIER
+    LicenseRef-LookingGlass
+  SPDX_COPYRIGHT_TEXT
+    "Copyright Looking Glass Factory Inc."
+  SPDX_CUSTOM_LICENSE_FILE
+    LICENSE.txt
+  SPDX_CUSTOM_LICENSE_NAME
+    LicenseRef-LookingGlass
   CONFIGURE_COMMAND
     ""
   BUILD_COMMAND

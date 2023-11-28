@@ -9,6 +9,10 @@ superbuild_add_project(curl
   CAN_USE_SYSTEM
   LICENSE_FILES
     COPYING
+  SPDX_LICENSE_IDENTIFIER
+    MIT
+  SPDX_COPYRIGHT_TEXT
+    "Copyright (c) 1996 - 2023, Daniel Stenberg and many contributors"
   CMAKE_ARGS
     -DCMAKE_INSTALL_LIBDIR:STRING=lib
     -DCMAKE_INSTALL_NAME_DIR:PATH=<INSTALL_DIR>/lib

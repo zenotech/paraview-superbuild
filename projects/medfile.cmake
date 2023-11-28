@@ -4,6 +4,11 @@ superbuild_add_project(medfile
   LICENSE_FILES
     AUTHORS
     COPYING.LESSER
+  SPDX_LICENSE_IDENTIFIER
+    LGPL-3.0-or-later
+  SPDX_COPYRIGHT_TEXT
+    # No copyright specified, extrapolated from some source files
+    "Copyright (C) CEA/DEN, EDF R&D, OPEN CASCADE"
   CMAKE_ARGS
    -DMEDFILE_INSTALL_DOC:BOOL=OFF
    -DMEDFILE_BUILD_TESTS:BOOL=OFF
