@@ -442,7 +442,7 @@ function (paraview_install_all_spdx_files)
     list(REMOVE_ITEM packaged_projects paraview)
   endif ()
 
-  foreach (project IN LISTS spdx_projects)
+  foreach (project IN LISTS packaged_projects)
     paraview_install_spdx("${project}")
   endforeach ()
 endfunction ()
