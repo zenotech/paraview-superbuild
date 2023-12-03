@@ -170,6 +170,9 @@ endfunction ()
 
 set(plugin_file_dir
   "${superbuild_install_location}/${paraview_plugin_path}/")
+if (NOT DEFINED paraview_plugin_package_path)
+  set(paraview_plugin_package_path "${paraview_plugin_path}")
+endif ()
 if (EXISTS "${plugin_file_dir}/paraview.plugins.xml")
   set(plugin_file
     "${plugin_file_dir}/paraview.plugins.xml")
