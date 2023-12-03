@@ -291,7 +291,7 @@ function (paraview_install_xr_manifests)
 
   install(
     DIRECTORY "${superbuild_install_location}/${paraview_plugin_path}/XRInterface/"
-    DESTINATION "${paraview_plugin_path}/XRInterface"
+    DESTINATION "${paraview_plugin_package_path}/XRInterface"
     COMPONENT "superbuild"
     FILES_MATCHING PATTERN "*.json")
 endfunction ()
@@ -308,7 +308,7 @@ function (paraview_install_bivariate_textures)
 
   install(
     DIRECTORY "${superbuild_install_location}/${paraview_plugin_path}/BivariateRepresentations/Resources"
-    DESTINATION "${paraview_plugin_path}/BivariateRepresentations"
+    DESTINATION "${paraview_plugin_package_path}/BivariateRepresentations"
     COMPONENT "superbuild")
 endfunction ()
 
