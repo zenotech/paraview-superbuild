@@ -442,7 +442,10 @@ function (paraview_install_extra_data)
 
   paraview_install_bivariate_textures()
 
-  paraview_install_spdx_files()
+  # SPDX is only generated if Python is enabled.
+  if (python3_enabled)
+    paraview_install_spdx_files()
+  endif ()
 endfunction ()
 
 if (qt5_enabled)
