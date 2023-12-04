@@ -365,3 +365,11 @@ if (ospray_enabled AND tbb_enabled)
   superbuild_add_extra_cmake_args(
     -DTBB_ROOT:PATH=<INSTALL_DIR>)
 endif()
+
+if (paraview_SOURCE_SELECTION MATCHES "^5.12")
+  # Remove bogus interface directory from VTK-m's loguru third party.
+  # https://gitlab.kitware.com/vtk/vtk-m/-/merge_requests/3163
+  # https://gitlab.kitware.com/paraview/paraview-superbuild/-/issues/264
+  superbuild_apply_patch(paraview 5.12-vtkm-loguru-install-interface
+    "Remove non-existent include directory from VTK-m's loguru target")
+endif ()

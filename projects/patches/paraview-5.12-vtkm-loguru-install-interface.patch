@@ -1,0 +1,16 @@
+diff -u -U5 -r ParaView-v5.12.0-RC1/VTK/ThirdParty/vtkm/vtkvtkm/vtk-m/vtkm/thirdparty/loguru/CMakeLists.txt ParaView-v5.12.0-RC1.vtkm-loguru/VTK/ThirdParty/vtkm/vtkvtkm/vtk-m/vtkm/thirdparty/loguru/CMakeLists.txt
+--- ParaView-v5.12.0-RC1/VTK/ThirdParty/vtkm/vtkvtkm/vtk-m/vtkm/thirdparty/loguru/CMakeLists.txt	2023-11-06 20:05:13.000000000 -0500
++++ ParaView-v5.12.0-RC1.vtkm-loguru/VTK/ThirdParty/vtkm/vtkvtkm/vtk-m/vtkm/thirdparty/loguru/CMakeLists.txt	2023-12-04 11:47:28.164358370 -0500
+@@ -13,11 +13,10 @@
+ 
+ # loguru needs C++11
+ target_compile_features(vtkm_loguru INTERFACE cxx_std_11)
+ 
+ target_include_directories(vtkm_loguru INTERFACE
+-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+-  $<INSTALL_INTERFACE:${VTKm_INSTALL_INCLUDE_DIR}/vtkm/thirdparty/loguru>)
++  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>)
+ 
+ target_link_libraries(vtkm_loguru INTERFACE ${CMAKE_DL_LIBS} Threads::Threads)
+ 
+ vtkm_install_targets(TARGETS vtkm_loguru)
