@@ -463,7 +463,10 @@ function (paraview_install_extra_data)
   endif ()
 
   paraview_install_all_licenses()
-  paraview_install_all_spdx_files()
+  # SPDX is only generated if Python is enabled.
+  if (python3_enabled)
+    paraview_install_all_spdx_files()
+  endif ()
 
   if (paraview_translations_dir AND qt5_enabled)
     paraview_install_translations(paraviewtranslations "translations/")
