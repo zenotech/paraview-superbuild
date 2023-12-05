@@ -31,17 +31,17 @@ cd "$dirname"
 
 readonly dirprefix="nvidia-index-libs-$version.$date$count_suffix"
 
-for arch in linux-x86-64 linux-ppc64le nt-x86-64; do
+for arch in linux-x86-64 linux-aarch64 linux-ppc64le nt-x86-64; do
     case "$arch" in
         linux-x86-64)
             dir="$dirprefix-linux"
             ;;
-        linux-ppc64le)
+        linux-aarch64|linux-ppc64le)
             if ! [ -d "$arch" ]; then
                 # This architecture is optional, ignore if it's missing from the tarball.
                 continue
             fi
-            dir="$dirprefix-linux-ppc64le"
+            dir="$dirprefix-$arch"
             ;;
         nt-x86-64)
             dir="$dirprefix-windows-x64"
@@ -56,6 +56,9 @@ for arch in linux-x86-64 linux-ppc64le nt-x86-64; do
 
     mv "$arch/lib" "$dir/"
     cp EULA.pdf license.txt README.txt "$dir/"
+    if [ -f EULA.txt ]; then
+        cp EULA.txt "$dir/"
+    fi
 
     chmod -R a+rX "$dir"
     tar cjf "../$dir.tar.bz2" "$dir"
