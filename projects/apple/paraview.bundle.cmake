@@ -116,6 +116,7 @@ superbuild_apple_create_app(
   "${superbuild_install_location}/Applications/paraview.app/Contents/MacOS/paraview"
   CLEAN
   PLUGINS ${paraview_plugin_paths}
+  PLUGIN_SUBDIRS
   SEARCH_DIRECTORIES "${superbuild_install_location}/lib"
   ADDITIONAL_LIBRARIES ${additional_libraries}
   INCLUDE_REGEXES     ${include_regexes}
