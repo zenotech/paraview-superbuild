@@ -2,7 +2,6 @@
 <pqevents>
   <pqevent object="pqClientMainWindow/menubar" command="activate" arguments="menuTools" />
   <pqevent object="pqClientMainWindow/menubar/menuTools" command="activate" arguments="actionManage_Plugins" />
-  <pqevent object="pqClientMainWindow/PluginManagerDialog/splitter/localGroup/localPlugins" command="setCurrent" arguments="SurfaceLIC" />
   <pqevent object="pqClientMainWindow/PluginManagerDialog/splitter/localGroup/localPlugins" command="setCurrent" arguments="ArrowGlyph" />
   <pqevent object="pqClientMainWindow/PluginManagerDialog/splitter/localGroup/localPlugins" command="setCurrent" arguments="AnalyzeNIfTIReaderWriter" />
   <pqevent object="pqClientMainWindow/PluginManagerDialog/splitter/localGroup/localPlugins" command="setCurrent" arguments="Moments" />
