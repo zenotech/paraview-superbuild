@@ -321,6 +321,7 @@ superbuild_add_project(paraview
 
     # Readers
     -DVTK_MODULE_ENABLE_VTK_IOSegY:STRING=YES
+    -DVTK_MODULE_ENABLE_VTK_IOCesium3DTiles:STRING=YES
 
     # ParFlow
     -DPARAVIEW_PLUGIN_ENABLE_ParFlow:BOOL=${nlohmannjson_enabled}
