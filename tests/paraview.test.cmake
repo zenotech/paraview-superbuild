@@ -36,6 +36,35 @@ endif ()
 superbuild_add_extract_test("paraview" "${glob_prefix}" "${generator}" "${paraview_extract_dir}"
   LABELS "ParaView")
 
+if (UNIX AND NOT APPLE)
+  set(ldd_excludes)
+  if (openimagedenoise_SOURCE_SELECTION STREQUAL "2.7.1")
+    list(APPEND ldd_excludes
+      # Older OIDN forces the rpath.
+      "libOpenImageDenoise")
+  endif ()
+
+  superbuild_test_loadable_modules("paraview" "${generator}" "${paraview_extract_dir}"
+    EXCLUDES
+      # Copied from the system; does not have rpath entries.
+      "libgfortran"
+      # Python stdlib requirements; provided by the system.
+      "nis.cpython" # libnsl
+      # Libraries which use Fortran standard libraries.
+      "__nnls.cpython" # scipy
+      "_cobyla.cpython" # scipy
+      "_dop.cpython" # scipy
+      "_fitpack.cpython" # scipy
+      "_specfun.cpython" # scipy
+      # Qt plugins; provided by the system.
+      "libqtaudio_alsa" # libasound
+      # MEDReader plugin has a test, but the rpaths are not 100% correct.
+      # Ignore for now.
+      "MEDReader/lib" # paraview/common-superbuild#73
+      ${ldd_excludes}
+      )
+endif ()
+
 if (NOT qt5_enabled)
   set(paraview_exe)
 endif ()

@@ -1,3 +1,9 @@
+set(catalyst_options)
+if (UNIX AND NOT APPLE)
+  list(APPEND catalyst_options
+    -DCMAKE_INSTALL_RPATH:STRING=<INSTALL_DIR>/lib)
+endif ()
+
 superbuild_add_project(catalyst
   CAN_USE_SYSTEM
   DEPENDS
@@ -16,4 +22,5 @@ superbuild_add_project(catalyst
     -DCATALYST_BUILD_TESTING:BOOL=OFF
     -DCATALYST_WRAP_PYTHON:BOOL=${numpy_enabled} # numpy is required by python wrappings on conduit
     -DCATALYST_WRAP_FORTRAN:BOOL=OFF
-    -DCATALYST_USE_MPI:STRING=${mpi_enabled})
+    -DCATALYST_USE_MPI:STRING=${mpi_enabled}
+    ${catalyst_options})

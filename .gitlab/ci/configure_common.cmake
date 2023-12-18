@@ -1,9 +1,16 @@
 set(USE_NONFREE_COMPONENTS          ON CACHE BOOL "")
 set(BUILD_TESTING                   ON CACHE BOOL "")
 
+if ("$ENV{CMAKE_CONFIGURATION}" MATCHES "linux")
+  set(FILE_COMMAND "/usr/bin/file" CACHE FILEPATH "")
+endif ()
+
 # The new Mesa has issues with back screens when rendering. See
 # paraview/paraview#22152.
 set(mesa_SOURCE_SELECTION "21.2.1" CACHE STRING "")
+
+# Build LLVM as static to reduce the number of shared libraries needed.
+set(llvm_BUILD_SHARED_LIBS "OFF" CACHE STRING "")
 
 function (suppress_project name)
   set("SUPPRESS_${name}_OUTPUT" ON CACHE BOOL "")
