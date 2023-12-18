@@ -1,7 +1,10 @@
 set(vrpn_depends)
+set(vrpn_options)
 if (UNIX AND NOT APPLE)
   list(APPEND vrpn_depends
     libusb)
+  list(APPEND vrpn_options
+    -DCMAKE_INSTALL_RPATH:STRING=<INSTALL_DIR>/lib)
 endif ()
 
 superbuild_add_project(vrpn
@@ -35,4 +38,5 @@ superbuild_add_project(vrpn
     -DVRPN_USE_LOCAL_HIDAPI:BOOL=ON
     -DVRPN_USE_LOCAL_JSONCPP:BOOL=OFF
     -DVRPN_USE_JSONNET:BOOL=OFF
+    ${vrpn_options}
     )

@@ -1,3 +1,9 @@
+set(medreader_options)
+if (UNIX AND NOT APPLE)
+  list(APPEND medreader_options
+    -DCMAKE_INSTALL_RPATH:STRING=<INSTALL_DIR>/lib)
+endif ()
+
 superbuild_add_project(medreader
   DEPENDS medfile medconfiguration medcoupling paraview
   DEPENDS_OPTIONAL mpi qt5
@@ -15,6 +21,7 @@ superbuild_add_project(medreader
    -DSALOME_USE_MPI:BOOL=${mpi_enabled}
    -DCMAKE_INSTALL_LIBDIR:PATH=lib
    -DBoost_USE_STATIC_LIBS:BOOL=OFF
+   ${medreader_options}
 )
 
 superbuild_apply_patch(medreader install-medloaderforpv-in-correct-directory

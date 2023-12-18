@@ -1,3 +1,9 @@
+set(medfile_options)
+if (UNIX AND NOT APPLE)
+  list(APPEND medfile_options
+    -DCMAKE_INSTALL_RPATH:STRING=<INSTALL_DIR>/lib)
+endif ()
+
 superbuild_add_project(medfile
   DEPENDS hdf5
   DEPENDS_OPTIONAL mpi
@@ -13,6 +19,7 @@ superbuild_add_project(medfile
    -DMEDFILE_INSTALL_DOC:BOOL=OFF
    -DMEDFILE_BUILD_TESTS:BOOL=OFF
    -DMEDFILE_USE_MPI:BOOL=${mpi_enabled}
+   ${medfile_options}
 )
 
 superbuild_apply_patch(medfile remove-tools-compilation

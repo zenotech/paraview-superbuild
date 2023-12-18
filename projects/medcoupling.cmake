@@ -1,3 +1,9 @@
+set(medcoupling_options)
+if (UNIX AND NOT APPLE)
+  list(APPEND medcoupling_options
+    -DCMAKE_INSTALL_RPATH:STRING=<INSTALL_DIR>/lib)
+endif ()
+
 superbuild_add_project(medcoupling
   DEPENDS medfile medconfiguration boost
   DEPENDS_OPTIONAL mpi
@@ -19,6 +25,7 @@ superbuild_add_project(medcoupling
    -DMEDCOUPLING_INSTALL_LIBS:PATH=lib
    -DSALOME_USE_MPI:BOOL=${mpi_enabled}
    -DMEDCOUPLING_MEDLOADER_USE_XDR:BOOL=OFF
+   ${medcoupling_options}
 )
 
 superbuild_apply_patch(medcoupling fix-cmake-option-usage

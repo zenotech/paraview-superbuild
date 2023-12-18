@@ -23,3 +23,7 @@ superbuild_add_project(cdi
   INSTALL_COMMAND
     $(MAKE) install
   BUILD_IN_SOURCE 1)
+
+if (NOT APPLE AND UNIX)
+  superbuild_append_flags(ld_flags "-Wl,-rpath,<INSTALL_DIR>/lib" PROJECT_ONLY)
+endif ()
