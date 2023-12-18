@@ -5,6 +5,9 @@ set(BUILD_TESTING                   ON CACHE BOOL "")
 # paraview/paraview#22152.
 set(mesa_SOURCE_SELECTION "21.2.1" CACHE STRING "")
 
+# Build LLVM as static to reduce the number of shared libraries needed.
+set(llvm_BUILD_SHARED_LIBS "OFF" CACHE STRING "")
+
 function (suppress_project name)
   set("SUPPRESS_${name}_OUTPUT" ON CACHE BOOL "")
 endfunction ()
