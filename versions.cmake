@@ -364,7 +364,8 @@ superbuild_set_revision(openvdb
 superbuild_set_selectable_source(catalyst
   SELECT git CUSTOMIZABLE DEFAULT
     GIT_REPOSITORY "https://gitlab.kitware.com/paraview/catalyst.git"
-    GIT_TAG        "v2.0.0-rc4"
+    # Post-2.0.0-rc4; needed for `catalyst_python_tools.h`
+    GIT_TAG        "6039252a7b8b4500710d366b8d2bf232297211a6"
     )
 
 superbuild_set_revision(cdi
