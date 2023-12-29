@@ -11,6 +11,7 @@
             # The artifacts for debugging
             - build/CMakeCache.txt
             - build/superbuild/*.cmake
+            - build/_CPack_Packages/*/WIX/wix.log
 
             # logs for suppressed outputs
             - build/superbuild/*/stamp/*.log

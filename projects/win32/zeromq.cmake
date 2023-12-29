@@ -1,4 +1,3 @@
-
 if (BUILD_SHARED_LIBS)
   set(zeromq_shared -DBUILD_SHARED:BOOL=ON -DBUILD_STATIC:BOOL=OFF)
 else()
@@ -27,6 +26,7 @@ superbuild_add_project(zeromq
     -DBUILD_TESTS:BOOL=OFF
     -DWITH_DOCS:BOOL=OFF
     -DZMQ_BUILD_TESTS:BOOL=OFF
+    -DENABLE_PRECOMPILED:BOOL=OFF
   )
 
 superbuild_add_extra_cmake_args(

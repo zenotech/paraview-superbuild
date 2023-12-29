@@ -34,6 +34,17 @@ else ()
   endif ()
 endif ()
 
+# Fix MSI patch version number limitations.
+if (cpack_generator STREQUAL "WIX" AND
+    CPACK_PACKAGE_VERSION_PATCH GREATER "65536")
+  # We're using a date. Set the package number to a value that fits in 16bits
+  # because Windows doesn't support it for MSI installers. Convert using:
+  #   full:    20231231
+  #   limited: __23123_
+  # https://learn.microsoft.com/en-us/windows/win32/msi/productversion
+  string(SUBSTRING "${CPACK_PACKAGE_VERSION_PATCH}" 2 5 CPACK_PACKAGE_VERSION_PATCH)
+endif ()
+
 # Set the license files.
 set(CPACK_RESOURCE_FILE_LICENSE "${superbuild_install_location}/share/licenses/ParaView/Copyright.txt")
 set(qt_license_file "${CMAKE_CURRENT_LIST_DIR}/files/Qt5.LICENSE.LGPLv3")
