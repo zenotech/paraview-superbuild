@@ -190,6 +190,7 @@ suppress_project(tiff)
 suppress_project(utillinux)
 suppress_project(visrtx)
 suppress_project(xz)
+suppress_project(zeromq)
 suppress_project(zlib)
 suppress_project(zstd)
 
