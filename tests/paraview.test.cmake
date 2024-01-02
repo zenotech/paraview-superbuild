@@ -127,6 +127,9 @@ if (python3_enabled)
 
   paraview_add_ui_test("finddata" "TestFindData"
     "--test-baseline=${CMAKE_CURRENT_LIST_DIR}/baselines/Superbuild-TestFindData.png")
+
+  paraview_add_test("pvpython-help" "${pvpython_exe}"
+    -c "help()")
 endif ()
 
 # Simple test to test pvpython/pvbatch.
