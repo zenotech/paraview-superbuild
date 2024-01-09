@@ -36,7 +36,7 @@ superbuild_set_selectable_source(paraview
   # README.md and the PARAVIEW_VERSION_DEFAULT variable in CMakeLists.txt.
   SELECT 5.11.2 DEFAULT
     URL     "https://www.paraview.org/files/v5.11/ParaView-v5.11.2.tar.xz"
-    URL_MD5 57d87137fd02e3491ea4167c72cf7794
+    URL_MD5 b5a13247fec282b8294a28d3101049fb
   SELECT git CUSTOMIZABLE
     GIT_REPOSITORY "https://gitlab.kitware.com/paraview/paraview.git"
     GIT_TAG        "origin/master"
