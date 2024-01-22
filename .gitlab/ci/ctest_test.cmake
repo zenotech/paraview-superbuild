@@ -36,7 +36,24 @@ ctest_test(APPEND
   RETURN_VALUE test_result
   EXCLUDE "${test_exclusions}"
   OUTPUT_JUNIT "${CTEST_BINARY_DIRECTORY}/junit.xml")
-ctest_submit(PARTS Test)
+
+# Need to get a new BUILD_ID for the test phase because the build
+# phases runs and submits tests for packaging for the build parts BUILD_ID.
+# Currently CDash does not support APPEND to existing parts (BUILD/TEST/etc.)
+# for a BUILD_ID.
+ctest_submit(PARTS Test
+  BUILD_ID test_id)
+
+include("${CMAKE_CURRENT_LIST_DIR}/ctest_annotation.cmake")
+if (DEFINED build_id)
+  ctest_annotation_report("${CTEST_BINARY_DIRECTORY}/annotations.json"
+    "Build Summary" "https://open.cdash.org/build/${build_id}"
+    "All Tests"     "https://open.cdash.org/viewTest.php?buildid=${test_id}"
+    "Test Failures" "https://open.cdash.org/viewTest.php?onlyfailed&buildid=${test_id}"
+    "Tests Not Run" "https://open.cdash.org/viewTest.php?onlynotrun&buildid=${test_id}"
+    "Test Passes"   "https://open.cdash.org/viewTest.php?onlypassed&buildid=${test_id}"
+  )
+endif ()
 
 if (test_result)
   message(FATAL_ERROR
