@@ -7,6 +7,11 @@ endif()
 superbuild_add_project(libfabric
   LICENSE_FILES
     COPYING # BSD license has been selected.
+  SPDX_LICENSE_IDENTIFIER
+    BSD-2-Clause
+  SPDX_COPYRIGHT_TEXT
+    "Copyright (c) Intel Corporation"
+    "Copyright (c) Cisco Systems, Inc"
   CONFIGURE_COMMAND
     <SOURCE_DIR>/configure
     --prefix=<INSTALL_DIR>

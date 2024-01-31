@@ -1,6 +1,10 @@
 superbuild_add_project(protobuf
   LICENSE_FILES
     LICENSE
+  SPDX_LICENSE_IDENTIFIER
+    BSD-3-Clause
+  SPDX_COPYRIGHT_TEXT
+    "Copyright 2008 Google Inc."
   DEPENDS cxx11 abseil
   DEPENDS_OPTIONAL zlib
   CMAKE_ARGS

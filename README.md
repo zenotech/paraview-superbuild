@@ -330,6 +330,7 @@ The following flags affect ParaView directly:
     connection. VRUI support is enabled unconditionally on Linux.
   * `PARAVIEW_ENABLE_NODEEDITOR` (default `ON`): Enables the NodeEditor plugin.
   * `PARAVIEW_ENABLE_XRInterface` (default `ON`): Enables the XRInterface plugin.
+  * `GENERATE_SPDX` (default `OFF`): A superbuild option to generate a SPDX file for each project.
 
 #### ParaView editions
 

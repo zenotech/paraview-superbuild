@@ -7,6 +7,34 @@ endif ()
 superbuild_add_project(las
   LICENSE_FILES
     LICENSE.txt
+  SPDX_LICENSE_IDENTIFIER
+    "BSD-3-Clause AND MIT AND BSL-1.0"
+  SPDX_COPYRIGHT_TEXT
+    "Copyright (c) 2007, Martin Isenburg"
+    "Copyright (c) 2008, Howard Butler"
+    "Copyright (c) 2008, Mateusz Loskot"
+    "Copyright (c) 2008, Phil Vachon"
+    "Copyright (c) 2008, Frank Warmerdam"
+    "Copyright (c) 2008, Martin Rodriguez"
+    "Copyright (c) 2016, Oscar Martinez Rubi"
+    "Copyright (c) 2016, Romulo Goncalves"
+    "Copyright Mateusz Loskot 2007"
+    "Copyright Phil Vachon 2007"
+    "Copyright John Maddock 2001"
+    "Copyright Jens Mauer 2001"
+    "Copyright Beman Dawes 1999"
+    "Copyright Mateusz Loskot 2007"
+    "Copyright Caleb Epstein 2005"
+    "Copyright John Maddock 2006"
+    "Copyright (C) 1998 Paul E. Jones"
+    "Copyright Nicolai M. Josuttis 1999"
+    "Copyright Mateusz Loskot 2008"
+    "Copyright (c) 2007, Sean C. Gillies"
+    "Copyright (c) 2005, Frank Warmerdam"
+    "Copyright (c) 1999, Frank Warmerdam"
+    "copyright (c) 2012, Luca Delucchi, Fondazione Edmund Mach"
+    "Copyright (c) 2016, Oscar Martinez Rubi"
+    "Copyright (c) 2016, Romulo Goncalves"
   DEPENDS boost
   CMAKE_ARGS
     -DWITH_GDAL:BOOL=FALSE

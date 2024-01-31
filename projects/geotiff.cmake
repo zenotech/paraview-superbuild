@@ -8,6 +8,11 @@ superbuild_add_project(geotiff
   DEPENDS tiff zlib proj
   LICENSE_FILES
     LICENSE
+  SPDX_LICENSE_IDENTIFIER
+    MIT
+  SPDX_COPYRIGHT_TEXT
+    "Copyright (c) 1999, Frank Warmerdam"
+    "copyright (c) 1995   Niles D. Ritter"
   CMAKE_ARGS
     -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
     -DCMAKE_INSTALL_NAME_DIR:PATH=<INSTALL_DIR>/lib

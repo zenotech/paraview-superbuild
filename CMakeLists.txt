@@ -22,7 +22,13 @@ macro (superbuild_setup_variables)
     # The selection is the version number; use it.
     set(paraview_default_version "${paraview_SOURCE_SELECTION}")
   endif()
+  set(GIT_FOUND_save "${GIT_FOUND}")
+  set(GIT_FOUND 0)
   superbuild_set_version_variables(paraview "${paraview_default_version}" "paraview-version.cmake" "version.txt")
+  set(GIT_FOUND "${GIT_FOUND_save}")
+  if (paraview_version_patch LESS "20200101")
+    superbuild_set_version_variables(paraview "${paraview_default_version}" "paraview-version.cmake" "version.txt")
+  endif ()
   set(paraview_version "${paraview_version_major}.${paraview_version_minor}")
 endmacro ()
 
@@ -100,6 +106,7 @@ function (superbuild_find_projects var)
     pythonattrs
     pythonbeniget
     pythoncffi
+    pythoncftime
     pythonchardet
     pythoncharsetnormalizer
     pythoncontourpy
@@ -122,6 +129,7 @@ function (superbuild_find_projects var)
     pythonmpi4py
     pythonmpmath
     pythonmultidict
+    pythonnetcdf4
     pythonpackaging
     pythonpandas
     pythonpathspec
@@ -237,12 +245,16 @@ function (superbuild_find_projects var)
         threedxwaresdk
         )
     endif()
+    if (WIN32)
+      list(APPEND projects
+        openxrremoting
+      )
+    endif ()
   endif ()
 
   if (WIN32)
     list(APPEND projects
       openvr
-      openxrremoting
       pywin32
       zeromq
       zspace)
@@ -314,6 +326,7 @@ function (superbuild_sanity_check)
   if (launchers_enabled AND mpi_enabled AND USE_SYSTEM_mpi AND NOT mesa_enabled)
     message(SEND_ERROR "Launchers cannot be enabled since MESA is not enabled and USE_SYSTEM_mpi is ON.")
   endif ()
+
 endfunction ()
 
 function (superbuild_add_packaging)
@@ -500,6 +513,9 @@ set(_python_unicode_default "UCS4")
 # The projects end up with "errors" in their output that CDash ends up seeing
 # and thinking things went wrong.
 set(_superbuild_suppress_matplotlib_output ON)
+
+# Setup SPDX superbuild variables
+set(superbuild_spdx_document_namespace "https://paraview.org/spdx")
 
 if (NOT EXISTS "${CMAKE_CURRENT_LIST_DIR}/superbuild/CMakeLists.txt")
   message(FATAL_ERROR "It appears as though the superbuild infrastructure "

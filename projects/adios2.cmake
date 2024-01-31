@@ -26,6 +26,10 @@ superbuild_add_project(adios2
   LICENSE_FILES
     Copyright.txt
     LICENSE
+  SPDX_LICENSE_IDENTIFIER
+    Apache-2.0
+  SPDX_COPYRIGHT_TEXT
+    "Copyright Oak Ridge National Laboratory and Contributors"
   CMAKE_ARGS
     -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
     -DCMAKE_INSTALL_LIBDIR:STRING=lib

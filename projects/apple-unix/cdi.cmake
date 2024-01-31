@@ -6,9 +6,14 @@ endif ()
 
 superbuild_add_project(cdi
   CAN_USE_SYSTEM
+  DEPENDS
+    netcdf
   LICENSE_FILES
-  LICENSE
-    DEPENDS netcdf
+    LICENSE
+  SPDX_LICENSE_IDENTIFIER
+    BSD-3-Clause
+  SPDX_COPYRIGHT_TEXT
+    "Copyright 2002-2023, MPI für Meteorologie"
   CONFIGURE_COMMAND
     <SOURCE_DIR>/configure
     --prefix=<INSTALL_DIR>

@@ -9,6 +9,11 @@ superbuild_add_project(medcoupling
   DEPENDS_OPTIONAL mpi
   LICENSE_FILES
     COPYING
+  SPDX_LICENSE_IDENTIFIER
+    LGPL-2.1-or-later
+  SPDX_COPYRIGHT_TEXT
+    # No copyright specified, extrapolated from some source files
+    "Copyright (C) CEA/DEN, EDF R&D"
   CMAKE_ARGS
    -DCONFIGURATION_ROOT_DIR=<INSTALL_DIR>/configuration
    -DBOOST_ROOT_DIR=<INSTALL_DIR>
