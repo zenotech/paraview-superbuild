@@ -50,6 +50,7 @@ function (superbuild_find_projects var)
     adios2
     alembic
     blosc
+    blosc2
     boost
     bzip2
     catalyst
