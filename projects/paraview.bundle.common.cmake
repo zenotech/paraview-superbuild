@@ -480,7 +480,7 @@ function (paraview_install_extra_data)
 
   paraview_install_all_licenses()
   # SPDX is only generated if Python is enabled.
-  if (python3_enabled)
+  if (python3_enabled AND GENERATE_SPDX)
     paraview_install_all_spdx_files()
   endif ()
 
