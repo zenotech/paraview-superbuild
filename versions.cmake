@@ -29,6 +29,15 @@ superbuild_set_selectable_source(paraviewtranslations
   GIT_TAG        "origin/main"
   )
 
+set(paraview_superbuild_branch_is_for_release 0)
+if (paraview_superbuild_branch_is_for_release)
+  set(paraview_release_default "DEFAULT")
+  set(paraview_git_default "")
+else ()
+  set(paraview_release_default "")
+  set(paraview_git_default "DEFAULT")
+endif ()
+
 # Other than the `git` and `source` selections, the name of the selection
 # should be the version number of the selection. See
 # `superbuild_setup_variables` in `CMakeLists.txt` for the logic which relies
@@ -36,10 +45,10 @@ superbuild_set_selectable_source(paraviewtranslations
 superbuild_set_selectable_source(paraview
   # NOTE: When updating this selection, also update the default version in
   # README.md and the PARAVIEW_VERSION_DEFAULT variable in CMakeLists.txt.
-  SELECT 5.12.0-RC2
+  SELECT 5.12.0-RC2 ${paraview_release_default}
     URL     "https://www.paraview.org/files/v5.12/ParaView-v5.12.0-RC2.tar.xz"
     URL_MD5 7ea514542407b40882c150432fcf16d0
-  SELECT git CUSTOMIZABLE DEFAULT
+  SELECT git CUSTOMIZABLE ${paraview_git_default}
     GIT_REPOSITORY "https://gitlab.kitware.com/paraview/paraview.git"
     GIT_TAG        "origin/master"
   SELECT source CUSTOMIZABLE
