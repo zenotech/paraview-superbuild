@@ -26,6 +26,7 @@ enable_project(adios2)
 enable_project(alembic)
 enable_project(blosc)
 enable_project(blosc2)
+enable_project(cinemaexport)
 enable_project(cosmotools)
 enable_project(exodus) # requires seacas to actually build anything
 enable_project(ffmpeg)
