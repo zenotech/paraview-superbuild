@@ -109,6 +109,9 @@
         - ctest -V --output-on-failure -S .gitlab/ci/ctest_package.cmake
         - sccache --show-stats
 
+    after_script:
+        - .gitlab/ci/umount-dmg.sh
+
     cache:
         key: macos
         paths:
