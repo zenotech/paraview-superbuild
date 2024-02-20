@@ -327,6 +327,10 @@ function (superbuild_sanity_check)
     message(SEND_ERROR "Launchers cannot be enabled since MESA is not enabled and USE_SYSTEM_mpi is ON.")
   endif ()
 
+  if (UNIX AND qt5_ENABLE_WEBENGINE)
+    message(WARNING "Packaging QtWebEngine on Linux/macOS is not supported yet, generated package may not be usable")
+  endif ()
+
 endfunction ()
 
 function (superbuild_add_packaging)
@@ -357,7 +361,8 @@ function (superbuild_add_packaging)
   endif ()
   list(APPEND superbuild_export_variables
     qt5_version
-    qt5_ENABLE_MULTIMEDIA)
+    qt5_ENABLE_MULTIMEDIA
+    qt5_ENABLE_WEBENGINE)
 
   if (NOT DEFINED PARAVIEW_CATALYST_EDITION)
     set(PARAVIEW_CATALYST_EDITION Full)
@@ -452,7 +457,6 @@ set(qt5_skip_modules
   qtserialport
   qtwayland
   qtwebchannel
-  qtwebengine
   qtwebsockets)
 
 set(boost_libraries

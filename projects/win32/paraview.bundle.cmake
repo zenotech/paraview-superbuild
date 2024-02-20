@@ -255,13 +255,34 @@ foreach (qt5_plugin_path IN LISTS qt5_plugin_paths)
 endforeach ()
 
 if (qt5_enabled)
+
+  set(qt5_root_dir "${Qt5_DIR}/../../..")
+
   foreach (qt5_opengl_lib IN ITEMS opengl32sw libEGL libGLESv2)
     superbuild_windows_install_plugin(
-      "${Qt5_DIR}/../../../bin/${qt5_opengl_lib}.dll"
+      "${qt5_root_dir}/bin/${qt5_opengl_lib}.dll"
       "bin"
       "bin"
       SEARCH_DIRECTORIES "${library_paths}")
   endforeach ()
+
+  if (qt5_ENABLE_WEBENGINE)
+    _superbuild_windows_install_executable(
+      "${qt5_root_dir}/bin/QtWebEngineProcess.exe"
+      "bin"
+      SEARCH_DIRECTORIES "${library_paths}"
+      EXCLUDE_REGEXES    ${exclude_regexes})
+
+    install(
+      DIRECTORY   "${qt5_root_dir}/resources"
+      DESTINATION "."
+      COMPONENT   superbuild)
+
+    install(
+      FILES   "${qt5_root_dir}/bin/qt.conf"
+      DESTINATION "bin"
+      COMPONENT   superbuild)
+  endif()
 endif ()
 
 if (openxrremoting_enabled)
