@@ -9,10 +9,17 @@ if (BUILD_SHARED_LIBS)
   set(blosc_static_libs OFF)
 endif ()
 
+set(blosc_disable_snappy ON)
+if (snappy_enabled)
+  set(blosc_disable_snappy OFF)
+endif ()
+
 superbuild_add_project(blosc
   CAN_USE_SYSTEM
   DEPENDS
     zlib zstd lz4
+  DEPENDS_OPTIONAL
+    snappy
   LICENSE_FILES
     LICENSE.txt
   SPDX_LICENSE_IDENTIFIER
@@ -31,7 +38,7 @@ superbuild_add_project(blosc
     -DBUILD_FUZZERS:BOOL=OFF
     -DBUILD_BENCHMARKS:BOOL=OFF
     -DDEACTIVATE_LZ4:BOOL=OFF
-    -DDEACTIVATE_SNAPPY:BOOL=ON
+    -DDEACTIVATE_SNAPPY:BOOL=${blosc_disable_snappy}
     -DDEACTIVATE_ZLIB:BOOL=OFF
     -DDEACTIVATE_ZSTD:BOOL=OFF
     -DPREFER_EXTERNAL_LZ4:BOOL=${lz4_enabled}
