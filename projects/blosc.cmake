@@ -31,6 +31,11 @@ superbuild_add_project(blosc
     -DCMAKE_INSTALL_LIBDIR:STRING=lib
     -DCMAKE_INSTALL_NAME_DIR:PATH=<INSTALL_DIR>/lib
     ${blosc_configure_flags}
+    # Prevent installation of system libraries; the superbuild handles this.
+    -DBLOSC_IS_SUBPROJECT:BOOL=TRUE
+    # Force installation on; as a subproject, blosc disables installation by
+    # default.
+    -DBLOSC_INSTALL:BOOL=TRUE
     -DBUILD_SHARED:BOOL=${BUILD_SHARED_LIBS}
     -DBUILD_STATIC:BOOL=${blosc_static_libs}
     -DBUILD_TESTS:BOOL=OFF
