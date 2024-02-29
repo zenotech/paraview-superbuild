@@ -28,7 +28,6 @@ superbuild_add_project(blosc
     "Copyright (c) 2009-2018 Francesc Alted"
     "Copyright (c) 2019-present Blosc Development Team"
   CMAKE_ARGS
-    -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
     -DCMAKE_INSTALL_LIBDIR:STRING=lib
     -DCMAKE_INSTALL_NAME_DIR:PATH=<INSTALL_DIR>/lib
     ${blosc_configure_flags}
