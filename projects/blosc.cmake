@@ -1,3 +1,9 @@
+set(blosc_configure_flags)
+if (UNIX AND NOT APPLE)
+  list(APPEND blosc_configure_flags
+    -DCMAKE_INSTALL_RPATH:STRING=<INSTALL_DIR>/lib)
+endif ()
+
 set(blosc_static_libs ON)
 if (BUILD_SHARED_LIBS)
   set(blosc_static_libs OFF)
@@ -20,6 +26,7 @@ superbuild_add_project(blosc
     -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
     -DCMAKE_INSTALL_LIBDIR:STRING=lib
     -DCMAKE_INSTALL_NAME_DIR:PATH=<INSTALL_DIR>/lib
+    ${blosc_configure_flags}
     -DBUILD_SHARED:BOOL=${BUILD_SHARED_LIBS}
     -DBUILD_STATIC:BOOL=${blosc_static_libs}
     -DBUILD_TESTS:BOOL=OFF
