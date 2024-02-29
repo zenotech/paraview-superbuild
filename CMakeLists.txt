@@ -71,6 +71,7 @@ function (superbuild_find_projects var)
     las
     libjpegturbo
     lookingglass
+    lz4
     matplotlib
     meson
     mpi
