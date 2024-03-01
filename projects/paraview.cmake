@@ -36,28 +36,28 @@ set(PARAVIEW_EXTERNAL_PROJECTS ""
   CACHE STRING "A list of projects for ParaView to depend on")
 mark_as_advanced(PARAVIEW_EXTERNAL_PROJECTS)
 
-set(paraviews_platform_dependencies)
+set(paraview_platform_dependencies)
 if (UNIX)
   if (NOT APPLE)
-    list(APPEND paraviews_platform_dependencies
+    list(APPEND paraview_platform_dependencies
       mesa osmesa egl openxrsdk
 
       # Needed for fonts to work properly.
       fontconfig)
   endif ()
-  list(APPEND paraviews_platform_dependencies
+  list(APPEND paraview_platform_dependencies
     cdi ffmpeg libxml2 freetype mili gmsh
     # For cosmotools
     genericio cosmotools)
 endif ()
 
 if (WIN32)
-  list(APPEND paraviews_platform_dependencies
+  list(APPEND paraview_platform_dependencies
     openvr openxrremoting openxrsdk zeromq)
 endif ()
 
 if (USE_NONFREE_COMPONENTS AND (WIN32 OR (UNIX AND NOT APPLE)))
-  list(APPEND paraviews_platform_dependencies
+  list(APPEND paraview_platform_dependencies
     visrtx)
 endif ()
 
@@ -67,7 +67,12 @@ if (python3_enabled AND USE_SYSTEM_python3 AND NOT python3_FIND_LIBRARIES)
 endif()
 
 if (expat_enabled)
-  list(APPEND paraviews_platform_dependencies expat)
+  list(APPEND paraview_platform_dependencies expat)
+endif ()
+
+if (APPLE OR WIN32)
+  list(APPEND paraview_platform_dependencies
+    threedxwaresdk)
 endif ()
 
 cmake_dependent_option(PARAVIEW_INITIALIZE_MPI_ON_CLIENT
@@ -219,7 +224,7 @@ superbuild_add_project(paraview
     paraviewgettingstartedguide
     paraviewtutorialdata paraviewweb
     ${paraview_all_plugins}
-    ${paraviews_platform_dependencies}
+    ${paraview_platform_dependencies}
     tbb ospray sqlite
     tiff proj exodus seacas
     occt
