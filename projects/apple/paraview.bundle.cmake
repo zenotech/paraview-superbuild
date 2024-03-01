@@ -324,3 +324,7 @@ if (proj_enabled)
     DESTINATION "${paraview_appname}/Contents/Resources"
     COMPONENT   superbuild)
 endif ()
+
+if (qt5_ENABLE_WEBENGINE)
+  message(WARNING "Packaging QtWebEngine on macOS is not supported yet, package may not be usable")
+endif ()

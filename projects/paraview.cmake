@@ -318,6 +318,7 @@ superbuild_add_project(paraview
 
     # Web
     -DPARAVIEW_ENABLE_WEB:BOOL=${paraviewweb_enabled}
+    -DPARAVIEW_ENABLE_QTWEBENGINE:BOOL=${qt5_ENABLE_WEBENGINE}
 
     # Readers
     -DVTK_MODULE_ENABLE_VTK_IOSegY:STRING=YES
