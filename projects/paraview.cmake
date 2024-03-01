@@ -70,6 +70,11 @@ if (expat_enabled)
   list(APPEND paraviews_platform_dependencies expat)
 endif ()
 
+if (APPLE OR WIN32)
+  list(APPEND paraviews_platform_dependencies
+    threedxwaresdk)
+endif ()
+
 cmake_dependent_option(PARAVIEW_INITIALIZE_MPI_ON_CLIENT
   "Initialize MPI on client-processes by default. Can be overridden using command line arguments" ON
   "mpi_enabled" OFF)
