@@ -459,6 +459,9 @@ set(qt5_skip_modules
   qtwayland
   qtwebchannel
   qtwebsockets)
+set(qt5_components
+  Help
+  XmlPatterns)
 
 set(boost_libraries
   atomic
