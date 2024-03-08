@@ -81,6 +81,11 @@
     - git submodule foreach --recursive cmake -P "$pwdpath/.gitlab/ci/fetch_submodule.cmake"
     - git submodule sync --recursive
     - git submodule update --init --recursive
+    - .gitlab/ci/checkout_paraview.ps1
+    - git -C $env:CI_PROJECT_DIR\source-paraview rev-parse HEAD | Tee-Object -Variable paraview_commit_sha
+    - git -C $env:CI_PROJECT_DIR\source-paraview rev-parse --short HEAD | Tee-Object -Variable paraview_commit_short_sha
+    - Set-Item -Force -Path "env:PARAVIEW_COMMIT_SHA" -Value "$paraview_commit_sha"
+    - Set-Item -Force -Path "env:PARAVIEW_COMMIT_SHORT_SHA" -Value "$paraview_commit_short_sha"
 
 .before_script_windows_deps: &before_script_windows_deps
     - cmake -P .gitlab/ci/download_qt.cmake
@@ -89,20 +94,12 @@
     - Set-Item -Force -Path "env:PATH" -Value "$pwdpath\build\install\Python;$env:PATH;$pwdpath\build\install\bin"
     - Set-Item -Force -Path "env:PYTHONHOME" -Value "$pwdpath\build\install\Python"
 
-.before_script_windows_paraview: &before_script_windows_paraview
-    - .gitlab/ci/checkout_paraview.ps1
-    - git -C $env:CI_PROJECT_DIR\source-paraview rev-parse HEAD | Tee-Object -Variable paraview_commit_sha
-    - git -C $env:CI_PROJECT_DIR\source-paraview rev-parse --short HEAD | Tee-Object -Variable paraview_commit_short_sha
-    - Set-Item -Force -Path "env:PARAVIEW_COMMIT_SHA" -Value "$paraview_commit_sha"
-    - Set-Item -Force -Path "env:PARAVIEW_COMMIT_SHORT_SHA" -Value "$paraview_commit_short_sha"
-
 .cmake_build_windows:
     stage: build
 
     script:
         - *before_script_windows
         - *before_script_windows_deps
-        - *before_script_windows_paraview
         - Invoke-Expression -Command .gitlab/ci/buildcache.ps1
         - Set-Item -Force -Path "env:PATH" -Value "$env:PATH;$pwdpath\.gitlab\buildcache\bin"
         - Invoke-Expression -Command .gitlab/ci/vcvarsall.ps1
