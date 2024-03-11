@@ -247,6 +247,10 @@ if (vortexfinder2_enabled)
   paraview_add_ui_test("loadvortexfinderplugins" "LoadVortexFinderPlugins")
 endif ()
 
+if (cinemaexport_enabled)
+  paraview_add_ui_test("loadcinemaexportplugin" "LoadCinemaExportPlugin")
+endif ()
+
 if (surfacetrackercut_enabled)
   paraview_add_ui_test("loadsurfacetrackercutplugin" "LoadSurfaceTrackerCutPlugin")
 endif ()

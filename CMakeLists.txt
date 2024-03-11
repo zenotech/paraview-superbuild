@@ -54,6 +54,7 @@ function (superbuild_find_projects var)
     boost
     bzip2
     catalyst
+    cinemaexport
     cuda
     curl
     eigen

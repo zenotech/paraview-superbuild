@@ -217,6 +217,10 @@ if (vortexfinder2_enabled)
   list(APPEND paraview_plugins
     VortexFinder)
 endif ()
+if (cinemaexport_enabled)
+  list(APPEND paraview_plugins
+    CinemaExport)
+endif ()
 if (surfacetrackercut_enabled)
   list(APPEND paraview_plugins
     SurfaceTrackerCut)
