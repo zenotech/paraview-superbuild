@@ -10,10 +10,7 @@ set(paraview_license_path "share/licenses")
 set(paraview_spdx_path "share/paraview-${paraview_version}")
 include(paraview.bundle.common)
 
-set(CPACK_WIX_UPGRADE_GUID "e06445a7-b257-4fce-9241-2a189ad26b5a")
-set(CPACK_WIX_PRODUCT_GUID "76d57fb1-0cd5-40a2-9296-16b85344bcaa")
-
-set(CPACK_WIX_PROGRAM_MENU_FOLDER "ParaView ${paraview_version}")
+set(CPACK_WIX_PROGRAM_MENU_FOLDER "ParaView ${paraview_version_full}")
 set(CPACK_WIX_PRODUCT_ICON "${CMAKE_CURRENT_LIST_DIR}/paraview.ico")
 
 if (NOT "$ENV{GITLAB_CI}" STREQUAL "")
