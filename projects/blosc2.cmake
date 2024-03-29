@@ -6,10 +6,9 @@ endif ()
 superbuild_add_project(blosc2
   CAN_USE_SYSTEM
   DEPENDS
-    zlib zstd
+    zlib lz4
   LICENSE_FILES
     LICENSE.txt
-    LICENSES/LZ4.txt
   SPDX_LICENSE_IDENTIFIER
     "BSD-3-Clause AND BSD-2-Clause"
   SPDX_COPYRIGHT_TEXT
@@ -25,10 +24,8 @@ superbuild_add_project(blosc2
     -DBUILD_EXAMPLES:BOOL=OFF
     -DBUILD_FUZZERS:BOOL=OFF
     -DBUILD_TESTS:BOOL=OFF
-    # good addition, but uses Makefiles: http://lz4.github.io/lz4/
-    -DDEACTIVATE_SNAPPY:BOOL=OFF
-    -DDEACTIVATE_ZLIB:BOOL=ON
+    -DDEACTIVATE_IPP:BOOL=ON
+    -DDEACTIVATE_SNAPPY:BOOL=ON
     -DDEACTIVATE_ZSTD:BOOL=ON
-    -DPREFER_EXTERNAL_LZ4:BOOL=OFF
-    -DPREFER_EXTERNAL_ZLIB:BOOL=${zlib_enabled}
-    -DPREFER_EXTERNAL_ZSTD:BOOL=${zstd_enabled})
+    -DPREFER_EXTERNAL_LZ4:BOOL=${lz4_enabled}
+    -DPREFER_EXTERNAL_ZLIB:BOOL=${zlib_enabled})
