@@ -17,6 +17,18 @@ stages:
     - upload
 
 ################################################################################
+# Testing binary settings.
+#
+# Binaries may be created by creating an MR and using the following variables
+# to select a ParaView to build or may be set when creating a pipeline manually
+# at https://gitlab.kitware.com/paraview/paraview-superbuild/-/pipelines/new.
+#
+# variables:
+#     PARAVIEW_URL: "https://gitlab.kitware.com/your-fork/paraview.git"
+#     PARAVIEW_BRANCH: "name-of-branch"
+################################################################################
+
+################################################################################
 # Job declarations
 #
 # Each job must pull in each of the following keys:
