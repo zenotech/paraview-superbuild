@@ -83,8 +83,8 @@ superbuild_set_revision(vortexfinder2
 
 superbuild_set_revision(cinemaexport
   # https://github.com/cinemascience/cinema-paraview-plugin
-  URL "https://www.paraview.org/files/dependencies/cinema-paraview-plugin-a1097292e07d1f33d823043b817165a217d94867.zip"
-  URL_MD5 0b7a54f4ed2c14450684b51fc2d5a11b)
+  URL "https://www.paraview.org/files/dependencies/cinema-paraview-plugin-237dd6bdb14a25249790b7721e1e613e81754f7a.zip"
+  URL_MD5 29cefcd66ce139c63c19abf1abe34585)
 
 superbuild_set_revision(surfacetrackercut
   # https://github.com/conniejhe/Surface-Cutting
