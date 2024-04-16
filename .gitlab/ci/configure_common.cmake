@@ -37,7 +37,7 @@ enable_project(h5py)
 enable_project(launchers)
 enable_project(lz4)
 enable_project(matplotlib)
-# enable_project(medreader) # temporary: need incoming fix in the medreader
+enable_project(medreader)
 enable_project(mesa)
 enable_project(mili)
 enable_project(mpi)

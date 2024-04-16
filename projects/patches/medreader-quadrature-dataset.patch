@@ -1,0 +1,50 @@
+diff --git a/src/Plugins/MEDReader/plugin/MEDReaderIO/vtkELNOFilter.h b/src/Plugins/MEDReader/plugin/MEDReaderIO/vtkELNOFilter.h
+index b39ccdf..f7ace08 100644
+--- a/src/Plugins/MEDReader/plugin/MEDReaderIO/vtkELNOFilter.h
++++ b/src/Plugins/MEDReader/plugin/MEDReaderIO/vtkELNOFilter.h
+@@ -22,6 +22,9 @@
+ 
+ #include "vtkQuadraturePointsGenerator.h"
+ 
++class vtkUnstructuredGrid;
++class vtkCellData;
++
+ class VTK_EXPORT vtkELNOFilter: public vtkQuadraturePointsGenerator
+ {
+ public:
+diff --git a/src/Plugins/MEDReader/plugin/MEDReaderIO/vtkMEDQuadraturePointsGenerator.cxx b/src/Plugins/MEDReader/plugin/MEDReaderIO/vtkMEDQuadraturePointsGenerator.cxx
+index 307004c..33a4275 100644
+--- a/src/Plugins/MEDReader/plugin/MEDReaderIO/vtkMEDQuadraturePointsGenerator.cxx
++++ b/src/Plugins/MEDReader/plugin/MEDReaderIO/vtkMEDQuadraturePointsGenerator.cxx
+@@ -26,7 +26,8 @@
+ #include <vtkObjectFactory.h>
+ #include <vtkInformation.h>
+ #include <vtkInformationVector.h>
+-#include <vtkUnstructuredGrid.h>
++#include <vtkDataSet.h>
++#include <vtkPolyData.h>
+ #include <vtkCellData.h>
+ #include <vtkPointData.h>
+ #include <vtkInformationQuadratureSchemeDefinitionVectorKey.h>
+@@ -61,7 +62,7 @@ int vtkMEDQuadraturePointsGenerator::RequestData(
+   
+   // Get the input.
+   tmpDataObj = input[0]->GetInformationObject(0)->Get(vtkDataObject::DATA_OBJECT());
+-  vtkUnstructuredGrid *usgIn = vtkUnstructuredGrid::SafeDownCast(tmpDataObj);
++  vtkDataSet *usgIn = vtkDataSet::SafeDownCast(tmpDataObj);
+   // Get the output.
+   tmpDataObj = output->GetInformationObject(0)->Get(vtkDataObject::DATA_OBJECT());
+   vtkPolyData *pdOut = vtkPolyData::SafeDownCast(tmpDataObj);
+diff --git a/src/Plugins/MEDReader/plugin/MEDReaderIO/vtkMEDQuadraturePointsGenerator.h b/src/Plugins/MEDReader/plugin/MEDReaderIO/vtkMEDQuadraturePointsGenerator.h
+index 6973cf6..06e78c1 100644
+--- a/src/Plugins/MEDReader/plugin/MEDReaderIO/vtkMEDQuadraturePointsGenerator.h
++++ b/src/Plugins/MEDReader/plugin/MEDReaderIO/vtkMEDQuadraturePointsGenerator.h
+@@ -35,7 +35,7 @@ public:
+ 
+ protected:
+ 
+-  int RequestData(vtkInformation *req, vtkInformationVector **input, vtkInformationVector *output);
++  int RequestData(vtkInformation *req, vtkInformationVector **input, vtkInformationVector *output) override;
+   vtkMEDQuadraturePointsGenerator();
+   virtual ~vtkMEDQuadraturePointsGenerator();
+ private:
