@@ -274,6 +274,7 @@ superbuild_add_project(paraview
     -DPARAVIEW_USE_FORTRAN:BOOL=${fortran_enabled}
     -DPARAVIEW_USE_PYTHON:BOOL=${paraview_use_python}
     -DPARAVIEW_USE_QT:BOOL=${qt5_enabled}
+    -DPARAVIEW_USE_SERIALIZATION:BOOL=ON
     -DPARAVIEW_QT_VERSION:STRING=5
     -DVTK_QT_VERSION:STRING=5
     -DVISIT_BUILD_READER_Mili:BOOL=${mili_enabled}
