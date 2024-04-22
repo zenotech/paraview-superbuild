@@ -342,6 +342,10 @@ superbuild_add_project(paraview
     # CDI Reader
     -DPARAVIEW_PLUGIN_ENABLE_CDIReader:BOOL=${cdi_enabled}
 
+    # Implicit array support in dispatcher
+    # Needed for the DSP plugin
+    -DVTK_DISPATCH_CONSTANT_ARRAYS:BOOl=ON
+
     ${paraview_extra_cmake_options}
 
     ${PARAVIEW_EXTRA_CMAKE_ARGUMENTS})
