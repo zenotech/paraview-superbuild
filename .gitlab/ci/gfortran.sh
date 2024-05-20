@@ -2,16 +2,16 @@
 
 set -e
 
-readonly gcc_version="12.2"
-readonly version="$gcc_version-darwin-r0-20220922.0"
+readonly gcc_version="13.2"
+readonly version="$gcc_version-darwin-r0-20230829.0"
 
 case "$(uname -m)" in
     x86_64)
-        sha256sum="bd7bd769e4c5ab11ebfb1513873ca1df7e906f540a247021e243d701fe878ceb"
+        sha256sum="f163791037d16cda6f382f7ae2673ada84199948ae9f1d4d70bb99335628c099"
         platform="macos10.13-x86_64"
         ;;
     arm64)
-        sha256sum="b86a460a57889d1faf8e455a2b3ecfe4098e10d5843b4ba6a55daed764fd009c"
+        sha256sum="169e6647c7d79fd443b1b88f36c99e28a5c53b0b1bcd159c669851af778afb1a"
         platform="macos11.0-aarch64"
         ;;
     *)
