@@ -1,3 +1,4 @@
+set(ENABLE_catalyst ON CACHE BOOL "")
 set(ENABLE_cdi ON CACHE BOOL "")
 set(SUPPRESS_cdi_OUTPUT ON CACHE BOOL "")
 set(ENABLE_fides ON CACHE BOOL "")
