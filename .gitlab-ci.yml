@@ -218,6 +218,7 @@ macos-x86_64:build:
         - .cmake_build_artifacts
         - .macos_builder_tags
         - .run_manually
+    timeout: 3 hours
 
 macos-x86_64:test:
     extends:
