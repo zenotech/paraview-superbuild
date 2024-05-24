@@ -1,5 +1,6 @@
 set(PACKAGE_SYSTEM_QT ON CACHE BOOL "")
 
+set(ENABLE_catalyst ON CACHE BOOL "")
 set(ENABLE_lookingglass ON  CACHE BOOL "")
 set(ENABLE_nvidiaindex ON CACHE BOOL "")
 set(ENABLE_openmp OFF CACHE BOOL "")
