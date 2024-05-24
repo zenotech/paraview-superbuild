@@ -4,6 +4,10 @@ if (UNIX AND NOT APPLE)
     -DCMAKE_INSTALL_RPATH:STRING=<INSTALL_DIR>/lib)
 endif ()
 
+if (APPLE AND numpy_enabled AND python3_built_by_superbuild)
+  list(APPEND catalyst_options -DPython3_ROOT_DIR:PATH=<INSTALL_DIR>)
+endif ()
+
 superbuild_add_project(catalyst
   CAN_USE_SYSTEM
   DEPENDS
