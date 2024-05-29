@@ -55,3 +55,8 @@ superbuild_add_project(adios2
     -DADIOS2_USE_ZeroMQ:STRING=OFF
     -DEVPATH_TRANSPORT_MODULES:BOOL=OFF
     ${adios2_extra_args})
+
+# gen_interface.pl changes extract from the PR:
+# https://github.com/ornladios/ADIOS2/pull/4181
+# We do not need the other change of that PR as per ADIOS2.10.0
+superbuild_apply_patch(adios2 evpath-gen_interface.pl-support-windows "EVPATH code generator perl tool fix")
