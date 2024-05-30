@@ -93,9 +93,6 @@ function (superbuild_find_projects var)
     paraviewtranslations
     paraviewweb
     paraviewwebglance
-    paraviewweblite
-    paraviewwebdivvy
-    paraviewwebvisualizer
     pdal
     pkgconf
     png
@@ -156,7 +153,6 @@ function (superbuild_find_projects var)
     pythontzdata
     pythonversioneer
     pythonwheel
-    pythonwslinkasync
     pythonyarl
     pytz
     qhull

@@ -144,7 +144,6 @@ check_for_python_module(pythonsix six)
 check_for_python_module(pythontypingextensions typing_extensions)
 check_for_python_module(pythontzdata tzdata)
 check_for_python_module(pythonversioneer versioneer)
-check_for_python_module(pythonwslinkasync wslink)
 check_for_python_module(pythonyarl yarl)
 check_for_python_module(pytz pytz)
 if (paraview_package_scipy_always OR
