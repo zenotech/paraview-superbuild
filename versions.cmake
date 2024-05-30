@@ -295,9 +295,9 @@ superbuild_set_revision(zeromq
 
 superbuild_set_selectable_source(adios2
   # https://github.com/ornladios/ADIOS2/releases
-  SELECT v2.10.0 DEFAULT
-    URL     "https://www.paraview.org/files/dependencies/adios-v2.10.0.tar.gz"
-    URL_MD5 "02c1c2742eacb602868ee1c4b43b01de"
+  SELECT v2.10.1 DEFAULT
+    URL     "https://www.paraview.org/files/dependencies/adios-v2.10.1.tar.gz"
+    URL_MD5 "a0e2bf53ca5aebbac55b67db6bc03b00"
   SELECT git CUSTOMIZABLE
     GIT_REPOSITORY "https://github.com/ornladios/ADIOS2.git"
     GIT_TAG        "origin/master")
