@@ -139,11 +139,6 @@ if (NOT WIN32)
   paraview_add_pvbatch_test("pvbatch" "basic_python")
 endif ()
 
-# Simple test to test paraviewweb.
-if (paraviewweb_enabled)
-  paraview_add_python_test("pv.apps.visualizer" "pv_apps_visualizer")
-endif ()
-
 if (numpy_enabled)
   paraview_add_python_test("import-numpy" "import_numpy")
 endif ()

@@ -8,8 +8,4 @@ superbuild_add_dummy_project(paraviewweb
   DEPENDS
     python3
     paraviewwebglance
-    paraviewweblite
-    paraviewwebvisualizer
-    paraviewwebdivvy
-    pythonwslinkasync
     ${paraviewweb_depends})

@@ -109,27 +109,10 @@ superbuild_set_revision(openvr
   URL     "https://www.paraview.org/files/dependencies/openvr_1.26.7_win_thin.tar.gz"
   URL_MD5 ece2641a37915329d32598abef31532c)
 
-superbuild_set_revision(paraviewwebvisualizer
-  # https://github.com/Kitware/visualizer/releases
-  URL     "https://www.paraview.org/files/dependencies/pvw-visualizer-3.2.2.tgz"
-  URL_MD5 527f6cceb1088d111580aff09124eef6)
-
-superbuild_set_revision(paraviewweblite
-  # https://github.com/Kitware/paraview-lite/releases
-  URL     "https://www.paraview.org/files/dependencies/paraview-lite-1.5.0.tgz"
-  URL_MD5 86085d39d8d3d12fd6699b29f61c64ea)
-
 superbuild_set_revision(paraviewwebglance
   # https://github.com/Kitware/glance/releases
   URL     "https://www.paraview.org/files/dependencies/paraview-glance-4.17.1.tgz"
   URL_MD5 54734de753d95ccdb5ba326a85bcf16f)
-
-superbuild_set_revision(paraviewwebdivvy
-  # https://github.com/Kitware/divvy/releases
-  # Run: `npm view pvw-divvy dist.tarball`
-  # URL looks like: https://registry.npmjs.org/pvw-divvy/-/pvw-divvy-1.4.0.tgz
-  URL     "https://www.paraview.org/files/dependencies/pvw-divvy-1.4.0.tgz"
-  URL_MD5 6d44a5ef69c7e0668c71a26eb943cf1e)
 
 superbuild_set_revision(las
   # https://liblas.org/download.html
