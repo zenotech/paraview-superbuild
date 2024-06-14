@@ -225,6 +225,8 @@ if (surfacetrackercut_enabled)
     SurfaceTrackerCut)
 endif()
 
+list(APPEND paraview_plugins ${paraview_additional_plugins})
+
 # Sort list of plugins alphabetically
 list(SORT paraview_plugins CASE INSENSITIVE)
 
@@ -546,3 +548,7 @@ endif ()
 if (socat_built_by_superbuild)
   include(socat.bundle)
 endif ()
+
+foreach (bundle_file IN LISTS paraview_additional_bundle_files)
+  include(${bundle_file})
+endforeach ()

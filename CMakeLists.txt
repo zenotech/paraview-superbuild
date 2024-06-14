@@ -267,6 +267,15 @@ function (superbuild_find_projects var)
       medreader)
   endif ()
 
+  foreach (_add_sb_folder IN LISTS SUPERBUILD_ADDITIONAL_FOLDERS)
+    if (EXISTS "${SUPERBUILD_ADDITIONAL_FOLDERS}/projects.cmake")
+      include("${SUPERBUILD_ADDITIONAL_FOLDERS}/projects.cmake")
+    else ()
+      message(WARNING "An additional superbuild folder was specified: ${_add_sb_folder},"
+             " but it does not contain in projects.cmake file. No projects have been added for this folder.")
+    endif ()
+  endforeach()
+
   set("${var}"
     ${projects}
     PARENT_SCOPE)
@@ -372,6 +381,16 @@ function (superbuild_add_packaging)
     set(paraview_is_shared "${BUILD_SHARED_LIBS_paraview}")
   endif ()
 
+  foreach (_add_sb_folder IN LISTS SUPERBUILD_ADDITIONAL_FOLDERS)
+    if (EXISTS "${SUPERBUILD_ADDITIONAL_FOLDERS}/package.cmake")
+      include("${SUPERBUILD_ADDITIONAL_FOLDERS}/package.cmake")
+    endif ()
+    if (EXISTS "${SUPERBUILD_ADDITIONAL_FOLDERS}/bundle.cmake")
+      list(APPEND paraview_additional_bundle_files
+        "${SUPERBUILD_ADDITIONAL_FOLDERS}/bundle.cmake")
+    endif ()
+  endforeach()
+
   include(paraview.suffix)
   list(APPEND superbuild_export_variables
     mesa_USE_SWR
@@ -380,7 +399,9 @@ function (superbuild_add_packaging)
     ospray_SOURCE_SELECTION
     PARAVIEW_PACKAGE_SUFFIX
     PARAVIEW_CATALYST_EDITION
-    paraview_is_shared)
+    paraview_is_shared
+    paraview_additional_plugins
+    paraview_additional_bundle_files)
 
   if (paraview_enabled)
     set(PARAVIEW_PACKAGE_FILE_NAME ""
@@ -473,12 +494,32 @@ set(boost_libraries
 set(boost_extra_options
   "-sNO_BZIP2=1")
 
-list(APPEND superbuild_version_files
-  "${CMAKE_CURRENT_LIST_DIR}/versions.cmake")
-list(APPEND superbuild_ctest_custom_files
-  "${CMAKE_CURRENT_LIST_DIR}/cmake/CTestCustom.cmake")
-list(APPEND superbuild_project_roots
-  "${CMAKE_CURRENT_LIST_DIR}/projects")
+set(SUPERBUILD_ADDITIONAL_FOLDERS ""
+   CACHE PATH "A semicolon separated list of folders to check for additional superbuild infrastructure")
+mark_as_advanced(SUPERBUILD_ADDITIONAL_FOLDERS)
+
+# Put SUPERBUILD_ADDITIONAL_FOLDERS first so that they override any behavior or versions
+list(APPEND _sb_folders ${SUPERBUILD_ADDITIONAL_FOLDERS})
+
+# Add ParaView superbuild projects
+list(APPEND _sb_folders "${CMAKE_CURRENT_LIST_DIR}")
+
+# For each folder
+foreach (_sb_folder IN LISTS _sb_folders)
+
+  # Add versions.cmake if it exists
+  if (EXISTS "${_sb_folder}/versions.cmake")
+    list(APPEND superbuild_version_files "${_sb_folder}/versions.cmake")
+  endif ()
+
+  # Add the projects folder to check for projects
+  list(APPEND superbuild_project_roots "${_sb_folder}/projects")
+
+  # Add CTestCustom.cmake if it exists
+  if (EXISTS "${_sb_folder}/cmake/CTestCustom.cmake")
+    list(APPEND superbuild_ctest_custom_files "${_sb_folder}/cmake/CTestCustom.cmake")
+  endif ()
+endforeach()
 
 # set the default arguments used for "git clone"
 set(_git_clone_arguments_default --progress)
