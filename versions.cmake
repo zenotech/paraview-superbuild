@@ -29,7 +29,7 @@ superbuild_set_selectable_source(paraviewtranslations
   GIT_TAG        "origin/main"
   )
 
-set(paraview_superbuild_branch_is_for_release 0)
+set(paraview_superbuild_branch_is_for_release 1)
 if (paraview_superbuild_branch_is_for_release)
   set(paraview_release_default "DEFAULT")
   set(paraview_git_default "")
