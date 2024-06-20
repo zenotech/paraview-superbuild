@@ -282,6 +282,9 @@ time.
   * `paraview_always_package_scipy` (default `OFF`): Force packaging `scipy` on
     Windows installer generators. Other generators do not have issues with long
     paths and will always try to include `scipy`.
+  * `GENERATE_SPDX` (default `OFF`): A superbuild option to generate a SPDX file for each project.
+  * `SUPERBUILD_ADDITIONAL_FOLDERS`: A semicolon separated list of folder to look
+    for additional superbuild architecture, see below for more information.
 
 The following flags affect ParaView directly:
 
@@ -330,7 +333,6 @@ The following flags affect ParaView directly:
     connection. VRUI support is enabled unconditionally on Linux.
   * `PARAVIEW_ENABLE_NODEEDITOR` (default `ON`): Enables the NodeEditor plugin.
   * `PARAVIEW_ENABLE_XRInterface` (default `ON`): Enables the XRInterface plugin.
-  * `GENERATE_SPDX` (default `OFF`): A superbuild option to generate a SPDX file for each project.
 
 #### ParaView editions
 
@@ -348,6 +350,70 @@ this using the `PARAVIEW_BUILD_EDITION` setting. Supported values for this setti
   writers.
 * `CATALYST_RENDERING`: Same as `CATALYST` but with rendering supported added.
 * `CANONICAL` (default): Build modules necessary for standard ParaView build.
+
+#### Superbuild additional folders
+
+The build option, `SUPERBUILD_ADDITIONAL_FOLDERS` is a semicolor separated list of folders
+to look for additional superbuild architecture, which enable ParaView superbuild user to build,
+install and package projects (including ParaView plugins) which are not part of the ParaView superbuild.
+
+The main use cases it to be able to create a ParaView package using the ParaView superbuild
+with a custom ParaView plugin integrated into the package without requiring manual modification of the generated
+archives.
+
+These additional superbuild folder should have the expected folder architecture and contain the expected files:
+
+```
+.
+├── bundle.cmake
+├── cmake
+│   └── CTestCustom.cmake
+├── package.cmake
+├── projects
+│   ├── projectA.cmake
+│   ├── unix
+│   │   └── projectB.cmake
+│   └── win32
+│       └── projectB.cmake
+├── projects.cmake
+└── versions.cmake
+```
+
+The folder architecture `projects/platforms` is the same as the superbuild architecture and should be followed strictly.
+
+`projects.cmake` is a mandatory file that is included at the configuration phase and is expected to append projects
+to the `projects` CMake variable, eg:
+
+```
+list(APPEND projects projectA projectB)
+```
+
+`versions.cmake` is an optional file of the same type of file as the superbuild own `versions.cmake`,
+providing versions for projects using `superbuild_set_revision`, usually for the projects added in `projects.cmake`
+
+`projects/**/*.cmake` files are usual superbuild project files, that uses `superbuild_add_project` to defined how to
+configure, build and install superbuild project that are usually added in `projects.cmake`.
+
+`package.cmake` is an optional file that is included at the configuration phase during the preparation of the packaging
+and is expected to append ParaView plugins to the `paraview_additional_plugins` CMake variable, eg:
+
+```
+list(APPEND paraview_additional_plugins myParaViewPlugin)
+```
+
+`cmake/CTestCustom.cmake` is an optional file of the same type as the superbuild own `cmake/CTestCustom.cmake`.
+It is included during the test phase, just before the packaging.
+
+`bundle.cmake` is an optional file that is included during the packaging phase, similarly to the superbuild own `project.bundle.cmake` files.
+It is expected to use superbuild CMake install macro like `superbuild_unix_install_module` to install supplementary binaries or files, eg:
+
+```
+superbuild_unix_install_module("${superbuild_install_location}/lib/mylib.so"
+  "lib"
+  "lib"
+  LOADER_PATHS  "${library_paths}"
+  LOCATION      "lib")
+```
 
 ### Packaging Variables
 
