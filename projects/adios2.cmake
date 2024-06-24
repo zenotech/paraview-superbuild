@@ -51,3 +51,7 @@ superbuild_add_project(adios2
     -DADIOS2_USE_ZeroMQ:STRING=OFF
     -DEVPATH_TRANSPORT_MODULES:BOOL=OFF
     ${adios2_extra_args})
+
+# https://github.com/ornladios/ADIOS2/pull/3893
+superbuild_apply_patch(adios2 fix-threads-not-found
+  "Import Threads::Threads before using it")
