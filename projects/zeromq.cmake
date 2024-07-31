@@ -27,6 +27,7 @@ superbuild_add_project(zeromq
     -DWITH_DOCS:BOOL=OFF
     -DZMQ_BUILD_TESTS:BOOL=OFF
     -DENABLE_PRECOMPILED:BOOL=OFF
+    -DCMAKE_INSTALL_LIBDIR:STRING=lib
   )
 
 superbuild_add_extra_cmake_args(
