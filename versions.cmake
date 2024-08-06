@@ -111,8 +111,8 @@ superbuild_set_revision(openvr
 
 superbuild_set_revision(paraviewwebglance
   # https://github.com/Kitware/glance/releases
-  URL     "https://www.paraview.org/files/dependencies/paraview-glance-4.17.1.tgz"
-  URL_MD5 54734de753d95ccdb5ba326a85bcf16f)
+  URL     "https://www.paraview.org/files/dependencies/paraview-glance-4.25.0.tgz"
+  URL_MD5 36b9536711e8b6c15b11d6994f2ff712)
 
 superbuild_set_revision(las
   # https://liblas.org/download.html
