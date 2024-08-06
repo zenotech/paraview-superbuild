@@ -1,0 +1,211 @@
+diff -Nur original/VTK/ThirdParty/ioss/update.sh paraview/VTK/ThirdParty/ioss/update.sh
+--- original/VTK/ThirdParty/ioss/update.sh	2024-08-06 19:19:18.136011910 -0400
++++ paraview/VTK/ThirdParty/ioss/update.sh	2024-08-08 12:25:31.973200145 -0400
+@@ -7,8 +7,8 @@
+ readonly name="ioss"
+ readonly ownership="Seacas Upstream <kwrobot@kitware.com>"
+ readonly subtree="ThirdParty/$name/vtk$name"
+-readonly repo="https://gitlab.kitware.com/third-party/seacas.git"
+-readonly tag="ioss/for/vtk-20240709-master-gaeee5aa1"
++readonly repo="https://gitlab.kitware.com/spiros.tsalikis/seacas.git"
++readonly tag="0dda1fa8d652ec7cfd9949802e147a788463989b"
+ readonly paths="
+ packages/seacas/libraries/ioss/src/CMakeLists.vtk.txt
+ packages/seacas/libraries/ioss/cmake/SEACASIoss_config.h.in
+diff -Nur original/VTK/ThirdParty/ioss/vtkioss/cmake/SEACASIoss_config.h.in paraview/VTK/ThirdParty/ioss/vtkioss/cmake/SEACASIoss_config.h.in
+--- original/VTK/ThirdParty/ioss/vtkioss/cmake/SEACASIoss_config.h.in	2024-08-06 19:19:18.144011857 -0400
++++ paraview/VTK/ThirdParty/ioss/vtkioss/cmake/SEACASIoss_config.h.in	2024-08-08 12:25:31.981200087 -0400
+@@ -11,6 +11,8 @@
+ 
+ #cmakedefine SEACAS_HAVE_EXODUS
+ 
++#cmakedefine SEACAS_HAVE_EXONULL
++
+ #cmakedefine SEACAS_HAVE_CGNS
+ 
+ #cmakedefine SEACAS_HAVE_PAMGEN
+diff -Nur original/VTK/ThirdParty/ioss/vtkioss/CMakeLists.txt paraview/VTK/ThirdParty/ioss/vtkioss/CMakeLists.txt
+--- original/VTK/ThirdParty/ioss/vtkioss/CMakeLists.txt	2024-08-06 19:19:18.136011910 -0400
++++ paraview/VTK/ThirdParty/ioss/vtkioss/CMakeLists.txt	2024-08-08 12:25:31.973200145 -0400
+@@ -21,6 +21,7 @@
+ 
+ set(SEACAS_HAVE_EXODUS ON)
+ set(SEACAS_HAVE_CGNS ON)
++set(SEACAS_HAVE_EXONULL OFF)
+ 
+ configure_file(
+   "${CMAKE_CURRENT_SOURCE_DIR}/cmake/SEACASIoss_config.h.in"
+@@ -82,12 +83,6 @@
+ 
+   tokenize
+ 
+-  cgns/Iocgns_DatabaseIO
+-  cgns/Iocgns_Utils
+-  cgns/Iocgns_Initializer
+-  cgns/Iocgns_StructuredZoneData
+-  cgns/Iocgns_IOFactory
+-
+   elements/Ioss_Beam2
+   elements/Ioss_Beam3
+   elements/Ioss_Beam4
+@@ -155,19 +150,6 @@
+   elements/Ioss_Wedge24
+   elements/Ioss_Wedge52
+ 
+-  exodus/Ioex_BaseDatabaseIO
+-  exodus/Ioex_DatabaseIO
+-  exodus/Ioex_Internals
+-  exodus/Ioex_IOFactory
+-  exodus/Ioex_SuperElement
+-  exodus/Ioex_Utils
+-
+-  exonull/Ioexnl_BaseDatabaseIO
+-  exonull/Ioexnl_DatabaseIO
+-  exonull/Ioexnl_Internals
+-  exonull/Ioexnl_IOFactory
+-  exonull/Ioexnl_Utils
+-
+   gen_struc/Iogs_DatabaseIO
+   gen_struc/Iogs_GeneratedMesh
+ 
+@@ -192,18 +174,6 @@
+   transform/Iotr_Tensor
+   transform/Iotr_VectorMagnitude)
+ 
+-if (SEACAS_HAVE_MPI)
+-  list(APPEND classes
+-    Ioss_Decomposition
+-    Ioss_DecompositionUtils
+-    cgns/Iocgns_DecompositionData
+-    cgns/Iocgns_ParallelDatabaseIO
+-    exodus/Ioex_DecompositionData
+-    exodus/Ioex_ParallelDatabaseIO
+-    exonull/Ioexnl_DecompositionData
+-    exonull/Ioexnl_ParallelDatabaseIO)
+-endif ()
+-
+ if (SEACAS_HAVE_CATALYST2)
+   list(APPEND classes
+     catalyst/Iocatalyst_CatalystLogging
+@@ -213,6 +183,55 @@
+     catalyst/Iocatalyst_IOFactory)
+ endif ()
+ 
++if (SEACAS_HAVE_CGNS)
++  list(APPEND classes
++    cgns/Iocgns_DatabaseIO
++    cgns/Iocgns_Utils
++    cgns/Iocgns_Initializer
++    cgns/Iocgns_StructuredZoneData
++    cgns/Iocgns_IOFactory)
++endif ()
++
++if (SEACAS_HAVE_EXODUS)
++  list(APPEND classes
++    exodus/Ioex_BaseDatabaseIO
++    exodus/Ioex_DatabaseIO
++    exodus/Ioex_Internals
++    exodus/Ioex_IOFactory
++    exodus/Ioex_SuperElement
++    exodus/Ioex_Utils)
++endif ()
++
++if (SEACAS_HAVE_EXONULL)
++  list(APPEND classes
++    exonull/Ioexnl_BaseDatabaseIO
++    exonull/Ioexnl_DatabaseIO
++    exonull/Ioexnl_Internals
++    exonull/Ioexnl_IOFactory
++    exonull/Ioexnl_Utils)
++endif ()
++
++if (SEACAS_HAVE_MPI)
++  list(APPEND classes
++    Ioss_Decomposition
++    Ioss_DecompositionUtils)
++  if (SEACAS_HAVE_CGNS)
++    list(APPEND classes
++      cgns/Iocgns_DecompositionData
++      cgns/Iocgns_ParallelDatabaseIO)
++  endif ()
++  if (SEACAS_HAVE_EXODUS)
++    list(APPEND classes
++      exodus/Ioex_DecompositionData
++      exodus/Ioex_ParallelDatabaseIO)
++  endif ()
++  if (SEACAS_HAVE_EXONULL)
++    list(APPEND classes
++      exonull/Ioexnl_DecompositionData
++      exonull/Ioexnl_ParallelDatabaseIO)
++  endif ()
++endif ()
++
+ set(sources)
+ set(headers)
+ foreach (class IN LISTS classes)
+diff -Nur original/VTK/ThirdParty/ioss/vtkioss/init/Ionit_Initializer.C paraview/VTK/ThirdParty/ioss/vtkioss/init/Ionit_Initializer.C
+--- original/VTK/ThirdParty/ioss/vtkioss/init/Ionit_Initializer.C	2024-08-06 19:19:18.152011803 -0400
++++ paraview/VTK/ThirdParty/ioss/vtkioss/init/Ionit_Initializer.C	2024-08-08 12:25:31.989200029 -0400
+@@ -1,4 +1,4 @@
+-// Copyright(C) 1999-2020, 2023 National Technology & Engineering Solutions
++// Copyright(C) 1999-2020, 2023, 2024 National Technology & Engineering Solutions
+ // of Sandia, LLC (NTESS).  Under the terms of Contract DE-NA0003525 with
+ // NTESS, the U.S. Government retains certain rights in this software.
+ //
+@@ -10,8 +10,10 @@
+ 
+ #if defined(SEACAS_HAVE_EXODUS)
+ #include "exodus/Ioex_IOFactory.h"
++#if defined(SECAS_HAVE_EXONULL)
+ #include "exonull/Ioexnl_IOFactory.h"
+ #endif
++#endif
+ 
+ #include "gen_struc/Iogs_DatabaseIO.h"
+ #include "generated/Iogn_DatabaseIO.h"
+@@ -74,8 +76,10 @@
+ 
+ #if defined(SEACAS_HAVE_EXODUS)
+     Ioex::IOFactory::factory(); // Exodus
++#if defined(SECAS_HAVE_EXONULL)
+     Ioexnl::IOFactory::factory();
+ #endif
++#endif
+ #if defined(SEACAS_HAVE_PAMGEN)
+     Iopg::IOFactory::factory(); // Pamgen
+ #endif
+diff -Nur original/VTK/ThirdParty/ioss/vtkioss/Ioss_CodeTypes.h paraview/VTK/ThirdParty/ioss/vtkioss/Ioss_CodeTypes.h
+--- original/VTK/ThirdParty/ioss/vtkioss/Ioss_CodeTypes.h	2024-08-06 19:19:18.136011910 -0400
++++ paraview/VTK/ThirdParty/ioss/vtkioss/Ioss_CodeTypes.h	2024-08-08 12:25:31.973200145 -0400
+@@ -37,6 +37,7 @@
+ /* #undef IOSS_THREADSAFE */
+ /* #undef SEACAS_HAVE_KOKKOS */
+ #define SEACAS_HAVE_EXODUS
++#define SEACAS_HAVE_EXONULL
+ #define SEACAS_HAVE_CGNS
+ /* #undef SEACAS_HAVE_FAODEL */
+ #define SEACAS_HAVE_PAMGEN
+diff -Nur original/VTK/ThirdParty/ioss/vtkioss/Ioss_DatabaseIO.C paraview/VTK/ThirdParty/ioss/vtkioss/Ioss_DatabaseIO.C
+--- original/VTK/ThirdParty/ioss/vtkioss/Ioss_DatabaseIO.C	2024-08-06 19:19:18.136011910 -0400
++++ paraview/VTK/ThirdParty/ioss/vtkioss/Ioss_DatabaseIO.C	2024-08-08 12:25:31.973200145 -0400
+@@ -1640,7 +1640,7 @@
+       else {
+         char sep = (util.parallel_size() > 1) ? ':' : ' ';
+         for (auto &p_time : all_times) {
+-          fmt::print(strm, "{:8d}{}", p_time, sep);
++          fmt::print(strm, "{:8}{}", p_time, sep);
+         }
+       }
+       if (util.parallel_size() > 1) {
+diff -Nur original/VTK/ThirdParty/ioss/vtkioss/Ioss_Utils.C paraview/VTK/ThirdParty/ioss/vtkioss/Ioss_Utils.C
+--- original/VTK/ThirdParty/ioss/vtkioss/Ioss_Utils.C	2024-08-06 19:19:18.144011857 -0400
++++ paraview/VTK/ThirdParty/ioss/vtkioss/Ioss_Utils.C	2024-08-08 12:25:31.977200115 -0400
+@@ -1378,7 +1378,7 @@
+       fmt::print("{1:>{0}s}:{2}  ", max_width, field_name, comp_count);
+       cur_out += max_width + 4;
+       if (cur_out + max_width >= width) {
+-        fmt::print(suffix);
++        fmt::print("{}", suffix);
+         cur_out = 8;
+       }
+     }
