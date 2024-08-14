@@ -254,12 +254,12 @@ function (superbuild_find_projects var)
     list(APPEND projects
       openvr
       pywin32
-      zeromq
       zspace)
   endif ()
 
   if (WIN32 OR (UNIX AND NOT APPLE))
     list(APPEND projects
+      zeromq
       # The med stack does not support MacOS yet
       medconfiguration
       medcoupling

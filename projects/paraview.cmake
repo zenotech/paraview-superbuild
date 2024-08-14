@@ -40,7 +40,7 @@ set(paraview_platform_dependencies)
 if (UNIX)
   if (NOT APPLE)
     list(APPEND paraview_platform_dependencies
-      mesa osmesa egl openxrsdk
+      mesa osmesa egl openxrsdk zeromq
 
       # Needed for fonts to work properly.
       fontconfig)
@@ -102,6 +102,11 @@ if (PARAVIEW_ENABLE_CAVEInteraction AND UNIX)
   list(APPEND paraview_extra_cmake_options
     -DPARAVIEW_PLUGIN_CAVEInteraction_USE_VRUI:BOOL=ON
   )
+  if (zeromq_enabled)
+    set(paraview_vr_collaboration_enabled TRUE)
+  else()
+    set(paraview_vr_collaboration_enabled FALSE)
+  endif()
 endif()
 
 set(paraview_use_raytracing OFF)
