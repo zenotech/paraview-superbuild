@@ -416,3 +416,13 @@ superbuild_set_revision(openxrremoting
   # https://www.nuget.org/packages/Microsoft.Holographic.Remoting.OpenXr/
   URL           "https://www.paraview.org/files/dependencies/microsoft.holographic.remoting.openxr.2.9.2.nupkg"
   URL_MD5       e9542792dde3a6f15f4016c088ac3e5c)
+
+superbuild_set_revision(cppzmq
+  # https://github.com/zeromq/cppzmq/archive/refs/tags/v4.10.0.tar.gz
+  URL           "https://www.paraview.org/files/dependencies/cppzmq-v4.10.0.tar.gz"
+  URL_MD5       443c9752276da2d9ea78d8b41a158b91)
+
+superbuild_set_selectable_source(collaborationserver
+  SELECT git CUSTOMIZABLE DEFAULT
+    GIT_REPOSITORY "https://gitlab.kitware.com/paraview/collaboration-server.git"
+    GIT_TAG        "v0.0.1")
