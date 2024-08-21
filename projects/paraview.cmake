@@ -385,10 +385,3 @@ if (paraview_SOURCE_SELECTION MATCHES "^5.12")
   superbuild_apply_patch(paraview 5.12-vtkm-loguru-install-interface
     "Remove non-existent include directory from VTK-m's loguru target")
 endif ()
-
-if (paraview_SOURCE_SELECTION MATCHES "^5.13")
-  # Update to latest seacas so that it disables exonull since it breaks windows builds
-  # https://gitlab.kitware.com/vtk/vtk/-/merge_requests/11378
-  superbuild_apply_patch(paraview ioss-disable-exonull
-    "Disable exonull from the VTK IOSS package")
-endif ()
