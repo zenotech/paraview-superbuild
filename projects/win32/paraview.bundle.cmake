@@ -282,6 +282,18 @@ if (qt5_enabled)
   endif()
 endif ()
 
+if (catalyst_enabled)
+  set(adaptors
+    "paraview"
+    "stub")
+
+  foreach (adaptor IN LISTS adaptors)
+    superbuild_windows_install_plugin("${superbuild_install_location}/bin/catalyst/catalyst-${adaptor}.dll"
+      "bin" "bin"
+      SEARCH_DIRECTORIES "${superbuild_install_location}/bin")
+  endforeach ()
+endif ()
+
 if (openxrremoting_enabled)
   # The external package for openxrremoting contains several dlls, as it's
   # only loaded at runtime, we only package required dll for paraview to use
