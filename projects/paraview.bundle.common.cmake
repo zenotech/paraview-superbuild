@@ -502,7 +502,7 @@ function (paraview_install_extra_data)
   paraview_install_bivariate_textures()
 endfunction ()
 
-if (qt5_enabled)
+if (qt5_enabled AND (NOT USE_SYSTEM_qt5 OR PACKAGE_SYSTEM_QT))
   include(qt5.functions)
 
   set(qt5_plugin_prefix)
