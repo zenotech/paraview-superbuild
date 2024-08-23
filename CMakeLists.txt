@@ -356,9 +356,15 @@ function (superbuild_add_packaging)
   endif ()
   list(GET generators 0 default_generator)
 
+  if (APPLE OR WIN32)
+    option(PACKAGE_SYSTEM_QT "With USE_SYSTEM_Qt5, package the system Qt during packaging step" ON)
+    mark_as_advanced(PACKAGE_SYSTEM_QT)
+  endif()
+
   list(APPEND superbuild_export_variables
     paraview_always_package_scipy
-    GENERATE_SPDX)
+    GENERATE_SPDX
+    PACKAGE_SYSTEM_QT)
 
   if (qt5_enabled AND (USE_SYSTEM_qt5 OR APPLE OR WIN32))
     list(APPEND superbuild_export_variables
