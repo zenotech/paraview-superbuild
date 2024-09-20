@@ -55,3 +55,5 @@ superbuild_add_project(adios2
     -DADIOS2_USE_ZeroMQ:STRING=OFF
     -DEVPATH_TRANSPORT_MODULES:BOOL=OFF
     ${adios2_extra_args})
+
+superbuild_apply_patch(adios2 update-thirdparty-libs "Fix issue with perl")
