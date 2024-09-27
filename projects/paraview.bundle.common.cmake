@@ -327,6 +327,19 @@ function (paraview_install_xr_manifests)
     FILES_MATCHING PATTERN "*.json")
 endfunction ()
 
+function (paraview_install_openxr_models)
+  if (NOT "XRInterface" IN_LIST paraview_plugins)
+    return ()
+  endif ()
+
+  if (openxrmodels_enabled)
+    install(
+      DIRECTORY   "${superbuild_install_location}/share/paraview-${paraview_version}/openxrmodels"
+      DESTINATION "share/paraview-${paraview_version}"
+      COMPONENT   superbuild)
+  endif ()
+endfunction ()
+
 function (paraview_install_bivariate_textures)
   # Install texture files for BivariateRepresentations plugin
   if (NOT "BivariateRepresentations" IN_LIST paraview_plugins)
@@ -499,6 +512,7 @@ function (paraview_install_extra_data)
   endif()
 
   paraview_install_xr_manifests()
+  paraview_install_openxr_models()
   paraview_install_bivariate_textures()
 endfunction ()
 
