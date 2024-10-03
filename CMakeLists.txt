@@ -89,6 +89,7 @@ function (superbuild_find_projects var)
     openvkl
     ospray
     ospraymodulempi
+    openxrmodels
     openxrsdk
     paraviewtranslations
     paraviewweb
