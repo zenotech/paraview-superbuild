@@ -17,29 +17,17 @@
         GIT_CLONE_PATH: $CI_BUILDS_DIR/gitlab-kitware-sciviz-ci
         CUDACXX: "/usr/local/cuda-12.2/bin/nvcc"
 
-.centos7_plain:
+.centos7_shared:
     extends: .centos7
 
     variables:
-        CMAKE_CONFIGURATION: linux_plain
+        CMAKE_CONFIGURATION: linux_shared
 
-.centos7_egl:
+.centos7_static:
     extends: .centos7
 
     variables:
-        CMAKE_CONFIGURATION: linux_egl
-
-.centos7_osmesa_shared:
-    extends: .centos7
-
-    variables:
-        CMAKE_CONFIGURATION: linux_osmesa_shared
-
-.centos7_osmesa_static:
-    extends: .centos7
-
-    variables:
-        CMAKE_CONFIGURATION: linux_osmesa_static
+        CMAKE_CONFIGURATION: linux_static
 
 .fedora38:
     image: "kitware/paraview:ci-superbuild-fedora38-20231215"
@@ -48,17 +36,17 @@
         GIT_SUBMODULE_STRATEGY: none
         GIT_CLONE_PATH: $CI_BUILDS_DIR/gitlab-kitware-sciviz-ci
 
-.fedora38_plain:
+.fedora38_shared:
     extends: .fedora38
 
     variables:
-        CMAKE_CONFIGURATION: linux_plain
+        CMAKE_CONFIGURATION: linux_shared
 
-.fedora38_egl:
+.fedora38_static:
     extends: .fedora38
 
     variables:
-        CMAKE_CONFIGURATION: linux_egl
+        CMAKE_CONFIGURATION: linux_static
 
 ## Tags
 
