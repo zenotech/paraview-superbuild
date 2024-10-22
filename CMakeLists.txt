@@ -206,7 +206,6 @@ function (superbuild_find_projects var)
       list(APPEND projects
         collaborationserver
         cppzmq
-        egl
         fontconfig
         glproto
         gperf
@@ -301,31 +300,6 @@ function (superbuild_sanity_check)
     #While ParaView doesn't depend on cxx11 it needs to make sure that
     #other projects that optionally depend on it are built with cxx11
     message(SEND_ERROR "Cannot disable cxx11 when paraview is enabled.")
-  endif ()
-
-  # Sanity check: Cannot have EGL and Qt enabled at the same time.
-  if (egl_enabled AND qt5_enabled)
-    message(SEND_ERROR "Cannot enable EGL and Qt at the same time.")
-  endif ()
-
-  # Sanity check: Cannot have EGL and Mesa at the same time.
-  if (egl_enabled AND mesa_enabled)
-    message(SEND_ERROR "Cannot enable EGL and Mesa at the same time.")
-  endif ()
-
-  # Sanity check: Cannot have EGL and OSMesa at the same time.
-  if (egl_enabled AND osmesa_enabled)
-    message(SEND_ERROR "Cannot enable EGL and OSMesa at the same time.")
-  endif ()
-
-  # Sanity check: Cannot have OSMesa and Qt enabled at the same time if we're building ParaView.
-  if (osmesa_enabled AND qt5_enabled AND paraview_enabled)
-    message(SEND_ERROR "Cannot enable OSMesa and Qt at the same time.")
-  endif ()
-
-  # Sanity check: Cannot have OSMesa and Mesa at the same time.
-  if (osmesa_enabled AND mesa_enabled)
-    message(SEND_ERROR "Cannot enable OSMesa and Mesa at the same time.")
   endif ()
 
   # Sanity check: report cases where it doesn't make any sense to enable launchers.
