@@ -1,9 +1,7 @@
 {
     "latest-packages": [
-        { "group": "master-packages", "site": "gitlab-ci", "buildname": "[linux_plain]" },
-        { "group": "master-packages", "site": "gitlab-ci", "buildname": "[linux_egl]" },
-        { "group": "master-packages", "site": "gitlab-ci", "buildname": "[linux_osmesa_shared]" },
-        { "group": "master-packages", "site": "gitlab-ci", "buildname": "[linux_osmesa_static]" },
+        { "group": "master-packages", "site": "gitlab-ci", "buildname": "[linux_shared]" },
+        { "group": "master-packages", "site": "gitlab-ci", "buildname": "[linux_static]" },
         { "group": "master-packages", "site": "gitlab-ci", "buildname": "[macos_arm64]" },
         { "group": "master-packages", "site": "gitlab-ci", "buildname": "[macos_x86_64]" },
         { "group": "master-packages", "site": "gitlab-ci", "buildname": "[windows_vs2019_mpi]" },

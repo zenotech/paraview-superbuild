@@ -14,9 +14,9 @@ if (PV_NIGHTLY_SUFFIX)
     -DPV_NIGHTLY_SUFFIX:STRING=${PV_NIGHTLY_SUFFIX})
 endif ()
 
-# Without an offscreen rendering backend, X should be used.
+# Use X only in Linux
 set(paraview_use_x ON)
-if (WIN32 OR APPLE OR osmesa_enabled OR egl_enabled)
+if (WIN32 OR APPLE)
   set(paraview_use_x OFF)
 endif()
 
@@ -40,7 +40,11 @@ set(paraview_platform_dependencies)
 if (UNIX)
   if (NOT APPLE)
     list(APPEND paraview_platform_dependencies
-      mesa osmesa egl openxrsdk zeromq
+      mesa
+      # OSMesa is only built to support users on bespoke linux systems that do not have an OSMesa library.
+      # The OSMesa library/headers are not really required at compile time.
+      osmesa
+      openxrsdk zeromq
 
       # Needed for fonts to work properly.
       fontconfig)
@@ -284,7 +288,8 @@ superbuild_add_project(paraview
     -DVTK_QT_VERSION:STRING=5
     -DVISIT_BUILD_READER_Mili:BOOL=${mili_enabled}
     -DVISIT_BUILD_READER_Silo:BOOL=${silo_enabled}
-    -DVTK_DEFAULT_RENDER_WINDOW_OFFSCREEN:BOOL=${osmesa_enabled}
+    # Not required in master, but needed for 5.13
+    # -DVTK_DEFAULT_RENDER_WINDOW_OFFSCREEN:BOOL=${osmesa_enabled}
     -DVTK_ENABLE_VR_COLLABORATION:BOOL=${paraview_vr_collaboration_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_eigen=${eigen_enabled}
     -DVTK_MODULE_USE_EXTERNAL_ParaView_protobuf:BOOL=${protobuf_enabled}
@@ -300,8 +305,9 @@ superbuild_add_project(paraview
     -DVTK_MODULE_USE_EXTERNAL_VTK_sqlite:BOOL=${sqlite_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_tiff:BOOL=${tiff_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_zlib:BOOL=${zlib_enabled}
-    -DVTK_OPENGL_HAS_EGL:BOOL=${egl_enabled}
-    -DVTK_OPENGL_HAS_OSMESA:BOOL=${osmesa_enabled}
+    # Not required in master, but needed for 5.13
+    # -DVTK_OPENGL_HAS_EGL:BOOL=${egl_enabled}
+    # -DVTK_OPENGL_HAS_OSMESA:BOOL=${osmesa_enabled}
     -DVTK_SMP_IMPLEMENTATION_TYPE:STRING=${paraview_smp_backend}
     -DVTK_SMP_ENABLE_TBB:BOOL=${tbb_enabled}
     -DVTK_SMP_ENABLE_OPENMP:BOOL=${openmp_enabled}
