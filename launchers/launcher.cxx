@@ -249,7 +249,7 @@ int main(int argc, char* argv[])
       vtksys::SystemTools::GetEnv("VTK_DEFAULT_OPENGL_WINDOW");
   if (current_default_opengl_window != nullptr)
   {
-    if (!strncmp(current_default_opengl_window, "vtkEGLRenderWindow", 18))
+    if (!strcmp(current_default_opengl_window, "vtkEGLRenderWindow"))
     {
       // This is handled easily as execution can take two paths:
       //
@@ -268,7 +268,7 @@ int main(int argc, char* argv[])
       }
     }
 #if ENABLE_MESA_BACKENDS && defined(__linux__)
-    else if (!strncmp(current_default_opengl_window, "vtkOSOpenGLRenderWindow", 23))
+    else if (!strcmp(current_default_opengl_window, "vtkOSOpenGLRenderWindow"))
     {
       // Assist the PV process in locating mesa by appending the path to the bundled mesa library.
       if (!forward_mesa)
