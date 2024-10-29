@@ -276,7 +276,7 @@ if (mesa_enabled AND python3_enabled)
       endif ()
       if (TEST "paraview-osmesa-mesa-swr")
         # Do not run mesa swr test with osmesa for the same reason paraview-mesa-swr is disabled
-        set_tests_properties(paraview-egl-mesa-swr PROPERTIES
+        set_tests_properties(paraview-osmesa-mesa-swr PROPERTIES
           DISABLED TRUE)
       endif ()
     endif ()
