@@ -42,7 +42,7 @@ stages:
 # Additionally, jobs may also contain:
 #
 #   - artifacts
-#   - dependency/needs jobs for required jobs
+#   - needs jobs for required jobs
 ################################################################################
 
 # Linux
@@ -65,8 +65,6 @@ linux-plain:test:
         - .cmake_package_artifacts
         - .linux_test_tags
         - .run_automatically
-    dependencies:
-        - linux-plain:build
     needs:
         - linux-plain:build
 
@@ -74,8 +72,6 @@ linux-plain:upload:
     extends:
         - .rsync_upload
         - .upload_only
-    dependencies:
-        - linux-plain:test
     needs:
         - linux-plain:test
     variables:
@@ -100,8 +96,6 @@ linux-egl:test:
         - .cmake_package_artifacts
         - .linux_test_tags
         - .run_automatically
-    dependencies:
-        - linux-egl:build
     needs:
         - linux-egl:build
 
@@ -109,8 +103,6 @@ linux-egl:upload:
     extends:
         - .rsync_upload
         - .upload_only
-    dependencies:
-        - linux-egl:test
     needs:
         - linux-egl:test
     variables:
@@ -134,8 +126,6 @@ linux-osmesa-shared:test:
         - .cmake_package_artifacts
         - .linux_test_tags
         - .run_automatically
-    dependencies:
-        - linux-osmesa-shared:build
     needs:
         - linux-osmesa-shared:build
 
@@ -143,8 +133,6 @@ linux-osmesa-shared:upload:
     extends:
         - .rsync_upload
         - .upload_only
-    dependencies:
-        - linux-osmesa-shared:test
     needs:
         - linux-osmesa-shared:test
     variables:
@@ -171,8 +159,6 @@ linux-osmesa-static:test:
         - .cmake_package_artifacts
         - .linux_test_tags
         - .run_automatically
-    dependencies:
-        - linux-osmesa-static:build
     needs:
         - linux-osmesa-static:build
 
@@ -195,8 +181,6 @@ macos-arm64:test:
         - .cmake_package_artifacts
         - .macos_arm64_builder_tags_test
         - .run_automatically
-    dependencies:
-        - macos-arm64:build
     needs:
         - macos-arm64:build
 
@@ -204,8 +188,6 @@ macos-arm64:upload:
     extends:
         - .rsync_upload
         - .upload_only
-    dependencies:
-        - macos-arm64:test
     needs:
         - macos-arm64:test
     variables:
@@ -227,8 +209,6 @@ macos-x86_64:test:
         - .cmake_package_artifacts
         - .macos_builder_tags_test
         - .run_automatically
-    dependencies:
-        - macos-x86_64:build
     needs:
         - macos-x86_64:build
 
@@ -236,8 +216,6 @@ macos-x86_64:upload:
     extends:
         - .rsync_upload
         - .upload_only
-    dependencies:
-        - macos-x86_64:test
     needs:
         - macos-x86_64:test
     variables:
@@ -263,8 +241,6 @@ windows-vs2019-mpi:test:
         - .cmake_package_artifacts
         - .windows_test_tags
         - .run_automatically
-    dependencies:
-        - windows-vs2019-mpi:build
     needs:
         - windows-vs2019-mpi:build
 
@@ -272,8 +248,6 @@ windows-vs2019-mpi:upload:
     extends:
         - .rsync_upload
         - .upload_only
-    dependencies:
-        - windows-vs2019-mpi:test
     needs:
         - windows-vs2019-mpi:test
     variables:
@@ -297,8 +271,6 @@ windows-vs2019-nompi:test:
         - .cmake_package_artifacts
         - .windows_test_tags
         - .run_automatically
-    dependencies:
-        - windows-vs2019-nompi:build
     needs:
         - windows-vs2019-nompi:build
 
@@ -306,8 +278,6 @@ windows-vs2019-nompi:upload:
     extends:
         - .rsync_upload
         - .upload_only
-    dependencies:
-        - windows-vs2019-nompi:test
     needs:
         - windows-vs2019-nompi:test
     variables:
