@@ -47,7 +47,7 @@ endif ()
 
 # Set the license files.
 set(CPACK_RESOURCE_FILE_LICENSE "${superbuild_install_location}/share/licenses/ParaView/Copyright.txt")
-set(qt_license_file "${CMAKE_CURRENT_LIST_DIR}/files/Qt5.LICENSE.LGPLv3")
+set(qt_license_file "${CMAKE_CURRENT_LIST_DIR}/files/Qt5.LICENSE")
 
 # Set the translations to bundle
 set(paraview_languages "fr_FR")
