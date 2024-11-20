@@ -6,6 +6,7 @@ endif()
 
 superbuild_add_project(zeromq
   LICENSE_FILES
+    COPYING
     COPYING.LESSER
     AUTHORS
   SPDX_LICENSE_IDENTIFIER
