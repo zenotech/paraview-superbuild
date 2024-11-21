@@ -228,6 +228,7 @@ superbuild_add_project(paraview
     xdmf3 vrpn vtkm netcdf
     openmp
     openpmd
+    openturns
     openvdb
     nlohmannjson
     paraviewgettingstartedguide
@@ -253,6 +254,7 @@ superbuild_add_project(paraview
     -DPARAVIEW_ENABLE_FFMPEG:BOOL=${ffmpeg_enabled}
     -DPARAVIEW_ENABLE_FIDES:BOOL=${fides_enabled}
     -DPARAVIEW_ENABLE_GDAL:BOOL=${gdal_enabled}
+    -DPARAVIEW_ENABLE_OPENTURNS:BOOL=${openturns_enabled}
     -DPARAVIEW_ENABLE_PDAL:BOOL=${pdal_enabled}
     -DPARAVIEW_ENABLE_LAS:BOOL=${las_enabled}
     -DPARAVIEW_ENABLE_GEOVIS:BOOL=${proj_enabled}

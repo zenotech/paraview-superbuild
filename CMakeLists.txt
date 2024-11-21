@@ -85,6 +85,7 @@ function (superbuild_find_projects var)
     openmp
     openpmd
     openimagedenoise
+    openturns
     openvdb
     openvkl
     ospray

@@ -426,3 +426,8 @@ superbuild_set_selectable_source(collaborationserver
   SELECT git CUSTOMIZABLE DEFAULT
     GIT_REPOSITORY "https://gitlab.kitware.com/paraview/collaboration-server.git"
     GIT_TAG        "v0.0.1")
+
+superbuild_set_revision(openturns
+  # https://github.com/openturns/openturns
+  URL     "https://github.com/openturns/openturns/archive/refs/tags/v1.23.tar.gz"
+  URL_MD5 57afb99d462c254bd044a9a622880943)
