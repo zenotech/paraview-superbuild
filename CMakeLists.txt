@@ -85,7 +85,6 @@ function (superbuild_find_projects var)
     openmp
     openpmd
     openimagedenoise
-    openturns
     openvdb
     openvkl
     ospray
@@ -215,6 +214,7 @@ function (superbuild_find_projects var)
         libusb
         llvm
         mesa
+        openturns
         osmesa
         paraviewsdk
         socat

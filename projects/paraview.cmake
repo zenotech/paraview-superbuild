@@ -44,7 +44,9 @@ if (UNIX)
       # OSMesa is only built to support users on bespoke linux systems that do not have an OSMesa library.
       # The OSMesa library/headers are not really required at compile time.
       osmesa
-      openxrsdk zeromq
+      openturns
+      openxrsdk
+      zeromq
 
       # Needed for fonts to work properly.
       fontconfig)
@@ -228,7 +230,6 @@ superbuild_add_project(paraview
     xdmf3 vrpn vtkm netcdf
     openmp
     openpmd
-    openturns
     openvdb
     nlohmannjson
     paraviewgettingstartedguide
