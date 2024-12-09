@@ -194,6 +194,18 @@ if (visrtx_enabled)
   endforeach ()
 endif ()
 
+if (lapack_enabled)
+  set(lapackextra_libraries
+    mkl_core.2
+    mkl_def.2)
+
+  foreach (lapackextra_library IN LISTS lapackextra_libraries)
+    superbuild_windows_install_plugin("${lapackextra_library}.dll"
+      "bin" "bin"
+      SEARCH_DIRECTORIES "${superbuild_install_location}/bin")
+  endforeach ()
+endif ()
+
 if (python3_enabled)
   if (python3_built_by_superbuild)
     include(python3.functions)

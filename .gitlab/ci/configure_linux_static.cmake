@@ -9,7 +9,6 @@ set(llvm_BUILD_SHARED_LIBS        "OFF" CACHE STRING "")
 set(ENABLE_ttk OFF CACHE BOOL "")
 
 set(ENABLE_catalyst                 ON  CACHE BOOL "")
-set(ENABLE_openturns                ON  CACHE BOOL "")
 
 set(ENABLE_mesa                     OFF CACHE BOOL "")
 set(ENABLE_nvidiaindex              OFF CACHE BOOL "")
