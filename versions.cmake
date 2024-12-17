@@ -63,8 +63,8 @@ superbuild_set_selectable_source(paraview
 # Removed: standalone/
 superbuild_set_revision(ttk
   # https://github.com/topology-tool-kit/ttk/releases
-  URL     "https://www.paraview.org/files/dependencies/ttk-1.2.0-trimmed.zip"
-  URL_MD5 fea1d3cb38b32aa9cd7edeec0b7321a1)
+  URL     "https://www.paraview.org/files/dependencies/ttk-1.3.0-trimmed.zip"
+  URL_MD5 a7ebc05ebea12a42919951a47d98a07a )
 
 superbuild_set_revision(libusb
   # https://github.com/libusb/libusb/releases
