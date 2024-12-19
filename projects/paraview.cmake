@@ -44,7 +44,6 @@ if (UNIX)
       # OSMesa is only built to support users on bespoke linux systems that do not have an OSMesa library.
       # The OSMesa library/headers are not really required at compile time.
       osmesa
-      openturns
       openxrsdk
       zeromq
 
@@ -228,6 +227,7 @@ superbuild_add_project(paraview
     adios2 alembic catalyst cuda boost eigen fortran gdal hdf5 matplotlib mpi numpy pdal png
     protobuf python3 qt5 visitbridge zlib silo las lookingglass fides pythonmpi4py
     xdmf3 vrpn vtkm netcdf
+    openturns
     openmp
     openpmd
     openvdb

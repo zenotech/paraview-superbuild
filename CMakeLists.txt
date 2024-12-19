@@ -69,6 +69,7 @@ function (superbuild_find_projects var)
     ispc
     jsonc
     jsoncpp
+    lapack
     las
     libjpegturbo
     lookingglass
@@ -89,6 +90,7 @@ function (superbuild_find_projects var)
     openvkl
     ospray
     ospraymodulempi
+    openturns
     openxrmodels
     openxrsdk
     paraviewtranslations
@@ -196,7 +198,6 @@ function (superbuild_find_projects var)
       fortran
       genericio
       gmsh
-      lapack
       libxml2
       mili
       rapidjson
@@ -214,7 +215,6 @@ function (superbuild_find_projects var)
         libusb
         llvm
         mesa
-        openturns
         osmesa
         paraviewsdk
         socat
