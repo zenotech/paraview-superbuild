@@ -147,8 +147,8 @@ endif()
 
 superbuild_set_revision(gmsh
   # https://gmsh.info/#Download
-  URL     "https://www.paraview.org/files/dependencies/gmsh-4.11.1-source.tgz"
-  URL_MD5 681ccfa83213921884ede92a80191ba2)
+  URL     "https://www.paraview.org/files/dependencies/gmsh-4.13.1-source.tgz"
+  URL_MD5 6c2f83e6ba8165aa862ee8c6fcedee99)
 
 if (WIN32)
   set(nvidiaindex_platform "windows-x64")
