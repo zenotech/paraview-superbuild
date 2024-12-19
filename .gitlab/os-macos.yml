@@ -37,7 +37,7 @@
 
 ## Tags
 
-.macos_builder_tags:
+.macos_x86_64_builder_tags:
     tags:
         - paraview
         - macos-x86_64
@@ -55,7 +55,7 @@
         - nonconcurrent
         - finder
 
-.macos_builder_tags_test:
+.macos_x86_64_builder_tags_test:
     tags:
         - paraview
         - macos-x86_64
