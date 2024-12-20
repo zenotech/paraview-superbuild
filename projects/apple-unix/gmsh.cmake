@@ -13,5 +13,3 @@ superbuild_add_project(gmsh
     -DENABLE_ONELAB:BOOL=OFF
     -DENABLE_ONELAB_METAMODEL:BOOL=OFF
     -DENABLE_BUILD_SHARED:BOOL=${BUILD_SHARED_LIBS})
-
-superbuild_apply_patch(gmsh stdint-includes "Missing stdint.h include")
