@@ -215,6 +215,7 @@ function (superbuild_find_projects var)
         libusb
         llvm
         mesa
+        mesatoolchainoverride
         osmesa
         paraviewsdk
         socat
@@ -544,6 +545,11 @@ set(_python_unicode_default "UCS4")
 # The projects end up with "errors" in their output that CDash ends up seeing
 # and thinking things went wrong.
 set(_superbuild_suppress_matplotlib_output ON)
+
+# This optional hdf5 dependencies should not be added
+# as it conflicts with mpi, ignore it instead
+set(_superbuild_ignored_optional_depends
+  hdf5cpp)
 
 # Setup SPDX superbuild variables
 set(superbuild_spdx_document_namespace "https://paraview.org/spdx")
