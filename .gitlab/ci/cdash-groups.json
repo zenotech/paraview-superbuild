@@ -1,10 +1,10 @@
 {
     "latest-packages": [
-        { "group": "master-packages", "site": "gitlab-ci", "buildname": "[linux_shared]" },
-        { "group": "master-packages", "site": "gitlab-ci", "buildname": "[linux_static]" },
-        { "group": "master-packages", "site": "gitlab-ci", "buildname": "[macos_arm64]" },
-        { "group": "master-packages", "site": "gitlab-ci", "buildname": "[macos_x86_64]" },
-        { "group": "master-packages", "site": "gitlab-ci", "buildname": "[windows_vs2019_mpi]" },
-        { "group": "master-packages", "site": "gitlab-ci", "buildname": "[windows_vs2019_nompi]" }
+        { "group": "master-packages", "site": "gitlab-ci", "buildname": "paraview-superbuild-branch-master-[linux_shared]" },
+        { "group": "master-packages", "site": "gitlab-ci", "buildname": "paraview-superbuild-branch-master-[linux_static]" },
+        { "group": "master-packages", "site": "gitlab-ci", "buildname": "paraview-superbuild-branch-master-[macos_arm64]" },
+        { "group": "master-packages", "site": "gitlab-ci", "buildname": "paraview-superbuild-branch-master-[macos_x86_64]" },
+        { "group": "master-packages", "site": "gitlab-ci", "buildname": "paraview-superbuild-branch-master-[windows_vs2019_mpi]" },
+        { "group": "master-packages", "site": "gitlab-ci", "buildname": "paraview-superbuild-branch-master-[windows_vs2019_nompi]" }
     ]
 }
