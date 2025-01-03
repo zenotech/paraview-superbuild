@@ -45,9 +45,9 @@ endif ()
 superbuild_set_selectable_source(paraview
   # NOTE: When updating this selection, also update the default version in
   # README.md and the PARAVIEW_VERSION_DEFAULT variable in CMakeLists.txt.
-  SELECT 5.13.1 ${paraview_release_default}
-    URL     "https://www.paraview.org/files/v5.13/ParaView-v5.13.1.tar.xz"
-    URL_MD5 096b3582a2e016201c79f4a4bce2ab16
+  SELECT 5.13.2 ${paraview_release_default}
+    URL     "https://www.paraview.org/files/v5.13/ParaView-v5.13.2.tar.xz"
+    URL_MD5 c1c3883e0cab2d132e8a4d43f29873e9
   SELECT git CUSTOMIZABLE ${paraview_git_default}
     GIT_REPOSITORY "https://gitlab.kitware.com/paraview/paraview.git"
     GIT_TAG        "origin/master"
