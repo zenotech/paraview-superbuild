@@ -15,3 +15,4 @@ superbuild_add_project(gmsh
     -DENABLE_BUILD_SHARED:BOOL=${BUILD_SHARED_LIBS})
 
 superbuild_apply_patch(gmsh stdint-includes "Missing stdint.h include")
+superbuild_apply_patch(gmsh string-includes "Missing string.h include")
