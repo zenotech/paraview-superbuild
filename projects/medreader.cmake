@@ -35,3 +35,6 @@ superbuild_apply_patch(medreader add-missing-VTK-module-depends
 
 superbuild_apply_patch(medreader quadrature-dataset
   "Update quadrature point generation")
+
+superbuild_apply_patch(medreader fix-vtkStdString-usage
+  "Fix vtkStdString usage")
