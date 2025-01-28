@@ -236,6 +236,7 @@ superbuild_add_project(paraview
     paraviewtutorialdata paraviewweb
     ${paraview_all_plugins}
     ${paraview_platform_dependencies}
+    pythoncftime
     tbb ospray sqlite
     tiff proj exodus seacas
     occt
@@ -273,14 +274,13 @@ superbuild_add_project(paraview
     -DPARAVIEW_PLUGIN_dsp_enable_audio_player:BOOL=${qt5_ENABLE_MULTIMEDIA}
     -DPARAVIEW_PLUGIN_ENABLE_XRInterface:BOOL=${paraview_xrinterface_plugin_enabled}
     -DPARAVIEW_PLUGIN_ENABLE_zSpace:BOOL=${zspace_enabled}
+    -DPARAVIEW_PLUGIN_ENABLE_NetCDFTimeAnnotationPlugin:BOOL=${pythoncftime_enabled}
     -DPARAVIEW_XRInterface_OpenVR_Support:BOOL=${openvr_enabled}
     -DPARAVIEW_XRInterface_OpenXR_Support:BOOL=${openxrsdk_enabled}
     -DPARAVIEW_XRInterface_OpenXRRemoting_Support:BOOL=${openxrremoting_enabled}
     -DVTK_MODULE_ENABLE_VTK_RenderingOpenVR:STRING=${paraview_vtk_module_openvr_enabled}
     -DVTK_MODULE_ENABLE_VTK_RenderingOpenXR:STRING=${paraview_vtk_module_openxr_enabled}
     -DVTK_MODULE_ENABLE_VTK_RenderingOpenXRRemoting:STRING=${paraview_vtk_module_openxrremoting_enabled}
-    # No netcdftime module in the package.
-    -DPARAVIEW_PLUGIN_ENABLE_NetCDFTimeAnnotationPlugin:BOOL=OFF
     -DPARAVIEW_PYTHON_VERSION:STRING=3
     -DPARAVIEW_USE_MPI:BOOL=${mpi_enabled}
     -DPARAVIEW_USE_FORTRAN:BOOL=${fortran_enabled}
