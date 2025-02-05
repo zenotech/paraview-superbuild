@@ -417,6 +417,7 @@ macro (remove_not_packaged_projects)
   # Do not install license of non-packaged projects
   list(REMOVE_ITEM packaged_projects
     gperf
+    libxslt
     medconfiguration
     meson
     ninja

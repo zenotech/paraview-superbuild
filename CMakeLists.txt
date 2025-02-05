@@ -72,6 +72,8 @@ function (superbuild_find_projects var)
     lapack
     las
     libjpegturbo
+    libxml2
+    libxslt
     lookingglass
     lz4
     matplotlib
@@ -198,7 +200,6 @@ function (superbuild_find_projects var)
       fortran
       genericio
       gmsh
-      libxml2
       mili
       rapidjson
       surfacetrackercut)

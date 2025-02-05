@@ -240,6 +240,7 @@ superbuild_add_project(paraview
     tbb ospray sqlite
     tiff proj exodus seacas
     occt
+    libxslt
     ${PARAVIEW_EXTERNAL_PROJECTS}
   CMAKE_ARGS
     -DCMAKE_INSTALL_LIBDIR:PATH=lib
