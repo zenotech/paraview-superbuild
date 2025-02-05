@@ -219,13 +219,24 @@ if (openvdb_enabled)
     -DPARAVIEW_RELOCATABLE_INSTALL:BOOL=OFF)
 endif ()
 
+if (qt5_enabled)
+  set(paraview_dsp_audio_player "${qt5_ENABLE_MULTIMEDIA}")
+  set(paraview_enable_webengine "${qt5_ENABLE_WEBENGINE}")
+  set(paraview_qt_enabled "${qt5_enabled}")
+endif ()
+if (qt6_enabled)
+  set(paraview_dsp_audio_player "${qt6_ENABLE_MULTIMEDIA}")
+  set(paraview_enable_webengine "${qt6_ENABLE_WEBENGINE}")
+  set(paraview_qt_enabled "${qt6_enabled}")
+endif ()
+
 superbuild_add_project(paraview
   DEBUGGABLE
   DEFAULT_ON
   DEPENDS cxx11
   DEPENDS_OPTIONAL
     adios2 alembic catalyst cuda boost eigen gdal hdf5 matplotlib mpi numpy pdal png
-    protobuf python3 qt5 visitbridge zlib silo las lookingglass pythonmpi4py
+    protobuf python3 qt5 qt6 visitbridge zlib silo las lookingglass pythonmpi4py
     xdmf3 vrpn vtkm netcdf
     openturns
     openmp
@@ -272,7 +283,7 @@ superbuild_add_project(paraview
     -DPARAVIEW_PLUGIN_ENABLE_GmshIO:BOOL=${gmsh_enabled}
     -DPARAVIEW_PLUGIN_ENABLE_LookingGlass:BOOL=${lookingglass_enabled}
     -DPARAVIEW_PLUGIN_ENABLE_NodeEditor:BOOL=${PARAVIEW_ENABLE_NODEEDITOR}
-    -DPARAVIEW_PLUGIN_dsp_enable_audio_player:BOOL=${qt5_ENABLE_MULTIMEDIA}
+    -DPARAVIEW_PLUGIN_dsp_enable_audio_player:BOOL=${paraview_dsp_audio_player}
     -DPARAVIEW_PLUGIN_ENABLE_XRInterface:BOOL=${paraview_xrinterface_plugin_enabled}
     -DPARAVIEW_PLUGIN_ENABLE_zSpace:BOOL=${zspace_enabled}
     -DPARAVIEW_PLUGIN_ENABLE_NetCDFTimeAnnotationPlugin:BOOL=${pythoncftime_enabled}
@@ -286,10 +297,10 @@ superbuild_add_project(paraview
     -DPARAVIEW_USE_MPI:BOOL=${mpi_enabled}
     -DPARAVIEW_USE_FORTRAN:BOOL=${fortran_enabled}
     -DPARAVIEW_USE_PYTHON:BOOL=${paraview_use_python}
-    -DPARAVIEW_USE_QT:BOOL=${qt5_enabled}
+    -DPARAVIEW_USE_QT:BOOL=${paraview_qt_enabled}
     -DPARAVIEW_USE_SERIALIZATION:BOOL=ON
-    -DPARAVIEW_QT_VERSION:STRING=5
-    -DVTK_QT_VERSION:STRING=5
+    -DPARAVIEW_QT_VERSION:STRING=${qt_version}
+    -DVTK_QT_VERSION:STRING=${qt_version}
     -DVISIT_BUILD_READER_Mili:BOOL=${mili_enabled}
     -DVISIT_BUILD_READER_Silo:BOOL=${silo_enabled}
     # Not required in master, but needed for 5.13
@@ -339,7 +350,7 @@ superbuild_add_project(paraview
 
     # Web
     -DPARAVIEW_ENABLE_WEB:BOOL=${paraviewweb_enabled}
-    -DPARAVIEW_ENABLE_QTWEBENGINE:BOOL=${qt5_ENABLE_WEBENGINE}
+    -DPARAVIEW_ENABLE_QTWEBENGINE:BOOL=${paraview_enable_webengine}
 
     # Readers
     -DVTK_MODULE_ENABLE_VTK_IOSegY:STRING=YES

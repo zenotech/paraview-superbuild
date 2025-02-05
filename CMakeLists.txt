@@ -161,7 +161,9 @@ function (superbuild_find_projects var)
     pythonyarl
     pytz
     qhull
+    qt
     qt5
+    qt6
     rkcommon
     scipy
     seacas
@@ -296,6 +298,10 @@ endif ()
 function (superbuild_sanity_check)
   if (NOT paraview_enabled AND NOT catalyst_enabled)
     message(WARNING "ParaView is disabled...")
+  endif ()
+
+  if (qt5_enabeld AND qt6_enabled)
+    message(SEND_ERROR "Only one of Qt5 and Qt6 may be enabled")
   endif ()
 
   # Sanity check: Cannot have paraview and have cxx11 disabled.
@@ -526,6 +532,7 @@ set(_superbuild_ospray_default_selection "2.7.1")
 
 # Force qt SVG support, so ParaView can use SVG icons
 set(qt5_ENABLE_SVG ON CACHE INTERNAL "ParaView requires SVG support")
+set(qt6_ENABLE_SVG ON CACHE INTERNAL "ParaView requires SVG support")
 
 # ParaView's superbuild does not support static-everywhere builds. But let
 # people around the check if they want it.

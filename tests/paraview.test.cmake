@@ -66,7 +66,7 @@ if (UNIX AND NOT APPLE)
       )
 endif ()
 
-if (NOT qt5_enabled)
+if (NOT qt5_enabled AND NOT qt6_enabled)
   set(paraview_exe)
 endif ()
 

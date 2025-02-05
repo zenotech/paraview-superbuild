@@ -1,4 +1,8 @@
 superbuild_add_project(paraviewtranslations
+  DEPENDS
+    qt
+  DEPENDS_OPTIONAL
+    qt5 qt6
   LICENSE_FILES
     LICENSE
   SPDX_LICENSE_IDENTIFIER
@@ -7,6 +11,5 @@ superbuild_add_project(paraviewtranslations
     "Copyright Kitware SAS"
   CMAKE_ARGS
     -DPARAVIEW_TRANSLATIONS_INSTALL_QT_TRANSLATIONS:BOOL=ON
-  DEPENDS
-    qt5
+    -DPARAVIEW_TRANSLATIONS_QT_VERSION:STRING=${qt_version}
 )

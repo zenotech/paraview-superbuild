@@ -6,7 +6,7 @@ endif ()
 
 superbuild_add_project(medreader
   DEPENDS medfile medconfiguration medcoupling paraview
-  DEPENDS_OPTIONAL mpi qt5
+  DEPENDS_OPTIONAL mpi qt5 qt6
   LICENSE_FILES COPYING
   SPDX_LICENSE_IDENTIFIER
     LGPL-2.1-or-later
