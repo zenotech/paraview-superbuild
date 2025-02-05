@@ -67,7 +67,7 @@ enable_project(pythonmpi4py)
 enable_project(pythonnetcdf4)
 enable_project(pythonpandas)
 enable_project(pythonpygments)
-enable_project(qt5)
+enable_project(qt6)
 enable_project(scipy)
 enable_project(seacas) # needed to actually build exodus
 enable_project(silo)
