@@ -18,4 +18,4 @@ set(ENABLE_libxslt                  OFF CACHE BOOL "")
 set(ENABLE_visrtx                   OFF CACHE BOOL "")
 set(ENABLE_vrpn                     OFF CACHE BOOL "")
 
-include("${CMAKE_CURRENT_LIST_DIR}/configure_common.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/configure_linux_common.cmake")
