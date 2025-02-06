@@ -1,0 +1,29 @@
+diff -u -Nr -U5 mili-15.1/src/buildinfo.c mili-15.1.buildinfo-crash/src/buildinfo.c
+--- mili-15.1/src/buildinfo.c	2016-07-21 21:25:03.000000000 +0200
++++ mili-15.1.buildinfo-crash/src/buildinfo.c	2025-02-07 00:49:35.567553521 +0100
+@@ -101,11 +101,11 @@
+    struct utsname u_info;
+ #endif
+    time_t time_info;
+    char *ctime_string;
+    FILE *fp;
+-   char *module_lst;
++   char module_lst[4096];
+    int recordcount;
+ 
+    fprintf(outfile, "#define BI_VERSION \"%s-%s\"\n",
+            PACKAGE_NAME, PACKAGE_VERSION);
+ 
+@@ -127,11 +127,11 @@
+    }
+    else
+    {
+       fprintf(outfile, "#define BI_MODULES \"");
+       recordcount = 0;
+-      module_lst = "";
++      module_lst[0] = '\0';
+       while ( !feof(fp) )
+       {
+          recordcount++;
+          fscanf(fp, "%s", module_lst);
+          fprintf(outfile, " %s", module_lst);
