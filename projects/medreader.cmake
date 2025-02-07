@@ -45,3 +45,6 @@ superbuild_apply_patch(medreader quadrature-dataset
 
 superbuild_apply_patch(medreader fix-vtkStdString-usage
   "Fix vtkStdString usage")
+
+superbuild_apply_patch(medreader pqTreeWidget-margins-api
+  "Fix pqTreeWidget deprecated margin API usage")
