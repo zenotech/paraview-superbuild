@@ -1,7 +1,14 @@
 set(medreader_options)
 if (UNIX AND NOT APPLE)
+  set(medreader_rpath_entries
+    <INSTALL_DIR>/lib)
+  if (qt6_enabled)
+    list(APPEND medreader_rpath_entries
+      "${qt6_rpath}")
+  endif ()
+  list(JOIN medreader_rpath_entries "${_superbuild_list_separator}" medreader_rpath_entries)
   list(APPEND medreader_options
-    -DCMAKE_INSTALL_RPATH:STRING=<INSTALL_DIR>/lib)
+    -DCMAKE_INSTALL_RPATH:STRING=${medreader_rpath_entries})
 endif ()
 
 superbuild_add_project(medreader
