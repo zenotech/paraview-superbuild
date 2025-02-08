@@ -10,4 +10,5 @@ superbuild_add_project(cinemaexport
   CMAKE_ARGS
     -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
     -DCMAKE_INSTALL_LIBDIR:PATH=lib
+    -DUSE_EMBREE3:BOOL=ON
   )
