@@ -6,7 +6,7 @@ superbuild_add_project(paraviewtranslations
   SPDX_COPYRIGHT_TEXT
     "Copyright Kitware SAS"
   CMAKE_ARGS
-    -DPROVIDE_QT_TRANSLATIONS:BOOL=ON
+    -DPARAVIEW_TRANSLATIONS_INSTALL_QT_TRANSLATIONS:BOOL=ON
   DEPENDS
     qt5
 )
