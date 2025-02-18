@@ -63,7 +63,7 @@ if (python3_enabled)
 endif ()
 
 set(paraview_has_gui FALSE)
-if (qt5_enabled)
+if (qt5_enabled OR qt6_enabled)
   list(APPEND paraview_executables
     paraview)
   set(paraview_has_gui TRUE)
