@@ -26,7 +26,7 @@ dnf install -y --setopt=install_weak_deps=False \
     freeglut-devel glew-devel graphviz-devel \
     libxcb-devel libXt-devel xcb-util-wm-devel xcb-util-devel \
     xcb-util-image-devel xcb-util-keysyms-devel xcb-util-renderutil-devel \
-    libXcursor-devel mesa-libGL-devel mesa-libEGL-devel \
+    xcb-util-cursor libXcursor-devel mesa-libGL-devel mesa-libEGL-devel \
     libxkbcommon-devel libxkbcommon-x11-devel file mesa-dri-drivers autoconf \
     automake libtool chrpath bison flex libXrandr-devel \
     alsa-lib-devel mesa-vulkan-devel
