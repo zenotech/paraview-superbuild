@@ -340,10 +340,12 @@ function (superbuild_add_packaging)
   endif ()
   list(GET generators 0 default_generator)
 
-  if (APPLE OR WIN32)
-    option(PACKAGE_SYSTEM_QT "With USE_SYSTEM_Qt5, package the system Qt during packaging step" ON)
-    mark_as_advanced(PACKAGE_SYSTEM_QT)
+  set(default_qt_package_system OFF)
+  if (APPLE OR WIN32 OR qt6_enabled)
+    set(default_qt_package_system ON)
   endif()
+  option(PACKAGE_SYSTEM_QT "With USE_SYSTEM_Qt5, package the system Qt during packaging step" "${default_qt_package_system}")
+  mark_as_advanced(PACKAGE_SYSTEM_QT)
 
   list(APPEND superbuild_export_variables
     paraview_always_package_scipy
@@ -362,6 +364,17 @@ function (superbuild_add_packaging)
     qt5_version
     qt5_ENABLE_MULTIMEDIA
     qt5_ENABLE_WEBENGINE)
+
+  if (qt6_enabled)
+    list(APPEND superbuild_export_variables
+      Qt6_DIR)
+    find_package(Qt6 QUIET REQUIRED COMPONENTS Core)
+    set(qt6_version "${Qt6Core_VERSION_MAJOR}.${Qt6Core_VERSION_MINOR}")
+  endif ()
+  list(APPEND superbuild_export_variables
+    qt6_version
+    qt6_ENABLE_MULTIMEDIA
+    qt6_ENABLE_WEBENGINE)
 
   if (NOT DEFINED PARAVIEW_CATALYST_EDITION)
     set(PARAVIEW_CATALYST_EDITION Full)

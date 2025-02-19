@@ -6,6 +6,11 @@ if (Qt5_DIR)
     "${Qt5_DIR}/../..")
 endif ()
 
+if (Qt6_DIR)
+  list(APPEND library_paths
+    "${Qt6_DIR}/../..")
+endif ()
+
 set(include_regexes)
 if (fortran_enabled)
   list(APPEND include_regexes
@@ -26,6 +31,11 @@ if (launchers_enabled AND mpi_built_by_superbuild)
     ".*/libmpi"
     ".*/libmpicxx")
 endif()
+
+if (Qt6_DIR)
+  list(APPEND exclude_regexes
+    "libxcb-cursor.so.0")
+endif ()
 
 foreach (executable IN LISTS paraview_executables)
   superbuild_unix_install_program("${superbuild_install_location}/bin/${executable}"
@@ -306,7 +316,8 @@ elseif (catalyst_enabled)
   endforeach ()
 endif ()
 
-if (qt5_enabled AND qt5_plugin_paths)
+if ((qt5_enabled AND qt5_plugin_paths) OR
+    (qt6_enabled AND qt6_plugin_paths))
   file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/qt.conf" "[Paths]\nPrefix = ..\n")
   install(
     FILES       "${CMAKE_CURRENT_BINARY_DIR}/qt.conf"
@@ -323,6 +334,18 @@ foreach (qt5_plugin_path IN LISTS qt5_plugin_paths)
   superbuild_unix_install_module("${qt5_plugin_path}"
     "lib"
     "plugins/${qt5_plugin_group}/"
+    LOADER_PATHS    "${library_paths}"
+    INCLUDE_REGEXES ${include_regexes}
+    EXCLUDE_REGEXES ${exclude_regexes})
+endforeach ()
+
+foreach (qt6_plugin_path IN LISTS qt6_plugin_paths)
+  get_filename_component(qt6_plugin_group "${qt6_plugin_path}" DIRECTORY)
+  get_filename_component(qt6_plugin_group "${qt6_plugin_group}" NAME)
+
+  superbuild_unix_install_module("${qt6_plugin_path}"
+    "lib"
+    "plugins/${qt6_plugin_group}/"
     LOADER_PATHS    "${library_paths}"
     INCLUDE_REGEXES ${include_regexes}
     EXCLUDE_REGEXES ${exclude_regexes})
