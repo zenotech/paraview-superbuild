@@ -30,7 +30,7 @@
         CMAKE_CONFIGURATION: linux_static
 
 .fedora38:
-    image: "kitware/paraview:ci-superbuild-fedora38-20231215"
+    image: "kitware/paraview:ci-superbuild-fedora38-20250220"
 
     variables:
         GIT_SUBMODULE_STRATEGY: none
