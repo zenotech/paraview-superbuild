@@ -157,7 +157,11 @@ endfunction ()
 
 if (python3_enabled)
   # Simple test to launch the application and load all plugins.
-  paraview_add_ui_test("testui" "TestUI")
+  if (qt5_enabled)
+    paraview_add_ui_test("testui" "TestUI-qt5")
+  elseif (qt6_enabled)
+    paraview_add_ui_test("testui" "TestUI-qt6")
+  endif ()
 
   paraview_add_ui_test("finddata" "TestFindData"
     "--test-baseline=${CMAKE_CURRENT_LIST_DIR}/baselines/Superbuild-TestFindData.png")
