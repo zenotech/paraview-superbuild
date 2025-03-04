@@ -163,8 +163,10 @@ if (python3_enabled)
     paraview_add_ui_test("testui" "TestUI-qt6")
   endif ()
 
-  paraview_add_ui_test("finddata" "TestFindData"
-    "--test-baseline=${CMAKE_CURRENT_LIST_DIR}/baselines/Superbuild-TestFindData.png")
+  if (numpy_enabled)
+    paraview_add_ui_test("finddata" "TestFindData"
+      "--test-baseline=${CMAKE_CURRENT_LIST_DIR}/baselines/Superbuild-TestFindData.png")
+  endif ()
 
   paraview_add_test("pvpython-help" "${pvpython_exe}"
     -c "help()")
