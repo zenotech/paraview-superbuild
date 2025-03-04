@@ -4,33 +4,33 @@
 
 ### CentOS
 #
-# CentOS 7 is the primary deployment platform. This gains us maximum
+# CentOS 8 is the primary deployment platform. This gains us maximum
 # compatibility with many Linux distros while also providing easy ways to get
 # newer compilers.
 
-.centos7:
-    image: "kitware/paraview:ci-superbuild-centos7-20230915"
+.centos8:
+    image: "kitware/paraview:ci-superbuild-centos8-20250227"
 
     variables:
         GIT_SUBMODULE_STRATEGY: none
-        LAUNCHER: "scl enable devtoolset-10 rh-git227 --"
+        LAUNCHER: "scl enable gcc-toolset-10 --"
         GIT_CLONE_PATH: $CI_BUILDS_DIR/gitlab-kitware-sciviz-ci
-        CUDACXX: "/usr/local/cuda-12.2/bin/nvcc"
+        CUDACXX: "/usr/local/cuda-12.6/bin/nvcc"
 
-.centos7_shared:
-    extends: .centos7
+.centos8_shared:
+    extends: .centos8
 
     variables:
         CMAKE_CONFIGURATION: linux_shared
 
-.centos7_static:
-    extends: .centos7
+.centos8_static:
+    extends: .centos8
 
     variables:
         CMAKE_CONFIGURATION: linux_static
 
 .fedora38:
-    image: "kitware/paraview:ci-superbuild-fedora38-20231215"
+    image: "kitware/paraview:ci-superbuild-fedora38-20250220"
 
     variables:
         GIT_SUBMODULE_STRATEGY: none
@@ -72,6 +72,9 @@
     - export PATH=$PWD/.gitlab:$PWD/.gitlab/cmake/bin:$PATH
     - cmake --version
     - ninja --version
+    # Download Qt
+    - cmake -P .gitlab/ci/download_qt6.cmake
+    - export CMAKE_PREFIX_PATH=$PWD/.gitlab/qt6
     # `git submodule foreach` does not consider submodules that have not been
     # initialized. So here, we initialize what we can and ignore failure so
     # that we can set up submodules properly later.

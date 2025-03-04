@@ -47,7 +47,8 @@ endif ()
 
 # Set the license files.
 set(CPACK_RESOURCE_FILE_LICENSE "${superbuild_install_location}/share/licenses/ParaView/Copyright.txt")
-set(qt_license_file "${CMAKE_CURRENT_LIST_DIR}/files/Qt5.LICENSE")
+set(qt5_license_file "${CMAKE_CURRENT_LIST_DIR}/files/Qt5.LICENSE")
+set(qt6_license_file "${CMAKE_CURRENT_LIST_DIR}/files/Qt6.LICENSE")
 
 # Set the translations to bundle
 set(paraview_languages "fr_FR")
@@ -63,7 +64,7 @@ if (python3_enabled)
 endif ()
 
 set(paraview_has_gui FALSE)
-if (qt5_enabled)
+if (qt5_enabled OR qt6_enabled)
   list(APPEND paraview_executables
     paraview)
   set(paraview_has_gui TRUE)
@@ -417,6 +418,7 @@ macro (remove_not_packaged_projects)
   # Do not install license of non-packaged projects
   list(REMOVE_ITEM packaged_projects
     gperf
+    libxslt
     medconfiguration
     meson
     ninja
@@ -459,8 +461,14 @@ function (paraview_install_all_licenses)
   # When packaging system qt, install the license manually
   if (qt5_plugin_paths)
     install(
-      FILES       "${qt_license_file}"
+      FILES       "${qt5_license_file}"
       DESTINATION "${paraview_license_path}/qt5"
+      COMPONENT   superbuild)
+  endif ()
+  if (qt6_plugin_paths)
+    install(
+      FILES       "${qt6_license_file}"
+      DESTINATION "${paraview_license_path}/qt6"
       COMPONENT   superbuild)
   endif ()
 endfunction ()
@@ -507,7 +515,7 @@ function (paraview_install_extra_data)
     paraview_install_all_spdx_files()
   endif ()
 
-  if (paraview_translations_dir AND qt5_enabled)
+  if (paraview_translations_dir AND (qt5_enabled OR qt6_enabled))
     paraview_install_translations(paraviewtranslations "translations/")
   endif()
 
@@ -562,6 +570,44 @@ if (qt5_enabled AND (NOT USE_SYSTEM_qt5 OR PACKAGE_SYSTEM_QT))
   superbuild_get_qt5_plugin_install_paths(qt5_plugin_paths ${qt5_plugins})
 else ()
   set(qt5_plugin_paths)
+endif ()
+
+if (qt6_enabled AND (NOT USE_SYSTEM_qt6 OR PACKAGE_SYSTEM_QT))
+  include(qt6.functions)
+
+  set(qt6_plugin_prefix)
+  if (NOT WIN32)
+    set(qt6_plugin_prefix "lib")
+  endif ()
+
+  # Add SVG support, so ParaView can use SVG icons
+  set(qt6_plugins
+    iconengines/${qt6_plugin_prefix}qsvgicon
+    imageformats/${qt6_plugin_prefix}qsvg
+    sqldrivers/${qt6_plugin_prefix}qsqlite)
+
+  if (WIN32)
+    list(APPEND qt6_plugins
+      platforms/qwindows
+      styles/qmodernwindowsstyle)
+  elseif (APPLE)
+    list(APPEND qt6_plugins
+      platforms/libqcocoa
+      styles/libqmacstyle)
+  elseif (UNIX)
+    list(APPEND qt6_plugins
+      egldeviceintegrations/libqeglfs-x11-integration
+      generic/libqevdevkeyboardplugin
+      generic/libqevdevmouseplugin
+      platforms/libqxcb
+      platforminputcontexts/libcomposeplatforminputcontextplugin
+      xcbglintegrations/libqxcb-egl-integration
+      xcbglintegrations/libqxcb-glx-integration)
+  endif ()
+
+  superbuild_get_qt6_plugin_install_paths(qt6_plugin_paths ${qt6_plugins})
+else ()
+  set(qt6_plugin_paths)
 endif ()
 
 if (socat_built_by_superbuild)

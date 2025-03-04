@@ -10,4 +10,4 @@ set(ENABLE_openxrsdk ON CACHE BOOL "")
 set(ENABLE_collaborationserver ON CACHE BOOL "")
 set(ENABLE_zeromq ON CACHE BOOL "")
 
-include("${CMAKE_CURRENT_LIST_DIR}/configure_common.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/configure_linux_common.cmake")

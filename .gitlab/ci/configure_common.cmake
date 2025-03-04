@@ -2,10 +2,6 @@ set(USE_NONFREE_COMPONENTS          ON CACHE BOOL "")
 set(BUILD_TESTING                   ON CACHE BOOL "")
 set(GENERATE_SPDX                   ON CACHE BOOL "")
 
-if ("$ENV{CMAKE_CONFIGURATION}" MATCHES "linux")
-  set(FILE_COMMAND "/usr/bin/file" CACHE FILEPATH "")
-endif ()
-
 # The new Mesa has issues with back screens when rendering. See
 # paraview/paraview#22152.
 set(mesa_SOURCE_SELECTION "21.2.1" CACHE STRING "")
@@ -35,6 +31,7 @@ enable_project(gdal)
 enable_project(gmsh)
 enable_project(h5py)
 enable_project(launchers)
+enable_project(libxslt)
 enable_project(lz4)
 enable_project(matplotlib)
 enable_project(medreader)
@@ -66,7 +63,7 @@ enable_project(pythonmpi4py)
 enable_project(pythonnetcdf4)
 enable_project(pythonpandas)
 enable_project(pythonpygments)
-enable_project(qt5)
+enable_project(qt6)
 enable_project(scipy)
 enable_project(seacas) # needed to actually build exodus
 enable_project(silo)

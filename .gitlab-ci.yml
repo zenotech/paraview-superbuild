@@ -51,7 +51,7 @@ stages:
 
 linux-shared:build:
     extends:
-        - .centos7_shared
+        - .centos8_shared
         - .cmake_build_linux
         - .cmake_build_artifacts
         - .linux_builder_tags
@@ -81,7 +81,7 @@ linux-shared:upload:
 
 linux-static:build:
     extends:
-        - .centos7_static
+        - .centos8_static
         - .cmake_build_linux
         - .cmake_build_artifacts
         - .linux_builder_tags
@@ -160,60 +160,60 @@ macos-x86_64:upload:
 
 ## MPI build
 
-windows-vs2019-mpi:build:
+windows-vs2022-mpi:build:
     extends:
-        - .windows_vs2019_mpi
+        - .windows_vs2022_mpi
         - .cmake_build_windows
         - .cmake_build_artifacts
         - .windows_builder_tags
         - .run_manually
     timeout: 150 minutes
 
-windows-vs2019-mpi:test:
+windows-vs2022-mpi:test:
     extends:
-        - .windows_vs2019_mpi
+        - .windows_vs2022_mpi
         - .cmake_test_windows
         - .cmake_package_artifacts
         - .windows_test_tags
         - .run_automatically
     needs:
-        - windows-vs2019-mpi:build
+        - windows-vs2022-mpi:build
 
-windows-vs2019-mpi:upload:
+windows-vs2022-mpi:upload:
     extends:
         - .rsync_upload
         - .upload_only
     needs:
-        - windows-vs2019-mpi:test
+        - windows-vs2022-mpi:test
     variables:
         RSYNC_DESTINATION: paraview_nightly_bin
 
 ## non-MPI build
 
-windows-vs2019-nompi:build:
+windows-vs2022-nompi:build:
     extends:
-        - .windows_vs2019_nompi
+        - .windows_vs2022_nompi
         - .cmake_build_windows
         - .cmake_build_artifacts
         - .windows_builder_tags
         - .run_manually
     timeout: 150 minutes
 
-windows-vs2019-nompi:test:
+windows-vs2022-nompi:test:
     extends:
-        - .windows_vs2019_nompi
+        - .windows_vs2022_nompi
         - .cmake_test_windows
         - .cmake_package_artifacts
         - .windows_test_tags
         - .run_automatically
     needs:
-        - windows-vs2019-nompi:build
+        - windows-vs2022-nompi:build
 
-windows-vs2019-nompi:upload:
+windows-vs2022-nompi:upload:
     extends:
         - .rsync_upload
         - .upload_only
     needs:
-        - windows-vs2019-nompi:test
+        - windows-vs2022-nompi:test
     variables:
         RSYNC_DESTINATION: paraview_nightly_bin

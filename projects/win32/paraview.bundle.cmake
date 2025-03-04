@@ -46,6 +46,11 @@ if (Qt5_DIR)
     "${Qt5_DIR}/../../../bin")
 endif ()
 
+if (Qt6_DIR)
+  list(APPEND library_paths
+    "${Qt6_DIR}/../../../bin")
+endif ()
+
 set(exclude_regexes)
 if (python3_enabled)
   if (python3_built_by_superbuild)
@@ -289,6 +294,39 @@ if (qt5_enabled)
 
     install(
       FILES   "${qt5_root_dir}/bin/qt.conf"
+      DESTINATION "bin"
+      COMPONENT   superbuild)
+  endif()
+endif ()
+
+foreach (qt6_plugin_path IN LISTS qt6_plugin_paths)
+  get_filename_component(qt6_plugin_group "${qt6_plugin_path}" DIRECTORY)
+  get_filename_component(qt6_plugin_group "${qt6_plugin_group}" NAME)
+
+  superbuild_windows_install_plugin(
+    "${qt6_plugin_path}"
+    "bin"
+    "bin/${qt6_plugin_group}"
+    SEARCH_DIRECTORIES "${library_paths}")
+endforeach ()
+
+if (qt6_enabled)
+  set(qt6_root_dir "${Qt6_DIR}/../../..")
+
+  if (qt6_ENABLE_WEBENGINE)
+    _superbuild_windows_install_executable(
+      "${qt6_root_dir}/bin/QtWebEngineProcess.exe"
+      "bin"
+      SEARCH_DIRECTORIES "${library_paths}"
+      EXCLUDE_REGEXES    ${exclude_regexes})
+
+    install(
+      DIRECTORY   "${qt6_root_dir}/resources"
+      DESTINATION "."
+      COMPONENT   superbuild)
+
+    install(
+      FILES   "${qt6_root_dir}/bin/qt.conf"
       DESTINATION "bin"
       COMPONENT   superbuild)
   endif()

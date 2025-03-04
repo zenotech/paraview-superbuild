@@ -66,7 +66,7 @@ if (UNIX AND NOT APPLE)
       )
 endif ()
 
-if (NOT qt5_enabled)
+if (NOT qt5_enabled AND NOT qt6_enabled)
   set(paraview_exe)
 endif ()
 
@@ -157,10 +157,16 @@ endfunction ()
 
 if (python3_enabled)
   # Simple test to launch the application and load all plugins.
-  paraview_add_ui_test("testui" "TestUI")
+  if (qt5_enabled)
+    paraview_add_ui_test("testui" "TestUI-qt5")
+  elseif (qt6_enabled)
+    paraview_add_ui_test("testui" "TestUI-qt6")
+  endif ()
 
-  paraview_add_ui_test("finddata" "TestFindData"
-    "--test-baseline=${CMAKE_CURRENT_LIST_DIR}/baselines/Superbuild-TestFindData.png")
+  if (numpy_enabled)
+    paraview_add_ui_test("finddata" "TestFindData"
+      "--test-baseline=${CMAKE_CURRENT_LIST_DIR}/baselines/Superbuild-TestFindData.png")
+  endif ()
 
   paraview_add_test("pvpython-help" "${pvpython_exe}"
     -c "help()")

@@ -134,9 +134,9 @@ The `paraviewgettingstartedguide`, and `paraviewtutorialdata` packages add
 startup documentation and example data to the package.
 
 ParaView supports multiple rendering engines including `egl`, `mesa`,
-`osmesa`, and `qt5`. All of these are incompatible with each other. If none of
+`osmesa`, and `qt6`. All of these are incompatible with each other. If none of
 these are chosen, a UI-less ParaView will be built (basically just
-`pvpython`). On Windows and macOS, only the `qt5` rendering engine is
+`pvpython`). On Windows and macOS, only the `qt6` rendering engine is
 available.
 
 The `python` package is available to enable Python support in the package. In

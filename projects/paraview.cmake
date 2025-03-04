@@ -41,9 +41,6 @@ if (UNIX)
   if (NOT APPLE)
     list(APPEND paraview_platform_dependencies
       mesa
-      # OSMesa is only built to support users on bespoke linux systems that do not have an OSMesa library.
-      # The OSMesa library/headers are not really required at compile time.
-      osmesa
       openxrsdk
       zeromq
 
@@ -54,6 +51,22 @@ if (UNIX)
     cdi ffmpeg fides fortran libxml2 freetype mili gmsh
     # For cosmotools
     genericio cosmotools)
+endif ()
+
+# 5.13 support.
+set(paraview_5_13_args)
+if (paraview_SOURCE_SELECTION MATCHES "^5\\.13")
+  if (UNIX AND NOT APPLE)
+    list(APPEND paraview_platform_dependencies
+      # OSMesa is only built to support users on bespoke linux systems that do not have an OSMesa library.
+      # The OSMesa library/headers are not really required at compile time.
+      osmesa
+      egl)
+    list(APPEND paraview_5_13_args
+      -DVTK_DEFAULT_RENDER_WINDOW_OFFSCREEN:BOOL=${osmesa_enabled}
+      -DVTK_OPENGL_HAS_EGL:BOOL=${egl_enabled}
+      -DVTK_OPENGL_HAS_OSMESA:BOOL=${osmesa_enabled})
+  endif ()
 endif ()
 
 if (WIN32)
@@ -219,13 +232,24 @@ if (openvdb_enabled)
     -DPARAVIEW_RELOCATABLE_INSTALL:BOOL=OFF)
 endif ()
 
+if (qt5_enabled)
+  set(paraview_dsp_audio_player "${qt5_ENABLE_MULTIMEDIA}")
+  set(paraview_enable_webengine "${qt5_ENABLE_WEBENGINE}")
+  set(paraview_qt_enabled "${qt5_enabled}")
+endif ()
+if (qt6_enabled)
+  set(paraview_dsp_audio_player "${qt6_ENABLE_MULTIMEDIA}")
+  set(paraview_enable_webengine "${qt6_ENABLE_WEBENGINE}")
+  set(paraview_qt_enabled "${qt6_enabled}")
+endif ()
+
 superbuild_add_project(paraview
   DEBUGGABLE
   DEFAULT_ON
   DEPENDS cxx11
   DEPENDS_OPTIONAL
     adios2 alembic catalyst cuda boost eigen gdal hdf5 matplotlib mpi numpy pdal png
-    protobuf python3 qt5 visitbridge zlib silo las lookingglass pythonmpi4py
+    protobuf python3 qt5 qt6 visitbridge zlib silo las lookingglass pythonmpi4py
     xdmf3 vrpn vtkm netcdf
     openturns
     openmp
@@ -240,6 +264,7 @@ superbuild_add_project(paraview
     tbb ospray sqlite
     tiff proj exodus seacas
     occt
+    libxslt
     ${PARAVIEW_EXTERNAL_PROJECTS}
   CMAKE_ARGS
     -DCMAKE_INSTALL_LIBDIR:PATH=lib
@@ -271,7 +296,7 @@ superbuild_add_project(paraview
     -DPARAVIEW_PLUGIN_ENABLE_GmshIO:BOOL=${gmsh_enabled}
     -DPARAVIEW_PLUGIN_ENABLE_LookingGlass:BOOL=${lookingglass_enabled}
     -DPARAVIEW_PLUGIN_ENABLE_NodeEditor:BOOL=${PARAVIEW_ENABLE_NODEEDITOR}
-    -DPARAVIEW_PLUGIN_dsp_enable_audio_player:BOOL=${qt5_ENABLE_MULTIMEDIA}
+    -DPARAVIEW_PLUGIN_dsp_enable_audio_player:BOOL=${paraview_dsp_audio_player}
     -DPARAVIEW_PLUGIN_ENABLE_XRInterface:BOOL=${paraview_xrinterface_plugin_enabled}
     -DPARAVIEW_PLUGIN_ENABLE_zSpace:BOOL=${zspace_enabled}
     -DPARAVIEW_PLUGIN_ENABLE_NetCDFTimeAnnotationPlugin:BOOL=${pythoncftime_enabled}
@@ -285,14 +310,12 @@ superbuild_add_project(paraview
     -DPARAVIEW_USE_MPI:BOOL=${mpi_enabled}
     -DPARAVIEW_USE_FORTRAN:BOOL=${fortran_enabled}
     -DPARAVIEW_USE_PYTHON:BOOL=${paraview_use_python}
-    -DPARAVIEW_USE_QT:BOOL=${qt5_enabled}
+    -DPARAVIEW_USE_QT:BOOL=${paraview_qt_enabled}
     -DPARAVIEW_USE_SERIALIZATION:BOOL=ON
-    -DPARAVIEW_QT_VERSION:STRING=5
-    -DVTK_QT_VERSION:STRING=5
+    -DPARAVIEW_QT_VERSION:STRING=${qt_version}
+    -DVTK_QT_VERSION:STRING=${qt_version}
     -DVISIT_BUILD_READER_Mili:BOOL=${mili_enabled}
     -DVISIT_BUILD_READER_Silo:BOOL=${silo_enabled}
-    # Not required in master, but needed for 5.13
-    # -DVTK_DEFAULT_RENDER_WINDOW_OFFSCREEN:BOOL=${osmesa_enabled}
     -DVTK_ENABLE_VR_COLLABORATION:BOOL=${paraview_vr_collaboration_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_eigen=${eigen_enabled}
     -DVTK_MODULE_USE_EXTERNAL_ParaView_protobuf:BOOL=${protobuf_enabled}
@@ -308,9 +331,7 @@ superbuild_add_project(paraview
     -DVTK_MODULE_USE_EXTERNAL_VTK_sqlite:BOOL=${sqlite_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_tiff:BOOL=${tiff_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_zlib:BOOL=${zlib_enabled}
-    # Not required in master, but needed for 5.13
-    # -DVTK_OPENGL_HAS_EGL:BOOL=${egl_enabled}
-    # -DVTK_OPENGL_HAS_OSMESA:BOOL=${osmesa_enabled}
+    ${paraview_5_13_args}
     -DVTK_SMP_IMPLEMENTATION_TYPE:STRING=${paraview_smp_backend}
     -DVTK_SMP_ENABLE_TBB:BOOL=${tbb_enabled}
     -DVTK_SMP_ENABLE_OPENMP:BOOL=${openmp_enabled}
@@ -338,7 +359,7 @@ superbuild_add_project(paraview
 
     # Web
     -DPARAVIEW_ENABLE_WEB:BOOL=${paraviewweb_enabled}
-    -DPARAVIEW_ENABLE_QTWEBENGINE:BOOL=${qt5_ENABLE_WEBENGINE}
+    -DPARAVIEW_ENABLE_QTWEBENGINE:BOOL=${paraview_enable_webengine}
 
     # Readers
     -DVTK_MODULE_ENABLE_VTK_IOSegY:STRING=YES

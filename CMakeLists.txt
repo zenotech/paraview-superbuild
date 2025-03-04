@@ -72,6 +72,8 @@ function (superbuild_find_projects var)
     lapack
     las
     libjpegturbo
+    libxml2
+    libxslt
     lookingglass
     lz4
     matplotlib
@@ -159,7 +161,9 @@ function (superbuild_find_projects var)
     pythonyarl
     pytz
     qhull
+    qt
     qt5
+    qt6
     rkcommon
     scipy
     seacas
@@ -198,7 +202,6 @@ function (superbuild_find_projects var)
       fortran
       genericio
       gmsh
-      libxml2
       mili
       rapidjson
       surfacetrackercut)
@@ -297,6 +300,10 @@ function (superbuild_sanity_check)
     message(WARNING "ParaView is disabled...")
   endif ()
 
+  if (qt5_enabeld AND qt6_enabled)
+    message(SEND_ERROR "Only one of Qt5 and Qt6 may be enabled")
+  endif ()
+
   # Sanity check: Cannot have paraview and have cxx11 disabled.
   if (NOT cxx11_enabled AND paraview_enabled)
     #While ParaView doesn't depend on cxx11 it needs to make sure that
@@ -333,10 +340,12 @@ function (superbuild_add_packaging)
   endif ()
   list(GET generators 0 default_generator)
 
-  if (APPLE OR WIN32)
-    option(PACKAGE_SYSTEM_QT "With USE_SYSTEM_Qt5, package the system Qt during packaging step" ON)
-    mark_as_advanced(PACKAGE_SYSTEM_QT)
+  set(default_qt_package_system OFF)
+  if (APPLE OR WIN32 OR qt6_enabled)
+    set(default_qt_package_system ON)
   endif()
+  option(PACKAGE_SYSTEM_QT "With USE_SYSTEM_Qt5, package the system Qt during packaging step" "${default_qt_package_system}")
+  mark_as_advanced(PACKAGE_SYSTEM_QT)
 
   list(APPEND superbuild_export_variables
     paraview_always_package_scipy
@@ -355,6 +364,17 @@ function (superbuild_add_packaging)
     qt5_version
     qt5_ENABLE_MULTIMEDIA
     qt5_ENABLE_WEBENGINE)
+
+  if (qt6_enabled)
+    list(APPEND superbuild_export_variables
+      Qt6_DIR)
+    find_package(Qt6 QUIET REQUIRED COMPONENTS Core)
+    set(qt6_version "${Qt6Core_VERSION_MAJOR}.${Qt6Core_VERSION_MINOR}")
+  endif ()
+  list(APPEND superbuild_export_variables
+    qt6_version
+    qt6_ENABLE_MULTIMEDIA
+    qt6_ENABLE_WEBENGINE)
 
   if (NOT DEFINED PARAVIEW_CATALYST_EDITION)
     set(PARAVIEW_CATALYST_EDITION Full)
@@ -525,6 +545,7 @@ set(_superbuild_ospray_default_selection "2.7.1")
 
 # Force qt SVG support, so ParaView can use SVG icons
 set(qt5_ENABLE_SVG ON CACHE INTERNAL "ParaView requires SVG support")
+set(qt6_ENABLE_SVG ON CACHE INTERNAL "ParaView requires SVG support")
 
 # ParaView's superbuild does not support static-everywhere builds. But let
 # people around the check if they want it.

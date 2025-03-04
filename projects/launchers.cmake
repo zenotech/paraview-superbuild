@@ -1,6 +1,6 @@
 superbuild_add_project(launchers
   DEPENDS paraview
-  DEPENDS_OPTIONAL mesa osmesa mpi qt5
+  DEPENDS_ORDERED mesa osmesa mpi qt5 qt6
 
   CMAKE_ARGS
     -DCMAKE_INSTALL_BINDIR:PATH=bin
