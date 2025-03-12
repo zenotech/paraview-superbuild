@@ -54,6 +54,7 @@ function (superbuild_find_projects var)
     boost
     bzip2
     catalyst
+    cdi
     cinemaexport
     cuda
     curl
@@ -192,7 +193,6 @@ function (superbuild_find_projects var)
 
   if (UNIX)
     list(APPEND projects
-      cdi
       cosmotools
       expat
       ffi
