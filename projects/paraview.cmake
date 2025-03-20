@@ -36,28 +36,28 @@ set(PARAVIEW_EXTERNAL_PROJECTS ""
   CACHE STRING "A list of projects for ParaView to depend on")
 mark_as_advanced(PARAVIEW_EXTERNAL_PROJECTS)
 
-set(paraviews_platform_dependencies)
+set(paraview_platform_dependencies)
 if (UNIX)
   if (NOT APPLE)
-    list(APPEND paraviews_platform_dependencies
+    list(APPEND paraview_platform_dependencies
       mesa osmesa egl openxrsdk
 
       # Needed for fonts to work properly.
       fontconfig)
   endif ()
-  list(APPEND paraviews_platform_dependencies
+  list(APPEND paraview_platform_dependencies
     cdi ffmpeg libxml2 freetype mili gmsh
     # For cosmotools
     genericio cosmotools)
 endif ()
 
 if (WIN32)
-  list(APPEND paraviews_platform_dependencies
+  list(APPEND paraview_platform_dependencies
     openvr openxrremoting openxrsdk zeromq)
 endif ()
 
 if (USE_NONFREE_COMPONENTS AND (WIN32 OR (UNIX AND NOT APPLE)))
-  list(APPEND paraviews_platform_dependencies
+  list(APPEND paraview_platform_dependencies
     visrtx)
 endif ()
 
@@ -67,7 +67,12 @@ if (python3_enabled AND USE_SYSTEM_python3 AND NOT python3_FIND_LIBRARIES)
 endif()
 
 if (expat_enabled)
-  list(APPEND paraviews_platform_dependencies expat)
+  list(APPEND paraview_platform_dependencies expat)
+endif ()
+
+if (APPLE OR WIN32)
+  list(APPEND paraview_platform_dependencies
+    threedxwaresdk)
 endif ()
 
 cmake_dependent_option(PARAVIEW_INITIALIZE_MPI_ON_CLIENT
@@ -223,12 +228,11 @@ superbuild_add_project(paraview
     paraviewgettingstartedguide
     paraviewtutorialdata paraviewweb
     ${paraview_all_plugins}
-    ${paraviews_platform_dependencies}
+    ${paraview_platform_dependencies}
     tbb ospray sqlite
     tiff proj exodus seacas
     occt
     ${PARAVIEW_EXTERNAL_PROJECTS}
-
   CMAKE_ARGS
     -DCMAKE_INSTALL_LIBDIR:PATH=lib
     -DCMAKE_INSTALL_NAME_DIR:PATH=<INSTALL_DIR>/lib
@@ -252,7 +256,7 @@ superbuild_add_project(paraview
     -DPARAVIEW_ENABLE_OCCT:BOOL=${occt_enabled}
     -DPARAVIEW_ENABLE_VISITBRIDGE:BOOL=${visitbridge_enabled}
     -DPARAVIEW_ENABLE_XDMF3:BOOL=${xdmf3_enabled}
-    -DPARAVIEW_GENERATE_SPDX:BOOL=${python3_enabled}
+    -DPARAVIEW_GENERATE_SPDX:BOOL=${GENERATE_SPDX}
     -DPARAVIEW_INSTALL_DEVELOPMENT_FILES:BOOL=ON
     -DPARAVIEW_PLUGIN_ENABLE_E57PDALReader:BOOL=${e57reader_plugin_enabled}
     -DPARAVIEW_PLUGIN_ENABLE_GmshIO:BOOL=${gmsh_enabled}
@@ -274,6 +278,7 @@ superbuild_add_project(paraview
     -DPARAVIEW_USE_FORTRAN:BOOL=${fortran_enabled}
     -DPARAVIEW_USE_PYTHON:BOOL=${paraview_use_python}
     -DPARAVIEW_USE_QT:BOOL=${qt5_enabled}
+    -DPARAVIEW_USE_SERIALIZATION:BOOL=ON
     -DPARAVIEW_QT_VERSION:STRING=5
     -DVTK_QT_VERSION:STRING=5
     -DVISIT_BUILD_READER_Mili:BOOL=${mili_enabled}
@@ -323,9 +328,11 @@ superbuild_add_project(paraview
 
     # Web
     -DPARAVIEW_ENABLE_WEB:BOOL=${paraviewweb_enabled}
+    -DPARAVIEW_ENABLE_QTWEBENGINE:BOOL=${qt5_ENABLE_WEBENGINE}
 
     # Readers
     -DVTK_MODULE_ENABLE_VTK_IOSegY:STRING=YES
+    -DVTK_MODULE_ENABLE_VTK_IOCesium3DTiles:STRING=YES
 
     # ParFlow
     -DPARAVIEW_PLUGIN_ENABLE_ParFlow:BOOL=${nlohmannjson_enabled}
@@ -338,6 +345,10 @@ superbuild_add_project(paraview
 
     # CDI Reader
     -DPARAVIEW_PLUGIN_ENABLE_CDIReader:BOOL=${cdi_enabled}
+
+    # Implicit array support in dispatcher
+    # Needed for the DSP plugin
+    -DVTK_DISPATCH_CONSTANT_ARRAYS:BOOl=ON
 
     ${paraview_extra_cmake_options}
 
@@ -374,3 +385,11 @@ if (ospray_enabled AND tbb_enabled)
   superbuild_add_extra_cmake_args(
     -DTBB_ROOT:PATH=<INSTALL_DIR>)
 endif()
+
+if (paraview_SOURCE_SELECTION MATCHES "^5.12")
+  # Remove bogus interface directory from VTK-m's loguru third party.
+  # https://gitlab.kitware.com/vtk/vtk-m/-/merge_requests/3163
+  # https://gitlab.kitware.com/paraview/paraview-superbuild/-/issues/264
+  superbuild_apply_patch(paraview 5.12-vtkm-loguru-install-interface
+    "Remove non-existent include directory from VTK-m's loguru target")
+endif ()

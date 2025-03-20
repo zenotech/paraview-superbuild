@@ -4,3 +4,5 @@
 *.md             whitespace=tab-in-indent conflict-marker-size=30
 
 *.patch         -whitespace -text
+
+projects/patches/adios2-update-thirdparty-libs.patch hooks-max-size=4399146

@@ -7,10 +7,13 @@
         reports:
             junit:
                 - build/junit-package.xml
+            annotations:
+                - build/annotations.json
         paths:
             # The artifacts for debugging
             - build/CMakeCache.txt
             - build/superbuild/*.cmake
+            - build/_CPack_Packages/*/WIX/wix.log
 
             # logs for suppressed outputs
             - build/superbuild/*/stamp/*.log
@@ -36,6 +39,7 @@
 
             # CDash files.
             - build/DartConfiguration.tcl
+            - build/cdash-build-id
 
 .cmake_package_artifacts:
     artifacts:
@@ -45,8 +49,13 @@
         reports:
             junit:
                 - build/junit.xml
+            annotations:
+                - build/annotations.json
         paths:
             - build/ParaView-*.msi
             - build/ParaView-*.tar.*
             - build/ParaView-*.dmg
             - build/ParaView-*.zip
+
+            # CDash files.
+            - build/cdash-build-id

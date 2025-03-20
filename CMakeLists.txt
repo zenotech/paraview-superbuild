@@ -10,7 +10,7 @@ macro (superbuild_setup_variables)
   if (paraview_SOURCE_SELECTION STREQUAL "git")
     # Assuming master; just use the latest version, but let the user set their
     # own version in case it is actually a branch from some other version.
-    set(PARAVIEW_VERSION_DEFAULT "5.12.0-RC1"
+    set(PARAVIEW_VERSION_DEFAULT "5.13.2"
       CACHE STRING "The default version of ParaView to use if it cannot be detected")
     mark_as_advanced(PARAVIEW_VERSION_DEFAULT)
     set(paraview_default_version "${PARAVIEW_VERSION_DEFAULT}")
@@ -22,7 +22,13 @@ macro (superbuild_setup_variables)
     # The selection is the version number; use it.
     set(paraview_default_version "${paraview_SOURCE_SELECTION}")
   endif()
+  set(GIT_FOUND_save "${GIT_FOUND}")
+  set(GIT_FOUND 0)
   superbuild_set_version_variables(paraview "${paraview_default_version}" "paraview-version.cmake" "version.txt")
+  set(GIT_FOUND "${GIT_FOUND_save}")
+  if (paraview_version_patch LESS "20200101")
+    superbuild_set_version_variables(paraview "${paraview_default_version}" "paraview-version.cmake" "version.txt")
+  endif ()
   set(paraview_version "${paraview_version_major}.${paraview_version_minor}")
 endmacro ()
 
@@ -44,9 +50,11 @@ function (superbuild_find_projects var)
     adios2
     alembic
     blosc
+    blosc2
     boost
     bzip2
     catalyst
+    cinemaexport
     cuda
     curl
     eigen
@@ -64,6 +72,7 @@ function (superbuild_find_projects var)
     las
     libjpegturbo
     lookingglass
+    lz4
     matplotlib
     meson
     mpi
@@ -80,13 +89,11 @@ function (superbuild_find_projects var)
     openvkl
     ospray
     ospraymodulempi
+    openxrmodels
     openxrsdk
     paraviewtranslations
     paraviewweb
     paraviewwebglance
-    paraviewweblite
-    paraviewwebdivvy
-    paraviewwebvisualizer
     pdal
     pkgconf
     png
@@ -99,6 +106,7 @@ function (superbuild_find_projects var)
     pythonattrs
     pythonbeniget
     pythoncffi
+    pythoncftime
     pythonchardet
     pythoncharsetnormalizer
     pythoncontourpy
@@ -121,6 +129,7 @@ function (superbuild_find_projects var)
     pythonmpi4py
     pythonmpmath
     pythonmultidict
+    pythonnetcdf4
     pythonpackaging
     pythonpandas
     pythonpathspec
@@ -145,7 +154,6 @@ function (superbuild_find_projects var)
     pythontzdata
     pythonversioneer
     pythonwheel
-    pythonwslinkasync
     pythonyarl
     pytz
     qhull
@@ -236,12 +244,16 @@ function (superbuild_find_projects var)
         threedxwaresdk
         )
     endif()
+    if (WIN32)
+      list(APPEND projects
+        openxrremoting
+      )
+    endif ()
   endif ()
 
   if (WIN32)
     list(APPEND projects
       openvr
-      openxrremoting
       pywin32
       zeromq
       zspace)
@@ -313,6 +325,11 @@ function (superbuild_sanity_check)
   if (launchers_enabled AND mpi_enabled AND USE_SYSTEM_mpi AND NOT mesa_enabled)
     message(SEND_ERROR "Launchers cannot be enabled since MESA is not enabled and USE_SYSTEM_mpi is ON.")
   endif ()
+
+  if (UNIX AND qt5_ENABLE_WEBENGINE)
+    message(WARNING "Packaging QtWebEngine on Linux/macOS is not supported yet, generated package may not be usable")
+  endif ()
+
 endfunction ()
 
 function (superbuild_add_packaging)
@@ -330,7 +347,8 @@ function (superbuild_add_packaging)
   list(GET generators 0 default_generator)
 
   list(APPEND superbuild_export_variables
-    paraview_always_package_scipy)
+    paraview_always_package_scipy
+    GENERATE_SPDX)
 
   if (qt5_enabled AND (USE_SYSTEM_qt5 OR APPLE OR WIN32))
     list(APPEND superbuild_export_variables
@@ -342,7 +360,8 @@ function (superbuild_add_packaging)
   endif ()
   list(APPEND superbuild_export_variables
     qt5_version
-    qt5_ENABLE_MULTIMEDIA)
+    qt5_ENABLE_MULTIMEDIA
+    qt5_ENABLE_WEBENGINE)
 
   if (NOT DEFINED PARAVIEW_CATALYST_EDITION)
     set(PARAVIEW_CATALYST_EDITION Full)
@@ -437,8 +456,10 @@ set(qt5_skip_modules
   qtserialport
   qtwayland
   qtwebchannel
-  qtwebengine
   qtwebsockets)
+set(qt5_components
+  Help
+  XmlPatterns)
 
 set(boost_libraries
   atomic
@@ -499,6 +520,9 @@ set(_python_unicode_default "UCS4")
 # The projects end up with "errors" in their output that CDash ends up seeing
 # and thinking things went wrong.
 set(_superbuild_suppress_matplotlib_output ON)
+
+# Setup SPDX superbuild variables
+set(superbuild_spdx_document_namespace "https://paraview.org/spdx")
 
 if (NOT EXISTS "${CMAKE_CURRENT_LIST_DIR}/superbuild/CMakeLists.txt")
   message(FATAL_ERROR "It appears as though the superbuild infrastructure "

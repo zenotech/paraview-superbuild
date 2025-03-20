@@ -10,10 +10,7 @@ set(paraview_license_path "share/licenses")
 set(paraview_spdx_path "share/paraview-${paraview_version}")
 include(paraview.bundle.common)
 
-set(CPACK_WIX_UPGRADE_GUID "e06445a7-b257-4fce-9241-2a189ad26b5a")
-set(CPACK_WIX_PRODUCT_GUID "76d57fb1-0cd5-40a2-9296-16b85344bcaa")
-
-set(CPACK_WIX_PROGRAM_MENU_FOLDER "ParaView ${paraview_version}")
+set(CPACK_WIX_PROGRAM_MENU_FOLDER "ParaView ${paraview_version_full}")
 set(CPACK_WIX_PRODUCT_ICON "${CMAKE_CURRENT_LIST_DIR}/paraview.ico")
 
 if (NOT "$ENV{GITLAB_CI}" STREQUAL "")
@@ -113,6 +110,8 @@ if (nvidiaindex_enabled)
     list(APPEND nvidiaindex_libraries nvrtc-builtins64_101)
   elseif (nvidiaindex_SOURCE_SELECTION STREQUAL "2.4")
     list(APPEND nvidiaindex_libraries nvrtc-builtins64_102)
+  elseif (nvidiaindex_SOURCE_SELECTION VERSION_GREATER_EQUAL "5.12")
+    list(APPEND nvidiaindex_libraries libnvindex_builtins)
   elseif (nvidiaindex_SOURCE_SELECTION VERSION_GREATER_EQUAL "5.10")
     list(APPEND nvidiaindex_libraries libnvindex_builtins)
     list(APPEND nvidiaindex_libraries nvrtc64_102_0)
@@ -253,13 +252,34 @@ foreach (qt5_plugin_path IN LISTS qt5_plugin_paths)
 endforeach ()
 
 if (qt5_enabled)
+
+  set(qt5_root_dir "${Qt5_DIR}/../../..")
+
   foreach (qt5_opengl_lib IN ITEMS opengl32sw libEGL libGLESv2)
     superbuild_windows_install_plugin(
-      "${Qt5_DIR}/../../../bin/${qt5_opengl_lib}.dll"
+      "${qt5_root_dir}/bin/${qt5_opengl_lib}.dll"
       "bin"
       "bin"
       SEARCH_DIRECTORIES "${library_paths}")
   endforeach ()
+
+  if (qt5_ENABLE_WEBENGINE)
+    _superbuild_windows_install_executable(
+      "${qt5_root_dir}/bin/QtWebEngineProcess.exe"
+      "bin"
+      SEARCH_DIRECTORIES "${library_paths}"
+      EXCLUDE_REGEXES    ${exclude_regexes})
+
+    install(
+      DIRECTORY   "${qt5_root_dir}/resources"
+      DESTINATION "."
+      COMPONENT   superbuild)
+
+    install(
+      FILES   "${qt5_root_dir}/bin/qt.conf"
+      DESTINATION "bin"
+      COMPONENT   superbuild)
+  endif()
 endif ()
 
 if (openxrremoting_enabled)

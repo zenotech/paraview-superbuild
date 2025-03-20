@@ -22,10 +22,14 @@ superbuild_add_project(adios2
     # even if Python wrapping is disabled.
     python3
   DEPENDS_OPTIONAL
-    mpi blosc zfp png
+    mpi blosc2 zfp png
   LICENSE_FILES
     Copyright.txt
     LICENSE
+  SPDX_LICENSE_IDENTIFIER
+    Apache-2.0
+  SPDX_COPYRIGHT_TEXT
+    "Copyright Oak Ridge National Laboratory and Contributors"
   CMAKE_ARGS
     -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
     -DCMAKE_INSTALL_LIBDIR:STRING=lib
@@ -33,7 +37,8 @@ superbuild_add_project(adios2
     -DBUILD_TESTING:BOOL=OFF
     -DADIOS2_BUILD_EXAMPLES:BOOL=OFF
     -DADIOS2_USE_BZip2:STRING=OFF
-    -DADIOS2_USE_Blosc:STRING=${blosc_enabled}
+    -DADIOS2_USE_Blosc2:STRING=${blosc2_enabled}
+    -DADIOS2_Blosc2_PREFER_SHARED:BOOL=${BUILD_SHARED_LIBS}
     -DADIOS2_USE_CUDA:BOOL=OFF
     -DADIOS2_USE_DataMan:STRING=OFF
     -DADIOS2_USE_Fortran:STRING=OFF
@@ -50,3 +55,5 @@ superbuild_add_project(adios2
     -DADIOS2_USE_ZeroMQ:STRING=OFF
     -DEVPATH_TRANSPORT_MODULES:BOOL=OFF
     ${adios2_extra_args})
+
+superbuild_apply_patch(adios2 update-thirdparty-libs "Fix issue with perl")

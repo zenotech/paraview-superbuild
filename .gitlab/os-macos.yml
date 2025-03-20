@@ -88,8 +88,6 @@
     - git submodule foreach --recursive cmake -P "$PWD/.gitlab/ci/fetch_submodule.cmake"
     - git submodule sync --recursive
     - git submodule update --init --recursive
-
-.before_script_macos_paraview: &before_script_macos_paraview
     - .gitlab/ci/checkout_paraview.sh
     - export PARAVIEW_COMMIT_SHA=`git -C $CI_PROJECT_DIR/source-paraview rev-parse HEAD`
     - export PARAVIEW_COMMIT_SHORT_SHA=`git -C $CI_PROJECT_DIR/source-paraview rev-parse --short HEAD`
@@ -99,7 +97,6 @@
 
     script:
         - *before_script_macos
-        - *before_script_macos_paraview
         - .gitlab/ci/sccache.sh
         # Allow the server to already be running.
         - "sccache --start-server || :"
@@ -108,6 +105,9 @@
         - ctest -VV -S .gitlab/ci/ctest_build.cmake
         - ctest -V --output-on-failure -S .gitlab/ci/ctest_package.cmake
         - sccache --show-stats
+
+    after_script:
+        - .gitlab/ci/umount-dmg.sh
 
     cache:
         key: macos

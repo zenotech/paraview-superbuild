@@ -4,6 +4,7 @@ set(paraview_data_dir "${paraview_appname}/Contents/examples")
 set(paraview_translations_dir "${paraview_appname}/Contents/translations")
 set(paraview_materials_dir "${paraview_appname}/Contents/materials")
 set(paraview_plugin_path "lib/paraview-${paraview_version}/plugins")
+set(paraview_plugin_package_path "${paraview_appname}/Contents/Plugins")
 set(paraview_license_path "${paraview_appname}/Contents/Resources/licenses")
 set(paraview_spdx_path "${paraview_appname}/Contents/Resources")
 include(paraview.bundle.common)
@@ -116,6 +117,7 @@ superbuild_apple_create_app(
   "${superbuild_install_location}/Applications/paraview.app/Contents/MacOS/paraview"
   CLEAN
   PLUGINS ${paraview_plugin_paths}
+  PLUGIN_SUBDIRS
   SEARCH_DIRECTORIES "${superbuild_install_location}/lib"
   ADDITIONAL_LIBRARIES ${additional_libraries}
   INCLUDE_REGEXES     ${include_regexes}
@@ -321,4 +323,8 @@ if (proj_enabled)
     FILES       "${superbuild_install_location}/share/proj/proj.db"
     DESTINATION "${paraview_appname}/Contents/Resources"
     COMPONENT   superbuild)
+endif ()
+
+if (qt5_ENABLE_WEBENGINE)
+  message(WARNING "Packaging QtWebEngine on macOS is not supported yet, package may not be usable")
 endif ()

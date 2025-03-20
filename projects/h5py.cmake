@@ -19,10 +19,24 @@ else ()
 endif ()
 
 superbuild_add_project_python_pyproject(h5py
-  PACKAGE h5py
-  DEPENDS hdf5 pythonsetuptools pythoncython numpy pythonpkgconfig ${h5py_depends}
-  DEPENDS_OPTIONAL ${h5py_depends_optional} mpi
-  LICENSE_FILES LICENSE
+  PACKAGE
+    h5py
+  DEPENDS
+    hdf5
+    pythonsetuptools
+    pythoncython
+    numpy
+    pythonpkgconfig
+    ${h5py_depends}
+  DEPENDS_OPTIONAL
+    ${h5py_depends_optional}
+    mpi
+  LICENSE_FILES
+    LICENSE
+  SPDX_LICENSE_IDENTIFIER
+    BSD-3-Clause
+  SPDX_COPYRIGHT_TEXT
+    "Copyright (c) 2008 Andrew Collette and contributors"
   PROCESS_ENVIRONMENT
     HDF5_DIR <INSTALL_DIR>
     ${h5py_environment})

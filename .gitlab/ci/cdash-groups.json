@@ -1,44 +1,12 @@
 {
     "latest-packages": [
-        {
-            "group": "master-packages",
-            "site": "gitlab-ci",
-            "buildname": "[linux_plain]"
-        },
-        {
-            "group": "master-packages",
-            "site": "gitlab-ci",
-            "buildname": "[linux_egl]"
-        },
-        {
-            "group": "master-packages",
-            "site": "gitlab-ci",
-            "buildname": "[linux_osmesa_shared]"
-        },
-        {
-            "group": "master-packages",
-            "site": "gitlab-ci",
-            "buildname": "[linux_osmesa_static]"
-        },
-        {
-            "group": "master-packages",
-            "site": "gitlab-ci",
-            "buildname": "[macos_arm64]"
-        },
-        {
-            "group": "master-packages",
-            "site": "gitlab-ci",
-            "buildname": "[macos_x86_64]"
-        },
-        {
-            "group": "master-packages",
-            "site": "gitlab-ci",
-            "buildname": "[windows_vs2019_mpi]"
-        },
-        {
-            "group": "master-packages",
-            "site": "gitlab-ci",
-            "buildname": "[windows_vs2019_nompi]"
-        }
+        { "group": "release-packages", "site": "gitlab-ci", "buildname": "paraview-superbuild-branch-release-[linux_plain]" },
+        { "group": "release-packages", "site": "gitlab-ci", "buildname": "paraview-superbuild-branch-release-[linux_egl]" },
+        { "group": "release-packages", "site": "gitlab-ci", "buildname": "paraview-superbuild-branch-release-[linux_osmesa_shared]" },
+        { "group": "release-packages", "site": "gitlab-ci", "buildname": "paraview-superbuild-branch-release-[linux_osmesa_static]" },
+        { "group": "release-packages", "site": "gitlab-ci", "buildname": "paraview-superbuild-branch-release-[macos_arm64]" },
+        { "group": "release-packages", "site": "gitlab-ci", "buildname": "paraview-superbuild-branch-release-[macos_x86_64]" },
+        { "group": "release-packages", "site": "gitlab-ci", "buildname": "paraview-superbuild-branch-release-[windows_vs2019_mpi]" },
+        { "group": "release-packages", "site": "gitlab-ci", "buildname": "paraview-superbuild-branch-release-[windows_vs2019_nompi]" }
     ]
 }

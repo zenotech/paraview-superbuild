@@ -3,6 +3,10 @@ superbuild_add_project(genericio
   DEPENDS_OPTIONAL cxx11
   LICENSE_FILES
     LICENSE
+  SPDX_LICENSE_IDENTIFIER
+    BSD-3-Clause
+  SPDX_COPYRIGHT_TEXT
+    "Copyright (C) 2015, UChicago Argonne, LLC"
   CMAKE_ARGS
     -DBUILD_SHARED_LIBS:BOOL=OFF
     -DBUILD_TESTING:BOOL=OFF

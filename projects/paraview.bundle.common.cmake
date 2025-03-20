@@ -15,9 +15,6 @@ if (NOT cpack_generator STREQUAL "WIX")
   string(APPEND CPACK_PACKAGE_VERSION_PATCH "${paraview_version_suffix}")
 endif ()
 set(name_suffix "")
-if (paraview_version_branch)
-  set(name_suffix "-${paraview_version_branch}")
-endif ()
 
 if (NOT DEFINED package_filename)
   set(package_filename "${PARAVIEW_PACKAGE_FILE_NAME}")
@@ -37,8 +34,19 @@ else ()
   endif ()
 endif ()
 
+# Fix MSI patch version number limitations.
+if (cpack_generator STREQUAL "WIX" AND
+    CPACK_PACKAGE_VERSION_PATCH GREATER "65536")
+  # We're using a date. Set the package number to a value that fits in 16bits
+  # because Windows doesn't support it for MSI installers. Convert using:
+  #   full:    20231231
+  #   limited: __23123_
+  # https://learn.microsoft.com/en-us/windows/win32/msi/productversion
+  string(SUBSTRING "${CPACK_PACKAGE_VERSION_PATCH}" 2 5 CPACK_PACKAGE_VERSION_PATCH)
+endif ()
+
 # Set the license files.
-set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_LIST_DIR}/files/paraview.license.txt")
+set(CPACK_RESOURCE_FILE_LICENSE "${superbuild_install_location}/share/licenses/ParaView/Copyright.txt")
 set(qt_license_file "${CMAKE_CURRENT_LIST_DIR}/files/Qt5.LICENSE.LGPLv3")
 
 # Set the translations to bundle
@@ -113,6 +121,7 @@ check_for_python_module(pythonaiohttp aiohttp)
 check_for_python_module(pythonaiosignal aiosignal)
 check_for_python_module(pythonasynctimeout async_timeout)
 check_for_python_module(pythonattrs attr)
+check_for_python_module(pythoncftime cftime)
 check_for_python_module(pythonchardet chardet)
 check_for_python_module(pythoncharsetnormalizer charset_normalizer)
 check_for_python_module(pythoncontourpy contourpy)
@@ -125,6 +134,7 @@ check_for_python_module(pythonidna idna)
 check_for_python_module(pythonkiwisolver kiwisolver)
 check_for_python_module(pythonmpmath mpmath)
 check_for_python_module(pythonmultidict multidict)
+check_for_python_module(pythonnetcdf4 netCDF4)
 check_for_python_module(pythonpackaging packaging)
 check_for_python_module(pythonpandas pandas)
 check_for_python_module(pythonpillow PIL)
@@ -134,7 +144,6 @@ check_for_python_module(pythonsix six)
 check_for_python_module(pythontypingextensions typing_extensions)
 check_for_python_module(pythontzdata tzdata)
 check_for_python_module(pythonversioneer versioneer)
-check_for_python_module(pythonwslinkasync wslink)
 check_for_python_module(pythonyarl yarl)
 check_for_python_module(pytz pytz)
 if (paraview_package_scipy_always OR
@@ -170,6 +179,9 @@ endfunction ()
 
 set(plugin_file_dir
   "${superbuild_install_location}/${paraview_plugin_path}/")
+if (NOT DEFINED paraview_plugin_package_path)
+  set(paraview_plugin_package_path "${paraview_plugin_path}")
+endif ()
 if (EXISTS "${plugin_file_dir}/paraview.plugins.xml")
   set(plugin_file
     "${plugin_file_dir}/paraview.plugins.xml")
@@ -203,6 +215,10 @@ endif()
 if (vortexfinder2_enabled)
   list(APPEND paraview_plugins
     VortexFinder)
+endif ()
+if (cinemaexport_enabled)
+  list(APPEND paraview_plugins
+    CinemaExport)
 endif ()
 if (surfacetrackercut_enabled)
   list(APPEND paraview_plugins
@@ -280,6 +296,17 @@ function (paraview_install_license project)
   endif ()
 endfunction ()
 
+function (paraview_install_spdx project)
+  if (EXISTS "${superbuild_install_location}/share/doc/${project}/spdx/${project}.spdx")
+    install(
+      FILES   "${superbuild_install_location}/share/doc/${project}/spdx/${project}.spdx"
+      DESTINATION "${paraview_spdx_path}/spdx"
+      COMPONENT   superbuild)
+  else ()
+    message(FATAL_ERROR "${superbuild_install_location}/share/doc/${project}/spdx/${project}.spdx does not exist, aborting.")
+  endif ()
+endfunction ()
+
 function (paraview_install_xr_manifests)
   # Install XR json files
   if (NOT "XRInterface" IN_LIST paraview_plugins)
@@ -288,9 +315,22 @@ function (paraview_install_xr_manifests)
 
   install(
     DIRECTORY "${superbuild_install_location}/${paraview_plugin_path}/XRInterface/"
-    DESTINATION "${paraview_plugin_path}/XRInterface"
+    DESTINATION "${paraview_plugin_package_path}/XRInterface"
     COMPONENT "superbuild"
     FILES_MATCHING PATTERN "*.json")
+endfunction ()
+
+function (paraview_install_openxr_models)
+  if (NOT "XRInterface" IN_LIST paraview_plugins)
+    return ()
+  endif ()
+
+  if (openxrmodels_enabled)
+    install(
+      DIRECTORY   "${superbuild_install_location}/share/paraview-${paraview_version}/openxrmodels"
+      DESTINATION "share/paraview-${paraview_version}"
+      COMPONENT   superbuild)
+  endif ()
 endfunction ()
 
 function (paraview_install_bivariate_textures)
@@ -305,11 +345,11 @@ function (paraview_install_bivariate_textures)
 
   install(
     DIRECTORY "${superbuild_install_location}/${paraview_plugin_path}/BivariateRepresentations/Resources"
-    DESTINATION "${paraview_plugin_path}/BivariateRepresentations"
+    DESTINATION "${paraview_plugin_package_path}/BivariateRepresentations"
     COMPONENT "superbuild")
 endfunction ()
 
-function (paraview_install_spdx_files)
+function (paraview_install_paraview_modules_spdx_files)
   if (EXISTS "${superbuild_install_location}/share/doc/ParaView/spdx")
     install(
       DIRECTORY   "${superbuild_install_location}/share/doc/ParaView/spdx"
@@ -351,17 +391,15 @@ function (paraview_install_translations project dir)
   endif ()
 endfunction ()
 
-function (paraview_install_all_licenses)
-  set(license_projects "${enabled_projects}")
-
-  foreach (project IN LISTS license_projects)
+macro (remove_not_packaged_projects)
+  foreach (project IN LISTS packaged_projects)
     if (NOT ${project}_built_by_superbuild)
-      list(REMOVE_ITEM license_projects ${project})
+      list(REMOVE_ITEM packaged_projects ${project})
     endif ()
   endforeach ()
 
   # Remove package without licenses
-  list(REMOVE_ITEM license_projects
+  list(REMOVE_ITEM packaged_projects
     exodus # dummy project to enable the library in the seacas build
     ospraymaterials # CC0 License
     launchers # ParaView
@@ -370,7 +408,7 @@ function (paraview_install_all_licenses)
     )
 
   # Do not install license of non-packaged projects
-  list(REMOVE_ITEM license_projects
+  list(REMOVE_ITEM packaged_projects
     gperf
     medconfiguration
     meson
@@ -394,14 +432,20 @@ function (paraview_install_all_licenses)
     pythonsetuptoolsrust
     pythonsetuptoolsscm
     )
+endmacro ()
+
+function (paraview_install_all_licenses)
+  # Recover a list of packaged projects
+  set(packaged_projects "${enabled_projects}")
+  remove_not_packaged_projects()
 
   # paraview install itself in ParaView directory
-  if (paraview IN_LIST license_projects)
-    list(REMOVE_ITEM license_projects paraview)
-    list(APPEND license_projects ParaView)
+  if (paraview IN_LIST packaged_projects)
+    list(REMOVE_ITEM packaged_projects paraview)
+    list(APPEND packaged_projects ParaView)
   endif ()
 
-  foreach (project IN LISTS license_projects)
+  foreach (project IN LISTS packaged_projects)
     paraview_install_license("${project}")
   endforeach ()
 
@@ -412,6 +456,24 @@ function (paraview_install_all_licenses)
       DESTINATION "${paraview_license_path}/qt5"
       COMPONENT   superbuild)
   endif ()
+endfunction ()
+
+function (paraview_install_all_spdx_files)
+  # paraview install module SPDX files in ParaView directory
+  paraview_install_paraview_modules_spdx_files()
+
+  # Recover a list of packaged projects
+  set(packaged_projects "${enabled_projects}")
+  remove_not_packaged_projects()
+
+  # paraview install many .spdx files instead
+  if (paraview IN_LIST packaged_projects)
+    list(REMOVE_ITEM packaged_projects paraview)
+  endif ()
+
+  foreach (project IN LISTS packaged_projects)
+    paraview_install_spdx("${project}")
+  endforeach ()
 endfunction ()
 
 function (paraview_install_extra_data)
@@ -433,16 +495,18 @@ function (paraview_install_extra_data)
   endif ()
 
   paraview_install_all_licenses()
+  # SPDX is only generated if Python is enabled.
+  if (python3_enabled AND GENERATE_SPDX)
+    paraview_install_all_spdx_files()
+  endif ()
 
   if (paraview_translations_dir AND qt5_enabled)
     paraview_install_translations(paraviewtranslations "translations/")
   endif()
 
   paraview_install_xr_manifests()
-
+  paraview_install_openxr_models()
   paraview_install_bivariate_textures()
-
-  paraview_install_spdx_files()
 endfunction ()
 
 if (qt5_enabled)

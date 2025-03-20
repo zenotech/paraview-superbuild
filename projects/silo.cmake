@@ -2,6 +2,10 @@ superbuild_add_project(silo
   DEPENDS_OPTIONAL zlib szip hdf5
   LICENSE_FILES
     COPYRIGHT
+  SPDX_LICENSE_IDENTIFIER
+    BSD-3-Clause
+  SPDX_COPYRIGHT_TEXT
+    "Copyright (C) 1994-2016 Lawrence Livermore National Security, LLC"
   CMAKE_ARGS
     -DCMAKE_INSTALL_NAME_DIR:STRING=<INSTALL_DIR>/lib
 

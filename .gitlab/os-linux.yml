@@ -42,7 +42,7 @@
         CMAKE_CONFIGURATION: linux_osmesa_static
 
 .fedora38:
-    image: "kitware/paraview:ci-superbuild-fedora38-20230810"
+    image: "kitware/paraview:ci-superbuild-fedora38-20231215"
 
     variables:
         GIT_SUBMODULE_STRATEGY: none
@@ -91,8 +91,7 @@
     - $LAUNCHER git submodule foreach --recursive cmake -P "$PWD/.gitlab/ci/fetch_submodule.cmake"
     - $LAUNCHER git submodule sync --recursive
     - $LAUNCHER git submodule update --init --recursive
-
-.before_script_linux_paraview: &before_script_linux_paraview
+    # Checkout paraivew to get the paraview commit sha which is used for the CTEST_BUILD_NAME
     - $LAUNCHER .gitlab/ci/checkout_paraview.sh
     - export PARAVIEW_COMMIT_SHA=`$LAUNCHER git -C $CI_PROJECT_DIR/source-paraview rev-parse HEAD`
     - export PARAVIEW_COMMIT_SHORT_SHA=`$LAUNCHER git -C $CI_PROJECT_DIR/source-paraview rev-parse --short HEAD`
@@ -102,7 +101,6 @@
 
     script:
         - *before_script_linux
-        - *before_script_linux_paraview
         - .gitlab/ci/sccache.sh
         - export CC=$PWD/.gitlab/shortcuts/gcc
         - export CXX=$PWD/.gitlab/shortcuts/g++

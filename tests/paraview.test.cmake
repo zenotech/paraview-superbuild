@@ -25,16 +25,46 @@ if (PARAVIEW_PACKAGE_FILE_NAME)
 else ()
   include(paraview.suffix)
   set(name_suffix "")
-  if (paraview_version_branch)
-    set(name_suffix "-${paraview_version_branch}")
+  if (paraview_version_patch LESS "20200101")
+    set(glob_prefix "ParaView${name_suffix}-${paraview_version_major}.${paraview_version_minor}.${paraview_version_patch}*")
+  else ()
+    set(glob_prefix "ParaView${name_suffix}-${paraview_version_full}*")
   endif ()
-  set(glob_prefix "ParaView${name_suffix}-${paraview_version_full}*")
   if (PARAVIEW_PACKAGE_SUFFIX)
-    set(glob_prefix "${glob_prefix}-${PARAVIEW_PACKAGE_SUFFIX}")
+    string(APPEND glob_prefix "-${PARAVIEW_PACKAGE_SUFFIX}")
   endif ()
 endif ()
 superbuild_add_extract_test("paraview" "${glob_prefix}" "${generator}" "${paraview_extract_dir}"
   LABELS "ParaView")
+
+if (UNIX AND NOT APPLE)
+  set(ldd_excludes)
+  if (openimagedenoise_SOURCE_SELECTION STREQUAL "2.7.1")
+    list(APPEND ldd_excludes
+      # Older OIDN forces the rpath.
+      "libOpenImageDenoise")
+  endif ()
+
+  superbuild_test_loadable_modules("paraview" "${generator}" "${paraview_extract_dir}"
+    EXCLUDES
+      # Copied from the system; does not have rpath entries.
+      "libgfortran"
+      # Python stdlib requirements; provided by the system.
+      "nis.cpython" # libnsl
+      # Libraries which use Fortran standard libraries.
+      "__nnls.cpython" # scipy
+      "_cobyla.cpython" # scipy
+      "_dop.cpython" # scipy
+      "_fitpack.cpython" # scipy
+      "_specfun.cpython" # scipy
+      # Qt plugins; provided by the system.
+      "libqtaudio_alsa" # libasound
+      # MEDReader plugin has a test, but the rpaths are not 100% correct.
+      # Ignore for now.
+      "MEDReader/lib" # paraview/common-superbuild#73
+      ${ldd_excludes}
+      )
+endif ()
 
 if (NOT qt5_enabled)
   set(paraview_exe)
@@ -97,6 +127,9 @@ if (python3_enabled)
 
   paraview_add_ui_test("finddata" "TestFindData"
     "--test-baseline=${CMAKE_CURRENT_LIST_DIR}/baselines/Superbuild-TestFindData.png")
+
+  paraview_add_test("pvpython-help" "${pvpython_exe}"
+    -c "help()")
 endif ()
 
 # Simple test to test pvpython/pvbatch.
@@ -104,11 +137,6 @@ paraview_add_python_test("pvpython" "basic_python")
 if (NOT WIN32)
   # MSMPI has issues with pvbatch.
   paraview_add_pvbatch_test("pvbatch" "basic_python")
-endif ()
-
-# Simple test to test paraviewweb.
-if (paraviewweb_enabled)
-  paraview_add_python_test("pv.apps.visualizer" "pv_apps_visualizer")
 endif ()
 
 if (numpy_enabled)
@@ -212,6 +240,10 @@ paraview_add_ui_test("loaddistributedplugins" "LoadDistributedPlugins"
 
 if (vortexfinder2_enabled)
   paraview_add_ui_test("loadvortexfinderplugins" "LoadVortexFinderPlugins")
+endif ()
+
+if (cinemaexport_enabled)
+  paraview_add_ui_test("loadcinemaexportplugin" "LoadCinemaExportPlugin")
 endif ()
 
 if (surfacetrackercut_enabled)

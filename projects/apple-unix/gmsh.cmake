@@ -1,6 +1,10 @@
 superbuild_add_project(gmsh
   LICENSE_FILES
     LICENSE.txt
+  SPDX_LICENSE_IDENTIFIER
+    GPL-3.0-interface-exception
+  SPDX_COPYRIGHT_TEXT
+    "Copyright (C) 1997-2022 C. Geuzaine, J.-F. Remacle"
   CMAKE_ARGS
     -DBUILD_TESTING:BOOL=OFF
     -DCMAKE_INSTALL_LIBDIR:STRING=lib

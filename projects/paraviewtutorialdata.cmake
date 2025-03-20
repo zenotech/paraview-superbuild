@@ -1,4 +1,8 @@
 superbuild_add_project(paraviewtutorialdata
+  SPDX_LICENSE_IDENTIFIER
+    BSD-3-Clause
+  SPDX_COPYRIGHT_TEXT
+    "Copyright (c) 2000 Kitware Inc."
   CONFIGURE_COMMAND
     ""
   BUILD_COMMAND
