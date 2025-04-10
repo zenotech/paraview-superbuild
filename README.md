@@ -395,10 +395,11 @@ providing versions for projects using `superbuild_set_revision`, usually for the
 configure, build and install superbuild project that are usually added in `projects.cmake`.
 
 `package.cmake` is an optional file that is included at the configuration phase during the preparation of the packaging
-and is expected to append ParaView plugins to the `paraview_additional_plugins` CMake variable, eg:
+and is expected to append ParaView plugins and python modules to the dedicated CMake variables, eg:
 
 ```
 list(APPEND paraview_additional_plugins myParaViewPlugin)
+list(APPEND paraview_additional_python_modules myModule)
 ```
 
 `cmake/CTestCustom.cmake` is an optional file of the same type as the superbuild own `cmake/CTestCustom.cmake`.
