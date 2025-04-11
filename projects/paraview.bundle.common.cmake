@@ -170,6 +170,8 @@ if (WIN32)
   check_for_python_module(pywin32 win32comext)
 endif ()
 
+list(APPEND python_modules ${paraview_additional_python_modules})
+
 function (paraview_add_plugin output)
   set(contents "<?xml version=\"1.0\"?>\n<Plugins>\n</Plugins>\n")
   foreach (name IN LISTS ARGN)

@@ -405,8 +405,9 @@ function (superbuild_add_packaging)
     PARAVIEW_PACKAGE_SUFFIX
     PARAVIEW_CATALYST_EDITION
     paraview_is_shared
+    paraview_additional_bundle_files
     paraview_additional_plugins
-    paraview_additional_bundle_files)
+    paraview_additional_python_modules)
 
   if (paraview_enabled)
     set(PARAVIEW_PACKAGE_FILE_NAME ""
