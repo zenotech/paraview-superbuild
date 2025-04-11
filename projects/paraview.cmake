@@ -249,7 +249,7 @@ superbuild_add_project(paraview
   DEPENDS cxx11
   DEPENDS_OPTIONAL
     adios2 alembic catalyst cuda boost eigen gdal hdf5 matplotlib mpi numpy pdal png
-    protobuf python3 qt5 qt6 visitbridge zlib silo las lookingglass pythonmpi4py
+    protobuf python3 qt qt5 qt6 visitbridge zlib silo las lookingglass pythonmpi4py
     xdmf3 vrpn vtkm netcdf
     cdi
     openturns
