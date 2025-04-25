@@ -61,6 +61,7 @@ function (superbuild_find_projects var)
     eigen
     embree
     exodus
+    expat
     freetype
     gdal
     geotiff
@@ -194,7 +195,6 @@ function (superbuild_find_projects var)
   if (UNIX)
     list(APPEND projects
       cosmotools
-      expat
       ffi
       ffmpeg
       fides
