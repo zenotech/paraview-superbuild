@@ -51,7 +51,7 @@ set(qt5_license_file "${CMAKE_CURRENT_LIST_DIR}/files/Qt5.LICENSE")
 set(qt6_license_file "${CMAKE_CURRENT_LIST_DIR}/files/Qt6.LICENSE")
 
 # Set the translations to bundle
-set(paraview_languages "fr_FR")
+set(paraview_languages fr_FR pt_BR tr_TR)
 
 set(paraview_executables
   pvdataserver
