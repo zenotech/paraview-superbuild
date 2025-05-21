@@ -392,10 +392,12 @@ function (paraview_install_translations project dir)
       string(REGEX MATCH "^([a-z]+)"
         _language_code "${_language}")
       foreach(_translation_qm IN ITEMS qtbase  qt  qtmultimedia  qtscript  qtxmlpatterns)
-        install(
-          FILES   "${superbuild_install_location}/share/${dir}${_translation_qm}_${_language_code}.qm"
-          DESTINATION "${paraview_translations_dir}"
-          COMPONENT   superbuild)
+        if (EXISTS "${superbuild_install_location}/share/${dir}${_translation_qm}_${_language_code}.qm")
+          install(
+            FILES   "${superbuild_install_location}/share/${dir}${_translation_qm}_${_language_code}.qm"
+            DESTINATION "${paraview_translations_dir}"
+            COMPONENT   superbuild)
+        endif ()
       endforeach()
     endforeach()
   endif ()
