@@ -69,6 +69,15 @@ if (paraview_SOURCE_SELECTION MATCHES "^5\\.13")
   endif ()
 endif ()
 
+# 6.0 support.
+set(paraview_6_0_0_RC1_args)
+if (paraview_SOURCE_SELECTION MATCHES "^6\\.0")
+  if (WIN32)
+    list(APPEND paraview_6_0_0_RC1_args
+      -DViskores_MODULE_ENABLE_viskores_filter_scalar_topology=NO)
+  endif ()
+endif ()
+
 if (WIN32)
   list(APPEND paraview_platform_dependencies
     openvr openxrremoting openxrsdk zeromq)
@@ -334,6 +343,7 @@ superbuild_add_project(paraview
     -DVTK_MODULE_USE_EXTERNAL_VTK_tiff:BOOL=${tiff_enabled}
     -DVTK_MODULE_USE_EXTERNAL_VTK_zlib:BOOL=${zlib_enabled}
     ${paraview_5_13_args}
+    ${paraview_6_0_0_RC1_args}
     -DVTK_SMP_IMPLEMENTATION_TYPE:STRING=${paraview_smp_backend}
     -DVTK_SMP_ENABLE_TBB:BOOL=${tbb_enabled}
     -DVTK_SMP_ENABLE_OPENMP:BOOL=${openmp_enabled}
