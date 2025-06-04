@@ -161,7 +161,7 @@ if (WIN32)
   set(nvidiaindex_5_10_md5 "91ff7eb462049b43f25f48778d1058b9")
   set(nvidiaindex_5_11_1_md5 "1c2dd496467ed7feeb46ce0a29b08d52")
   set(nvidiaindex_5_12_0_md5 "90d32ba6d5773d2d385fca6dfab266cd")
-  set(nvidiaindex_6_0_0_md5 "7efd41373c05c1c723e790d93ca1e6f5")
+  set(nvidiaindex_6_0_0_md5 "7641bed863656c6d04c1ec6a6e6d4bac")
 elseif (UNIX AND NOT APPLE)
   if (CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "ppc64le")
     set(nvidiaindex_platform "linux-ppc64le")
@@ -172,7 +172,7 @@ elseif (UNIX AND NOT APPLE)
   elseif (CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "aarch64")
     set(nvidiaindex_platform "linux-aarch64")
     set(nvidiaindex_5_12_0_md5 "5963ca358406124a0c320af5a0ca67bc")
-    set(nvidiaindex_6_0_0_md5 "02e9f42112160a75c8838a8162843425")
+    set(nvidiaindex_6_0_0_md5 "1393e2b8d45ecb3b467d03baed4de373")
   else ()
     set(nvidiaindex_platform "linux")
     set(nvidiaindex_2_1_md5 "9fd5af702af6a6a6f2aba3a960703fb3")
@@ -184,7 +184,7 @@ elseif (UNIX AND NOT APPLE)
     set(nvidiaindex_5_10_md5 "2fdc03e3674a41b37488f8bfc4965ec2")
     set(nvidiaindex_5_11_1_md5 "b54780c65ac6e903680db19f04641acf")
     set(nvidiaindex_5_12_0_md5 "67765258066e1a4eaa1f97959f5d89bd")
-    set(nvidiaindex_6_0_0_md5 "ae3ee4042d0967eb4b8c564bd545a341")
+    set(nvidiaindex_6_0_0_md5 "06ee723d31e0d3a49ed971041b118cc1")
   endif ()
 endif ()
 # XXX(index): New version tarballs may be created given an IndeX deliverable
@@ -194,7 +194,7 @@ superbuild_set_selectable_source(nvidiaindex
   # too when library files are added or removed.
   #
   SELECT 6.0 DEFAULT
-    URL     "https://www.paraview.org/files/dependencies/nvidia-index-libs-6.0.0.20250409-${nvidiaindex_platform}.tar.bz2"
+    URL     "https://www.paraview.org/files/dependencies/nvidia-index-libs-6.0.0.20250604-${nvidiaindex_platform}.tar.bz2"
     URL_MD5 "${nvidiaindex_6_0_0_md5}"
   SELECT 5.12
     URL     "https://www.paraview.org/files/dependencies/nvidia-index-libs-5.12.0.20231121-${nvidiaindex_platform}.tar.bz2"
