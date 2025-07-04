@@ -17,7 +17,7 @@ set(paraview_doc_ver_series "6.0")
 set(paraview_doc_ver "${paraview_doc_ver_series}.0")
 superbuild_set_revision(paraviewgettingstartedguide
   URL     "https://www.paraview.org/files/v${paraview_doc_ver_series}/ParaViewGettingStarted-${paraview_doc_ver}.pdf"
-  URL_MD5 0fee1c0be83a48cd25b2b566deb01d68)
+  URL_MD5 a3f44d5eabc24fe2137c2eea547c9ef7)
 superbuild_set_revision(paraviewtutorialdata
   URL     "https://www.paraview.org/files/data/ParaViewTutorialData-20220629.tar.gz"
   URL_MD5 f8cd0e93ecd16d2753d5b147a5711a7c)
@@ -45,9 +45,9 @@ endif ()
 superbuild_set_selectable_source(paraview
   # NOTE: When updating this selection, also update the default version in
   # README.md and the PARAVIEW_VERSION_DEFAULT variable in CMakeLists.txt.
-  SELECT 6.0.0-RC1 ${paraview_release_default}
-    URL     "https://www.paraview.org/files/v6.0/ParaView-v6.0.0-RC1.tar.xz"
-    URL_MD5 ed8cf488869b8b42aca23e9a78ca0bb1
+  SELECT 6.0.0-RC2 ${paraview_release_default}
+    URL     "https://www.paraview.org/files/v6.0/ParaView-v6.0.0-RC2.tar.xz"
+    URL_MD5 d06f30965b3a0de13b22b50f37de222f
   SELECT git CUSTOMIZABLE ${paraview_git_default}
     GIT_REPOSITORY "https://gitlab.kitware.com/paraview/paraview.git"
     GIT_TAG        "origin/master"
