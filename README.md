@@ -93,10 +93,6 @@ control how superbuild finds its source packages:
     candidate in preparation for the release. This is the best way to build a
     released version of ParaView.
 
-**NOTE:** If you switch to a superbuild version older than 5.2, the instructions
-described on this page are not relevant since the superbuild was refactored and
-changed considerably for 5.2. For older versions, refer to instructions on the
-[Wiki](http://www.paraview.org/Wiki/index.php?title=ParaView/Superbuild&oldid=59804).
 
 **ALSO NOTE:** Since this README is expected to be updated for each version,
 once you checkout a specfic version, you may want to refer to the README for
