@@ -8,6 +8,6 @@ function (paraviewsdk_check_system_usage project)
 endfunction ()
 
 if (paraviewsdk_enabled)
-  paraviewsdk_check_system_usage(qt5)
-  #paraviewsdk_check_system_usage(mpi)
+  paraviewsdk_check_system_usage(qt6)
+  # paraviewsdk_check_system_usage(mpi)
 endif ()

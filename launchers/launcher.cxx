@@ -30,6 +30,10 @@ PURPOSE.  See the above copyright notice for more information.
 #include <mach-o/dyld.h>
 #endif
 
+#if defined(__linux__)
+#include <dlfcn.h>
+#endif
+
 static char const* const mesa_relative_libdir = MESA_RELATIVE_LIBDIR;
 static char const* const mpi_relative_libdir = MPI_RELATIVE_LIBDIR;
 static char const* const tool = TOOL;
@@ -236,6 +240,63 @@ int main(int argc, char* argv[])
   args.push_back(nullptr);
 
   std::string const exe_dir = current_exe_dir(argv[0]);
+
+  // VTK looks at this environment variable to select an OpenGL context
+  // provider. This can give an undesired outcome when the env var
+  // is configured to create EGL render window and the --mesa option is used
+  // because the bundled mesa does not provide `libEGL`.
+  const char* current_default_opengl_window =
+      vtksys::SystemTools::GetEnv("VTK_DEFAULT_OPENGL_WINDOW");
+  if (current_default_opengl_window != nullptr)
+  {
+    if (!strcmp(current_default_opengl_window, "vtkEGLRenderWindow"))
+    {
+      // This is handled easily as execution can take two paths:
+      //
+      // 1. If VTK finds `libEGL`, the --mesa option is unnecessary. Inform the
+      // user about unused option.
+      // 2. If VTK cannot find `libEGL` on the system, it will eventually fallback
+      // to OSMesa. In this case, the `prefix_paths` will guide the discovery of
+      // `libOSMesa`
+      if (forward_mesa)
+      {
+        std::cout << "Note: The --mesa option "
+                    "will have no effect if your system has EGL installed "
+                    "because your environment has set "
+                    "VTK_DEFAULT_OPENGL_WINDOW="
+                  << current_default_opengl_window << '\n';
+      }
+    }
+#if ENABLE_MESA_BACKENDS && defined(__linux__)
+    else if (!strcmp(current_default_opengl_window, "vtkOSOpenGLRenderWindow"))
+    {
+      // Assist the PV process in locating mesa by appending the path to the bundled mesa library.
+      if (!forward_mesa)
+      {
+        // First, check if OSMesa is already installed somewhere in the system.
+        const char* libNamesToTry[] = {
+            "libOSMesa.so.8", "libOSMesa.so.6", "libOSMesa.so"};
+        void* libosmesa_handle = nullptr;
+        for (const auto& libName : libNamesToTry)
+        {
+          libosmesa_handle = dlopen(libName, RTLD_LAZY | RTLD_GLOBAL);
+          if (libosmesa_handle)
+          {
+            break;
+          }
+        }
+        // use the bundled libOSMesa as we were unable to find one in the system
+        if (libosmesa_handle == nullptr)
+        {
+          forward_mesa = true;
+          std::cout
+              << "OSMesa not found. Fallback to bundled libOSMesa at "
+              << exe_dir << '/' << mesa_relative_libdir << '\n';
+        }
+      }
+    }
+#endif
+  }
 
   std::string prefix_paths;
   if (forward_mesa)

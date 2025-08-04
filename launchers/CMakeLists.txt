@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
 project(launchers)
 
-find_package(ParaView REQUIRED)
+find_package(ParaView REQUIRED COMPONENTS Versioning)
 
 option(LAUNCHER_ENABLE_MESA "Enable Mesa launch option" OFF)
 option(LAUNCHER_ENABLE_OSMESA "Enable OSMesa launch option" OFF)

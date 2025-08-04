@@ -1,0 +1,42 @@
+diff -u -Nr -U5 3dx/samples/navlib_viewer/src/SpaceMouse/CCommandTreeNode.hpp 3dx.windows-include/samples/navlib_viewer/src/SpaceMouse/CCommandTreeNode.hpp
+--- 3dx/samples/navlib_viewer/src/SpaceMouse/CCommandTreeNode.hpp	2020-05-27 15:49:36.000000000 +0200
++++ 3dx.windows-include/samples/navlib_viewer/src/SpaceMouse/CCommandTreeNode.hpp	2025-02-18 22:17:57.432647925 +0100
+@@ -21,10 +21,11 @@
+ 
+ // stdlib
+ #include <exception>
+ #include <iterator>
+ #include <memory>
++#include <stdexcept>
+ 
+ namespace TDx {
+ template <typename _Ty, bool doubled_linked = false> class raw_linkedlist_iterator {
+ public:
+   typedef std::input_iterator_tag iterator_category;
+@@ -275,6 +276,6 @@
+ };
+ 
+ typedef CCommandTree CCommandTreeNode;
+ } // namespace TDx
+ 
+-#endif // CCommandTreeNode_HPP_INCLUDED
+\ No newline at end of file
++#endif // CCommandTreeNode_HPP_INCLUDED
+diff -u -Nr -U5 3dx/samples/navlib_viewer/src/SpaceMouse/CImage.hpp 3dx.windows-include/samples/navlib_viewer/src/SpaceMouse/CImage.hpp
+--- 3dx/samples/navlib_viewer/src/SpaceMouse/CImage.hpp	2019-07-26 09:42:52.000000000 +0200
++++ 3dx.windows-include/samples/navlib_viewer/src/SpaceMouse/CImage.hpp	2025-02-18 20:05:45.988667637 +0100
+@@ -31,10 +31,14 @@
+ #if _MSC_VER < 1700
+ #pragma warning(disable : 4482) // warning C4482: nonstandard extension used
+ #endif
+ #endif
+ 
++#ifdef _WIN32
++#include <windows.h>
++#endif
++
+ #ifdef __APPLE__
+ #define IS_INTRESOURCE(x) false
+ #endif
+ 
+ namespace TDx {

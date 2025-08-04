@@ -1,0 +1,19 @@
+diff -u -Nr -U5 paravis-10af712/src/Plugins/MEDReader/plugin/ParaViewPlugin/pqAbstractFieldsWidget.cxx paravis-10af712.pqTreeWidget-margins-api/src/Plugins/MEDReader/plugin/ParaViewPlugin/pqAbstractFieldsWidget.cxx
+--- paravis-10af712/src/Plugins/MEDReader/plugin/ParaViewPlugin/pqAbstractFieldsWidget.cxx	2023-06-05 08:03:34.000000000 +0200
++++ paravis-10af712.pqTreeWidget-margins-api/src/Plugins/MEDReader/plugin/ParaViewPlugin/pqAbstractFieldsWidget.cxx	2025-02-07 15:51:51.570696598 +0100
+@@ -72,13 +72,12 @@
+ //-----------------------------------------------------------------------------
+ QSize pqAbstractFieldsWidget::sizeHint() const
+ {
+   // TreeWidget sizeHintForRow is too low, correcting to +3.
+   int pix = (this->TreeWidget->sizeHintForRow(0) + 3) * this->NItems;
+-  int margin[4];
+-  this->TreeWidget->getContentsMargins(margin, margin + 1, margin + 2, margin + 3);
+-  int h =  pix + margin[1] + margin[3];
++  QMargins margin = this->TreeWidget->contentsMargins();
++  int h =  pix + margin.top() + margin.bottom();
+   if (this->visibleHeader)
+     {
+     h += this->TreeWidget->header()->frameSize().height();
+     } 
+   h = std::min(300, h);

@@ -6,7 +6,7 @@ superbuild_add_project(surfacetrackercut
   SPDX_COPYRIGHT_TEXT
     "Copyright (c) 2022, Connie He"
   DEPENDS paraview lapack
-  DEPENDS_OPTIONAL qt5
+  DEPENDS_OPTIONAL qt5 qt6
   SOURCE_SUBDIR SurfaceTrackerCut
   CMAKE_ARGS
     -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}

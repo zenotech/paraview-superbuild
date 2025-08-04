@@ -1,12 +1,10 @@
 {
     "latest-packages": [
-        { "group": "release-packages", "site": "gitlab-ci", "buildname": "paraview-superbuild-branch-release-[linux_plain]" },
-        { "group": "release-packages", "site": "gitlab-ci", "buildname": "paraview-superbuild-branch-release-[linux_egl]" },
-        { "group": "release-packages", "site": "gitlab-ci", "buildname": "paraview-superbuild-branch-release-[linux_osmesa_shared]" },
-        { "group": "release-packages", "site": "gitlab-ci", "buildname": "paraview-superbuild-branch-release-[linux_osmesa_static]" },
+        { "group": "release-packages", "site": "gitlab-ci", "buildname": "paraview-superbuild-branch-release-[linux_shared]" },
+        { "group": "release-packages", "site": "gitlab-ci", "buildname": "paraview-superbuild-branch-release-[linux_static]" },
         { "group": "release-packages", "site": "gitlab-ci", "buildname": "paraview-superbuild-branch-release-[macos_arm64]" },
         { "group": "release-packages", "site": "gitlab-ci", "buildname": "paraview-superbuild-branch-release-[macos_x86_64]" },
-        { "group": "release-packages", "site": "gitlab-ci", "buildname": "paraview-superbuild-branch-release-[windows_vs2019_mpi]" },
-        { "group": "release-packages", "site": "gitlab-ci", "buildname": "paraview-superbuild-branch-release-[windows_vs2019_nompi]" }
+        { "group": "release-packages", "site": "gitlab-ci", "buildname": "paraview-superbuild-branch-release-[windows_vs2022_mpi]" },
+        { "group": "release-packages", "site": "gitlab-ci", "buildname": "paraview-superbuild-branch-release-[windows_vs2022_nompi]" }
     ]
 }

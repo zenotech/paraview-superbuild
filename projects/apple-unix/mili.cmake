@@ -33,6 +33,8 @@ if (APPLE)
 endif()
 superbuild_apply_patch(mili darwin-patch3 "Mili Darwin patch 3")
 
+superbuild_apply_patch(mili buildinfo-crash "Fix buildinfo crashes")
+
 superbuild_add_extra_cmake_args(
   -DMili_INCLUDE_DIR:PATH=<INSTALL_DIR>/include/mili
   -DMili_LIBRARY:PATH=<INSTALL_DIR>/lib/libmili.a

@@ -1,4 +1,4 @@
-FROM centos:7
+FROM almalinux:8
 MAINTAINER Ben Boeckel <ben.boeckel@kitware.com>
 
 COPY install_deps.sh /root/install_deps.sh

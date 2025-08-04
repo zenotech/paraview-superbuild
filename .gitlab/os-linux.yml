@@ -4,61 +4,49 @@
 
 ### CentOS
 #
-# CentOS 7 is the primary deployment platform. This gains us maximum
+# CentOS 8 is the primary deployment platform. This gains us maximum
 # compatibility with many Linux distros while also providing easy ways to get
 # newer compilers.
 
-.centos7:
-    image: "kitware/paraview:ci-superbuild-centos7-20230915"
+.centos8:
+    image: "kitware/paraview:ci-superbuild-centos8-20250227"
 
     variables:
         GIT_SUBMODULE_STRATEGY: none
-        LAUNCHER: "scl enable devtoolset-10 rh-git227 --"
+        LAUNCHER: "scl enable gcc-toolset-10 --"
         GIT_CLONE_PATH: $CI_BUILDS_DIR/gitlab-kitware-sciviz-ci
-        CUDACXX: "/usr/local/cuda-12.2/bin/nvcc"
+        CUDACXX: "/usr/local/cuda-12.6/bin/nvcc"
 
-.centos7_plain:
-    extends: .centos7
-
-    variables:
-        CMAKE_CONFIGURATION: linux_plain
-
-.centos7_egl:
-    extends: .centos7
+.centos8_shared:
+    extends: .centos8
 
     variables:
-        CMAKE_CONFIGURATION: linux_egl
+        CMAKE_CONFIGURATION: linux_shared
 
-.centos7_osmesa_shared:
-    extends: .centos7
-
-    variables:
-        CMAKE_CONFIGURATION: linux_osmesa_shared
-
-.centos7_osmesa_static:
-    extends: .centos7
+.centos8_static:
+    extends: .centos8
 
     variables:
-        CMAKE_CONFIGURATION: linux_osmesa_static
+        CMAKE_CONFIGURATION: linux_static
 
 .fedora38:
-    image: "kitware/paraview:ci-superbuild-fedora38-20231215"
+    image: "kitware/paraview:ci-superbuild-fedora38-20250220"
 
     variables:
         GIT_SUBMODULE_STRATEGY: none
         GIT_CLONE_PATH: $CI_BUILDS_DIR/gitlab-kitware-sciviz-ci
 
-.fedora38_plain:
+.fedora38_shared:
     extends: .fedora38
 
     variables:
-        CMAKE_CONFIGURATION: linux_plain
+        CMAKE_CONFIGURATION: linux_shared
 
-.fedora38_egl:
+.fedora38_static:
     extends: .fedora38
 
     variables:
-        CMAKE_CONFIGURATION: linux_egl
+        CMAKE_CONFIGURATION: linux_static
 
 ## Tags
 
@@ -84,6 +72,9 @@
     - export PATH=$PWD/.gitlab:$PWD/.gitlab/cmake/bin:$PATH
     - cmake --version
     - ninja --version
+    # Download Qt
+    - cmake -P .gitlab/ci/download_qt6.cmake
+    - export CMAKE_PREFIX_PATH=$PWD/.gitlab/qt6
     # `git submodule foreach` does not consider submodules that have not been
     # initialized. So here, we initialize what we can and ignore failure so
     # that we can set up submodules properly later.
@@ -91,7 +82,7 @@
     - $LAUNCHER git submodule foreach --recursive cmake -P "$PWD/.gitlab/ci/fetch_submodule.cmake"
     - $LAUNCHER git submodule sync --recursive
     - $LAUNCHER git submodule update --init --recursive
-    # Checkout paraivew to get the paraview commit sha which is used for the CTEST_BUILD_NAME
+    # Checkout paraview to get the paraview commit sha which is used for the CTEST_BUILD_NAME
     - $LAUNCHER .gitlab/ci/checkout_paraview.sh
     - export PARAVIEW_COMMIT_SHA=`$LAUNCHER git -C $CI_PROJECT_DIR/source-paraview rev-parse HEAD`
     - export PARAVIEW_COMMIT_SHORT_SHA=`$LAUNCHER git -C $CI_PROJECT_DIR/source-paraview rev-parse --short HEAD`

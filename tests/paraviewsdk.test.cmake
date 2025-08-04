@@ -56,7 +56,7 @@ function (add_paraviewsdk_example_plugin_test name)
 endfunction ()
 
 set(gui_enabled FALSE)
-if (qt5_enabled)
+if (qt5_enabled OR qt6_enabled)
   set(gui_enabled TRUE)
 endif ()
 

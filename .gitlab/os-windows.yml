@@ -25,44 +25,44 @@
         # from GitLab-CI by default (it runs as a Windows service).
         QT_OPENGL: desktop
 
-.windows_vs2019:
+.windows_vs2022:
     extends: .windows_build
 
     variables:
-        VCVARSALL: "${VS160COMNTOOLS}\\..\\..\\VC\\Auxiliary\\Build\\vcvarsall.bat"
+        VCVARSALL: "${VS170COMNTOOLS}\\..\\..\\VC\\Auxiliary\\Build\\vcvarsall.bat"
         VCVARSPLATFORM: "x64"
-        VCVARSVERSION: "14.28.29910"
+        VCVARSVERSION: "14.35.32215"
 
-.windows_vs2019_mpi:
-    extends: .windows_vs2019
-
-    variables:
-        CMAKE_CONFIGURATION: windows_vs2019_mpi
-
-.windows_vs2019_nompi:
-    extends: .windows_vs2019
+.windows_vs2022_mpi:
+    extends: .windows_vs2022
 
     variables:
-        CMAKE_CONFIGURATION: windows_vs2019_nompi
+        CMAKE_CONFIGURATION: windows_vs2022_mpi
+
+.windows_vs2022_nompi:
+    extends: .windows_vs2022
+
+    variables:
+        CMAKE_CONFIGURATION: windows_vs2022_nompi
 
 ## Tags
 
 .windows_builder_tags:
     tags:
         - paraview # Since this is a bare runner, pin to a project.
-        - msvc-19.28-16.9
+        - msvc-19.35
         - nonconcurrent
         - shell
-        - vs2019
+        - vs2022
         - windows-x86_64
 
 .windows_test_tags:
     tags:
         - paraview # Since this is a bare runner, pin to a project.
-        - msvc-19.28-16.9
+        - msvc-19.35
         - nonconcurrent
         - shell
-        - vs2019
+        - vs2022
         - windows-x86_64
         - test # Some machines have trouble running tests.
 
@@ -90,8 +90,8 @@
     - Set-Item -Force -Path "env:PARAVIEW_COMMIT_SHORT_SHA" -Value "$paraview_commit_short_sha"
 
 .before_script_windows_deps: &before_script_windows_deps
-    - cmake -P .gitlab/ci/download_qt.cmake
-    - Set-Item -Force -Path "env:PATH" -Value "$pwdpath\.gitlab\qt\bin;$env:PATH"
+    - cmake -P .gitlab/ci/download_qt6.cmake
+    - Set-Item -Force -Path "env:PATH" -Value "$pwdpath\.gitlab\qt6\bin;$env:PATH"
     # Add the outputs to the PATH
     - Set-Item -Force -Path "env:PATH" -Value "$pwdpath\build\install\Python;$env:PATH;$pwdpath\build\install\bin"
     - Set-Item -Force -Path "env:PYTHONHOME" -Value "$pwdpath\build\install\Python"

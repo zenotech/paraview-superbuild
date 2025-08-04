@@ -218,7 +218,7 @@ foreach (executable IN LISTS paraview_executables other_executables)
     IGNORE_REGEXES      ${ignore_regexes})
 endforeach ()
 
-if (qt5_enabled)
+if (qt5_enabled OR qt6_enabled)
   file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/qt.conf" "[Paths]\nPlugins = Plugins\n")
   install(
     FILES       "${CMAKE_CURRENT_BINARY_DIR}/qt.conf"
@@ -311,6 +311,20 @@ foreach (qt5_plugin_path IN LISTS qt5_plugin_paths)
     "${paraview_appname}"
     "${qt5_plugin_path}"
     "Contents/Plugins/${qt5_plugin_group}"
+    SEARCH_DIRECTORIES  "${superbuild_install_location}/lib"
+    INCLUDE_REGEXES     ${include_regexes}
+    IGNORE_REGEXES      ${ignore_regexes})
+endforeach ()
+
+foreach (qt6_plugin_path IN LISTS qt6_plugin_paths)
+  get_filename_component(qt6_plugin_group "${qt6_plugin_path}" DIRECTORY)
+  get_filename_component(qt6_plugin_group "${qt6_plugin_group}" NAME)
+
+  superbuild_apple_install_module(
+    "\${CMAKE_INSTALL_PREFIX}"
+    "${paraview_appname}"
+    "${qt6_plugin_path}"
+    "Contents/Plugins/${qt6_plugin_group}"
     SEARCH_DIRECTORIES  "${superbuild_install_location}/lib"
     INCLUDE_REGEXES     ${include_regexes}
     IGNORE_REGEXES      ${ignore_regexes})

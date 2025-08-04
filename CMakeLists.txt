@@ -10,7 +10,7 @@ macro (superbuild_setup_variables)
   if (paraview_SOURCE_SELECTION STREQUAL "git")
     # Assuming master; just use the latest version, but let the user set their
     # own version in case it is actually a branch from some other version.
-    set(PARAVIEW_VERSION_DEFAULT "5.13.2"
+    set(PARAVIEW_VERSION_DEFAULT "6.0.0"
       CACHE STRING "The default version of ParaView to use if it cannot be detected")
     mark_as_advanced(PARAVIEW_VERSION_DEFAULT)
     set(paraview_default_version "${PARAVIEW_VERSION_DEFAULT}")
@@ -54,12 +54,14 @@ function (superbuild_find_projects var)
     boost
     bzip2
     catalyst
+    cdi
     cinemaexport
     cuda
     curl
     eigen
     embree
     exodus
+    expat
     freetype
     gdal
     geotiff
@@ -69,8 +71,11 @@ function (superbuild_find_projects var)
     ispc
     jsonc
     jsoncpp
+    lapack
     las
     libjpegturbo
+    libxml2
+    libxslt
     lookingglass
     lz4
     matplotlib
@@ -89,6 +94,7 @@ function (superbuild_find_projects var)
     openvkl
     ospray
     ospraymodulempi
+    openturns
     openxrmodels
     openxrsdk
     paraviewtranslations
@@ -157,7 +163,9 @@ function (superbuild_find_projects var)
     pythonyarl
     pytz
     qhull
+    qt
     qt5
+    qt6
     rkcommon
     scipy
     seacas
@@ -186,9 +194,7 @@ function (superbuild_find_projects var)
 
   if (UNIX)
     list(APPEND projects
-      cdi
       cosmotools
-      expat
       ffi
       ffmpeg
       fides
@@ -196,15 +202,14 @@ function (superbuild_find_projects var)
       fortran
       genericio
       gmsh
-      lapack
-      libxml2
       mili
       rapidjson
       surfacetrackercut)
 
     if (NOT APPLE)
       list(APPEND projects
-        egl
+        collaborationserver
+        cppzmq
         fontconfig
         glproto
         gperf
@@ -213,6 +218,7 @@ function (superbuild_find_projects var)
         libusb
         llvm
         mesa
+        mesatoolchainoverride
         osmesa
         paraviewsdk
         socat
@@ -255,18 +261,27 @@ function (superbuild_find_projects var)
     list(APPEND projects
       openvr
       pywin32
-      zeromq
       zspace)
   endif ()
 
   if (WIN32 OR (UNIX AND NOT APPLE))
     list(APPEND projects
+      zeromq
       # The med stack does not support MacOS yet
       medconfiguration
       medcoupling
       medfile
       medreader)
   endif ()
+
+  foreach (_add_sb_folder IN LISTS SUPERBUILD_ADDITIONAL_FOLDERS)
+    if (EXISTS "${SUPERBUILD_ADDITIONAL_FOLDERS}/projects.cmake")
+      include("${SUPERBUILD_ADDITIONAL_FOLDERS}/projects.cmake")
+    else ()
+      message(WARNING "An additional superbuild folder was specified: ${_add_sb_folder},"
+             " but it does not contain in projects.cmake file. No projects have been added for this folder.")
+    endif ()
+  endforeach()
 
   set("${var}"
     ${projects}
@@ -285,36 +300,15 @@ function (superbuild_sanity_check)
     message(WARNING "ParaView is disabled...")
   endif ()
 
+  if (qt5_enabeld AND qt6_enabled)
+    message(SEND_ERROR "Only one of Qt5 and Qt6 may be enabled")
+  endif ()
+
   # Sanity check: Cannot have paraview and have cxx11 disabled.
   if (NOT cxx11_enabled AND paraview_enabled)
     #While ParaView doesn't depend on cxx11 it needs to make sure that
     #other projects that optionally depend on it are built with cxx11
     message(SEND_ERROR "Cannot disable cxx11 when paraview is enabled.")
-  endif ()
-
-  # Sanity check: Cannot have EGL and Qt enabled at the same time.
-  if (egl_enabled AND qt5_enabled)
-    message(SEND_ERROR "Cannot enable EGL and Qt at the same time.")
-  endif ()
-
-  # Sanity check: Cannot have EGL and Mesa at the same time.
-  if (egl_enabled AND mesa_enabled)
-    message(SEND_ERROR "Cannot enable EGL and Mesa at the same time.")
-  endif ()
-
-  # Sanity check: Cannot have EGL and OSMesa at the same time.
-  if (egl_enabled AND osmesa_enabled)
-    message(SEND_ERROR "Cannot enable EGL and OSMesa at the same time.")
-  endif ()
-
-  # Sanity check: Cannot have OSMesa and Qt enabled at the same time if we're building ParaView.
-  if (osmesa_enabled AND qt5_enabled AND paraview_enabled)
-    message(SEND_ERROR "Cannot enable OSMesa and Qt at the same time.")
-  endif ()
-
-  # Sanity check: Cannot have OSMesa and Mesa at the same time.
-  if (osmesa_enabled AND mesa_enabled)
-    message(SEND_ERROR "Cannot enable OSMesa and Mesa at the same time.")
   endif ()
 
   # Sanity check: report cases where it doesn't make any sense to enable launchers.
@@ -346,9 +340,17 @@ function (superbuild_add_packaging)
   endif ()
   list(GET generators 0 default_generator)
 
+  set(default_qt_package_system OFF)
+  if (APPLE OR WIN32 OR qt6_enabled)
+    set(default_qt_package_system ON)
+  endif()
+  option(PACKAGE_SYSTEM_QT "With USE_SYSTEM_Qt5, package the system Qt during packaging step" "${default_qt_package_system}")
+  mark_as_advanced(PACKAGE_SYSTEM_QT)
+
   list(APPEND superbuild_export_variables
     paraview_always_package_scipy
-    GENERATE_SPDX)
+    GENERATE_SPDX
+    PACKAGE_SYSTEM_QT)
 
   if (qt5_enabled AND (USE_SYSTEM_qt5 OR APPLE OR WIN32))
     list(APPEND superbuild_export_variables
@@ -363,6 +365,17 @@ function (superbuild_add_packaging)
     qt5_ENABLE_MULTIMEDIA
     qt5_ENABLE_WEBENGINE)
 
+  if (qt6_enabled)
+    list(APPEND superbuild_export_variables
+      Qt6_DIR)
+    find_package(Qt6 QUIET REQUIRED COMPONENTS Core)
+    set(qt6_version "${Qt6Core_VERSION_MAJOR}.${Qt6Core_VERSION_MINOR}")
+  endif ()
+  list(APPEND superbuild_export_variables
+    qt6_version
+    qt6_ENABLE_MULTIMEDIA
+    qt6_ENABLE_WEBENGINE)
+
   if (NOT DEFINED PARAVIEW_CATALYST_EDITION)
     set(PARAVIEW_CATALYST_EDITION Full)
   endif ()
@@ -373,6 +386,16 @@ function (superbuild_add_packaging)
     set(paraview_is_shared "${BUILD_SHARED_LIBS_paraview}")
   endif ()
 
+  foreach (_add_sb_folder IN LISTS SUPERBUILD_ADDITIONAL_FOLDERS)
+    if (EXISTS "${SUPERBUILD_ADDITIONAL_FOLDERS}/package.cmake")
+      include("${SUPERBUILD_ADDITIONAL_FOLDERS}/package.cmake")
+    endif ()
+    if (EXISTS "${SUPERBUILD_ADDITIONAL_FOLDERS}/bundle.cmake")
+      list(APPEND paraview_additional_bundle_files
+        "${SUPERBUILD_ADDITIONAL_FOLDERS}/bundle.cmake")
+    endif ()
+  endforeach()
+
   include(paraview.suffix)
   list(APPEND superbuild_export_variables
     mesa_USE_SWR
@@ -381,7 +404,10 @@ function (superbuild_add_packaging)
     ospray_SOURCE_SELECTION
     PARAVIEW_PACKAGE_SUFFIX
     PARAVIEW_CATALYST_EDITION
-    paraview_is_shared)
+    paraview_is_shared
+    paraview_additional_bundle_files
+    paraview_additional_plugins
+    paraview_additional_python_modules)
 
   if (paraview_enabled)
     set(PARAVIEW_PACKAGE_FILE_NAME ""
@@ -474,12 +500,32 @@ set(boost_libraries
 set(boost_extra_options
   "-sNO_BZIP2=1")
 
-list(APPEND superbuild_version_files
-  "${CMAKE_CURRENT_LIST_DIR}/versions.cmake")
-list(APPEND superbuild_ctest_custom_files
-  "${CMAKE_CURRENT_LIST_DIR}/cmake/CTestCustom.cmake")
-list(APPEND superbuild_project_roots
-  "${CMAKE_CURRENT_LIST_DIR}/projects")
+set(SUPERBUILD_ADDITIONAL_FOLDERS ""
+   CACHE PATH "A semicolon separated list of folders to check for additional superbuild infrastructure")
+mark_as_advanced(SUPERBUILD_ADDITIONAL_FOLDERS)
+
+# Put SUPERBUILD_ADDITIONAL_FOLDERS first so that they override any behavior or versions
+list(APPEND _sb_folders ${SUPERBUILD_ADDITIONAL_FOLDERS})
+
+# Add ParaView superbuild projects
+list(APPEND _sb_folders "${CMAKE_CURRENT_LIST_DIR}")
+
+# For each folder
+foreach (_sb_folder IN LISTS _sb_folders)
+
+  # Add versions.cmake if it exists
+  if (EXISTS "${_sb_folder}/versions.cmake")
+    list(APPEND superbuild_version_files "${_sb_folder}/versions.cmake")
+  endif ()
+
+  # Add the projects folder to check for projects
+  list(APPEND superbuild_project_roots "${_sb_folder}/projects")
+
+  # Add CTestCustom.cmake if it exists
+  if (EXISTS "${_sb_folder}/cmake/CTestCustom.cmake")
+    list(APPEND superbuild_ctest_custom_files "${_sb_folder}/cmake/CTestCustom.cmake")
+  endif ()
+endforeach()
 
 # set the default arguments used for "git clone"
 set(_git_clone_arguments_default --progress)
@@ -500,6 +546,7 @@ set(_superbuild_ospray_default_selection "2.7.1")
 
 # Force qt SVG support, so ParaView can use SVG icons
 set(qt5_ENABLE_SVG ON CACHE INTERNAL "ParaView requires SVG support")
+set(qt6_ENABLE_SVG ON CACHE INTERNAL "ParaView requires SVG support")
 
 # ParaView's superbuild does not support static-everywhere builds. But let
 # people around the check if they want it.
@@ -520,6 +567,11 @@ set(_python_unicode_default "UCS4")
 # The projects end up with "errors" in their output that CDash ends up seeing
 # and thinking things went wrong.
 set(_superbuild_suppress_matplotlib_output ON)
+
+# This optional hdf5 dependencies should not be added
+# as it conflicts with mpi, ignore it instead
+set(_superbuild_ignored_optional_depends
+  hdf5cpp)
 
 # Setup SPDX superbuild variables
 set(superbuild_spdx_document_namespace "https://paraview.org/spdx")
