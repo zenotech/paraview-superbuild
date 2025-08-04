@@ -38,6 +38,6 @@ if (paraviewweb_enabled)
     COMPONENT   "${paraview_component}")
 endif ()
 
-if (qt5_ENABLE_WEBENGINE)
+if (qt5_ENABLE_WEBENGINE OR qt6_ENABLE_WEBENGINE)
   message(WARNING "Packaging QtWebEngine on Linux is not supported yet, package may not be usable")
 endif ()

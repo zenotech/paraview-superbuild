@@ -26,6 +26,7 @@ set(test_exclusions
   # Waiting for https://gitlab.kitware.com/paraview/paraview-superbuild/-/merge_requests/842
   "pvweb"
 )
+
 string(REPLACE ";" "|" test_exclusions "${test_exclusions}")
 if (test_exclusions)
   set(test_exclusions "(${test_exclusions})")

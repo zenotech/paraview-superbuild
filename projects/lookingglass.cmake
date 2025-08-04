@@ -1,5 +1,7 @@
 superbuild_add_project(lookingglass
-  DEPENDS qt5
+  DEPENDS qt
+  DEPENDS_OPTIONAL
+    qt5 qt6
   LICENSE_FILES
     LICENSE.txt
   SPDX_LICENSE_IDENTIFIER

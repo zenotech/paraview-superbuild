@@ -8,8 +8,9 @@ superbuild_add_project(medfile
   DEPENDS hdf5
   DEPENDS_OPTIONAL mpi
   LICENSE_FILES
-    AUTHORS
+    COPYING
     COPYING.LESSER
+    AUTHORS
   SPDX_LICENSE_IDENTIFIER
     LGPL-3.0-or-later
   SPDX_COPYRIGHT_TEXT

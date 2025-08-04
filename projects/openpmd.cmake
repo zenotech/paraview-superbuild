@@ -2,6 +2,7 @@ superbuild_add_project(openpmd
   DEPENDS python3 nlohmannjson pybind11
   DEPENDS_OPTIONAL hdf5 adios2 mpi
   LICENSE_FILES
+    COPYING
     COPYING.LESSER
     share/openPMD/thirdParty/json/LICENSE.MIT
     share/openPMD/thirdParty/pybind11/LICENSE

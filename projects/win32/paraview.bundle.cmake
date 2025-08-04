@@ -46,6 +46,11 @@ if (Qt5_DIR)
     "${Qt5_DIR}/../../../bin")
 endif ()
 
+if (Qt6_DIR)
+  list(APPEND library_paths
+    "${Qt6_DIR}/../../../bin")
+endif ()
+
 set(exclude_regexes)
 if (python3_enabled)
   if (python3_built_by_superbuild)
@@ -194,6 +199,18 @@ if (visrtx_enabled)
   endforeach ()
 endif ()
 
+if (lapack_enabled)
+  set(lapackextra_libraries
+    mkl_core.2
+    mkl_def.2)
+
+  foreach (lapackextra_library IN LISTS lapackextra_libraries)
+    superbuild_windows_install_plugin("${lapackextra_library}.dll"
+      "bin" "bin"
+      SEARCH_DIRECTORIES "${superbuild_install_location}/bin")
+  endforeach ()
+endif ()
+
 if (python3_enabled)
   if (python3_built_by_superbuild)
     include(python3.functions)
@@ -280,6 +297,51 @@ if (qt5_enabled)
       DESTINATION "bin"
       COMPONENT   superbuild)
   endif()
+endif ()
+
+foreach (qt6_plugin_path IN LISTS qt6_plugin_paths)
+  get_filename_component(qt6_plugin_group "${qt6_plugin_path}" DIRECTORY)
+  get_filename_component(qt6_plugin_group "${qt6_plugin_group}" NAME)
+
+  superbuild_windows_install_plugin(
+    "${qt6_plugin_path}"
+    "bin"
+    "bin/${qt6_plugin_group}"
+    SEARCH_DIRECTORIES "${library_paths}")
+endforeach ()
+
+if (qt6_enabled)
+  set(qt6_root_dir "${Qt6_DIR}/../../..")
+
+  if (qt6_ENABLE_WEBENGINE)
+    _superbuild_windows_install_executable(
+      "${qt6_root_dir}/bin/QtWebEngineProcess.exe"
+      "bin"
+      SEARCH_DIRECTORIES "${library_paths}"
+      EXCLUDE_REGEXES    ${exclude_regexes})
+
+    install(
+      DIRECTORY   "${qt6_root_dir}/resources"
+      DESTINATION "."
+      COMPONENT   superbuild)
+
+    install(
+      FILES   "${qt6_root_dir}/bin/qt.conf"
+      DESTINATION "bin"
+      COMPONENT   superbuild)
+  endif()
+endif ()
+
+if (catalyst_enabled)
+  set(adaptors
+    "paraview"
+    "stub")
+
+  foreach (adaptor IN LISTS adaptors)
+    superbuild_windows_install_plugin("${superbuild_install_location}/bin/catalyst/catalyst-${adaptor}.dll"
+      "bin" "bin"
+      SEARCH_DIRECTORIES "${superbuild_install_location}/bin")
+  endforeach ()
 endif ()
 
 if (openxrremoting_enabled)

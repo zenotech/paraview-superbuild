@@ -13,11 +13,11 @@ superbuild_set_revision(genericio
   URL     "https://www.paraview.org/files/dependencies/genericio-master-4fddf723bca61c87f51dba1d9f215dfdd6e5b31d.tar.xz"
   URL_MD5 0d06f2105b8479e7a4e5436c5f38ae71)
 
-set(paraview_doc_ver_series "5.13")
+set(paraview_doc_ver_series "6.0")
 set(paraview_doc_ver "${paraview_doc_ver_series}.0")
 superbuild_set_revision(paraviewgettingstartedguide
   URL     "https://www.paraview.org/files/v${paraview_doc_ver_series}/ParaViewGettingStarted-${paraview_doc_ver}.pdf"
-  URL_MD5 392a29c111c5867b51e78bcb83e64198)
+  URL_MD5 a3f44d5eabc24fe2137c2eea547c9ef7)
 superbuild_set_revision(paraviewtutorialdata
   URL     "https://www.paraview.org/files/data/ParaViewTutorialData-20220629.tar.gz"
   URL_MD5 f8cd0e93ecd16d2753d5b147a5711a7c)
@@ -29,7 +29,7 @@ superbuild_set_selectable_source(paraviewtranslations
   GIT_TAG        "origin/main"
   )
 
-set(paraview_superbuild_branch_is_for_release 1)
+set(paraview_superbuild_branch_is_for_release TRUE)
 if (paraview_superbuild_branch_is_for_release)
   set(paraview_release_default "DEFAULT")
   set(paraview_git_default "")
@@ -45,9 +45,9 @@ endif ()
 superbuild_set_selectable_source(paraview
   # NOTE: When updating this selection, also update the default version in
   # README.md and the PARAVIEW_VERSION_DEFAULT variable in CMakeLists.txt.
-  SELECT 5.13.2 ${paraview_release_default}
-    URL     "https://www.paraview.org/files/v5.13/ParaView-v5.13.2.tar.xz"
-    URL_MD5 c1c3883e0cab2d132e8a4d43f29873e9
+  SELECT 6.0.0 ${paraview_release_default}
+    URL     "https://www.paraview.org/files/v6.0/ParaView-v6.0.0.tar.xz"
+    URL_MD5 b6659f78e4e8bd094d58a3ac45062f48
   SELECT git CUSTOMIZABLE ${paraview_git_default}
     GIT_REPOSITORY "https://gitlab.kitware.com/paraview/paraview.git"
     GIT_TAG        "origin/master"
@@ -63,8 +63,8 @@ superbuild_set_selectable_source(paraview
 # Removed: standalone/
 superbuild_set_revision(ttk
   # https://github.com/topology-tool-kit/ttk/releases
-  URL     "https://www.paraview.org/files/dependencies/ttk-1.2.0-trimmed.zip"
-  URL_MD5 fea1d3cb38b32aa9cd7edeec0b7321a1)
+  URL     "https://www.paraview.org/files/dependencies/ttk-1.3.0-trimmed.zip"
+  URL_MD5 a7ebc05ebea12a42919951a47d98a07a )
 
 superbuild_set_revision(libusb
   # https://github.com/libusb/libusb/releases
@@ -83,8 +83,8 @@ superbuild_set_revision(vortexfinder2
 
 superbuild_set_revision(cinemaexport
   # https://github.com/cinemascience/cinema-paraview-plugin
-  URL "https://www.paraview.org/files/dependencies/cinema-paraview-plugin-237dd6bdb14a25249790b7721e1e613e81754f7a.zip"
-  URL_MD5 29cefcd66ce139c63c19abf1abe34585)
+  URL "https://www.paraview.org/files/dependencies/cinema-paraview-plugin-f6de62859beb7e0cd75ba07e5e8ddf3a906e387a.zip"
+  URL_MD5 a50146275e488c84d7b52778ba71dd76)
 
 superbuild_set_revision(surfacetrackercut
   # https://github.com/conniejhe/Surface-Cutting
@@ -111,8 +111,8 @@ superbuild_set_revision(openvr
 
 superbuild_set_revision(paraviewwebglance
   # https://github.com/Kitware/glance/releases
-  URL     "https://www.paraview.org/files/dependencies/paraview-glance-4.17.1.tgz"
-  URL_MD5 54734de753d95ccdb5ba326a85bcf16f)
+  URL     "https://www.paraview.org/files/dependencies/paraview-glance-4.25.0.tgz"
+  URL_MD5 36b9536711e8b6c15b11d6994f2ff712)
 
 superbuild_set_revision(las
   # https://liblas.org/download.html
@@ -147,8 +147,8 @@ endif()
 
 superbuild_set_revision(gmsh
   # https://gmsh.info/#Download
-  URL     "https://www.paraview.org/files/dependencies/gmsh-4.11.1-source.tgz"
-  URL_MD5 681ccfa83213921884ede92a80191ba2)
+  URL     "https://www.paraview.org/files/dependencies/gmsh-4.13.1-source.tgz"
+  URL_MD5 6c2f83e6ba8165aa862ee8c6fcedee99)
 
 if (WIN32)
   set(nvidiaindex_platform "windows-x64")
@@ -161,6 +161,7 @@ if (WIN32)
   set(nvidiaindex_5_10_md5 "91ff7eb462049b43f25f48778d1058b9")
   set(nvidiaindex_5_11_1_md5 "1c2dd496467ed7feeb46ce0a29b08d52")
   set(nvidiaindex_5_12_0_md5 "90d32ba6d5773d2d385fca6dfab266cd")
+  set(nvidiaindex_6_0_0_md5 "7641bed863656c6d04c1ec6a6e6d4bac")
 elseif (UNIX AND NOT APPLE)
   if (CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "ppc64le")
     set(nvidiaindex_platform "linux-ppc64le")
@@ -171,6 +172,7 @@ elseif (UNIX AND NOT APPLE)
   elseif (CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "aarch64")
     set(nvidiaindex_platform "linux-aarch64")
     set(nvidiaindex_5_12_0_md5 "5963ca358406124a0c320af5a0ca67bc")
+    set(nvidiaindex_6_0_0_md5 "1393e2b8d45ecb3b467d03baed4de373")
   else ()
     set(nvidiaindex_platform "linux")
     set(nvidiaindex_2_1_md5 "9fd5af702af6a6a6f2aba3a960703fb3")
@@ -182,6 +184,7 @@ elseif (UNIX AND NOT APPLE)
     set(nvidiaindex_5_10_md5 "2fdc03e3674a41b37488f8bfc4965ec2")
     set(nvidiaindex_5_11_1_md5 "b54780c65ac6e903680db19f04641acf")
     set(nvidiaindex_5_12_0_md5 "67765258066e1a4eaa1f97959f5d89bd")
+    set(nvidiaindex_6_0_0_md5 "06ee723d31e0d3a49ed971041b118cc1")
   endif ()
 endif ()
 # XXX(index): New version tarballs may be created given an IndeX deliverable
@@ -189,7 +192,11 @@ endif ()
 superbuild_set_selectable_source(nvidiaindex
   # XXX(index): Adding a new version? The Windows bundle script needs to know
   # too when library files are added or removed.
-  SELECT 5.12 DEFAULT
+  #
+  SELECT 6.0 DEFAULT
+    URL     "https://www.paraview.org/files/dependencies/nvidia-index-libs-6.0.0.20250604-${nvidiaindex_platform}.tar.bz2"
+    URL_MD5 "${nvidiaindex_6_0_0_md5}"
+  SELECT 5.12
     URL     "https://www.paraview.org/files/dependencies/nvidia-index-libs-5.12.0.20231121-${nvidiaindex_platform}.tar.bz2"
     URL_MD5 "${nvidiaindex_5_12_0_md5}"
   SELECT 5.11.1
@@ -278,9 +285,9 @@ superbuild_set_revision(zeromq
 
 superbuild_set_selectable_source(adios2
   # https://github.com/ornladios/ADIOS2/releases
-  SELECT v2.10.1 DEFAULT
-    URL     "https://www.paraview.org/files/dependencies/adios-v2.10.1.tar.gz"
-    URL_MD5 "a0e2bf53ca5aebbac55b67db6bc03b00"
+  SELECT v2.10.2 DEFAULT
+    URL     "https://www.paraview.org/files/dependencies/adios-v2.10.2.tar.gz"
+    URL_MD5 "bcacd3f528d1b7db3148935b340e592a"
   SELECT git CUSTOMIZABLE
     GIT_REPOSITORY "https://github.com/ornladios/ADIOS2.git"
     GIT_TAG        "origin/master")
@@ -372,8 +379,8 @@ superbuild_set_selectable_source(catalyst
 
 superbuild_set_revision(cdi
   # https://code.mpimet.mpg.de/projects/cdi/files
-  URL     "https://www.paraview.org/files/dependencies/cdi-2.2.4.tar.gz"
-  URL_MD5 "8441bd74d3f1a25941e27008b7b7e770")
+  URL     "https://www.paraview.org/files/dependencies/cdi-2.5.1.1.tar.gz"
+  URL_MD5 "b9181f784b226c9560cde82cb5046ca8")
 
 superbuild_set_revision(occt
   # https://git.dev.opencascade.org/gitweb/?p=occt.git pick the tag you want, and download a snapshot.
@@ -416,3 +423,18 @@ superbuild_set_revision(openxrremoting
   # https://www.nuget.org/packages/Microsoft.Holographic.Remoting.OpenXr/
   URL           "https://www.paraview.org/files/dependencies/microsoft.holographic.remoting.openxr.2.9.2.nupkg"
   URL_MD5       e9542792dde3a6f15f4016c088ac3e5c)
+
+superbuild_set_revision(cppzmq
+  # https://github.com/zeromq/cppzmq/archive/refs/tags/v4.10.0.tar.gz
+  URL           "https://www.paraview.org/files/dependencies/cppzmq-v4.10.0.tar.gz"
+  URL_MD5       443c9752276da2d9ea78d8b41a158b91)
+
+superbuild_set_selectable_source(collaborationserver
+  SELECT git CUSTOMIZABLE DEFAULT
+    GIT_REPOSITORY "https://gitlab.kitware.com/paraview/collaboration-server.git"
+    GIT_TAG        "v0.0.1")
+
+superbuild_set_revision(openturns
+  # https://github.com/openturns/openturns
+  URL     "https://github.com/openturns/openturns/archive/refs/tags/v1.23.tar.gz"
+  URL_MD5 57afb99d462c254bd044a9a622880943)

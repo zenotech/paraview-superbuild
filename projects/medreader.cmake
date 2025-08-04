@@ -1,12 +1,19 @@
 set(medreader_options)
 if (UNIX AND NOT APPLE)
+  set(medreader_rpath_entries
+    <INSTALL_DIR>/lib)
+  if (qt6_enabled)
+    list(APPEND medreader_rpath_entries
+      "${qt6_rpath}")
+  endif ()
+  list(JOIN medreader_rpath_entries "${_superbuild_list_separator}" medreader_rpath_entries)
   list(APPEND medreader_options
-    -DCMAKE_INSTALL_RPATH:STRING=<INSTALL_DIR>/lib)
+    -DCMAKE_INSTALL_RPATH:STRING=${medreader_rpath_entries})
 endif ()
 
 superbuild_add_project(medreader
   DEPENDS medfile medconfiguration medcoupling paraview
-  DEPENDS_OPTIONAL mpi qt5
+  DEPENDS_OPTIONAL mpi qt5 qt6
   LICENSE_FILES COPYING
   SPDX_LICENSE_IDENTIFIER
     LGPL-2.1-or-later
@@ -35,3 +42,9 @@ superbuild_apply_patch(medreader add-missing-VTK-module-depends
 
 superbuild_apply_patch(medreader quadrature-dataset
   "Update quadrature point generation")
+
+superbuild_apply_patch(medreader fix-vtkStdString-usage
+  "Fix vtkStdString usage")
+
+superbuild_apply_patch(medreader pqTreeWidget-margins-api
+  "Fix pqTreeWidget deprecated margin API usage")

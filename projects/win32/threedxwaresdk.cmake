@@ -22,6 +22,9 @@ superbuild_add_project(threedxwaresdk
     "${CMAKE_CURRENT_LIST_DIR}/scripts/threedxwaresdk.install.cmake"
 )
 
+superbuild_apply_patch(threedxwaresdk windows-include
+  "Add missing Windows include")
+
 superbuild_add_extra_cmake_args(
   -D3DxWareSDK_ROOT:PATH=<INSTALL_DIR>
 )

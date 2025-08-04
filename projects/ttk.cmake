@@ -10,7 +10,7 @@ set(ttk_enabled_modules
   ttkTriangulationAlgorithm
   ttkProgramBase
 
-  # tests
+  # testing
   ttkHelloWorld
   ttkTriangulationManager
   ttkTriangulationRequest
@@ -29,8 +29,8 @@ set(ttk_enabled_modules
   ttkIcospheresFromPoints
   ttkIdentifierRandomizer
   ttkIdentifyByScalarField
+  ttkPeriodicGhostsGeneration # dep for ttkTriangulationManager
   ttkPointDataSelector
-  ttkPointSetToCurve
   ttkScalarFieldNormalizer
   ttkScalarFieldSmoother
   ttkTextureMapFromField
@@ -42,35 +42,36 @@ set(ttk_enabled_modules
   ttkContourTreeAlignment
   ttkFiber
   ttkFiberSurface
-  ttkFTMTree
-  ttkFTRGraph
   ttkIntegralLines
   ttkJacobiSet
+  ttkMergeTree
+  # ttkMergeTreeAutoencoder   # need pytorch
+  # ttkMergeTreeAutoencoderDecoding # need pytorch
   ttkMergeTreePrincipalGeodesics
   ttkMergeTreePrincipalGeodesicsDecoding
   ttkMergeTreePrincipalGeodesicsDecoding_PathTrees
   ttkMergeTreePrincipalGeodesicsDecoding_Surface
+  ttkMergeTreeTemporalReduction
   ttkMergeTreeTemporalReductionDecoding
-  ttkMergeTreeTemporalReductionEncoding
   ttkMeshGraph
   ttkMorseSmaleComplex
   ttkPathCompression
-  ttkPeriodicGhostsGeneration
   ttkPersistenceCurve
   ttkPersistenceDiagram
   ttkPersistentGenerators
   ttkPlanarGraphLayout
+  ttkReebGraph
   ttkReebSpace
   ttkRipsComplex
   ttkScalarFieldCriticalPoints
   ttkTopologicalSimplification
   ttkTopologicalSimplificationByPersistence
+  ttkTrackingFromPersistenceDiagrams # dep for ttkTrackingFromFields
   ttkTrackingFromFields
   ttkTrackingFromOverlap
-  ttkTrackingFromPersistenceDiagrams
 
   # geometry processing
-  ttkBottleneckDistance
+  ttkBottleneckDistance # dep for ttkTrackingFromPersistenceDiagrams
   ttkDepthImageBasedGeometryApproximation
   ttkDistanceField
   ttkGeometrySmoother
@@ -81,10 +82,10 @@ set(ttk_enabled_modules
   ttkPointSetToSurface
   ttkProjectionFromField
   ttkQuadrangulationSubdivision
+  ttkSignedDistanceField
   ttkSurfaceGeometrySmoother
 
   # clustering
-  ttkLDistance
   ttkLDistanceMatrix
   ttkMatrixToHeatMap
   ttkMergeTreeClustering
@@ -94,11 +95,7 @@ set(ttk_enabled_modules
 
   # ensemble
   ttkMandatoryCriticalPoints
-  # ttkDimensionReduction # no sklearn available
-
-  # compression
-  ttkTopologicalCompressionReader
-  ttkTopologicalCompressionWriter
+  ttkDimensionReduction # no sklearn available, only TopoMap
 
   # cinema
   ttkCinemaReader
@@ -107,8 +104,11 @@ set(ttk_enabled_modules
   ttkCinemaImaging
   ttkCinemaProductReader
 
+  # compression
+  ttkTopologicalCompressionWriter # dependency for ttkCinemaWriter
+  ttkTopologicalCompressionReader # going with the writer...
+
   # darkroom
-  ttkCinemaDarkroom
   ttkDarkroomCamera
   ttkDarkroomColorMapping
   ttkDarkroomCompositing

@@ -1,7 +1,7 @@
 superbuild_add_project(vortexfinder2
   DEPENDS paraview
-  # Note: lookingglass shouldnt' be needed when the remote module is added to VTK
-  DEPENDS_OPTIONAL qt5 lookingglass
+  # Note: lookingglass shouldn't be needed when the remote module is added to VTK
+  DEPENDS_OPTIONAL qt5 qt6 lookingglass
   LICENSE_FILES
     COPYING.md
   SPDX_LICENSE_IDENTIFIER

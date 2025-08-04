@@ -66,7 +66,7 @@ if (UNIX AND NOT APPLE)
       )
 endif ()
 
-if (NOT qt5_enabled)
+if (NOT qt5_enabled AND NOT qt6_enabled)
   set(paraview_exe)
 endif ()
 
@@ -92,6 +92,30 @@ function (paraview_add_test name exe)
     PROPERTIES
       LABELS  "ParaView"
       DEPENDS "extract-paraview-${generator}")
+  if (UNIX)
+    # Run unit test with EGL
+    add_test(
+      NAME    "paraview-egl-${name}"
+      COMMAND "${exe}"
+              ${ARGN})
+    set_tests_properties(paraview-egl-${name}
+      PROPERTIES
+        ENVIRONEMNT "VTK_DEFAULT_OPENGL_WINDOW=vtkEGLRenderWindow"
+        LABELS  "ParaView"
+        DEPENDS "extract-paraview-${generator}")
+    # Run unit test with OSMesa
+    if (osmesa_enabled)
+      add_test(
+        NAME    "paraview-osmesa-${name}"
+        COMMAND "${exe}"
+                ${ARGN})
+      set_tests_properties(paraview-osmesa-${name}
+        PROPERTIES
+          ENVIRONEMNT "VTK_DEFAULT_OPENGL_WINDOW=vtkOSOpenGLRenderWindow"
+          LABELS  "ParaView"
+          DEPENDS "extract-paraview-${generator}")
+    endif ()
+  endif ()
 endfunction ()
 
 function (paraview_add_ui_test name script)
@@ -113,7 +137,17 @@ function (paraview_add_python_test name script)
     set_tests_properties("paraview-${name}" PROPERTIES
       FAIL_REGULAR_EXPRESSION "${python_exception_regex}"
     )
-endif ()
+  endif ()
+  if (TEST "paraview-egl-${name}")
+    set_tests_properties("paraview-egl-${name}" PROPERTIES
+      FAIL_REGULAR_EXPRESSION "${python_exception_regex}"
+    )
+  endif ()
+  if (TEST "paraview-osmesa-${name}")
+    set_tests_properties("paraview-osmesa-${name}" PROPERTIES
+      FAIL_REGULAR_EXPRESSION "${python_exception_regex}"
+    )
+  endif ()
 endfunction ()
 
 function (paraview_add_pvbatch_test name script)
@@ -123,10 +157,16 @@ endfunction ()
 
 if (python3_enabled)
   # Simple test to launch the application and load all plugins.
-  paraview_add_ui_test("testui" "TestUI")
+  if (qt5_enabled)
+    paraview_add_ui_test("testui" "TestUI-qt5")
+  elseif (qt6_enabled)
+    paraview_add_ui_test("testui" "TestUI-qt6")
+  endif ()
 
-  paraview_add_ui_test("finddata" "TestFindData"
-    "--test-baseline=${CMAKE_CURRENT_LIST_DIR}/baselines/Superbuild-TestFindData.png")
+  if (numpy_enabled)
+    paraview_add_ui_test("finddata" "TestFindData"
+      "--test-baseline=${CMAKE_CURRENT_LIST_DIR}/baselines/Superbuild-TestFindData.png")
+  endif ()
 
   paraview_add_test("pvpython-help" "${pvpython_exe}"
     -c "help()")
@@ -217,6 +257,12 @@ if (mesa_enabled AND python3_enabled)
     ${mesa_llvm_arg}
     "${CMAKE_CURRENT_LIST_DIR}/python/CheckOpenGLVersion.py"
     "mesa" "llvmpipe")
+
+  if (TEST "paraview-egl-mesa-llvm")
+    # Do not run mesa llvmpipe test with egl because the bundled mesa does not provide libEGL.
+    set_tests_properties(paraview-egl-mesa-llvm PROPERTIES
+      DISABLED TRUE)
+  endif ()
   if (mesa_USE_SWR)
     # Either don't add or add but explicitly disable this test for now
     # until the underlying VTK segfault is fixed.
@@ -229,6 +275,16 @@ if (mesa_enabled AND python3_enabled)
       set_tests_properties(paraview-mesa-swr PROPERTIES
         PASS_REGULAR_EXPRESSION "SWR (detected|could not initialize)"
         DISABLED TRUE)
+      if (TEST "paraview-egl-mesa-swr")
+        # Do not run mesa swr test with egl because the bundled mesa does not provide libEGL.
+        set_tests_properties(paraview-egl-mesa-swr PROPERTIES
+          DISABLED TRUE)
+      endif ()
+      if (TEST "paraview-osmesa-mesa-swr")
+        # Do not run mesa swr test with osmesa for the same reason paraview-mesa-swr is disabled
+        set_tests_properties(paraview-osmesa-mesa-swr PROPERTIES
+          DISABLED TRUE)
+      endif ()
     endif ()
   endif ()
 endif ()

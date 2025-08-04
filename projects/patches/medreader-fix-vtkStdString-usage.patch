@@ -1,0 +1,132 @@
+diff --git a/src/Plugins/MEDReader/plugin/MEDLoaderForPV/ExtractGroupHelper.cxx b/src/Plugins/MEDReader/plugin/MEDLoaderForPV/ExtractGroupHelper.cxx
+index 7fb683d..59bd3dc 100644
+--- a/src/Plugins/MEDReader/plugin/MEDLoaderForPV/ExtractGroupHelper.cxx
++++ b/src/Plugins/MEDReader/plugin/MEDLoaderForPV/ExtractGroupHelper.cxx
+@@ -150,7 +150,7 @@ void ExtractGroupInternal::loadFrom(vtkMutableDirectedGraph *sil)
+   while(it0->HasNext())
+     {
+       vtkIdType id1(it0->Next());
+-      std::string meshName((const char *)verticesNames2->GetValue(id1));
++      std::string meshName(verticesNames2->GetValue(id1));
+       this->_mesh_name=meshName;
+       vtkAdjacentVertexIterator *it1(vtkAdjacentVertexIterator::New());
+       sil->GetAdjacentVertices(id1,it1);
+@@ -160,14 +160,14 @@ void ExtractGroupInternal::loadFrom(vtkMutableDirectedGraph *sil)
+       while(itGrps->HasNext())
+         {
+           vtkIdType idg(itGrps->Next());
+-          ExtractGroupGrp grp((const char *)verticesNames2->GetValue(idg));
++          ExtractGroupGrp grp(verticesNames2->GetValue(idg).c_str());
+           vtkAdjacentVertexIterator *itGrps2(vtkAdjacentVertexIterator::New());
+           sil->GetAdjacentVertices(idg,itGrps2);
+           std::vector<std::string> famsOnGroup;
+           while(itGrps2->HasNext())
+             {
+               vtkIdType idgf(itGrps2->Next());
+-              famsOnGroup.push_back(std::string((const char *)verticesNames2->GetValue(idgf)));
++              famsOnGroup.push_back(std::string(verticesNames2->GetValue(idgf)));
+             }
+           grp.setFamilies(famsOnGroup);
+           itGrps2->Delete();
+@@ -181,7 +181,7 @@ void ExtractGroupInternal::loadFrom(vtkMutableDirectedGraph *sil)
+       while(itFams->HasNext())
+         {
+           vtkIdType idf(itFams->Next());
+-          ExtractGroupFam fam((const char *)verticesNames2->GetValue(idf));
++          ExtractGroupFam fam(verticesNames2->GetValue(idf).c_str());
+           _fams.push_back(fam);
+         }
+       itFams->Delete();
+diff --git a/src/Plugins/MEDReader/plugin/ParaViewPlugin/pqExtractGroupFieldsWidget.cxx b/src/Plugins/MEDReader/plugin/ParaViewPlugin/pqExtractGroupFieldsWidget.cxx
+index 16f4d96..f1ac119 100644
+--- a/src/Plugins/MEDReader/plugin/ParaViewPlugin/pqExtractGroupFieldsWidget.cxx
++++ b/src/Plugins/MEDReader/plugin/ParaViewPlugin/pqExtractGroupFieldsWidget.cxx
+@@ -75,7 +75,7 @@ void pqExtractGroupFieldsWidget::loadTreeWidgetItems()
+   vtkIdType mfg = tree->GetChild(root, 1); // MeshesFamsGrps
+ 
+   vtkIdType mesh = tree->GetChild(mfg, 0); // mesh
+-  QString meshName = QString(names->GetValue(mesh));
++  QString meshName = QString(names->GetValue(mesh).c_str());
+ 
+   this->NItems = 0;
+ 
+@@ -142,7 +142,7 @@ void pqExtractGroupFieldsWidget::loadTreeWidgetItems()
+     this->NItems++;
+ 
+     // Group name
+-    QString name = QString(names->GetValue(grp));
++    QString name = QString(names->GetValue(grp).c_str());
+     grpItem->setText(0, name);
+ 
+     // Property Name
+diff --git a/src/Plugins/MEDReader/plugin/ParaViewPlugin/pqMEDReaderFieldsWidget.cxx b/src/Plugins/MEDReader/plugin/ParaViewPlugin/pqMEDReaderFieldsWidget.cxx
+index bd0f7d8..e1595ec 100644
+--- a/src/Plugins/MEDReader/plugin/ParaViewPlugin/pqMEDReaderFieldsWidget.cxx
++++ b/src/Plugins/MEDReader/plugin/ParaViewPlugin/pqMEDReaderFieldsWidget.cxx
+@@ -90,9 +90,9 @@ void pqMEDReaderFieldsWidget::loadTreeWidgetItems()
+     vtkIdType tsId = tree->GetChild(fst, i - 1);
+     pqTreeWidgetItemObject *ts = new pqTreeWidgetItemObject(this->TreeWidget, QStringList());
+     this->NItems++;
+-    QString tsxName = QString(names->GetValue(tsxId));
++    QString tsxName = QString(names->GetValue(tsxId).c_str());
+     ts->setText(0, tsxName);
+-    ts->setData(0, Qt::ToolTipRole, QString(names->GetValue(tsId)));
++    ts->setData(0, Qt::ToolTipRole, QString(names->GetValue(tsId).c_str()));
+ 
+     // MAIL Node
+     for (int maili = 0; maili < tree->GetNumberOfChildren(tsxId); maili++)
+@@ -100,9 +100,9 @@ void pqMEDReaderFieldsWidget::loadTreeWidgetItems()
+       vtkIdType mailId = tree->GetChild(tsxId, maili);
+       pqTreeWidgetItemObject *mail = new pqTreeWidgetItemObject(ts, QStringList());
+       this->NItems++;
+-      QString mailName = QString(names->GetValue(mailId));
++      QString mailName = QString(names->GetValue(mailId).c_str());
+       mail->setText(0, mailName);
+-      mail->setData(0, Qt::ToolTipRole, QString(names->GetValue(mailId)));
++      mail->setData(0, Qt::ToolTipRole, QString(names->GetValue(mailId).c_str()));
+ 
+       QString propertyBaseName = tsxName + "/" + mailName + "/";
+ 
+@@ -112,16 +112,16 @@ void pqMEDReaderFieldsWidget::loadTreeWidgetItems()
+         vtkIdType comSupId = tree->GetChild(mailId, comsupi);
+         pqTreeWidgetItemObject *comsup = new pqTreeWidgetItemObject(mail, QStringList());
+         this->NItems++;
+-        QString comsupName = QString(names->GetValue(comSupId));
++        QString comsupName = QString(names->GetValue(comSupId).c_str());
+         comsup->setText(0, comsupName);
+ 
+         // ComSup tooltip
+         vtkIdType geoTypeId = tree->GetChild(comSupId, 1);
+-        QString comSupToolTipName(names->GetValue(comSupId));
++        QString comSupToolTipName(names->GetValue(comSupId).c_str());
+         for (int geoi = 0; geoi < tree->GetNumberOfChildren(geoTypeId); geoi++)
+           {
+           comSupToolTipName += QString("\n- %1").arg(
+-            QString(names->GetValue(tree->GetChild(geoTypeId, geoi))));
++            QString(names->GetValue(tree->GetChild(geoTypeId, geoi)).c_str()));
+           }
+         comsup->setData(0, Qt::ToolTipRole, comSupToolTipName);
+ 
+diff --git a/src/Plugins/MEDReader/plugin/ParaViewPlugin/pqMEDReaderGraphUtils.cxx b/src/Plugins/MEDReader/plugin/ParaViewPlugin/pqMEDReaderGraphUtils.cxx
+index 50c1b40..609c550 100644
+--- a/src/Plugins/MEDReader/plugin/ParaViewPlugin/pqMEDReaderGraphUtils.cxx
++++ b/src/Plugins/MEDReader/plugin/ParaViewPlugin/pqMEDReaderGraphUtils.cxx
+@@ -44,15 +44,15 @@ void getCurrentTS(vtkGraph* graph, vtkIdType id, QStringList& dts, QStringList&
+     // Each Time Step
+     // Recover step
+     tmp = tree->GetChild(tsr, i);
+-    dts << QString(names->GetValue(tmp));
++    dts << QString(names->GetValue(tmp).c_str());
+ 
+     // Recover mode
+     tmp = tree->GetChild(tmp, 0);
+-    its << QString(names->GetValue(tmp));
++    its << QString(names->GetValue(tmp).c_str());
+ 
+     // Recover value
+     tmp = tree->GetChild(tmp, 0);
+-    tts << QString(names->GetValue(tmp));
++    tts << QString(names->GetValue(tmp).c_str());
+     }
+ }
+ 

@@ -50,7 +50,7 @@ is assumed to be available on the host machine.
 
 The superbuild project uses the same versioning scheme as ParaView,
 and gets tagged for every release of ParaView.  For example, to build
-ParaView version 5.7.1, checkout the `v5.7.0` tag of ParaView and
+ParaView version 6.0.0, checkout the `v6.0.0` tag of ParaView and
 superbuild.
 
 Currently available tags are shown
@@ -60,13 +60,13 @@ To checkout a specific tag from the superbuild git repository:
 
     $ cd paraview-superbuild
     $ git fetch origin # ensure you have the latest state from the main repo
-    $ git checkout v5.7.0 # replace `v5.7.0` with tag name of your choice
+    $ git checkout v6.0.0 # replace `v6.0.0` with tag name of your choice
     $ git submodule update
 
 At this point, your superbuild has all of the *rules* that were used
 when building the selected version of ParaView. Also, note that it's
 possible to build a version of ParaView using a different superbuild
-version.  For example, you could use superbuild `v5.7.0`, to build the
+version.  For example, you could use superbuild `v6.0.0`, to build the
 latest master (i.e., development) version of ParaView, or a custom
 branch.  This is done by first checking out the superbuild for the
 appropriate version and then setting the CMake variables that affect
@@ -78,8 +78,8 @@ control how superbuild finds its source packages:
     pointing to the ParaView git repository you want to clone (by default it is
     set to the offical ParaView repository) and then set the `paraview_GIT_TAG`
     to be a specific tagname or branch available for the selected git
-    repository. Use `master` for latest development code, `v5.7.0` for the
-    5.7.0 release, `release` for latest stable release, or a specific ParaView
+    repository. Use `master` for latest development code, `v6.0.0` for the
+    6.0.0 release, `release` for latest stable release, or a specific ParaView
     commit SHA. In this setup, when building the superbuild, it will clone and
     checkout the appropriate revision from the ParaView git repository automatically.
  2. Instead of letting superbuild do the cloning and updating of the ParaView
@@ -88,15 +88,11 @@ control how superbuild finds its source packages:
     set `paraview_SOURCE_DIR` to point to a custom ParaView source tree. See 'offline
     builds' below for instructions to download needed dependency packages.
  3. Another option is to use a source tarball of a ParaView release. For that,
-    set `paraview_SOURCE_SELECTION` to the version to build such as `5.7.0`.
+    set `paraview_SOURCE_SELECTION` to the version to build such as `6.0.0`.
     The superbuild offers the lastest stable release as well as release
     candidate in preparation for the release. This is the best way to build a
     released version of ParaView.
 
-**NOTE:** If you switch to a superbuild version older than 5.2, the instructions
-described on this page are not relevant since the superbuild was refactored and
-changed considerably for 5.2. For older versions, refer to instructions on the
-[Wiki](http://www.paraview.org/Wiki/index.php?title=ParaView/Superbuild&oldid=59804).
 
 **ALSO NOTE:** Since this README is expected to be updated for each version,
 once you checkout a specfic version, you may want to refer to the README for
@@ -134,9 +130,9 @@ The `paraviewgettingstartedguide`, and `paraviewtutorialdata` packages add
 startup documentation and example data to the package.
 
 ParaView supports multiple rendering engines including `egl`, `mesa`,
-`osmesa`, and `qt5`. All of these are incompatible with each other. If none of
+`osmesa`, and `qt6`. All of these are incompatible with each other. If none of
 these are chosen, a UI-less ParaView will be built (basically just
-`pvpython`). On Windows and macOS, only the `qt5` rendering engine is
+`pvpython`). On Windows and macOS, only the `qt6` rendering engine is
 available.
 
 The `python` package is available to enable Python support in the package. In
@@ -282,10 +278,13 @@ time.
   * `paraview_always_package_scipy` (default `OFF`): Force packaging `scipy` on
     Windows installer generators. Other generators do not have issues with long
     paths and will always try to include `scipy`.
+  * `GENERATE_SPDX` (default `OFF`): A superbuild option to generate a SPDX file for each project.
+  * `SUPERBUILD_ADDITIONAL_FOLDERS`: A semicolon separated list of folder to look
+    for additional superbuild architecture, see below for more information.
 
 The following flags affect ParaView directly:
 
-  * `paraview_SOURCE_SELECTION` (default `5.13.2`): The source to use for
+  * `paraview_SOURCE_SELECTION` (default `6.0.0`): The source to use for
     ParaView itself. The version numbers use the source tarballs from the
     website for the release. The `source` selection uses the
     `paraview_SOURCE_DIR` variable to look at a checked out ParaView source
@@ -330,7 +329,6 @@ The following flags affect ParaView directly:
     connection. VRUI support is enabled unconditionally on Linux.
   * `PARAVIEW_ENABLE_NODEEDITOR` (default `ON`): Enables the NodeEditor plugin.
   * `PARAVIEW_ENABLE_XRInterface` (default `ON`): Enables the XRInterface plugin.
-  * `GENERATE_SPDX` (default `OFF`): A superbuild option to generate a SPDX file for each project.
 
 #### ParaView editions
 
@@ -348,6 +346,71 @@ this using the `PARAVIEW_BUILD_EDITION` setting. Supported values for this setti
   writers.
 * `CATALYST_RENDERING`: Same as `CATALYST` but with rendering supported added.
 * `CANONICAL` (default): Build modules necessary for standard ParaView build.
+
+#### Superbuild additional folders
+
+The build option, `SUPERBUILD_ADDITIONAL_FOLDERS` is a semicolor separated list of folders
+to look for additional superbuild architecture, which enable ParaView superbuild user to build,
+install and package projects (including ParaView plugins) which are not part of the ParaView superbuild.
+
+The main use cases it to be able to create a ParaView package using the ParaView superbuild
+with a custom ParaView plugin integrated into the package without requiring manual modification of the generated
+archives.
+
+These additional superbuild folder should have the expected folder architecture and contain the expected files:
+
+```
+.
+├── bundle.cmake
+├── cmake
+│   └── CTestCustom.cmake
+├── package.cmake
+├── projects
+│   ├── projectA.cmake
+│   ├── unix
+│   │   └── projectB.cmake
+│   └── win32
+│       └── projectB.cmake
+├── projects.cmake
+└── versions.cmake
+```
+
+The folder architecture `projects/platforms` is the same as the superbuild architecture and should be followed strictly.
+
+`projects.cmake` is a mandatory file that is included at the configuration phase and is expected to append projects
+to the `projects` CMake variable, eg:
+
+```
+list(APPEND projects projectA projectB)
+```
+
+`versions.cmake` is an optional file of the same type of file as the superbuild own `versions.cmake`,
+providing versions for projects using `superbuild_set_revision`, usually for the projects added in `projects.cmake`
+
+`projects/**/*.cmake` files are usual superbuild project files, that uses `superbuild_add_project` to defined how to
+configure, build and install superbuild project that are usually added in `projects.cmake`.
+
+`package.cmake` is an optional file that is included at the configuration phase during the preparation of the packaging
+and is expected to append ParaView plugins and python modules to the dedicated CMake variables, eg:
+
+```
+list(APPEND paraview_additional_plugins myParaViewPlugin)
+list(APPEND paraview_additional_python_modules myModule)
+```
+
+`cmake/CTestCustom.cmake` is an optional file of the same type as the superbuild own `cmake/CTestCustom.cmake`.
+It is included during the test phase, just before the packaging.
+
+`bundle.cmake` is an optional file that is included during the packaging phase, similarly to the superbuild own `project.bundle.cmake` files.
+It is expected to use superbuild CMake install macro like `superbuild_unix_install_module` to install supplementary binaries or files, eg:
+
+```
+superbuild_unix_install_module("${superbuild_install_location}/lib/mylib.so"
+  "lib"
+  "lib"
+  LOADER_PATHS  "${library_paths}"
+  LOCATION      "lib")
+```
 
 ### Packaging Variables
 
