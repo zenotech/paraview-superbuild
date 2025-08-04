@@ -112,6 +112,10 @@ if (mpi_enabled)
     -DPARAVIEW_INITIALIZE_MPI_ON_CLIENT:BOOL=${PARAVIEW_INITIALIZE_MPI_ON_CLIENT})
 endif()
 
+if(APPLE)
+  list(APPEND paraview_extra_cmake_options
+  -DPARAVIEW_DO_UNIX_STYLE_INSTALLS:BOOL=ON)
+endif()
 option(PARAVIEW_ENABLE_MOTIONFX "Enable MotionFX reader, if supported on platform" ON)
 mark_as_advanced(PARAVIEW_ENABLE_MOTIONFX)
 if (NOT PARAVIEW_BUILD_EDITION STREQUAL "CANONICAL")
@@ -396,6 +400,10 @@ superbuild_add_project(paraview
     ${paraview_extra_cmake_options}
 
     ${PARAVIEW_EXTRA_CMAKE_ARGUMENTS})
+
+if (DEFINED CMAKE_BUILD_TYPE_save)
+  set(CMAKE_BUILD_TYPE "${CMAKE_BUILD_TYPE_save}")
+endif ()
 
 if (paraview_SOURCE_SELECTION STREQUAL "5.3.0")
   superbuild_apply_patch(paraview fix-benchmarks

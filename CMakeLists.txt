@@ -10,7 +10,7 @@ macro (superbuild_setup_variables)
   if (paraview_SOURCE_SELECTION STREQUAL "git")
     # Assuming master; just use the latest version, but let the user set their
     # own version in case it is actually a branch from some other version.
-    set(PARAVIEW_VERSION_DEFAULT "6.0.0-RC3"
+    set(PARAVIEW_VERSION_DEFAULT "6.0.0"
       CACHE STRING "The default version of ParaView to use if it cannot be detected")
     mark_as_advanced(PARAVIEW_VERSION_DEFAULT)
     set(paraview_default_version "${PARAVIEW_VERSION_DEFAULT}")
